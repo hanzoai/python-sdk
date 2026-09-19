@@ -29,10 +29,11 @@ class RunnerBuildResp(BaseModel):
     build_job_id: Optional[StrictStr] = Field(default=None, description="BuildJobID is the queued build's id, and what its progress is read by.", alias="buildJobId")
     image: Optional[StrictStr] = Field(default=None, description="Image is the ref the image lane will push.")
     index: Optional[StrictStr] = Field(default=None, description="Index is the binaries.json URL the artifact lane will publish.")
+    platforms: Optional[List[StrictStr]] = Field(default=None, description="Platforms are the architectures the image lane will publish, echoed back.")
     runner_pool: Optional[StrictStr] = Field(default=None, description="RunnerPool is the runner class the build was placed on.", alias="runnerPool")
     status: Optional[StrictStr] = Field(default=None, description="Status is `queued` — the build was accepted and has not finished.")
     target: Optional[StrictStr] = Field(default=None, description="Target is the multi-stage build target, echoed back.")
-    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "runnerPool", "status", "target"]
+    __properties: ClassVar[List[str]] = ["buildJobId", "image", "index", "platforms", "runnerPool", "status", "target"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +89,7 @@ class RunnerBuildResp(BaseModel):
             "buildJobId": obj.get("buildJobId"),
             "image": obj.get("image"),
             "index": obj.get("index"),
+            "platforms": obj.get("platforms"),
             "runnerPool": obj.get("runnerPool"),
             "status": obj.get("status"),
             "target": obj.get("target")

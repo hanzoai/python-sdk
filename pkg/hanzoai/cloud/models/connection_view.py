@@ -28,9 +28,13 @@ class ConnectionView(BaseModel):
     """ # noqa: E501
     account: Optional[StrictStr] = Field(default=None, description="Account is the human label of the connected third-party account (the Slack team name, the GitHub org login). Provider-supplied and sanitized on ingest.")
     connected_at: Optional[StrictStr] = Field(default=None, description="ConnectedAt is when the connection was last (re)established, RFC 3339 UTC.", alias="connectedAt")
+    expires_at: Optional[StrictStr] = Field(default=None, description="ExpiresAt is when the access token expires, RFC 3339 UTC; empty for a credential that does not expire. Reading the token rotates it inside the window, so a reader never sees an expired one.", alias="expiresAt")
     external_id: Optional[StrictStr] = Field(default=None, description="ExternalID is the provider's own id for the account (Slack team.id, GitHub installation_id) — the value inbound webhooks are mapped back to this org by.", alias="externalId")
+    id: Optional[StrictStr] = Field(default=None, description="ID is provider + \":\" + label, the address every connection route takes. Empty on the org plane, where a provider's connection is addressed by the provider alone.")
+    label: Optional[StrictStr] = Field(default=None, description="Label is the caller's own name for this connection (\"default\", \"work\").")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is the connected provider's registry id. Empty where the reader already knows it, which is every org-plane card.")
     scopes: Optional[List[StrictStr]] = Field(default=None, description="Scopes are the permissions the provider granted. Never null; [] when none.")
-    __properties: ClassVar[List[str]] = ["account", "connectedAt", "externalId", "scopes"]
+    __properties: ClassVar[List[str]] = ["account", "connectedAt", "expiresAt", "externalId", "id", "label", "provider", "scopes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,7 +89,11 @@ class ConnectionView(BaseModel):
         _obj = cls.model_validate({
             "account": obj.get("account"),
             "connectedAt": obj.get("connectedAt"),
+            "expiresAt": obj.get("expiresAt"),
             "externalId": obj.get("externalId"),
+            "id": obj.get("id"),
+            "label": obj.get("label"),
+            "provider": obj.get("provider"),
             "scopes": obj.get("scopes")
         })
         return _obj

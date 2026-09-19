@@ -42,10 +42,13 @@ from hanzoai.cloud.models.report_out import ReportOut
 from hanzoai.cloud.models.report_run_in import ReportRunIn
 from hanzoai.cloud.models.routed_run_out import RoutedRunOut
 from hanzoai.cloud.models.run_list import RunList
+from hanzoai.cloud.models.session_budget_in import SessionBudgetIn
+from hanzoai.cloud.models.session_budget_view import SessionBudgetView
 from hanzoai.cloud.models.session_detail import SessionDetail
 from hanzoai.cloud.models.session_list import SessionList
 from hanzoai.cloud.models.session_progress import SessionProgress
 from hanzoai.cloud.models.session_view import SessionView
+from hanzoai.cloud.models.spend_view import SpendView
 from hanzoai.cloud.models.target_deleted import TargetDeleted
 from hanzoai.cloud.models.target_list import TargetList
 from hanzoai.cloud.models.target_req import TargetReq
@@ -2141,6 +2144,284 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/agent/{ref}/runs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_by_ref_spend(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name.")],
+        by: Annotated[Optional[StrictStr], Field(description="By groups the answer: \"component\" is the only grouping today.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SpendView:
+        """Answers what one of your org's agents has spent, in integer micro-USD.
+
+        Answers what one of your org's agents has spent, in integer micro-USD.  It answers the agent's budget — `cap_micro_usd` per `period`, `max_task_micro_usd` per run — with what the current period has consumed, what remains, and `by_component`: the spend attributed to `model` (every completion the agent bought), `computer` (the runtime it was resident for) and `tool`. A component with no spend is absent, not zero. Every amount is an integer number of micro-USD (1,000,000 = $1); 11902000 is $11.902. Pass `by=component` to ask for the breakdown by name — it is the one grouping, and the default.
+
+        :param ref: Ref is the agent's public id or its org-unique name. (required)
+        :type ref: str
+        :param by: By groups the answer: \"component\" is the only grouping today.
+        :type by: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_by_ref_spend_serialize(
+            ref=ref,
+            by=by,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SpendView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_by_ref_spend_with_http_info(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name.")],
+        by: Annotated[Optional[StrictStr], Field(description="By groups the answer: \"component\" is the only grouping today.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SpendView]:
+        """Answers what one of your org's agents has spent, in integer micro-USD.
+
+        Answers what one of your org's agents has spent, in integer micro-USD.  It answers the agent's budget — `cap_micro_usd` per `period`, `max_task_micro_usd` per run — with what the current period has consumed, what remains, and `by_component`: the spend attributed to `model` (every completion the agent bought), `computer` (the runtime it was resident for) and `tool`. A component with no spend is absent, not zero. Every amount is an integer number of micro-USD (1,000,000 = $1); 11902000 is $11.902. Pass `by=component` to ask for the breakdown by name — it is the one grouping, and the default.
+
+        :param ref: Ref is the agent's public id or its org-unique name. (required)
+        :type ref: str
+        :param by: By groups the answer: \"component\" is the only grouping today.
+        :type by: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_by_ref_spend_serialize(
+            ref=ref,
+            by=by,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SpendView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_by_ref_spend_without_preload_content(
+        self,
+        ref: Annotated[StrictStr, Field(description="Ref is the agent's public id or its org-unique name.")],
+        by: Annotated[Optional[StrictStr], Field(description="By groups the answer: \"component\" is the only grouping today.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers what one of your org's agents has spent, in integer micro-USD.
+
+        Answers what one of your org's agents has spent, in integer micro-USD.  It answers the agent's budget — `cap_micro_usd` per `period`, `max_task_micro_usd` per run — with what the current period has consumed, what remains, and `by_component`: the spend attributed to `model` (every completion the agent bought), `computer` (the runtime it was resident for) and `tool`. A component with no spend is absent, not zero. Every amount is an integer number of micro-USD (1,000,000 = $1); 11902000 is $11.902. Pass `by=component` to ask for the breakdown by name — it is the one grouping, and the default.
+
+        :param ref: Ref is the agent's public id or its org-unique name. (required)
+        :type ref: str
+        :param by: By groups the answer: \"component\" is the only grouping today.
+        :type by: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_by_ref_spend_serialize(
+            ref=ref,
+            by=by,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SpendView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_by_ref_spend_serialize(
+        self,
+        ref,
+        by,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if ref is not None:
+            _path_params['ref'] = ref
+        # process the query parameters
+        if by is not None:
+            
+            _query_params.append(('by', by))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/{ref}/spend',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7968,6 +8249,295 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent/sessions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_sessions_by_id_budget(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
+        session_budget_in: SessionBudgetIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> SessionBudgetView:
+        """Sets, raises, or removes a session's cap.
+
+        Sets, raises, or removes a session's cap.    - a replacement must be strictly greater than what the session has consumed   - removal is one-way: a session whose cap was removed cannot take one again,     and a session created without one cannot be given one   - raising or removing the cap resumes work that paused at it
+
+        :param id: ID is the session, from the path. (required)
+        :type id: str
+        :param session_budget_in: (required)
+        :type session_budget_in: SessionBudgetIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_budget_serialize(
+            id=id,
+            session_budget_in=session_budget_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SessionBudgetView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_sessions_by_id_budget_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
+        session_budget_in: SessionBudgetIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[SessionBudgetView]:
+        """Sets, raises, or removes a session's cap.
+
+        Sets, raises, or removes a session's cap.    - a replacement must be strictly greater than what the session has consumed   - removal is one-way: a session whose cap was removed cannot take one again,     and a session created without one cannot be given one   - raising or removing the cap resumes work that paused at it
+
+        :param id: ID is the session, from the path. (required)
+        :type id: str
+        :param session_budget_in: (required)
+        :type session_budget_in: SessionBudgetIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_budget_serialize(
+            id=id,
+            session_budget_in=session_budget_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SessionBudgetView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_sessions_by_id_budget_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
+        session_budget_in: SessionBudgetIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sets, raises, or removes a session's cap.
+
+        Sets, raises, or removes a session's cap.    - a replacement must be strictly greater than what the session has consumed   - removal is one-way: a session whose cap was removed cannot take one again,     and a session created without one cannot be given one   - raising or removing the cap resumes work that paused at it
+
+        :param id: ID is the session, from the path. (required)
+        :type id: str
+        :param session_budget_in: (required)
+        :type session_budget_in: SessionBudgetIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_sessions_by_id_budget_serialize(
+            id=id,
+            session_budget_in=session_budget_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "SessionBudgetView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_sessions_by_id_budget_serialize(
+        self,
+        id,
+        session_budget_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if session_budget_in is not None:
+            _body_params = session_budget_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/sessions/{id}/budget',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

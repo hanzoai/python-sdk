@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,6 +29,7 @@ class RegisterReq(BaseModel):
     account: Optional[StrictStr] = Field(default=None, description="Account is which subscription or API account under that provider served the run, up to 256 characters. It is what lets a revoke of that login stop exactly the sessions it was paying for.")
     actor: Optional[StrictStr] = Field(default=None, description="Actor is the \"org/sub\" identity to record the session under, up to 256 characters. Omit it and the calling principal is used, which is almost always what you want: it is what a login revoke matches on to stop this session.")
     agent: Optional[StrictStr] = Field(default=None, description="Agent is the label the surface opening this session calls itself by (\"hanzo-dev\"). REQUIRED, up to 128 characters, and free text — nothing resolves it against a defined agent.")
+    budget_micro_usd: Optional[StrictInt] = Field(default=None, description="BudgetMicroUSD caps what this session may spend, integer micro-USD. Zero means no cap; a cap can be raised or removed later, never added.")
     cwd: Optional[StrictStr] = Field(default=None, description="Cwd is the directory the session starts in, up to 1024 characters. It can be moved later, because a linked shell walks around.")
     host: Optional[StrictStr] = Field(default=None, description="Execution context — where this session runs (all optional).")
     parent_session_id: Optional[StrictStr] = Field(default=None, description="ParentSessionID makes this a subagent of that session: it inherits the parent's root, so one flow stays one tree. The parent must exist IN THE SAME ORG — a foreign or unknown id is a 400, never a tree across tenants. Empty opens a root session.", alias="parentSessionId")
@@ -43,7 +44,7 @@ class RegisterReq(BaseModel):
     task_workflow_id: Optional[StrictStr] = Field(default=None, description="TaskWorkflowID links this session to the hanzoai/tasks workflow that executes it, up to 256 characters. Set it and control commands are forwarded to that engine; leave it and the running surface polls for them instead.", alias="taskWorkflowId")
     terminal: Optional[StrictStr] = Field(default=None, description="Terminal is the URL this session's live terminal is published at, so the console can watch it. Optional — a session that publishes nothing is still a session.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the human line a card shows, up to 512 characters. Optional, and changeable later.")
-    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "cwd", "host", "parentSessionId", "project", "provider", "published", "repo", "room", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title"]
+    __properties: ClassVar[List[str]] = ["account", "actor", "agent", "budget_micro_usd", "cwd", "host", "parentSessionId", "project", "provider", "published", "repo", "room", "status", "target", "taskRunId", "taskWorkflowId", "terminal", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class RegisterReq(BaseModel):
             "account": obj.get("account"),
             "actor": obj.get("actor"),
             "agent": obj.get("agent"),
+            "budget_micro_usd": obj.get("budget_micro_usd"),
             "cwd": obj.get("cwd"),
             "host": obj.get("host"),
             "parentSessionId": obj.get("parentSessionId"),

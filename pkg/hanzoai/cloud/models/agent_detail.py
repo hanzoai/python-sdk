@@ -28,15 +28,19 @@ class AgentDetail(BaseModel):
     AgentDetail
     """ # noqa: E501
     avatar: Optional[StrictStr] = None
+    cap_micro_usd: Optional[StrictInt] = None
     compute_ref: Optional[StrictStr] = Field(default=None, alias="computeRef")
+    consumed_micro_usd: Optional[StrictInt] = None
     created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
     description: Optional[StrictStr] = None
     emoji: Optional[StrictStr] = None
     execution_mode: Optional[StrictStr] = Field(default=None, alias="executionMode")
     id: Optional[StrictStr] = None
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions is the agent's system prompt, verbatim, up to 32 KiB. It is the one field the list read withholds, because it is the agent's whole behaviour and a page of them would be a page of prompts.")
+    max_task_micro_usd: Optional[StrictInt] = None
     model: Optional[StrictStr] = None
     name: Optional[StrictStr] = None
+    period: Optional[StrictStr] = None
     recent_runs: Optional[List[AgentRunView]] = Field(default=None, description="RecentRuns is the agent's 20 most recent executions, newest first. It is a window on the history, not the history: the count beside it is `runs`.", alias="recentRuns")
     runs: Optional[StrictInt] = None
     schedule: Optional[StrictStr] = None
@@ -44,7 +48,7 @@ class AgentDetail(BaseModel):
     status: Optional[StrictStr] = None
     tools: Optional[List[StrictStr]] = None
     updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["avatar", "computeRef", "createdAt", "description", "emoji", "executionMode", "id", "instructions", "model", "name", "recentRuns", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "id", "instructions", "max_task_micro_usd", "model", "name", "period", "recentRuns", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -105,15 +109,19 @@ class AgentDetail(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
+            "consumed_micro_usd": obj.get("consumed_micro_usd"),
             "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),
+            "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),
             "name": obj.get("name"),
+            "period": obj.get("period"),
             "recentRuns": [AgentRunView.from_dict(_item) for _item in obj["recentRuns"]] if obj.get("recentRuns") is not None else None,
             "runs": obj.get("runs"),
             "schedule": obj.get("schedule"),

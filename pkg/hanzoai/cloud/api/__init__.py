@@ -57,7 +57,6 @@ from hanzoai.cloud.api.help_api import HelpApi
 from hanzoai.cloud.api.iam_api import IamApi
 from hanzoai.cloud.api.index_api import IndexApi
 from hanzoai.cloud.api.ingress_api import IngressApi
-from hanzoai.cloud.api.integration_api import IntegrationApi
 from hanzoai.cloud.api.kms_api import KmsApi
 from hanzoai.cloud.api.knowledge_api import KnowledgeApi
 from hanzoai.cloud.api.kv_api import KvApi
@@ -79,12 +78,14 @@ from hanzoai.cloud.api.node_api import NodeApi
 from hanzoai.cloud.api.notify_api import NotifyApi
 from hanzoai.cloud.api.o11y_api import O11yApi
 from hanzoai.cloud.api.openapi_api import OpenapiApi
+from hanzoai.cloud.api.patrol_api import PatrolApi
 from hanzoai.cloud.api.plan_api import PlanApi
 from hanzoai.cloud.api.platform_api import PlatformApi
 from hanzoai.cloud.api.pref_api import PrefApi
 from hanzoai.cloud.api.pricing_api import PricingApi
 from hanzoai.cloud.api.project_api import ProjectApi
 from hanzoai.cloud.api.prompt_api import PromptApi
+from hanzoai.cloud.api.provider_api import ProviderApi
 from hanzoai.cloud.api.provisioning_api import ProvisioningApi
 from hanzoai.cloud.api.pubsub_api import PubsubApi
 from hanzoai.cloud.api.reference_api import ReferenceApi

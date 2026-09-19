@@ -37,11 +37,12 @@ class RunnerBuildReq(BaseModel):
     dockerfile: Optional[StrictStr] = Field(default=None, description="Dockerfile is the path to build from; empty uses the zero-config frontend.")
     image: Optional[StrictStr] = Field(default=None, description="Image is the output image ref to push. Required on the image lane, and it must target a registry namespace the caller's org owns.")
     os: Optional[StrictStr] = Field(default=None, description="OS is the target operating system for the artifact lane.")
+    platforms: Optional[List[StrictStr]] = Field(default=None, description="Platforms are the `<os>/<arch>` pairs the image is built for. EMPTY MEANS EVERY ARCHITECTURE THE FLEET HAS — each built on a node of that architecture, joined by ONE manifest index, so a single tag serves both. Name one to build only that one.")
     ref: Optional[StrictStr] = Field(default=None, description="Ref is the git ref to build when no SHA is given.")
     repo: Optional[StrictStr] = Field(default=None, description="Repo is the repository clone URL to build. Required on the image lane.")
     sha: Optional[StrictStr] = Field(default=None, description="SHA is the commit to pin; it wins over Ref and Branch.")
     tag: Optional[StrictStr] = Field(default=None, description="Tag is the publish path segment, so both entry points write ONE index at ONE URL. It defaults to the pinned ref, and must be named explicitly for a branch.")
-    __properties: ClassVar[List[str]] = ["arch", "args", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "os", "ref", "repo", "sha", "tag"]
+    __properties: ClassVar[List[str]] = ["arch", "args", "binaries", "branch", "bucket", "context", "dockerTarget", "dockerfile", "image", "os", "platforms", "ref", "repo", "sha", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,6 +112,7 @@ class RunnerBuildReq(BaseModel):
             "dockerfile": obj.get("dockerfile"),
             "image": obj.get("image"),
             "os": obj.get("os"),
+            "platforms": obj.get("platforms"),
             "ref": obj.get("ref"),
             "repo": obj.get("repo"),
             "sha": obj.get("sha"),

@@ -5925,6 +5925,280 @@ class PlatformApi:
 
 
     @validate_call
+    def post_build(
+        self,
+        runner_build_req: RunnerBuildReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RunnerBuildResp:
+        """Triggers a native build — an image, or the binaries a repo declares.
+
+        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
+
+        :param runner_build_req: (required)
+        :type runner_build_req: RunnerBuildReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_build_serialize(
+            runner_build_req=runner_build_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "RunnerBuildResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_build_with_http_info(
+        self,
+        runner_build_req: RunnerBuildReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[RunnerBuildResp]:
+        """Triggers a native build — an image, or the binaries a repo declares.
+
+        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
+
+        :param runner_build_req: (required)
+        :type runner_build_req: RunnerBuildReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_build_serialize(
+            runner_build_req=runner_build_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "RunnerBuildResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_build_without_preload_content(
+        self,
+        runner_build_req: RunnerBuildReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Triggers a native build — an image, or the binaries a repo declares.
+
+        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
+
+        :param runner_build_req: (required)
+        :type runner_build_req: RunnerBuildReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_build_serialize(
+            runner_build_req=runner_build_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "RunnerBuildResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_build_serialize(
+        self,
+        runner_build_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if runner_build_req is not None:
+            _body_params = runner_build_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/build',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_platform_apps(
         self,
         _request_timeout: Union[
@@ -9363,280 +9637,6 @@ class PlatformApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/platform/run',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_platform_runner(
-        self,
-        runner_build_req: RunnerBuildReq,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunnerBuildResp:
-        """Triggers a native build — an image, or the binaries a repo declares.
-
-        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
-
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_platform_runner_serialize(
-            runner_build_req=runner_build_req,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_platform_runner_with_http_info(
-        self,
-        runner_build_req: RunnerBuildReq,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunnerBuildResp]:
-        """Triggers a native build — an image, or the binaries a repo declares.
-
-        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
-
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_platform_runner_serialize(
-            runner_build_req=runner_build_req,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_platform_runner_without_preload_content(
-        self,
-        runner_build_req: RunnerBuildReq,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Triggers a native build — an image, or the binaries a repo declares.
-
-        Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
-
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_platform_runner_serialize(
-            runner_build_req=runner_build_req,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_platform_runner_serialize(
-        self,
-        runner_build_req,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if runner_build_req is not None:
-            _body_params = runner_build_req
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/platform/runner',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

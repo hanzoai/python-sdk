@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.billing_invoice import BillingInvoice
 from typing import Optional, Set
@@ -28,8 +28,9 @@ class Invoices(BaseModel):
     Invoices
     """ # noqa: E501
     count: Optional[StrictInt] = None
+    cursor: Optional[StrictStr] = None
     invoices: Optional[List[BillingInvoice]] = None
-    __properties: ClassVar[List[str]] = ["count", "invoices"]
+    __properties: ClassVar[List[str]] = ["count", "cursor", "invoices"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +91,7 @@ class Invoices(BaseModel):
 
         _obj = cls.model_validate({
             "count": obj.get("count"),
+            "cursor": obj.get("cursor"),
             "invoices": [BillingInvoice.from_dict(_item) for _item in obj["invoices"]] if obj.get("invoices") is not None else None
         })
         return _obj

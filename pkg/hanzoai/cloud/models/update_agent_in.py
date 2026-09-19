@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,17 +27,20 @@ class UpdateAgentIn(BaseModel):
     UpdateAgentIn
     """ # noqa: E501
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar and Emoji re-draw the agent. Sending either replaces the pair, so setting an image clears a glyph and \"\" for both goes back to the initial — there is no state where a row holds two answers.")
+    cap_micro_usd: Optional[StrictInt] = Field(default=None, description="The budget, any part of it. Changing the period opens a new window.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef re-binds (or, with \"\", unbinds) the visor machine. Opaque here.", alias="computeRef")
     description: Optional[StrictStr] = Field(default=None, description="Description replaces the line other agents read in the tool catalogue.")
     emoji: Optional[StrictStr] = Field(default=None, description="Emoji re-draws the agent as a glyph. Sending either of the pair replaces BOTH, so setting a glyph clears an image and \"\" for both goes back to the initial — there is no state where a row holds two answers.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode switches between one-shot and long-running. The RESULTING mode+schedule are validated together, so switching to long-running without a stored or supplied cron is refused rather than accepted into an agent the scheduler would skip forever. A switch INTO long-running counts against the per-org cap and can be a 409.", alias="executionMode")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions replaces the system prompt whole, up to 32 KiB. There is no append: a prompt is one text, and sending \"\" clears it.")
+    max_task_micro_usd: Optional[StrictInt] = Field(default=None, description="MaxTaskMicroUSD is the ceiling for a single run, in micro-USD. A session cannot exceed it even when the period cap still has room, so one runaway task cannot consume a month.")
     model: Optional[StrictStr] = Field(default=None, description="Model re-points the agent at another model, checked against the gateway's served catalogue exactly as create checks it. Empty STRING is refused — say nothing to keep the current one. Past runs keep the model that served them.")
+    period: Optional[StrictStr] = Field(default=None, description="Period is the window the cap resets on: day, week or month.")
     ref: Optional[StrictStr] = Field(default=None, description="Ref is the agent to update — its public id or org-unique name, from the path.")
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule replaces the cron. It is validated against the mode this update leaves behind, and dropped if that mode is one-shot.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID re-points (or, with \"\", clears) the IAM service account a scheduled run is billed as. Clearing it puts that spend back on the org.", alias="serviceAccountId")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools replaces the whole allow-list, it does not add to it. Sending [] takes every tool away, which is the only way to say that.")
-    __properties: ClassVar[List[str]] = ["avatar", "computeRef", "description", "emoji", "executionMode", "instructions", "model", "ref", "schedule", "serviceAccountId", "tools"]
+    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "description", "emoji", "executionMode", "instructions", "max_task_micro_usd", "model", "period", "ref", "schedule", "serviceAccountId", "tools"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,12 +94,15 @@ class UpdateAgentIn(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
             "instructions": obj.get("instructions"),
+            "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),
+            "period": obj.get("period"),
             "ref": obj.get("ref"),
             "schedule": obj.get("schedule"),
             "serviceAccountId": obj.get("serviceAccountId"),

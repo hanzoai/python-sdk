@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictInt, StrictStr
 from typing import Any, List, Optional
 from typing_extensions import Annotated
 from hanzoai.cloud.models.accounts import Accounts
@@ -2174,7 +2174,7 @@ class BillingApi:
     ) -> CapVerdict:
         """Answers whether one proposed spend fits inside this org's caps.
 
-        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: a service token plus the gateway-pinned org, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: the platform, stating the org over the plane, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param project: Project narrows the verdict to one project's caps. Empty is the org-wide row.
         :type project: str
@@ -2253,7 +2253,7 @@ class BillingApi:
     ) -> ApiResponse[CapVerdict]:
         """Answers whether one proposed spend fits inside this org's caps.
 
-        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: a service token plus the gateway-pinned org, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: the platform, stating the org over the plane, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param project: Project narrows the verdict to one project's caps. Empty is the org-wide row.
         :type project: str
@@ -2332,7 +2332,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Answers whether one proposed spend fits inside this org's caps.
 
-        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: a service token plus the gateway-pinned org, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: the platform, stating the org over the plane, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param project: Project narrows the verdict to one project's caps. Empty is the org-wide row.
         :type project: str
@@ -2484,7 +2484,7 @@ class BillingApi:
     ) -> None:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401 — with one exception, the trusted in-process service token the AI gate itself presents, which reads the gateway-pinned org and nothing it could name. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2546,7 +2546,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401 — with one exception, the trusted in-process service token the AI gate itself presents, which reads the gateway-pinned org and nothing it could name. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2608,7 +2608,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Prepaid credit the caller's org can still spend
 
-        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401 — with one exception, the trusted in-process service token the AI gate itself presents, which reads the gateway-pinned org and nothing it could name. A balance that cannot be READ is 502, never 0: unknown is not broke.
+        Answers the spendable prepaid balance of the wallet this caller bills from — the same wallet the AI prepaid gate reads before admitting a paid request, the edge meter debits, and a top-up credits.  The wallet is an ADDRESS, not an org: `account` echoes the key resolved within the ledger — the org's shared pool for a tenant org, a personal account for a member of the shared signup org. The echo is the point. A browser could only GUESS its own payer by decoding its own token, and a guess that disagrees with the server is how money lands in an account the gate never reads.  `balance`, `holds` and `available` are whole USD cents, ROUNDED from the ledger's exact 18-decimal value. On the co-resident ledger `holds` is 0 and `available` equals `balance`: the gate's reservations live in its own pod and are never posted, so the settled balance IS the spendable one.  The ledger is the caller's own org, taken from the VALIDATED IAM owner claim and never from a client header. No validated principal is 401. A balance that cannot be READ is 502, never 0: unknown is not broke.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3950,6 +3950,11 @@ class BillingApi:
     @validate_call
     def get_billing_invoices(
         self,
+        subject: Optional[StrictStr] = None,
+        status: Optional[StrictStr] = None,
+        subscription_id: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
+        cursor: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3967,6 +3972,16 @@ class BillingApi:
 
         Lists the caller's invoices, newest first, with the count beside them.  It is scoped to the caller's own billing subject — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org. An org with no invoices is an empty list, not a refusal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
+        :param subject:
+        :type subject: str
+        :param status:
+        :type status: str
+        :param subscription_id:
+        :type subscription_id: str
+        :param limit:
+        :type limit: int
+        :param cursor:
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3990,6 +4005,11 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._get_billing_invoices_serialize(
+            subject=subject,
+            status=status,
+            subscription_id=subscription_id,
+            limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4013,6 +4033,11 @@ class BillingApi:
     @validate_call
     def get_billing_invoices_with_http_info(
         self,
+        subject: Optional[StrictStr] = None,
+        status: Optional[StrictStr] = None,
+        subscription_id: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
+        cursor: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4030,6 +4055,16 @@ class BillingApi:
 
         Lists the caller's invoices, newest first, with the count beside them.  It is scoped to the caller's own billing subject — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org. An org with no invoices is an empty list, not a refusal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
+        :param subject:
+        :type subject: str
+        :param status:
+        :type status: str
+        :param subscription_id:
+        :type subscription_id: str
+        :param limit:
+        :type limit: int
+        :param cursor:
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4053,6 +4088,11 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._get_billing_invoices_serialize(
+            subject=subject,
+            status=status,
+            subscription_id=subscription_id,
+            limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4076,6 +4116,11 @@ class BillingApi:
     @validate_call
     def get_billing_invoices_without_preload_content(
         self,
+        subject: Optional[StrictStr] = None,
+        status: Optional[StrictStr] = None,
+        subscription_id: Optional[StrictStr] = None,
+        limit: Optional[StrictInt] = None,
+        cursor: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4093,6 +4138,16 @@ class BillingApi:
 
         Lists the caller's invoices, newest first, with the count beside them.  It is scoped to the caller's own billing subject — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org. An org with no invoices is an empty list, not a refusal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
+        :param subject:
+        :type subject: str
+        :param status:
+        :type status: str
+        :param subscription_id:
+        :type subscription_id: str
+        :param limit:
+        :type limit: int
+        :param cursor:
+        :type cursor: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4116,6 +4171,11 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._get_billing_invoices_serialize(
+            subject=subject,
+            status=status,
+            subscription_id=subscription_id,
+            limit=limit,
+            cursor=cursor,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4134,6 +4194,11 @@ class BillingApi:
 
     def _get_billing_invoices_serialize(
         self,
+        subject,
+        status,
+        subscription_id,
+        limit,
+        cursor,
         _request_auth,
         _content_type,
         _headers,
@@ -4156,6 +4221,26 @@ class BillingApi:
 
         # process the path parameters
         # process the query parameters
+        if subject is not None:
+            
+            _query_params.append(('subject', subject))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        if subscription_id is not None:
+            
+            _query_params.append(('subscriptionId', subscription_id))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter

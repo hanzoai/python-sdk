@@ -27,21 +27,25 @@ class AgentView(BaseModel):
     AgentView
     """ # noqa: E501
     avatar: Optional[StrictStr] = Field(default=None, description="Avatar is an image the agent is drawn as — a link to one, or the bytes inline as a data URL, up to 96 KiB. Emoji is the one glyph a caller picked when they had no image. At most one is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is. Both are iam/pkg/schema's Mark, so a face means the same thing on an agent as it does on a person or an org. Avatar is the agent's picture: an image URL, or the image itself inline as a data URL up to 96 KiB. Empty when the agent has no image.")
+    cap_micro_usd: Optional[StrictInt] = Field(default=None, description="CapMicroUSD is the total this agent may spend within one Period, as an integer number of micro-USD (1,000,000 = $1). It is required at creation: a cap of zero would mean no limit and no per-agent spend record at all.")
     compute_ref: Optional[StrictStr] = Field(default=None, description="ComputeRef is the visor machine this bot is bound to, opaque here: this package stores and echoes it, and the binding's lifecycle belongs elsewhere. Empty means unbound, which is what every one-shot agent is.", alias="computeRef")
+    consumed_micro_usd: Optional[StrictInt] = Field(default=None, description="ConsumedMicroUSD is what has been spent in the current period, in micro-USD. It is settled from what the gateway reported, not from the quote.")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the agent was defined, RFC 3339 in UTC to the second.", alias="createdAt")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one line another agent reads when deciding whether to call this one: the tool catalogue publishes it as the description of `agent_<name>`, falling back to \"agent <name>\" when it is empty. It is not part of the prompt — Instructions is — so writing the behaviour here reaches the caller and not the model.")
     emoji: Optional[StrictStr] = Field(default=None, description="Emoji is the single glyph a caller picked when they had no image. At most one of avatar and emoji is ever set; neither means the agent is drawn as its initial, the same way a person with no photo is.")
     execution_mode: Optional[StrictStr] = Field(default=None, description="ExecutionMode is one-shot or long-running, and it decides who may start this agent. one-shot runs only when something POSTs to it; long-running is additionally invoked by the scheduler on Schedule, once a minute against the cron. An org's long-running agents are capped, so a switch INTO it can be refused with 409.", alias="executionMode")
     id: Optional[StrictStr] = Field(default=None, description="ID is the agent's stable handle, minted here as \"agent_\" + 32 hex characters of crypto/rand. A caller cannot choose it, and it never changes — unlike Name, which is the other way to address the same agent.")
+    max_task_micro_usd: Optional[StrictInt] = Field(default=None, description="MaxTaskMicroUSD is the ceiling for a single run, in micro-USD. A session cannot exceed it even when the period cap still has room, so one runaway task cannot consume a month.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the Zen model this agent runs on, and it is always OUR name for it: writes normalize through cloud.ZenModel and the read normalizes again, so an upstream family name never leaves here even from a row written before that rule existed. A create that named none took the deployment's configured default, so this is where a caller learns which model it actually got.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the agent's org-unique handle, matching ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. It addresses the agent everywhere ID does, it is what a run row records, and it is the suffix of the `agent_<name>` tool other agents call this one by. Set once at create; no update route moves it, because moving it would orphan that history.")
+    period: Optional[StrictStr] = Field(default=None, description="Period is the window the cap resets on: day, week or month.")
     runs: Optional[StrictInt] = Field(default=None, description="Runs is how many executions the org has recorded against this agent, counted at read time. The list and update reads count the WHOLE history; the detail read reports the size of the RecentRuns page it carries, which stops at 20 — so a detail row saying 20 means \"at least 20\", not \"exactly 20\".")
     schedule: Optional[StrictStr] = Field(default=None, description="Schedule is the 5-field cron the scheduler fires a long-running agent on, evaluated once a minute. Required for long-running and DROPPED for one-shot — a one-shot agent's schedule is not stored, so absence here is the mode's answer rather than a value nobody set.")
     service_account_id: Optional[StrictStr] = Field(default=None, description="ServiceAccountID is the IAM agent service account (<org>-<agent>) a scheduled run is billed AS. It is what makes an autonomous run attributable to a principal rather than only to the org; empty means the org itself wears the spend.", alias="serviceAccountId")
     status: Optional[StrictStr] = Field(default=None, description="Status is the agent's readiness, and today it is \"ready\" on every row: an agent is a definition rather than a provisioned thing, so nothing transitions it. Server-set at create; no route accepts it.")
     tools: Optional[List[StrictStr]] = Field(default=None, description="Tools are the tool names this agent may call, and the list IS the authority: an agent that declares none gets none. The single entry \"*\" means whatever the fleet's MCP server serves at the moment of the run, resolved per run rather than frozen here, which is how the default assistant reaches subsystems that shipped after it was defined. Empty array, never null.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last time any field above was written, same format. It moves on an update to the DEFINITION and never on a run, so a busy agent nobody has edited keeps an old one.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["avatar", "computeRef", "createdAt", "description", "emoji", "executionMode", "id", "model", "name", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["avatar", "cap_micro_usd", "computeRef", "consumed_micro_usd", "createdAt", "description", "emoji", "executionMode", "id", "max_task_micro_usd", "model", "name", "period", "runs", "schedule", "serviceAccountId", "status", "tools", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,14 +99,18 @@ class AgentView(BaseModel):
 
         _obj = cls.model_validate({
             "avatar": obj.get("avatar"),
+            "cap_micro_usd": obj.get("cap_micro_usd"),
             "computeRef": obj.get("computeRef"),
+            "consumed_micro_usd": obj.get("consumed_micro_usd"),
             "createdAt": obj.get("createdAt"),
             "description": obj.get("description"),
             "emoji": obj.get("emoji"),
             "executionMode": obj.get("executionMode"),
             "id": obj.get("id"),
+            "max_task_micro_usd": obj.get("max_task_micro_usd"),
             "model": obj.get("model"),
             "name": obj.get("name"),
+            "period": obj.get("period"),
             "runs": obj.get("runs"),
             "schedule": obj.get("schedule"),
             "serviceAccountId": obj.get("serviceAccountId"),

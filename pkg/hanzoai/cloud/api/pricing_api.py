@@ -19,6 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict
 from typing_extensions import Annotated
+from hanzoai.cloud.models.card import Card
 from hanzoai.cloud.models.enablement_board import EnablementBoard
 from hanzoai.cloud.models.enablement_opt_ref import EnablementOptRef
 from hanzoai.cloud.models.pricing_health import PricingHealth
@@ -5970,6 +5971,252 @@ class PricingApi:
 
 
     @validate_call
+    def get_pricing_tariff(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> Card:
+        """Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.
+
+        Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.  FOUR COMPONENTS, and every charge is one of them — model inference, computer, web tools and media generation. Two are quoted before they run, so an agent is refused before it breaches its budget; two are booked from what they used, because neither a provider's charge nor a render's cost is knowable in advance.  EVERY AMOUNT IS INTEGER MICRO-USD (1 USD = 1,000,000), stated once in `unit`, and each rate says what one unit of it is in `per`. The compute rates are per HOUR because that is the unit a span is priced in — rate × seconds / 3600 — and because a GiB-second is four and a half micro-USD, which no integer holds.  The rates are the ones the ledger books: each is resolved through the same authority the metering path reads, falling back to the same compiled floor. A rate of zero is a price and not an absence — a paused computer, a computer's creation, the interfaces and a seat all cost nothing by design.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_pricing_tariff_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Card",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_pricing_tariff_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[Card]:
+        """Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.
+
+        Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.  FOUR COMPONENTS, and every charge is one of them — model inference, computer, web tools and media generation. Two are quoted before they run, so an agent is refused before it breaches its budget; two are booked from what they used, because neither a provider's charge nor a render's cost is knowable in advance.  EVERY AMOUNT IS INTEGER MICRO-USD (1 USD = 1,000,000), stated once in `unit`, and each rate says what one unit of it is in `per`. The compute rates are per HOUR because that is the unit a span is priced in — rate × seconds / 3600 — and because a GiB-second is four and a half micro-USD, which no integer holds.  The rates are the ones the ledger books: each is resolved through the same authority the metering path reads, falling back to the same compiled floor. A rate of zero is a price and not an absence — a paused computer, a computer's creation, the interfaces and a seat all cost nothing by design.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_pricing_tariff_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Card",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_pricing_tariff_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.
+
+        Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.  FOUR COMPONENTS, and every charge is one of them — model inference, computer, web tools and media generation. Two are quoted before they run, so an agent is refused before it breaches its budget; two are booked from what they used, because neither a provider's charge nor a render's cost is knowable in advance.  EVERY AMOUNT IS INTEGER MICRO-USD (1 USD = 1,000,000), stated once in `unit`, and each rate says what one unit of it is in `per`. The compute rates are per HOUR because that is the unit a span is priced in — rate × seconds / 3600 — and because a GiB-second is four and a half micro-USD, which no integer holds.  The rates are the ones the ledger books: each is resolved through the same authority the metering path reads, falling back to the same compiled floor. A rate of zero is a price and not an absence — a paused computer, a computer's creation, the interfaces and a seat all cost nothing by design.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_pricing_tariff_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "Card",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_pricing_tariff_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/pricing/tariff',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_pricing_tools(
         self,
         _request_timeout: Union[
@@ -5985,9 +6232,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PricingToolList:
-        """Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        """Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
 
-        Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.  The two WEB rows are priced from the rate card rather than from the catalog, because those are the rows the platform charges by the call and a published number that is also a charged one has exactly one home (see tariff.go). Read them as integer micro-USD at /v1/pricing/tariff; the decimal here is the display this list has always carried.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6048,9 +6295,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PricingToolList]:
-        """Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        """Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
 
-        Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.  The two WEB rows are priced from the rate card rather than from the catalog, because those are the rows the platform charges by the call and a published number that is also a charged one has exactly one home (see tariff.go). Read them as integer micro-USD at /v1/pricing/tariff; the decimal here is the display this list has always carried.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6111,9 +6358,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        """Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
 
-        Returns the per-use tool prices — web search, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
+        Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.  The two WEB rows are priced from the rate card rather than from the catalog, because those are the rows the platform charges by the call and a published number that is also a charged one has exactly one home (see tariff.go). Read them as integer micro-USD at /v1/pricing/tariff; the decimal here is the display this list has always carried.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

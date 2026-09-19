@@ -166,6 +166,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -233,6 +234,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -300,6 +302,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -440,6 +443,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -507,6 +511,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -574,6 +579,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -714,6 +720,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -781,6 +788,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -848,6 +856,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -988,6 +997,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1055,6 +1065,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1122,6 +1133,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1262,6 +1274,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1329,6 +1342,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1396,6 +1410,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1540,6 +1555,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1611,6 +1627,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1682,6 +1699,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1816,6 +1834,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1887,6 +1906,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1958,6 +1978,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2092,6 +2113,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2163,6 +2185,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2234,6 +2257,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2368,6 +2392,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2439,6 +2464,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2510,6 +2536,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2644,6 +2671,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2715,6 +2743,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2786,6 +2815,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3156,6 +3186,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3227,6 +3258,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3298,6 +3330,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionDeleteResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3432,6 +3465,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3503,6 +3537,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3574,6 +3609,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3708,6 +3744,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3779,6 +3816,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3850,6 +3888,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4497,6 +4536,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4564,6 +4604,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4631,6 +4672,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4762,6 +4804,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4833,6 +4876,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4904,6 +4948,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5304,6 +5349,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5375,6 +5421,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5446,6 +5493,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5580,6 +5628,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5651,6 +5700,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5722,6 +5772,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5856,6 +5907,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5927,6 +5979,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5998,6 +6051,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6136,6 +6190,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6211,6 +6266,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6286,6 +6342,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6423,6 +6480,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6494,6 +6552,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6565,6 +6624,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6699,6 +6759,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6770,6 +6831,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6841,6 +6903,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7207,6 +7270,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7274,6 +7338,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7341,6 +7406,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7474,6 +7540,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7545,6 +7612,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7616,6 +7684,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7746,6 +7815,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7813,6 +7883,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7880,6 +7951,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8013,6 +8085,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8084,6 +8157,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8155,6 +8229,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8834,6 +8909,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8901,6 +8977,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8968,6 +9045,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9101,6 +9179,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9172,6 +9251,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9243,6 +9323,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9609,6 +9690,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9676,6 +9758,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9743,6 +9826,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9876,6 +9960,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9947,6 +10032,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10018,6 +10104,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10148,6 +10235,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10215,6 +10303,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10282,6 +10371,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10415,6 +10505,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10486,6 +10577,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10557,6 +10649,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11399,6 +11492,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -11471,6 +11565,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -11543,6 +11638,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -12622,6 +12718,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12689,6 +12786,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12756,6 +12854,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermissionListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12889,6 +12988,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12960,6 +13060,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13031,6 +13132,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13161,6 +13263,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13228,6 +13331,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13295,6 +13399,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13428,6 +13533,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13499,6 +13605,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13570,6 +13677,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14172,6 +14280,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14239,6 +14348,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14306,6 +14416,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14439,6 +14550,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14510,6 +14622,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14581,6 +14694,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14707,6 +14821,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14770,6 +14885,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14833,6 +14949,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14957,6 +15074,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15025,6 +15143,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15093,6 +15212,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15217,6 +15337,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15280,6 +15401,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15343,6 +15465,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15467,6 +15590,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15535,6 +15659,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15603,6 +15728,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
+            '202': "IamApproval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15727,6 +15853,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15790,6 +15917,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15853,6 +15981,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16487,6 +16616,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16563,6 +16693,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16639,6 +16770,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
+            '202': "IamApproval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16775,6 +16907,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16838,6 +16971,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16901,6 +17035,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17025,6 +17160,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17092,6 +17228,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17159,6 +17296,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17298,6 +17436,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17377,6 +17516,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17456,6 +17596,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUsersListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17608,6 +17749,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17683,6 +17825,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17758,6 +17901,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19545,6 +19689,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19612,6 +19757,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19679,6 +19825,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19812,6 +19959,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19883,6 +20031,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19954,6 +20103,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20088,6 +20238,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20159,6 +20310,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20230,6 +20382,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20364,6 +20517,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20435,6 +20589,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20506,6 +20661,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20644,6 +20800,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20719,6 +20876,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20794,6 +20952,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20931,6 +21090,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21002,6 +21162,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21073,6 +21234,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21207,6 +21369,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21278,6 +21441,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21349,6 +21513,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21491,6 +21656,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21570,6 +21736,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21649,6 +21816,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21791,6 +21959,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21858,6 +22027,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21925,6 +22095,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22062,6 +22233,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22137,6 +22309,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22212,6 +22385,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22355,6 +22529,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22426,6 +22601,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22497,6 +22673,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22631,6 +22808,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22698,6 +22876,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22765,6 +22944,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23396,6 +23576,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23463,6 +23644,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23530,6 +23712,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23986,6 +24169,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24053,6 +24237,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24120,6 +24305,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24260,6 +24446,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24327,6 +24514,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24394,6 +24582,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24770,6 +24959,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24837,6 +25027,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24904,6 +25095,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25044,6 +25236,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25111,6 +25304,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25178,6 +25372,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28096,6 +28291,242 @@ class IamApi:
 
 
     @validate_call
+    def post_iam_oauth_refresh_token(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.
+
+        Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.  A refresh returns a NEW refresh token and retires the one you sent. If a retired one is ever presented again the whole chain is revoked, on the assumption that a token which came back from the dead was copied — so a stolen refresh token buys an attacker one use and costs them the session.  Responses are never cached, by any hop.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_refresh_token_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_iam_oauth_refresh_token_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.
+
+        Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.  A refresh returns a NEW refresh token and retires the one you sent. If a retired one is ever presented again the whole chain is revoked, on the assumption that a token which came back from the dead was copied — so a stolen refresh token buys an attacker one use and costs them the session.  Responses are never cached, by any hop.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_refresh_token_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_iam_oauth_refresh_token_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.
+
+        Exchanges what your application is holding for the tokens it needs — the one-time code from a finished sign-in, a refresh token, or your own client credentials when the caller is a program rather than a person.  A refresh returns a NEW refresh token and retires the one you sent. If a retired one is ever presented again the whole chain is revoked, on the assumption that a token which came back from the dead was copied — so a stolen refresh token buys an attacker one use and costs them the session.  Responses are never cached, by any hop.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_oauth_refresh_token_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_iam_oauth_refresh_token_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/oauth/refresh_token',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_iam_oauth_revoke(
         self,
         _request_timeout: Union[
@@ -29094,6 +29525,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29161,6 +29593,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29228,6 +29661,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29604,6 +30038,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29671,6 +30106,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29738,6 +30174,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30424,6 +30861,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30491,6 +30929,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30558,6 +30997,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31893,6 +32333,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31960,6 +32401,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32027,6 +32469,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32639,6 +33082,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32706,6 +33150,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32773,6 +33218,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34123,6 +34569,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34190,6 +34637,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34257,6 +34705,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34712,6 +35161,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34787,6 +35237,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34862,6 +35313,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35016,6 +35468,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35091,6 +35544,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35166,6 +35620,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35320,6 +35775,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35395,6 +35851,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35470,6 +35927,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35860,6 +36318,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35935,6 +36394,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36010,6 +36470,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36164,6 +36625,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36239,6 +36701,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36314,6 +36777,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36775,6 +37239,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36850,6 +37315,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36925,6 +37391,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37079,6 +37546,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37154,6 +37622,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37229,6 +37698,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37383,6 +37853,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37458,6 +37929,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37533,6 +38005,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37949,6 +38422,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38020,6 +38494,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38091,6 +38566,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38242,6 +38718,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38317,6 +38794,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38392,6 +38870,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38546,6 +39025,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38621,6 +39101,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38696,6 +39177,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38842,6 +39324,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38909,6 +39392,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38976,6 +39460,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39116,6 +39601,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39183,6 +39669,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39250,6 +39737,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39398,6 +39886,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39473,6 +39962,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39548,6 +40038,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39702,6 +40193,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39777,6 +40269,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39852,6 +40345,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40010,6 +40504,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40089,6 +40584,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40168,6 +40664,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40325,6 +40822,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40400,6 +40898,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40475,6 +40974,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40629,6 +41129,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40704,6 +41205,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40779,6 +41281,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
+            '202': "IamApproval",
         }
         response_data = self.api_client.call_api(
             *_param,

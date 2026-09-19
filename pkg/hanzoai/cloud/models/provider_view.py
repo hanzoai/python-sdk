@@ -33,8 +33,10 @@ class ProviderView(BaseModel):
     connection: Optional[ConnectionView] = Field(default=None, description="Connection is the connected account's non-secret detail. Absent when the org has no connection; tokens NEVER appear here (they live only in KMS).")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one-line pitch the console card shows.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the provider's registry id and the :provider path segment (\"slack\").")
+    modes: Optional[List[StrictStr]] = Field(default=None, description="Modes are the ways this provider can be connected, derived from what it actually declares — \"managed\", \"oauth\", \"apikey\", \"device\", \"mcp\". One console page renders every card from this field rather than carrying a table of its own, which is how a provider added here shows up there without a second edit.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the provider's display name (\"Slack\").")
-    __properties: ClassVar[List[str]] = ["available", "category", "connected", "connection", "description", "id", "name"]
+    scopes: Optional[List[StrictStr]] = Field(default=None, description="Scopes are the permissions a connection will ask for. Never null.")
+    __properties: ClassVar[List[str]] = ["available", "category", "connected", "connection", "description", "id", "modes", "name", "scopes"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,7 +98,9 @@ class ProviderView(BaseModel):
             "connection": ConnectionView.from_dict(obj["connection"]) if obj.get("connection") is not None else None,
             "description": obj.get("description"),
             "id": obj.get("id"),
-            "name": obj.get("name")
+            "modes": obj.get("modes"),
+            "name": obj.get("name"),
+            "scopes": obj.get("scopes")
         })
         return _obj
 

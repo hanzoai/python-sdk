@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.reply import Reply
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,13 +33,12 @@ class CodingStartIn(BaseModel):
     desktop: Optional[StrictBool] = None
     project: Optional[StrictStr] = None
     prompt: Optional[StrictStr] = None
-    reply_channel: Optional[StrictStr] = Field(default=None, alias="replyChannel")
-    reply_thread: Optional[StrictStr] = Field(default=None, alias="replyThread")
+    reply: Optional[Reply] = None
     repo: Optional[StrictStr] = None
     target_id: Optional[StrictStr] = Field(default=None, alias="targetId")
     timeout_seconds: Optional[StrictInt] = Field(default=None, alias="timeoutSeconds")
     tool: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["after", "agentRef", "base", "desktop", "project", "prompt", "replyChannel", "replyThread", "repo", "targetId", "timeoutSeconds", "tool"]
+    __properties: ClassVar[List[str]] = ["after", "agentRef", "base", "desktop", "project", "prompt", "reply", "repo", "targetId", "timeoutSeconds", "tool"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,6 +79,9 @@ class CodingStartIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of reply
+        if self.reply:
+            _dict['reply'] = self.reply.to_dict()
         return _dict
 
     @classmethod
@@ -97,8 +100,7 @@ class CodingStartIn(BaseModel):
             "desktop": obj.get("desktop"),
             "project": obj.get("project"),
             "prompt": obj.get("prompt"),
-            "replyChannel": obj.get("replyChannel"),
-            "replyThread": obj.get("replyThread"),
+            "reply": Reply.from_dict(obj["reply"]) if obj.get("reply") is not None else None,
             "repo": obj.get("repo"),
             "targetId": obj.get("targetId"),
             "timeoutSeconds": obj.get("timeoutSeconds"),

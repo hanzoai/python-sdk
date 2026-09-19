@@ -28,6 +28,7 @@ from hanzoai.cloud.models.o11y_ann_queue_deleted import O11yAnnQueueDeleted
 from hanzoai.cloud.models.o11y_ann_queue_detail_view import O11yAnnQueueDetailView
 from hanzoai.cloud.models.o11y_ann_queue_list import O11yAnnQueueList
 from hanzoai.cloud.models.o11y_ann_queue_view import O11yAnnQueueView
+from hanzoai.cloud.models.o11y_approval import O11yApproval
 from hanzoai.cloud.models.o11y_availability_response import O11yAvailabilityResponse
 from hanzoai.cloud.models.o11y_cluster_list_request import O11yClusterListRequest
 from hanzoai.cloud.models.o11y_create_queue_req import O11yCreateQueueReq
@@ -438,6 +439,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -509,6 +511,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -580,6 +583,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -727,6 +731,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -798,6 +803,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -869,6 +875,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1012,6 +1019,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1079,6 +1087,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1146,6 +1155,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1287,6 +1297,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1354,6 +1365,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1421,6 +1433,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1552,6 +1565,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1623,6 +1637,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1694,6 +1709,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1837,6 +1853,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1904,6 +1921,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1971,6 +1989,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2111,6 +2130,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2178,6 +2198,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2245,6 +2266,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2385,6 +2407,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2452,6 +2475,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2519,6 +2543,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2659,6 +2684,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2726,6 +2752,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2793,6 +2820,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2933,6 +2961,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3000,6 +3029,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3067,6 +3097,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3207,6 +3238,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3274,6 +3306,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3341,6 +3374,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3481,6 +3515,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3548,6 +3583,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3615,6 +3651,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3759,6 +3796,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3830,6 +3868,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3901,6 +3940,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4044,6 +4084,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yInviteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4111,6 +4152,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yInviteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4178,6 +4220,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yInviteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4318,6 +4361,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4385,6 +4429,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4452,6 +4497,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4592,6 +4638,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4659,6 +4706,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4726,6 +4774,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4866,6 +4915,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4933,6 +4983,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5000,6 +5051,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5101,7 +5153,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job.
 
         Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job. Per-rule match is by id, then sourceId, then insert; an override row is fully preserved when the request omits isOverride, only its synced_at stamped.  Callers need the admin role; the runtime's own gate enforces it.
@@ -5139,6 +5191,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5168,7 +5221,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job.
 
         Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job. Per-rule match is by id, then sourceId, then insert; an override row is fully preserved when the request omits isOverride, only its synced_at stamped.  Callers need the admin role; the runtime's own gate enforces it.
@@ -5206,6 +5259,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5273,6 +5327,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5314,6 +5369,13 @@ class O11yApi:
             _body_params = o11y_o11y_llm_updatable_pricing_rules
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -5411,6 +5473,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5482,6 +5545,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5553,6 +5617,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5696,6 +5761,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5763,6 +5829,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5830,6 +5897,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5957,6 +6025,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6024,6 +6093,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6091,6 +6161,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6231,6 +6302,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6298,6 +6370,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6365,6 +6438,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6505,6 +6579,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6572,6 +6647,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6639,6 +6715,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6779,6 +6856,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6846,6 +6924,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6913,6 +6992,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7057,6 +7137,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7128,6 +7209,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7199,6 +7281,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7304,7 +7387,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Assigns a role, named by its id, to a service account.
 
         Assigns a role, named by its id, to a service account.
@@ -7345,6 +7428,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7375,7 +7459,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Assigns a role, named by its id, to a service account.
 
         Assigns a role, named by its id, to a service account.
@@ -7416,6 +7500,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7487,6 +7572,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7531,6 +7617,13 @@ class O11yApi:
             _body_params = o11y_o11y_service_account_role_grant_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -7624,6 +7717,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7691,6 +7785,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7758,6 +7853,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7902,6 +7998,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7973,6 +8070,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8044,6 +8142,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8187,6 +8286,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8254,6 +8354,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8321,6 +8422,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8461,6 +8563,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8528,6 +8631,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8595,6 +8699,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8735,6 +8840,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8802,6 +8908,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8869,6 +8976,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8970,7 +9078,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Releases an email domain and discards its SSO configuration, by id.
 
         Releases an email domain and discards its SSO configuration, by id. Admin gate.
@@ -9008,6 +9116,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9037,7 +9146,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Releases an email domain and discards its SSO configuration, by id.
 
         Releases an email domain and discards its SSO configuration, by id. Admin gate.
@@ -9075,6 +9184,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9142,6 +9252,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9183,6 +9294,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9224,7 +9342,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes a notification channel, by id.
 
         Removes a notification channel, by id. Admin gate.
@@ -9262,6 +9380,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9291,7 +9410,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes a notification channel, by id.
 
         Removes a notification channel, by id. Admin gate.
@@ -9329,6 +9448,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9396,6 +9516,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9437,6 +9558,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9478,7 +9606,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes a v2-shape dashboard along with its tag relations.
 
         Deletes a v2-shape dashboard along with its tag relations. Locked dashboards are rejected.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9516,6 +9644,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9545,7 +9674,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes a v2-shape dashboard along with its tag relations.
 
         Deletes a v2-shape dashboard along with its tag relations. Locked dashboards are rejected.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9583,6 +9712,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9650,6 +9780,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9691,6 +9822,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9732,7 +9870,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes a saved view.
 
         Removes a saved view. Saved views are shared org-wide. Deleting a non-existent view refuses with the runtime's not-found.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9770,6 +9908,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9799,7 +9938,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes a saved view.
 
         Removes a saved view. Saved views are shared org-wide. Deleting a non-existent view refuses with the runtime's not-found.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9837,6 +9976,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9904,6 +10044,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9945,6 +10086,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -9986,7 +10134,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes a planned maintenance window, by id.
 
         Removes a planned maintenance window, by id. Editor gate.
@@ -10024,6 +10172,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10053,7 +10202,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes a planned maintenance window, by id.
 
         Removes a planned maintenance window, by id. Editor gate.
@@ -10091,6 +10240,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10158,6 +10308,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10199,6 +10350,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10240,7 +10398,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes an ingestion key, by id.
 
         Removes an ingestion key, by id. Editor gate.
@@ -10278,6 +10436,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10307,7 +10466,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes an ingestion key, by id.
 
         Removes an ingestion key, by id. Editor gate.
@@ -10345,6 +10504,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10412,6 +10572,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10453,6 +10614,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10494,7 +10662,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes an ingestion key limit, by limit id.
 
         Removes an ingestion key limit, by limit id. Editor gate.
@@ -10532,6 +10700,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10561,7 +10730,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes an ingestion key limit, by limit id.
 
         Removes an ingestion key limit, by limit id. Editor gate.
@@ -10599,6 +10768,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10666,6 +10836,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10707,6 +10878,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -10748,7 +10926,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Hard-deletes a pricing rule by id.
 
         Hard-deletes a pricing rule by id. If the rule was auto-synced, the next sync cycle recreates it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -10786,6 +10964,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10815,7 +10994,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Hard-deletes a pricing rule by id.
 
         Hard-deletes a pricing rule by id. If the rule was auto-synced, the next sync cycle recreates it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -10853,6 +11032,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10920,6 +11100,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10961,6 +11142,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11002,7 +11190,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Hard-deletes a score by id.
 
         Hard-deletes a score by id.  Callers need the editor role; the runtime's own gate enforces it.
@@ -11040,6 +11228,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11069,7 +11258,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Hard-deletes a score by id.
 
         Hard-deletes a score by id.  Callers need the editor role; the runtime's own gate enforces it.
@@ -11107,6 +11296,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11174,6 +11364,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11215,6 +11406,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11256,7 +11454,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes a volume-control rule by its id.
 
         Deletes a volume-control rule by its id.
@@ -11294,6 +11492,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11323,7 +11522,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes a volume-control rule by its id.
 
         Deletes a volume-control rule by its id.
@@ -11361,6 +11560,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11428,6 +11628,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11469,6 +11670,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -11549,6 +11757,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11616,6 +11825,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11683,6 +11893,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11810,6 +12021,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11877,6 +12089,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11944,6 +12157,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12032,7 +12246,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes one Sentry project of the caller's org.
 
         Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
@@ -12070,6 +12284,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12099,7 +12314,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes one Sentry project of the caller's org.
 
         Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
@@ -12137,6 +12352,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12204,6 +12420,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12245,6 +12462,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12286,7 +12510,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes the public-sharing config and disables public sharing of a dashboard.
 
         Deletes the public-sharing config and disables public sharing of a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -12324,6 +12548,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12353,7 +12578,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes the public-sharing config and disables public sharing of a dashboard.
 
         Deletes the public-sharing config and disables public sharing of a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -12391,6 +12616,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12458,6 +12684,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12499,6 +12726,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12540,7 +12774,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes a custom role.
 
         Deletes a custom role. A role that still has user or service-account assignees, or an auth-domain mapping, is refused; managed roles cannot be deleted.
@@ -12578,6 +12812,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12607,7 +12842,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes a custom role.
 
         Deletes a custom role. A role that still has user or service-account assignees, or an auth-domain mapping, is refused; managed roles cannot be deleted.
@@ -12645,6 +12880,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12712,6 +12948,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12753,6 +12990,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -12794,7 +13038,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes a route policy, by id.
 
         Removes a route policy, by id. Admin gate.
@@ -12832,6 +13076,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12861,7 +13106,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes a route policy, by id.
 
         Removes a route policy, by id. Admin gate.
@@ -12899,6 +13144,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12966,6 +13212,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13007,6 +13254,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13048,7 +13302,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes an alert rule, by id.
 
         Removes an alert rule, by id. Editor gate.
@@ -13086,6 +13340,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13115,7 +13370,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes an alert rule, by id.
 
         Removes an alert rule, by id. Editor gate.
@@ -13153,6 +13408,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13220,6 +13476,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13261,6 +13518,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13302,7 +13566,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes a service account and revokes every key it holds.
 
         Deletes a service account and revokes every key it holds.
@@ -13340,6 +13604,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13369,7 +13634,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes a service account and revokes every key it holds.
 
         Deletes a service account and revokes every key it holds.
@@ -13407,6 +13672,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13474,6 +13740,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13515,6 +13782,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13557,7 +13831,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes a role from a service account.
 
         Removes a role from a service account.
@@ -13598,6 +13872,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13628,7 +13903,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes a role from a service account.
 
         Removes a role from a service account.
@@ -13669,6 +13944,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13740,6 +14016,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13784,6 +14061,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -13824,7 +14108,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Signs the calling session out, invalidating its tokens.
 
         Signs the calling session out, invalidating its tokens. The access token on the call names the session to end.
@@ -13859,6 +14143,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13887,7 +14172,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Signs the calling session out, invalidating its tokens.
 
         Signs the calling session out, invalidating its tokens. The access token on the call names the session to end.
@@ -13922,6 +14207,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13985,6 +14271,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14023,6 +14310,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14065,7 +14359,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes one mapper from a group.
 
         Deletes one mapper from a group.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14106,6 +14400,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14136,7 +14431,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes one mapper from a group.
 
         Deletes one mapper from a group.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14177,6 +14472,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14248,6 +14544,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14292,6 +14589,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14333,7 +14637,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Deletes a mapping group and every mapper under it.
 
         Deletes a mapping group and every mapper under it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14371,6 +14675,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14400,7 +14705,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Deletes a mapping group and every mapper under it.
 
         Deletes a mapping group and every mapper under it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14438,6 +14743,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14505,6 +14811,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14546,6 +14853,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -14626,6 +14940,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14693,6 +15008,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14760,6 +15076,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14848,7 +15165,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes one org member, by user id.
 
         Removes one org member, by user id. Admin gate.
@@ -14886,6 +15203,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14915,7 +15233,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes one org member, by user id.
 
         Removes one org member, by user id. Admin gate.
@@ -14953,6 +15271,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15020,6 +15339,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15061,6 +15381,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15102,7 +15429,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes one org member, by user id.
 
         Removes one org member, by user id. The same operation as deleteUser on the legacy singular path. Admin gate.
@@ -15140,6 +15467,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15169,7 +15497,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes one org member, by user id.
 
         Removes one org member, by user id. The same operation as deleteUser on the legacy singular path. Admin gate.
@@ -15207,6 +15535,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15274,6 +15603,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15315,6 +15645,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15357,7 +15694,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Tears down a connected account for the given provider, by id.
 
         Tears down a connected account for the given provider, by id. Admin gate.
@@ -15398,6 +15735,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15428,7 +15766,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Tears down a connected account for the given provider, by id.
 
         Tears down a connected account for the given provider, by id. Admin gate.
@@ -15469,6 +15807,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15540,6 +15879,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15584,6 +15924,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -15625,7 +15972,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Starts the forgotten-password flow: the named user is mailed a reset link.
 
         Starts the forgotten-password flow: the named user is mailed a reset link. Unauthenticated by design, and deliberately quiet about whether the address exists.
@@ -15663,6 +16010,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15692,7 +16040,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Starts the forgotten-password flow: the named user is mailed a reset link.
 
         Starts the forgotten-password flow: the named user is mailed a reset link. Unauthenticated by design, and deliberately quiet about whether the address exists.
@@ -15730,6 +16078,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15797,6 +16146,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15838,6 +16188,13 @@ class O11yApi:
             _body_params = o11y_o11y_forgot_password_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -15935,6 +16292,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16006,6 +16364,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16077,6 +16436,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16215,6 +16575,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16290,6 +16651,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16365,6 +16727,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16494,6 +16857,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16557,6 +16921,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16620,6 +16985,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16740,6 +17106,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16803,6 +17170,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16866,6 +17234,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16990,6 +17359,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17057,6 +17427,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17124,6 +17495,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17251,6 +17623,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17318,6 +17691,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17385,6 +17759,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17512,6 +17887,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17579,6 +17955,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17646,6 +18023,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17773,6 +18151,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17840,6 +18219,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17907,6 +18287,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18034,6 +18415,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18101,6 +18483,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18168,6 +18551,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18295,6 +18679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18362,6 +18747,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18429,6 +18815,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18569,6 +18956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18636,6 +19024,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18703,6 +19092,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18843,6 +19233,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18910,6 +19301,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18977,6 +19369,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19117,6 +19510,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19184,6 +19578,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19251,6 +19646,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19391,6 +19787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19458,6 +19855,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19525,6 +19923,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19669,6 +20068,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19740,6 +20140,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19811,6 +20212,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19950,6 +20352,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20013,6 +20416,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20076,6 +20480,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20204,6 +20609,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20275,6 +20681,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20346,6 +20753,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20480,6 +20888,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20547,6 +20956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20614,6 +21024,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20745,6 +21156,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20816,6 +21228,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20887,6 +21300,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21019,6 +21433,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21086,6 +21501,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21153,6 +21569,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21280,6 +21697,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21347,6 +21765,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21414,6 +21833,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21541,6 +21961,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21608,6 +22029,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21675,6 +22097,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21812,6 +22235,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21887,6 +22311,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21962,6 +22387,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22101,6 +22527,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22168,6 +22595,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22235,6 +22663,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22364,6 +22793,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22431,6 +22861,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22498,6 +22929,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22627,6 +23059,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22694,6 +23127,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22761,6 +23195,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22890,6 +23325,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22957,6 +23393,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23024,6 +23461,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23147,6 +23585,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23210,6 +23649,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23273,6 +23713,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23393,6 +23834,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23456,6 +23898,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23519,6 +23962,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23639,6 +24083,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23702,6 +24147,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23765,6 +24211,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23889,6 +24336,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23956,6 +24404,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24023,6 +24472,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24163,6 +24613,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24230,6 +24681,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24297,6 +24749,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24433,6 +24886,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24496,6 +24950,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24559,6 +25014,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24679,6 +25135,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24742,6 +25199,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24805,6 +25263,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24925,6 +25384,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24988,6 +25448,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25051,6 +25512,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25171,6 +25633,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25234,6 +25697,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25297,6 +25761,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25669,6 +26134,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25748,6 +26214,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25827,6 +26294,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25991,6 +26459,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26078,6 +26547,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26165,6 +26635,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26347,6 +26818,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26442,6 +26914,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26537,6 +27010,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26705,6 +27179,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26776,6 +27251,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26847,6 +27323,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27001,6 +27478,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27088,6 +27566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27175,6 +27654,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27357,6 +27837,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27452,6 +27933,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27547,6 +28029,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28203,6 +28686,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28290,6 +28774,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28377,6 +28862,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28559,6 +29045,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28654,6 +29141,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28749,6 +29237,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28933,6 +29422,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29020,6 +29510,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29107,6 +29598,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29289,6 +29781,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29384,6 +29877,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29479,6 +29973,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29639,6 +30134,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29702,6 +30198,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29765,6 +30262,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29897,6 +30395,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29972,6 +30471,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30047,6 +30547,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30194,6 +30695,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30269,6 +30771,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30344,6 +30847,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30511,6 +31015,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30606,6 +31111,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30701,6 +31207,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30865,6 +31372,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30932,6 +31440,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30999,6 +31508,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31134,6 +31644,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31209,6 +31720,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31284,6 +31796,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31423,6 +31936,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31490,6 +32004,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31557,6 +32072,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31680,6 +32196,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31743,6 +32260,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31806,6 +32324,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31966,6 +32485,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32069,6 +32589,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32172,6 +32693,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32390,6 +32912,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32501,6 +33024,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32612,6 +33136,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32812,6 +33337,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32895,6 +33421,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32978,6 +33505,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33123,6 +33651,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33186,6 +33715,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33249,6 +33779,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33373,6 +33904,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33440,6 +33972,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33507,6 +34040,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33892,6 +34426,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33979,6 +34514,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34066,6 +34602,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34248,6 +34785,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34343,6 +34881,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34438,6 +34977,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34602,6 +35142,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34669,6 +35210,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34736,6 +35278,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34861,6 +35404,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34924,6 +35468,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34987,6 +35532,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35131,6 +35677,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35218,6 +35765,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35305,6 +35853,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35487,6 +36036,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35582,6 +36132,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35677,6 +36228,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35837,6 +36389,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35900,6 +36453,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35963,6 +36517,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36083,6 +36638,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36146,6 +36702,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36209,6 +36766,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36813,6 +37371,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36888,6 +37447,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36963,6 +37523,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37098,6 +37659,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37161,6 +37723,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37224,6 +37787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37344,6 +37908,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37407,6 +37972,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37470,6 +38036,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37830,6 +38397,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37897,6 +38465,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37964,6 +38533,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38087,6 +38657,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38150,6 +38721,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38213,6 +38785,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38341,6 +38914,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38412,6 +38986,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38483,6 +39058,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38637,6 +39213,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38724,6 +39301,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38811,6 +39389,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38993,6 +39572,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39088,6 +39668,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39183,6 +39764,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39355,6 +39937,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39430,6 +40013,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39505,6 +40089,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39664,6 +40249,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39751,6 +40337,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39838,6 +40425,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40020,6 +40608,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40115,6 +40704,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40210,6 +40800,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40394,6 +40985,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40481,6 +41073,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40568,6 +41161,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40750,6 +41344,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40845,6 +41440,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40940,6 +41536,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41124,6 +41721,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41211,6 +41809,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41298,6 +41897,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41480,6 +42080,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41575,6 +42176,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41670,6 +42272,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41842,6 +42445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41917,6 +42521,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41992,6 +42597,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42151,6 +42757,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42238,6 +42845,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42325,6 +42933,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42507,6 +43116,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42602,6 +43212,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42697,6 +43308,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42873,6 +43485,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42952,6 +43565,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43031,6 +43645,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43431,6 +44046,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43518,6 +44134,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43605,6 +44222,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43999,6 +44617,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44070,6 +44689,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44141,6 +44761,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44275,6 +44896,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44342,6 +44964,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44409,6 +45032,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44548,6 +45172,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44627,6 +45252,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44706,6 +45332,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44852,6 +45479,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44923,6 +45551,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44994,6 +45623,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45162,6 +45792,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45265,6 +45896,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45368,6 +46000,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45542,6 +46175,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45609,6 +46243,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45676,6 +46311,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45811,6 +46447,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45886,6 +46523,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45961,6 +46599,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46110,6 +46749,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46189,6 +46829,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46268,6 +46909,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46408,6 +47050,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46471,6 +47114,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46534,6 +47178,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46658,6 +47303,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46725,6 +47371,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46792,6 +47439,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46927,6 +47575,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47002,6 +47651,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47077,6 +47727,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47224,6 +47875,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47299,6 +47951,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47374,6 +48027,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47517,6 +48171,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47588,6 +48243,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47659,6 +48315,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47787,6 +48444,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47850,6 +48508,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47913,6 +48572,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48273,6 +48933,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48340,6 +49001,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48407,6 +49069,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48532,6 +49195,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48595,6 +49259,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48658,6 +49323,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48802,6 +49468,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48889,6 +49556,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48976,6 +49644,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49158,6 +49827,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49253,6 +49923,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49348,6 +50019,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49508,6 +50180,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49571,6 +50244,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49634,6 +50308,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49758,6 +50433,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49825,6 +50501,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49892,6 +50569,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50017,6 +50695,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50080,6 +50759,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50143,6 +50823,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50275,6 +50956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50350,6 +51032,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50425,6 +51108,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50576,6 +51260,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50655,6 +51340,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50734,6 +51420,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50874,6 +51561,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50937,6 +51625,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51000,6 +51689,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51124,6 +51814,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51191,6 +51882,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51258,6 +51950,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51389,6 +52082,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51460,6 +52154,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51531,6 +52226,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51674,6 +52370,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51741,6 +52438,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51808,6 +52506,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51935,6 +52634,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52002,6 +52702,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52069,6 +52770,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52208,6 +52910,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52287,6 +52990,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52366,6 +53070,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52502,6 +53207,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52565,6 +53271,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52628,6 +53335,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52752,6 +53460,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52819,6 +53528,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52886,6 +53596,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53013,6 +53724,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53080,6 +53792,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53147,6 +53860,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yResetTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53274,6 +53988,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53341,6 +54056,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53408,6 +54124,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53535,6 +54252,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53602,6 +54320,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53669,6 +54388,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53796,6 +54516,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53863,6 +54584,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53930,6 +54652,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54057,6 +54780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54124,6 +54848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54191,6 +54916,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54334,6 +55060,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54417,6 +55144,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54500,6 +55228,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54671,6 +55400,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54762,6 +55492,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54853,6 +55584,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55018,6 +55750,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55093,6 +55826,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55168,6 +55902,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55313,6 +56048,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55388,6 +56124,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55463,6 +56200,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55628,6 +56366,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55723,6 +56462,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55818,6 +56558,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55988,6 +56729,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56063,6 +56805,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56138,6 +56881,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56279,6 +57023,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56350,6 +57095,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56421,6 +57167,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56568,6 +57315,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56639,6 +57387,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56710,6 +57459,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56857,6 +57607,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56928,6 +57679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56999,6 +57751,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57150,6 +57903,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57225,6 +57979,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57300,6 +58055,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57435,6 +58191,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57502,6 +58259,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57569,6 +58327,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57696,6 +58455,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57763,6 +58523,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57830,6 +58591,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57961,6 +58723,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySessionContextOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58032,6 +58795,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySessionContextOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58103,6 +58867,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySessionContextOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58237,6 +59002,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58304,6 +59070,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58371,6 +59138,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58502,6 +59270,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58573,6 +59342,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58644,6 +59414,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58783,6 +59554,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58846,6 +59618,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58909,6 +59682,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59033,6 +59807,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59100,6 +59875,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59167,6 +59943,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59298,6 +60075,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59369,6 +60147,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59440,6 +60219,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59587,6 +60367,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59658,6 +60439,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59729,6 +60511,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59876,6 +60659,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59947,6 +60731,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60018,6 +60803,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60165,6 +60951,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60236,6 +61023,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60307,6 +61095,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60454,6 +61243,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60525,6 +61315,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60596,6 +61387,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60739,6 +61531,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60806,6 +61599,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60873,6 +61667,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUserWithRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61000,6 +61795,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61067,6 +61863,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61134,6 +61931,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61261,6 +62059,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61328,6 +62127,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61395,6 +62195,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61522,6 +62323,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61589,6 +62391,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61656,6 +62459,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61787,6 +62591,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61858,6 +62663,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61929,6 +62735,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62072,6 +62879,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62139,6 +62947,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62206,6 +63015,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62346,6 +63156,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62413,6 +63224,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62480,6 +63292,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62624,6 +63437,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62695,6 +63509,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62766,6 +63581,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62896,6 +63712,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62963,6 +63780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63030,6 +63848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63153,6 +63972,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63216,6 +64036,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63279,6 +64100,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAuthDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63399,6 +64221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63462,6 +64285,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63525,6 +64349,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63645,6 +64470,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63708,6 +64534,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63771,6 +64598,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63911,6 +64739,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63994,6 +64823,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64077,6 +64907,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64242,6 +65073,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64325,6 +65157,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64408,6 +65241,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64561,6 +65395,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64632,6 +65467,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64703,6 +65539,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64837,6 +65674,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64904,6 +65742,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64971,6 +65810,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65116,6 +65956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65199,6 +66040,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65282,6 +66124,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65463,6 +66306,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65562,6 +66406,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65661,6 +66506,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65842,6 +66688,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65921,6 +66768,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66000,6 +66848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66164,6 +67013,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66251,6 +67101,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66338,6 +67189,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66524,6 +67376,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66623,6 +67476,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66722,6 +67576,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66923,6 +67778,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67022,6 +67878,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67121,6 +67978,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67322,6 +68180,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67421,6 +68280,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67520,6 +68380,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67709,6 +68570,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67796,6 +68658,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67883,6 +68746,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68053,6 +68917,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68136,6 +69001,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68219,6 +69085,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68364,6 +69231,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68427,6 +69295,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68490,6 +69359,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68610,6 +69480,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68673,6 +69544,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68736,6 +69608,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68856,6 +69729,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68919,6 +69793,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68982,6 +69857,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69106,6 +69982,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69173,6 +70050,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69240,6 +70118,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69363,6 +70242,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69426,6 +70306,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69489,6 +70370,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69617,6 +70499,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69688,6 +70571,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69759,6 +70643,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69891,6 +70776,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69958,6 +70844,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70025,6 +70912,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70154,6 +71042,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70221,6 +71110,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70288,6 +71178,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70411,6 +71302,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70474,6 +71366,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70537,6 +71430,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70657,6 +71551,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70720,6 +71615,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70783,6 +71679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70903,6 +71800,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70966,6 +71864,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71029,6 +71928,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71149,6 +72049,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71212,6 +72113,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71275,6 +72177,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUsersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71360,7 +72263,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Locks a v2-shape dashboard.
 
         Locks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -71398,6 +72301,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -71427,7 +72331,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Locks a v2-shape dashboard.
 
         Locks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -71465,6 +72369,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -71532,6 +72437,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -71573,6 +72479,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -71657,6 +72570,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71728,6 +72642,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71799,6 +72714,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71946,6 +72862,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72017,6 +72934,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72088,6 +73006,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72239,6 +73158,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72314,6 +73234,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72389,6 +73310,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72539,6 +73461,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72610,6 +73533,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72681,6 +73605,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72785,7 +73710,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Pins a dashboard for the calling user.
 
         Pins a dashboard for the calling user. A user can pin at most ten dashboards; pinning at the limit refuses with the runtime's conflict. Re-pinning an already-pinned dashboard is a no-op success. Pinning mutates only the caller's pin list, not the dashboard, so a viewer may pin what a viewer may read.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -72823,6 +73748,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72852,7 +73778,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Pins a dashboard for the calling user.
 
         Pins a dashboard for the calling user. A user can pin at most ten dashboards; pinning at the limit refuses with the runtime's conflict. Re-pinning an already-pinned dashboard is a no-op success. Pinning mutates only the caller's pin list, not the dashboard, so a viewer may pin what a viewer may read.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -72890,6 +73816,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72957,6 +73884,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72998,6 +73926,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -73831,6 +74766,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73898,6 +74834,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73965,6 +74902,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74105,6 +75043,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74172,6 +75111,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74239,6 +75179,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74615,6 +75556,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74682,6 +75624,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74749,6 +75692,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74889,6 +75833,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74956,6 +75901,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75023,6 +75969,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75163,6 +76110,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75230,6 +76178,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75297,6 +76246,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75437,6 +76387,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75504,6 +76455,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75571,6 +76523,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75715,6 +76668,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75786,6 +76740,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75857,6 +76812,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76000,6 +76956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76067,6 +77024,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76134,6 +77092,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76274,6 +77233,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76341,6 +77301,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76408,6 +77369,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76784,6 +77746,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76851,6 +77814,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76918,6 +77882,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77058,6 +78023,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77125,6 +78091,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77192,6 +78159,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77332,6 +78300,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77399,6 +78368,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77466,6 +78436,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77606,6 +78577,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77673,6 +78645,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77740,6 +78713,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77880,6 +78854,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77947,6 +78922,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78014,6 +78990,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78154,6 +79131,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78221,6 +79199,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78288,6 +79267,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78428,6 +79408,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78495,6 +79476,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78562,6 +79544,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78702,6 +79685,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78769,6 +79753,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78836,6 +79821,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78976,6 +79962,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79043,6 +80030,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79110,6 +80098,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79250,6 +80239,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79317,6 +80307,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79384,6 +80375,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79524,6 +80516,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79591,6 +80584,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79658,6 +80652,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79798,6 +80793,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79865,6 +80861,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79932,6 +80929,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80072,6 +81070,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80139,6 +81138,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80206,6 +81206,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80346,6 +81347,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80413,6 +81415,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80480,6 +81483,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80620,6 +81624,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80687,6 +81692,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80754,6 +81760,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80894,6 +81901,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80961,6 +81969,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81028,6 +82037,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81168,6 +82178,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81235,6 +82246,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81302,6 +82314,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81443,6 +82456,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81510,6 +82524,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81577,6 +82592,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81717,6 +82733,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81784,6 +82801,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81851,6 +82869,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81991,6 +83010,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82058,6 +83078,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82125,6 +83146,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82265,6 +83287,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82332,6 +83355,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82399,6 +83423,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82539,6 +83564,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82606,6 +83632,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82673,6 +83700,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82813,6 +83841,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82880,6 +83909,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82947,6 +83977,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83087,6 +84118,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83154,6 +84186,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83221,6 +84254,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83361,6 +84395,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83428,6 +84463,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83495,6 +84531,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83635,6 +84672,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83702,6 +84740,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83769,6 +84808,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83909,6 +84949,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83976,6 +85017,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84043,6 +85085,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84183,6 +85226,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84250,6 +85294,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84317,6 +85362,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84457,6 +85503,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84524,6 +85571,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84591,6 +85639,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84731,6 +85780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84798,6 +85848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84865,6 +85916,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85005,6 +86057,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85072,6 +86125,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85139,6 +86193,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85279,6 +86334,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85346,6 +86402,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85413,6 +86470,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85553,6 +86611,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85620,6 +86679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85687,6 +86747,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85827,6 +86888,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85894,6 +86956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85961,6 +87024,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86101,6 +87165,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86168,6 +87233,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86235,6 +87301,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86375,6 +87442,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86442,6 +87510,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86509,6 +87578,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86649,6 +87719,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86716,6 +87787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86783,6 +87855,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86923,6 +87996,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86990,6 +88064,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87057,6 +88132,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87197,6 +88273,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87264,6 +88341,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87331,6 +88409,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87471,6 +88550,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87538,6 +88618,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87605,6 +88686,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87745,6 +88827,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRegisterOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87812,6 +88895,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRegisterOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87879,6 +88963,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRegisterOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88019,6 +89104,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88086,6 +89172,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88153,6 +89240,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88297,6 +89385,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88368,6 +89457,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88439,6 +89529,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88582,6 +89673,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88649,6 +89741,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88716,6 +89809,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88856,6 +89950,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88923,6 +90018,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88990,6 +90086,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89130,6 +90227,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89197,6 +90295,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89264,6 +90363,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89391,6 +90491,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89458,6 +90559,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89525,6 +90627,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89665,6 +90768,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89732,6 +90836,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89799,6 +90904,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89939,6 +91045,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90006,6 +91113,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90073,6 +91181,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90213,6 +91322,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90280,6 +91390,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90347,6 +91458,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90487,6 +91599,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90554,6 +91667,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90621,6 +91735,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90761,6 +91876,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90828,6 +91944,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90895,6 +92012,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91035,6 +92153,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91102,6 +92221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91169,6 +92289,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91309,6 +92430,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91376,6 +92498,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91443,6 +92566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91583,6 +92707,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91650,6 +92775,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91717,6 +92843,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91857,6 +92984,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91924,6 +93052,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91991,6 +93120,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92131,6 +93261,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92198,6 +93329,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92265,6 +93397,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92405,6 +93538,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92472,6 +93606,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92539,6 +93674,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92679,6 +93815,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92746,6 +93883,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92813,6 +93951,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92914,7 +94053,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Records the deployment's host in Zeus, overwriting any prior one.
 
         Records the deployment's host in Zeus, overwriting any prior one. Admin gate.
@@ -92952,6 +94091,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -92981,7 +94121,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Records the deployment's host in Zeus, overwriting any prior one.
 
         Records the deployment's host in Zeus, overwriting any prior one. Admin gate.
@@ -93019,6 +94159,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -93086,6 +94227,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -93127,6 +94269,13 @@ class O11yApi:
             _body_params = o11y_postable_host
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -93224,6 +94373,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93295,6 +94445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93366,6 +94517,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93513,6 +94665,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93584,6 +94737,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93655,6 +94809,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93759,7 +94914,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one.
 
         Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one. Admin gate.
@@ -93797,6 +94952,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -93826,7 +94982,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one.
 
         Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one. Admin gate.
@@ -93864,6 +95020,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -93931,6 +95088,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -93972,6 +95130,13 @@ class O11yApi:
             _body_params = o11y_postable_profile
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -94027,7 +95192,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Takes a role away from one org member, by user id and role id — someone else, never the caller.
 
         Takes a role away from one org member, by user id and role id — someone else, never the caller. Admin gate.
@@ -94068,6 +95233,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94098,7 +95264,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Takes a role away from one org member, by user id and role id — someone else, never the caller.
 
         Takes a role away from one org member, by user id and role id — someone else, never the caller. Admin gate.
@@ -94139,6 +95305,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94210,6 +95377,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94254,6 +95422,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -94295,7 +95470,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Sets a new password for whoever the reset token was minted for, consuming the token.
 
         Sets a new password for whoever the reset token was minted for, consuming the token. Unauthenticated: the token is the proof.
@@ -94333,6 +95508,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94362,7 +95538,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Sets a new password for whoever the reset token was minted for, consuming the token.
 
         Sets a new password for whoever the reset token was minted for, consuming the token. Unauthenticated: the token is the proof.
@@ -94400,6 +95576,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94467,6 +95644,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94508,6 +95686,13 @@ class O11yApi:
             _body_params = o11y_o11y_reset_password_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -94563,7 +95748,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Revokes an API key.
 
         Revokes an API key. Revocation is immediate and permanent.
@@ -94604,6 +95789,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94634,7 +95820,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Revokes an API key.
 
         Revokes an API key. Revocation is immediate and permanent.
@@ -94675,6 +95861,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94746,6 +95933,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94790,6 +95978,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -94870,6 +96065,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94937,6 +96133,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95004,6 +96201,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTokenOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95152,6 +96350,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95227,6 +96426,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95302,6 +96502,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95457,6 +96658,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95540,6 +96742,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95623,6 +96826,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95774,6 +96978,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95845,6 +97050,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -95916,6 +97122,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96020,7 +97227,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. Editor gate.
@@ -96058,6 +97265,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96087,7 +97295,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. Editor gate.
@@ -96125,6 +97333,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96192,6 +97401,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96233,6 +97443,13 @@ class O11yApi:
             _body_params = o11y_alertmanagertypes_receiver
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -96287,7 +97504,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. The legacy path; prefer /channels/test. Editor gate.
@@ -96325,6 +97542,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96354,7 +97572,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. The legacy path; prefer /channels/test. Editor gate.
@@ -96392,6 +97610,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96459,6 +97678,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -96500,6 +97720,13 @@ class O11yApi:
             _body_params = o11y_alertmanagertypes_receiver
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -96593,6 +97820,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96660,6 +97888,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96727,6 +97956,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96867,6 +98097,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96934,6 +98165,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97001,6 +98233,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97141,6 +98374,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97208,6 +98442,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97275,6 +98510,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97376,7 +98612,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Unlocks a v2-shape dashboard.
 
         Unlocks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -97414,6 +98650,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97443,7 +98680,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Unlocks a v2-shape dashboard.
 
         Unlocks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -97481,6 +98718,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97548,6 +98786,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97589,6 +98828,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -97630,7 +98876,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Removes the caller's pin for a dashboard.
 
         Removes the caller's pin for a dashboard. Idempotent — unpinning a dashboard that was not pinned still succeeds.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -97668,6 +98914,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97697,7 +98944,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Removes the caller's pin for a dashboard.
 
         Removes the caller's pin for a dashboard. Idempotent — unpinning a dashboard that was not pinned still succeeds.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -97735,6 +98982,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97802,6 +99050,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97843,6 +99092,13 @@ class O11yApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
 
         # authentication setting
@@ -97886,7 +99142,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes a connected account's configuration for the given provider, by id.
 
         Changes a connected account's configuration for the given provider, by id. Admin gate.
@@ -97930,6 +99186,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97961,7 +99218,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes a connected account's configuration for the given provider, by id.
 
         Changes a connected account's configuration for the given provider, by id. Admin gate.
@@ -98005,6 +99262,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98080,6 +99338,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98127,6 +99386,13 @@ class O11yApi:
             _body_params = o11y_o11y_update_account_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -98182,7 +99448,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces one auth domain's SSO configuration, by id.
 
         Replaces one auth domain's SSO configuration, by id. Admin gate.
@@ -98223,6 +99489,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98253,7 +99520,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces one auth domain's SSO configuration, by id.
 
         Replaces one auth domain's SSO configuration, by id. Admin gate.
@@ -98294,6 +99561,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98365,6 +99633,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98409,6 +99678,13 @@ class O11yApi:
             _body_params = o11y_o11y_updatable_auth_domain
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -98464,7 +99740,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces a notification channel's receiver, by id.
 
         Replaces a notification channel's receiver, by id. Admin gate.
@@ -98505,6 +99781,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98535,7 +99812,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces a notification channel's receiver, by id.
 
         Replaces a notification channel's receiver, by id. Admin gate.
@@ -98576,6 +99853,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98647,6 +99925,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98691,6 +99970,13 @@ class O11yApi:
             _body_params = o11y_o11y_channel_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -98788,6 +100074,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98859,6 +100146,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98930,6 +100218,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -99077,6 +100366,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -99148,6 +100438,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -99219,6 +100510,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -99324,7 +100616,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces a planned maintenance window, by id.
 
         Replaces a planned maintenance window, by id. Editor gate.
@@ -99365,6 +100657,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99395,7 +100688,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces a planned maintenance window, by id.
 
         Replaces a planned maintenance window, by id. Editor gate.
@@ -99436,6 +100729,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99507,6 +100801,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99551,6 +100846,13 @@ class O11yApi:
             _body_params = o11y_o11y_downtime_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -99606,7 +100908,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes an ingestion key, by id.
 
         Changes an ingestion key, by id. Editor gate.
@@ -99647,6 +100949,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99677,7 +100980,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes an ingestion key, by id.
 
         Changes an ingestion key, by id. Editor gate.
@@ -99718,6 +101021,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99789,6 +101093,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99833,6 +101138,13 @@ class O11yApi:
             _body_params = o11y_o11y_update_ingestion_key_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -99888,7 +101200,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes an ingestion key limit, by limit id.
 
         Changes an ingestion key limit, by limit id. Editor gate.
@@ -99929,6 +101241,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99959,7 +101272,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes an ingestion key limit, by limit id.
 
         Changes an ingestion key limit, by limit id. Editor gate.
@@ -100000,6 +101313,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100071,6 +101385,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100115,6 +101430,13 @@ class O11yApi:
             _body_params = o11y_o11y_update_limit_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -100208,6 +101530,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100275,6 +101598,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100342,6 +101666,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100486,6 +101811,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100557,6 +101883,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100628,6 +101955,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100732,7 +102060,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id.
 
         Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id. Admin gate.
@@ -100770,6 +102098,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100799,7 +102128,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id.
 
         Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id. Admin gate.
@@ -100837,6 +102166,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100904,6 +102234,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100945,6 +102276,13 @@ class O11yApi:
             _body_params = o11y_o11y_organization
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -100999,7 +102337,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces the calling user's password, refusing when the old one does not match.
 
         Replaces the calling user's password, refusing when the old one does not match. Open to any authenticated caller.
@@ -101037,6 +102375,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101066,7 +102405,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces the calling user's password, refusing when the old one does not match.
 
         Replaces the calling user's password, refusing when the old one does not match. Open to any authenticated caller.
@@ -101104,6 +102443,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101171,6 +102511,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101212,6 +102553,13 @@ class O11yApi:
             _body_params = o11y_o11y_change_password_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -101266,7 +102614,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Renames the calling service account.
 
         Renames the calling service account.
@@ -101304,6 +102652,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101333,7 +102682,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Renames the calling service account.
 
         Renames the calling service account.
@@ -101371,6 +102720,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101438,6 +102788,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101479,6 +102830,13 @@ class O11yApi:
             _body_params = o11y_o11y_my_service_account_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -101533,7 +102891,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Renames the calling user.
 
         Renames the calling user. Open to any authenticated caller.
@@ -101571,6 +102929,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101600,7 +102959,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Renames the calling user.
 
         Renames the calling user. Open to any authenticated caller.
@@ -101638,6 +102997,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101705,6 +103065,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101746,6 +103107,13 @@ class O11yApi:
             _body_params = o11y_o11y_updatable_user
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -101801,7 +103169,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Sets one org-scoped preference, by name.
 
         Sets one org-scoped preference, by name. Admin gate.
@@ -101842,6 +103210,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101872,7 +103241,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Sets one org-scoped preference, by name.
 
         Sets one org-scoped preference, by name. Admin gate.
@@ -101913,6 +103282,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101984,6 +103354,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102028,6 +103399,13 @@ class O11yApi:
             _body_params = o11y_o11y_updatable_preference
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -102083,7 +103461,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Updates the public-sharing config for a dashboard.
 
         Updates the public-sharing config for a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -102124,6 +103502,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102154,7 +103533,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Updates the public-sharing config for a dashboard.
 
         Updates the public-sharing config for a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -102195,6 +103574,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102266,6 +103646,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102310,6 +103691,13 @@ class O11yApi:
             _body_params = o11y_o11y_public_dashboard_write_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -102364,7 +103752,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces the org's quick filters for one signal with the attribute list given.
 
         Replaces the org's quick filters for one signal with the attribute list given. Admin gate.
@@ -102402,6 +103790,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102431,7 +103820,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces the org's quick filters for one signal with the attribute list given.
 
         Replaces the org's quick filters for one signal with the attribute list given. Admin gate.
@@ -102469,6 +103858,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102536,6 +103926,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102577,6 +103968,13 @@ class O11yApi:
             _body_params = o11y_o11y_updatable_quick_filters
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -102632,7 +104030,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces a custom role's description and transaction groups.
 
         Replaces a custom role's description and transaction groups. Both fields are mandatory — send an empty string or an empty array to clear one — and managed roles cannot be edited.
@@ -102673,6 +104071,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102703,7 +104102,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces a custom role's description and transaction groups.
 
         Replaces a custom role's description and transaction groups. Both fields are mandatory — send an empty string or an empty array to clear one — and managed roles cannot be edited.
@@ -102744,6 +104143,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102815,6 +104215,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102859,6 +104260,13 @@ class O11yApi:
             _body_params = o11y_o11y_role_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -102956,6 +104364,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -103027,6 +104436,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -103098,6 +104508,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -103203,7 +104614,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Replaces an alert rule's definition, by id.
 
         Replaces an alert rule's definition, by id. Editor gate.
@@ -103244,6 +104655,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103274,7 +104686,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Replaces an alert rule's definition, by id.
 
         Replaces an alert rule's definition, by id. Editor gate.
@@ -103315,6 +104727,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103386,6 +104799,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103430,6 +104844,13 @@ class O11yApi:
             _body_params = body
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -103487,7 +104908,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes a service's configuration for one connected account of the given provider, by account id and service id.
 
         Changes a service's configuration for one connected account of the given provider, by account id and service id. Admin gate.
@@ -103534,6 +104955,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103566,7 +104988,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes a service's configuration for one connected account of the given provider, by account id and service id.
 
         Changes a service's configuration for one connected account of the given provider, by account id and service id. Admin gate.
@@ -103613,6 +105035,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103692,6 +105115,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103742,6 +105166,13 @@ class O11yApi:
             _body_params = o11y_o11y_update_service_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -103797,7 +105228,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Renames a service account.
 
         Renames a service account.
@@ -103838,6 +105269,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103868,7 +105300,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Renames a service account.
 
         Renames a service account.
@@ -103909,6 +105341,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103980,6 +105413,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104024,6 +105458,13 @@ class O11yApi:
             _body_params = o11y_o11y_service_account_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -104080,7 +105521,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Renames an API key or moves its expiry.
 
         Renames an API key or moves its expiry.
@@ -104124,6 +105565,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104155,7 +105597,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Renames an API key or moves its expiry.
 
         Renames an API key or moves its expiry.
@@ -104199,6 +105641,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104274,6 +105717,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104321,6 +105765,13 @@ class O11yApi:
             _body_params = o11y_o11y_api_key_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -104377,7 +105828,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes a mapper's field context, config or enabled state.
 
         Changes a mapper's field context, config or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -104421,6 +105872,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104452,7 +105904,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes a mapper's field context, config or enabled state.
 
         Changes a mapper's field context, config or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -104496,6 +105948,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104571,6 +106024,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104618,6 +106072,13 @@ class O11yApi:
             _body_params = o11y_o11y_span_mapper_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -104673,7 +106134,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Changes a group's name, condition or enabled state.
 
         Changes a group's name, condition or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -104714,6 +106175,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104744,7 +106206,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Changes a group's name, condition or enabled state.
 
         Changes a group's name, condition or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -104785,6 +106247,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104856,6 +106319,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104900,6 +106364,13 @@ class O11yApi:
             _body_params = o11y_o11y_span_mapper_group_update_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -104993,6 +106464,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105060,6 +106532,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105127,6 +106600,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105271,6 +106745,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105342,6 +106817,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105413,6 +106889,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105556,6 +107033,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105623,6 +107101,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105690,6 +107169,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -105792,7 +107272,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser.
 
         Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser. Admin gate.
@@ -105833,6 +107313,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105863,7 +107344,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser.
 
         Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser. Admin gate.
@@ -105904,6 +107385,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105975,6 +107457,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106019,6 +107502,13 @@ class O11yApi:
             _body_params = o11y_o11y_user_update
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -106116,6 +107606,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106187,6 +107678,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106258,6 +107750,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeprecatedUserOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106363,7 +107856,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Sets one preference of the calling user, by name.
 
         Sets one preference of the calling user, by name. Viewer gate.
@@ -106404,6 +107897,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106434,7 +107928,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Sets one preference of the calling user, by name.
 
         Sets one preference of the calling user, by name. Viewer gate.
@@ -106475,6 +107969,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106546,6 +108041,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106590,6 +108086,13 @@ class O11yApi:
             _body_params = o11y_o11y_updatable_preference
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -106683,6 +108186,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106750,6 +108254,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106817,6 +108322,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106961,6 +108467,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107032,6 +108539,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107103,6 +108611,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
+            '202': "O11yApproval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107207,7 +108716,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> O11yApproval:
         """Checks that a reset-password token exists and has not expired, without consuming it.
 
         Checks that a reset-password token exists and has not expired, without consuming it. Unauthenticated: the token is the proof.
@@ -107245,6 +108754,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -107274,7 +108784,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[O11yApproval]:
         """Checks that a reset-password token exists and has not expired, without consuming it.
 
         Checks that a reset-password token exists and has not expired, without consuming it. Unauthenticated: the token is the proof.
@@ -107312,6 +108822,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -107379,6 +108890,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '202': "O11yApproval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -107420,6 +108932,13 @@ class O11yApi:
             _body_params = o11y_o11y_reset_token_ref
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:

@@ -34,13 +34,14 @@ class AgentRunView(BaseModel):
     error: Optional[StrictStr] = Field(default=None, description="Error is why an \"ok\"-less run failed, as the failing call reported it. Empty on every successful run.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the run's handle, minted as \"run_\" + 32 hex characters. It is the key the metering ledger records this run's per-round token spend under, so it is how a bill and a run are joined.")
     input: Optional[StrictStr] = Field(default=None, description="Input is the text the run was given, verbatim.")
+    micro_usd: Optional[StrictInt] = Field(default=None, description="MicroUSD is what the run spent, integer micro-USD. Absent when nothing was metered.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the model that actually SERVED this run, which is not always the one the agent is defined on — a failover records what answered. Normalized to our name on the way out; the stored row is left exactly as it happened, because a run is a record and rewriting it would be worse than the name it carries.")
     output: Optional[StrictStr] = Field(default=None, description="Output is what the model produced. Empty on an error run, and empty is also a legitimate answer from a run that succeeded with nothing to say — Status is what separates those.")
     prompt_tokens: Optional[StrictInt] = Field(default=None, description="PromptTokens is what the gateway reported for the run's FINAL completion, and only that one — a tool loop's earlier rounds are the metering ledger's account, joined by this run's id. Reading it as the run's total spend undercounts a loop.", alias="promptTokens")
     status: Optional[StrictStr] = Field(default=None, description="Status is the run's outcome, and there are exactly two: \"ok\" when the model answered, \"error\" when it did not. It is written when the run ends, so no row here is in flight.")
     tool_calls: Optional[StrictInt] = Field(default=None, description="ToolCalls is how many tool dispatches the run made — a count of ACTIONS, which is a different measurement from the token counts above and from the turns a build reports. Zero is a run that answered straight from the model.", alias="toolCalls")
     trace_id: Optional[StrictStr] = Field(default=None, description="TraceID is the trace this run IS, so the record and its spans are one thing to move between: it opens the waterfall for THIS run rather than a search that lands near it. Empty when the process had no tracer, never a fabricated id.", alias="traceId")
-    __properties: ClassVar[List[str]] = ["actor", "agent", "completionTokens", "createdAt", "durationMs", "error", "id", "input", "model", "output", "promptTokens", "status", "toolCalls", "traceId"]
+    __properties: ClassVar[List[str]] = ["actor", "agent", "completionTokens", "createdAt", "durationMs", "error", "id", "input", "micro_usd", "model", "output", "promptTokens", "status", "toolCalls", "traceId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +102,7 @@ class AgentRunView(BaseModel):
             "error": obj.get("error"),
             "id": obj.get("id"),
             "input": obj.get("input"),
+            "micro_usd": obj.get("micro_usd"),
             "model": obj.get("model"),
             "output": obj.get("output"),
             "promptTokens": obj.get("promptTokens"),
