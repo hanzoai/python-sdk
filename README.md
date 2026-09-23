@@ -16,15 +16,6 @@ Python 3.12 or newer.
 pip install hanzoai
 ```
 
-`Client` and the six capabilities below are newer than 8.5.156, the latest
-release on PyPI; that release has the generated client under `hanzoai.cloud`
-and not them. If `from hanzoai import Client` raises `ImportError`, install from
-`main`:
-
-```bash
-pip install 'hanzoai @ git+https://github.com/hanzoai/python-sdk'
-```
-
 On Python 3.9, 3.10 and 3.11 pip installs the 2.1 line instead, without an
 error. That is an older client with a different API (`from hanzoai import
 Hanzo`, key in `HANZO_API_KEY`), and nothing below applies to it.
