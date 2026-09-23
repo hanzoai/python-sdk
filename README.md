@@ -13,12 +13,13 @@ of the document this tree was cut from.
 Python 3.12 or newer.
 
 ```bash
-pip install hanzoai
+pip install "hanzoai>=8"
 ```
 
-On Python 3.9, 3.10 and 3.11 pip installs the 2.1 line instead, without an
-error. That is an older client with a different API (`from hanzoai import
-Hanzo`, key in `HANZO_API_KEY`), and nothing below applies to it.
+The floor is load-bearing. Without it, pip on Python 3.9, 3.10 and 3.11 installs
+the 2.1 line instead, without an error: an older client with a different API
+(`from hanzoai import Hanzo`, key in `HANZO_API_KEY`) that nothing below applies
+to. With it, pip refuses.
 
 Check the install without a credential — `GET /v1/models` needs none:
 
