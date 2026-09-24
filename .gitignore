@@ -82,3 +82,6 @@ tmp/
 
 # local vector store — never committed
 pkg/hanzo-memory/data/
+
+# Local symlinks to LLM.md
+CLAUDE.md
