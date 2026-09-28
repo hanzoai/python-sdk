@@ -1,0 +1,106 @@
+{
+  "rule": "A score needs at least 1 level; /v1/systemone caps it at 10 (Jev's limit) and refuses 11 with 422; /v1/decisions has no level cap.",
+  "cases": [
+    {
+      "name": "0",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": {
+                "$levels": 0
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "name": "10",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": {
+                "$levels": 10
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    },
+    {
+      "name": "11",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": {
+                "$levels": 11
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "name": "11",
+      "path": "native",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": {
+                "$levels": 11
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    }
+  ]
+}

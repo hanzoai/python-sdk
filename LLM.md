@@ -369,15 +369,20 @@ under Kai names (`Kai`/`AsyncKai`, `decide`, `Decision`, `Choice`/`Noul`/`Score`
 family, `RetryPolicy`, `HANZO_API_KEY`, `HANZO_BASE_URL`, `KAI_MODEL`, `KAI_LOG_LEVEL`).
 `tests/test_surface.py` pins the names and signatures, so a rename fails here before it splits
 the two. The client checks only what the server cannot see (at least one question, a score's
-criteria a list, a choice's a map or list); every other rule is the server's 400, and its
+criteria a list, a choice's a map or list); every other rule is the server's 422, and its
 sentence becomes `error.message`. `hanzo/kai` bodies arrive with sorted keys, so answers are
-read by name, and score maps are keyed and ordered by int level. The Jev-compatible
-`hanzo_kai.jev` (`/v1/systemone`) waits for that route's contract to freeze.
+read by name, and score maps are keyed and ordered by int level.
+
+`hanzo_kai.jev` is the Jev-compatibility layer: `Client.system_one` on `POST /v1/systemone`, Jev's
+body as `Response`, FastAPI errors as the same classes, `models.list()` on the `models` key. `from
+hanzo_kai.jev import Choice, Noul, Score, Client as TypeSafeClient` ports a TypeSafe program.
 
 Tests: `cd pkg/hanzo-kai && uv run pytest`, over `httpx.MockTransport` with no network, each
-client test on both `Kai` and `AsyncKai`; they are outside `hanzo.yml`'s gate, whose scope is
-the cloud client. Release: tag `hanzo-kai-v<version>`, and `https://pypi.org/pypi/hanzo-kai/json`
-is the proof, not a green run.
+client test on both flavours; they are outside `hanzo.yml`'s gate, whose scope is the cloud
+client. `tests/conformance/*.json` states one contract rule per file for both paths: the suite
+runs them against `conformance/fake.py`, and `uv run python tests/live_conformance.py` runs them
+against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v<version>`, and
+`https://pypi.org/pypi/hanzo-kai/json` is the proof, not a green run.
 
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus

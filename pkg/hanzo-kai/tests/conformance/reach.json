@@ -1,0 +1,33 @@
+{
+  "rule": "A state that does not fit what Kai reads is refused with 422 and code `state_too_long`; nothing is cut.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": {
+            "$words": 40000
+          },
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "code": "state_too_long"
+      }
+    }
+  ]
+}

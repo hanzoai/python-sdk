@@ -30,6 +30,7 @@ NAMES = [
     "Noul",
     "NoulAnswer",
     "NoulCriteria",
+    "NoulLabels",
     "NoulModel",
     "PaymentRequiredError",
     "PermissionDeniedError",

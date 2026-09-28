@@ -25,7 +25,7 @@ def counts(wire: Wire) -> list[str | None]:
     return [request.headers.get("x-kai-retry-count") for request in wire.requests]
 
 
-@pytest.mark.parametrize("status", [408, 409, 429, 500, 502, 503, 504, 599])
+@pytest.mark.parametrize("status", [408, 409, 429, 500, 502, 503, 504, 529, 599])
 def test_retried_statuses(client: Build, slept: list[float], status: int) -> None:
     failure = reply(status, {"error": {"code": status, "message": "try again"}})
     wire = Wire(failure, failure, reply())
@@ -216,3 +216,16 @@ def test_defaults() -> None:
 def test_policy_validation(options: dict[str, object]) -> None:
     with pytest.raises(KaiError):
         RetryPolicy(**options)  # type: ignore[arg-type]
+
+
+@pytest.mark.parametrize(("headers", "wait"), [({"Retry-After": "2"}, 2.0), ({"retry-after-ms": "750"}, 0.75)])
+def test_overloaded_is_retried_like_rate_limited(
+    client: Build, slept: list[float], headers: dict[str, str], wait: float
+) -> None:
+    overloaded = reply(529, {"error": {"code": 529, "message": "overloaded"}}, headers=headers)
+    wire = Wire(overloaded, reply())
+    assert client(wire).decide("x", QUESTIONS).id.startswith("dec_")
+    assert slept == [wait] and counts(wire) == [None, "1"]
+    with pytest.raises(InternalServerError) as caught:
+        client(Wire(overloaded), retry=RetryPolicy(max_retries=0)).decide("x", QUESTIONS)
+    assert caught.value.status == 529 and caught.value.retry_after == wait

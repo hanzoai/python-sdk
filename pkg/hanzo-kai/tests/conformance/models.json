@@ -1,0 +1,34 @@
+{
+  "rule": "GET /v1/models keeps `data` and adds `models`, listing each decision model's name, description and release date.",
+  "cases": [
+    {
+      "path": "native",
+      "send": [
+        {
+          "call": "models"
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "data"
+        ]
+      }
+    },
+    {
+      "path": "compat",
+      "send": [
+        {
+          "call": "models"
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "catalog",
+          "request_id"
+        ]
+      }
+    }
+  ]
+}

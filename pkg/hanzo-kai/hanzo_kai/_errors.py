@@ -155,24 +155,42 @@ def api_error(status: int, body: Any, headers: httpx.Headers, endpoint: str | No
 def sentence(body: Any) -> tuple[str | None, int | str | None]:
     """The message and code of an error body, in any of the shapes the API sends.
 
-    The decision runtime sends `{"error": {"code", "message"}}`; the gateway sends
-    `{"error": {"message", "type", "code"}}` or `{"status": "error", "msg"}`.
+    `/v1/decisions` sends `{"error": {"code", "message"}}`; `/v1/systemone` sends FastAPI's
+    `{"detail": "<message>"}` or `{"detail": [{"loc", "msg", "type"}]}`, whose first `type` is the
+    code; the gateway sends `{"error": {"message", "type", "code"}}` or `{"status": "error", "msg"}`.
     """
     if isinstance(body, str):
         text = body.strip()
         return (text if len(text) <= LIMIT else text[:LIMIT] + "…") or None, None
     if not isinstance(body, dict):
         return None, None
-    error = body.get("error")
+    error, detail = body.get("error"), body.get("detail")
     if isinstance(error, dict):
         message, code = error.get("message"), error.get("code")
         if isinstance(code, bool) or not isinstance(code, int | str):
             code = None
         return (message if isinstance(message, str) and message else None), code
-    for said in (error, body.get("msg"), body.get("message")):
+    if isinstance(detail, list):
+        return fields(detail)
+    for said in (error, detail, body.get("msg"), body.get("message")):
         if isinstance(said, str) and said:
             return said, None
     return None, None
+
+
+def fields(detail: list[Any]) -> tuple[str | None, str | None]:
+    """FastAPI's validation entries as one message, `where: what` each, and the first entry's type."""
+    parts: list[str] = []
+    code = None
+    for entry in detail:
+        if not isinstance(entry, dict) or not isinstance(entry.get("msg"), str):
+            continue
+        loc = entry.get("loc")
+        where = ".".join(str(part) for part in loc if part != "body") if isinstance(loc, list) else ""
+        parts.append(f"{where}: {entry['msg']}" if where else entry["msg"])
+        if code is None and isinstance(entry.get("type"), str):
+            code = entry["type"]
+    return "; ".join(parts) or None, code
 
 
 def fallback(status: int, body: Any) -> str:

@@ -1,4 +1,4 @@
-"""`Kai` and `AsyncKai`: the clients, and the models resource each carries."""
+"""The clients: `Kai` and `AsyncKai` over `/v1/decisions`, on the settings and HTTP client every client holds."""
 
 from __future__ import annotations
 
@@ -12,30 +12,111 @@ from pydantic import BaseModel
 
 from hanzo_kai import _http
 from hanzo_kai._retry import RetryPolicy
-from hanzo_kai._answers import Model, Decision, models, decision
+from hanzo_kai._answers import Model, Decision, read, models
 from hanzo_kai._questions import JSONValue, Questions, JSONContent, encode
 
 DECISIONS = "/v1/decisions"
 MODELS = "/v1/models"
 
 
-def _body(
+def request(
     settings: _http.Config,
+    path: str,
     state: JSONContent,
     questions: Questions,
     model: str | None,
-    extra: Mapping[str, JSONValue] | None,
-) -> dict[str, object]:
+    extra_body: Mapping[str, JSONValue] | None,
+    timeout: float | httpx.Timeout | None,
+    extra_headers: Mapping[str, str] | None,
+    retry: RetryPolicy | None,
+) -> _http.Call:
+    """The call for one decision: `{model, state, questions}`, with `extra_body` merged over it."""
     body: dict[str, object] = {
         "model": settings.model if model is None else model,
         "state": state,
         "questions": encode(questions),
     }
-    body.update(extra or {})
-    return body
+    body.update(extra_body or {})
+    return _http.call(settings, "POST", path, body, timeout, extra_headers, retry)
 
 
-class Kai:
+class Sync:
+    """What a synchronous client holds: its settings, and an `httpx.Client` it closes when it closes."""
+
+    def __init__(
+        self,
+        api_key: str | None = None,
+        *,
+        model: str | None = None,
+        retry: RetryPolicy | None = None,
+        timeout: float | httpx.Timeout | None = None,
+        headers: Mapping[str, str] | None = None,
+        transport: httpx.BaseTransport | None = None,
+        http_client: httpx.Client | None = None,
+        base_url: str | None = None,
+    ) -> None:
+        if transport is not None and http_client is not None:
+            raise ValueError("pass transport or http_client, not both")
+        if timeout is None and http_client is not None:
+            timeout = http_client.timeout
+        self._config = _http.config(api_key, base_url, model, timeout, headers, retry)
+        self._http = (
+            http_client if http_client is not None else httpx.Client(transport=transport, timeout=self._config.timeout)
+        )
+
+    def close(self) -> None:
+        """Closes the HTTP client, a supplied one included."""
+        self._http.close()
+
+    def __enter__(self) -> Self:
+        return self
+
+    def __exit__(
+        self, kind: type[BaseException] | None, error: BaseException | None, trace: TracebackType | None
+    ) -> None:
+        self.close()
+
+
+class Async:
+    """What an asyncio client holds: its settings, and an `httpx.AsyncClient` it closes when it closes."""
+
+    def __init__(
+        self,
+        api_key: str | None = None,
+        *,
+        model: str | None = None,
+        retry: RetryPolicy | None = None,
+        timeout: float | httpx.Timeout | None = None,
+        headers: Mapping[str, str] | None = None,
+        transport: httpx.AsyncBaseTransport | None = None,
+        http_client: httpx.AsyncClient | None = None,
+        base_url: str | None = None,
+    ) -> None:
+        if transport is not None and http_client is not None:
+            raise ValueError("pass transport or http_client, not both")
+        if timeout is None and http_client is not None:
+            timeout = http_client.timeout
+        self._config = _http.config(api_key, base_url, model, timeout, headers, retry)
+        self._http = (
+            http_client
+            if http_client is not None
+            else httpx.AsyncClient(transport=transport, timeout=self._config.timeout)
+        )
+
+    async def aclose(self) -> None:
+        """Closes the HTTP client, a supplied one included."""
+        await self._http.aclose()
+
+    async def __aenter__(self) -> Self:
+        return self
+
+    async def __aexit__(
+        self, kind: type[BaseException] | None, error: BaseException | None, trace: TracebackType | None
+    ) -> None:
+        await self.aclose()
+
+
+class Kai(Sync):
     """A client for Kai decisions on the Hanzo API.
 
     Arguments win over the environment; an empty environment value counts as unset.
@@ -73,27 +154,6 @@ class Kai:
         print(d.choices["team"].choice)
         ```
     """
-
-    def __init__(
-        self,
-        api_key: str | None = None,
-        *,
-        model: str | None = None,
-        retry: RetryPolicy | None = None,
-        timeout: float | httpx.Timeout | None = None,
-        headers: Mapping[str, str] | None = None,
-        transport: httpx.BaseTransport | None = None,
-        http_client: httpx.Client | None = None,
-        base_url: str | None = None,
-    ) -> None:
-        if transport is not None and http_client is not None:
-            raise ValueError("pass transport or http_client, not both")
-        if timeout is None and http_client is not None:
-            timeout = http_client.timeout
-        self._config = _http.config(api_key, base_url, model, timeout, headers, retry)
-        self._http = (
-            http_client if http_client is not None else httpx.Client(transport=transport, timeout=self._config.timeout)
-        )
 
     @cached_property
     def models(self) -> Models:
@@ -163,33 +223,13 @@ class Kai:
             APIConnectionError: No response came back after the retries.
             APIResponseValidationError: The response does not fit the model it is read into.
         """
-        request = _http.call(
-            self._config,
-            "POST",
-            DECISIONS,
-            _body(self._config, state, questions, model, extra_body),
-            timeout,
-            extra_headers,
-            retry,
-        )
+        call = request(self._config, DECISIONS, state, questions, model, extra_body, timeout, extra_headers, retry)
         if response_model is None:
-            return _http.send(self._http, request, lambda response: decision(response, Decision))
-        return _http.send(self._http, request, lambda response: decision(response, response_model))
-
-    def close(self) -> None:
-        """Closes the HTTP client, a supplied one included."""
-        self._http.close()
-
-    def __enter__(self) -> Self:
-        return self
-
-    def __exit__(
-        self, kind: type[BaseException] | None, error: BaseException | None, trace: TracebackType | None
-    ) -> None:
-        self.close()
+            return _http.send(self._http, call, lambda response: read(response, Decision))
+        return _http.send(self._http, call, lambda response: read(response, response_model))
 
 
-class AsyncKai:
+class AsyncKai(Async):
     """`Kai` for asyncio: the same arguments, with `await` and `async with`.
 
     Examples:
@@ -204,29 +244,6 @@ class AsyncKai:
         print(d.nouls["refund"].noul)
         ```
     """
-
-    def __init__(
-        self,
-        api_key: str | None = None,
-        *,
-        model: str | None = None,
-        retry: RetryPolicy | None = None,
-        timeout: float | httpx.Timeout | None = None,
-        headers: Mapping[str, str] | None = None,
-        transport: httpx.AsyncBaseTransport | None = None,
-        http_client: httpx.AsyncClient | None = None,
-        base_url: str | None = None,
-    ) -> None:
-        if transport is not None and http_client is not None:
-            raise ValueError("pass transport or http_client, not both")
-        if timeout is None and http_client is not None:
-            timeout = http_client.timeout
-        self._config = _http.config(api_key, base_url, model, timeout, headers, retry)
-        self._http = (
-            http_client
-            if http_client is not None
-            else httpx.AsyncClient(transport=transport, timeout=self._config.timeout)
-        )
 
     @cached_property
     def models(self) -> AsyncModels:
@@ -274,30 +291,10 @@ class AsyncKai:
         response_model: type[T] | None = None,
     ) -> Decision | T:
         """Ask Kai named questions about one state: `POST /v1/decisions`. See `Kai.decide`."""
-        request = _http.call(
-            self._config,
-            "POST",
-            DECISIONS,
-            _body(self._config, state, questions, model, extra_body),
-            timeout,
-            extra_headers,
-            retry,
-        )
+        call = request(self._config, DECISIONS, state, questions, model, extra_body, timeout, extra_headers, retry)
         if response_model is None:
-            return await _http.send_async(self._http, request, lambda response: decision(response, Decision))
-        return await _http.send_async(self._http, request, lambda response: decision(response, response_model))
-
-    async def aclose(self) -> None:
-        """Closes the HTTP client, a supplied one included."""
-        await self._http.aclose()
-
-    async def __aenter__(self) -> Self:
-        return self
-
-    async def __aexit__(
-        self, kind: type[BaseException] | None, error: BaseException | None, trace: TracebackType | None
-    ) -> None:
-        await self.aclose()
+            return await _http.send_async(self._http, call, lambda response: read(response, Decision))
+        return await _http.send_async(self._http, call, lambda response: read(response, response_model))
 
 
 class Models:

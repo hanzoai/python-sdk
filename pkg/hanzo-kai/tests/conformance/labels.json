@@ -1,0 +1,106 @@
+{
+  "rule": "A choice needs at least 2 labels; /v1/systemone caps it at 255 (Jev's limit) and refuses 256 with 422; /v1/decisions has no label cap.",
+  "cases": [
+    {
+      "name": "1",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "choice",
+              "instructions": "Which option fits?",
+              "criteria": {
+                "$labels": 1
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "name": "255",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "choice",
+              "instructions": "Which option fits?",
+              "criteria": {
+                "$labels": 255
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    },
+    {
+      "name": "256",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "choice",
+              "instructions": "Which option fits?",
+              "criteria": {
+                "$labels": 256
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "name": "256",
+      "path": "native",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "q": {
+              "type": "choice",
+              "instructions": "Which option fits?",
+              "criteria": {
+                "$labels": 256
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    }
+  ]
+}

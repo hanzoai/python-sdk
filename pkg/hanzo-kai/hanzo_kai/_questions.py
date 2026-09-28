@@ -24,12 +24,21 @@ class NoulCriteria(TypedDict, total=False):
     """When the answer is no."""
 
 
+@with_config(ConfigDict(extra="forbid"))
+class NoulLabels(TypedDict):
+    """The words a noul's two sides go by in the text Kai reads; their meaning stays yes and no."""
+
+    true: str
+    false: str
+
+
 class NoulModel(TypedDict):
     """A yes/no question as a dict."""
 
     type: Literal["noul"]
     instructions: NotRequired[JSONContent | None]
     criteria: NotRequired[NoulCriteria | None]
+    labels: NotRequired[NoulLabels]
 
 
 class ChoiceModel(TypedDict):
@@ -66,9 +75,11 @@ class Noul(_Question):
 
     type: Literal["noul"] = "noul"
     instructions: JSONContent | None = None
-    """The question, as text, a JSON object or an array. The API requires it."""
+    """The question, as text, a JSON object or an array; optional."""
     criteria: NoulCriteria | None = None
     """What a yes and a no each mean."""
+    labels: NoulLabels | None = None
+    """Words for the two sides, such as `{"true": "refund", "false": "no refund"}`; `/v1/decisions` only."""
 
 
 class Choice(_Question):
@@ -83,9 +94,9 @@ class Choice(_Question):
 
     type: Literal["choice"] = "choice"
     instructions: JSONContent | None = None
-    """The question, as text, a JSON object or an array. The API requires it."""
+    """The question, as text, a JSON object or an array; optional."""
     criteria: Mapping[str, JSONContent | None] | Sequence[str]
-    """Each label mapped to when it applies (None leaves it to the label's name), or a list of labels."""
+    """Each label mapped to when it applies (None leaves it to the label's name), or a list of labels; at least 2."""
 
 
 class Score(_Question):
@@ -99,9 +110,9 @@ class Score(_Question):
 
     type: Literal["score"] = "score"
     instructions: JSONContent | None = None
-    """The question, as text, a JSON object or an array. The API requires it."""
+    """The question, as text, a JSON object or an array; optional."""
     criteria: Sequence[JSONContent]
-    """One description per level, level 0 first."""
+    """One description per level, level 0 first; at least 1, none null."""
 
 
 type QuestionModel = NoulModel | ChoiceModel | ScoreModel
@@ -117,8 +128,8 @@ type Questions = Mapping[str, Question]
 def encode(questions: Questions) -> dict[str, Any]:
     """The questions as the wire takes them, after the checks only a client can make.
 
-    Every other rule (instructions present, levels not null, how many options fit) is the
-    server's, and its 400 says which one a question broke.
+    Every other rule (how many questions, labels and levels, levels not null, a state that fits)
+    is the server's, and its 422 says which one a request broke.
     """
     if not isinstance(questions, Mapping) or not questions:
         raise KaiError("questions must map at least one name to a question")

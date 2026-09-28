@@ -1,0 +1,55 @@
+{
+  "rule": "usage.input_tokens counts the state once: five equal questions cost four questions more than one, not four states more; output_tokens is 0.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": {
+            "$words": 400
+          },
+          "questions": {
+            "$questions": [
+              1,
+              {
+                "type": "noul",
+                "instructions": "Is this about billing?",
+                "criteria": {
+                  "true": "it concerns charges, invoices or refunds",
+                  "false": "it concerns something else"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "state": {
+            "$words": 400
+          },
+          "questions": {
+            "$questions": [
+              5,
+              {
+                "type": "noul",
+                "instructions": "Is this about billing?",
+                "criteria": {
+                  "true": "it concerns charges, invoices or refunds",
+                  "false": "it concerns something else"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "usage_once"
+        ]
+      }
+    }
+  ]
+}

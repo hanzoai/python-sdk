@@ -24,6 +24,8 @@ class NoulAnswer(_Answer):
     type: Literal["noul"] = "noul"
     noul: float
     """Probability that the answer is yes, from 0 to 1."""
+    confidence: float | None = None
+    """How far the noul leans from even, |2·noul - 1|; `/v1/decisions` sends it."""
     answer_confidence: float | None = None
     """Probability of the answer the noul leans to: the larger of p(yes) and p(no)."""
 
@@ -78,43 +80,39 @@ class Usage(BaseModel):
     """Output tokens; a decision generates none."""
 
 
-class Decision(BaseModel):
-    """Kai's answers to one request, keyed by question name, with usage and routing.
-
-    Subclass it to type answers by name: a field named after a question is filled with that
-    question's answer.
-
-    Examples:
-        ```python
-        class Ticket(Decision):
-            team: ChoiceAnswer
-
-
-        ticket = kai.decide(state, questions, response_model=Ticket)
-        ticket.team.choice
-        ```
-    """
+class _Read(BaseModel):
+    """A body read from an HTTP response, which stays reachable."""
 
     model_config = ConfigDict(extra="allow", frozen=True)
 
-    id: str
-    """The decision's id, `dec_` and 32 hex digits."""
+    _response: httpx.Response | None = PrivateAttr(default=None)
+
+    @property
+    def raw_http_response(self) -> httpx.Response:
+        """The `httpx.Response` this was read from."""
+        if self._response is None:
+            raise KaiError("this was not read from an HTTP response")
+        return self._response
+
+    @property
+    def request_id(self) -> str | None:
+        """The response's `x-request-id`."""
+        return None if self._response is None else self._response.headers.get("x-request-id")
+
+
+class Response(_Read):
+    """Answers keyed by question name, with the model and usage: the body `/v1/systemone` returns.
+
+    Subclass it to type answers by name: a field named after a question is filled with that
+    question's answer.
+    """
+
     model: str
-    """The model as the request named it."""
-    provider: str | None = None
-    """Who served the decision."""
+    """The model that answered."""
     answers: dict[str, Answer] = Field(default_factory=dict)
     """Every answer, keyed by question name."""
     usage: Usage = Field(default_factory=Usage)
-    """Tokens the decision counted."""
-    routing: dict[str, Any] | None = None
-    """The checkpoint, weights digest, calibration and device that answered."""
-    state_hash: str | None = None
-    """`sha256:` digest of the state as the server read it."""
-    latency_ms: float | None = None
-    """Milliseconds the server spent deciding."""
-
-    _response: httpx.Response | None = PrivateAttr(default=None)
+    """Tokens the request counted."""
 
     @property
     def nouls(self) -> dict[str, NoulAnswer]:
@@ -131,17 +129,34 @@ class Decision(BaseModel):
         """The score answers, keyed by question name."""
         return {name: answer for name, answer in self.answers.items() if isinstance(answer, ScoreAnswer)}
 
-    @property
-    def raw_http_response(self) -> httpx.Response:
-        """The `httpx.Response` the decision was read from."""
-        if self._response is None:
-            raise KaiError("this decision was not read from an HTTP response")
-        return self._response
 
-    @property
-    def request_id(self) -> str | None:
-        """The response's `x-request-id`."""
-        return None if self._response is None else self._response.headers.get("x-request-id")
+class Decision(Response):
+    """Kai's answers to one request, keyed by question name, with usage and routing: the body `/v1/decisions` returns.
+
+    Subclass it to type answers by name: a field named after a question is filled with that
+    question's answer.
+
+    Examples:
+        ```python
+        class Ticket(Decision):
+            team: ChoiceAnswer
+
+
+        ticket = kai.decide(state, questions, response_model=Ticket)
+        ticket.team.choice
+        ```
+    """
+
+    id: str
+    """The decision's id, `dec_` and 32 hex digits."""
+    provider: str | None = None
+    """Who served the decision."""
+    routing: dict[str, Any] | None = None
+    """The checkpoint, weights digest, calibration and device that answered."""
+    state_hash: str | None = None
+    """`sha256:` digest of the state as the server read it."""
+    latency_ms: float | None = None
+    """Milliseconds the server spent deciding."""
 
 
 class Pricing(BaseModel):
@@ -165,13 +180,31 @@ class Model(BaseModel):
     pricing: Pricing | None = None
 
 
-def decision[D: BaseModel](response: httpx.Response, kind: type[D]) -> D:
-    """The body of a successful decide, read as `kind`.
+class ModelMetadata(BaseModel):
+    """A model as the `models` key of `GET /v1/models` lists it."""
 
-    A `Decision` keeps the answer types it knows and skips newer ones with a warning; any other
+    model_config = ConfigDict(extra="allow", frozen=True)
+
+    name: str
+    """The id to pass as `model`."""
+    description: str | None = None
+    release_date: str | None = None
+    """YYYY-MM-DD."""
+
+
+class ListModelsResponse(_Read):
+    """The `models` key of `GET /v1/models`."""
+
+    models: tuple[ModelMetadata, ...] = ()
+
+
+def read[R: BaseModel](response: httpx.Response, kind: type[R]) -> R:
+    """The body of a successful decision, read as `kind`.
+
+    A `Response` keeps the answer types it knows and skips newer ones with a warning; any other
     model reads the body as sent.
     """
-    if not issubclass(kind, Decision):
+    if not issubclass(kind, Response):
         try:
             return kind.model_validate_json(response.content)
         except ValidationError as error:
@@ -191,7 +224,8 @@ def decision[D: BaseModel](response: httpx.Response, kind: type[D]) -> D:
             else:
                 logger.warning("skipping answer %r: hanzo-kai %s does not know type %r", name, __version__, tag)
         data["answers"] = known
-        for field in kind.model_fields.keys() - Decision.model_fields.keys():
+        base = Decision if issubclass(kind, Decision) else Response
+        for field in kind.model_fields.keys() - base.model_fields.keys():
             if field in known:
                 data[field] = known[field]
     try:
@@ -217,6 +251,19 @@ def models(response: httpx.Response) -> list[Model]:
             except ValidationError as error:
                 raise invalid(response, f"data.{index}.{where(error)}") from error
     return found
+
+
+def catalog(response: httpx.Response) -> ListModelsResponse:
+    """The `models` key of `GET /v1/models`."""
+    data = parse(response)
+    if not isinstance(data, dict) or not isinstance(data.get("models"), list):
+        raise invalid(response, "models")
+    try:
+        result = ListModelsResponse.model_validate({"models": data["models"]})
+    except ValidationError as error:
+        raise invalid(response, where(error)) from error
+    result._response = response
+    return result
 
 
 def parse(response: httpx.Response) -> Any:

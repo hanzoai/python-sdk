@@ -1,0 +1,34 @@
+{
+  "rule": "A key no account holds is refused with 401.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "key": "invalid",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 401,
+        "error": "AuthenticationError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    }
+  ]
+}

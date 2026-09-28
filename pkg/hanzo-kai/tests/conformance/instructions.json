@@ -1,0 +1,41 @@
+{
+  "rule": "`instructions` is optional on every question type.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul"
+            },
+            "team": {
+              "type": "choice",
+              "criteria": {
+                "billing": null,
+                "tech": null
+              }
+            },
+            "urgency": {
+              "type": "score",
+              "criteria": [
+                "can wait",
+                "today"
+              ]
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    }
+  ]
+}

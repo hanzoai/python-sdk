@@ -1,0 +1,92 @@
+{
+  "rule": "/v1/systemone refuses every Jev model id with 400 and {\"detail\": \"Unknown model: <id>\"}; no Jev id is mapped to Kai.",
+  "cases": [
+    {
+      "name": "jev-latest",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          },
+          "model": "jev-latest"
+        }
+      ],
+      "expect": {
+        "status": 400,
+        "error": "BadRequestError",
+        "message": "Unknown model: jev-latest",
+        "checks": [
+          "fastapi",
+          "request_id"
+        ]
+      }
+    },
+    {
+      "name": "jev-preview",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          },
+          "model": "jev-preview"
+        }
+      ],
+      "expect": {
+        "status": 400,
+        "error": "BadRequestError",
+        "message": "Unknown model: jev-preview",
+        "checks": [
+          "fastapi",
+          "request_id"
+        ]
+      }
+    },
+    {
+      "name": "jev-1.13.0",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          },
+          "model": "jev-1.13.0"
+        }
+      ],
+      "expect": {
+        "status": 400,
+        "error": "BadRequestError",
+        "message": "Unknown model: jev-1.13.0",
+        "checks": [
+          "fastapi",
+          "request_id"
+        ]
+      }
+    }
+  ]
+}

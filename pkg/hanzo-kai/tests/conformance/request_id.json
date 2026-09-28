@@ -1,0 +1,87 @@
+{
+  "rule": "Every response carries `x-request-id`, answers and errors alike.",
+  "cases": [
+    {
+      "name": "answer",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "request_id"
+        ]
+      }
+    },
+    {
+      "name": "error",
+      "path": "native",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          },
+          "model": "no-such-model"
+        }
+      ],
+      "expect": {
+        "status": 400,
+        "error": "BadRequestError",
+        "checks": [
+          "request_id"
+        ]
+      }
+    },
+    {
+      "name": "error",
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          },
+          "model": "jev-latest"
+        }
+      ],
+      "expect": {
+        "status": 400,
+        "error": "BadRequestError",
+        "checks": [
+          "request_id"
+        ]
+      }
+    }
+  ]
+}

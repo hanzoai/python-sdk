@@ -328,3 +328,28 @@ def test_decision_built_by_hand() -> None:
     assert d.answers == {} and d.usage.input_tokens is None and d.request_id is None
     with pytest.raises(KaiError):
         _ = d.raw_http_response
+
+
+def test_noul_labels_reach_the_wire(client: Build) -> None:
+    wire = Wire()
+    labelled = Noul(instructions="Refund?", labels={"true": "refund", "false": "no refund"})
+    client(wire).decide(STATE, {"refund": labelled})
+    assert wire.json()["questions"]["refund"] == {
+        "type": "noul",
+        "instructions": "Refund?",
+        "labels": {"true": "refund", "false": "no refund"},
+    }
+    with pytest.raises(ValidationError):
+        Noul(labels={"yes": "refund", "no": "no refund"})
+    with pytest.raises(ValidationError):
+        Noul(labels={"true": "refund"})
+
+
+def test_contract_answers(client: Build) -> None:
+    sent = body()
+    sent["answers"]["billing"] = {"type": "noul", "noul": 0.7461, "confidence": 0.4922, "answer_confidence": 0.7461}
+    sent["answers"]["team"]["probabilities"] = {"billing": 0.30000000000000004, "tech": 0.7}
+    d = client(Wire(reply(json_body=sent))).decide(STATE, QUESTIONS)
+    assert d.nouls["billing"].confidence == 0.4922
+    assert d.choices["team"].probabilities["billing"] == 0.30000000000000004
+    assert client(Wire()).decide(STATE, QUESTIONS).nouls["billing"].confidence is None

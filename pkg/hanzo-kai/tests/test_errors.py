@@ -93,6 +93,34 @@ BODIES: list[tuple[int, dict[str, Any] | None, str | None, str, Any]] = [
     (503, None, "", "Service Unavailable", None),
     # JSON that names no sentence
     (500, {"trace": "abc"}, None, '{"trace": "abc"}', None),
+    # the decision runtime, over reach
+    (
+        422,
+        {
+            "error": {
+                "code": "state_too_long",
+                "message": "state and question need more tokens than the checkpoint reads",
+            }
+        },
+        None,
+        "state and question need more tokens than the checkpoint reads",
+        "state_too_long",
+    ),
+    # FastAPI, as /v1/systemone sends it
+    (400, {"detail": "Unknown model: jev-latest"}, None, "Unknown model: jev-latest", None),
+    (401, {"detail": "invalid API key"}, None, "invalid API key", None),
+    (
+        422,
+        {
+            "detail": [
+                {"loc": ["body", "questions", "q", "criteria"], "msg": "at most 255 labels", "type": "too_long"},
+                {"loc": ["body", "state"], "msg": "field required", "type": "missing"},
+            ]
+        },
+        None,
+        "questions.q.criteria: at most 255 labels; state: field required",
+        "too_long",
+    ),
 ]
 
 

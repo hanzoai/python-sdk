@@ -1,0 +1,29 @@
+{
+  "rule": "On /v1/decisions a noul also takes `labels`, the words its two sides go by.",
+  "cases": [
+    {
+      "path": "native",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "refund": {
+              "type": "noul",
+              "instructions": "Does the customer ask for money back?",
+              "labels": {
+                "true": "refund",
+                "false": "no refund"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,120 @@
+{
+  "rule": "402 raises PaymentRequiredError at once; 429 and 529 carry Retry-After and retry-after-ms, and the client waits and retries.",
+  "cases": [
+    {
+      "name": "402",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "live": false,
+      "fault": [
+        [
+          402,
+          {}
+        ]
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 402,
+        "error": "PaymentRequiredError",
+        "attempts": 1,
+        "checks": [
+          "fastapi"
+        ]
+      }
+    },
+    {
+      "name": "429",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "live": false,
+      "fault": [
+        [
+          429,
+          {
+            "Retry-After": "1",
+            "retry-after-ms": "1000"
+          }
+        ]
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "attempts": 2,
+        "checks": [
+          "answered"
+        ]
+      }
+    },
+    {
+      "name": "529",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "live": false,
+      "fault": [
+        [
+          529,
+          {
+            "Retry-After": "1",
+            "retry-after-ms": "1000"
+          }
+        ]
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "attempts": 2,
+        "checks": [
+          "answered"
+        ]
+      }
+    }
+  ]
+}

@@ -38,6 +38,11 @@ models that answer decisions.
 Settings come from arguments, then `HANZO_API_KEY`, `HANZO_BASE_URL` (default
 `https://api.hanzo.ai`), `KAI_MODEL` (default `kai`) and `KAI_LOG_LEVEL` (default `warn`).
 
+## Moving from Jev
+
+`hanzo_kai.jev` keeps TypeSafe's call shapes on Kai's Jev-compatible path, `POST /v1/systemone`, answering in Jev's shape:
+`from hanzo_kai.jev import Choice, Noul, Score, Client as TypeSafeClient` ports a TypeSafe program in one line.
+
 ## Docs
 
 - Kai: https://docs.hanzo.ai/docs/kai

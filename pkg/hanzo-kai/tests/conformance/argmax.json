@@ -1,0 +1,51 @@
+{
+  "rule": "`choice` is the strict argmax label, and `score` is Σ i·p_i over unrounded probabilities.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            },
+            "team": {
+              "type": "choice",
+              "instructions": "Which team should handle this?",
+              "criteria": {
+                "billing": "charges, invoices, refunds",
+                "tech": "bugs and outages",
+                "sales": "plans and upgrades"
+              }
+            },
+            "urgency": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": [
+                "can wait",
+                "this week",
+                "today",
+                "right now"
+              ]
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "argmax"
+        ]
+      }
+    }
+  ]
+}

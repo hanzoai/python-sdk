@@ -1,0 +1,33 @@
+{
+  "rule": "`state` is required and not null: a null state is refused with 422.",
+  "cases": [
+    {
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": null,
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    }
+  ]
+}

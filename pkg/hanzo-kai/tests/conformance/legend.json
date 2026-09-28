@@ -1,0 +1,39 @@
+{
+  "rule": "On /v1/systemone a score's `legend` echoes its levels verbatim, keyed \"0\", \"1\", and on.",
+  "cases": [
+    {
+      "path": "compat",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "urgency": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": [
+                "can wait",
+                {
+                  "when": "this week",
+                  "examples": [
+                    "invoice",
+                    "refund"
+                  ]
+                },
+                [
+                  "today",
+                  "now"
+                ]
+              ]
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "legend_verbatim"
+        ]
+      }
+    }
+  ]
+}

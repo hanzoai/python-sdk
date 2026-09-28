@@ -1,0 +1,68 @@
+{
+  "rule": "A request holds 1 to 100 questions: 100 are answered, 101 are refused with 422.",
+  "cases": [
+    {
+      "name": "100",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "$questions": [
+              100,
+              {
+                "type": "noul",
+                "instructions": "Is this about billing?",
+                "criteria": {
+                  "true": "it concerns charges, invoices or refunds",
+                  "false": "it concerns something else"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    },
+    {
+      "name": "101",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "$questions": [
+              101,
+              {
+                "type": "noul",
+                "instructions": "Is this about billing?",
+                "criteria": {
+                  "true": "it concerns charges, invoices or refunds",
+                  "false": "it concerns something else"
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "checks": [
+          "fastapi"
+        ]
+      }
+    }
+  ]
+}
