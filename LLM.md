@@ -240,20 +240,26 @@ is usable.
 
 ## CI
 
-Fleet convention, added at 3.1.5: root `hanzo.yml` (the `test:` gate) plus a 7-line
-`.hanzo/workflows/cicd.yml` importing `hanzoai/ci`. The gate is three blocks — import every
-generated module (for generated code that IS the build step; there is no compiler to catch a
-bad `$ref`), read the syntax tree for duplicate fields the import cannot see, then resolve
-and import the six flows. Each provisions an interpreter with `uv` when the runner lacks
-one. There is no `.github/workflows/` here: the label these callers ask for is served by the
-git-runner fleet on git.hanzo.ai and by nothing on github.com.
+Fleet convention: root `hanzo.yml` (the `test:` gate and `pypi:`) plus
+`.github/workflows/cicd.yml`, which calls `hanzoai/ci/.github/workflows/build.yml@v2` and runs
+on GitHub. The gate is four blocks — import every generated module (for generated
+code that IS the build step; there is no compiler to catch a bad `$ref`), report the imports
+no package declares (report only), read the syntax tree for duplicate fields the import
+cannot see, then resolve and import the six flows. Each provisions an interpreter with `uv`
+when the runner lacks one.
 
 Scope is deliberate: the cloud client and its flows, not all 65 packages. A red gate should
 mean "the client the spec just produced is broken", not "something, somewhere".
 
-**Publishing is not here.** `.hanzo/workflows/publish-pypi.yml` on our own runners stays the
-canonical path because it reads the PyPI token from KMS like every other publish credential
-in the fleet. `hanzo.yml` gates only; a second publish path would be one too many.
+**Publishing is hanzoai/ci's `Publish to PyPI` step, on a tag only.** `v*` publishes every
+`pypi: [., pkg/*]` project whose version PyPI lacks (`twine --skip-existing`);
+`<name>-v<version>` publishes the one whose pyproject `name` matches. Each wheel is installed
+alone in a clean venv and imported before upload, with the tokens KMS holds at
+`python-sdk-publish` (`PYPI_TOKEN`, then `HANZO_AI_PYPI_TOKEN`). The publish job runs the
+client check first: it regenerates `pkg/hanzoai/cloud` from `https://api.hanzo.ai/v1/openapi.json`
+and fails on any drift, so once production's document moves past `.spec-lock` no package here
+publishes until the projection is moved (`workflow_dispatch` with a `spec-ref`); a tag on a
+drifted tree publishes nothing.
 
 The `examples` step used to import the flows and stop there, and the comment beside it said
 so honestly — a method name is looked up at call time, so a renamed operation passed the
@@ -350,6 +356,28 @@ is not another identity's secret and which no catalog replaces.
 **`paas` is the name the fleet left behind.** It is `platform` there, which is why
 the retired alias mattered: a caller typing the old name was mapped off the live
 surface rather than onto it.
+
+## hanzo-kai — the Kai decisions client
+
+`pkg/hanzo-kai` (`import hanzo_kai`) is the Python client for Kai: `POST /v1/decisions`
+(`Kai.decide`, `AsyncKai.decide` → `Decision`) and `GET /v1/models` narrowed to the models whose
+`outputs` include `decision`. It depends on httpx and pydantic ≥ 2.10 (the first to read its
+PEP 695 aliases) and nothing else; Python ≥ 3.12.
+
+Its surface is one surface with the TypeScript `@hanzo/kai`: typesafe-sdk 0.7.2's call shapes
+under Kai names (`Kai`/`AsyncKai`, `decide`, `Decision`, `Choice`/`Noul`/`Score`, the `APIError`
+family, `RetryPolicy`, `HANZO_API_KEY`, `HANZO_BASE_URL`, `KAI_MODEL`, `KAI_LOG_LEVEL`).
+`tests/test_surface.py` pins the names and signatures, so a rename fails here before it splits
+the two. The client checks only what the server cannot see (at least one question, a score's
+criteria a list, a choice's a map or list); every other rule is the server's 400, and its
+sentence becomes `error.message`. `hanzo/kai` bodies arrive with sorted keys, so answers are
+read by name, and score maps are keyed and ordered by int level. The Jev-compatible
+`hanzo_kai.jev` (`/v1/systemone`) waits for that route's contract to freeze.
+
+Tests: `cd pkg/hanzo-kai && uv run pytest`, over `httpx.MockTransport` with no network, each
+client test on both `Kai` and `AsyncKai`; they are outside `hanzo.yml`'s gate, whose scope is
+the cloud client. Release: tag `hanzo-kai-v<version>`, and `https://pypi.org/pypi/hanzo-kai/json`
+is the proof, not a green run.
 
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
