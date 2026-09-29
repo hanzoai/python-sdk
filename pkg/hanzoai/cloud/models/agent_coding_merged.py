@@ -17,19 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsUsage(BaseModel):
+class AgentCodingMerged(BaseModel):
     """
-    AiDecisionsUsage
+    AgentCodingMerged
     """ # noqa: E501
-    cost: Optional[Union[StrictFloat, StrictInt]] = None
-    input_tokens: StrictInt
-    output_tokens: StrictInt
-    __properties: ClassVar[List[str]] = ["cost", "input_tokens", "output_tokens"]
+    base: Optional[StrictStr] = Field(default=None, description="Base is the branch it was merged into.")
+    number: Optional[StrictInt] = Field(default=None, description="Number is the pull request's number in its repository.")
+    state: Optional[StrictStr] = Field(default=None, description="State is merged.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is where it is read.")
+    __properties: ClassVar[List[str]] = ["base", "number", "state", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +50,7 @@ class AiDecisionsUsage(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsUsage from a JSON string"""
+        """Create an instance of AgentCodingMerged from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +75,7 @@ class AiDecisionsUsage(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsUsage from a dict"""
+        """Create an instance of AgentCodingMerged from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +83,10 @@ class AiDecisionsUsage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cost": obj.get("cost"),
-            "input_tokens": obj.get("input_tokens"),
-            "output_tokens": obj.get("output_tokens")
+            "base": obj.get("base"),
+            "number": obj.get("number"),
+            "state": obj.get("state"),
+            "url": obj.get("url")
         })
         return _obj
 

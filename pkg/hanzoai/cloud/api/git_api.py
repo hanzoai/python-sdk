@@ -3732,7 +3732,7 @@ class GitApi:
     ) -> GitBlobJSON:
         """Returns one file's bytes at one revision.
 
-        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead.
+        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead. A repository in the organization's own code workspace on the forge is read from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str
@@ -3807,7 +3807,7 @@ class GitApi:
     ) -> ApiResponse[GitBlobJSON]:
         """Returns one file's bytes at one revision.
 
-        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead.
+        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead. A repository in the organization's own code workspace on the forge is read from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str
@@ -3882,7 +3882,7 @@ class GitApi:
     ) -> RESTResponseType:
         """Returns one file's bytes at one revision.
 
-        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead.
+        Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead. A repository in the organization's own code workspace on the forge is read from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str
@@ -6258,7 +6258,7 @@ class GitApi:
     ) -> GitTreeJSON:
         """Lists the immediate children of one directory at one revision, directories before files.
 
-        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time.
+        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time. A repository in the organization's own code workspace on the forge is listed from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str
@@ -6333,7 +6333,7 @@ class GitApi:
     ) -> ApiResponse[GitTreeJSON]:
         """Lists the immediate children of one directory at one revision, directories before files.
 
-        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time.
+        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time. A repository in the organization's own code workspace on the forge is listed from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str
@@ -6408,7 +6408,7 @@ class GitApi:
     ) -> RESTResponseType:
         """Lists the immediate children of one directory at one revision, directories before files.
 
-        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time.
+        Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time. A repository in the organization's own code workspace on the forge is listed from there.
 
         :param name: Name is the repo to read, from the :name path segment. (required)
         :type name: str

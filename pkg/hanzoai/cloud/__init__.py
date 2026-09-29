@@ -204,6 +204,7 @@ __all__ = [
     "AgentCodingCommit",
     "AgentCodingEntry",
     "AgentCodingFile",
+    "AgentCodingMerged",
     "AgentCodingPull",
     "AgentCodingReview",
     "AgentCodingStartIn",
@@ -254,12 +255,21 @@ __all__ = [
     "AiAnthropicTool",
     "AiAnthropicUsage",
     "AiCostStats",
+    "AiDecisionSides",
+    "AiDecisionSidesFalse",
     "AiDecisionsAction",
     "AiDecisionsAnswer",
+    "AiDecisionsChoice",
+    "AiDecisionsChoiceCriteriaValue",
+    "AiDecisionsNoul",
     "AiDecisionsQuestion",
+    "AiDecisionsReason",
+    "AiDecisionsReasonCode",
+    "AiDecisionsRefused",
     "AiDecisionsRequest",
     "AiDecisionsResponse",
     "AiDecisionsRouting",
+    "AiDecisionsScore",
     "AiDecisionsUsage",
     "AiHistoryDay",
     "AiHistoryRetrain",
@@ -3238,6 +3248,7 @@ from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges as Agen
 from hanzoai.cloud.models.agent_coding_commit import AgentCodingCommit as AgentCodingCommit
 from hanzoai.cloud.models.agent_coding_entry import AgentCodingEntry as AgentCodingEntry
 from hanzoai.cloud.models.agent_coding_file import AgentCodingFile as AgentCodingFile
+from hanzoai.cloud.models.agent_coding_merged import AgentCodingMerged as AgentCodingMerged
 from hanzoai.cloud.models.agent_coding_pull import AgentCodingPull as AgentCodingPull
 from hanzoai.cloud.models.agent_coding_review import AgentCodingReview as AgentCodingReview
 from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn as AgentCodingStartIn
@@ -3288,12 +3299,21 @@ from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse as Ai
 from hanzoai.cloud.models.ai_anthropic_tool import AiAnthropicTool as AiAnthropicTool
 from hanzoai.cloud.models.ai_anthropic_usage import AiAnthropicUsage as AiAnthropicUsage
 from hanzoai.cloud.models.ai_cost_stats import AiCostStats as AiCostStats
+from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides as AiDecisionSides
+from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse as AiDecisionSidesFalse
 from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction as AiDecisionsAction
 from hanzoai.cloud.models.ai_decisions_answer import AiDecisionsAnswer as AiDecisionsAnswer
+from hanzoai.cloud.models.ai_decisions_choice import AiDecisionsChoice as AiDecisionsChoice
+from hanzoai.cloud.models.ai_decisions_choice_criteria_value import AiDecisionsChoiceCriteriaValue as AiDecisionsChoiceCriteriaValue
+from hanzoai.cloud.models.ai_decisions_noul import AiDecisionsNoul as AiDecisionsNoul
 from hanzoai.cloud.models.ai_decisions_question import AiDecisionsQuestion as AiDecisionsQuestion
+from hanzoai.cloud.models.ai_decisions_reason import AiDecisionsReason as AiDecisionsReason
+from hanzoai.cloud.models.ai_decisions_reason_code import AiDecisionsReasonCode as AiDecisionsReasonCode
+from hanzoai.cloud.models.ai_decisions_refused import AiDecisionsRefused as AiDecisionsRefused
 from hanzoai.cloud.models.ai_decisions_request import AiDecisionsRequest as AiDecisionsRequest
 from hanzoai.cloud.models.ai_decisions_response import AiDecisionsResponse as AiDecisionsResponse
 from hanzoai.cloud.models.ai_decisions_routing import AiDecisionsRouting as AiDecisionsRouting
+from hanzoai.cloud.models.ai_decisions_score import AiDecisionsScore as AiDecisionsScore
 from hanzoai.cloud.models.ai_decisions_usage import AiDecisionsUsage as AiDecisionsUsage
 from hanzoai.cloud.models.ai_history_day import AiHistoryDay as AiHistoryDay
 from hanzoai.cloud.models.ai_history_retrain import AiHistoryRetrain as AiHistoryRetrain

@@ -2215,7 +2215,7 @@ wheels = [
 
 [[package]]
 name = "hanzo-train"
-version = "0.1.0"
+version = "0.1.1"
 source = { editable = "pkg/hanzo-train" }
 dependencies = [
     { name = "httpx" },

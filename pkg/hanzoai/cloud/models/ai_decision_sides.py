@@ -17,19 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, Field
+from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsUsage(BaseModel):
+class AiDecisionSides(BaseModel):
     """
-    AiDecisionsUsage
+    AiDecisionSides
     """ # noqa: E501
-    cost: Optional[Union[StrictFloat, StrictInt]] = None
-    input_tokens: StrictInt
-    output_tokens: StrictInt
-    __properties: ClassVar[List[str]] = ["cost", "input_tokens", "output_tokens"]
+    var_false: Optional[AiDecisionSidesFalse] = Field(default=None, alias="false")
+    var_true: Optional[AiDecisionSidesFalse] = Field(default=None, alias="true")
+    __properties: ClassVar[List[str]] = ["false", "true"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +49,7 @@ class AiDecisionsUsage(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsUsage from a JSON string"""
+        """Create an instance of AiDecisionSides from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,11 +70,17 @@ class AiDecisionsUsage(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of var_false
+        if self.var_false:
+            _dict['false'] = self.var_false.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of var_true
+        if self.var_true:
+            _dict['true'] = self.var_true.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsUsage from a dict"""
+        """Create an instance of AiDecisionSides from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +88,8 @@ class AiDecisionsUsage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "cost": obj.get("cost"),
-            "input_tokens": obj.get("input_tokens"),
-            "output_tokens": obj.get("output_tokens")
+            "false": AiDecisionSidesFalse.from_dict(obj["false"]) if obj.get("false") is not None else None,
+            "true": AiDecisionSidesFalse.from_dict(obj["true"]) if obj.get("true") is not None else None
         })
         return _obj
 

@@ -17,27 +17,28 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Union
-from hanzoai.cloud.models.ai_decisions_answer import AiDecisionsAnswer
-from hanzoai.cloud.models.ai_decisions_routing import AiDecisionsRouting
-from hanzoai.cloud.models.ai_decisions_usage import AiDecisionsUsage
+from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
+from hanzoai.cloud.models.ai_decisions_choice_criteria_value import AiDecisionsChoiceCriteriaValue
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsResponse(BaseModel):
+class AiDecisionsChoice(BaseModel):
     """
-    AiDecisionsResponse
+    AiDecisionsChoice
     """ # noqa: E501
-    answers: Dict[str, AiDecisionsAnswer]
-    id: StrictStr
-    latency_ms: Union[StrictFloat, StrictInt]
-    model: StrictStr
-    provider: StrictStr
-    routing: AiDecisionsRouting
-    state_hash: StrictStr
-    usage: AiDecisionsUsage
-    __properties: ClassVar[List[str]] = ["answers", "id", "latency_ms", "model", "provider", "routing", "state_hash", "usage"]
+    criteria: Dict[str, Optional[AiDecisionsChoiceCriteriaValue]]
+    instructions: Optional[AiDecisionSidesFalse] = None
+    type: StrictStr
+    __properties: ClassVar[List[str]] = ["criteria", "instructions", "type"]
+
+    @field_validator('type')
+    def type_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['choice']):
+            raise ValueError("must be one of enum values ('choice')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -57,7 +58,7 @@ class AiDecisionsResponse(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsResponse from a JSON string"""
+        """Create an instance of AiDecisionsChoice from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -78,24 +79,21 @@ class AiDecisionsResponse(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in answers (dict)
+        # override the default output from pydantic by calling `to_dict()` of each value in criteria (dict)
         _field_dict = {}
-        if self.answers:
-            for _key_answers in self.answers:
-                if self.answers[_key_answers]:
-                    _field_dict[_key_answers] = self.answers[_key_answers].to_dict()
-            _dict['answers'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of routing
-        if self.routing:
-            _dict['routing'] = self.routing.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of usage
-        if self.usage:
-            _dict['usage'] = self.usage.to_dict()
+        if self.criteria:
+            for _key_criteria in self.criteria:
+                if self.criteria[_key_criteria]:
+                    _field_dict[_key_criteria] = self.criteria[_key_criteria].to_dict()
+            _dict['criteria'] = _field_dict
+        # override the default output from pydantic by calling `to_dict()` of instructions
+        if self.instructions:
+            _dict['instructions'] = self.instructions.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsResponse from a dict"""
+        """Create an instance of AiDecisionsChoice from a dict"""
         if obj is None:
             return None
 
@@ -103,19 +101,14 @@ class AiDecisionsResponse(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "answers": dict(
-                (_k, AiDecisionsAnswer.from_dict(_v))
-                for _k, _v in obj["answers"].items()
+            "criteria": dict(
+                (_k, AiDecisionsChoiceCriteriaValue.from_dict(_v))
+                for _k, _v in obj["criteria"].items()
             )
-            if obj.get("answers") is not None
+            if obj.get("criteria") is not None
             else None,
-            "id": obj.get("id"),
-            "latency_ms": obj.get("latency_ms"),
-            "model": obj.get("model"),
-            "provider": obj.get("provider"),
-            "routing": AiDecisionsRouting.from_dict(obj["routing"]) if obj.get("routing") is not None else None,
-            "state_hash": obj.get("state_hash"),
-            "usage": AiDecisionsUsage.from_dict(obj["usage"]) if obj.get("usage") is not None else None
+            "instructions": AiDecisionSidesFalse.from_dict(obj["instructions"]) if obj.get("instructions") is not None else None,
+            "type": obj.get("type")
         })
         return _obj
 
