@@ -1,13 +1,11 @@
-"""High-performance async browser automation tool using Playwright.
+"""The `browser` tool: the user's own browser through the Hanzo extension, or a
+headless Playwright Chromium when none is connected.
 
-Design goals:
-- Async-first: All operations are non-blocking
-- Shared browser instance: Reuse browser across calls (low latency)
-- Connection pooling: Multiple pages/contexts for parallel work
-- Cross-MCP sharing: Connect to existing browser via CDP endpoint
-- Full Playwright API: Complete surface area coverage
-- Touch support: Mobile device emulation with touch events
-- Network control: Intercept, mock, and monitor requests
+An agent drives a page with the extension's snapshot → ref engine: `snapshot`
+prints the accessibility tree with a ref on every actionable node, and click,
+fill, type, press … take those refs. The surface is progressive: the schema
+carries the core actions, and `help` serves the rest from ACTIONS, the one
+table that names, routes and documents every action.
 
 PARALLEL AGENTS ARCHITECTURE:
 - BrowserPool is a singleton - one Chrome process per MCP server
@@ -23,8 +21,9 @@ import re
 import json
 import base64
 import asyncio
+import inspect
 import logging
-from typing import Any, Union, Literal, ClassVar, Optional, Annotated
+from typing import Any, Union, ClassVar, Optional, Annotated
 from pathlib import Path
 from dataclasses import field, dataclass
 
@@ -164,124 +163,8 @@ async def _check_extension(browser: Optional[str] = None) -> bool:
 
 
 def _zap_method_for(action: str) -> str:
-    """Map a browser-tool action onto the wire method the extension expects.
-
-    The Firefox/Chrome backgrounds dispatch CDP-style methods (``Page.navigate``,
-    ``Runtime.evaluate``, ``hanzo.click`` …) when the field is ``method`` on
-    the JSON it receives. Over ZAP we send the same method name so the
-    extension handler is shared.
-    """
-    # Decomplected API surface — three layers, orthogonal:
-    #   1) CDP-shape canonical names (Domain.method)
-    #   2) hanzo.* ergonomic aliases that compose CDP primitives
-    #   3) Python-side snake_case shortcuts that map to either
-    return {
-        # ─── Page lifecycle / navigation ────────────────────────────────
-        "navigate": "Page.navigate",
-        "reload": "Page.reload",
-        "go_back": "Page.goBack",
-        "go_forward": "Page.goForward",
-        "print_pdf": "Page.printToPDF",
-        "wait_for_navigation": "hanzo.waitForNavigation",
-        "wait_for_load_state": "Page.waitForLoadState",
-
-        # ─── Tabs / targets ─────────────────────────────────────────────
-        "tabs": "Target.getTargets",
-        "new_tab": "Target.createTarget",
-        "close_tab": "Target.closeTarget",
-        "activate_tab": "Target.activateTarget",
-        "url": "hanzo.url",
-        "title": "hanzo.title",
-        "tab_info": "hanzo.tabInfo",
-        "list_tabs": "hanzo.listTabs",
-        "history": "hanzo.getHistory",
-
-        # ─── Observation ────────────────────────────────────────────────
-        "screenshot": "hanzo.screenshot",
-        "page_info": "hanzo.getPageInfo",
-        "ax_tree": "Accessibility.getFullAXTree",
-        "status": "Browser.getVersion",
-
-        # ─── DOM read ───────────────────────────────────────────────────
-        "get_text": "hanzo.getText",
-        "get_html": "hanzo.getHTML",
-        "get_attribute": "hanzo.getAttribute",
-        "get_element_info": "hanzo.getElementInfo",
-        "query_one": "DOM.querySelector",
-        "query_all": "hanzo.querySelectorAll",
-        "list_form": "hanzo.listForm",
-        "computed_styles": "hanzo.getComputedStyles",
-        "bounding_rects": "hanzo.getBoundingRects",
-
-        # ─── DOM write — selector-based ─────────────────────────────────
-        "click": "hanzo.click",
-        "dblclick": "hanzo.dblclick",
-        "hover": "hanzo.hover",
-        "fill": "hanzo.fill",
-        "check": "hanzo.check",
-        "uncheck": "hanzo.uncheck",
-        "select": "hanzo.select",
-        "type": "hanzo.type",
-        "clear": "hanzo.clear",
-        "focus": "DOM.focus",
-        "scroll_into_view": "DOM.scrollIntoView",
-        "set_text": "hanzo.setText",
-        "set_html": "hanzo.setHTML",
-        "set_attribute": "hanzo.setAttribute",
-        "remove_attribute": "hanzo.removeAttribute",
-
-        # ─── DOM write — CSP-safe text/label-based (RECOMMENDED) ─────────
-        "click_text": "hanzo.clickByText",
-        "fill_label": "hanzo.fillByLabel",
-        "find_by_text": "hanzo.findByText",
-        "submit_form": "hanzo.submitForm",
-        "upload_file": "hanzo.uploadFile",
-
-        # ─── Keyboard / Mouse ───────────────────────────────────────────
-        "press": "hanzo.press",
-        "press_key": "Input.dispatchKeyEvent",
-        "mouse_event": "Input.dispatchMouseEvent",
-        "scroll": "hanzo.scroll",
-        "scroll_wheel": "Input.scrollWheel",
-
-        # ─── Wait / Observe ─────────────────────────────────────────────
-        "wait_for_text": "hanzo.waitForText",
-        "wait_for_mutation": "hanzo.waitForMutation",
-        "wait_for_selector": "hanzo.waitForSelector",
-        "observe_start": "hanzo.observe",
-        "observe_read": "hanzo.observeRead",
-        "observe_stop": "hanzo.observeStop",
-
-        # ─── Dialog ─────────────────────────────────────────────────────
-        "dialog_accept": "hanzo.dialogAccept",
-
-        # ─── Scripting (works on non-CSP-strict pages only) ─────────────
-        "evaluate": "Runtime.evaluate",
-        "inject_script": "hanzo.injectScript",
-        "inject_css": "hanzo.injectCSS",
-
-        # ─── Cookies / Storage ──────────────────────────────────────────
-        "cookies": "hanzo.getCookies",
-        "local_storage_get": "hanzo.getLocalStorage",
-        "local_storage_set": "hanzo.setLocalStorage",
-
-        # ─── Network monitoring ─────────────────────────────────────────
-        "monitor_start": "monitor.start",
-        "monitor_stop": "monitor.stop",
-        "monitor_console_logs": "monitor.consoleLogs",
-        "monitor_console_errors": "monitor.consoleErrors",
-        "monitor_network_logs": "monitor.networkLogs",
-        "monitor_network_errors": "monitor.networkErrors",
-        "monitor_network_success": "monitor.networkSuccess",
-
-        # ─── Audit / Lighthouse-style ───────────────────────────────────
-        "audit_accessibility": "audit.accessibility",
-        "audit_performance": "audit.performance",
-        "audit_seo": "audit.seo",
-
-        # ─── HTTP fetch through the browser (uses page origin) ──────────
-        "fetch": "hanzo.fetch",
-    }.get(action, action)
+    """The extension method that serves ``action`` (``annotate``: a labelled screenshot)."""
+    return "hanzo.annotate" if action == "annotate" else ACTIONS[action].wire
 
 
 def _zap_params(
@@ -303,7 +186,7 @@ def _zap_params(
 ) -> dict:
     """Translate the extension-tool kwargs into wire params."""
     params: dict[str, Any] = {}
-    if action == "screenshot":
+    if action in ("screenshot", "annotate"):
         # Shrink where the pixels are. A 4480x1440 PNG is ~740 KB of base64 on the
         # native-messaging hop; asking the browser for a 1280px JPEG means that
         # payload is never built, let alone carried.
@@ -325,29 +208,26 @@ def _zap_params(
     expr = code or expression
     if expr is not None:
         params["expression"] = expr
-    if full_page is not None:
+    if full_page:
         params["fullPage"] = full_page
     norm_tab = _normalize_tab_id(tab_id)
     if norm_tab is not None:
         params["tabId"] = norm_tab
-    # Forward any extra kwargs the caller passed (action-specific fields).
+    op = ACTIONS[action].act if action in ACTIONS else None
+    if op:
+        params["op"] = op
+    # Forward the action-specific fields the extension reads, under its names.
+    wire_names = {"delta_x": "dx", "delta_y": "dy"}
     for k, v in rest.items():
-        if v is None:
+        if v is None or v is False:
             continue
         if k in {
-            "key",
-            "index",
-            "tab_index",
-            "timeout",
-            "state",
-            "level",
-            "expression",
-            "scope",  # for click_text — "default" or "all"
-            "limit",  # for query_all
-            "outer",  # for get_html
+            "key", "index", "tab_index", "timeout", "state", "level", "attribute",
+            "interactive", "compact", "depth", "urls", "outline", "filter", "delta_x", "delta_y",
         }:
-            params[k] = v
-    return params
+            params[wire_names.get(k, k)] = v
+    # Every wire value is a string; a flag reads "true", never Python's "True".
+    return {k: ("true" if v else "false") if isinstance(v, bool) else v for k, v in params.items()}
 
 
 # Current BiDi browsing context (active tab) for the Firefox backend.
@@ -392,16 +272,16 @@ async def _bidi_dispatch(
         return (ev or {}).get("result", {}).get("value")
 
     try:
-        if action in ("navigate", "goto"):
+        if action == "navigate":
             c = await _ctx()
             await client.navigate(c, url or "about:blank")
             return {"success": True, "source": "bidi", "url": await client.get_url(c)}
-        if action in ("new_tab", "create_tab"):
+        if action == "new_tab":
             _bidi_current_context = await client.create_context("tab")
             if url:
                 await client.navigate(_bidi_current_context, url)
             return {"success": True, "source": "bidi", "tab": _bidi_current_context}
-        if action in ("click", "tap"):
+        if action == "click":
             c = await _ctx()
             r = await client.click_selector(c, selector or "")
             return {"success": bool(r.get("clicked")), "source": "bidi", **r}
@@ -411,7 +291,7 @@ async def _bidi_dispatch(
                 await client.click_selector(c, selector)
             await client.input_insert_text(c, text or "")
             return {"success": True, "source": "bidi"}
-        if action in ("press", "press_key"):
+        if action == "press":
             c = await _ctx()
             await client.input_key_press(c, key or "Enter")
             return {"success": True, "source": "bidi"}
@@ -425,13 +305,13 @@ async def _bidi_dispatch(
         if action == "get_text":
             c = await _ctx()
             return {"success": True, "source": "bidi", "text": _val(await client.script_evaluate(c, "document.body ? document.body.innerText : ''"))}
-        if action in ("get_html", "content"):
+        if action == "get_html":
             c = await _ctx()
             return {"success": True, "source": "bidi", "html": _val(await client.script_evaluate(c, "document.documentElement.outerHTML"))}
-        if action in ("url", "get_url"):
+        if action == "url":
             c = await _ctx()
             return {"success": True, "source": "bidi", "url": await client.get_url(c)}
-        if action in ("title", "get_title"):
+        if action == "title":
             c = await _ctx()
             return {"success": True, "source": "bidi", "title": _val(await client.script_evaluate(c, "document.title"))}
         if action == "tabs":
@@ -482,11 +362,11 @@ async def _extension_command(
         return {"error": str(e), "transport": "native-zap"}
 
     text = raw.decode("utf-8", errors="replace") if isinstance(raw, (bytes, bytearray)) else raw
-    # A screenshot/pdf comes back as (JSON-wrapped) base64. Base64 in the JSON text
+    # A screenshot comes back as (JSON-wrapped) base64. Base64 in the JSON text
     # is charged to the agent's context by the character, so a capture never travels
     # that way: capture() writes the bytes to a file and returns a ToolImage that
     # register() turns into a native MCP ImageContent block the client SEES.
-    if action in ("screenshot", "pdf") and isinstance(text, str):
+    if action in ("screenshot", "annotate") and isinstance(text, str):
         b64 = _extract_b64(text)
         if b64:
             try:
@@ -494,8 +374,11 @@ async def _extension_command(
                 meta = {"transport": "native-zap", "source": "zapd", "provider": provider}
                 # Trust the bytes, not the provider's label — the extension picks
                 # the encoding and older builds report it inconsistently.
-                fmt = "pdf" if action == "pdf" else ("jpeg" if data[:3] == b"\xff\xd8\xff" else "png")
-                return {**capture(data, fmt=fmt, path=kwargs.get("path"), **detail), **meta}
+                fmt = "jpeg" if data[:3] == b"\xff\xd8\xff" else "png"
+                out = {**capture(data, fmt=fmt, path=kwargs.get("path"), **detail), **meta}
+                if action == "annotate":
+                    out["legend"] = json.loads(text).get("legend", [])
+                return out
             except Exception as e:  # fall back to raw on any decode failure
                 logger.warning(f"native-zap capture decode failed ({e}); returning raw")
     return {"success": True, "transport": "native-zap", "source": "zapd", "provider": provider, "result": text}
@@ -571,149 +454,162 @@ DEVICES = {
 }
 
 
-Action = Annotated[
-    Literal[
-        # === Core Page Navigation & Lifecycle ===
-        "navigate",  # goto(url)
-        "set_content",  # setContent(html)
-        "content",  # content() - get full HTML
-        "url",  # url() - get current URL
-        "title",  # title() - get page title
-        "reload",  # reload()
-        "go_back",  # goBack()
-        "go_forward",  # goForward()
-        "close",  # close page/browser
-        # === Input - Click/Type ===
-        "click",  # click(selector)
-        "dblclick",  # dblclick(selector)
-        "type",  # type(selector, text) - character by character
-        "fill",  # fill(selector, text) - instant, clears first
-        "clear",  # clear input
-        "press",  # press key combo (Ctrl+A, Enter, etc.)
-        # === Input - Forms ===
-        "select_option",  # select dropdown option
-        "check",  # check checkbox/radio
-        "uncheck",  # uncheck checkbox
-        "upload",  # set_input_files
-        # === Mouse ===
-        "hover",  # hover(selector)
-        "drag",  # drag_and_drop(source, target)
-        "mouse_move",  # mouse.move(x, y)
-        "mouse_down",  # mouse.down()
-        "mouse_up",  # mouse.up()
-        "mouse_wheel",  # mouse.wheel(dx, dy)
-        "scroll",  # scroll element into view or scroll by delta
-        # === Touch (Mobile) ===
-        "tap",  # tap(selector) - touch tap
-        "swipe",  # swipe gesture
-        "pinch",  # pinch zoom
-        # === Locator Creation ===
-        "locator",  # Create locator (CSS, text, role, xpath)
-        "frame_locator",  # frameLocator(selector)
-        # === Built-in Locators (get_by_*) ===
-        "get_by_role",  # getByRole(role, {name})
-        "get_by_text",  # getByText(text)
-        "get_by_label",  # getByLabel(text)
-        "get_by_placeholder",  # getByPlaceholder(text)
-        "get_by_test_id",  # getByTestId(id)
-        "get_by_alt_text",  # getByAltText(text)
-        "get_by_title",  # getByTitle(text)
-        # === Locator Composition ===
-        "first",  # locator.first
-        "last",  # locator.last
-        "nth",  # locator.nth(index)
-        "filter",  # locator.filter({has, hasText, hasNotText})
-        "all",  # locator.all() - get all matching
-        "count",  # locator.count()
-        # === Content Extraction ===
-        "get_text",  # textContent()
-        "get_inner_text",  # innerText()
-        "get_attribute",  # getAttribute(name)
-        "get_value",  # inputValue()
-        "get_html",  # innerHTML() or content()
-        "get_bounding_box",  # boundingBox()
-        # === State Checks ===
-        "is_visible",  # isVisible()
-        "is_enabled",  # isEnabled()
-        "is_checked",  # isChecked()
-        "is_hidden",  # isHidden()
-        "is_editable",  # isEditable()
-        # === Assertions (expect) ===
-        "expect_visible",  # expect(loc).toBeVisible()
-        "expect_hidden",  # expect(loc).toBeHidden()
-        "expect_enabled",  # expect(loc).toBeEnabled()
-        "expect_text",  # expect(loc).toHaveText()
-        "expect_value",  # expect(loc).toHaveValue()
-        "expect_checked",  # expect(loc).toBeChecked()
-        "expect_url",  # expect(page).toHaveURL()
-        "expect_title",  # expect(page).toHaveTitle()
-        "expect_count",  # expect(loc).toHaveCount()
-        "expect_attribute",  # expect(loc).toHaveAttribute()
-        # === Page Actions ===
-        "screenshot",  # screenshot()
-        "pdf",  # pdf()
-        "snapshot",  # accessibility.snapshot()
-        "evaluate",  # evaluate(js)
-        "focus",  # focus(selector)
-        "blur",  # blur()
-        # === Wait Primitives ===
-        "wait",  # waitForSelector or sleep
-        "wait_for_load",  # waitForLoadState(networkidle, etc)
-        "wait_for_url",  # waitForURL(pattern)
-        "wait_for_event",  # waitForEvent(event) - request, response, download, filechooser, popup
-        "wait_for_request",  # waitForRequest(pattern)
-        "wait_for_response",  # waitForResponse(pattern)
-        "wait_for_function",  # waitForFunction(js)
-        # === Viewport & Device ===
-        "viewport",  # setViewportSize
-        "emulate",  # emulate device (mobile, tablet, laptop)
-        "geolocation",  # setGeolocation
-        "permissions",  # grantPermissions
-        # === Network Interception ===
-        "route",  # route(pattern, handler) - mock/block
-        "unroute",  # unroute(pattern)
-        # === Storage & Cookies ===
-        "cookies",  # cookies() or addCookies()
-        "clear_cookies",  # clearCookies()
-        "storage",  # localStorage/sessionStorage
-        "storage_state",  # storageState() - save/load auth
-        # === Events & Handlers ===
-        "on",  # page.on(event, handler)
-        "off",  # removeListener
-        # === Dialogs ===
-        "dialog",  # handle pending dialog
-        # === Frames ===
-        "frame",  # switch to frame
-        "main_frame",  # back to main frame
-        # === File Chooser & Downloads ===
-        "file_chooser",  # waitForEvent('filechooser')
-        "download",  # waitForEvent('download')
-        # === Console & Errors ===
-        "console",  # get console messages
-        "errors",  # get page errors
-        # === Browser/Context Management ===
-        "new_page",  # context.newPage()
-        "new_context",  # browser.newContext() - isolated session
-        "new_tab",  # alias for new_page
-        "close_tab",  # close current page
-        "tabs",  # list/switch tabs
-        "select_tab",  # bring a specific tab to focus (Target.activateTarget)
-        "list_browsers",  # list every connected extension provider
-        "set_default_browser",  # persist the bridge's default browser pick
-        "use_browser",  # alias of set_default_browser
-        "list_mcp_instances",  # list all hanzo-mcps registered with the extension
-        "claim_browser",  # take an exclusive lease on a browser for N seconds
-        "release_browser",  # drop a previously-claimed lease
-        "connect",  # connect via CDP
-        "set_headless",  # toggle headless/headed
-        "status",  # get browser status
-        # === Debug/Tracing ===
-        "trace_start",  # tracing.start()
-        "trace_stop",  # tracing.stop()
-        "highlight",  # highlight element for debugging
-    ],
-    Field(description="Browser action to perform"),
-]
+@dataclass(frozen=True)
+class Op:
+    """One browser action: its help topic, one-line usage, and the extension
+    method that serves it (``None``: headless Playwright only). ``act`` names the
+    page-engine op for actions the extension answers with ``hanzo.act``."""
+
+    topic: str
+    usage: str
+    wire: Optional[str] = None
+    act: Optional[str] = None
+
+
+# Every action, once. The schema, the routing, the wire method and `help` are
+# all read from here, so an action cannot exist in one and not the others.
+ACTIONS: dict[str, Op] = {
+    # core: the default surface, and the loop an agent drives a page with
+    "navigate": Op("core", "url: open a URL; returns once it has loaded", "hanzo.navigate"),
+    "snapshot": Op("core", "[interactive] [compact] [depth] [selector] [args.urls]: the accessibility tree, [ref=eN] on every node you can act on", "hanzo.snapshot"),
+    "click": Op("core", "selector: click a ref (@e2) or CSS selector; refused when another element covers it", "hanzo.act", "click"),
+    "fill": Op("core", "selector, text: replace a field's value", "hanzo.act", "fill"),
+    "type": Op("core", "text [selector]: type key by key into the element, or the focused one", "hanzo.act", "type"),
+    "press": Op("core", "key [selector]: Enter, Tab, Escape, ArrowDown, Control+a", "hanzo.act", "press"),
+    "read": Op("core", "[outline] [filter]: the page as markdown, as the signed-in user sees it", "hanzo.read"),
+    "screenshot": Op("core", "[annotate] [args.full_page] [args.full_res] [args.path]: the viewport, downscaled unless full_res; annotate boxes each ref, label [N] = @eN, and returns the legend", "hanzo.screenshot"),
+    "evaluate": Op("core", "code: run JavaScript in the page and return its value", "Runtime.evaluate"),
+    "wait": Op("core", "selector | text [args.state=hidden] | timeout: until it shows (or goes), or for ms", "hanzo.wait"),
+    "tabs": Op("core", "open tabs; tab_id targets one in any action", "Target.getTargets"),
+    "help": Op("core", "[topic]: every other action, with how to call it"),
+    # interact: more ways to act on a ref or CSS selector
+    "dblclick": Op("interact", "selector", "hanzo.act", "dblclick"),
+    "hover": Op("interact", "selector", "hanzo.act", "hover"),
+    "focus": Op("interact", "selector", "hanzo.act", "focus"),
+    "select": Op("interact", "selector, args.value: choose a <select> option by value or label", "hanzo.act", "select"),
+    "check": Op("interact", "selector: check a checkbox or radio (no-op when already checked)", "hanzo.act", "check"),
+    "uncheck": Op("interact", "selector", "hanzo.act", "uncheck"),
+    "scroll": Op("interact", "args.delta_x, args.delta_y [selector]: scroll the page, or an element, by pixels", "hanzo.act", "scroll"),
+    "scroll_into_view": Op("interact", "selector", "hanzo.act", "scrollIntoView"),
+    "get_text": Op("interact", "selector: rendered text; a field's value", "hanzo.act", "text"),
+    "get_attribute": Op("interact", "selector, args.attribute", "hanzo.act", "attribute"),
+    "count": Op("interact", "selector: how many elements a CSS selector matches", "hanzo.act", "count"),
+    "upload": Op("interact", "selector, args.files: set a file input's files"),
+    "drag": Op("interact", "selector, args.target_selector"),
+    "blur": Op("interact", "selector"),
+    "tap": Op("interact", "selector: a touch tap"),
+    "swipe": Op("interact", "selector, args.direction [args.distance]"),
+    "pinch": Op("interact", "selector [args.scale]"),
+    "mouse_move": Op("interact", "args.x, args.y"),
+    "mouse_down": Op("interact", "[args.button]"),
+    "mouse_up": Op("interact", "[args.button]"),
+    # navigation
+    "go_back": Op("navigation", "back one page", "Page.goBack"),
+    "go_forward": Op("navigation", "forward one page", "Page.goForward"),
+    "reload": Op("navigation", "reload the page", "Page.reload"),
+    "url": Op("navigation", "the tab's URL", "hanzo.url"),
+    "title": Op("navigation", "the tab's title", "hanzo.title"),
+    "set_content": Op("navigation", "args.html: replace the page's HTML"),
+    # tabs and browsers
+    "new_tab": Op("tabs", "[url]: open a tab", "Target.createTarget"),
+    "close_tab": Op("tabs", "tab_id (Playwright: args.tab_index)", "Target.closeTarget"),
+    "select_tab": Op("tabs", "tab_id (Playwright: args.tab_index): bring a tab to the front", "Target.activateTarget"),
+    "browsers": Op("tabs", "connected browsers; target_browser picks one"),
+    "status": Op("tabs", "the browser behind this tool", "Browser.getVersion"),
+    "close": Op("tabs", "close the Playwright browser"),
+    "new_context": Op("tabs", "[url] [args.device]: an isolated Playwright session (own cookies and storage)"),
+    "connect": Op("tabs", "args.cdp_endpoint: attach Playwright to a running Chrome"),
+    "set_headless": Op("tabs", "[args.headless]: relaunch Playwright headed or headless"),
+    # page: content and state
+    "get_html": Op("page", "[selector]: an element's HTML, or the page's", "hanzo.getHTML"),
+    "get_bounding_box": Op("page", "selector"),
+    "pdf": Op("page", "[args.path]: print the page to PDF"),
+    "is_visible": Op("page", "selector"),
+    "is_enabled": Op("page", "selector"),
+    "is_editable": Op("page", "selector"),
+    "is_checked": Op("page", "selector"),
+    "highlight": Op("page", "selector: outline an element on screen"),
+    # assert: fail unless the page matches (args.not_ negates)
+    "expect_visible": Op("assert", "selector"),
+    "expect_hidden": Op("assert", "selector"),
+    "expect_enabled": Op("assert", "selector"),
+    "expect_checked": Op("assert", "selector"),
+    "expect_text": Op("assert", "selector, args.expected"),
+    "expect_value": Op("assert", "selector, args.expected"),
+    "expect_attribute": Op("assert", "selector, args.attribute, args.expected"),
+    "expect_count": Op("assert", "selector, args.index (the count)"),
+    "expect_url": Op("assert", "args.expected (glob with *)"),
+    "expect_title": Op("assert", "args.expected (glob with *)"),
+    # storage
+    "cookies": Op("storage", "the page's cookies (Playwright: args.cookies sets them)", "hanzo.getCookies"),
+    "clear_cookies": Op("storage", "delete every cookie"),
+    "storage": Op("storage", "[args.storage_type=local|session] [args.storage_data]: read or write web storage"),
+    "storage_state": Op("storage", "args.auth_file: save cookies and storage there, or load them when it exists"),
+    # network
+    "route": Op("network", "args.pattern [args.block] [args.response] [args.status_code]: block or mock requests"),
+    "unroute": Op("network", "args.pattern"),
+    "wait_for_request": Op("network", "args.pattern"),
+    "wait_for_response": Op("network", "args.pattern"),
+    # emulation
+    "viewport": Op("emulation", "[args.width, args.height]: read or set the viewport"),
+    "emulate": Op("emulation", "args.device: mobile, tablet, laptop, iphone_14, pixel_7, ipad_pro …"),
+    "geolocation": Op("emulation", "args.latitude, args.longitude"),
+    "permissions": Op("emulation", "args.permission: grant it"),
+    # debug and events
+    "console": Op("debug", "[args.level]: the page's console messages"),
+    "errors": Op("debug", "uncaught page errors"),
+    "dialog": Op("debug", "[args.accept] [args.prompt_text]: answer a pending alert/confirm/prompt"),
+    "file_chooser": Op("debug", "[args.files]: answer a pending file chooser"),
+    "download": Op("debug", "[selector]: the pending download, or click selector and take its download"),
+    "wait_for_load": Op("debug", "[args.state=load|domcontentloaded|networkidle]"),
+    "wait_for_url": Op("debug", "args.pattern"),
+    "wait_for_function": Op("debug", "code: until the JavaScript returns truthy"),
+    "wait_for_event": Op("debug", "args.event: request, response, download, filechooser, popup"),
+    "trace_start": Op("debug", "record a Playwright trace"),
+    "trace_stop": Op("debug", "[args.trace_path]"),
+}
+
+CORE = tuple(name for name, op in ACTIONS.items() if op.topic == "core")
+TOPICS = tuple(dict.fromkeys(op.topic for op in ACTIONS.values()))
+
+# The extension's page engine answers these as JSON the tool unpacks.
+_ENGINE = {"hanzo.navigate", "hanzo.snapshot", "hanzo.read", "hanzo.act", "hanzo.wait"}
+# A snapshot ref: @e2 (or e2).
+_REF = re.compile(r"^@?e\d+$")
+
+LOOP = """The loop: snapshot, act on refs, snapshot again when the page changes.
+  browser(action="navigate", url="https://example.com")
+  browser(action="snapshot", interactive=true)     - button "Sign in" [ref=e2]
+  browser(action="click", selector="@e2")
+  browser(action="fill", selector="@e3", text="me@example.com")
+  browser(action="press", key="Enter")
+  browser(action="read", filter="pricing")         the page as markdown
+  browser(action="screenshot", annotate=true)      labels [N] on the image = @eN
+A ref stays valid while its element is on the page, across snapshots. After a
+navigation, or when an element was removed, the ref is refused: snapshot again.
+A click on an element covered by a consent banner, modal or overlay is refused
+and names the cover: act on the cover, then snapshot again.
+selector takes a ref (@e2) or a CSS selector. Parameters outside the core
+schema go in args, e.g. browser(action="select", selector="@e4", args={"value": "Weekly"})."""
+
+
+def _help(topic: Optional[str] = None) -> str:
+    """The progressive half of the surface: the loop, then every action past the
+    core by topic; ``topic`` narrows it to one (``core`` included)."""
+    if topic and topic not in TOPICS:
+        return f"No topic {topic!r}. Topics: {', '.join(TOPICS)}."
+    lines = [] if topic else [LOOP, ""]
+    for t in [topic] if topic else TOPICS[1:]:
+        lines.append(t)
+        for name, op in ACTIONS.items():
+            if op.topic != t:
+                continue
+            only = "" if op.wire or name in ("help", "browsers") else "  (Playwright)"
+            lines.append(f"  {name:<18}{op.usage}{only}".rstrip())
+    lines.append("")
+    lines.append('(Playwright): headless Playwright only, not the connected browser.')
+    lines.append(f'browser(action="help", topic="…") shows one of: {", ".join(TOPICS)}.')
+    return "\n".join(lines)
 
 
 @dataclass
@@ -988,17 +884,44 @@ class BrowserPool:
         return self._state
 
 
+DESCRIPTION = """Drive a browser: the user's own, signed in, through the Hanzo extension (headless Playwright when none is connected).
+
+Loop: snapshot, act on a ref, snapshot again when the page changes.
+  snapshot interactive=true        - button "Sign in" [ref=e2]
+  click selector="@e2"   fill selector="@e3" text="me@x.com"   press key="Enter"
+  read                             the page as markdown (outline=true, filter="…")
+  screenshot annotate=true         every ref boxed, label [N] = @eN
+selector takes a ref (@e2) or a CSS selector. A stale ref, or a click on an
+element under a banner or modal, is refused with what to do next.
+
+action="help" lists everything else (hover, select, check, scroll, back, cookies,
+network, emulation, assertions …); their parameters go in args."""
+
+
+def _answer(action: str, ext: dict[str, Any]) -> Union[str, dict[str, Any]]:
+    """The extension's reply as the tool's: a refusal is an error, a tree or a
+    page is plain text, an engine result is its fields."""
+    text = ext.get("result")
+    if isinstance(text, str) and text.startswith("ERR:"):
+        return {"error": text[4:], "action": action}
+    if isinstance(text, str) and ACTIONS[action].wire in _ENGINE:
+        data = json.loads(text)
+        if action == "snapshot":
+            return f"{data['title']} — {data['url']} ({data['refs']} refs)\n{data['tree']}"
+        if action == "read":
+            return f"{data['title']} — {data['url']}\n\n{data['markdown']}"
+        return {"success": True, **data}
+    return {"success": True, "source": "extension", **ext}
+
+
 class BrowserTool(BaseTool):
-    """Complete browser automation with full Playwright API surface area.
+    """A browser for agents: the user's own through the Hanzo extension, or a
+    headless Playwright Chromium.
 
-    PARALLEL AGENTS:
-    Use `new_context` action to create isolated sessions.
-    Each context has separate cookies, storage, and cache.
-    One Chrome process, many parallel agent sessions.
-
-    DEVICES:
-    - mobile, tablet, laptop (user-friendly)
-    - iphone_14, iphone_15_pro, pixel_7, galaxy_s23, ipad_pro (specific)
+    The surface is progressive. The MCP schema carries the CORE actions and
+    their parameters; ``help`` serves the rest from ACTIONS, whose parameters
+    travel in ``args``. ``new_context`` gives a parallel agent its own
+    Playwright session (cookies, storage, cache).
     """
 
     name = "browser"
@@ -1018,46 +941,7 @@ class BrowserTool(BaseTool):
 
     @property
     def description(self) -> str:
-        return """Complete browser automation with full Playwright API.
-
-DISPLAY INSTRUCTIONS: Show results as bullet points.
-• navigate: Navigated to [url] (status: [status])
-• click/tap: [action] on [selector]
-• expect_*: ✓ Assertion passed / ✗ Assertion failed
-• screenshot: Captured [size] bytes
-
-SCREENSHOTS: downscaled JPEG (~1280px, q70) by default to save context; the
-full-resolution capture is saved to a file whose path is returned — pass
-full_res=true (or max_width/quality) only when you need pixel detail.
-
-PARALLEL AGENTS:
-- Use `new_context` for isolated sessions
-- One Chrome, many parallel agent contexts
-
-DEVICES: mobile, tablet, laptop, iphone_14, pixel_7, ipad_pro
-
-CATEGORIES:
-- Navigation: navigate, set_content, content, url, title, reload, go_back/forward
-- Input: click, dblclick, type, fill, clear, press
-- Forms: select_option, check, uncheck, upload
-- Mouse: hover, drag, mouse_move/down/up, mouse_wheel, scroll
-- Touch: tap, swipe, pinch
-- Locators: locator, get_by_role/text/label/placeholder/test_id/alt_text/title
-- Composition: first, last, nth, filter, all, count
-- Content: get_text, get_inner_text, get_attribute, get_value, get_html, get_bounding_box
-- State: is_visible/hidden/enabled/editable/checked
-- Assertions: expect_visible/hidden/enabled/text/value/checked/url/title/count/attribute
-- Wait: wait, wait_for_load/url/event/request/response/function
-- Page: screenshot, pdf, snapshot, evaluate, focus, blur
-- Device: viewport, emulate, geolocation, permissions
-- Network: route (mock/block), unroute
-- Storage: cookies, clear_cookies, storage, storage_state
-- Events: on, off
-- Dialogs: dialog
-- Files: file_chooser, download
-- Browser: new_page, new_context, new_tab, close_tab, tabs, status
-- Debug: trace_start/stop, highlight, console, errors
-"""
+        return DESCRIPTION
 
     async def _get_page(self, device: Optional[str] = None) -> Page:
         """Get page from shared pool."""
@@ -1076,34 +960,34 @@ CATEGORIES:
             return page.frame_locator(frame).locator(selector)
         return page.locator(selector)
 
-    async def call(self, ctx, action: str, **kwargs) -> dict[str, Any]:
+    async def call(self, ctx, action: str, **kwargs) -> Union[str, dict[str, Any]]:
         """Execute browser action."""
         return await self.execute(action=action, **kwargs)
 
     async def execute(
         self,
         action: str,
-        # Selectors
+        # Target and input
         url: Optional[str] = None,
         selector: Optional[str] = None,
-        ref: Optional[str] = None,
         target_selector: Optional[str] = None,
-        # Text/Values
         text: Optional[str] = None,
         value: Optional[str] = None,
         key: Optional[str] = None,
         code: Optional[str] = None,
         html: Optional[str] = None,
         attribute: Optional[str] = None,
-        # Locator options
-        role: Optional[str] = None,
-        name: Optional[str] = None,
-        exact: bool = False,
-        # Locator composition
+        # snapshot / read / screenshot / help
+        interactive: bool = False,
+        compact: bool = False,
+        depth: Optional[int] = None,
+        urls: bool = False,
+        outline: bool = False,
+        filter: Optional[str] = None,
+        annotate: bool = False,
+        topic: Optional[str] = None,
+        # Counts and indexes
         index: Optional[int] = None,
-        has_text: Optional[str] = None,
-        has_not_text: Optional[str] = None,
-        has: Optional[str] = None,  # Nested selector
         # Files
         files: Optional[list[str]] = None,
         # Mouse/Touch
@@ -1164,20 +1048,27 @@ CATEGORIES:
         trace_path: Optional[str] = None,
         # Filter
         level: Optional[str] = None,
-    ) -> dict[str, Any]:
-        """Execute browser action with full Playwright API support.
+    ) -> Union[str, dict[str, Any]]:
+        """Run one action: on the connected browser through the extension when
+        it serves the action, else on headless Playwright.
 
-        Automatically uses Hanzo browser extension if connected,
-        falling back to Playwright for headless automation.
+        snapshot, read and help answer text; everything else a dict.
         """
+        spec = ACTIONS.get(action)
+        if spec is None:
+            return {"error": f"Unknown action {action!r}. Core: {', '.join(CORE)}. action=\"help\" lists the rest."}
+        if action == "help":
+            return _help(topic)
+        pause = timeout
         timeout = timeout or self.timeout
-        sel = selector or ref
+        sel = selector
+        by_ref = bool(sel and _REF.match(sel.strip()))
         # How much pixel detail comes back inline. Travels together to every
         # capture site so all three backends answer a screenshot the same way.
         detail = {"max_width": max_width, "quality": quality, "full_res": full_res}
 
-        # === LOCAL ACTIONS (answered from the zapd provider list) ===
-        if action in ("list_mcp_instances", "list_browsers", "browsers"):
+        # === LOCAL ACTIONS ===
+        if action == "browsers":
             from hanzo_tools.browser.zapd_consumer import get_consumer
 
             consumer = get_consumer()
@@ -1190,24 +1081,20 @@ CATEGORIES:
             browsers = [p for p in provs if p.get("id", "").startswith("browser:")]
             return {"success": True, "transport": "native-zap", "browsers": browsers, "count": len(browsers)}
 
-        if action in ("claim_browser", "release_browser"):
-            # Exclusive leases were an in-process-server concept. The shared
-            # zapd router has no lease frame — target a specific provider with
-            # `target_browser` ("chrome"|"firefox") or `client_id` instead.
-            return {
-                "success": True,
-                "transport": "native-zap",
-                "note": "zapd is a shared router with no exclusive lease; pass target_browser or client_id to address a specific provider.",
-            }
+        # A wait with nothing to wait for is a pause; no browser needs asking.
+        if action == "wait" and not sel and not text and pause:
+            await asyncio.sleep(pause / 1000)
+            return {"success": True, "waited_ms": pause}
 
         # === BiDi FAST-PATH (Firefox via WebDriver BiDi) ===
         # When the firefox backend is targeted and Firefox exposes a BiDi remote
         # agent (launched with --remote-debugging-port=9222), drive it directly:
-        # real navigation + TRUSTED input, no CDP (Firefox is BiDi-only). Falls
-        # through to the extension / Playwright paths when BiDi is unavailable or
-        # the action isn't BiDi-mapped.
+        # real navigation + TRUSTED input, no CDP (Firefox is BiDi-only). Refs and
+        # labelled screenshots belong to the extension's page engine, so those
+        # never take this path. Falls through when BiDi is unavailable or the
+        # action isn't BiDi-mapped.
         bidi_target = target_browser or (self.backend if self.backend == "firefox" else None)
-        if bidi_target == "firefox":
+        if bidi_target == "firefox" and not by_ref and not annotate:
             bidi_res = await _bidi_dispatch(
                 action, url=url, selector=sel, text=text, code=code, key=key, detail=detail
             )
@@ -1215,56 +1102,26 @@ CATEGORIES:
                 return bidi_res
 
         # === BACKEND-AWARE ROUTING ===
-        # Actions supported by the CDP bridge / browser extension
-        extension_actions = {
-            "navigate", "navigate_back", "reload", "url", "title", "content",
-            "screenshot", "snapshot", "click", "dblclick", "hover",
-            "type", "fill", "clear", "press_key", "press",
-            "select_option", "check", "uncheck",
-            "evaluate", "wait", "wait_for_load",
-            "go_back", "go_forward", "get_url", "get_title", "get_tab_info",
-            "wait_for_navigation", "get_history", "create_tab", "close_tab",
-            "fetch",
-            "get_html", "set_html", "get_text", "set_text",
-            "get_attribute", "set_attribute", "remove_attribute",
-            "set_style", "add_class", "remove_class",
-            "insert_element", "remove_element",
-            "wait_for_selector", "query_selector_all",
-            "get_element_info", "get_page_info",
-            "observe_mutations", "computed_styles", "bounding_rects",
-            "inject_script", "inject_css",
-            "local_storage", "cookies",
-            "tabs", "new_tab", "select_tab",
-            # Multi-browser routing — persist a default-browser pick. Without
-            # one the extension auto-prefers firefox > safari > edge > chrome.
-            # (list_browsers/browsers are answered locally from the zapd
-            # provider list above, not routed to a provider.)
-            "set_default_browser", "use_browser",
-            "console", "network_requests", "status",
-            # Takeover actions (Phase 3)
-            "takeover", "release",
-        }
-
         backend = self.backend
         # Resolve browser filter from backend preference. Per-call override
         # (target_browser) wins over global backend so a single MCP session
         # can address Chrome and Firefox at different moments.
         browser_filter = (target_browser or
                           (backend if backend in ("firefox", "chrome") else None))
+        wire = "annotate" if action == "screenshot" and annotate else action
+        if action == "scroll" and delta_x is None and delta_y is None:
+            delta_y = 300
 
-        # Skip extension entirely for "playwright" backend
-        use_extension = backend != "playwright" and action in extension_actions
-
-        if use_extension:
+        if backend != "playwright" and spec.wire:
             ext_result = await _extension_command(
-                action,
+                wire,
                 browser=browser_filter,
                 tab_id=tab_id,
                 client_id=client_id,
                 detail=detail,
                 path=path,
                 url=url,
-                selector=sel,
+                selector=sel or ("html" if action == "get_html" else None),
                 text=text,
                 value=value,
                 code=code,
@@ -1273,42 +1130,42 @@ CATEGORIES:
                 key=key,
                 index=index,
                 tab_index=tab_index,
-                timeout=timeout,
+                timeout=pause,
                 state=state,
                 level=level,
+                attribute=attribute,
+                interactive=interactive,
+                compact=compact,
+                depth=depth,
+                urls=urls,
+                outline=outline,
+                filter=filter,
+                delta_x=delta_x,
+                delta_y=delta_y,
             )
-            if ext_result is not None and "error" not in ext_result:
-                # Build normalized response from extension bridge result
-                resp: dict[str, Any] = {"success": True, "source": "extension"}
-                if isinstance(ext_result, dict):
-                    resp.update(ext_result)
-                else:
-                    resp["result"] = ext_result
-                return resp
+            if "error" not in ext_result:
+                return _answer(action, ext_result)
 
-            # For explicit backends (firefox/chrome/extension), don't fall back to Playwright
-            if backend in ("firefox", "chrome", "extension"):
-                error_detail = ""
-                if ext_result and "error" in ext_result:
-                    error_detail = f": {ext_result['error']}"
-                return {
-                    "error": (f"Browser backend '{backend}' not available{error_detail}. "
-                              f"Ensure the Hanzo extension is installed and connected."),
-                    "action": action,
-                    "backend": backend,
-                }
+            # Refs and labels exist only in the extension, and an explicit
+            # backend means that browser: no Playwright stand-in for either.
+            if backend in ("firefox", "chrome", "extension") or by_ref or wire == "annotate":
+                return {"error": ext_result["error"], "action": action, "backend": backend}
+
+        if by_ref:
+            return {"error": f"{sel} is a snapshot ref, and refs come from the Hanzo extension; "
+                             "on headless Playwright pass a CSS selector.", "action": action}
+        if wire == "annotate":
+            return {"error": "annotate labels refs, which come from the Hanzo extension.", "action": action}
 
         # === FALL BACK TO PLAYWRIGHT ===
         if not PLAYWRIGHT_AVAILABLE:
             ext_connected = await _check_extension(browser=browser_filter)
             if ext_connected:
-                msg = (f"Action '{action}' is not supported by the browser extension "
-                       f"and Playwright is not installed for fallback. "
-                       f"Install Playwright: pip install playwright && playwright install chromium")
+                msg = (f"Action '{action}' runs on headless Playwright, which is not installed: "
+                       f"pip install playwright && playwright install chromium")
             else:
-                msg = ("Browser extension not connected and Playwright not installed. "
-                       "Either connect the Hanzo browser extension (start CDP bridge server) "
-                       "or install Playwright: pip install playwright && playwright install chromium")
+                msg = ("No browser: the Hanzo extension is not connected and Playwright is not installed. "
+                       "Connect the extension, or: pip install playwright && playwright install chromium")
             return {"error": msg, "action": action}
 
         pool = await BrowserPool.get_instance()
@@ -1369,9 +1226,6 @@ CATEGORIES:
                 await page.set_content(html, timeout=timeout)
                 return {"success": True, "set_content": True}
 
-            elif action == "content":
-                return {"success": True, "html": await page.content()}
-
             elif action == "url":
                 return {"success": True, "url": page.url}
 
@@ -1410,10 +1264,12 @@ CATEGORIES:
                 return {"success": True, "double_clicked": sel}
 
             elif action == "type":
-                if not sel or text is None:
-                    return {"error": "selector and text required"}
-                loc = self._get_locator(page, sel, frame)
-                await loc.type(text, timeout=timeout)
+                if text is None:
+                    return {"error": "text required"}
+                if sel:
+                    await self._get_locator(page, sel, frame).press_sequentially(text, timeout=timeout)
+                else:
+                    await page.keyboard.type(text)
                 return {"success": True, "typed": len(text), "selector": sel}
 
             elif action == "fill":
@@ -1422,13 +1278,6 @@ CATEGORIES:
                 loc = self._get_locator(page, sel, frame)
                 await loc.fill(text, timeout=timeout)
                 return {"success": True, "filled": sel}
-
-            elif action == "clear":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                await loc.clear(timeout=timeout)
-                return {"success": True, "cleared": sel}
 
             elif action == "press":
                 if not key:
@@ -1441,7 +1290,7 @@ CATEGORIES:
                 return {"success": True, "pressed": key}
 
             # === Forms ===
-            elif action == "select_option":
+            elif action == "select":
                 if not sel or value is None:
                     return {"error": "selector and value required"}
                 loc = self._get_locator(page, sel, frame)
@@ -1499,29 +1348,19 @@ CATEGORIES:
                 await page.mouse.up(button=button or "left")
                 return {"success": True, "button_up": button or "left"}
 
-            elif action == "mouse_wheel":
-                await page.mouse.wheel(delta_x or 0, delta_y or 0)
-                return {
-                    "success": True,
-                    "scrolled": {"delta_x": delta_x or 0, "delta_y": delta_y or 0},
-                }
-
             elif action == "scroll":
+                d = [delta_x or 0, delta_y or 0]
                 if sel:
-                    loc = self._get_locator(page, sel, frame)
-                    await loc.scroll_into_view_if_needed(timeout=timeout)
-                    return {"success": True, "scrolled_to": sel}
+                    await self._get_locator(page, sel, frame).evaluate("(e, d) => e.scrollBy(d[0], d[1])", d)
                 else:
-                    await page.evaluate(
-                        f"window.scrollBy({delta_x or 0}, {delta_y or 300})"
-                    )
-                    return {
-                        "success": True,
-                        "scrolled": {
-                            "delta_x": delta_x or 0,
-                            "delta_y": delta_y or 300,
-                        },
-                    }
+                    await page.evaluate("(d) => window.scrollBy(d[0], d[1])", d)
+                return {"success": True, "scrolled": {"delta_x": d[0], "delta_y": d[1]}}
+
+            elif action == "scroll_into_view":
+                if not sel:
+                    return {"error": "selector required"}
+                await self._get_locator(page, sel, frame).scroll_into_view_if_needed(timeout=timeout)
+                return {"success": True, "scrolled_to": sel}
 
             # === Touch ===
             elif action == "tap":
@@ -1567,135 +1406,6 @@ CATEGORIES:
                 )
                 return {"success": True, "pinched": sel, "scale": zoom}
 
-            # === Locator Creation ===
-            elif action == "locator":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                cnt = await loc.count()
-                return {
-                    "success": True,
-                    "selector": sel,
-                    "count": cnt,
-                    "visible": await loc.first.is_visible() if cnt > 0 else False,
-                }
-
-            elif action == "frame_locator":
-                if not sel:
-                    return {"error": "selector required"}
-                # Just validate frame exists
-                frame_loc = page.frame_locator(sel)
-                return {
-                    "success": True,
-                    "frame": sel,
-                    "note": "Use frame parameter in subsequent actions",
-                }
-
-            # === Built-in Locators ===
-            elif action == "get_by_role":
-                if not role:
-                    return {"error": "role required"}
-                loc = page.get_by_role(role, name=name, exact=exact)
-                cnt = await loc.count()
-                return {"success": True, "role": role, "name": name, "count": cnt}
-
-            elif action == "get_by_text":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_text(text, exact=exact)
-                return {"success": True, "text": text, "count": await loc.count()}
-
-            elif action == "get_by_label":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_label(text, exact=exact)
-                return {"success": True, "label": text, "count": await loc.count()}
-
-            elif action == "get_by_placeholder":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_placeholder(text, exact=exact)
-                return {
-                    "success": True,
-                    "placeholder": text,
-                    "count": await loc.count(),
-                }
-
-            elif action == "get_by_test_id":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_test_id(text)
-                return {"success": True, "test_id": text, "count": await loc.count()}
-
-            elif action == "get_by_alt_text":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_alt_text(text, exact=exact)
-                return {"success": True, "alt_text": text, "count": await loc.count()}
-
-            elif action == "get_by_title":
-                if not text:
-                    return {"error": "text required"}
-                loc = page.get_by_title(text, exact=exact)
-                return {"success": True, "title": text, "count": await loc.count()}
-
-            # === Locator Composition ===
-            elif action == "first":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame).first
-                visible = await loc.is_visible()
-                return {"success": True, "first": True, "visible": visible}
-
-            elif action == "last":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame).last
-                visible = await loc.is_visible()
-                return {"success": True, "last": True, "visible": visible}
-
-            elif action == "nth":
-                if not sel or index is None:
-                    return {"error": "selector and index required"}
-                loc = self._get_locator(page, sel, frame).nth(index)
-                visible = await loc.is_visible()
-                return {"success": True, "nth": index, "visible": visible}
-
-            elif action == "filter":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                filter_opts = {}
-                if has_text:
-                    filter_opts["has_text"] = has_text
-                if has_not_text:
-                    filter_opts["has_not_text"] = has_not_text
-                if has:
-                    filter_opts["has"] = page.locator(has)
-                if filter_opts:
-                    loc = loc.filter(**filter_opts)
-                return {"success": True, "filtered": True, "count": await loc.count()}
-
-            elif action == "all":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                elements = await loc.all()
-                results = []
-                for i, el in enumerate(elements):
-                    results.append(
-                        {
-                            "index": i,
-                            "visible": await el.is_visible(),
-                            "text": await el.text_content(),
-                        }
-                    )
-                return {
-                    "success": True,
-                    "count": len(results),
-                    "elements": results[:20],
-                }  # Limit to 20
-
             elif action == "count":
                 if not sel:
                     return {"error": "selector required"}
@@ -1707,19 +1417,9 @@ CATEGORIES:
                 if not sel:
                     return {"error": "selector required"}
                 loc = self._get_locator(page, sel, frame)
-                return {
-                    "success": True,
-                    "text": await loc.text_content(timeout=timeout),
-                }
-
-            elif action == "get_inner_text":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                return {
-                    "success": True,
-                    "inner_text": await loc.inner_text(timeout=timeout),
-                }
+                field = await loc.evaluate("e => ['input', 'textarea', 'select'].includes(e.localName)", timeout=timeout)
+                text_of = loc.input_value if field else loc.inner_text
+                return {"success": True, "text": await text_of(timeout=timeout)}
 
             elif action == "get_attribute":
                 if not sel or not attribute:
@@ -1729,15 +1429,6 @@ CATEGORIES:
                     "success": True,
                     "attribute": attribute,
                     "value": await loc.get_attribute(attribute, timeout=timeout),
-                }
-
-            elif action == "get_value":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                return {
-                    "success": True,
-                    "value": await loc.input_value(timeout=timeout),
                 }
 
             elif action == "get_html":
@@ -1769,12 +1460,6 @@ CATEGORIES:
                     "success": True,
                     "visible": await loc.is_visible(timeout=timeout),
                 }
-
-            elif action == "is_hidden":
-                if not sel:
-                    return {"error": "selector required"}
-                loc = self._get_locator(page, sel, frame)
-                return {"success": True, "hidden": await loc.is_hidden(timeout=timeout)}
 
             elif action == "is_enabled":
                 if not sel:
@@ -1933,12 +1618,11 @@ CATEGORIES:
                 return capture(await page.pdf(), fmt="pdf", path=path)
 
             elif action == "snapshot":
-                return {
-                    "success": True,
-                    "url": page.url,
-                    "title": await page.title(),
-                    "snapshot": await page.accessibility.snapshot(),
-                }
+                tree = await (self._get_locator(page, sel, frame) if sel else page.locator("body")).aria_snapshot(timeout=timeout)
+                return f"{await page.title()} — {page.url} (headless Playwright: no refs, act with CSS selectors)\n{tree}"
+
+            elif action == "read":
+                return f"{await page.title()} — {page.url}\n\n{await page.inner_text('body', timeout=timeout)}"
 
             elif action == "evaluate":
                 if not code:
@@ -1969,14 +1653,12 @@ CATEGORIES:
 
             # === Wait Primitives ===
             elif action == "wait":
-                if sel:
-                    loc = self._get_locator(page, sel, frame)
+                if sel or text:
+                    loc = self._get_locator(page, sel, frame) if sel else page.get_by_text(text).first
                     await loc.wait_for(timeout=timeout, state=state or "visible")
-                    return {"success": True, "found": sel}
-                elif timeout:
-                    await asyncio.sleep(timeout / 1000)
-                    return {"success": True, "waited_ms": timeout}
-                return {"error": "selector or timeout required"}
+                    return {"success": True, "met": True}
+                await page.wait_for_load_state("load", timeout=timeout)
+                return {"success": True, "loaded": True}
 
             elif action == "wait_for_load":
                 await page.wait_for_load_state(state or "load", timeout=timeout)
@@ -2137,23 +1819,6 @@ CATEGORIES:
                 path.write_text(json.dumps(storage_state, indent=2))
                 return {"success": True, "saved": auth_file}
 
-            # === Events ===
-            elif action == "on":
-                if not event:
-                    return {"error": "event required"}
-                # Events are auto-handled by _setup_page_listeners
-                return {
-                    "success": True,
-                    "listening": event,
-                    "note": "Use console/errors/dialog actions to retrieve captured events",
-                }
-
-            elif action == "off":
-                return {
-                    "success": True,
-                    "note": "Event listeners managed automatically",
-                }
-
             # === Dialogs ===
             elif action == "dialog":
                 if pool._state.pending_dialog:
@@ -2170,19 +1835,6 @@ CATEGORIES:
                         "accepted": accept,
                     }
                 return {"error": "No pending dialog"}
-
-            # === Frames ===
-            elif action == "frame":
-                if not sel:
-                    return {"error": "selector required for frame"}
-                return {
-                    "success": True,
-                    "frame": sel,
-                    "note": "Use frame parameter in subsequent actions",
-                }
-
-            elif action == "main_frame":
-                return {"success": True, "frame": "main"}
 
             # === File Chooser & Downloads ===
             elif action == "file_chooser":
@@ -2245,7 +1897,7 @@ CATEGORIES:
                 await pool.close()
                 return {"success": True, "closed": True}
 
-            elif action == "new_page" or action == "new_tab":
+            elif action == "new_tab":
                 new_page = await pool.new_page(url)
                 return {
                     "success": True,
@@ -2273,17 +1925,16 @@ CATEGORIES:
                 await pool.close_page(tab_index)
                 return {"success": True, "remaining_pages": len(pool.pages)}
 
+            elif action == "select_tab":
+                if tab_index is None:
+                    return {"error": "args.tab_index required"}
+                try:
+                    page = await pool.switch_page(tab_index)
+                except ValueError as e:
+                    return {"error": str(e)}
+                return {"success": True, "switched_to": tab_index, "url": page.url}
+
             elif action == "tabs":
-                if tab_index is not None:
-                    try:
-                        page = await pool.switch_page(tab_index)
-                        return {
-                            "success": True,
-                            "switched_to": tab_index,
-                            "url": page.url,
-                        }
-                    except ValueError as e:
-                        return {"error": str(e)}
                 return {
                     "success": True,
                     "count": len(pool.pages),
@@ -2348,255 +1999,49 @@ CATEGORIES:
             return {"error": str(e), "action": action}
 
     def register(self, mcp_server: FastMCP) -> None:
-        """Register the browser tool with an MCP server."""
+        """Register the browser tool: the core parameters typed, the rest in ``args``."""
         tool_instance = self
 
         @mcp_server.tool(name=self.name, description=self.description)
         async def browser(
-            action: Action,
-            url: Annotated[Optional[str], Field(description="URL")] = None,
-            selector: Annotated[
-                Optional[str], Field(description="CSS/XPath selector")
-            ] = None,
-            ref: Annotated[
-                Optional[str], Field(description="Alias for selector")
-            ] = None,
-            target_selector: Annotated[
-                Optional[str], Field(description="Target for drag")
-            ] = None,
-            text: Annotated[
-                Optional[str], Field(description="Text for type/fill/locators")
-            ] = None,
-            value: Annotated[
-                Optional[str], Field(description="Value for select/assertions")
-            ] = None,
-            key: Annotated[Optional[str], Field(description="Key for press")] = None,
-            code: Annotated[Optional[str], Field(description="JavaScript code")] = None,
-            html: Annotated[
-                Optional[str], Field(description="HTML for set_content")
-            ] = None,
-            attribute: Annotated[
-                Optional[str], Field(description="Attribute name")
-            ] = None,
-            role: Annotated[Optional[str], Field(description="ARIA role")] = None,
-            name: Annotated[Optional[str], Field(description="Accessible name")] = None,
-            exact: Annotated[bool, Field(description="Exact text match")] = False,
-            index: Annotated[
-                Optional[int], Field(description="Index for nth/count")
-            ] = None,
-            has_text: Annotated[
-                Optional[str], Field(description="Filter by text")
-            ] = None,
-            has_not_text: Annotated[
-                Optional[str], Field(description="Filter excluding text")
-            ] = None,
-            has: Annotated[
-                Optional[str], Field(description="Filter by nested selector")
-            ] = None,
-            files: Annotated[
-                Optional[list[str]], Field(description="Files for upload")
-            ] = None,
-            x: Annotated[Optional[int], Field(description="X coordinate")] = None,
-            y: Annotated[Optional[int], Field(description="Y coordinate")] = None,
-            button: Annotated[Optional[str], Field(description="Mouse button")] = None,
-            delta_x: Annotated[
-                Optional[int], Field(description="Horizontal delta")
-            ] = None,
-            delta_y: Annotated[
-                Optional[int], Field(description="Vertical delta")
-            ] = None,
-            direction: Annotated[
-                Optional[str], Field(description="Swipe direction")
-            ] = None,
-            distance: Annotated[
-                Optional[int], Field(description="Swipe distance")
-            ] = None,
-            scale: Annotated[Optional[float], Field(description="Pinch scale")] = None,
-            width: Annotated[Optional[int], Field(description="Viewport width")] = None,
-            height: Annotated[
-                Optional[int], Field(description="Viewport height")
-            ] = None,
-            device: Annotated[
-                Optional[str], Field(description="Device: mobile, tablet, laptop")
-            ] = None,
-            latitude: Annotated[
-                Optional[float], Field(description="Geo latitude")
-            ] = None,
-            longitude: Annotated[
-                Optional[float], Field(description="Geo longitude")
-            ] = None,
-            permission: Annotated[
-                Optional[str], Field(description="Permission to grant")
-            ] = None,
-            pattern: Annotated[Optional[str], Field(description="URL pattern")] = None,
-            response: Annotated[
-                Optional[dict], Field(description="Mock response")
-            ] = None,
-            status_code: Annotated[
-                Optional[int], Field(description="Mock status")
-            ] = None,
-            block: Annotated[bool, Field(description="Block request")] = False,
-            state: Annotated[
-                Optional[str], Field(description="Load state/wait state")
-            ] = None,
-            event: Annotated[Optional[str], Field(description="Event name")] = None,
-            expected: Annotated[
-                Optional[str], Field(description="Expected value for assertions")
-            ] = None,
-            not_: Annotated[bool, Field(description="Negate assertion")] = False,
-            timeout: Annotated[Optional[int], Field(description="Timeout ms")] = None,
-            full_page: Annotated[
-                bool, Field(description="Full page screenshot")
-            ] = False,
-            path: Annotated[
-                Optional[str],
-                Field(description="Where to write the screenshot/pdf capture"),
-            ] = None,
-            max_width: Annotated[
-                int,
-                Field(
-                    description=(
-                        "Longest edge of the inline screenshot, in pixels. 0 "
-                        "inlines the capture at native resolution."
-                    )
-                ),
-            ] = 1280,
-            quality: Annotated[
-                int, Field(description="Inline JPEG quality, 1-95.")
-            ] = 70,
-            full_res: Annotated[
-                bool,
-                Field(
-                    description=(
-                        "Inline the native-resolution PNG. Costs 15-25x the "
-                        "context; ask for it only when the pixels are the question."
-                    )
-                ),
-            ] = False,
-            tab_index: Annotated[Optional[int], Field(description="Tab index in current window")] = None,
-            tab_id: Annotated[
-                Optional[str],
-                Field(
-                    description=(
-                        "Target tab id. Accepts the targetId returned by the "
-                        "'tabs' action (e.g. 'tab-1888868904') or a numeric tab "
-                        "id. Required when many windows are open and the OS-active "
-                        "tab is not the one you want — without this every action "
-                        "is dispatched to whatever tab is currently focused."
-                    )
-                ),
-            ] = None,
-            client_id: Annotated[
-                Optional[str],
-                Field(
-                    description=(
-                        "Target a specific extension client (e.g. one Firefox "
-                        "instance vs another). Use the client_id returned by 'status'."
-                    )
-                ),
-            ] = None,
-            target_browser: Annotated[
-                Optional[str],
-                Field(description="Browser provider to dispatch to: 'chrome' | 'firefox'"),
-            ] = None,
-            cdp_endpoint: Annotated[
-                Optional[str], Field(description="CDP endpoint")
-            ] = None,
-            headless: Annotated[
-                Optional[bool], Field(description="Headless mode")
-            ] = None,
-            cookies: Annotated[
-                Optional[list[dict]], Field(description="Cookies")
-            ] = None,
-            storage_type: Annotated[
-                Optional[str], Field(description="local/session")
-            ] = None,
-            storage_data: Annotated[
-                Optional[dict], Field(description="Storage data")
-            ] = None,
-            auth_file: Annotated[
-                Optional[str], Field(description="Auth state file")
-            ] = None,
-            accept: Annotated[bool, Field(description="Accept dialog")] = True,
-            prompt_text: Annotated[
-                Optional[str], Field(description="Dialog text")
-            ] = None,
-            frame: Annotated[Optional[str], Field(description="Frame selector")] = None,
-            trace_path: Annotated[
-                Optional[str], Field(description="Trace output")
-            ] = None,
-            level: Annotated[Optional[str], Field(description="Console level")] = None,
+            action: Annotated[str, Field(description=f"{', '.join(CORE)}; help lists the rest")],
+            selector: Annotated[Optional[str], Field(description="Element: a snapshot ref (@e2) or a CSS selector")] = None,
+            url: Annotated[Optional[str], Field(description="navigate: the URL")] = None,
+            text: Annotated[Optional[str], Field(description="fill/type: the text; wait: text to appear")] = None,
+            key: Annotated[Optional[str], Field(description="press: Enter, Tab, Escape, ArrowDown, Control+a")] = None,
+            code: Annotated[Optional[str], Field(description="evaluate: JavaScript")] = None,
+            interactive: Annotated[bool, Field(description="snapshot: interactive elements only, flat")] = False,
+            compact: Annotated[bool, Field(description="snapshot: drop empty structure")] = False,
+            depth: Annotated[Optional[int], Field(description="snapshot: tree depth limit")] = None,
+            outline: Annotated[bool, Field(description="read: headings only")] = False,
+            filter: Annotated[Optional[str], Field(description="read: only sections that mention this")] = None,
+            annotate: Annotated[bool, Field(description="screenshot: box every ref, label [N] = @eN")] = False,
+            timeout: Annotated[Optional[int], Field(description="wait: milliseconds")] = None,
+            tab_id: Annotated[Optional[str], Field(description="Tab from tabs; default the active tab")] = None,
+            target_browser: Annotated[Optional[str], Field(description="chrome | firefox, when several are connected")] = None,
+            topic: Annotated[Optional[str], Field(description="help: one topic")] = None,
+            args: Annotated[Optional[dict], Field(description="Parameters of non-core actions, as help names them")] = None,
         ) -> Any:
-            """Complete browser automation with full Playwright API surface area."""
-            # One way for images: route through the SAME converter BaseTool.register
-            # uses, so a screenshot's ToolImage becomes a native MCP ImageContent
-            # block the client SEES — never a 250K-char base64 blob flattened into
-            # JSON text (which overflows the agent context and wedges the run).
+            extra = dict(args or {})
+            unknown = sorted(set(extra) - _ARGS)
+            if unknown:
+                return _result_to_mcp({"error": f"Unknown args {unknown}. Typed parameters go outside args; action=\"help\" names each action's args."})
             result = await tool_instance.execute(
-                action=action,
-                url=url,
-                selector=selector,
-                ref=ref,
-                target_selector=target_selector,
-                text=text,
-                value=value,
-                key=key,
-                code=code,
-                html=html,
-                attribute=attribute,
-                role=role,
-                name=name,
-                exact=exact,
-                index=index,
-                has_text=has_text,
-                has_not_text=has_not_text,
-                has=has,
-                files=files,
-                x=x,
-                y=y,
-                button=button,
-                delta_x=delta_x,
-                delta_y=delta_y,
-                direction=direction,
-                distance=distance,
-                scale=scale,
-                width=width,
-                height=height,
-                device=device,
-                latitude=latitude,
-                longitude=longitude,
-                permission=permission,
-                pattern=pattern,
-                response=response,
-                status_code=status_code,
-                block=block,
-                state=state,
-                event=event,
-                expected=expected,
-                not_=not_,
-                timeout=timeout,
-                full_page=full_page,
-                path=path,
-                max_width=max_width,
-                quality=quality,
-                full_res=full_res,
-                tab_index=tab_index,
-                tab_id=tab_id,
-                client_id=client_id,
-                target_browser=target_browser,
-                cdp_endpoint=cdp_endpoint,
-                headless=headless,
-                cookies=cookies,
-                storage_type=storage_type,
-                storage_data=storage_data,
-                auth_file=auth_file,
-                accept=accept,
-                prompt_text=prompt_text,
-                frame=frame,
-                trace_path=trace_path,
-                level=level,
+                action=action, selector=selector, url=url, text=text, key=key, code=code,
+                interactive=interactive, compact=compact, depth=depth, outline=outline, filter=filter,
+                annotate=annotate, timeout=timeout, tab_id=tab_id, target_browser=target_browser, topic=topic,
+                **extra,
             )
-            return _result_to_mcp(result)
+            # Text (a tree, a page, help) goes out as text; a dict as JSON, with any
+            # capture as a native image block rather than base64 in the text.
+            return result if isinstance(result, str) else _result_to_mcp(result)
+
+
+# What `args` may carry: every execute() parameter the schema does not type.
+_ARGS = frozenset(inspect.signature(BrowserTool.execute).parameters) - {
+    "self", "action", "selector", "url", "text", "key", "code", "interactive", "compact", "depth",
+    "outline", "filter", "annotate", "timeout", "tab_id", "target_browser", "topic",
+}
 
 
 def create_browser_tool(

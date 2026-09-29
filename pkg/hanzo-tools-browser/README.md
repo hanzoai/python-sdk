@@ -1,64 +1,41 @@
 # hanzo-tools-browser
 
-Browser automation tools for Hanzo MCP using Playwright.
+Browser tools for Hanzo MCP: `browser` drives the user's own browser through
+the Hanzo extension (headless Playwright when none is connected), `playwright`
+is the same tool pinned to Playwright, and `cdp` sends a raw DevTools method.
 
 ## Installation
 
 ```bash
 pip install hanzo-tools-browser
+pip install 'hanzo-tools-browser[playwright]' && playwright install chromium   # headless fallback
 ```
 
-## Tools
+## The loop
 
-### browser - Complete Playwright API
-70+ browser actions for full automation.
-
-**Navigation:**
 ```python
 browser(action="navigate", url="https://example.com")
-browser(action="go_back")
-browser(action="reload")
+browser(action="snapshot", interactive=True)       # - button "Sign in" [ref=e2]
+browser(action="click", selector="@e2")
+browser(action="fill", selector="@e3", text="user@example.com")
+browser(action="press", key="Enter")
+browser(action="read", outline=True)               # the page as markdown
+browser(action="screenshot", annotate=True)        # labels [N] = @eN, with a legend
 ```
 
-**Input:**
+`selector` takes a ref from the last snapshot or a CSS selector. A stale ref,
+or a click on an element covered by a banner or modal, is refused with what to
+do next.
+
+## Progressive surface
+
+The schema carries the core actions: navigate, snapshot, click, fill, type,
+press, read, screenshot, evaluate, wait, tabs, help. `browser(action="help")`
+lists the rest by topic, and their parameters go in `args`:
+
 ```python
-browser(action="click", selector="button.submit")
-browser(action="fill", selector="input[name=email]", text="user@example.com")
-browser(action="type", selector="textarea", text="Hello")
+browser(action="select", selector="@e4", args={"value": "Weekly"})
 ```
-
-**Touch/Mobile:**
-```python
-browser(action="tap", selector=".button")
-browser(action="swipe", selector=".carousel", direction="left")
-browser(action="emulate", device="mobile")  # or tablet, laptop
-```
-
-**Assertions:**
-```python
-browser(action="expect_visible", selector=".modal")
-browser(action="expect_text", selector="h1", expected="Welcome")
-browser(action="expect_url", expected="*/dashboard*")
-```
-
-**Content:**
-```python
-browser(action="get_text", selector=".content")
-browser(action="screenshot", full_page=True)
-browser(action="pdf")
-```
-
-**Parallel Agents:**
-```python
-# Each agent gets isolated session
-browser(action="new_context")  # Separate cookies/storage
-```
-
-**Device Presets:**
-- `mobile` - iPhone-like (390x844, touch)
-- `tablet` - iPad-like (1024x1366, touch)
-- `laptop` - MacBook-like (1440x900)
-- `iphone_14`, `pixel_7`, `ipad_pro`, etc.
 
 ## License
 

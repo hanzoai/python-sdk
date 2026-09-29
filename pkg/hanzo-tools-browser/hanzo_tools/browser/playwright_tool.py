@@ -48,19 +48,10 @@ class PlaywrightTool(BrowserTool):
 
     @property
     def description(self) -> str:
-        return """Playwright-pinned browser automation — peer of `browser` and `cdp`.
+        return """Headless Playwright Chromium, never the user's browser: the `browser`
+tool's actions, pinned to Playwright for deterministic runs. It has no snapshot
+refs (those come from the Hanzo extension through `browser`), so act with CSS
+selectors: snapshot answers an aria tree to read them from.
 
-Same action surface as `browser` but forces backend="playwright":
-- No extension dispatch (does not talk to Hanzo browser extension).
-- No legacy CDP HTTP bridge.
-- Pure async-playwright, headless by default.
-
-Use `browser` for auto-routing (extension > CDP-bridge > Playwright).
-Use `cdp` for raw Chrome DevTools Protocol method dispatch.
-Use `playwright` for deterministic headless automation.
-
-SCREENSHOTS: downscaled JPEG (~1280px, q70) by default to save context; the
-full-resolution capture is saved to a file whose path is returned — pass
-full_res=true (or max_width/quality) only when you need pixel detail.
-
-""" + BrowserTool.description.fget(self).split("CATEGORIES:", 1)[-1].rstrip()
+Core: navigate, snapshot, click, fill, type, press, read, screenshot, evaluate,
+wait, tabs. action="help" lists the rest; their parameters go in args."""

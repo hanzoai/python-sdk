@@ -1,350 +1,89 @@
 # hanzo-tools-browser
 
-Complete browser automation with full Playwright API. Provides 70+ actions for navigation, forms, mouse control, assertions, and more.
+One `browser` tool that drives the user's own browser, signed in, through the
+Hanzo extension, or a headless Playwright Chromium when no extension is
+connected. `playwright` is the same tool pinned to Playwright; `cdp` sends a raw
+DevTools method.
 
 ## Installation
 
 ```bash
 pip install hanzo-tools-browser
-playwright install chromium
+pip install 'hanzo-tools-browser[playwright]' && playwright install chromium   # headless fallback
 ```
 
-Or as part of the full toolkit:
-
-```bash
-pip install hanzo-mcp[tools-all]
-playwright install chromium
-```
-
-## Overview
-
-`hanzo-tools-browser` provides comprehensive browser automation:
-
-- **Navigation**: navigate, reload, go_back, go_forward
-- **Input**: click, type, fill, press, select_option
-- **Mouse**: hover, drag, scroll, mouse_move
-- **Touch**: tap, swipe, pinch (mobile emulation)
-- **Assertions**: expect_visible, expect_text, expect_url
-- **Content**: get_text, get_attribute, screenshot
-- **Storage**: cookies, localStorage, sessionStorage
-- **Network**: route (mock/block requests)
-
-## Quick Start
+## The loop: snapshot, act on refs, snapshot again
 
 ```python
-# Navigate to page
-browser(action="navigate", url="https://example.com")
-
-# Click a button
-browser(action="click", selector="button.submit")
-
-# Fill a form
-browser(action="fill", selector="input[name='email']", text="user@example.com")
-
-# Take screenshot
-browser(action="screenshot", full_page=True)
+browser(action="navigate", url="https://example.com/login")
+browser(action="snapshot", interactive=True)
+# Login — https://example.com/login (4 refs)
+# - textbox "Email" [ref=e3]
+# - textbox "Password" [ref=e4]
+# - checkbox "Remember me" [ref=e5]
+# - button "Sign in" [ref=e6]
+browser(action="fill", selector="@e3", text="me@example.com")
+browser(action="fill", selector="@e4", text="…")
+browser(action="click", selector="@e6")
+browser(action="read")                      # the page as markdown
 ```
 
-## Device Emulation
+- `snapshot` prints the rendered accessibility tree. Every node an agent can act
+  on carries `[ref=eN]`; `interactive=True` lists only those, flat. `compact`,
+  `depth` and `selector` (a CSS selector or a ref) trim it.
+- `selector` takes a ref (`@e3`, or `e3`) or a CSS selector, everywhere.
+- A ref names one element while that element stays on the page, across
+  snapshots. After a navigation, or once its element is removed, it is refused
+  with "run snapshot again".
+- A click on an element under a consent banner, modal or overlay is refused
+  before any event fires, and the error names the cover. Act on the cover, then
+  snapshot again.
+- `read` returns the page as markdown; `outline=True` keeps the headings,
+  `filter="pricing"` only the sections that mention it.
+- `screenshot annotate=True` boxes every on-screen ref and labels it `[N]`,
+  which is ref `@eN`, and returns the legend beside the image.
 
-Built-in device presets for responsive testing:
+Refs, `annotate` and the markdown reader live in the extension's page engine;
+on Playwright `snapshot` answers an aria tree without refs, so act with CSS
+selectors there.
+
+## Progressive surface
+
+The schema carries the core actions only:
+
+| Action | Parameters |
+| --- | --- |
+| `navigate` | `url` — returns once the page has loaded |
+| `snapshot` | `interactive`, `compact`, `depth`, `selector` |
+| `click`, `fill`, `type`, `press` | `selector`, `text`, `key` |
+| `read` | `outline`, `filter` |
+| `screenshot` | `annotate` |
+| `evaluate` | `code` |
+| `wait` | `selector` or `text`, `timeout` |
+| `tabs` | — (`tab_id` targets a tab in any action) |
+| `help` | `topic` |
+
+`browser(action="help")` lists every other action by topic (interact,
+navigation, tabs, page, assert, storage, network, emulation, debug) with a
+one-line usage each. Their parameters travel in `args`:
 
 ```python
-# User-friendly aliases
-browser(action="emulate", device="mobile")   # iPhone-like (390x844)
-browser(action="emulate", device="tablet")   # iPad-like (1024x1366)
-browser(action="emulate", device="laptop")   # MacBook-like (1440x900)
-browser(action="emulate", device="desktop")  # Full HD (1920x1080)
-
-# Specific devices
-browser(action="emulate", device="iphone_14")
-browser(action="emulate", device="pixel_7")
-browser(action="emulate", device="ipad_pro")
+browser(action="help", topic="interact")
+browser(action="select", selector="@e8", args={"value": "Weekly"})
+browser(action="scroll", args={"delta_y": 600})
+browser(action="screenshot", args={"full_page": True, "full_res": True})
+browser(action="emulate", args={"device": "iphone_14"})     # Playwright
 ```
 
-## Navigation
+Actions marked `(Playwright)` in help run on headless Playwright only.
 
-```python
-# Basic navigation
-browser(action="navigate", url="https://example.com")
-browser(action="reload")
-browser(action="go_back")
-browser(action="go_forward")
+## Screenshots
 
-# Get page info
-browser(action="url")    # Current URL
-browser(action="title")  # Page title
-browser(action="content")  # HTML content
-```
+A screenshot comes back as an image block, downscaled to 1280px JPEG; the
+native capture is written to a file whose path is returned. `args.full_res`
+inlines the native pixels.
 
-## Input Actions
+## Parallel agents (Playwright)
 
-```python
-# Click variants
-browser(action="click", selector="button")
-browser(action="dblclick", selector=".item")
-browser(action="right_click", selector=".context-menu")
-
-# Text input
-browser(action="type", selector="input", text="Hello", interval=0.1)
-browser(action="fill", selector="input", text="Instant fill")
-browser(action="clear", selector="input")
-
-# Keyboard
-browser(action="press", key="Enter")
-browser(action="press", key="Control+c")
-```
-
-## Form Handling
-
-```python
-# Select dropdowns
-browser(action="select_option", selector="select", value="option1")
-
-# Checkboxes
-browser(action="check", selector="input[type='checkbox']")
-browser(action="uncheck", selector="input[type='checkbox']")
-
-# File uploads
-browser(action="upload", selector="input[type='file']", files=["./doc.pdf"])
-```
-
-## Mouse Control
-
-```python
-# Hover
-browser(action="hover", selector=".menu-item")
-
-# Drag and drop
-browser(action="drag", selector=".draggable", target_selector=".dropzone")
-
-# Scroll
-browser(action="scroll", delta_y=500)
-browser(action="scroll", selector=".container", delta_y=300)
-
-# Mouse coordinates
-browser(action="mouse_move", x=100, y=200)
-browser(action="mouse_down")
-browser(action="mouse_up")
-```
-
-## Touch & Mobile
-
-```python
-# Touch actions
-browser(action="tap", selector="button")
-browser(action="swipe", direction="up", distance=300)
-browser(action="pinch", scale=0.5)  # Zoom out
-browser(action="pinch", scale=2.0)  # Zoom in
-```
-
-## Locators
-
-```python
-# CSS/XPath
-browser(action="locator", selector="div.class")
-browser(action="locator", selector="//button[@id='submit']")
-
-# Semantic locators
-browser(action="get_by_role", role="button", name="Submit")
-browser(action="get_by_text", text="Click me")
-browser(action="get_by_label", text="Email")
-browser(action="get_by_placeholder", text="Enter email")
-browser(action="get_by_test_id", text="submit-btn")
-
-# Composition
-browser(action="first", selector=".items")
-browser(action="last", selector=".items")
-browser(action="nth", selector=".items", index=2)
-browser(action="filter", selector=".items", has_text="Important")
-```
-
-## Assertions
-
-```python
-# Element assertions
-browser(action="expect_visible", selector=".modal")
-browser(action="expect_hidden", selector=".loading")
-browser(action="expect_enabled", selector="button")
-browser(action="expect_text", selector="h1", expected="Welcome")
-browser(action="expect_count", selector=".items", index=5)
-
-# Page assertions
-browser(action="expect_url", expected="*/dashboard*")
-browser(action="expect_title", expected="Dashboard")
-
-# Negative assertions
-browser(action="expect_visible", selector=".loading", not_=True)
-```
-
-## Content Extraction
-
-```python
-# Get text content
-browser(action="get_text", selector="h1")
-browser(action="get_inner_text", selector=".content")
-
-# Get attributes
-browser(action="get_attribute", selector="a", attribute="href")
-browser(action="get_value", selector="input")
-
-# Get HTML
-browser(action="get_html", selector=".container")
-
-# Get bounding box
-browser(action="get_bounding_box", selector=".element")
-```
-
-## State Checking
-
-```python
-browser(action="is_visible", selector=".modal")
-browser(action="is_hidden", selector=".loading")
-browser(action="is_enabled", selector="button")
-browser(action="is_editable", selector="input")
-browser(action="is_checked", selector="input[type='checkbox']")
-```
-
-## Screenshots & PDFs
-
-```python
-# Screenshots
-browser(action="screenshot")
-browser(action="screenshot", full_page=True)
-browser(action="screenshot", selector=".chart")
-
-# PDF export
-browser(action="pdf")
-```
-
-## Wait Operations
-
-```python
-# Wait for load states
-browser(action="wait_for_load", state="networkidle")
-browser(action="wait_for_url", url="*/success*")
-
-# Wait for elements
-browser(action="wait", selector=".loaded", state="visible")
-browser(action="wait", timeout=5000)
-
-# Wait for events
-browser(action="wait_for_event", event="download")
-browser(action="wait_for_response", pattern="*/api/*")
-```
-
-## Network Interception
-
-```python
-# Mock API responses
-browser(
-    action="route",
-    pattern="*/api/users*",
-    response={"users": [{"name": "Mock User"}]},
-    status_code=200
-)
-
-# Block requests
-browser(action="route", pattern="*.png", block=True)
-
-# Remove route
-browser(action="unroute", pattern="*/api/users*")
-```
-
-## Storage
-
-```python
-# Cookies
-browser(action="cookies")
-browser(action="cookies", cookies=[{"name": "token", "value": "abc"}])
-browser(action="clear_cookies")
-
-# Local/Session storage
-browser(action="storage", storage_type="local")
-browser(action="storage", storage_type="session", storage_data={"key": "value"})
-
-# Save/restore auth state
-browser(action="storage_state", auth_file="./auth.json")
-```
-
-## Tab Management
-
-```python
-# Multiple tabs
-browser(action="new_tab", url="https://example.com")
-browser(action="tabs")  # List all tabs
-browser(action="close_tab", tab_index=1)
-```
-
-## Parallel Agents
-
-For parallel execution, create isolated contexts:
-
-```python
-# Create new context (isolated cookies/storage)
-browser(action="new_context")
-
-# Each agent uses separate context
-# One Chrome process, many parallel sessions
-```
-
-## Configuration
-
-### Headless Mode
-
-```python
-# Toggle headless mode
-browser(action="set_headless", headless=True)
-browser(action="set_headless", headless=False)  # Show browser
-```
-
-### CDP Connection
-
-Share browser instance across MCPs:
-
-```bash
-BROWSER_CDP_ENDPOINT=http://localhost:9222 hanzo-mcp
-```
-
-## Examples
-
-### Login Flow
-
-```python
-# Navigate to login
-browser(action="navigate", url="https://app.example.com/login")
-
-# Fill credentials
-browser(action="fill", selector="input[name='email']", text="user@example.com")
-browser(action="fill", selector="input[name='password']", text="password123")
-
-# Submit
-browser(action="click", selector="button[type='submit']")
-
-# Wait for redirect
-browser(action="wait_for_url", url="*/dashboard*")
-
-# Verify login
-browser(action="expect_visible", selector=".user-menu")
-```
-
-### E2E Test
-
-```python
-# Test shopping cart
-browser(action="navigate", url="https://shop.example.com")
-browser(action="click", selector=".product-card:first-child button")
-browser(action="expect_text", selector=".cart-count", expected="1")
-browser(action="click", selector=".cart-icon")
-browser(action="expect_visible", selector=".cart-modal")
-browser(action="expect_text", selector=".total", expected="$99.00")
-```
-
-### Screenshot Comparison
-
-```python
-# Capture baseline
-browser(action="navigate", url="https://example.com")
-browser(action="screenshot", full_page=True)
-# Returns base64 image for comparison
-```
+`browser(action="new_context")` opens an isolated Playwright session with its
+own cookies and storage: one Chromium, one context per agent.
