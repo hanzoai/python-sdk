@@ -1,0 +1,37 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hanzo-tools-devserver"
+version = "0.1.0"
+description = "Dev server tool for Hanzo AI: find running Next/Vite/Nuxt/Astro/SvelteKit/Remix servers, call their MCP tools, read their errors"
+readme = "README.md"
+license = "MIT"
+requires-python = ">=3.12"
+authors = [{ name = "Hanzo Industries Inc", email = "dev@hanzo.ai" }]
+keywords = ["hanzo", "mcp", "tools", "devserver", "nextjs", "vite"]
+dependencies = [
+    "hanzo-tools>=0.3.6",
+    "hanzo-tools-mcp>=0.3.1",  # 0.3.1 carries the HTTP/SSE transport
+    "mcp>=1.25.0",
+    "httpx>=0.27.0",
+    "psutil>=6.1.1",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.0.0", "pytest-asyncio>=0.23.0"]
+
+[project.entry-points."hanzo.tools"]
+devserver = "hanzo_tools.devserver:TOOLS"
+
+[project.urls]
+Homepage = "https://github.com/hanzoai/python-sdk"
+Repository = "https://github.com/hanzoai/python-sdk"
+
+[tool.hatch.build.targets.wheel]
+packages = ["hanzo_tools"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]

@@ -59,6 +59,7 @@ dependencies = [
     "hanzo-tools-auth>=0.1.0",
     "hanzo-tools-mpc>=0.1.0",
     "hanzo-tools-ui>=0.1.0",
+    "hanzo-tools-devserver>=0.1.0",  # running dev servers as MCP nodes: index, call, errors
     "hanzo-persona>=1.0.0",
 ]
 

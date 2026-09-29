@@ -357,6 +357,34 @@ is not another identity's secret and which no catalog replaces.
 the retired alias mattered: a caller typing the old name was mapped off the live
 surface rather than onto it.
 
+## devserver — running dev servers as MCP nodes
+
+`pkg/hanzo-tools-devserver` registers `devserver` (`index`, `call`, `errors`, `help`).
+`hanzo_tools.devserver.discover()` is the seam: plain `DevServer` records (port, url,
+pid, framework, version, root, command, mcp, tools), one per listening port — the
+shape a ZAP node of kind devserver takes.
+
+- **Identification**: argv basename (Next renames its server `next-server (vX)`), the
+  nearest package.json naming a framework (most specific first, `vite` last), and
+  psutil's listening ports for the process.
+- **MCP**: Next 16 serves streamable HTTP at `/_next/mcp`; the Vite family serves SSE at
+  `/__mcp/sse` only with `vite-plugin-mcp` / `nuxt-mcp-dev`. A probe tries http, then
+  https, and caches the scheme that answered per port.
+- **One client**: `mcp_proxy.MCPServerConfig(url=…)` gives `MCPServerConnection` an
+  HTTP/SSE transport through the SDK (`http_session`); a loopback URL skips TLS
+  verification.
+- **Next's `get_errors` answers for connected browser sessions only** (measured on
+  16.3.7). At `load` the session is connected but has not reported the build error yet;
+  at `networkidle` it has. So `errors` opens the app through the `browser` tool with
+  `state=networkidle` before asking.
+- **Vite writes a transform error to its overlay, not the console.** `errors` reads the
+  `vite-error-overlay` shadow root. A plain `.js` syntax error is no transform error in
+  Vite 8; it reaches the browser and surfaces as a page error.
+- The browser keeps console messages and page errors across page loads, so `errors`
+  counts them before navigating and returns only the new ones.
+- Tests run MCP servers in a subprocess: the SDK's streamable HTTP server leaves memory
+  streams unclosed, and in-process the warnings-as-errors config blames the client.
+
 ## hanzo-kai — the Kai decisions client
 
 `pkg/hanzo-kai` (`import hanzo_kai`) is the Python client for Kai: `POST /v1/decisions`
@@ -397,8 +425,9 @@ against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v
   nothing else.
 - `pkg/hanzo/src/hanzo/cli.py` — the `hanzo` CLI command tree.
 - `pkg/hanzo-mcp/` — MCP server; tools via `[project.entry-points."hanzo.tools"]`.
-- `pkg/hanzo-tools-*/` — one concern each; 37 of the 38 register a `TOOLS` list under the
-  `hanzo.tools` entry point (`hanzo-tools-core` is the shared base, so it registers none).
+- `pkg/hanzo-tools-*/` — one concern each; 30 of the 39 register a `TOOLS` list under the
+  `hanzo.tools` entry point (`hanzo-tools-core` is the shared base, and the eight service
+  packages withdrawn above register none).
 - `pkg/hanzo-{agents,agent,network,memory}/` — agent/compute/memory libraries.
 - `pkg/hanzo-kms/` — KMS client. The server is **luxfi/kms** (`kms.hanzo.ai`,
   `kms.lux.cloud`) and its whole surface is `/v1/kms/auth/login` plus
