@@ -1,12 +1,54 @@
 {
-  "rule": "Kai's versioned id, kai- and the first 12 hex digits of its weights' SHA-256, is accepted on both paths, and /v1/systemone answers with it.",
+  "rule": "Kai's versioned id, kai- and the first 12 hex digits of its weights' SHA-256, is accepted as model on both paths, and /v1/systemone answers with it.",
   "cases": [
     {
       "name": "sent",
-      "path": [
-        "native",
-        "compat"
+      "path": "native",
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            },
+            "team": {
+              "type": "choice",
+              "instructions": "Which team should handle this?",
+              "criteria": {
+                "billing": "charges, invoices, refunds",
+                "tech": "bugs and outages",
+                "sales": "plans and upgrades"
+              }
+            },
+            "urgency": {
+              "type": "score",
+              "instructions": "How urgent is this?",
+              "criteria": [
+                "can wait",
+                "this week",
+                "today",
+                "right now"
+              ]
+            }
+          },
+          "model": "$version"
+        }
       ],
+      "expect": {
+        "status": 200,
+        "checks": [
+          "answered"
+        ]
+      }
+    },
+    {
+      "name": "sent",
+      "path": "compat",
       "send": [
         {
           "state": "I was charged twice for my March invoice. Please refund the duplicate.",
