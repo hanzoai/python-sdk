@@ -374,8 +374,12 @@ sentence becomes `error.message`. `hanzo/kai` bodies arrive with sorted keys, so
 read by name, and score maps are keyed and ordered by int level.
 
 `hanzo_kai.jev` is the Jev-compatibility layer: `Client.system_one` on `POST /v1/systemone`, Jev's
-body as `Response`, FastAPI errors as the same classes, `models.list()` on the `models` key. `from
-hanzo_kai.jev import Choice, Noul, Score, Client as TypeSafeClient` ports a TypeSafe program.
+body as `Response`, FastAPI errors as the same classes, and `models.list()` presenting the decision
+models of `data` in Jev's shape, because api.hanzo.ai keeps the `models` key empty. `from
+hanzo_kai.jev import Choice, Noul, Score, Client as TypeSafeClient` ports a TypeSafe program. A
+refusal over reach is `422` with `error.code` a name on both paths (`state_too_long`,
+`question_too_long`, `option_too_long`, `request_too_long`), as hanzoai/decision's
+`decision/src/error.rs` writes it.
 
 Tests: `cd pkg/hanzo-kai && uv run pytest`, over `httpx.MockTransport` with no network, each
 client test on both flavours; they are outside `hanzo.yml`'s gate, whose scope is the cloud

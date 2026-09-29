@@ -13,10 +13,19 @@ import sys
 import time
 import datetime
 import platform
+import functools
 
 import hanzo_kai
-from hanzo_kai import RetryPolicy
+from hanzo_kai import Kai, Noul, RetryPolicy
 from conformance import run, load, client
+
+
+@functools.cache
+def version(base: str) -> str:
+    """The served checkpoint's versioned id: `kai-` and the first 12 hex digits of its weights' SHA-256."""
+    with Kai(base_url=base) as kai:
+        d = kai.decide("ping", {"q": Noul(instructions="The message is a greeting.")})
+    return "kai-" + d.routing["sha256"][:12]
 
 
 def main() -> int:
@@ -36,7 +45,7 @@ def main() -> int:
         sdk, attempts = client(case, base_url=base, retry=RetryPolicy(max_retries=10))
         started = time.monotonic()
         with sdk:
-            failures = run(case, sdk, attempts)
+            failures = run(case, sdk, attempts, lambda: version(base))
         verdict = "FAIL" if failures else "PASS"
         counts[verdict] += 1
         took = f"{time.monotonic() - started:.1f} s"

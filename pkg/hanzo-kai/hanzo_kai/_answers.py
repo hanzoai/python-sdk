@@ -2,6 +2,7 @@
 
 import json
 from typing import Any, Literal, Annotated
+from datetime import UTC, datetime
 
 import httpx
 from pydantic import Field, BaseModel, ConfigDict, PrivateAttr, ValidationError, field_validator
@@ -181,19 +182,19 @@ class Model(BaseModel):
 
 
 class ModelMetadata(BaseModel):
-    """A model as the `models` key of `GET /v1/models` lists it."""
+    """A decision model in Jev's shape: its name, a description and its release date."""
 
     model_config = ConfigDict(extra="allow", frozen=True)
 
     name: str
     """The id to pass as `model`."""
-    description: str | None = None
+    description: str = ""
     release_date: str | None = None
-    """YYYY-MM-DD."""
+    """YYYY-MM-DD, the day the listing dates the model."""
 
 
 class ListModelsResponse(_Read):
-    """The `models` key of `GET /v1/models`."""
+    """The decision models of `GET /v1/models`, in Jev's shape."""
 
     models: tuple[ModelMetadata, ...] = ()
 
@@ -254,16 +255,24 @@ def models(response: httpx.Response) -> list[Model]:
 
 
 def catalog(response: httpx.Response) -> ListModelsResponse:
-    """The `models` key of `GET /v1/models`."""
-    data = parse(response)
-    if not isinstance(data, dict) or not isinstance(data.get("models"), list):
-        raise invalid(response, "models")
-    try:
-        result = ListModelsResponse.model_validate({"models": data["models"]})
-    except ValidationError as error:
-        raise invalid(response, where(error)) from error
-    result._response = response
-    return result
+    """The decision models `GET /v1/models` lists under `data`, in Jev's shape.
+
+    The name is the model's id, the description is empty, and the release date is the day of its
+    `created` time; the listing's own `models` key stays empty on api.hanzo.ai.
+    """
+    listing = ListModelsResponse(
+        models=tuple(
+            ModelMetadata(
+                name=model.id,
+                release_date=None
+                if model.created is None
+                else datetime.fromtimestamp(model.created, UTC).date().isoformat(),
+            )
+            for model in models(response)
+        )
+    )
+    listing._response = response
+    return listing
 
 
 def parse(response: httpx.Response) -> Any:

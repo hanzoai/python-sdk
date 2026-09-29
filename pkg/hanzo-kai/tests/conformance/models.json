@@ -1,5 +1,5 @@
 {
-  "rule": "GET /v1/models keeps `data` and adds `models`, listing each decision model's name, description and release date.",
+  "rule": "GET /v1/models lists the decision models under `data` and keeps its `models` key empty; hanzo_kai.jev lists `data` in Jev's shape.",
   "cases": [
     {
       "path": "native",

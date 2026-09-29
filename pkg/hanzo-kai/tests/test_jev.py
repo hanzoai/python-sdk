@@ -35,10 +35,16 @@ QUESTIONS = {
     "billing": jev.Noul(instructions="Is this about billing?"),
     "urgency": jev.Score(instructions="How urgent?", criteria=["can wait", {"when": "this week"}, ["today", "now"]]),
 }
+# As api.hanzo.ai lists them: the decision models under `data`, and `models` empty.
 LISTING = {
     "object": "list",
-    "data": [{"id": "kai", "object": "model", "outputs": ["decision"], "pricing": {"input": 0.021, "output": 0}}],
-    "models": [{"name": "kai", "description": "Kai, Hanzo's decision model", "release_date": "2026-09-28"}],
+    "data": [
+        {"id": "zen5", "object": "model", "created": 1790629327, "outputs": ["text"]},
+        {"id": "kai", "object": "model", "created": 1790629327, "owned_by": "hanzo", "outputs": ["decision"]},
+        {"id": "kai-a211cc701038", "object": "model", "created": 1790629327, "outputs": ["decision"]},
+        {"id": "no-date", "object": "model", "outputs": ["decision"]},
+    ],
+    "models": [],
 }
 
 
@@ -172,18 +178,20 @@ def test_retries_honour_the_headers(compat: Build, slept: list[float]) -> None:
     assert [r.headers.get("x-kai-retry-count") for r in wire.requests] == [None, "1", "2"]
 
 
-def test_models_reads_the_models_key(compat: Build) -> None:
+def test_models_reads_the_catalogue(compat: Build) -> None:
     wire = Wire(reply(json_body=LISTING, headers={"x-request-id": "req-m"}))
     listing = compat(wire).models()
     assert isinstance(listing, jev.ListModelsResponse)
     assert str(wire.requests[0].url) == "https://api.hanzo.ai/v1/models"
     assert listing.models == (
-        jev.ModelMetadata(name="kai", description="Kai, Hanzo's decision model", release_date="2026-09-28"),
+        jev.ModelMetadata(name="kai", description="", release_date="2026-09-28"),
+        jev.ModelMetadata(name="kai-a211cc701038", description="", release_date="2026-09-28"),
+        jev.ModelMetadata(name="no-date", description="", release_date=None),
     )
     assert listing.request_id == "req-m"
     with pytest.raises(jev.APIResponseValidationError) as caught:
-        compat(Wire(reply(json_body={"data": []}))).models()
-    assert caught.value.field_path == "models"
+        compat(Wire(reply(json_body={"models": []}))).models()
+    assert caught.value.field_path == "data"
 
 
 def test_one_line_port(monkeypatch: pytest.MonkeyPatch) -> None:

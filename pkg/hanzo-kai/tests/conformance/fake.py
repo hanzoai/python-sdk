@@ -16,40 +16,34 @@ from typing import Any
 import httpx
 
 KEY = "sk-test-4b1d9c0e7f"
-REACH = 8192
-"""Tokens of state and one question the served checkpoint reads."""
-VERSION = "kai-a10"
-"""The versioned id `kai` resolves to."""
+SHA256 = hashlib.sha256(b"the fake checkpoint's weights").hexdigest()
+VERSION = f"kai-{SHA256[:12]}"
+"""The versioned id: `kai-` and the first 12 hex digits of the weights' SHA-256."""
+READS = 1024
+"""Tokens of state and one question the served checkpoint reads; a question may take half."""
+OPTION = 512
+"""Tokens of one option read whole."""
+STATE = 131072
+"""Tokens of state the wire carries."""
+BODY = 16 * 1024 * 1024
+"""Bytes of body the service reads."""
 NATIVE = frozenset({"kai", "hanzo/kai", VERSION})
 COMPAT = frozenset({"kai", VERSION})
 FAULTS = {402: "insufficient balance", 429: "rate limited", 529: "overloaded"}
+CREATED = 1790629327
 LISTING = {
     "object": "list",
     "data": [
-        {
-            "id": "hanzo/kai",
-            "object": "model",
-            "owned_by": "hanzo",
-            "outputs": ["decision"],
-            "pricing": {"input": 0.021, "output": 0},
-        },
-        {
-            "id": "kai",
-            "object": "model",
-            "owned_by": "hanzo",
-            "outputs": ["decision"],
-            "pricing": {"input": 0.021, "output": 0},
-        },
-        {
-            "id": "zen5",
-            "object": "model",
-            "owned_by": "hanzo",
-            "outputs": ["text"],
-            "pricing": {"input": 1, "output": 2},
-        },
+        {"id": "hanzo/kai", "object": "model", "created": CREATED, "owned_by": "hanzo", "outputs": ["decision"]},
+        {"id": "kai", "object": "model", "created": CREATED, "owned_by": "hanzo", "outputs": ["decision"]},
+        {"id": VERSION, "object": "model", "created": CREATED, "owned_by": "hanzo", "outputs": ["decision"]},
+        {"id": "zen5", "object": "model", "created": CREATED, "owned_by": "hanzo", "outputs": ["text"]},
     ],
-    "models": [{"name": "kai", "description": "Kai, Hanzo's decision model", "release_date": "2026-09-28"}],
+    "models": [],
 }
+
+
+REACH = frozenset({"state_too_long", "question_too_long", "option_too_long", "request_too_long"})
 
 
 class Refusal(Exception):
@@ -66,7 +60,12 @@ class Refusal(Exception):
             return {"detail": self.message}
         if self.status == 401:
             return {"status": "error", "msg": self.message}
-        return {"error": {"code": self.code or self.status, "message": self.message}}
+        return {
+            "error": {
+                "code": self.code if self.status == 422 and self.code in REACH else self.status,
+                "message": self.message,
+            }
+        }
 
 
 class Service:
@@ -90,6 +89,8 @@ class Service:
                 status, extra = self.faults.pop(0)
                 headers.update(extra)
                 raise Refusal(status, FAULTS[status])
+            if len(request.content) > BODY:
+                raise Refusal(422, f"the body is over {BODY} bytes", "request_too_long")
             try:
                 body = json.loads(request.content)
             except ValueError as error:
@@ -110,11 +111,7 @@ def answer(body: dict[str, Any], compat: bool) -> dict[str, Any]:
     if not isinstance(questions, dict) or not 1 <= len(questions) <= 100:
         raise Refusal(422, "questions holds 1 to 100 questions", loc=("body", "questions"))
     asked = {name: question(name, q, compat) for name, q in questions.items()}
-    need = tokens(state) + max(cost(q) for q in asked.values())
-    if need > REACH:
-        raise Refusal(
-            422, f"state and question need {need} tokens; Kai reads {REACH}", "state_too_long", ("body", "state")
-        )
+    reach(state, asked)
     answers = {name: decide(state, q, compat) for name, q in asked.items()}
     usage = {"input_tokens": tokens(state) + sum(cost(q) for q in asked.values()), "output_tokens": 0}
     if compat:
@@ -126,7 +123,7 @@ def answer(body: dict[str, Any], compat: bool) -> dict[str, Any]:
         "provider": "Hanzo",
         "answers": answers,
         "usage": usage,
-        "routing": {"backend": "kai", "checkpoint": "fake"},
+        "routing": {"backend": "kai", "checkpoint": "fake", "sha256": SHA256},
         "state_hash": f"sha256:{digest}",
         "latency_ms": 1.0,
     }
@@ -163,6 +160,40 @@ def question(name: str, q: Any, compat: bool) -> dict[str, Any]:
             raise Refusal(422, "a score level is null", loc=(*loc, "criteria"))
         options = [(str(level), text) for level, text in enumerate(criteria)]
     return {"type": kind, "instructions": q.get("instructions"), "options": options, "labels": q.get("labels")}
+
+
+def reach(state: Any, asked: dict[str, dict[str, Any]]) -> None:
+    """Refuses, by name, the part of a request the checkpoint would have to cut."""
+    held = tokens(state)
+    if held > STATE:
+        raise Refusal(
+            422, f"the state takes {held} tokens; the wire carries {STATE}", "state_too_long", ("body", "state")
+        )
+    for name, q in asked.items():
+        at = ("body", "questions", name, q["type"])
+        prompt = tokens(q["instructions"]) + 3
+        if prompt > READS // 2:
+            raise Refusal(
+                422,
+                f"question {name!r} takes {prompt} tokens; Kai reads {READS // 2}",
+                "question_too_long",
+                (*at, "instructions"),
+            )
+        if prompt + held > READS:
+            raise Refusal(
+                422,
+                f"the state and question {name!r} take {prompt + held} tokens; Kai reads {READS}",
+                "state_too_long",
+                ("body", "state"),
+            )
+        for key, text in q["options"]:
+            if tokens(key) + tokens(text) > OPTION:
+                raise Refusal(
+                    422,
+                    f"option {key} of question {name!r} is over {OPTION} tokens",
+                    "option_too_long",
+                    (*at, "criteria", key),
+                )
 
 
 def decide(state: Any, q: dict[str, Any], compat: bool) -> dict[str, Any]:

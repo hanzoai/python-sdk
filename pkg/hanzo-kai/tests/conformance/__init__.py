@@ -9,7 +9,8 @@ Each `*.json` beside this file holds a `rule` and its `cases`. A case names its 
 `live_conformance.py` runs them against the API.
 
 Generators keep large requests short: `{"$questions": [n, question or [questions]]}`,
-`{"$labels": n}`, `{"$levels": n}` and `{"$words": n}`.
+`{"$labels": n}`, `{"$levels": n}`, `{"$words": n}` and `{"$bytes": n}`. A `model` of `"$version"`
+is the served checkpoint's versioned id, which the runner resolves.
 """
 
 import re
@@ -95,6 +96,9 @@ def expand(value: Any) -> Any:
             return [f"level {index}" for index in range(arg)]
         if key == "$words":
             return " ".join(WORDS[index % len(WORDS)] for index in range(arg))
+        if key == "$bytes":
+            line = " ".join(WORDS) + " "
+            return (line * (arg // len(line) + 1))[:arg]
     return {key: expand(item) for key, item in value.items()}
 
 
@@ -114,9 +118,14 @@ def client(
     return sdk, lambda: len(sent)
 
 
-def run(case: Case, sdk: Kai | Client, attempts: Callable[[], int]) -> list[str]:
-    """What did not hold when the case went through `sdk`; empty when it passed."""
-    outcomes = [call(case, sdk, body) for body in case.send]
+def run(case: Case, sdk: Kai | Client, attempts: Callable[[], int], version: Callable[[], str]) -> list[str]:
+    """What did not hold when the case went through `sdk`; empty when it passed.
+
+    `version` gives the served checkpoint's versioned id, for a case that sends `"$version"`.
+    """
+    outcomes = [
+        call(case, sdk, {**body, "model": version()} if body.get("model") == "$version" else body) for body in case.send
+    ]
     expect = case.expect
     failures = [problem for outcome in outcomes for problem in verdict(expect, outcome)]
     if failures:
@@ -307,26 +316,25 @@ def model_kai(case: Case, outcomes: list[Outcome]) -> list[str]:
 
 
 def catalog(case: Case, outcomes: list[Outcome]) -> list[str]:
-    """`GET /v1/models` lists decision models under `models` with name, description and release date."""
+    """`hanzo_kai.jev` lists the decision models of `data` in Jev's shape, and the `models` key stays `[]`."""
     problems = []
     for listing in outcomes:
         if not isinstance(listing, ListModelsResponse):
             return [f"not a listing: {said(listing)}"]
-        data = listing.raw_http_response.json()
-        rows = data.get("models")
-        if not isinstance(rows, list) or not rows:
-            return [f"models key {rows!r}"]
-        for row in rows:
-            ok = isinstance(row, dict) and all(
-                isinstance(row.get(k), str) for k in ("name", "description", "release_date")
-            )
-            if not ok or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", row["release_date"]):
-                problems.append(f"row {row!r}")
-        if not any(isinstance(row, dict) and row.get("name") == "kai" for row in rows):
-            problems.append("no row named kai")
-        if "data" not in data:
-            problems.append("the data key is gone")
+        if not listing.models or "kai" not in [m.name for m in listing.models]:
+            problems.append(f"models {listing.models!r}")
+        for m in listing.models:
+            if not isinstance(m.description, str) or not re.fullmatch(r"\d{4}-\d{2}-\d{2}", m.release_date or ""):
+                problems.append(f"row {m!r}")
+        raw = listing.raw_http_response.json()
+        if raw.get("models") != [] or "data" not in raw:
+            problems.append(f"models key {raw.get('models')!r}, data key {'present' if 'data' in raw else 'gone'}")
     return problems
+
+
+def versioned(case: Case, outcomes: list[Outcome]) -> list[str]:
+    """The answer names Kai's versioned id: `kai-` and 12 hex digits of its weights' SHA-256."""
+    return [f"model {r.model!r}" for r in responses(outcomes) if not re.fullmatch(r"kai-[0-9a-f]{12}", r.model)]
 
 
 def data(case: Case, outcomes: list[Outcome]) -> list[str]:
@@ -382,6 +390,7 @@ CHECKS: dict[str, Check] = {
         answered,
         model_kai,
         catalog,
+        versioned,
         data,
         request_id,
         fastapi,

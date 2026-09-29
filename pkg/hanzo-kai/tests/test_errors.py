@@ -121,6 +121,41 @@ BODIES: list[tuple[int, dict[str, Any] | None, str | None, str, Any]] = [
         "questions.q.criteria: at most 255 labels; state: field required",
         "too_long",
     ),
+    # every reach refusal names what is over, on either path
+    *(
+        row
+        for code, message, loc in (
+            (
+                "question_too_long",
+                "question 'q' takes 900 tokens with its type line",
+                ["body", "questions", "q", "noul", "instructions"],
+            ),
+            (
+                "option_too_long",
+                "option refund of question 'q' takes 600 tokens",
+                ["body", "questions", "q", "choice", "criteria", "refund"],
+            ),
+            ("request_too_long", "the body is over 16777216 bytes", ["body"]),
+        )
+        for row in (
+            (422, {"error": {"code": code, "message": message}}, None, message, code),
+            (
+                422,
+                {"detail": [{"loc": loc, "msg": message, "type": code}]},
+                None,
+                ": ".join(filter(None, [".".join(loc[1:]), message])),
+                code,
+            ),
+        )
+    ),
+    # a schema refusal keeps the status as its code
+    (
+        422,
+        {"error": {"code": 422, "message": "questions: at least 1 question"}},
+        None,
+        "questions: at least 1 question",
+        422,
+    ),
 ]
 
 

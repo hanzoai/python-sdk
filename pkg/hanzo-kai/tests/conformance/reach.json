@@ -1,7 +1,8 @@
 {
-  "rule": "A state that does not fit what Kai reads is refused with 422 and code `state_too_long`; nothing is cut.",
+  "rule": "What the checkpoint would have to cut is refused with 422 and named in code: a state or a question past what Kai reads, an option past 512 tokens, a body past 16 MiB; nothing is cut.",
   "cases": [
     {
+      "name": "state",
       "path": [
         "native",
         "compat"
@@ -27,6 +28,89 @@
         "status": 422,
         "error": "UnprocessableEntityError",
         "code": "state_too_long"
+      }
+    },
+    {
+      "name": "question",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": {
+                "$words": 2000
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "code": "question_too_long"
+      }
+    },
+    {
+      "name": "option",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": "I was charged twice for my March invoice. Please refund the duplicate.",
+          "questions": {
+            "team": {
+              "type": "choice",
+              "instructions": "Which team should handle this?",
+              "criteria": {
+                "billing": {
+                  "$words": 1000
+                },
+                "tech": "bugs and outages"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "code": "option_too_long"
+      }
+    },
+    {
+      "name": "request",
+      "path": [
+        "native",
+        "compat"
+      ],
+      "send": [
+        {
+          "state": {
+            "$bytes": 17825792
+          },
+          "questions": {
+            "billing": {
+              "type": "noul",
+              "instructions": "Is this about billing?",
+              "criteria": {
+                "true": "it concerns charges, invoices or refunds",
+                "false": "it concerns something else"
+              }
+            }
+          }
+        }
+      ],
+      "expect": {
+        "status": 422,
+        "error": "UnprocessableEntityError",
+        "code": "request_too_long"
       }
     }
   ]

@@ -3,7 +3,7 @@
 import httpx
 import pytest
 from conformance import CHECKS, Case, run, load, client
-from conformance.fake import KEY, Service
+from conformance.fake import KEY, VERSION, Service
 
 CASES = load()
 
@@ -12,7 +12,7 @@ CASES = load()
 def test_contract(case: Case, slept: list[float]) -> None:
     sdk, attempts = client(case, key=KEY, transport=httpx.MockTransport(Service(case.fault)))
     with sdk:
-        assert run(case, sdk, attempts) == []
+        assert run(case, sdk, attempts, lambda: VERSION) == []
 
 
 def test_fixtures() -> None:
@@ -33,6 +33,7 @@ def test_fixtures() -> None:
         "legend",
         "models",
         "request_id",
+        "versioned",
     ):
         assert any(name.startswith(f"{rule}/") for name in names), rule
     used = {check for case in CASES for check in case.expect.get("checks", [])}
@@ -62,5 +63,5 @@ def test_a_broken_service_fails_the_checks() -> None:
         case = next(c for c in CASES if c.name == f"{rule}/native")
         sdk, attempts = client(case, key=KEY, transport=httpx.MockTransport(broken))
         with sdk:
-            failures = run(case, sdk, attempts)
+            failures = run(case, sdk, attempts, lambda: VERSION)
         assert failures, check
