@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools"
-version = "0.3.6"
+version = "0.3.7"
 description = "Hanzo AI tools - core infrastructure and tool bundles"
 readme = "README.md"
 requires-python = ">=3.12"
@@ -19,7 +19,7 @@ keywords = ["hanzo", "tools", "mcp", "ai", "agent"]
 
 # Core dependencies (merged from hanzo-tools-core)
 dependencies = [
-    "mcp>=1.25.0",
+    "mcp>=1.25.0,<2",
     "fastmcp>=2.14.1",
     "pydantic>=2.12.5",
     "typing-extensions>=4.13.0",

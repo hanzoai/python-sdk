@@ -21,7 +21,7 @@ dependencies = [
     # 2.2.1 is the first release shipping hanzoai.protocols (permissions.py imports it)
     "hanzoai>=2.2.1",
     # Core MCP dependencies
-    "mcp>=1.25.0",
+    "mcp>=1.25.0,<2",
     "fastmcp>=2.14.4",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.12.0",
