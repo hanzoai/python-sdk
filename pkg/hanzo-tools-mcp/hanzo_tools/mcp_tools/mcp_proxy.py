@@ -18,19 +18,82 @@ import shutil
 import asyncio
 import logging
 import subprocess
-from typing import Any, Dict, List, Callable, Optional, Awaitable
+from typing import Any, Dict, List, Callable, Optional, Awaitable, AsyncIterator
 from pathlib import Path
+from datetime import timedelta
+from contextlib import AsyncExitStack, asynccontextmanager
 from dataclasses import field, dataclass
+from urllib.parse import urlparse
+
+import httpx
+from mcp import ClientSession
+from mcp.client.sse import sse_client
+from mcp.client.streamable_http import streamable_http_client
 
 logger = logging.getLogger(__name__)
+
+LOOPBACK = frozenset({"localhost", "127.0.0.1", "::1"})
+
+
+@asynccontextmanager
+async def http_session(url: str, timeout: float = 30.0) -> AsyncIterator[ClientSession]:
+    """An initialized MCP session over HTTP: SSE when the path ends in /sse,
+    streamable HTTP otherwise.
+
+    A loopback URL skips TLS verification: a local dev server's certificate is
+    self-signed, and the bytes never leave the machine.
+    """
+    verify = urlparse(url).hostname not in LOOPBACK
+
+    def client(
+        headers: Optional[Dict[str, str]] = None,
+        timeout: Optional[httpx.Timeout] = None,
+        auth: Optional[httpx.Auth] = None,
+    ) -> httpx.AsyncClient:
+        return httpx.AsyncClient(
+            headers=headers,
+            timeout=timeout,
+            auth=auth,
+            verify=verify,
+            follow_redirects=True,
+        )
+
+    async with AsyncExitStack() as stack:
+        if urlparse(url).path.endswith("/sse"):
+            read, write = await stack.enter_async_context(
+                sse_client(url, timeout=timeout, httpx_client_factory=client)
+            )
+        else:
+            http = await stack.enter_async_context(
+                client(timeout=httpx.Timeout(timeout))
+            )
+            read, write, _ = await stack.enter_async_context(
+                streamable_http_client(url, http_client=http)
+            )
+        session = await stack.enter_async_context(
+            ClientSession(read, write, read_timeout_seconds=timedelta(seconds=timeout))
+        )
+        await session.initialize()
+        yield session
+
+
+def _cause(error: BaseException) -> str:
+    """The one error inside the task groups the MCP client transports nest."""
+    while isinstance(error, BaseExceptionGroup) and len(error.exceptions) == 1:
+        error = error.exceptions[0]
+    return f"{type(error).__name__}: {error}"
 
 
 @dataclass
 class MCPServerConfig:
-    """Configuration for an external MCP server."""
+    """Configuration for an external MCP server.
+
+    ``command`` spawns a stdio server; ``url`` reaches a running one over HTTP.
+    """
 
     name: str
-    command: List[str]
+    command: List[str] = field(default_factory=list)
+    url: Optional[str] = None
     env: Dict[str, str] = field(default_factory=dict)
     working_dir: Optional[str] = None
     description: str = ""
@@ -65,9 +128,13 @@ class MCPServerConnection:
         self._request_id = 0
         self._pending_requests: Dict[int, asyncio.Future] = {}
         self._read_task: Optional[asyncio.Task] = None
+        self.error: Optional[str] = None
 
     async def connect(self) -> bool:
         """Connect to the MCP server."""
+        if self.config.url:
+            return await self._connect_http()
+
         if self.process is not None:
             return True
 
@@ -122,9 +189,33 @@ class MCPServerConnection:
             return True
 
         except Exception as e:
+            self.error = str(e)
             logger.error(f"Failed to connect to MCP server '{self.config.name}': {e}")
             await self.disconnect()
             return False
+
+    async def _connect_http(self) -> bool:
+        """List an HTTP server's tools. HTTP holds no connection open, so each
+        request opens its own session."""
+        try:
+            async with http_session(self.config.url) as session:
+                listed = await session.list_tools()
+        except Exception as e:
+            self.error = _cause(e)
+            logger.error(
+                f"Failed to connect to MCP server '{self.config.name}': {self.error}"
+            )
+            return False
+        self.tools = [
+            ProxiedTool(
+                name=tool.name,
+                description=tool.description or "",
+                input_schema=tool.inputSchema,
+                server_name=self.config.name,
+            )
+            for tool in listed.tools
+        ]
+        return True
 
     async def disconnect(self):
         """Disconnect from the MCP server."""
@@ -261,7 +352,12 @@ class MCPServerConnection:
             logger.warning(f"Failed to discover tools from '{self.config.name}': {e}")
 
     async def call_tool(self, tool_name: str, arguments: Dict[str, Any]) -> Any:
-        """Call a tool on the MCP server."""
+        """Call a tool on the MCP server; the result is the JSON-RPC result either way."""
+        if self.config.url:
+            async with http_session(self.config.url) as session:
+                result = await session.call_tool(tool_name, arguments)
+            return result.model_dump(mode="json", by_alias=True, exclude_none=True)
+
         result = await self._send_request(
             "tools/call",
             {

@@ -65,6 +65,7 @@ try:
         MCPServerConfig,
         MCPProxyRegistry,
         MCPServerConnection,
+        http_session,
         call_mcp_tool,
         enable_mcp_server,
     )
@@ -76,6 +77,7 @@ except ImportError as e:
     ProxiedTool = None
     enable_mcp_server = None
     call_mcp_tool = None
+    http_session = None
     BUILTIN_SERVERS = {}
 
 TOOLS = _tools
@@ -94,6 +96,7 @@ __all__ = [
     "ProxiedTool",
     "enable_mcp_server",
     "call_mcp_tool",
+    "http_session",
     "BUILTIN_SERVERS",
     "register_tools",
 ]
