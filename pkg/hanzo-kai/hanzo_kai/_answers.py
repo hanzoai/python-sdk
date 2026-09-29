@@ -161,12 +161,16 @@ class Decision(Response):
 
 
 class Pricing(BaseModel):
-    """List prices in US dollars per million tokens."""
+    """List prices in US dollars, per token and per million tokens."""
 
     model_config = ConfigDict(extra="allow", frozen=True)
 
-    input: float | None = None
-    output: float | None = None
+    prompt: str | None = None
+    """Per input token, as a decimal string (OpenRouter's key and unit)."""
+    completion: str | None = None
+    """Per output token, as a decimal string."""
+    input_per_million: float | None = None
+    output_per_million: float | None = None
 
 
 class Model(BaseModel):

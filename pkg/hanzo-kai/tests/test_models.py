@@ -18,7 +18,12 @@ LISTING = {
             "premium": True,
             "context_window": 131072,
             "outputs": ["text"],
-            "pricing": {"input": 0.96, "output": 1.92},
+            "pricing": {
+                "prompt": "0.00000096",
+                "completion": "0.00000192",
+                "input_per_million": 0.96,
+                "output_per_million": 1.92,
+            },
         },
         {
             "id": "hanzo/kai",
@@ -27,7 +32,12 @@ LISTING = {
             "owned_by": "hanzo",
             "premium": False,
             "outputs": ["decision"],
-            "pricing": {"input": 0.021, "output": 0},
+            "pricing": {
+                "prompt": "0.000000021",
+                "completion": "0",
+                "input_per_million": 0.021,
+                "output_per_million": 0,
+            },
         },
         {
             "id": "kai",
@@ -36,9 +46,19 @@ LISTING = {
             "owned_by": "hanzo",
             "premium": False,
             "outputs": ["decision"],
-            "pricing": {"input": 0.021, "output": 0},
+            "pricing": {
+                "prompt": "0.000000021",
+                "completion": "0",
+                "input_per_million": 0.021,
+                "output_per_million": 0,
+            },
         },
-        {"id": "no-outputs", "object": "model", "outputs": None, "pricing": {"input": -1200000, "output": -1200000}},
+        {
+            "id": "no-outputs",
+            "object": "model",
+            "outputs": None,
+            "pricing": {"input_per_million": -1200000, "output_per_million": -1200000},
+        },
         {"id": "no-field", "object": "model"},
         "not a row",
     ],
@@ -54,7 +74,13 @@ def test_lists_the_decision_models(client: Build) -> None:
     assert [model.id for model in found] == ["hanzo/kai", "kai"]
     kai = found[1]
     assert isinstance(kai, Model) and isinstance(kai.pricing, Pricing)
-    assert (kai.owned_by, kai.created, kai.pricing.input, kai.pricing.output) == ("hanzo", 1790629327, 0.021, 0)
+    assert (kai.owned_by, kai.created, kai.pricing.input_per_million, kai.pricing.output_per_million) == (
+        "hanzo",
+        1790629327,
+        0.021,
+        0,
+    )
+    assert (kai.pricing.prompt, kai.pricing.completion) == ("0.000000021", "0")
     assert kai.model_extra == {"object": "model", "premium": False, "outputs": ["decision"]}
 
 

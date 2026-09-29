@@ -108,7 +108,7 @@ def claim(name: str, value) -> str:
 
 def cost(model: str, tokens: tuple[int, int]) -> float:
     """US dollars for input and output tokens at a model's catalogue price per million."""
-    return (tokens[0] * price[model]["input"] + tokens[1] * price[model]["output"]) / 1e6
+    return (tokens[0] * price[model]["input_per_million"] + tokens[1] * price[model]["output_per_million"]) / 1e6
 
 
 def same(name: str, value, gold) -> bool:
@@ -156,9 +156,9 @@ print(
     f"\nP(entailment) of {FIRST}'s {len(good)} right fields: lowest {min(good):.2f}, median {statistics.median(good):.2f}"
 )
 
-fields, checking = len(rows) * len(FIELDS), checked * price["kai"]["input"] / 1e6
+fields, checking = len(rows) * len(FIELDS), checked * price["kai"]["input_per_million"] / 1e6
 print(
-    f"\nKai read {checked} input tokens for {fields} checks: {checking:.6f} USD at {price['kai']['input']} per million"
+    f"\nKai read {checked} input tokens for {fields} checks: {checking:.6f} USD at {price['kai']['input_per_million']} per million"
 )
 print(f"an invoice goes to {SECOND} when any of its fields is under the line")
 print("line          invoices sent  fields right  Zen input  Zen output  cost, USD")
