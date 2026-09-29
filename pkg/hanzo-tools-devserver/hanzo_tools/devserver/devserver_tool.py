@@ -208,7 +208,7 @@ class DevserverTool(BaseTool):
                 # not yet reported a build error. The server's answer stands
                 # without a browser.
                 try:
-                    opened = await self._browser("navigate", url=url, state="networkidle")
+                    opened = await self._browser("navigate", url=url, args={"state": "networkidle"})
                 except Exception as e:
                     opened = {"error": str(e)}
                 report = {"server": server.url, "source": "mcp", **await self._call(server, "get_errors", {})}
@@ -216,14 +216,14 @@ class DevserverTool(BaseTool):
                     report["browser"] = opened["error"]
                 return report
             before = (
-                (await self._browser("console", level="error")).get("count", 0),
+                (await self._browser("console", args={"level": "error"})).get("count", 0),
                 (await self._browser("errors")).get("count", 0),
             )
-            opened = await self._browser("navigate", url=url, state="networkidle")
+            opened = await self._browser("navigate", url=url, args={"state": "networkidle"})
             if opened.get("error"):
                 raise ToolError("INTERNAL_ERROR", f"browser could not open {url}: {opened['error']}")
             overlay = (await self._browser("evaluate", code=OVERLAY)).get("result")
-            console = await self._browser("console", level="error")
+            console = await self._browser("console", args={"level": "error"})
             thrown = await self._browser("errors")
             return {
                 "server": server.url,

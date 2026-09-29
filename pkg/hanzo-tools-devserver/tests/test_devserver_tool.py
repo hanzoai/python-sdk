@@ -52,9 +52,12 @@ def registry(pages: list[dict]):
     server = FastMCP("test")
     calls = []
 
+    # The real browser tool types its core fields and takes the rest in `args`;
+    # this stand-in has the same shape, so a parameter devserver puts in the
+    # wrong place is a test failure here rather than a value dropped there.
     @server.tool(name="browser")
-    async def browser(action: str, url: str = "", state: str = "", level: str = "", code: str = "") -> dict:
-        calls.append({k: v for k, v in dict(action=action, url=url, state=state, level=level).items() if v})
+    async def browser(action: str, url: str = "", code: str = "", args: dict | None = None) -> dict:
+        calls.append({k: v for k, v in dict(action=action, url=url, args=args).items() if v})
         return pages.pop(0)
 
     DevserverTool().register(server)
@@ -71,7 +74,7 @@ async def test_errors_opens_the_app_then_asks_the_servers_mcp(monkeypatch, next_
     server, calls = registry([{"success": True}])
     out = await run(server, action="errors", port=next_mcp, path="dashboard")
     assert out["ok"], out
-    assert calls == [{"action": "navigate", "url": f"http://localhost:{next_mcp}/dashboard", "state": "networkidle"}]
+    assert calls == [{"action": "navigate", "url": f"http://localhost:{next_mcp}/dashboard", "args": {"state": "networkidle"}}]
     data = out["data"]
     assert data["source"] == "mcp"
     assert data["result"] == {"sessionErrors": [{"url": "/", "buildError": "./app/page.jsx:3:1 Expected '>'"}]}
@@ -106,7 +109,8 @@ async def test_errors_reads_the_page_without_mcp(monkeypatch):
     )
     data = (await run(server, action="errors"))["data"]
     assert [c["action"] for c in calls] == ["console", "errors", "navigate", "evaluate", "console", "errors"]
-    assert calls[2]["state"] == "networkidle"
+    assert calls[2]["args"] == {"state": "networkidle"}
+    assert calls[0]["args"] == calls[4]["args"] == {"level": "error"}
     assert data == {
         "server": "http://localhost:5174",
         "source": "browser",
