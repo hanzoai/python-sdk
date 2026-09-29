@@ -1,6 +1,6 @@
-"""Tinker-shaped client for the Hanzo Engine training API.
+"""Tinker-shaped client for Hanzo's training API, ``/v1/train/clients``.
 
-The engine exposes a small LoRA training surface under ``/v1/training``. This
+api.hanzo.ai and a self-hosted engine both serve it there. This
 client mirrors the shapes of Thinking Machines' ``tinker`` SDK -- so training
 loops written against tinker port across unchanged -- using Hanzo-canonical
 field names and a single synchronous HTTP path (httpx, no retries).
@@ -208,7 +208,7 @@ class ServiceClient:
         cfg = lora_config or LoraConfig()
         data = self._request(
             "POST",
-            "/v1/training/clients",
+            "/v1/train/clients",
             {
                 "base_model": base_model,
                 "lora_config": {
@@ -224,7 +224,7 @@ class ServiceClient:
         return tc
 
     def list_training_clients(self) -> list[TrainingClientInfo]:
-        data = self._request("GET", "/v1/training/clients")
+        data = self._request("GET", "/v1/train/clients")
         return [_info(c) for c in data["clients"]]
 
     def close(self) -> None:
@@ -240,7 +240,7 @@ class TrainingClient:
         self._poll_interval = poll_interval
 
     def _path(self, suffix: str = "") -> str:
-        return f"/v1/training/clients/{self.id}{suffix}"
+        return f"/v1/train/clients/{self.id}{suffix}"
 
     def forward_backward(
         self, data: Iterable[Datum | dict[str, Any]]

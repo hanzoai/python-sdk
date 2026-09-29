@@ -58,7 +58,7 @@ def test_create_defaults_and_no_wait() -> None:
 
     assert tc.id == "tc-abc"
     assert seen["method"] == "POST"
-    assert seen["path"] == "/v1/training/clients"
+    assert seen["path"] == "/v1/train/clients"
     assert seen["body"]["base_model"] == "m"
     lora = seen["body"]["lora_config"]
     assert lora["rank"] == 16
@@ -132,7 +132,7 @@ def test_forward_backward_prompt_form() -> None:
     tc = TrainingClient(service(handler), "tc-abc")
     out = tc.forward_backward([{"prompt": "2+2=", "completion": "4"}]).result()
 
-    assert seen["path"] == "/v1/training/clients/tc-abc/forward_backward"
+    assert seen["path"] == "/v1/train/clients/tc-abc/forward_backward"
     assert seen["body"]["data"] == [{"prompt": "2+2=", "completion": "4"}]
     assert out.loss == 1.5
     assert out.num_tokens == 3
@@ -194,7 +194,7 @@ def test_optim_step_explicit_params() -> None:
     tc = TrainingClient(service(handler), "tc-abc")
     res = tc.optim_step(AdamParams(lr=1e-4)).result()
 
-    assert seen["path"] == "/v1/training/clients/tc-abc/optim_step"
+    assert seen["path"] == "/v1/train/clients/tc-abc/optim_step"
     assert seen["body"]["adam_params"] == {
         "lr": 1e-4,
         "beta1": 0.9,
@@ -232,7 +232,7 @@ def test_sample_prompt_form() -> None:
         prompt="2+2=", sampling_params=SamplingParams(max_tokens=8, temperature=0.0), num_samples=1
     ).result()
 
-    assert seen["path"] == "/v1/training/clients/tc-abc/sample"
+    assert seen["path"] == "/v1/train/clients/tc-abc/sample"
     assert seen["body"]["prompt"] == "2+2="
     assert "tokens" not in seen["body"]
     assert seen["body"]["num_samples"] == 1
@@ -284,7 +284,7 @@ def test_save_weights_and_alias() -> None:
     tc = TrainingClient(service(handler), "tc-abc")
     saved = tc.save_weights_and_get_sampling_client(name="my-adapter").result()
 
-    assert seen["path"] == "/v1/training/clients/tc-abc/save_weights"
+    assert seen["path"] == "/v1/train/clients/tc-abc/save_weights"
     assert seen["body"] == {"name": "my-adapter"}
     assert saved.path == "/data/adapters/my-adapter"
     assert saved.format == "peft"
@@ -297,7 +297,7 @@ def test_save_weights_and_alias() -> None:
 def test_get_info() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         assert request.method == "GET"
-        assert request.url.path == "/v1/training/clients/tc-abc"
+        assert request.url.path == "/v1/train/clients/tc-abc"
         return httpx.Response(
             200,
             json=info_json(
@@ -325,7 +325,7 @@ def test_get_info() -> None:
 def test_list_training_clients() -> None:
     def handler(request: httpx.Request) -> httpx.Response:
         assert request.method == "GET"
-        assert request.url.path == "/v1/training/clients"
+        assert request.url.path == "/v1/train/clients"
         return httpx.Response(
             200,
             json={
@@ -355,7 +355,7 @@ def test_delete() -> None:
 
     assert result is None
     assert seen["method"] == "DELETE"
-    assert seen["path"] == "/v1/training/clients/tc-abc"
+    assert seen["path"] == "/v1/train/clients/tc-abc"
 
 
 def test_error_404() -> None:
