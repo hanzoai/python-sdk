@@ -19,36 +19,36 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List
 from typing_extensions import Annotated
-from hanzoai.cloud.models.captable_company import CaptableCompany
-from hanzoai.cloud.models.captable_company_update import CaptableCompanyUpdate
-from hanzoai.cloud.models.captable_convertible_in import CaptableConvertibleIn
-from hanzoai.cloud.models.captable_created import CaptableCreated
-from hanzoai.cloud.models.captable_deleted import CaptableDeleted
-from hanzoai.cloud.models.captable_equity_plan_in import CaptableEquityPlanIn
-from hanzoai.cloud.models.captable_equity_plans import CaptableEquityPlans
-from hanzoai.cloud.models.captable_invested import CaptableInvested
-from hanzoai.cloud.models.captable_investment_in import CaptableInvestmentIn
-from hanzoai.cloud.models.captable_investments import CaptableInvestments
-from hanzoai.cloud.models.captable_notes import CaptableNotes
-from hanzoai.cloud.models.captable_option_in import CaptableOptionIn
-from hanzoai.cloud.models.captable_options import CaptableOptions
-from hanzoai.cloud.models.captable_round_close_request import CaptableRoundCloseRequest
-from hanzoai.cloud.models.captable_round_detail import CaptableRoundDetail
-from hanzoai.cloud.models.captable_round_in import CaptableRoundIn
-from hanzoai.cloud.models.captable_rounds import CaptableRounds
-from hanzoai.cloud.models.captable_safe_in import CaptableSafeIn
-from hanzoai.cloud.models.captable_safes import CaptableSafes
-from hanzoai.cloud.models.captable_share_class import CaptableShareClass
-from hanzoai.cloud.models.captable_share_class_amend import CaptableShareClassAmend
-from hanzoai.cloud.models.captable_share_class_in import CaptableShareClassIn
-from hanzoai.cloud.models.captable_share_in import CaptableShareIn
-from hanzoai.cloud.models.captable_share_transfer import CaptableShareTransfer
-from hanzoai.cloud.models.captable_shares import CaptableShares
-from hanzoai.cloud.models.captable_stakeholder import CaptableStakeholder
-from hanzoai.cloud.models.captable_stakeholder_patch import CaptableStakeholderPatch
-from hanzoai.cloud.models.captable_summary import CaptableSummary
-from hanzoai.cloud.models.captable_transferred import CaptableTransferred
-from hanzoai.cloud.models.captable_updated import CaptableUpdated
+from hanzoai.cloud.models.captable_captable_company import CaptableCaptableCompany
+from hanzoai.cloud.models.captable_captable_company_update import CaptableCaptableCompanyUpdate
+from hanzoai.cloud.models.captable_captable_convertible_in import CaptableCaptableConvertibleIn
+from hanzoai.cloud.models.captable_captable_created import CaptableCaptableCreated
+from hanzoai.cloud.models.captable_captable_deleted import CaptableCaptableDeleted
+from hanzoai.cloud.models.captable_captable_equity_plan_in import CaptableCaptableEquityPlanIn
+from hanzoai.cloud.models.captable_captable_equity_plans import CaptableCaptableEquityPlans
+from hanzoai.cloud.models.captable_captable_invested import CaptableCaptableInvested
+from hanzoai.cloud.models.captable_captable_investment_in import CaptableCaptableInvestmentIn
+from hanzoai.cloud.models.captable_captable_investments import CaptableCaptableInvestments
+from hanzoai.cloud.models.captable_captable_notes import CaptableCaptableNotes
+from hanzoai.cloud.models.captable_captable_option_in import CaptableCaptableOptionIn
+from hanzoai.cloud.models.captable_captable_options import CaptableCaptableOptions
+from hanzoai.cloud.models.captable_captable_round_close_request import CaptableCaptableRoundCloseRequest
+from hanzoai.cloud.models.captable_captable_round_detail import CaptableCaptableRoundDetail
+from hanzoai.cloud.models.captable_captable_round_in import CaptableCaptableRoundIn
+from hanzoai.cloud.models.captable_captable_rounds import CaptableCaptableRounds
+from hanzoai.cloud.models.captable_captable_safe_in import CaptableCaptableSafeIn
+from hanzoai.cloud.models.captable_captable_safes import CaptableCaptableSafes
+from hanzoai.cloud.models.captable_captable_share_class import CaptableCaptableShareClass
+from hanzoai.cloud.models.captable_captable_share_class_amend import CaptableCaptableShareClassAmend
+from hanzoai.cloud.models.captable_captable_share_class_in import CaptableCaptableShareClassIn
+from hanzoai.cloud.models.captable_captable_share_in import CaptableCaptableShareIn
+from hanzoai.cloud.models.captable_captable_share_transfer import CaptableCaptableShareTransfer
+from hanzoai.cloud.models.captable_captable_shares import CaptableCaptableShares
+from hanzoai.cloud.models.captable_captable_stakeholder import CaptableCaptableStakeholder
+from hanzoai.cloud.models.captable_captable_stakeholder_patch import CaptableCaptableStakeholderPatch
+from hanzoai.cloud.models.captable_captable_summary import CaptableCaptableSummary
+from hanzoai.cloud.models.captable_captable_transferred import CaptableCaptableTransferred
+from hanzoai.cloud.models.captable_captable_updated import CaptableCaptableUpdated
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -84,7 +84,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableDeleted:
+    ) -> CaptableCaptableDeleted:
         """Removes one of the caller org's convertible notes, taking its principal out of the cap table's unconverted-instrument totals.
 
         Removes one of the caller org's convertible notes, taking its principal out of the cap table's unconverted-instrument totals. An id this org does not hold is not found.
@@ -122,7 +122,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -151,7 +151,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableDeleted]:
+    ) -> ApiResponse[CaptableCaptableDeleted]:
         """Removes one of the caller org's convertible notes, taking its principal out of the cap table's unconverted-instrument totals.
 
         Removes one of the caller org's convertible notes, taking its principal out of the cap table's unconverted-instrument totals. An id this org does not hold is not found.
@@ -189,7 +189,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -256,7 +256,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -301,7 +301,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -345,7 +346,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableDeleted:
+    ) -> CaptableCaptableDeleted:
         """Removes one of the caller org's option grants, taking its shares out of the cap table's granted-options and fully-diluted counts.
 
         Removes one of the caller org's option grants, taking its shares out of the cap table's granted-options and fully-diluted counts. An id this org does not hold is not found.
@@ -383,7 +384,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -412,7 +413,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableDeleted]:
+    ) -> ApiResponse[CaptableCaptableDeleted]:
         """Removes one of the caller org's option grants, taking its shares out of the cap table's granted-options and fully-diluted counts.
 
         Removes one of the caller org's option grants, taking its shares out of the cap table's granted-options and fully-diluted counts. An id this org does not hold is not found.
@@ -450,7 +451,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -517,7 +518,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -562,7 +563,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -606,7 +608,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableDeleted:
+    ) -> CaptableCaptableDeleted:
         """Removes one of the caller org's SAFEs, taking its capital out of the cap table's unconverted-instrument totals.
 
         Removes one of the caller org's SAFEs, taking its capital out of the cap table's unconverted-instrument totals. An id this org does not hold is not found.
@@ -644,7 +646,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -673,7 +675,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableDeleted]:
+    ) -> ApiResponse[CaptableCaptableDeleted]:
         """Removes one of the caller org's SAFEs, taking its capital out of the cap table's unconverted-instrument totals.
 
         Removes one of the caller org's SAFEs, taking its capital out of the cap table's unconverted-instrument totals. An id this org does not hold is not found.
@@ -711,7 +713,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -778,7 +780,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -823,7 +825,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -867,7 +870,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableDeleted:
+    ) -> CaptableCaptableDeleted:
         """Removes one of the caller org's share certificates, taking its shares out of the cap table's outstanding and fully-diluted counts.
 
         Removes one of the caller org's share certificates, taking its shares out of the cap table's outstanding and fully-diluted counts. An id this org does not hold is not found.
@@ -905,7 +908,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -934,7 +937,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableDeleted]:
+    ) -> ApiResponse[CaptableCaptableDeleted]:
         """Removes one of the caller org's share certificates, taking its shares out of the cap table's outstanding and fully-diluted counts.
 
         Removes one of the caller org's share certificates, taking its shares out of the cap table's outstanding and fully-diluted counts. An id this org does not hold is not found.
@@ -972,7 +975,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1039,7 +1042,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1084,7 +1087,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1128,7 +1132,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableDeleted:
+    ) -> CaptableCaptableDeleted:
         """Removes one of the caller org's stakeholders.
 
         Removes one of the caller org's stakeholders. It REFUSES to orphan issued equity: a holder that still holds share certificates or option grants cannot be deleted, and answers 400 saying so — release or transfer the holdings first. An id this org does not hold is not found.
@@ -1166,7 +1170,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1195,7 +1199,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableDeleted]:
+    ) -> ApiResponse[CaptableCaptableDeleted]:
         """Removes one of the caller org's stakeholders.
 
         Removes one of the caller org's stakeholders. It REFUSES to orphan issued equity: a holder that still holds share certificates or option grants cannot be deleted, and answers 400 saying so — release or transfer the holdings first. An id this org does not hold is not found.
@@ -1233,7 +1237,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1300,7 +1304,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableDeleted",
+            '200': "CaptableCaptableDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1345,7 +1349,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1388,7 +1393,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[CaptableShareClass]:
+    ) -> List[CaptableCaptableShareClass]:
         """Returns the caller org's share classes, in creation order.
 
         Returns the caller org's share classes, in creation order. A share class is what a certificate is issued in, and every class the company has authorized appears. The response is a bare JSON array, not an envelope.
@@ -1423,7 +1428,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableShareClass]",
+            '200': "List[CaptableCaptableShareClass]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1451,7 +1456,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[CaptableShareClass]]:
+    ) -> ApiResponse[List[CaptableCaptableShareClass]]:
         """Returns the caller org's share classes, in creation order.
 
         Returns the caller org's share classes, in creation order. A share class is what a certificate is issued in, and every class the company has authorized appears. The response is a bare JSON array, not an envelope.
@@ -1486,7 +1491,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableShareClass]",
+            '200': "List[CaptableCaptableShareClass]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1549,7 +1554,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableShareClass]",
+            '200': "List[CaptableCaptableShareClass]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1591,7 +1596,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1634,7 +1640,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCompany:
+    ) -> CaptableCaptableCompany:
         """Returns the caller org's cap-table company record.
 
         Returns the caller org's cap-table company record. The row is seeded when the tenant's store first opens, so it always exists; its name and incorporation details are set with PUT /v1/captable/company.
@@ -1669,7 +1675,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableCompany",
+            '200': "CaptableCaptableCompany",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1697,7 +1703,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCompany]:
+    ) -> ApiResponse[CaptableCaptableCompany]:
         """Returns the caller org's cap-table company record.
 
         Returns the caller org's cap-table company record. The row is seeded when the tenant's store first opens, so it always exists; its name and incorporation details are set with PUT /v1/captable/company.
@@ -1732,7 +1738,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableCompany",
+            '200': "CaptableCaptableCompany",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1795,7 +1801,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableCompany",
+            '200': "CaptableCaptableCompany",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1837,7 +1843,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1880,7 +1887,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableNotes:
+    ) -> CaptableCaptableNotes:
         """Returns the caller org's convertible notes, newest first.
 
         Returns the caller org's convertible notes, newest first. A note's principal sits OUTSIDE issued equity until it converts, so it is not part of the share counts.
@@ -1915,7 +1922,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableNotes",
+            '200': "CaptableCaptableNotes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1943,7 +1950,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableNotes]:
+    ) -> ApiResponse[CaptableCaptableNotes]:
         """Returns the caller org's convertible notes, newest first.
 
         Returns the caller org's convertible notes, newest first. A note's principal sits OUTSIDE issued equity until it converts, so it is not part of the share counts.
@@ -1978,7 +1985,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableNotes",
+            '200': "CaptableCaptableNotes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2041,7 +2048,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableNotes",
+            '200': "CaptableCaptableNotes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2083,7 +2090,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2126,7 +2134,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableInvestments:
+    ) -> CaptableCaptableInvestments:
         """Returns the caller org's investments, newest first.
 
         Returns the caller org's investments, newest first. It spans every round, so it is the flat ledger of cheques written into the company, each naming its investor and the round it went into.
@@ -2161,7 +2169,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableInvestments",
+            '200': "CaptableCaptableInvestments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2189,7 +2197,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableInvestments]:
+    ) -> ApiResponse[CaptableCaptableInvestments]:
         """Returns the caller org's investments, newest first.
 
         Returns the caller org's investments, newest first. It spans every round, so it is the flat ledger of cheques written into the company, each naming its investor and the round it went into.
@@ -2224,7 +2232,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableInvestments",
+            '200': "CaptableCaptableInvestments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2287,7 +2295,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableInvestments",
+            '200': "CaptableCaptableInvestments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2329,7 +2337,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2372,7 +2381,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableOptions:
+    ) -> CaptableCaptableOptions:
         """Returns the caller org's option grants, newest first.
 
         Returns the caller org's option grants, newest first. Each row is joined to its grantee and its equity plan. Grants that are EXERCISED, EXPIRED or CANCELLED are listed here but do not dilute the cap table.
@@ -2407,7 +2416,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableOptions",
+            '200': "CaptableCaptableOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2435,7 +2444,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableOptions]:
+    ) -> ApiResponse[CaptableCaptableOptions]:
         """Returns the caller org's option grants, newest first.
 
         Returns the caller org's option grants, newest first. Each row is joined to its grantee and its equity plan. Grants that are EXERCISED, EXPIRED or CANCELLED are listed here but do not dilute the cap table.
@@ -2470,7 +2479,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableOptions",
+            '200': "CaptableCaptableOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2533,7 +2542,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableOptions",
+            '200': "CaptableCaptableOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2575,7 +2584,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2618,7 +2628,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableEquityPlans:
+    ) -> CaptableCaptableEquityPlans:
         """Returns the caller org's equity plans, newest first.
 
         Returns the caller org's equity plans, newest first. An equity plan is an option pool: a reserve of shares, drawn from one share class, that option grants are written against.
@@ -2653,7 +2663,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableEquityPlans",
+            '200': "CaptableCaptableEquityPlans",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2681,7 +2691,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableEquityPlans]:
+    ) -> ApiResponse[CaptableCaptableEquityPlans]:
         """Returns the caller org's equity plans, newest first.
 
         Returns the caller org's equity plans, newest first. An equity plan is an option pool: a reserve of shares, drawn from one share class, that option grants are written against.
@@ -2716,7 +2726,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableEquityPlans",
+            '200': "CaptableCaptableEquityPlans",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2779,7 +2789,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableEquityPlans",
+            '200': "CaptableCaptableEquityPlans",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2821,7 +2831,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2864,7 +2875,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableRounds:
+    ) -> CaptableCaptableRounds:
         """Returns the caller org's fundraising rounds, newest first.
 
         Returns the caller org's fundraising rounds, newest first. A round groups a fundraising event; a PRICED round also carries the share class and price per share it issues at.
@@ -2899,7 +2910,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRounds",
+            '200': "CaptableCaptableRounds",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2927,7 +2938,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableRounds]:
+    ) -> ApiResponse[CaptableCaptableRounds]:
         """Returns the caller org's fundraising rounds, newest first.
 
         Returns the caller org's fundraising rounds, newest first. A round groups a fundraising event; a PRICED round also carries the share class and price per share it issues at.
@@ -2962,7 +2973,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRounds",
+            '200': "CaptableCaptableRounds",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3025,7 +3036,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRounds",
+            '200': "CaptableCaptableRounds",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3067,7 +3078,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3111,7 +3123,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableRoundDetail:
+    ) -> CaptableCaptableRoundDetail:
         """Returns one of the caller org's fundraising rounds together with every investment written into it, oldest first.
 
         Returns one of the caller org's fundraising rounds together with every investment written into it, oldest first. A round id that does not exist in the caller's org is not found — including one that exists in another tenant, since the org comes from the caller's principal and is part of the lookup.
@@ -3149,7 +3161,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRoundDetail",
+            '200': "CaptableCaptableRoundDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3178,7 +3190,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableRoundDetail]:
+    ) -> ApiResponse[CaptableCaptableRoundDetail]:
         """Returns one of the caller org's fundraising rounds together with every investment written into it, oldest first.
 
         Returns one of the caller org's fundraising rounds together with every investment written into it, oldest first. A round id that does not exist in the caller's org is not found — including one that exists in another tenant, since the org comes from the caller's principal and is part of the lookup.
@@ -3216,7 +3228,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRoundDetail",
+            '200': "CaptableCaptableRoundDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3283,7 +3295,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableRoundDetail",
+            '200': "CaptableCaptableRoundDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3328,7 +3340,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3371,7 +3384,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableSafes:
+    ) -> CaptableCaptableSafes:
         """Returns the caller org's SAFEs, newest first.
 
         Returns the caller org's SAFEs, newest first. A SAFE is a simple agreement for future equity: its capital sits OUTSIDE issued equity until it converts, so it is not part of the share counts.
@@ -3406,7 +3419,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSafes",
+            '200': "CaptableCaptableSafes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3434,7 +3447,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableSafes]:
+    ) -> ApiResponse[CaptableCaptableSafes]:
         """Returns the caller org's SAFEs, newest first.
 
         Returns the caller org's SAFEs, newest first. A SAFE is a simple agreement for future equity: its capital sits OUTSIDE issued equity until it converts, so it is not part of the share counts.
@@ -3469,7 +3482,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSafes",
+            '200': "CaptableCaptableSafes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3532,7 +3545,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSafes",
+            '200': "CaptableCaptableSafes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3574,7 +3587,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3617,7 +3631,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableShares:
+    ) -> CaptableCaptableShares:
         """Returns the caller org's share certificates, newest first.
 
         Returns the caller org's share certificates, newest first. Each row is joined to its holder and its share class, so a certificate names who holds it and what class it is in without a second call.
@@ -3652,7 +3666,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableShares",
+            '200': "CaptableCaptableShares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3680,7 +3694,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableShares]:
+    ) -> ApiResponse[CaptableCaptableShares]:
         """Returns the caller org's share certificates, newest first.
 
         Returns the caller org's share certificates, newest first. Each row is joined to its holder and its share class, so a certificate names who holds it and what class it is in without a second call.
@@ -3715,7 +3729,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableShares",
+            '200': "CaptableCaptableShares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3778,7 +3792,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableShares",
+            '200': "CaptableCaptableShares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3820,7 +3834,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3863,7 +3878,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[CaptableStakeholder]:
+    ) -> List[CaptableCaptableStakeholder]:
         """Returns the caller org's stakeholders, newest first.
 
         Returns the caller org's stakeholders, newest first. The response is a bare JSON array, not an envelope. Each row carries the holder's contact and address fields alongside the company's name.
@@ -3898,7 +3913,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableStakeholder]",
+            '200': "List[CaptableCaptableStakeholder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3926,7 +3941,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[CaptableStakeholder]]:
+    ) -> ApiResponse[List[CaptableCaptableStakeholder]]:
         """Returns the caller org's stakeholders, newest first.
 
         Returns the caller org's stakeholders, newest first. The response is a bare JSON array, not an envelope. Each row carries the holder's contact and address fields alongside the company's name.
@@ -3961,7 +3976,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableStakeholder]",
+            '200': "List[CaptableCaptableStakeholder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4024,7 +4039,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[CaptableStakeholder]",
+            '200': "List[CaptableCaptableStakeholder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4066,7 +4081,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4109,7 +4125,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableSummary:
+    ) -> CaptableCaptableSummary:
         """Computes the caller org's cap table.
 
         Computes the caller org's cap table. It answers who owns what on a fully-diluted basis: outstanding shares, granted options, per-stakeholder ownership percentages, each share class's authorized versus issued position, and the capital sitting on SAFEs and convertible notes that have not yet converted. Only non-terminal option grants dilute — EXERCISED, EXPIRED and CANCELLED grants are excluded, so equity issued through an exercised option is never counted twice.
@@ -4144,7 +4160,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSummary",
+            '200': "CaptableCaptableSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4172,7 +4188,7 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableSummary]:
+    ) -> ApiResponse[CaptableCaptableSummary]:
         """Computes the caller org's cap table.
 
         Computes the caller org's cap table. It answers who owns what on a fully-diluted basis: outstanding shares, granted options, per-stakeholder ownership percentages, each share class's authorized versus issued position, and the capital sitting on SAFEs and convertible notes that have not yet converted. Only non-terminal option grants dilute — EXERCISED, EXPIRED and CANCELLED grants are excluded, so equity issued through an exercised option is never counted twice.
@@ -4207,7 +4223,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSummary",
+            '200': "CaptableCaptableSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4270,7 +4286,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableSummary",
+            '200': "CaptableCaptableSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4312,7 +4328,8 @@ class CaptableApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4344,7 +4361,7 @@ class CaptableApi:
     def patch_captable_classes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims.")],
-        captable_share_class_amend: CaptableShareClassAmend,
+        captable_captable_share_class_amend: CaptableCaptableShareClassAmend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4357,15 +4374,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableUpdated:
+    ) -> CaptableCaptableUpdated:
         """Replaces one share class's terms.
 
         Replaces one share class's terms.  It is a full REPLACE and not a merge, despite the PATCH: every field is written as sent, so a field omitted is written empty rather than left alone. Send the whole class. The method is PATCH because the resource is addressed by id, not because the body is partial — and getting that backwards silently blanks terms every later issuance prices against.
 
         :param id: ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims. (required)
         :type id: str
-        :param captable_share_class_amend: (required)
-        :type captable_share_class_amend: CaptableShareClassAmend
+        :param captable_captable_share_class_amend: (required)
+        :type captable_captable_share_class_amend: CaptableCaptableShareClassAmend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4390,7 +4407,7 @@ class CaptableApi:
 
         _param = self._patch_captable_classes_by_id_serialize(
             id=id,
-            captable_share_class_amend=captable_share_class_amend,
+            captable_captable_share_class_amend=captable_captable_share_class_amend,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4398,7 +4415,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4415,7 +4432,7 @@ class CaptableApi:
     def patch_captable_classes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims.")],
-        captable_share_class_amend: CaptableShareClassAmend,
+        captable_captable_share_class_amend: CaptableCaptableShareClassAmend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4428,15 +4445,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableUpdated]:
+    ) -> ApiResponse[CaptableCaptableUpdated]:
         """Replaces one share class's terms.
 
         Replaces one share class's terms.  It is a full REPLACE and not a merge, despite the PATCH: every field is written as sent, so a field omitted is written empty rather than left alone. Send the whole class. The method is PATCH because the resource is addressed by id, not because the body is partial — and getting that backwards silently blanks terms every later issuance prices against.
 
         :param id: ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims. (required)
         :type id: str
-        :param captable_share_class_amend: (required)
-        :type captable_share_class_amend: CaptableShareClassAmend
+        :param captable_captable_share_class_amend: (required)
+        :type captable_captable_share_class_amend: CaptableCaptableShareClassAmend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4461,7 +4478,7 @@ class CaptableApi:
 
         _param = self._patch_captable_classes_by_id_serialize(
             id=id,
-            captable_share_class_amend=captable_share_class_amend,
+            captable_captable_share_class_amend=captable_captable_share_class_amend,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4469,7 +4486,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4486,7 +4503,7 @@ class CaptableApi:
     def patch_captable_classes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims.")],
-        captable_share_class_amend: CaptableShareClassAmend,
+        captable_captable_share_class_amend: CaptableCaptableShareClassAmend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4506,8 +4523,8 @@ class CaptableApi:
 
         :param id: ID addresses the resource. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which row is written whatever a body claims. (required)
         :type id: str
-        :param captable_share_class_amend: (required)
-        :type captable_share_class_amend: CaptableShareClassAmend
+        :param captable_captable_share_class_amend: (required)
+        :type captable_captable_share_class_amend: CaptableCaptableShareClassAmend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4532,7 +4549,7 @@ class CaptableApi:
 
         _param = self._patch_captable_classes_by_id_serialize(
             id=id,
-            captable_share_class_amend=captable_share_class_amend,
+            captable_captable_share_class_amend=captable_captable_share_class_amend,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4540,7 +4557,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4552,7 +4569,7 @@ class CaptableApi:
     def _patch_captable_classes_by_id_serialize(
         self,
         id,
-        captable_share_class_amend,
+        captable_captable_share_class_amend,
         _request_auth,
         _content_type,
         _headers,
@@ -4580,15 +4597,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_share_class_amend is not None:
-            _body_params = captable_share_class_amend
+        if captable_captable_share_class_amend is not None:
+            _body_params = captable_captable_share_class_amend
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4633,7 +4651,7 @@ class CaptableApi:
     def patch_captable_stakeholders_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_stakeholder_patch: CaptableStakeholderPatch,
+        captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4646,15 +4664,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableUpdated:
+    ) -> CaptableCaptableUpdated:
         """Changes one of the caller org's stakeholders.
 
         Changes one of the caller org's stakeholders. It is a PARTIAL update: only the fields the request names are written, and a field sent as null clears that column. A request that names no updatable field is refused, and an id this org does not hold is not found.  The values are stored as sent. Unlike adding a stakeholder, this route does not check the email's shape or the type and relationship vocabularies, so it can record a value that adding one would have rejected.
 
         :param id: ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_stakeholder_patch: (required)
-        :type captable_stakeholder_patch: CaptableStakeholderPatch
+        :param captable_captable_stakeholder_patch: (required)
+        :type captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4679,7 +4697,7 @@ class CaptableApi:
 
         _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
-            captable_stakeholder_patch=captable_stakeholder_patch,
+            captable_captable_stakeholder_patch=captable_captable_stakeholder_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4687,7 +4705,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4704,7 +4722,7 @@ class CaptableApi:
     def patch_captable_stakeholders_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_stakeholder_patch: CaptableStakeholderPatch,
+        captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4717,15 +4735,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableUpdated]:
+    ) -> ApiResponse[CaptableCaptableUpdated]:
         """Changes one of the caller org's stakeholders.
 
         Changes one of the caller org's stakeholders. It is a PARTIAL update: only the fields the request names are written, and a field sent as null clears that column. A request that names no updatable field is refused, and an id this org does not hold is not found.  The values are stored as sent. Unlike adding a stakeholder, this route does not check the email's shape or the type and relationship vocabularies, so it can record a value that adding one would have rejected.
 
         :param id: ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_stakeholder_patch: (required)
-        :type captable_stakeholder_patch: CaptableStakeholderPatch
+        :param captable_captable_stakeholder_patch: (required)
+        :type captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4750,7 +4768,7 @@ class CaptableApi:
 
         _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
-            captable_stakeholder_patch=captable_stakeholder_patch,
+            captable_captable_stakeholder_patch=captable_captable_stakeholder_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4758,7 +4776,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4775,7 +4793,7 @@ class CaptableApi:
     def patch_captable_stakeholders_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_stakeholder_patch: CaptableStakeholderPatch,
+        captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4795,8 +4813,8 @@ class CaptableApi:
 
         :param id: ID is the stakeholder to update. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_stakeholder_patch: (required)
-        :type captable_stakeholder_patch: CaptableStakeholderPatch
+        :param captable_captable_stakeholder_patch: (required)
+        :type captable_captable_stakeholder_patch: CaptableCaptableStakeholderPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4821,7 +4839,7 @@ class CaptableApi:
 
         _param = self._patch_captable_stakeholders_by_id_serialize(
             id=id,
-            captable_stakeholder_patch=captable_stakeholder_patch,
+            captable_captable_stakeholder_patch=captable_captable_stakeholder_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4829,7 +4847,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4841,7 +4859,7 @@ class CaptableApi:
     def _patch_captable_stakeholders_by_id_serialize(
         self,
         id,
-        captable_stakeholder_patch,
+        captable_captable_stakeholder_patch,
         _request_auth,
         _content_type,
         _headers,
@@ -4869,15 +4887,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_stakeholder_patch is not None:
-            _body_params = captable_stakeholder_patch
+        if captable_captable_stakeholder_patch is not None:
+            _body_params = captable_captable_stakeholder_patch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4921,7 +4940,7 @@ class CaptableApi:
     @validate_call
     def post_captable_classes(
         self,
-        captable_share_class_in: CaptableShareClassIn,
+        captable_captable_share_class_in: CaptableCaptableShareClassIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4934,13 +4953,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Defines a new class of shares.
 
         Defines a new class of shares.  Every field but convertsToShareClassId is required — a class is the instrument every later issuance prices against, so a partially-specified one would silently mis-value every share issued into it. `seniority` orders liquidation preference with LOWER first.
 
-        :param captable_share_class_in: (required)
-        :type captable_share_class_in: CaptableShareClassIn
+        :param captable_captable_share_class_in: (required)
+        :type captable_captable_share_class_in: CaptableCaptableShareClassIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4964,7 +4983,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_classes_serialize(
-            captable_share_class_in=captable_share_class_in,
+            captable_captable_share_class_in=captable_captable_share_class_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4972,7 +4991,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4988,7 +5007,7 @@ class CaptableApi:
     @validate_call
     def post_captable_classes_with_http_info(
         self,
-        captable_share_class_in: CaptableShareClassIn,
+        captable_captable_share_class_in: CaptableCaptableShareClassIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5001,13 +5020,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Defines a new class of shares.
 
         Defines a new class of shares.  Every field but convertsToShareClassId is required — a class is the instrument every later issuance prices against, so a partially-specified one would silently mis-value every share issued into it. `seniority` orders liquidation preference with LOWER first.
 
-        :param captable_share_class_in: (required)
-        :type captable_share_class_in: CaptableShareClassIn
+        :param captable_captable_share_class_in: (required)
+        :type captable_captable_share_class_in: CaptableCaptableShareClassIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5031,7 +5050,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_classes_serialize(
-            captable_share_class_in=captable_share_class_in,
+            captable_captable_share_class_in=captable_captable_share_class_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5039,7 +5058,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5055,7 +5074,7 @@ class CaptableApi:
     @validate_call
     def post_captable_classes_without_preload_content(
         self,
-        captable_share_class_in: CaptableShareClassIn,
+        captable_captable_share_class_in: CaptableCaptableShareClassIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5073,8 +5092,8 @@ class CaptableApi:
 
         Defines a new class of shares.  Every field but convertsToShareClassId is required — a class is the instrument every later issuance prices against, so a partially-specified one would silently mis-value every share issued into it. `seniority` orders liquidation preference with LOWER first.
 
-        :param captable_share_class_in: (required)
-        :type captable_share_class_in: CaptableShareClassIn
+        :param captable_captable_share_class_in: (required)
+        :type captable_captable_share_class_in: CaptableCaptableShareClassIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5098,7 +5117,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_classes_serialize(
-            captable_share_class_in=captable_share_class_in,
+            captable_captable_share_class_in=captable_captable_share_class_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5106,7 +5125,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5117,7 +5136,7 @@ class CaptableApi:
 
     def _post_captable_classes_serialize(
         self,
-        captable_share_class_in,
+        captable_captable_share_class_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5143,15 +5162,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_share_class_in is not None:
-            _body_params = captable_share_class_in
+        if captable_captable_share_class_in is not None:
+            _body_params = captable_captable_share_class_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5195,7 +5215,7 @@ class CaptableApi:
     @validate_call
     def post_captable_convertibles(
         self,
-        captable_convertible_in: CaptableConvertibleIn,
+        captable_captable_convertible_in: CaptableCaptableConvertibleIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5208,13 +5228,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Records a convertible note.
 
         Records a convertible note.
 
-        :param captable_convertible_in: (required)
-        :type captable_convertible_in: CaptableConvertibleIn
+        :param captable_captable_convertible_in: (required)
+        :type captable_captable_convertible_in: CaptableCaptableConvertibleIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5238,7 +5258,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_convertibles_serialize(
-            captable_convertible_in=captable_convertible_in,
+            captable_captable_convertible_in=captable_captable_convertible_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5246,7 +5266,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5262,7 +5282,7 @@ class CaptableApi:
     @validate_call
     def post_captable_convertibles_with_http_info(
         self,
-        captable_convertible_in: CaptableConvertibleIn,
+        captable_captable_convertible_in: CaptableCaptableConvertibleIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5275,13 +5295,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Records a convertible note.
 
         Records a convertible note.
 
-        :param captable_convertible_in: (required)
-        :type captable_convertible_in: CaptableConvertibleIn
+        :param captable_captable_convertible_in: (required)
+        :type captable_captable_convertible_in: CaptableCaptableConvertibleIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5305,7 +5325,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_convertibles_serialize(
-            captable_convertible_in=captable_convertible_in,
+            captable_captable_convertible_in=captable_captable_convertible_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5313,7 +5333,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5329,7 +5349,7 @@ class CaptableApi:
     @validate_call
     def post_captable_convertibles_without_preload_content(
         self,
-        captable_convertible_in: CaptableConvertibleIn,
+        captable_captable_convertible_in: CaptableCaptableConvertibleIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5347,8 +5367,8 @@ class CaptableApi:
 
         Records a convertible note.
 
-        :param captable_convertible_in: (required)
-        :type captable_convertible_in: CaptableConvertibleIn
+        :param captable_captable_convertible_in: (required)
+        :type captable_captable_convertible_in: CaptableCaptableConvertibleIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5372,7 +5392,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_convertibles_serialize(
-            captable_convertible_in=captable_convertible_in,
+            captable_captable_convertible_in=captable_captable_convertible_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5380,7 +5400,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5391,7 +5411,7 @@ class CaptableApi:
 
     def _post_captable_convertibles_serialize(
         self,
-        captable_convertible_in,
+        captable_captable_convertible_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5417,15 +5437,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_convertible_in is not None:
-            _body_params = captable_convertible_in
+        if captable_captable_convertible_in is not None:
+            _body_params = captable_captable_convertible_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5469,7 +5490,7 @@ class CaptableApi:
     @validate_call
     def post_captable_options(
         self,
-        captable_option_in: CaptableOptionIn,
+        captable_captable_option_in: CaptableCaptableOptionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5482,13 +5503,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Grants options to a stakeholder from an equity plan.
 
         Grants options to a stakeholder from an equity plan.
 
-        :param captable_option_in: (required)
-        :type captable_option_in: CaptableOptionIn
+        :param captable_captable_option_in: (required)
+        :type captable_captable_option_in: CaptableCaptableOptionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5512,7 +5533,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_options_serialize(
-            captable_option_in=captable_option_in,
+            captable_captable_option_in=captable_captable_option_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5520,7 +5541,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5536,7 +5557,7 @@ class CaptableApi:
     @validate_call
     def post_captable_options_with_http_info(
         self,
-        captable_option_in: CaptableOptionIn,
+        captable_captable_option_in: CaptableCaptableOptionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5549,13 +5570,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Grants options to a stakeholder from an equity plan.
 
         Grants options to a stakeholder from an equity plan.
 
-        :param captable_option_in: (required)
-        :type captable_option_in: CaptableOptionIn
+        :param captable_captable_option_in: (required)
+        :type captable_captable_option_in: CaptableCaptableOptionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5579,7 +5600,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_options_serialize(
-            captable_option_in=captable_option_in,
+            captable_captable_option_in=captable_captable_option_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5587,7 +5608,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5603,7 +5624,7 @@ class CaptableApi:
     @validate_call
     def post_captable_options_without_preload_content(
         self,
-        captable_option_in: CaptableOptionIn,
+        captable_captable_option_in: CaptableCaptableOptionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5621,8 +5642,8 @@ class CaptableApi:
 
         Grants options to a stakeholder from an equity plan.
 
-        :param captable_option_in: (required)
-        :type captable_option_in: CaptableOptionIn
+        :param captable_captable_option_in: (required)
+        :type captable_captable_option_in: CaptableCaptableOptionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5646,7 +5667,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_options_serialize(
-            captable_option_in=captable_option_in,
+            captable_captable_option_in=captable_captable_option_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5654,7 +5675,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5665,7 +5686,7 @@ class CaptableApi:
 
     def _post_captable_options_serialize(
         self,
-        captable_option_in,
+        captable_captable_option_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5691,15 +5712,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_option_in is not None:
-            _body_params = captable_option_in
+        if captable_captable_option_in is not None:
+            _body_params = captable_captable_option_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5743,7 +5765,7 @@ class CaptableApi:
     @validate_call
     def post_captable_plans(
         self,
-        captable_equity_plan_in: CaptableEquityPlanIn,
+        captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5756,13 +5778,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Opens an equity plan that options are granted from.
 
         Opens an equity plan that options are granted from.
 
-        :param captable_equity_plan_in: (required)
-        :type captable_equity_plan_in: CaptableEquityPlanIn
+        :param captable_captable_equity_plan_in: (required)
+        :type captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5786,7 +5808,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_plans_serialize(
-            captable_equity_plan_in=captable_equity_plan_in,
+            captable_captable_equity_plan_in=captable_captable_equity_plan_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5794,7 +5816,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5810,7 +5832,7 @@ class CaptableApi:
     @validate_call
     def post_captable_plans_with_http_info(
         self,
-        captable_equity_plan_in: CaptableEquityPlanIn,
+        captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5823,13 +5845,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Opens an equity plan that options are granted from.
 
         Opens an equity plan that options are granted from.
 
-        :param captable_equity_plan_in: (required)
-        :type captable_equity_plan_in: CaptableEquityPlanIn
+        :param captable_captable_equity_plan_in: (required)
+        :type captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5853,7 +5875,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_plans_serialize(
-            captable_equity_plan_in=captable_equity_plan_in,
+            captable_captable_equity_plan_in=captable_captable_equity_plan_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5861,7 +5883,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5877,7 +5899,7 @@ class CaptableApi:
     @validate_call
     def post_captable_plans_without_preload_content(
         self,
-        captable_equity_plan_in: CaptableEquityPlanIn,
+        captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5895,8 +5917,8 @@ class CaptableApi:
 
         Opens an equity plan that options are granted from.
 
-        :param captable_equity_plan_in: (required)
-        :type captable_equity_plan_in: CaptableEquityPlanIn
+        :param captable_captable_equity_plan_in: (required)
+        :type captable_captable_equity_plan_in: CaptableCaptableEquityPlanIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5920,7 +5942,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_plans_serialize(
-            captable_equity_plan_in=captable_equity_plan_in,
+            captable_captable_equity_plan_in=captable_captable_equity_plan_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5928,7 +5950,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5939,7 +5961,7 @@ class CaptableApi:
 
     def _post_captable_plans_serialize(
         self,
-        captable_equity_plan_in,
+        captable_captable_equity_plan_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5965,15 +5987,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_equity_plan_in is not None:
-            _body_params = captable_equity_plan_in
+        if captable_captable_equity_plan_in is not None:
+            _body_params = captable_captable_equity_plan_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6017,7 +6040,7 @@ class CaptableApi:
     @validate_call
     def post_captable_rounds(
         self,
-        captable_round_in: CaptableRoundIn,
+        captable_captable_round_in: CaptableCaptableRoundIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6030,13 +6053,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Opens a priced round that investments can be added to.
 
         Opens a priced round that investments can be added to.  The round opens OPEN; investing into a closed one is refused.
 
-        :param captable_round_in: (required)
-        :type captable_round_in: CaptableRoundIn
+        :param captable_captable_round_in: (required)
+        :type captable_captable_round_in: CaptableCaptableRoundIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6060,7 +6083,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_rounds_serialize(
-            captable_round_in=captable_round_in,
+            captable_captable_round_in=captable_captable_round_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6068,7 +6091,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6084,7 +6107,7 @@ class CaptableApi:
     @validate_call
     def post_captable_rounds_with_http_info(
         self,
-        captable_round_in: CaptableRoundIn,
+        captable_captable_round_in: CaptableCaptableRoundIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6097,13 +6120,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Opens a priced round that investments can be added to.
 
         Opens a priced round that investments can be added to.  The round opens OPEN; investing into a closed one is refused.
 
-        :param captable_round_in: (required)
-        :type captable_round_in: CaptableRoundIn
+        :param captable_captable_round_in: (required)
+        :type captable_captable_round_in: CaptableCaptableRoundIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6127,7 +6150,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_rounds_serialize(
-            captable_round_in=captable_round_in,
+            captable_captable_round_in=captable_captable_round_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6135,7 +6158,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6151,7 +6174,7 @@ class CaptableApi:
     @validate_call
     def post_captable_rounds_without_preload_content(
         self,
-        captable_round_in: CaptableRoundIn,
+        captable_captable_round_in: CaptableCaptableRoundIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6169,8 +6192,8 @@ class CaptableApi:
 
         Opens a priced round that investments can be added to.  The round opens OPEN; investing into a closed one is refused.
 
-        :param captable_round_in: (required)
-        :type captable_round_in: CaptableRoundIn
+        :param captable_captable_round_in: (required)
+        :type captable_captable_round_in: CaptableCaptableRoundIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6194,7 +6217,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_rounds_serialize(
-            captable_round_in=captable_round_in,
+            captable_captable_round_in=captable_captable_round_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6202,7 +6225,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6213,7 +6236,7 @@ class CaptableApi:
 
     def _post_captable_rounds_serialize(
         self,
-        captable_round_in,
+        captable_captable_round_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6239,15 +6262,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_round_in is not None:
-            _body_params = captable_round_in
+        if captable_captable_round_in is not None:
+            _body_params = captable_captable_round_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6292,7 +6316,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_close(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_round_close_request: CaptableRoundCloseRequest,
+        captable_captable_round_close_request: CaptableCaptableRoundCloseRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6305,15 +6329,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableUpdated:
+    ) -> CaptableCaptableUpdated:
         """Closes one of the caller org's fundraising rounds, recording the close date and moving its status to CLOSED.
 
         Closes one of the caller org's fundraising rounds, recording the close date and moving its status to CLOSED. Only an OPEN round can be closed: a round that is already closed — like an id this org does not hold — is not found. Closing a round does not change what was invested in it.
 
         :param id: ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_round_close_request: (required)
-        :type captable_round_close_request: CaptableRoundCloseRequest
+        :param captable_captable_round_close_request: (required)
+        :type captable_captable_round_close_request: CaptableCaptableRoundCloseRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6338,7 +6362,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
-            captable_round_close_request=captable_round_close_request,
+            captable_captable_round_close_request=captable_captable_round_close_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6346,7 +6370,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6363,7 +6387,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_close_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_round_close_request: CaptableRoundCloseRequest,
+        captable_captable_round_close_request: CaptableCaptableRoundCloseRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6376,15 +6400,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableUpdated]:
+    ) -> ApiResponse[CaptableCaptableUpdated]:
         """Closes one of the caller org's fundraising rounds, recording the close date and moving its status to CLOSED.
 
         Closes one of the caller org's fundraising rounds, recording the close date and moving its status to CLOSED. Only an OPEN round can be closed: a round that is already closed — like an id this org does not hold — is not found. Closing a round does not change what was invested in it.
 
         :param id: ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_round_close_request: (required)
-        :type captable_round_close_request: CaptableRoundCloseRequest
+        :param captable_captable_round_close_request: (required)
+        :type captable_captable_round_close_request: CaptableCaptableRoundCloseRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6409,7 +6433,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
-            captable_round_close_request=captable_round_close_request,
+            captable_captable_round_close_request=captable_captable_round_close_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6417,7 +6441,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6434,7 +6458,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_close_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found.")],
-        captable_round_close_request: CaptableRoundCloseRequest,
+        captable_captable_round_close_request: CaptableCaptableRoundCloseRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6454,8 +6478,8 @@ class CaptableApi:
 
         :param id: ID is the round to close. It is the path segment: the URL is the addressing authority, and the org it is resolved in comes from the caller's principal, so an id from another tenant is simply not found. (required)
         :type id: str
-        :param captable_round_close_request: (required)
-        :type captable_round_close_request: CaptableRoundCloseRequest
+        :param captable_captable_round_close_request: (required)
+        :type captable_captable_round_close_request: CaptableCaptableRoundCloseRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6480,7 +6504,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_close_serialize(
             id=id,
-            captable_round_close_request=captable_round_close_request,
+            captable_captable_round_close_request=captable_captable_round_close_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6488,7 +6512,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6500,7 +6524,7 @@ class CaptableApi:
     def _post_captable_rounds_by_id_close_serialize(
         self,
         id,
-        captable_round_close_request,
+        captable_captable_round_close_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6528,15 +6552,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_round_close_request is not None:
-            _body_params = captable_round_close_request
+        if captable_captable_round_close_request is not None:
+            _body_params = captable_captable_round_close_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6581,7 +6606,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_investments(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims.")],
-        captable_investment_in: CaptableInvestmentIn,
+        captable_captable_investment_in: CaptableCaptableInvestmentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6594,15 +6619,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableInvested:
+    ) -> CaptableCaptableInvested:
         """Records one investor's money into an open round.
 
         Records one investor's money into an open round.  The round must be OPEN; investing into a closed one is refused. Where the round carries a price per share, the investment also issues the shares it buys and the answer names them.
 
         :param id: ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims. (required)
         :type id: str
-        :param captable_investment_in: (required)
-        :type captable_investment_in: CaptableInvestmentIn
+        :param captable_captable_investment_in: (required)
+        :type captable_captable_investment_in: CaptableCaptableInvestmentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6627,7 +6652,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
-            captable_investment_in=captable_investment_in,
+            captable_captable_investment_in=captable_captable_investment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6635,7 +6660,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableInvested",
+            '201': "CaptableCaptableInvested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6652,7 +6677,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_investments_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims.")],
-        captable_investment_in: CaptableInvestmentIn,
+        captable_captable_investment_in: CaptableCaptableInvestmentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6665,15 +6690,15 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableInvested]:
+    ) -> ApiResponse[CaptableCaptableInvested]:
         """Records one investor's money into an open round.
 
         Records one investor's money into an open round.  The round must be OPEN; investing into a closed one is refused. Where the round carries a price per share, the investment also issues the shares it buys and the answer names them.
 
         :param id: ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims. (required)
         :type id: str
-        :param captable_investment_in: (required)
-        :type captable_investment_in: CaptableInvestmentIn
+        :param captable_captable_investment_in: (required)
+        :type captable_captable_investment_in: CaptableCaptableInvestmentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6698,7 +6723,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
-            captable_investment_in=captable_investment_in,
+            captable_captable_investment_in=captable_captable_investment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6706,7 +6731,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableInvested",
+            '201': "CaptableCaptableInvested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6723,7 +6748,7 @@ class CaptableApi:
     def post_captable_rounds_by_id_investments_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims.")],
-        captable_investment_in: CaptableInvestmentIn,
+        captable_captable_investment_in: CaptableCaptableInvestmentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6743,8 +6768,8 @@ class CaptableApi:
 
         :param id: ID is the round to invest in. The URL is the addressing authority — a path segment binds after the body and after the query — so the address decides which round is written whatever a body claims. (required)
         :type id: str
-        :param captable_investment_in: (required)
-        :type captable_investment_in: CaptableInvestmentIn
+        :param captable_captable_investment_in: (required)
+        :type captable_captable_investment_in: CaptableCaptableInvestmentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6769,7 +6794,7 @@ class CaptableApi:
 
         _param = self._post_captable_rounds_by_id_investments_serialize(
             id=id,
-            captable_investment_in=captable_investment_in,
+            captable_captable_investment_in=captable_captable_investment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6777,7 +6802,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableInvested",
+            '201': "CaptableCaptableInvested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6789,7 +6814,7 @@ class CaptableApi:
     def _post_captable_rounds_by_id_investments_serialize(
         self,
         id,
-        captable_investment_in,
+        captable_captable_investment_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6817,15 +6842,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_investment_in is not None:
-            _body_params = captable_investment_in
+        if captable_captable_investment_in is not None:
+            _body_params = captable_captable_investment_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6869,7 +6895,7 @@ class CaptableApi:
     @validate_call
     def post_captable_safes(
         self,
-        captable_safe_in: CaptableSafeIn,
+        captable_captable_safe_in: CaptableCaptableSafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6882,13 +6908,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Records a SAFE — a simple agreement for future equity.
 
         Records a SAFE — a simple agreement for future equity.
 
-        :param captable_safe_in: (required)
-        :type captable_safe_in: CaptableSafeIn
+        :param captable_captable_safe_in: (required)
+        :type captable_captable_safe_in: CaptableCaptableSafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6912,7 +6938,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_safes_serialize(
-            captable_safe_in=captable_safe_in,
+            captable_captable_safe_in=captable_captable_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6920,7 +6946,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6936,7 +6962,7 @@ class CaptableApi:
     @validate_call
     def post_captable_safes_with_http_info(
         self,
-        captable_safe_in: CaptableSafeIn,
+        captable_captable_safe_in: CaptableCaptableSafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6949,13 +6975,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Records a SAFE — a simple agreement for future equity.
 
         Records a SAFE — a simple agreement for future equity.
 
-        :param captable_safe_in: (required)
-        :type captable_safe_in: CaptableSafeIn
+        :param captable_captable_safe_in: (required)
+        :type captable_captable_safe_in: CaptableCaptableSafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6979,7 +7005,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_safes_serialize(
-            captable_safe_in=captable_safe_in,
+            captable_captable_safe_in=captable_captable_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6987,7 +7013,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7003,7 +7029,7 @@ class CaptableApi:
     @validate_call
     def post_captable_safes_without_preload_content(
         self,
-        captable_safe_in: CaptableSafeIn,
+        captable_captable_safe_in: CaptableCaptableSafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7021,8 +7047,8 @@ class CaptableApi:
 
         Records a SAFE — a simple agreement for future equity.
 
-        :param captable_safe_in: (required)
-        :type captable_safe_in: CaptableSafeIn
+        :param captable_captable_safe_in: (required)
+        :type captable_captable_safe_in: CaptableCaptableSafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7046,7 +7072,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_safes_serialize(
-            captable_safe_in=captable_safe_in,
+            captable_captable_safe_in=captable_captable_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7054,7 +7080,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7065,7 +7091,7 @@ class CaptableApi:
 
     def _post_captable_safes_serialize(
         self,
-        captable_safe_in,
+        captable_captable_safe_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7091,15 +7117,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_safe_in is not None:
-            _body_params = captable_safe_in
+        if captable_captable_safe_in is not None:
+            _body_params = captable_captable_safe_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7143,7 +7170,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares(
         self,
-        captable_share_in: CaptableShareIn,
+        captable_captable_share_in: CaptableCaptableShareIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7156,13 +7183,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableCreated:
+    ) -> CaptableCaptableCreated:
         """Issues a share certificate to a stakeholder.
 
         Issues a share certificate to a stakeholder.  The certificate id must be UNIQUE within the company — a duplicate is refused 409, not silently merged — and both the stakeholder and the share class must belong to this company, so an id from another tenant is a 400 rather than a cross-company issuance.
 
-        :param captable_share_in: (required)
-        :type captable_share_in: CaptableShareIn
+        :param captable_captable_share_in: (required)
+        :type captable_captable_share_in: CaptableCaptableShareIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7186,7 +7213,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_serialize(
-            captable_share_in=captable_share_in,
+            captable_captable_share_in=captable_captable_share_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7194,7 +7221,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7210,7 +7237,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares_with_http_info(
         self,
-        captable_share_in: CaptableShareIn,
+        captable_captable_share_in: CaptableCaptableShareIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7223,13 +7250,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableCreated]:
+    ) -> ApiResponse[CaptableCaptableCreated]:
         """Issues a share certificate to a stakeholder.
 
         Issues a share certificate to a stakeholder.  The certificate id must be UNIQUE within the company — a duplicate is refused 409, not silently merged — and both the stakeholder and the share class must belong to this company, so an id from another tenant is a 400 rather than a cross-company issuance.
 
-        :param captable_share_in: (required)
-        :type captable_share_in: CaptableShareIn
+        :param captable_captable_share_in: (required)
+        :type captable_captable_share_in: CaptableCaptableShareIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7253,7 +7280,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_serialize(
-            captable_share_in=captable_share_in,
+            captable_captable_share_in=captable_captable_share_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7261,7 +7288,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7277,7 +7304,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares_without_preload_content(
         self,
-        captable_share_in: CaptableShareIn,
+        captable_captable_share_in: CaptableCaptableShareIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7295,8 +7322,8 @@ class CaptableApi:
 
         Issues a share certificate to a stakeholder.  The certificate id must be UNIQUE within the company — a duplicate is refused 409, not silently merged — and both the stakeholder and the share class must belong to this company, so an id from another tenant is a 400 rather than a cross-company issuance.
 
-        :param captable_share_in: (required)
-        :type captable_share_in: CaptableShareIn
+        :param captable_captable_share_in: (required)
+        :type captable_captable_share_in: CaptableCaptableShareIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7320,7 +7347,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_serialize(
-            captable_share_in=captable_share_in,
+            captable_captable_share_in=captable_captable_share_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7328,7 +7355,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CaptableCreated",
+            '201': "CaptableCaptableCreated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7339,7 +7366,7 @@ class CaptableApi:
 
     def _post_captable_shares_serialize(
         self,
-        captable_share_in,
+        captable_captable_share_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7365,15 +7392,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_share_in is not None:
-            _body_params = captable_share_in
+        if captable_captable_share_in is not None:
+            _body_params = captable_captable_share_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7417,7 +7445,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares_transfer(
         self,
-        captable_share_transfer: CaptableShareTransfer,
+        captable_captable_share_transfer: CaptableCaptableShareTransfer,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7430,13 +7458,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableTransferred:
+    ) -> CaptableCaptableTransferred:
         """Moves shares from one stakeholder to another.
 
         Moves shares from one stakeholder to another.  Omit `quantity` to transfer the whole certificate, which REASSIGNS it and mints no new share. Send a quantity below the amount held to SPLIT it — the source certificate keeps the remainder, and a split additionally requires `certificateId` for the new certificate, which must be unique in the company. A quantity outside 1..held is refused, so a transfer can never over-issue.  Both outcomes answer 200: a transfer records a movement between holders and mints no security of its own, which is why this is not a 201 the way an investment is.
 
-        :param captable_share_transfer: (required)
-        :type captable_share_transfer: CaptableShareTransfer
+        :param captable_captable_share_transfer: (required)
+        :type captable_captable_share_transfer: CaptableCaptableShareTransfer
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7460,7 +7488,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_transfer_serialize(
-            captable_share_transfer=captable_share_transfer,
+            captable_captable_share_transfer=captable_captable_share_transfer,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7468,7 +7496,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableTransferred",
+            '200': "CaptableCaptableTransferred",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7484,7 +7512,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares_transfer_with_http_info(
         self,
-        captable_share_transfer: CaptableShareTransfer,
+        captable_captable_share_transfer: CaptableCaptableShareTransfer,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7497,13 +7525,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableTransferred]:
+    ) -> ApiResponse[CaptableCaptableTransferred]:
         """Moves shares from one stakeholder to another.
 
         Moves shares from one stakeholder to another.  Omit `quantity` to transfer the whole certificate, which REASSIGNS it and mints no new share. Send a quantity below the amount held to SPLIT it — the source certificate keeps the remainder, and a split additionally requires `certificateId` for the new certificate, which must be unique in the company. A quantity outside 1..held is refused, so a transfer can never over-issue.  Both outcomes answer 200: a transfer records a movement between holders and mints no security of its own, which is why this is not a 201 the way an investment is.
 
-        :param captable_share_transfer: (required)
-        :type captable_share_transfer: CaptableShareTransfer
+        :param captable_captable_share_transfer: (required)
+        :type captable_captable_share_transfer: CaptableCaptableShareTransfer
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7527,7 +7555,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_transfer_serialize(
-            captable_share_transfer=captable_share_transfer,
+            captable_captable_share_transfer=captable_captable_share_transfer,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7535,7 +7563,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableTransferred",
+            '200': "CaptableCaptableTransferred",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7551,7 +7579,7 @@ class CaptableApi:
     @validate_call
     def post_captable_shares_transfer_without_preload_content(
         self,
-        captable_share_transfer: CaptableShareTransfer,
+        captable_captable_share_transfer: CaptableCaptableShareTransfer,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7569,8 +7597,8 @@ class CaptableApi:
 
         Moves shares from one stakeholder to another.  Omit `quantity` to transfer the whole certificate, which REASSIGNS it and mints no new share. Send a quantity below the amount held to SPLIT it — the source certificate keeps the remainder, and a split additionally requires `certificateId` for the new certificate, which must be unique in the company. A quantity outside 1..held is refused, so a transfer can never over-issue.  Both outcomes answer 200: a transfer records a movement between holders and mints no security of its own, which is why this is not a 201 the way an investment is.
 
-        :param captable_share_transfer: (required)
-        :type captable_share_transfer: CaptableShareTransfer
+        :param captable_captable_share_transfer: (required)
+        :type captable_captable_share_transfer: CaptableCaptableShareTransfer
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7594,7 +7622,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._post_captable_shares_transfer_serialize(
-            captable_share_transfer=captable_share_transfer,
+            captable_captable_share_transfer=captable_captable_share_transfer,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7602,7 +7630,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableTransferred",
+            '200': "CaptableCaptableTransferred",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7613,7 +7641,7 @@ class CaptableApi:
 
     def _post_captable_shares_transfer_serialize(
         self,
-        captable_share_transfer,
+        captable_captable_share_transfer,
         _request_auth,
         _content_type,
         _headers,
@@ -7639,15 +7667,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_share_transfer is not None:
-            _body_params = captable_share_transfer
+        if captable_captable_share_transfer is not None:
+            _body_params = captable_captable_share_transfer
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7927,7 +7956,7 @@ class CaptableApi:
     @validate_call
     def put_captable_company(
         self,
-        captable_company_update: CaptableCompanyUpdate,
+        captable_captable_company_update: CaptableCaptableCompanyUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7940,13 +7969,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CaptableUpdated:
+    ) -> CaptableCaptableUpdated:
         """Sets the caller org's company name and incorporation details.
 
         Sets the caller org's company name and incorporation details. The name is required; the three incorporation fields are optional and each is stored as empty when omitted, so a call that sends only a name CLEARS them. The company row itself is seeded when the tenant's store first opens, so this never creates one.
 
-        :param captable_company_update: (required)
-        :type captable_company_update: CaptableCompanyUpdate
+        :param captable_captable_company_update: (required)
+        :type captable_captable_company_update: CaptableCaptableCompanyUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7970,7 +7999,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._put_captable_company_serialize(
-            captable_company_update=captable_company_update,
+            captable_captable_company_update=captable_captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7978,7 +8007,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7994,7 +8023,7 @@ class CaptableApi:
     @validate_call
     def put_captable_company_with_http_info(
         self,
-        captable_company_update: CaptableCompanyUpdate,
+        captable_captable_company_update: CaptableCaptableCompanyUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8007,13 +8036,13 @@ class CaptableApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CaptableUpdated]:
+    ) -> ApiResponse[CaptableCaptableUpdated]:
         """Sets the caller org's company name and incorporation details.
 
         Sets the caller org's company name and incorporation details. The name is required; the three incorporation fields are optional and each is stored as empty when omitted, so a call that sends only a name CLEARS them. The company row itself is seeded when the tenant's store first opens, so this never creates one.
 
-        :param captable_company_update: (required)
-        :type captable_company_update: CaptableCompanyUpdate
+        :param captable_captable_company_update: (required)
+        :type captable_captable_company_update: CaptableCaptableCompanyUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8037,7 +8066,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._put_captable_company_serialize(
-            captable_company_update=captable_company_update,
+            captable_captable_company_update=captable_captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8045,7 +8074,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8061,7 +8090,7 @@ class CaptableApi:
     @validate_call
     def put_captable_company_without_preload_content(
         self,
-        captable_company_update: CaptableCompanyUpdate,
+        captable_captable_company_update: CaptableCaptableCompanyUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8079,8 +8108,8 @@ class CaptableApi:
 
         Sets the caller org's company name and incorporation details. The name is required; the three incorporation fields are optional and each is stored as empty when omitted, so a call that sends only a name CLEARS them. The company row itself is seeded when the tenant's store first opens, so this never creates one.
 
-        :param captable_company_update: (required)
-        :type captable_company_update: CaptableCompanyUpdate
+        :param captable_captable_company_update: (required)
+        :type captable_captable_company_update: CaptableCaptableCompanyUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8104,7 +8133,7 @@ class CaptableApi:
         """ # noqa: E501
 
         _param = self._put_captable_company_serialize(
-            captable_company_update=captable_company_update,
+            captable_captable_company_update=captable_captable_company_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8112,7 +8141,7 @@ class CaptableApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CaptableUpdated",
+            '200': "CaptableCaptableUpdated",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8123,7 +8152,7 @@ class CaptableApi:
 
     def _put_captable_company_serialize(
         self,
-        captable_company_update,
+        captable_captable_company_update,
         _request_auth,
         _content_type,
         _headers,
@@ -8149,15 +8178,16 @@ class CaptableApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if captable_company_update is not None:
-            _body_params = captable_company_update
+        if captable_captable_company_update is not None:
+            _body_params = captable_captable_company_update
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.activity_view import ActivityView
-from hanzoai.cloud.models.leaderboard_view import LeaderboardView
-from hanzoai.cloud.models.optin_view import OptinView
-from hanzoai.cloud.models.org_optin_req import OrgOptinReq
-from hanzoai.cloud.models.org_optin_view import OrgOptinView
-from hanzoai.cloud.models.user_optin_req import UserOptinReq
-from hanzoai.cloud.models.user_optin_view import UserOptinView
+from hanzoai.cloud.models.leaderboard_activity_view import LeaderboardActivityView
+from hanzoai.cloud.models.leaderboard_leaderboard_view import LeaderboardLeaderboardView
+from hanzoai.cloud.models.leaderboard_optin_view import LeaderboardOptinView
+from hanzoai.cloud.models.leaderboard_org_optin_req import LeaderboardOrgOptinReq
+from hanzoai.cloud.models.leaderboard_org_optin_view import LeaderboardOrgOptinView
+from hanzoai.cloud.models.leaderboard_user_optin_req import LeaderboardUserOptinReq
+from hanzoai.cloud.models.leaderboard_user_optin_view import LeaderboardUserOptinView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -64,10 +64,10 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LeaderboardView:
-        """Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
+    ) -> LeaderboardLeaderboardView:
+        """Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
 
-        Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
+        Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
 
         :param scope: Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.
         :type scope: str
@@ -111,7 +111,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LeaderboardView",
+            '200': "LeaderboardLeaderboardView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -143,10 +143,10 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LeaderboardView]:
-        """Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
+    ) -> ApiResponse[LeaderboardLeaderboardView]:
+        """Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
 
-        Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
+        Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
 
         :param scope: Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.
         :type scope: str
@@ -190,7 +190,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LeaderboardView",
+            '200': "LeaderboardLeaderboardView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -223,9 +223,9 @@ class LeaderboardApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
+        """Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page.
 
-        Leaderboard ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
+        Ranks AI usage over a window, either the users of the caller's own org or organizations against each other, and always reports the caller's own standing even when it falls outside the returned page. Identities are private by default: a caller sees themselves, plus the peers or orgs that opted into public listing, and only an admin sees their own org's members named. Cross-org spend is restricted to platform admins. When the warehouse is not connected the board answers empty with available=false rather than a fabricated rank.
 
         :param scope: Scope picks the board: \"personal\" (default) ranks the caller among their own org's users, \"org\" is that same org board named for an admin, \"global\" ranks organizations against each other.
         :type scope: str
@@ -269,7 +269,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LeaderboardView",
+            '200': "LeaderboardLeaderboardView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -331,7 +331,8 @@ class LeaderboardApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -378,10 +379,10 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActivityView:
-        """Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
+    ) -> LeaderboardActivityView:
+        """Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
 
-        Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
+        Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
 
         :param subject: Subject is what the series is about: \"user\" (default), \"org\" or \"project\".
         :type subject: str
@@ -425,7 +426,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityView",
+            '200': "LeaderboardActivityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -457,10 +458,10 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActivityView]:
-        """Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
+    ) -> ApiResponse[LeaderboardActivityView]:
+        """Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
 
-        Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
+        Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
 
         :param subject: Subject is what the series is about: \"user\" (default), \"org\" or \"project\".
         :type subject: str
@@ -504,7 +505,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityView",
+            '200': "LeaderboardActivityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -537,9 +538,9 @@ class LeaderboardApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
+        """Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present.
 
-        Activity returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
+        Returns the per-day usage series for ONE authorized subject — the points a contribution heatmap and a timeline are drawn from, gap-filled so every day in the range is present. Authorization is resolved server-side from the validated principal, so a caller can never widen the subject past what they are entitled to: a non-admin reads only themselves and their own org. subject=project answers empty with a note, because the usage ledger records no project column yet. When the warehouse is not connected the series answers empty with available=false rather than fabricated days.
 
         :param subject: Subject is what the series is about: \"user\" (default), \"org\" or \"project\".
         :type subject: str
@@ -583,7 +584,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityView",
+            '200': "LeaderboardActivityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -645,7 +646,8 @@ class LeaderboardApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -688,7 +690,7 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OptinView:
+    ) -> LeaderboardOptinView:
         """Returns the caller's own public-listing preference and their org's, each with whether the caller may change it.
 
         Returns the caller's own public-listing preference and their org's, each with whether the caller may change it. Public listing is opt-in and private by default, so a fresh caller reads listed=false for both.
@@ -723,7 +725,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OptinView",
+            '200': "LeaderboardOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -751,7 +753,7 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OptinView]:
+    ) -> ApiResponse[LeaderboardOptinView]:
         """Returns the caller's own public-listing preference and their org's, each with whether the caller may change it.
 
         Returns the caller's own public-listing preference and their org's, each with whether the caller may change it. Public listing is opt-in and private by default, so a fresh caller reads listed=false for both.
@@ -786,7 +788,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OptinView",
+            '200': "LeaderboardOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -849,7 +851,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OptinView",
+            '200': "LeaderboardOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -891,7 +893,8 @@ class LeaderboardApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -922,7 +925,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin(
         self,
-        user_optin_req: UserOptinReq,
+        leaderboard_user_optin_req: LeaderboardUserOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -935,13 +938,13 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserOptinView:
+    ) -> LeaderboardUserOptinView:
         """Sets the CALLER's own public-listing preference on the leaderboard.
 
         Sets the CALLER's own public-listing preference on the leaderboard. Self only: the row written is keyed by the caller's validated ledger identity, so this can never edit another member's visibility whatever the request says. A caller opting in with no handle is given their username, so a listed row never renders as \"Anonymous\" to its own owner.
 
-        :param user_optin_req: (required)
-        :type user_optin_req: UserOptinReq
+        :param leaderboard_user_optin_req: (required)
+        :type leaderboard_user_optin_req: LeaderboardUserOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -965,7 +968,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_serialize(
-            user_optin_req=user_optin_req,
+            leaderboard_user_optin_req=leaderboard_user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -973,7 +976,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserOptinView",
+            '200': "LeaderboardUserOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -989,7 +992,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin_with_http_info(
         self,
-        user_optin_req: UserOptinReq,
+        leaderboard_user_optin_req: LeaderboardUserOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1002,13 +1005,13 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserOptinView]:
+    ) -> ApiResponse[LeaderboardUserOptinView]:
         """Sets the CALLER's own public-listing preference on the leaderboard.
 
         Sets the CALLER's own public-listing preference on the leaderboard. Self only: the row written is keyed by the caller's validated ledger identity, so this can never edit another member's visibility whatever the request says. A caller opting in with no handle is given their username, so a listed row never renders as \"Anonymous\" to its own owner.
 
-        :param user_optin_req: (required)
-        :type user_optin_req: UserOptinReq
+        :param leaderboard_user_optin_req: (required)
+        :type leaderboard_user_optin_req: LeaderboardUserOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1032,7 +1035,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_serialize(
-            user_optin_req=user_optin_req,
+            leaderboard_user_optin_req=leaderboard_user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1040,7 +1043,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserOptinView",
+            '200': "LeaderboardUserOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1056,7 +1059,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin_without_preload_content(
         self,
-        user_optin_req: UserOptinReq,
+        leaderboard_user_optin_req: LeaderboardUserOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1074,8 +1077,8 @@ class LeaderboardApi:
 
         Sets the CALLER's own public-listing preference on the leaderboard. Self only: the row written is keyed by the caller's validated ledger identity, so this can never edit another member's visibility whatever the request says. A caller opting in with no handle is given their username, so a listed row never renders as \"Anonymous\" to its own owner.
 
-        :param user_optin_req: (required)
-        :type user_optin_req: UserOptinReq
+        :param leaderboard_user_optin_req: (required)
+        :type leaderboard_user_optin_req: LeaderboardUserOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1099,7 +1102,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_serialize(
-            user_optin_req=user_optin_req,
+            leaderboard_user_optin_req=leaderboard_user_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1107,7 +1110,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserOptinView",
+            '200': "LeaderboardUserOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1118,7 +1121,7 @@ class LeaderboardApi:
 
     def _put_leaderboard_optin_serialize(
         self,
-        user_optin_req,
+        leaderboard_user_optin_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1144,15 +1147,16 @@ class LeaderboardApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if user_optin_req is not None:
-            _body_params = user_optin_req
+        if leaderboard_user_optin_req is not None:
+            _body_params = leaderboard_user_optin_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1196,7 +1200,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin_org(
         self,
-        org_optin_req: OrgOptinReq,
+        leaderboard_org_optin_req: LeaderboardOrgOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1209,13 +1213,13 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OrgOptinView:
+    ) -> LeaderboardOrgOptinView:
         """Sets the ORG's listing on the cross-org global board.
 
         Sets the ORG's listing on the cross-org global board. Only an admin of the caller's own org — an org admin or a platform SuperAdmin — may change it, and the org written is the caller's validated tenant, never a value from the request. Listing consents to publishing the org's usage VOLUME; cross-org spend stays restricted to platform admins regardless.
 
-        :param org_optin_req: (required)
-        :type org_optin_req: OrgOptinReq
+        :param leaderboard_org_optin_req: (required)
+        :type leaderboard_org_optin_req: LeaderboardOrgOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,7 +1243,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_org_serialize(
-            org_optin_req=org_optin_req,
+            leaderboard_org_optin_req=leaderboard_org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1247,7 +1251,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OrgOptinView",
+            '200': "LeaderboardOrgOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1263,7 +1267,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin_org_with_http_info(
         self,
-        org_optin_req: OrgOptinReq,
+        leaderboard_org_optin_req: LeaderboardOrgOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1276,13 +1280,13 @@ class LeaderboardApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OrgOptinView]:
+    ) -> ApiResponse[LeaderboardOrgOptinView]:
         """Sets the ORG's listing on the cross-org global board.
 
         Sets the ORG's listing on the cross-org global board. Only an admin of the caller's own org — an org admin or a platform SuperAdmin — may change it, and the org written is the caller's validated tenant, never a value from the request. Listing consents to publishing the org's usage VOLUME; cross-org spend stays restricted to platform admins regardless.
 
-        :param org_optin_req: (required)
-        :type org_optin_req: OrgOptinReq
+        :param leaderboard_org_optin_req: (required)
+        :type leaderboard_org_optin_req: LeaderboardOrgOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1306,7 +1310,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_org_serialize(
-            org_optin_req=org_optin_req,
+            leaderboard_org_optin_req=leaderboard_org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1314,7 +1318,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OrgOptinView",
+            '200': "LeaderboardOrgOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1330,7 +1334,7 @@ class LeaderboardApi:
     @validate_call
     def put_leaderboard_optin_org_without_preload_content(
         self,
-        org_optin_req: OrgOptinReq,
+        leaderboard_org_optin_req: LeaderboardOrgOptinReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1348,8 +1352,8 @@ class LeaderboardApi:
 
         Sets the ORG's listing on the cross-org global board. Only an admin of the caller's own org — an org admin or a platform SuperAdmin — may change it, and the org written is the caller's validated tenant, never a value from the request. Listing consents to publishing the org's usage VOLUME; cross-org spend stays restricted to platform admins regardless.
 
-        :param org_optin_req: (required)
-        :type org_optin_req: OrgOptinReq
+        :param leaderboard_org_optin_req: (required)
+        :type leaderboard_org_optin_req: LeaderboardOrgOptinReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1373,7 +1377,7 @@ class LeaderboardApi:
         """ # noqa: E501
 
         _param = self._put_leaderboard_optin_org_serialize(
-            org_optin_req=org_optin_req,
+            leaderboard_org_optin_req=leaderboard_org_optin_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1381,7 +1385,7 @@ class LeaderboardApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OrgOptinView",
+            '200': "LeaderboardOrgOptinView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1392,7 +1396,7 @@ class LeaderboardApi:
 
     def _put_leaderboard_optin_org_serialize(
         self,
-        org_optin_req,
+        leaderboard_org_optin_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1418,15 +1422,16 @@ class LeaderboardApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if org_optin_req is not None:
-            _body_params = org_optin_req
+        if leaderboard_org_optin_req is not None:
+            _body_params = leaderboard_org_optin_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

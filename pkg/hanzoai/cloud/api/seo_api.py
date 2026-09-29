@@ -16,19 +16,19 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.seo_audit_in import SeoAuditIn
-from hanzoai.cloud.models.seo_audit_out import SeoAuditOut
-from hanzoai.cloud.models.seo_backlink_in import SeoBacklinkIn
-from hanzoai.cloud.models.seo_backlink_out import SeoBacklinkOut
-from hanzoai.cloud.models.seo_competitor_in import SeoCompetitorIn
-from hanzoai.cloud.models.seo_competitor_out import SeoCompetitorOut
-from hanzoai.cloud.models.seo_idea_in import SeoIdeaIn
-from hanzoai.cloud.models.seo_idea_out import SeoIdeaOut
-from hanzoai.cloud.models.seo_keyword_in import SeoKeywordIn
-from hanzoai.cloud.models.seo_keyword_out import SeoKeywordOut
-from hanzoai.cloud.models.seo_rank_in import SeoRankIn
-from hanzoai.cloud.models.seo_rank_out import SeoRankOut
-from hanzoai.cloud.models.seo_rate_out import SeoRateOut
+from hanzoai.cloud.models.seo_seo_audit_in import SeoSeoAuditIn
+from hanzoai.cloud.models.seo_seo_audit_out import SeoSeoAuditOut
+from hanzoai.cloud.models.seo_seo_backlink_in import SeoSeoBacklinkIn
+from hanzoai.cloud.models.seo_seo_backlink_out import SeoSeoBacklinkOut
+from hanzoai.cloud.models.seo_seo_competitor_in import SeoSeoCompetitorIn
+from hanzoai.cloud.models.seo_seo_competitor_out import SeoSeoCompetitorOut
+from hanzoai.cloud.models.seo_seo_idea_in import SeoSeoIdeaIn
+from hanzoai.cloud.models.seo_seo_idea_out import SeoSeoIdeaOut
+from hanzoai.cloud.models.seo_seo_keyword_in import SeoSeoKeywordIn
+from hanzoai.cloud.models.seo_seo_keyword_out import SeoSeoKeywordOut
+from hanzoai.cloud.models.seo_seo_rank_in import SeoSeoRankIn
+from hanzoai.cloud.models.seo_seo_rank_out import SeoSeoRankOut
+from hanzoai.cloud.models.seo_seo_rate_out import SeoSeoRateOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,7 +51,7 @@ class SeoApi:
     @validate_call
     def seo_audit(
         self,
-        seo_audit_in: SeoAuditIn,
+        seo_seo_audit_in: SeoSeoAuditIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,13 +64,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoAuditOut:
+    ) -> SeoSeoAuditOut:
         """Fetch one page and report what it gets wrong
 
         Fetches one page and reports what it gets wrong.  It returns the page's on-page score, its title and description, how much readable text it carries, and the full set of named checks — is it https, does it have one h1, is the title duplicated, is it slow, is it a redirect, is anything on it broken. It is the technical half of search visibility, and it is the half a developer can act on this afternoon.  ONE PAGE, LIVE, IN THIS REQUEST. It is deliberately not a site crawl: a crawl is a job with a lifecycle, and this answers the same questions about the page somebody is actually looking at, now, with no task id to poll. Point it at the pages that matter one at a time.  It is priced per page fetched, which is one.
 
-        :param seo_audit_in: (required)
-        :type seo_audit_in: SeoAuditIn
+        :param seo_seo_audit_in: (required)
+        :type seo_seo_audit_in: SeoSeoAuditIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -94,7 +94,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_audit_serialize(
-            seo_audit_in=seo_audit_in,
+            seo_seo_audit_in=seo_seo_audit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -102,7 +102,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoAuditOut",
+            '200': "SeoSeoAuditOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -118,7 +118,7 @@ class SeoApi:
     @validate_call
     def seo_audit_with_http_info(
         self,
-        seo_audit_in: SeoAuditIn,
+        seo_seo_audit_in: SeoSeoAuditIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -131,13 +131,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoAuditOut]:
+    ) -> ApiResponse[SeoSeoAuditOut]:
         """Fetch one page and report what it gets wrong
 
         Fetches one page and reports what it gets wrong.  It returns the page's on-page score, its title and description, how much readable text it carries, and the full set of named checks — is it https, does it have one h1, is the title duplicated, is it slow, is it a redirect, is anything on it broken. It is the technical half of search visibility, and it is the half a developer can act on this afternoon.  ONE PAGE, LIVE, IN THIS REQUEST. It is deliberately not a site crawl: a crawl is a job with a lifecycle, and this answers the same questions about the page somebody is actually looking at, now, with no task id to poll. Point it at the pages that matter one at a time.  It is priced per page fetched, which is one.
 
-        :param seo_audit_in: (required)
-        :type seo_audit_in: SeoAuditIn
+        :param seo_seo_audit_in: (required)
+        :type seo_seo_audit_in: SeoSeoAuditIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -161,7 +161,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_audit_serialize(
-            seo_audit_in=seo_audit_in,
+            seo_seo_audit_in=seo_seo_audit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -169,7 +169,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoAuditOut",
+            '200': "SeoSeoAuditOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -185,7 +185,7 @@ class SeoApi:
     @validate_call
     def seo_audit_without_preload_content(
         self,
-        seo_audit_in: SeoAuditIn,
+        seo_seo_audit_in: SeoSeoAuditIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -203,8 +203,8 @@ class SeoApi:
 
         Fetches one page and reports what it gets wrong.  It returns the page's on-page score, its title and description, how much readable text it carries, and the full set of named checks — is it https, does it have one h1, is the title duplicated, is it slow, is it a redirect, is anything on it broken. It is the technical half of search visibility, and it is the half a developer can act on this afternoon.  ONE PAGE, LIVE, IN THIS REQUEST. It is deliberately not a site crawl: a crawl is a job with a lifecycle, and this answers the same questions about the page somebody is actually looking at, now, with no task id to poll. Point it at the pages that matter one at a time.  It is priced per page fetched, which is one.
 
-        :param seo_audit_in: (required)
-        :type seo_audit_in: SeoAuditIn
+        :param seo_seo_audit_in: (required)
+        :type seo_seo_audit_in: SeoSeoAuditIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -228,7 +228,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_audit_serialize(
-            seo_audit_in=seo_audit_in,
+            seo_seo_audit_in=seo_seo_audit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -236,7 +236,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoAuditOut",
+            '200': "SeoSeoAuditOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -247,7 +247,7 @@ class SeoApi:
 
     def _seo_audit_serialize(
         self,
-        seo_audit_in,
+        seo_seo_audit_in,
         _request_auth,
         _content_type,
         _headers,
@@ -273,15 +273,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_audit_in is not None:
-            _body_params = seo_audit_in
+        if seo_seo_audit_in is not None:
+            _body_params = seo_seo_audit_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -325,7 +326,7 @@ class SeoApi:
     @validate_call
     def seo_backlink(
         self,
-        seo_backlink_in: SeoBacklinkIn,
+        seo_seo_backlink_in: SeoSeoBacklinkIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -338,13 +339,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoBacklinkOut:
+    ) -> SeoSeoBacklinkOut:
         """Who links to a target, and how much of it is broken or spam
 
         Summarises who links to a target.  It returns the authority score, how many links point at it and from how many distinct sites, how many of those are broken, and how much of the profile reads as spam. Distinct sites is the number to read: a thousand links from one domain is one endorsement, and a profile that grew fast in links and not in domains is usually a profile somebody bought.  The target can be a whole domain, a subdomain, or one page URL — the summary is scoped to whatever is named. It is priced per request, so a domain with ten million links costs the same as one with ten.
 
-        :param seo_backlink_in: (required)
-        :type seo_backlink_in: SeoBacklinkIn
+        :param seo_seo_backlink_in: (required)
+        :type seo_seo_backlink_in: SeoSeoBacklinkIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -368,7 +369,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_backlink_serialize(
-            seo_backlink_in=seo_backlink_in,
+            seo_seo_backlink_in=seo_seo_backlink_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -376,7 +377,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoBacklinkOut",
+            '200': "SeoSeoBacklinkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -392,7 +393,7 @@ class SeoApi:
     @validate_call
     def seo_backlink_with_http_info(
         self,
-        seo_backlink_in: SeoBacklinkIn,
+        seo_seo_backlink_in: SeoSeoBacklinkIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -405,13 +406,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoBacklinkOut]:
+    ) -> ApiResponse[SeoSeoBacklinkOut]:
         """Who links to a target, and how much of it is broken or spam
 
         Summarises who links to a target.  It returns the authority score, how many links point at it and from how many distinct sites, how many of those are broken, and how much of the profile reads as spam. Distinct sites is the number to read: a thousand links from one domain is one endorsement, and a profile that grew fast in links and not in domains is usually a profile somebody bought.  The target can be a whole domain, a subdomain, or one page URL — the summary is scoped to whatever is named. It is priced per request, so a domain with ten million links costs the same as one with ten.
 
-        :param seo_backlink_in: (required)
-        :type seo_backlink_in: SeoBacklinkIn
+        :param seo_seo_backlink_in: (required)
+        :type seo_seo_backlink_in: SeoSeoBacklinkIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -435,7 +436,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_backlink_serialize(
-            seo_backlink_in=seo_backlink_in,
+            seo_seo_backlink_in=seo_seo_backlink_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -443,7 +444,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoBacklinkOut",
+            '200': "SeoSeoBacklinkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -459,7 +460,7 @@ class SeoApi:
     @validate_call
     def seo_backlink_without_preload_content(
         self,
-        seo_backlink_in: SeoBacklinkIn,
+        seo_seo_backlink_in: SeoSeoBacklinkIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -477,8 +478,8 @@ class SeoApi:
 
         Summarises who links to a target.  It returns the authority score, how many links point at it and from how many distinct sites, how many of those are broken, and how much of the profile reads as spam. Distinct sites is the number to read: a thousand links from one domain is one endorsement, and a profile that grew fast in links and not in domains is usually a profile somebody bought.  The target can be a whole domain, a subdomain, or one page URL — the summary is scoped to whatever is named. It is priced per request, so a domain with ten million links costs the same as one with ten.
 
-        :param seo_backlink_in: (required)
-        :type seo_backlink_in: SeoBacklinkIn
+        :param seo_seo_backlink_in: (required)
+        :type seo_seo_backlink_in: SeoSeoBacklinkIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -502,7 +503,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_backlink_serialize(
-            seo_backlink_in=seo_backlink_in,
+            seo_seo_backlink_in=seo_seo_backlink_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -510,7 +511,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoBacklinkOut",
+            '200': "SeoSeoBacklinkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -521,7 +522,7 @@ class SeoApi:
 
     def _seo_backlink_serialize(
         self,
-        seo_backlink_in,
+        seo_seo_backlink_in,
         _request_auth,
         _content_type,
         _headers,
@@ -547,15 +548,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_backlink_in is not None:
-            _body_params = seo_backlink_in
+        if seo_seo_backlink_in is not None:
+            _body_params = seo_seo_backlink_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -599,7 +601,7 @@ class SeoApi:
     @validate_call
     def seo_competitor(
         self,
-        seo_competitor_in: SeoCompetitorIn,
+        seo_seo_competitor_in: SeoSeoCompetitorIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -612,13 +614,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoCompetitorOut:
+    ) -> SeoSeoCompetitorOut:
         """The domains that place for the same phrases
 
         Names the domains that place for the same phrases.  Given a set of phrases it returns the sites that appear across them, with each one's average position, how many of the phrases it places for, its share of the available attention and the visits that earns. It answers \"who am I actually up against here\", which is a different question from \"who do I think my competitors are\" and frequently a different answer.  Pair it with seoRank: this says who is in the race, seoRank says where any one of them finishes. It is priced per row, so Limit decides the cost.
 
-        :param seo_competitor_in: (required)
-        :type seo_competitor_in: SeoCompetitorIn
+        :param seo_seo_competitor_in: (required)
+        :type seo_seo_competitor_in: SeoSeoCompetitorIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -642,7 +644,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_competitor_serialize(
-            seo_competitor_in=seo_competitor_in,
+            seo_seo_competitor_in=seo_seo_competitor_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -650,7 +652,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoCompetitorOut",
+            '200': "SeoSeoCompetitorOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -666,7 +668,7 @@ class SeoApi:
     @validate_call
     def seo_competitor_with_http_info(
         self,
-        seo_competitor_in: SeoCompetitorIn,
+        seo_seo_competitor_in: SeoSeoCompetitorIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -679,13 +681,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoCompetitorOut]:
+    ) -> ApiResponse[SeoSeoCompetitorOut]:
         """The domains that place for the same phrases
 
         Names the domains that place for the same phrases.  Given a set of phrases it returns the sites that appear across them, with each one's average position, how many of the phrases it places for, its share of the available attention and the visits that earns. It answers \"who am I actually up against here\", which is a different question from \"who do I think my competitors are\" and frequently a different answer.  Pair it with seoRank: this says who is in the race, seoRank says where any one of them finishes. It is priced per row, so Limit decides the cost.
 
-        :param seo_competitor_in: (required)
-        :type seo_competitor_in: SeoCompetitorIn
+        :param seo_seo_competitor_in: (required)
+        :type seo_seo_competitor_in: SeoSeoCompetitorIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -709,7 +711,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_competitor_serialize(
-            seo_competitor_in=seo_competitor_in,
+            seo_seo_competitor_in=seo_seo_competitor_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -717,7 +719,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoCompetitorOut",
+            '200': "SeoSeoCompetitorOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -733,7 +735,7 @@ class SeoApi:
     @validate_call
     def seo_competitor_without_preload_content(
         self,
-        seo_competitor_in: SeoCompetitorIn,
+        seo_seo_competitor_in: SeoSeoCompetitorIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -751,8 +753,8 @@ class SeoApi:
 
         Names the domains that place for the same phrases.  Given a set of phrases it returns the sites that appear across them, with each one's average position, how many of the phrases it places for, its share of the available attention and the visits that earns. It answers \"who am I actually up against here\", which is a different question from \"who do I think my competitors are\" and frequently a different answer.  Pair it with seoRank: this says who is in the race, seoRank says where any one of them finishes. It is priced per row, so Limit decides the cost.
 
-        :param seo_competitor_in: (required)
-        :type seo_competitor_in: SeoCompetitorIn
+        :param seo_seo_competitor_in: (required)
+        :type seo_seo_competitor_in: SeoSeoCompetitorIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -776,7 +778,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_competitor_serialize(
-            seo_competitor_in=seo_competitor_in,
+            seo_seo_competitor_in=seo_seo_competitor_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -784,7 +786,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoCompetitorOut",
+            '200': "SeoSeoCompetitorOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -795,7 +797,7 @@ class SeoApi:
 
     def _seo_competitor_serialize(
         self,
-        seo_competitor_in,
+        seo_seo_competitor_in,
         _request_auth,
         _content_type,
         _headers,
@@ -821,15 +823,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_competitor_in is not None:
-            _body_params = seo_competitor_in
+        if seo_seo_competitor_in is not None:
+            _body_params = seo_seo_competitor_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -873,7 +876,7 @@ class SeoApi:
     @validate_call
     def seo_idea(
         self,
-        seo_idea_in: SeoIdeaIn,
+        seo_seo_idea_in: SeoSeoIdeaIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -886,13 +889,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoIdeaOut:
+    ) -> SeoSeoIdeaOut:
         """Grow a seed phrase into the phrases nobody named yet
 
         Grows a seed phrase into the phrases nobody named yet.  It takes phrases you have and returns phrases in the same category that you do not — relevant rather than merely containing the seed — each with its search volume, click cost, competition and how hard its first page is to reach. This is where a keyword list comes FROM; seoKeyword is where a list you already have gets measured.  It is priced per row, so Limit is the knob that decides what the call costs. Total says how many more there were.
 
-        :param seo_idea_in: (required)
-        :type seo_idea_in: SeoIdeaIn
+        :param seo_seo_idea_in: (required)
+        :type seo_seo_idea_in: SeoSeoIdeaIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -916,7 +919,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_idea_serialize(
-            seo_idea_in=seo_idea_in,
+            seo_seo_idea_in=seo_seo_idea_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -924,7 +927,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoIdeaOut",
+            '200': "SeoSeoIdeaOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -940,7 +943,7 @@ class SeoApi:
     @validate_call
     def seo_idea_with_http_info(
         self,
-        seo_idea_in: SeoIdeaIn,
+        seo_seo_idea_in: SeoSeoIdeaIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -953,13 +956,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoIdeaOut]:
+    ) -> ApiResponse[SeoSeoIdeaOut]:
         """Grow a seed phrase into the phrases nobody named yet
 
         Grows a seed phrase into the phrases nobody named yet.  It takes phrases you have and returns phrases in the same category that you do not — relevant rather than merely containing the seed — each with its search volume, click cost, competition and how hard its first page is to reach. This is where a keyword list comes FROM; seoKeyword is where a list you already have gets measured.  It is priced per row, so Limit is the knob that decides what the call costs. Total says how many more there were.
 
-        :param seo_idea_in: (required)
-        :type seo_idea_in: SeoIdeaIn
+        :param seo_seo_idea_in: (required)
+        :type seo_seo_idea_in: SeoSeoIdeaIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -983,7 +986,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_idea_serialize(
-            seo_idea_in=seo_idea_in,
+            seo_seo_idea_in=seo_seo_idea_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -991,7 +994,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoIdeaOut",
+            '200': "SeoSeoIdeaOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1007,7 +1010,7 @@ class SeoApi:
     @validate_call
     def seo_idea_without_preload_content(
         self,
-        seo_idea_in: SeoIdeaIn,
+        seo_seo_idea_in: SeoSeoIdeaIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1025,8 +1028,8 @@ class SeoApi:
 
         Grows a seed phrase into the phrases nobody named yet.  It takes phrases you have and returns phrases in the same category that you do not — relevant rather than merely containing the seed — each with its search volume, click cost, competition and how hard its first page is to reach. This is where a keyword list comes FROM; seoKeyword is where a list you already have gets measured.  It is priced per row, so Limit is the knob that decides what the call costs. Total says how many more there were.
 
-        :param seo_idea_in: (required)
-        :type seo_idea_in: SeoIdeaIn
+        :param seo_seo_idea_in: (required)
+        :type seo_seo_idea_in: SeoSeoIdeaIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1050,7 +1053,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_idea_serialize(
-            seo_idea_in=seo_idea_in,
+            seo_seo_idea_in=seo_seo_idea_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1058,7 +1061,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoIdeaOut",
+            '200': "SeoSeoIdeaOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1069,7 +1072,7 @@ class SeoApi:
 
     def _seo_idea_serialize(
         self,
-        seo_idea_in,
+        seo_seo_idea_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1095,15 +1098,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_idea_in is not None:
-            _body_params = seo_idea_in
+        if seo_seo_idea_in is not None:
+            _body_params = seo_seo_idea_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1147,7 +1151,7 @@ class SeoApi:
     @validate_call
     def seo_keyword(
         self,
-        seo_keyword_in: SeoKeywordIn,
+        seo_seo_keyword_in: SeoSeoKeywordIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1160,13 +1164,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoKeywordOut:
+    ) -> SeoSeoKeywordOut:
         """How often named phrases are searched, and what a click costs
 
         Measures phrases the caller already has.  It answers, for each phrase named, how many people search it in a month, what an advertising click on it costs, and how contested that advertising is. This is the ground fact of search: everything else on this surface is a question about phrases, and this is the one that says whether a phrase is worth having.  Give it phrases you already suspect. To find phrases you have not thought of, use seoIdea; to find the ones a site already places for, use seoRank.  The market defaults to the United States in English. It is priced per request rather than per phrase, so asking about fifty phrases costs what asking about one does.
 
-        :param seo_keyword_in: (required)
-        :type seo_keyword_in: SeoKeywordIn
+        :param seo_seo_keyword_in: (required)
+        :type seo_seo_keyword_in: SeoSeoKeywordIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1190,7 +1194,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_keyword_serialize(
-            seo_keyword_in=seo_keyword_in,
+            seo_seo_keyword_in=seo_seo_keyword_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1198,7 +1202,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoKeywordOut",
+            '200': "SeoSeoKeywordOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1214,7 +1218,7 @@ class SeoApi:
     @validate_call
     def seo_keyword_with_http_info(
         self,
-        seo_keyword_in: SeoKeywordIn,
+        seo_seo_keyword_in: SeoSeoKeywordIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1227,13 +1231,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoKeywordOut]:
+    ) -> ApiResponse[SeoSeoKeywordOut]:
         """How often named phrases are searched, and what a click costs
 
         Measures phrases the caller already has.  It answers, for each phrase named, how many people search it in a month, what an advertising click on it costs, and how contested that advertising is. This is the ground fact of search: everything else on this surface is a question about phrases, and this is the one that says whether a phrase is worth having.  Give it phrases you already suspect. To find phrases you have not thought of, use seoIdea; to find the ones a site already places for, use seoRank.  The market defaults to the United States in English. It is priced per request rather than per phrase, so asking about fifty phrases costs what asking about one does.
 
-        :param seo_keyword_in: (required)
-        :type seo_keyword_in: SeoKeywordIn
+        :param seo_seo_keyword_in: (required)
+        :type seo_seo_keyword_in: SeoSeoKeywordIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1257,7 +1261,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_keyword_serialize(
-            seo_keyword_in=seo_keyword_in,
+            seo_seo_keyword_in=seo_seo_keyword_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1265,7 +1269,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoKeywordOut",
+            '200': "SeoSeoKeywordOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1281,7 +1285,7 @@ class SeoApi:
     @validate_call
     def seo_keyword_without_preload_content(
         self,
-        seo_keyword_in: SeoKeywordIn,
+        seo_seo_keyword_in: SeoSeoKeywordIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1299,8 +1303,8 @@ class SeoApi:
 
         Measures phrases the caller already has.  It answers, for each phrase named, how many people search it in a month, what an advertising click on it costs, and how contested that advertising is. This is the ground fact of search: everything else on this surface is a question about phrases, and this is the one that says whether a phrase is worth having.  Give it phrases you already suspect. To find phrases you have not thought of, use seoIdea; to find the ones a site already places for, use seoRank.  The market defaults to the United States in English. It is priced per request rather than per phrase, so asking about fifty phrases costs what asking about one does.
 
-        :param seo_keyword_in: (required)
-        :type seo_keyword_in: SeoKeywordIn
+        :param seo_seo_keyword_in: (required)
+        :type seo_seo_keyword_in: SeoSeoKeywordIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1324,7 +1328,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_keyword_serialize(
-            seo_keyword_in=seo_keyword_in,
+            seo_seo_keyword_in=seo_seo_keyword_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1332,7 +1336,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoKeywordOut",
+            '200': "SeoSeoKeywordOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1343,7 +1347,7 @@ class SeoApi:
 
     def _seo_keyword_serialize(
         self,
-        seo_keyword_in,
+        seo_seo_keyword_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1369,15 +1373,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_keyword_in is not None:
-            _body_params = seo_keyword_in
+        if seo_seo_keyword_in is not None:
+            _body_params = seo_seo_keyword_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1421,7 +1426,7 @@ class SeoApi:
     @validate_call
     def seo_rank(
         self,
-        seo_rank_in: SeoRankIn,
+        seo_seo_rank_in: SeoSeoRankIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1434,13 +1439,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoRankOut:
+    ) -> SeoSeoRankOut:
         """Every phrase a domain already places for, with its position
 
         Reports every phrase a domain already places for.  For each one it gives the phrase, the position on the results page, the page of the site that placed, that result's headline, the phrase's monthly searches and the visits the placement is estimated to earn. It is the single most direct question about a site's search visibility — yours or a competitor's, since it takes any domain.  Position is the ABSOLUTE rank, counting every element on the page — the ads, the answer boxes, the map — because that is what a person scrolling actually passes. An organic-only rank flatters a result that sits below half a screen of other things.  It is priced per row, so Limit decides what the call costs, and Total says how many more there were.
 
-        :param seo_rank_in: (required)
-        :type seo_rank_in: SeoRankIn
+        :param seo_seo_rank_in: (required)
+        :type seo_seo_rank_in: SeoSeoRankIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1464,7 +1469,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_rank_serialize(
-            seo_rank_in=seo_rank_in,
+            seo_seo_rank_in=seo_seo_rank_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1472,7 +1477,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRankOut",
+            '200': "SeoSeoRankOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1488,7 +1493,7 @@ class SeoApi:
     @validate_call
     def seo_rank_with_http_info(
         self,
-        seo_rank_in: SeoRankIn,
+        seo_seo_rank_in: SeoSeoRankIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1501,13 +1506,13 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoRankOut]:
+    ) -> ApiResponse[SeoSeoRankOut]:
         """Every phrase a domain already places for, with its position
 
         Reports every phrase a domain already places for.  For each one it gives the phrase, the position on the results page, the page of the site that placed, that result's headline, the phrase's monthly searches and the visits the placement is estimated to earn. It is the single most direct question about a site's search visibility — yours or a competitor's, since it takes any domain.  Position is the ABSOLUTE rank, counting every element on the page — the ads, the answer boxes, the map — because that is what a person scrolling actually passes. An organic-only rank flatters a result that sits below half a screen of other things.  It is priced per row, so Limit decides what the call costs, and Total says how many more there were.
 
-        :param seo_rank_in: (required)
-        :type seo_rank_in: SeoRankIn
+        :param seo_seo_rank_in: (required)
+        :type seo_seo_rank_in: SeoSeoRankIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1531,7 +1536,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_rank_serialize(
-            seo_rank_in=seo_rank_in,
+            seo_seo_rank_in=seo_seo_rank_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1539,7 +1544,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRankOut",
+            '200': "SeoSeoRankOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1555,7 +1560,7 @@ class SeoApi:
     @validate_call
     def seo_rank_without_preload_content(
         self,
-        seo_rank_in: SeoRankIn,
+        seo_seo_rank_in: SeoSeoRankIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1573,8 +1578,8 @@ class SeoApi:
 
         Reports every phrase a domain already places for.  For each one it gives the phrase, the position on the results page, the page of the site that placed, that result's headline, the phrase's monthly searches and the visits the placement is estimated to earn. It is the single most direct question about a site's search visibility — yours or a competitor's, since it takes any domain.  Position is the ABSOLUTE rank, counting every element on the page — the ads, the answer boxes, the map — because that is what a person scrolling actually passes. An organic-only rank flatters a result that sits below half a screen of other things.  It is priced per row, so Limit decides what the call costs, and Total says how many more there were.
 
-        :param seo_rank_in: (required)
-        :type seo_rank_in: SeoRankIn
+        :param seo_seo_rank_in: (required)
+        :type seo_seo_rank_in: SeoSeoRankIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1598,7 +1603,7 @@ class SeoApi:
         """ # noqa: E501
 
         _param = self._seo_rank_serialize(
-            seo_rank_in=seo_rank_in,
+            seo_seo_rank_in=seo_seo_rank_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1606,7 +1611,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRankOut",
+            '200': "SeoSeoRankOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1617,7 +1622,7 @@ class SeoApi:
 
     def _seo_rank_serialize(
         self,
-        seo_rank_in,
+        seo_seo_rank_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1643,15 +1648,16 @@ class SeoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if seo_rank_in is not None:
-            _body_params = seo_rank_in
+        if seo_seo_rank_in is not None:
+            _body_params = seo_seo_rank_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1707,7 +1713,7 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SeoRateOut:
+    ) -> SeoSeoRateOut:
         """What each call on this surface costs, from the vendor's own list
 
         Publishes what every call on this surface costs.  The numbers are read from the upstream's own published price list, not from a table kept here, so a price change on their side moves this card within the hour and moves what is debited with it. That is the whole of the pricing model: this surface resells at cost, and the cost is theirs to state.  A row has two numbers because a call has two costs: a flat charge for asking, and a charge per row returned. An op priced per request reports zero for the second, and for one priced per row the total is `request + result x limit` — which is the amount your balance is authorized against before the call, and roughly what you will be debited after it.  It is a read and it is free: asking what something costs must not require the balance that would pay for it. If the upstream cannot be reached the card comes back empty rather than stale — a price nobody can confirm is not a price.
@@ -1742,7 +1748,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRateOut",
+            '200': "SeoSeoRateOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1770,7 +1776,7 @@ class SeoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SeoRateOut]:
+    ) -> ApiResponse[SeoSeoRateOut]:
         """What each call on this surface costs, from the vendor's own list
 
         Publishes what every call on this surface costs.  The numbers are read from the upstream's own published price list, not from a table kept here, so a price change on their side moves this card within the hour and moves what is debited with it. That is the whole of the pricing model: this surface resells at cost, and the cost is theirs to state.  A row has two numbers because a call has two costs: a flat charge for asking, and a charge per row returned. An op priced per request reports zero for the second, and for one priced per row the total is `request + result x limit` — which is the amount your balance is authorized against before the call, and roughly what you will be debited after it.  It is a read and it is free: asking what something costs must not require the balance that would pay for it. If the upstream cannot be reached the card comes back empty rather than stale — a price nobody can confirm is not a price.
@@ -1805,7 +1811,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRateOut",
+            '200': "SeoSeoRateOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1868,7 +1874,7 @@ class SeoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SeoRateOut",
+            '200': "SeoSeoRateOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1910,7 +1916,8 @@ class SeoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

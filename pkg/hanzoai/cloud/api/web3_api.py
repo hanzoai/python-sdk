@@ -18,11 +18,11 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.balances import Balances
-from hanzoai.cloud.models.chain_list import ChainList
-from hanzoai.cloud.models.chain_status import ChainStatus
-from hanzoai.cloud.models.rpc_in import RpcIn
-from hanzoai.cloud.models.rpc_out import RpcOut
+from hanzoai.cloud.models.web3_balances import Web3Balances
+from hanzoai.cloud.models.web3_chain_list import Web3ChainList
+from hanzoai.cloud.models.web3_chain_status import Web3ChainStatus
+from hanzoai.cloud.models.web3_rpc_in import Web3RpcIn
+from hanzoai.cloud.models.web3_rpc_out import Web3RpcOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -57,7 +57,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChainList:
+    ) -> Web3ChainList:
         """Reports the chains this deployment can reach.
 
         Reports the chains this deployment can reach. The list is the declared registry, so it is exactly what /v1/web3/rpc will accept — a chain that appears here is one this deployment actually has an upstream for.
@@ -92,7 +92,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainList",
+            '200': "Web3ChainList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -120,7 +120,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChainList]:
+    ) -> ApiResponse[Web3ChainList]:
         """Reports the chains this deployment can reach.
 
         Reports the chains this deployment can reach. The list is the declared registry, so it is exactly what /v1/web3/rpc will accept — a chain that appears here is one this deployment actually has an upstream for.
@@ -155,7 +155,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainList",
+            '200': "Web3ChainList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -218,7 +218,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainList",
+            '200': "Web3ChainList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -260,7 +260,8 @@ class Web3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -304,7 +305,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChainStatus:
+    ) -> Web3ChainStatus:
         """Reports one chain and whether its upstream is answering.
 
         Reports one chain and whether its upstream is answering. An unreachable chain is still a 200 with live:false — the chain is configured, which is a different fact from the chain being up, and a 502 here would make a console page error rather than show the outage.
@@ -342,7 +343,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainStatus",
+            '200': "Web3ChainStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -371,7 +372,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChainStatus]:
+    ) -> ApiResponse[Web3ChainStatus]:
         """Reports one chain and whether its upstream is answering.
 
         Reports one chain and whether its upstream is answering. An unreachable chain is still a 200 with live:false — the chain is configured, which is a different fact from the chain being up, and a 502 here would make a console page error rather than show the outage.
@@ -409,7 +410,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainStatus",
+            '200': "Web3ChainStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -476,7 +477,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChainStatus",
+            '200': "Web3ChainStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -521,7 +522,8 @@ class Web3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -566,7 +568,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Balances:
+    ) -> Web3Balances:
         """Reads an address's native balance on a chain.
 
         Reads an address's native balance on a chain.  ERC-20 positions are NOT enumerated here: eth_getBalance answers the native one, but \"every token this address holds\" is an indexer question — there is no RPC call that answers it, and walking a token list would return a number that silently omits whatever the list missed. explorer owns the indexer relationship; this returns the balance the chain itself can prove.
@@ -607,7 +609,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Balances",
+            '200': "Web3Balances",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -637,7 +639,7 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Balances]:
+    ) -> ApiResponse[Web3Balances]:
         """Reads an address's native balance on a chain.
 
         Reads an address's native balance on a chain.  ERC-20 positions are NOT enumerated here: eth_getBalance answers the native one, but \"every token this address holds\" is an indexer question — there is no RPC call that answers it, and walking a token list would return a number that silently omits whatever the list missed. explorer owns the indexer relationship; this returns the balance the chain itself can prove.
@@ -678,7 +680,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Balances",
+            '200': "Web3Balances",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -749,7 +751,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Balances",
+            '200': "Web3Balances",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -797,7 +799,8 @@ class Web3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -829,7 +832,7 @@ class Web3Api:
     def post_web3_rpc_by_chain(
         self,
         chain: Annotated[StrictStr, Field(description="Chain is the registry id, from the URL.")],
-        rpc_in: RpcIn,
+        web3_rpc_in: Web3RpcIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -842,15 +845,15 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RpcOut:
+    ) -> Web3RpcOut:
         """Forwards a JSON-RPC call to the named chain and returns its answer unchanged.
 
         Forwards a JSON-RPC call to the named chain and returns its answer unchanged. Only declared chains are reachable, and only to a caller with a validated principal — this is the deployment's upstream, not an open relay.
 
         :param chain: Chain is the registry id, from the URL. (required)
         :type chain: str
-        :param rpc_in: (required)
-        :type rpc_in: RpcIn
+        :param web3_rpc_in: (required)
+        :type web3_rpc_in: Web3RpcIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -875,7 +878,7 @@ class Web3Api:
 
         _param = self._post_web3_rpc_by_chain_serialize(
             chain=chain,
-            rpc_in=rpc_in,
+            web3_rpc_in=web3_rpc_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -883,7 +886,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RpcOut",
+            '200': "Web3RpcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -900,7 +903,7 @@ class Web3Api:
     def post_web3_rpc_by_chain_with_http_info(
         self,
         chain: Annotated[StrictStr, Field(description="Chain is the registry id, from the URL.")],
-        rpc_in: RpcIn,
+        web3_rpc_in: Web3RpcIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -913,15 +916,15 @@ class Web3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RpcOut]:
+    ) -> ApiResponse[Web3RpcOut]:
         """Forwards a JSON-RPC call to the named chain and returns its answer unchanged.
 
         Forwards a JSON-RPC call to the named chain and returns its answer unchanged. Only declared chains are reachable, and only to a caller with a validated principal — this is the deployment's upstream, not an open relay.
 
         :param chain: Chain is the registry id, from the URL. (required)
         :type chain: str
-        :param rpc_in: (required)
-        :type rpc_in: RpcIn
+        :param web3_rpc_in: (required)
+        :type web3_rpc_in: Web3RpcIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -946,7 +949,7 @@ class Web3Api:
 
         _param = self._post_web3_rpc_by_chain_serialize(
             chain=chain,
-            rpc_in=rpc_in,
+            web3_rpc_in=web3_rpc_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -954,7 +957,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RpcOut",
+            '200': "Web3RpcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -971,7 +974,7 @@ class Web3Api:
     def post_web3_rpc_by_chain_without_preload_content(
         self,
         chain: Annotated[StrictStr, Field(description="Chain is the registry id, from the URL.")],
-        rpc_in: RpcIn,
+        web3_rpc_in: Web3RpcIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -991,8 +994,8 @@ class Web3Api:
 
         :param chain: Chain is the registry id, from the URL. (required)
         :type chain: str
-        :param rpc_in: (required)
-        :type rpc_in: RpcIn
+        :param web3_rpc_in: (required)
+        :type web3_rpc_in: Web3RpcIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1017,7 +1020,7 @@ class Web3Api:
 
         _param = self._post_web3_rpc_by_chain_serialize(
             chain=chain,
-            rpc_in=rpc_in,
+            web3_rpc_in=web3_rpc_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1025,7 +1028,7 @@ class Web3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RpcOut",
+            '200': "Web3RpcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1037,7 +1040,7 @@ class Web3Api:
     def _post_web3_rpc_by_chain_serialize(
         self,
         chain,
-        rpc_in,
+        web3_rpc_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1065,15 +1068,16 @@ class Web3Api:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if rpc_in is not None:
-            _body_params = rpc_in
+        if web3_rpc_in is not None:
+            _body_params = web3_rpc_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

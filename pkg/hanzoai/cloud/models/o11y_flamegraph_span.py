@@ -27,7 +27,7 @@ class O11yFlamegraphSpan(BaseModel):
     """
     O11yFlamegraphSpan
     """ # noqa: E501
-    attributes: Optional[Dict[str, Dict[str, Any]]] = None
+    attributes: Optional[Dict[str, Any]] = None
     duration_nano: Optional[StrictInt] = Field(default=None, alias="durationNano")
     event: Optional[List[O11yEvent]] = None
     has_error: Optional[StrictBool] = Field(default=None, alias="hasError")

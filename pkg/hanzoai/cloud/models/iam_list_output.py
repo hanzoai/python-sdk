@@ -17,9 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.iam_audit_log import IamAuditLog
+from hanzoai.cloud.models.iam_user import IamUser
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,9 +27,9 @@ class IamListOutput(BaseModel):
     """
     IamListOutput
     """ # noqa: E501
-    audit_logs: Optional[List[IamAuditLog]] = Field(default=None, alias="auditLogs")
     total: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["auditLogs", "total"]
+    users: Optional[List[IamUser]] = None
+    __properties: ClassVar[List[str]] = ["total", "users"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -70,13 +70,13 @@ class IamListOutput(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in audit_logs (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in users (list)
         _items = []
-        if self.audit_logs:
-            for _item_audit_logs in self.audit_logs:
-                if _item_audit_logs:
-                    _items.append(_item_audit_logs.to_dict())
-            _dict['auditLogs'] = _items
+        if self.users:
+            for _item_users in self.users:
+                if _item_users:
+                    _items.append(_item_users.to_dict())
+            _dict['users'] = _items
         return _dict
 
     @classmethod
@@ -89,8 +89,8 @@ class IamListOutput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "auditLogs": [IamAuditLog.from_dict(_item) for _item in obj["auditLogs"]] if obj.get("auditLogs") is not None else None,
-            "total": obj.get("total")
+            "total": obj.get("total"),
+            "users": [IamUser.from_dict(_item) for _item in obj["users"]] if obj.get("users") is not None else None
         })
         return _obj
 

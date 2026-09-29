@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.destination_field import DestinationField
 from typing import Optional, Set
@@ -27,17 +27,17 @@ class DestinationStatus(BaseModel):
     """
     DestinationStatus
     """ # noqa: E501
-    account: Optional[StrictStr] = Field(default=None, description="Account is the operator's own label for the connected account, as supplied on connect. Absent when unset.")
-    category: Optional[StrictStr] = Field(default=None, description="groups the card: Analytics | Advertising")
-    config: Optional[Dict[str, StrictStr]] = Field(default=None, description="Config is the org's stored NON-SECRET configuration — the measurement/pixel ids keyed by DestinationField.Key. A secret is never in here; secrets live in KMS and only their names are published, in Secrets.")
-    connected: Optional[StrictBool] = Field(default=None, description="Connected is true when this org has a stored row for the platform — it has been configured here at least once. It says nothing about whether a credential still resolves; that is Live.")
-    enabled: Optional[StrictBool] = Field(default=None, description="Enabled is whether the fan-out forwards to this destination. False on a destination that is connected but paused, and on one never connected.")
-    fields: Optional[List[DestinationField]] = Field(default=None, description="Fields are the non-secret inputs this platform needs, which the console card renders and the connect body fills.")
-    live: Optional[StrictBool] = Field(default=None, description="Live is whether a credential resolves RIGHT NOW: a KMS-sealed secret for this org, else the integrations connection named by the platform's Fallback, else no credential needed at all (a public-ingest sink like Analytics). False on a connected destination whose secret has gone missing — Connected && !Live is exactly the \"reconnect me\" state.")
-    name: Optional[StrictStr] = Field(default=None, description="the platform's display name (\"Google Analytics 4\")")
-    pixel: Optional[StrictBool] = Field(default=None, description="Pixel is whether the hosted tag can inject a browser pixel for this platform, so a console offers a per-SITE pixel input for exactly these. False means the platform receives conversions server-side only, and an input would promise an injection that never happens. Derived from the tag's own map (event.BrowserTags), never restated — a second list is how a console offers a pixel nothing fires.")
-    platform: Optional[StrictStr] = Field(default=None, description="the platform slug, and the path segment every route addresses it by")
-    secrets: Optional[List[StrictStr]] = Field(default=None, description="Secrets are the KMS secret NAMES this platform custodies for the org — names only, never values. The connect body accepts each under its camelCase form.")
+    account: Optional[StrictStr] = None
+    category: Optional[StrictStr] = None
+    config: Optional[Dict[str, StrictStr]] = None
+    connected: Optional[StrictBool] = None
+    enabled: Optional[StrictBool] = None
+    fields: Optional[List[DestinationField]] = None
+    live: Optional[StrictBool] = None
+    name: Optional[StrictStr] = None
+    pixel: Optional[StrictBool] = None
+    platform: Optional[StrictStr] = None
+    secrets: Optional[List[StrictStr]] = None
     __properties: ClassVar[List[str]] = ["account", "category", "config", "connected", "enabled", "fields", "live", "name", "pixel", "platform", "secrets"]
 
     model_config = ConfigDict(

@@ -19,18 +19,30 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.graph_assert_in import GraphAssertIn
-from hanzoai.cloud.models.graph_assert_out import GraphAssertOut
-from hanzoai.cloud.models.graph_extract_out import GraphExtractOut
-from hanzoai.cloud.models.graph_neighbors_in import GraphNeighborsIn
-from hanzoai.cloud.models.graph_neighbors_out import GraphNeighborsOut
+from hanzoai.cloud.models.graph_graph_answer_in import GraphGraphAnswerIn
+from hanzoai.cloud.models.graph_graph_answer_out import GraphGraphAnswerOut
+from hanzoai.cloud.models.graph_graph_assert_in import GraphGraphAssertIn
+from hanzoai.cloud.models.graph_graph_assert_out import GraphGraphAssertOut
+from hanzoai.cloud.models.graph_graph_communities_in import GraphGraphCommunitiesIn
+from hanzoai.cloud.models.graph_graph_communities_out import GraphGraphCommunitiesOut
+from hanzoai.cloud.models.graph_graph_derive_in import GraphGraphDeriveIn
+from hanzoai.cloud.models.graph_graph_derive_out import GraphGraphDeriveOut
+from hanzoai.cloud.models.graph_graph_diff_in import GraphGraphDiffIn
+from hanzoai.cloud.models.graph_graph_diff_out import GraphGraphDiffOut
+from hanzoai.cloud.models.graph_graph_erase_in import GraphGraphEraseIn
+from hanzoai.cloud.models.graph_graph_erase_out import GraphGraphEraseOut
+from hanzoai.cloud.models.graph_graph_extract_out import GraphGraphExtractOut
+from hanzoai.cloud.models.graph_graph_neighbors_in import GraphGraphNeighborsIn
+from hanzoai.cloud.models.graph_graph_neighbors_out import GraphGraphNeighborsOut
+from hanzoai.cloud.models.graph_graph_path_in import GraphGraphPathIn
+from hanzoai.cloud.models.graph_graph_path_out import GraphGraphPathOut
+from hanzoai.cloud.models.graph_graph_read_out import GraphGraphReadOut
+from hanzoai.cloud.models.graph_graph_resolve_in import GraphGraphResolveIn
+from hanzoai.cloud.models.graph_graph_resolve_out import GraphGraphResolveOut
+from hanzoai.cloud.models.graph_graph_source_in import GraphGraphSourceIn
+from hanzoai.cloud.models.graph_graph_vocabulary_out import GraphGraphVocabularyOut
 from hanzoai.cloud.models.graph_qlin import GraphQLIn
 from hanzoai.cloud.models.graph_ql_out import GraphQLOut
-from hanzoai.cloud.models.graph_read_out import GraphReadOut
-from hanzoai.cloud.models.graph_resolve_in import GraphResolveIn
-from hanzoai.cloud.models.graph_resolve_out import GraphResolveOut
-from hanzoai.cloud.models.graph_source_in import GraphSourceIn
-from hanzoai.cloud.models.graph_vocabulary_out import GraphVocabularyOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,9 +63,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_assert(
+    def graph_answer(
         self,
-        graph_assert_in: GraphAssertIn,
+        graph_graph_answer_in: GraphGraphAnswerIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66,12 +78,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphAssertOut:
-        """Assert what is true of an entity
+    ) -> GraphGraphAnswerOut:
+        """Answers a question from the whole graph and cites the assertions it rests on.
 
+        Answers a question from the whole graph and cites the assertions it rests on.  It asks a model what each community's in-force facts say about the question, then asks once more for one answer from those findings. Every cited ID is checked to be a row of this graph, a failed model call fails the answer, and the calls are billed to the calling organization.  Time: as_of and as_known place the graph that is read; either absent is now.
 
-        :param graph_assert_in: (required)
-        :type graph_assert_in: GraphAssertIn
+        :param graph_graph_answer_in: (required)
+        :type graph_graph_answer_in: GraphGraphAnswerIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -94,8 +107,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_assert_serialize(
-            graph_assert_in=graph_assert_in,
+        _param = self._graph_answer_serialize(
+            graph_graph_answer_in=graph_graph_answer_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -103,7 +116,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAnswerOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -117,9 +130,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_assert_with_http_info(
+    def graph_answer_with_http_info(
         self,
-        graph_assert_in: GraphAssertIn,
+        graph_graph_answer_in: GraphGraphAnswerIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -132,12 +145,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphAssertOut]:
-        """Assert what is true of an entity
+    ) -> ApiResponse[GraphGraphAnswerOut]:
+        """Answers a question from the whole graph and cites the assertions it rests on.
 
+        Answers a question from the whole graph and cites the assertions it rests on.  It asks a model what each community's in-force facts say about the question, then asks once more for one answer from those findings. Every cited ID is checked to be a row of this graph, a failed model call fails the answer, and the calls are billed to the calling organization.  Time: as_of and as_known place the graph that is read; either absent is now.
 
-        :param graph_assert_in: (required)
-        :type graph_assert_in: GraphAssertIn
+        :param graph_graph_answer_in: (required)
+        :type graph_graph_answer_in: GraphGraphAnswerIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -160,8 +174,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_assert_serialize(
-            graph_assert_in=graph_assert_in,
+        _param = self._graph_answer_serialize(
+            graph_graph_answer_in=graph_graph_answer_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -169,7 +183,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAnswerOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -183,9 +197,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_assert_without_preload_content(
+    def graph_answer_without_preload_content(
         self,
-        graph_assert_in: GraphAssertIn,
+        graph_graph_answer_in: GraphGraphAnswerIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -199,11 +213,12 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Assert what is true of an entity
+        """Answers a question from the whole graph and cites the assertions it rests on.
 
+        Answers a question from the whole graph and cites the assertions it rests on.  It asks a model what each community's in-force facts say about the question, then asks once more for one answer from those findings. Every cited ID is checked to be a row of this graph, a failed model call fails the answer, and the calls are billed to the calling organization.  Time: as_of and as_known place the graph that is read; either absent is now.
 
-        :param graph_assert_in: (required)
-        :type graph_assert_in: GraphAssertIn
+        :param graph_graph_answer_in: (required)
+        :type graph_graph_answer_in: GraphGraphAnswerIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -226,8 +241,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_assert_serialize(
-            graph_assert_in=graph_assert_in,
+        _param = self._graph_answer_serialize(
+            graph_graph_answer_in=graph_graph_answer_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -235,7 +250,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAnswerOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -244,9 +259,9 @@ class GraphApi:
         return response_data.response
 
 
-    def _graph_assert_serialize(
+    def _graph_answer_serialize(
         self,
-        graph_assert_in,
+        graph_graph_answer_in,
         _request_auth,
         _content_type,
         _headers,
@@ -272,15 +287,291 @@ class GraphApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if graph_assert_in is not None:
-            _body_params = graph_assert_in
+        if graph_graph_answer_in is not None:
+            _body_params = graph_graph_answer_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/answer',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_assert(
+        self,
+        graph_graph_assert_in: GraphGraphAssertIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphAssertOut:
+        """Records a batch of assertions and counts what became of each.
+
+        Records a batch of assertions and counts what became of each.  Each member is judged alone: one refusal does not discard the rest, and a member this plane already holds is a duplicate, not a refusal. A batch with nothing admitted answers 400.  Time: at and until are when the statement was so, which an as_of read is bounded by; the server stamps knowable, the later of seen and its own clock, which an as_known read is bounded by. Nothing is overwritten: a correction is the statement filed again, and the version known latest speaks for it.
+
+        :param graph_graph_assert_in: (required)
+        :type graph_graph_assert_in: GraphGraphAssertIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_assert_serialize(
+            graph_graph_assert_in=graph_graph_assert_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_assert_with_http_info(
+        self,
+        graph_graph_assert_in: GraphGraphAssertIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphAssertOut]:
+        """Records a batch of assertions and counts what became of each.
+
+        Records a batch of assertions and counts what became of each.  Each member is judged alone: one refusal does not discard the rest, and a member this plane already holds is a duplicate, not a refusal. A batch with nothing admitted answers 400.  Time: at and until are when the statement was so, which an as_of read is bounded by; the server stamps knowable, the later of seen and its own clock, which an as_known read is bounded by. Nothing is overwritten: a correction is the statement filed again, and the version known latest speaks for it.
+
+        :param graph_graph_assert_in: (required)
+        :type graph_graph_assert_in: GraphGraphAssertIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_assert_serialize(
+            graph_graph_assert_in=graph_graph_assert_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_assert_without_preload_content(
+        self,
+        graph_graph_assert_in: GraphGraphAssertIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Records a batch of assertions and counts what became of each.
+
+        Records a batch of assertions and counts what became of each.  Each member is judged alone: one refusal does not discard the rest, and a member this plane already holds is a duplicate, not a refusal. A batch with nothing admitted answers 400.  Time: at and until are when the statement was so, which an as_of read is bounded by; the server stamps knowable, the later of seen and its own clock, which an as_known read is bounded by. Nothing is overwritten: a correction is the statement filed again, and the version known latest speaks for it.
+
+        :param graph_graph_assert_in: (required)
+        :type graph_graph_assert_in: GraphGraphAssertIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_assert_serialize(
+            graph_graph_assert_in=graph_graph_assert_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphAssertOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_assert_serialize(
+        self,
+        graph_graph_assert_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_assert_in is not None:
+            _body_params = graph_graph_assert_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -322,9 +613,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_extract(
+    def graph_communities(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_communities_in: GraphGraphCommunitiesIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -337,13 +628,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphExtractOut:
-        """Read the relations a source states, without recording them
+    ) -> GraphGraphCommunitiesOut:
+        """Partitions the edge graph into sets of entities more densely connected to each other than to the rest.
 
-        Reads a source and returns the relations it states, recording nothing. It is how a caller sees what a document would file before the plane — which has no update and no delete — has anything filed into it.  A relation is stated as `relation:: value` on its own line; prose states none. A value written `[[key]]` names another entity, which makes the assertion an edge. The subject is the nearest heading above the line, or the request's `subject` until a heading names one.
+        Partitions the edge graph into sets of entities more densely connected to each other than to the rest.  The graph is the one a walk reads, direction dropped, and the partition is deterministic: the same graph at the same point numbers the same communities.  Time: as_of and as_known place the graph that is partitioned; either absent is now.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_communities_in: (required)
+        :type graph_graph_communities_in: GraphGraphCommunitiesIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -366,8 +657,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_extract_serialize(
-            graph_source_in=graph_source_in,
+        _param = self._graph_communities_serialize(
+            graph_graph_communities_in=graph_graph_communities_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -375,7 +666,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphExtractOut",
+            '200': "GraphGraphCommunitiesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -389,9 +680,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_extract_with_http_info(
+    def graph_communities_with_http_info(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_communities_in: GraphGraphCommunitiesIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -404,13 +695,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphExtractOut]:
-        """Read the relations a source states, without recording them
+    ) -> ApiResponse[GraphGraphCommunitiesOut]:
+        """Partitions the edge graph into sets of entities more densely connected to each other than to the rest.
 
-        Reads a source and returns the relations it states, recording nothing. It is how a caller sees what a document would file before the plane — which has no update and no delete — has anything filed into it.  A relation is stated as `relation:: value` on its own line; prose states none. A value written `[[key]]` names another entity, which makes the assertion an edge. The subject is the nearest heading above the line, or the request's `subject` until a heading names one.
+        Partitions the edge graph into sets of entities more densely connected to each other than to the rest.  The graph is the one a walk reads, direction dropped, and the partition is deterministic: the same graph at the same point numbers the same communities.  Time: as_of and as_known place the graph that is partitioned; either absent is now.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_communities_in: (required)
+        :type graph_graph_communities_in: GraphGraphCommunitiesIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -433,8 +724,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_extract_serialize(
-            graph_source_in=graph_source_in,
+        _param = self._graph_communities_serialize(
+            graph_graph_communities_in=graph_graph_communities_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -442,7 +733,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphExtractOut",
+            '200': "GraphGraphCommunitiesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -456,9 +747,9 @@ class GraphApi:
 
 
     @validate_call
-    def graph_extract_without_preload_content(
+    def graph_communities_without_preload_content(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_communities_in: GraphGraphCommunitiesIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -472,12 +763,12 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read the relations a source states, without recording them
+        """Partitions the edge graph into sets of entities more densely connected to each other than to the rest.
 
-        Reads a source and returns the relations it states, recording nothing. It is how a caller sees what a document would file before the plane — which has no update and no delete — has anything filed into it.  A relation is stated as `relation:: value` on its own line; prose states none. A value written `[[key]]` names another entity, which makes the assertion an edge. The subject is the nearest heading above the line, or the request's `subject` until a heading names one.
+        Partitions the edge graph into sets of entities more densely connected to each other than to the rest.  The graph is the one a walk reads, direction dropped, and the partition is deterministic: the same graph at the same point numbers the same communities.  Time: as_of and as_known place the graph that is partitioned; either absent is now.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_communities_in: (required)
+        :type graph_graph_communities_in: GraphGraphCommunitiesIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -500,8 +791,8 @@ class GraphApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._graph_extract_serialize(
-            graph_source_in=graph_source_in,
+        _param = self._graph_communities_serialize(
+            graph_graph_communities_in=graph_graph_communities_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -509,7 +800,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphExtractOut",
+            '200': "GraphGraphCommunitiesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -518,9 +809,9 @@ class GraphApi:
         return response_data.response
 
 
-    def _graph_extract_serialize(
+    def _graph_communities_serialize(
         self,
-        graph_source_in,
+        graph_graph_communities_in,
         _request_auth,
         _content_type,
         _headers,
@@ -546,15 +837,1116 @@ class GraphApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if graph_source_in is not None:
-            _body_params = graph_source_in
+        if graph_graph_communities_in is not None:
+            _body_params = graph_graph_communities_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/communities',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_derive(
+        self,
+        graph_graph_derive_in: GraphGraphDeriveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphDeriveOut:
+        """Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.
+
+        Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.  The rules are assertions — (`rule:<name>`, `rule`, `<text>`), Datalog over the organization's relations, with recursion, stratified negation and the builtins = and != — and the graph is read the way resolve reads it, so a retraction, an until and a declared cardinality all apply. Nothing derived is stored unless an admin asks to file it. Without names assertions to derive without, and the answer then says what would be lost, and what gained, if they had never been filed.  Time: as_of and as_known place the graph and the rules it is read with, as they place a resolve; either absent is now. Filing takes neither: a filed conclusion holds from the instant it was derived.
+
+        :param graph_graph_derive_in: (required)
+        :type graph_graph_derive_in: GraphGraphDeriveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_derive_serialize(
+            graph_graph_derive_in=graph_graph_derive_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDeriveOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_derive_with_http_info(
+        self,
+        graph_graph_derive_in: GraphGraphDeriveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphDeriveOut]:
+        """Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.
+
+        Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.  The rules are assertions — (`rule:<name>`, `rule`, `<text>`), Datalog over the organization's relations, with recursion, stratified negation and the builtins = and != — and the graph is read the way resolve reads it, so a retraction, an until and a declared cardinality all apply. Nothing derived is stored unless an admin asks to file it. Without names assertions to derive without, and the answer then says what would be lost, and what gained, if they had never been filed.  Time: as_of and as_known place the graph and the rules it is read with, as they place a resolve; either absent is now. Filing takes neither: a filed conclusion holds from the instant it was derived.
+
+        :param graph_graph_derive_in: (required)
+        :type graph_graph_derive_in: GraphGraphDeriveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_derive_serialize(
+            graph_graph_derive_in=graph_graph_derive_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDeriveOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_derive_without_preload_content(
+        self,
+        graph_graph_derive_in: GraphGraphDeriveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.
+
+        Concludes what the organization's rules derive from the graph, with a proof for every conclusion: the rule, and each support as the assertion in force it rests on or as the derived atom it is.  The rules are assertions — (`rule:<name>`, `rule`, `<text>`), Datalog over the organization's relations, with recursion, stratified negation and the builtins = and != — and the graph is read the way resolve reads it, so a retraction, an until and a declared cardinality all apply. Nothing derived is stored unless an admin asks to file it. Without names assertions to derive without, and the answer then says what would be lost, and what gained, if they had never been filed.  Time: as_of and as_known place the graph and the rules it is read with, as they place a resolve; either absent is now. Filing takes neither: a filed conclusion holds from the instant it was derived.
+
+        :param graph_graph_derive_in: (required)
+        :type graph_graph_derive_in: GraphGraphDeriveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_derive_serialize(
+            graph_graph_derive_in=graph_graph_derive_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDeriveOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_derive_serialize(
+        self,
+        graph_graph_derive_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_derive_in is not None:
+            _body_params = graph_graph_derive_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/derive',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_diff(
+        self,
+        graph_graph_diff_in: GraphGraphDiffIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphDiffOut:
+        """Reports what came into force, was superseded and was retracted between two points.
+
+        Reports what came into force, was superseded and was retracted between two points.  Each point is resolved as resolve would, never read off the rows in between. A version that loses the order is invisible here as it is there, and one that repeats what held is agreement, not change.  Time: a point is an as_of and an as_known instant, from and from_known against to and to_known. Hold the known instants equal for what happened in the world; hold the valid instants equal for what the record learned. to and to_known default to now, from to to and from_known to to_known, and the two points must differ.
+
+        :param graph_graph_diff_in: (required)
+        :type graph_graph_diff_in: GraphGraphDiffIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_diff_serialize(
+            graph_graph_diff_in=graph_graph_diff_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDiffOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_diff_with_http_info(
+        self,
+        graph_graph_diff_in: GraphGraphDiffIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphDiffOut]:
+        """Reports what came into force, was superseded and was retracted between two points.
+
+        Reports what came into force, was superseded and was retracted between two points.  Each point is resolved as resolve would, never read off the rows in between. A version that loses the order is invisible here as it is there, and one that repeats what held is agreement, not change.  Time: a point is an as_of and an as_known instant, from and from_known against to and to_known. Hold the known instants equal for what happened in the world; hold the valid instants equal for what the record learned. to and to_known default to now, from to to and from_known to to_known, and the two points must differ.
+
+        :param graph_graph_diff_in: (required)
+        :type graph_graph_diff_in: GraphGraphDiffIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_diff_serialize(
+            graph_graph_diff_in=graph_graph_diff_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDiffOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_diff_without_preload_content(
+        self,
+        graph_graph_diff_in: GraphGraphDiffIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reports what came into force, was superseded and was retracted between two points.
+
+        Reports what came into force, was superseded and was retracted between two points.  Each point is resolved as resolve would, never read off the rows in between. A version that loses the order is invisible here as it is there, and one that repeats what held is agreement, not change.  Time: a point is an as_of and an as_known instant, from and from_known against to and to_known. Hold the known instants equal for what happened in the world; hold the valid instants equal for what the record learned. to and to_known default to now, from to to and from_known to to_known, and the two points must differ.
+
+        :param graph_graph_diff_in: (required)
+        :type graph_graph_diff_in: GraphGraphDiffIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_diff_serialize(
+            graph_graph_diff_in=graph_graph_diff_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphDiffOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_diff_serialize(
+        self,
+        graph_graph_diff_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_diff_in is not None:
+            _body_params = graph_graph_diff_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/diff',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_erase(
+        self,
+        graph_graph_erase_in: GraphGraphEraseIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphEraseOut:
+        """Removes every assertion that names an entity and returns a receipt.
+
+        Removes every assertion that names an entity and returns a receipt.  It requires an admin of the organization it acts in; platform sudo is not enough, so erasure is never cross-tenant. Nothing is removed while a matching assertion is under litigation hold (409) or where the erasure cannot be recorded (503). The audit trail keeps who, when, why, how many and the receipt's digest, never the entity, and holds it before the erasure commits.  Time: erasure is the one act outside the two times. The rows go at every as_of and as_known, so no past read recovers them.
+
+        :param graph_graph_erase_in: (required)
+        :type graph_graph_erase_in: GraphGraphEraseIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_erase_serialize(
+            graph_graph_erase_in=graph_graph_erase_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEraseOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_erase_with_http_info(
+        self,
+        graph_graph_erase_in: GraphGraphEraseIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphEraseOut]:
+        """Removes every assertion that names an entity and returns a receipt.
+
+        Removes every assertion that names an entity and returns a receipt.  It requires an admin of the organization it acts in; platform sudo is not enough, so erasure is never cross-tenant. Nothing is removed while a matching assertion is under litigation hold (409) or where the erasure cannot be recorded (503). The audit trail keeps who, when, why, how many and the receipt's digest, never the entity, and holds it before the erasure commits.  Time: erasure is the one act outside the two times. The rows go at every as_of and as_known, so no past read recovers them.
+
+        :param graph_graph_erase_in: (required)
+        :type graph_graph_erase_in: GraphGraphEraseIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_erase_serialize(
+            graph_graph_erase_in=graph_graph_erase_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEraseOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_erase_without_preload_content(
+        self,
+        graph_graph_erase_in: GraphGraphEraseIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes every assertion that names an entity and returns a receipt.
+
+        Removes every assertion that names an entity and returns a receipt.  It requires an admin of the organization it acts in; platform sudo is not enough, so erasure is never cross-tenant. Nothing is removed while a matching assertion is under litigation hold (409) or where the erasure cannot be recorded (503). The audit trail keeps who, when, why, how many and the receipt's digest, never the entity, and holds it before the erasure commits.  Time: erasure is the one act outside the two times. The rows go at every as_of and as_known, so no past read recovers them.
+
+        :param graph_graph_erase_in: (required)
+        :type graph_graph_erase_in: GraphGraphEraseIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_erase_serialize(
+            graph_graph_erase_in=graph_graph_erase_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphEraseOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_erase_serialize(
+        self,
+        graph_graph_erase_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_erase_in is not None:
+            _body_params = graph_graph_erase_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/erase',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def graph_extract(
+        self,
+        graph_graph_source_in: GraphGraphSourceIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphExtractOut:
+        """Reads the relations a source states and returns them, recording nothing.
+
+        Reads the relations a source states and returns them, recording nothing.  A line `relation:: value` states one; a value written `[[key]]` names an entity and makes the relation an edge. The subject is the nearest heading above the line, or the request's subject until a heading names one.  What filing would refuse is returned apart, in refused: a declaration from a caller who is not an admin of the organization, and what the declared schema refuses, checked against the store and against the types and declarations the document itself states that the caller may file.  Time: it records nothing and takes no as_of or as_known; the schema is checked as of now.
+
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_extract_serialize(
+            graph_graph_source_in=graph_graph_source_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphExtractOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_extract_with_http_info(
+        self,
+        graph_graph_source_in: GraphGraphSourceIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphExtractOut]:
+        """Reads the relations a source states and returns them, recording nothing.
+
+        Reads the relations a source states and returns them, recording nothing.  A line `relation:: value` states one; a value written `[[key]]` names an entity and makes the relation an edge. The subject is the nearest heading above the line, or the request's subject until a heading names one.  What filing would refuse is returned apart, in refused: a declaration from a caller who is not an admin of the organization, and what the declared schema refuses, checked against the store and against the types and declarations the document itself states that the caller may file.  Time: it records nothing and takes no as_of or as_known; the schema is checked as of now.
+
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_extract_serialize(
+            graph_graph_source_in=graph_graph_source_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphExtractOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_extract_without_preload_content(
+        self,
+        graph_graph_source_in: GraphGraphSourceIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads the relations a source states and returns them, recording nothing.
+
+        Reads the relations a source states and returns them, recording nothing.  A line `relation:: value` states one; a value written `[[key]]` names an entity and makes the relation an edge. The subject is the nearest heading above the line, or the request's subject until a heading names one.  What filing would refuse is returned apart, in refused: a declaration from a caller who is not an admin of the organization, and what the declared schema refuses, checked against the store and against the types and declarations the document itself states that the caller may file.  Time: it records nothing and takes no as_of or as_known; the schema is checked as of now.
+
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_extract_serialize(
+            graph_graph_source_in=graph_graph_source_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphExtractOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_extract_serialize(
+        self,
+        graph_graph_source_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_source_in is not None:
+            _body_params = graph_graph_source_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -598,7 +1990,7 @@ class GraphApi:
     @validate_call
     def graph_ingest(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_source_in: GraphGraphSourceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -611,13 +2003,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphAssertOut:
-        """Read a source and record what it states as assertions
+    ) -> GraphGraphAssertOut:
+        """Reads a source and records what it states, through the same admission as assert.
 
-        Reads a source and records what it states into the calling organization's graph — the same store, the same admission and the same content address as POST /v1/graph, because this operation ends by calling that one.  Every assertion carries the source it came from and, as its evidence, the section that stated it: `<source>#<section>`. Delivering the same source at the same `at` twice therefore records one set of rows and reports the rest as duplicates, which is the property a retrying importer depends on.  A source that states no relation is refused rather than recorded as an empty success: a caller that wrote its document in prose has been told nothing by a 200 that filed nothing.
+        Reads a source and records what it states, through the same admission as assert.  Each assertion's evidence is the section that stated it, `<source>#<section>`, so the same source at the same at records one set of rows however often it is delivered. What extract reports refused is not recorded; it is counted as refused, with its reason, in the order the document states it. A source stating no relation is refused whole.  Time: at is the valid time of every assertion recorded, which an as_of read is bounded by; each becomes knowable at the write, so a read with an earlier as_known does not see it.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -641,7 +2033,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_ingest_serialize(
-            graph_source_in=graph_source_in,
+            graph_graph_source_in=graph_graph_source_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -649,7 +2041,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAssertOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -665,7 +2057,7 @@ class GraphApi:
     @validate_call
     def graph_ingest_with_http_info(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_source_in: GraphGraphSourceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -678,13 +2070,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphAssertOut]:
-        """Read a source and record what it states as assertions
+    ) -> ApiResponse[GraphGraphAssertOut]:
+        """Reads a source and records what it states, through the same admission as assert.
 
-        Reads a source and records what it states into the calling organization's graph — the same store, the same admission and the same content address as POST /v1/graph, because this operation ends by calling that one.  Every assertion carries the source it came from and, as its evidence, the section that stated it: `<source>#<section>`. Delivering the same source at the same `at` twice therefore records one set of rows and reports the rest as duplicates, which is the property a retrying importer depends on.  A source that states no relation is refused rather than recorded as an empty success: a caller that wrote its document in prose has been told nothing by a 200 that filed nothing.
+        Reads a source and records what it states, through the same admission as assert.  Each assertion's evidence is the section that stated it, `<source>#<section>`, so the same source at the same at records one set of rows however often it is delivered. What extract reports refused is not recorded; it is counted as refused, with its reason, in the order the document states it. A source stating no relation is refused whole.  Time: at is the valid time of every assertion recorded, which an as_of read is bounded by; each becomes knowable at the write, so a read with an earlier as_known does not see it.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -708,7 +2100,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_ingest_serialize(
-            graph_source_in=graph_source_in,
+            graph_graph_source_in=graph_graph_source_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -716,7 +2108,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAssertOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -732,7 +2124,7 @@ class GraphApi:
     @validate_call
     def graph_ingest_without_preload_content(
         self,
-        graph_source_in: GraphSourceIn,
+        graph_graph_source_in: GraphGraphSourceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -746,12 +2138,12 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read a source and record what it states as assertions
+        """Reads a source and records what it states, through the same admission as assert.
 
-        Reads a source and records what it states into the calling organization's graph — the same store, the same admission and the same content address as POST /v1/graph, because this operation ends by calling that one.  Every assertion carries the source it came from and, as its evidence, the section that stated it: `<source>#<section>`. Delivering the same source at the same `at` twice therefore records one set of rows and reports the rest as duplicates, which is the property a retrying importer depends on.  A source that states no relation is refused rather than recorded as an empty success: a caller that wrote its document in prose has been told nothing by a 200 that filed nothing.
+        Reads a source and records what it states, through the same admission as assert.  Each assertion's evidence is the section that stated it, `<source>#<section>`, so the same source at the same at records one set of rows however often it is delivered. What extract reports refused is not recorded; it is counted as refused, with its reason, in the order the document states it. A source stating no relation is refused whole.  Time: at is the valid time of every assertion recorded, which an as_of read is bounded by; each becomes knowable at the write, so a read with an earlier as_known does not see it.
 
-        :param graph_source_in: (required)
-        :type graph_source_in: GraphSourceIn
+        :param graph_graph_source_in: (required)
+        :type graph_graph_source_in: GraphGraphSourceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -775,7 +2167,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_ingest_serialize(
-            graph_source_in=graph_source_in,
+            graph_graph_source_in=graph_graph_source_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -783,7 +2175,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphAssertOut",
+            '200': "GraphGraphAssertOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -794,7 +2186,7 @@ class GraphApi:
 
     def _graph_ingest_serialize(
         self,
-        graph_source_in,
+        graph_graph_source_in,
         _request_auth,
         _content_type,
         _headers,
@@ -820,15 +2212,16 @@ class GraphApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if graph_source_in is not None:
-            _body_params = graph_source_in
+        if graph_graph_source_in is not None:
+            _body_params = graph_graph_source_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -872,7 +2265,7 @@ class GraphApi:
     @validate_call
     def graph_neighbors(
         self,
-        graph_neighbors_in: GraphNeighborsIn,
+        graph_graph_neighbors_in: GraphGraphNeighborsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -885,12 +2278,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphNeighborsOut:
-        """Walk the edges from a seed set, bounded
+    ) -> GraphGraphNeighborsOut:
+        """Walks the in-force edges from a set of seeds and lists every entity reached, bounded.
 
+        Walks the in-force edges from a set of seeds and lists every entity reached, bounded.  Only the edge that holds at the point is a hop: a superseded or retracted edge is not, and neither is a property.  Time: as_of walks the graph as it stood at that instant and as_known as this plane knew it then; either absent is now.
 
-        :param graph_neighbors_in: (required)
-        :type graph_neighbors_in: GraphNeighborsIn
+        :param graph_graph_neighbors_in: (required)
+        :type graph_graph_neighbors_in: GraphGraphNeighborsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -914,7 +2308,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_neighbors_serialize(
-            graph_neighbors_in=graph_neighbors_in,
+            graph_graph_neighbors_in=graph_graph_neighbors_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -922,7 +2316,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphNeighborsOut",
+            '200': "GraphGraphNeighborsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -938,7 +2332,7 @@ class GraphApi:
     @validate_call
     def graph_neighbors_with_http_info(
         self,
-        graph_neighbors_in: GraphNeighborsIn,
+        graph_graph_neighbors_in: GraphGraphNeighborsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -951,12 +2345,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphNeighborsOut]:
-        """Walk the edges from a seed set, bounded
+    ) -> ApiResponse[GraphGraphNeighborsOut]:
+        """Walks the in-force edges from a set of seeds and lists every entity reached, bounded.
 
+        Walks the in-force edges from a set of seeds and lists every entity reached, bounded.  Only the edge that holds at the point is a hop: a superseded or retracted edge is not, and neither is a property.  Time: as_of walks the graph as it stood at that instant and as_known as this plane knew it then; either absent is now.
 
-        :param graph_neighbors_in: (required)
-        :type graph_neighbors_in: GraphNeighborsIn
+        :param graph_graph_neighbors_in: (required)
+        :type graph_graph_neighbors_in: GraphGraphNeighborsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -980,7 +2375,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_neighbors_serialize(
-            graph_neighbors_in=graph_neighbors_in,
+            graph_graph_neighbors_in=graph_graph_neighbors_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -988,7 +2383,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphNeighborsOut",
+            '200': "GraphGraphNeighborsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1004,7 +2399,7 @@ class GraphApi:
     @validate_call
     def graph_neighbors_without_preload_content(
         self,
-        graph_neighbors_in: GraphNeighborsIn,
+        graph_graph_neighbors_in: GraphGraphNeighborsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1018,11 +2413,12 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Walk the edges from a seed set, bounded
+        """Walks the in-force edges from a set of seeds and lists every entity reached, bounded.
 
+        Walks the in-force edges from a set of seeds and lists every entity reached, bounded.  Only the edge that holds at the point is a hop: a superseded or retracted edge is not, and neither is a property.  Time: as_of walks the graph as it stood at that instant and as_known as this plane knew it then; either absent is now.
 
-        :param graph_neighbors_in: (required)
-        :type graph_neighbors_in: GraphNeighborsIn
+        :param graph_graph_neighbors_in: (required)
+        :type graph_graph_neighbors_in: GraphGraphNeighborsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1046,7 +2442,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_neighbors_serialize(
-            graph_neighbors_in=graph_neighbors_in,
+            graph_graph_neighbors_in=graph_graph_neighbors_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1054,7 +2450,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphNeighborsOut",
+            '200': "GraphGraphNeighborsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1065,7 +2461,7 @@ class GraphApi:
 
     def _graph_neighbors_serialize(
         self,
-        graph_neighbors_in,
+        graph_graph_neighbors_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1091,15 +2487,16 @@ class GraphApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if graph_neighbors_in is not None:
-            _body_params = graph_neighbors_in
+        if graph_graph_neighbors_in is not None:
+            _body_params = graph_graph_neighbors_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1141,12 +2538,288 @@ class GraphApi:
 
 
     @validate_call
+    def graph_path(
+        self,
+        graph_graph_path_in: GraphGraphPathIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GraphGraphPathOut:
+        """Finds the shortest chain of in-force edges from one entity to another.
+
+        Finds the shortest chain of in-force edges from one entity to another.  It is the walk behind neighbors stopped at a goal: the same bound and the same rule for which edge is in force. A causal chain is this op with relations naming the relations that mean cause, such as caused_by and influenced.  Time: as_of and as_known place the graph the path is found in; either absent is now.
+
+        :param graph_graph_path_in: (required)
+        :type graph_graph_path_in: GraphGraphPathIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_path_serialize(
+            graph_graph_path_in=graph_graph_path_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphPathOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def graph_path_with_http_info(
+        self,
+        graph_graph_path_in: GraphGraphPathIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GraphGraphPathOut]:
+        """Finds the shortest chain of in-force edges from one entity to another.
+
+        Finds the shortest chain of in-force edges from one entity to another.  It is the walk behind neighbors stopped at a goal: the same bound and the same rule for which edge is in force. A causal chain is this op with relations naming the relations that mean cause, such as caused_by and influenced.  Time: as_of and as_known place the graph the path is found in; either absent is now.
+
+        :param graph_graph_path_in: (required)
+        :type graph_graph_path_in: GraphGraphPathIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_path_serialize(
+            graph_graph_path_in=graph_graph_path_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphPathOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def graph_path_without_preload_content(
+        self,
+        graph_graph_path_in: GraphGraphPathIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Finds the shortest chain of in-force edges from one entity to another.
+
+        Finds the shortest chain of in-force edges from one entity to another.  It is the walk behind neighbors stopped at a goal: the same bound and the same rule for which edge is in force. A causal chain is this op with relations naming the relations that mean cause, such as caused_by and influenced.  Time: as_of and as_known place the graph the path is found in; either absent is now.
+
+        :param graph_graph_path_in: (required)
+        :type graph_graph_path_in: GraphGraphPathIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._graph_path_serialize(
+            graph_graph_path_in=graph_graph_path_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GraphGraphPathOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _graph_path_serialize(
+        self,
+        graph_graph_path_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if graph_graph_path_in is not None:
+            _body_params = graph_graph_path_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/graph/path',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def graph_read(
         self,
         entity: Annotated[Optional[StrictStr], Field(description="Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.")] = None,
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1160,18 +2833,21 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphReadOut:
-        """Read the assertions this organization has recorded
+    ) -> GraphGraphReadOut:
+        """Lists the assertions recorded, every version, oldest first.
 
+        Lists the assertions recorded, every version, oldest first.  It resolves nothing: a superseded claim and the one that superseded it both appear.  Time: as_of keeps statements begun by that instant of the world and as_known keeps what this plane had heard by then; either absent is no bound.
 
         :param entity: Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.
         :type entity: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.
+        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.
         :type value: str
-        :param as_of: AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.
+        :param as_of: AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1201,6 +2877,7 @@ class GraphApi:
             relation=relation,
             value=value,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1209,7 +2886,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1227,8 +2904,9 @@ class GraphApi:
         self,
         entity: Annotated[Optional[StrictStr], Field(description="Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.")] = None,
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1242,18 +2920,21 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphReadOut]:
-        """Read the assertions this organization has recorded
+    ) -> ApiResponse[GraphGraphReadOut]:
+        """Lists the assertions recorded, every version, oldest first.
 
+        Lists the assertions recorded, every version, oldest first.  It resolves nothing: a superseded claim and the one that superseded it both appear.  Time: as_of keeps statements begun by that instant of the world and as_known keeps what this plane had heard by then; either absent is no bound.
 
         :param entity: Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.
         :type entity: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.
+        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.
         :type value: str
-        :param as_of: AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.
+        :param as_of: AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1283,6 +2964,7 @@ class GraphApi:
             relation=relation,
             value=value,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1291,7 +2973,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1309,8 +2991,9 @@ class GraphApi:
         self,
         entity: Annotated[Optional[StrictStr], Field(description="Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.")] = None,
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.")] = None,
+        value: Annotated[Optional[StrictStr], Field(description="Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1325,17 +3008,20 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read the assertions this organization has recorded
+        """Lists the assertions recorded, every version, oldest first.
 
+        Lists the assertions recorded, every version, oldest first.  It resolves nothing: a superseded claim and the one that superseded it both appear.  Time: as_of keeps statements begun by that instant of the world and as_known keeps what this plane had heard by then; either absent is no bound.
 
         :param entity: Entity narrows to what was asserted ABOUT one entity. Absent matches every entity.
         :type entity: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read.
+        :param value: Value narrows to assertions pointing AT one value, which is how the edges into an entity are read. A property's scalar is matched byte for byte and an edge's value by its key, folded as every key is.
         :type value: str
-        :param as_of: AsOf bounds the read to what was knowable at an instant, RFC 3339. Absent reads everything this plane holds.
+        :param as_of: AsOf bounds the read to statements begun by an instant of the world, RFC 3339. Absent reads every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the read to what this plane had heard by an instant, RFC 3339. Absent reads everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1365,6 +3051,7 @@ class GraphApi:
             relation=relation,
             value=value,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1373,7 +3060,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1388,6 +3075,7 @@ class GraphApi:
         relation,
         value,
         as_of,
+        as_known,
         limit,
         _request_auth,
         _content_type,
@@ -1427,6 +3115,10 @@ class GraphApi:
             
             _query_params.append(('as_of', as_of))
             
+        if as_known is not None:
+            
+            _query_params.append(('as_known', as_known))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -1440,7 +3132,8 @@ class GraphApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1471,7 +3164,7 @@ class GraphApi:
     @validate_call
     def graph_resolve(
         self,
-        graph_resolve_in: GraphResolveIn,
+        graph_graph_resolve_in: GraphGraphResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1484,12 +3177,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphResolveOut:
-        """What is in force about an entity as of an instant, and what disagreed
+    ) -> GraphGraphResolveOut:
+        """Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.
 
+        Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.  The winner is the holding statement begun most recently, then the strongest under the rule vocabulary names. A relation that holds many values answers each; a disagreement is reported as contested, never resolved into silence.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard; either absent is now.
 
-        :param graph_resolve_in: (required)
-        :type graph_resolve_in: GraphResolveIn
+        :param graph_graph_resolve_in: (required)
+        :type graph_graph_resolve_in: GraphGraphResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1513,7 +3207,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_resolve_serialize(
-            graph_resolve_in=graph_resolve_in,
+            graph_graph_resolve_in=graph_graph_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1521,7 +3215,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphResolveOut",
+            '200': "GraphGraphResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1537,7 +3231,7 @@ class GraphApi:
     @validate_call
     def graph_resolve_with_http_info(
         self,
-        graph_resolve_in: GraphResolveIn,
+        graph_graph_resolve_in: GraphGraphResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1550,12 +3244,13 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphResolveOut]:
-        """What is in force about an entity as of an instant, and what disagreed
+    ) -> ApiResponse[GraphGraphResolveOut]:
+        """Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.
 
+        Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.  The winner is the holding statement begun most recently, then the strongest under the rule vocabulary names. A relation that holds many values answers each; a disagreement is reported as contested, never resolved into silence.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard; either absent is now.
 
-        :param graph_resolve_in: (required)
-        :type graph_resolve_in: GraphResolveIn
+        :param graph_graph_resolve_in: (required)
+        :type graph_graph_resolve_in: GraphGraphResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1579,7 +3274,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_resolve_serialize(
-            graph_resolve_in=graph_resolve_in,
+            graph_graph_resolve_in=graph_graph_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1587,7 +3282,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphResolveOut",
+            '200': "GraphGraphResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1603,7 +3298,7 @@ class GraphApi:
     @validate_call
     def graph_resolve_without_preload_content(
         self,
-        graph_resolve_in: GraphResolveIn,
+        graph_graph_resolve_in: GraphGraphResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1617,11 +3312,12 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """What is in force about an entity as of an instant, and what disagreed
+        """Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.
 
+        Answers what holds for one entity and relation at a point, winner first, with every weaker account that disagreed.  The winner is the holding statement begun most recently, then the strongest under the rule vocabulary names. A relation that holds many values answers each; a disagreement is reported as contested, never resolved into silence.  Time: as_of is the instant of the world asked about and as_known how much this plane had heard; either absent is now.
 
-        :param graph_resolve_in: (required)
-        :type graph_resolve_in: GraphResolveIn
+        :param graph_graph_resolve_in: (required)
+        :type graph_graph_resolve_in: GraphGraphResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1645,7 +3341,7 @@ class GraphApi:
         """ # noqa: E501
 
         _param = self._graph_resolve_serialize(
-            graph_resolve_in=graph_resolve_in,
+            graph_graph_resolve_in=graph_graph_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1653,7 +3349,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphResolveOut",
+            '200': "GraphGraphResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1664,7 +3360,7 @@ class GraphApi:
 
     def _graph_resolve_serialize(
         self,
-        graph_resolve_in,
+        graph_graph_resolve_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1690,15 +3386,16 @@ class GraphApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if graph_resolve_in is not None:
-            _body_params = graph_resolve_in
+        if graph_graph_resolve_in is not None:
+            _body_params = graph_graph_resolve_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1742,9 +3439,10 @@ class GraphApi:
     @validate_call
     def graph_search(
         self,
-        q: Annotated[Optional[StrictStr], Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")] = None,
+        q: Annotated[StrictStr, Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")],
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1758,17 +3456,19 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphReadOut:
-        """Find assertions by their text rather than by an entity key
+    ) -> GraphGraphReadOut:
+        """Finds assertions by their words, where read finds them by their keys, best match first.
 
-        Finds assertions by their text where read finds them by their keys.  It is the READ with one more term, not a second way to leave the store: same order, same ceiling, same tenancy, and searching composes with narrowing by relation and by instant because all of them are terms of one filter.  It resolves nothing. What matches is what was asserted, including claims that were later corrected — which is the honest answer to \"where is this mentioned\" and the reason the caller then asks resolve about what it found.
+        Finds assertions by their words, where read finds them by their keys, best match first.  Every word must match, as a prefix. The answer is ordered by bm25, which weighs a word by how rare it is and a row by how much of it the words are, so a limit keeps the best matches rather than the oldest. It resolves nothing, so a match may be a claim later corrected; ask resolve about what it finds.  Time: as_of and as_known bound it exactly as they bound read; either absent is no bound.
 
-        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.
+        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself. (required)
         :type q: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param as_of: AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.
+        :param as_of: AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1797,6 +3497,7 @@ class GraphApi:
             q=q,
             relation=relation,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1805,7 +3506,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1821,9 +3522,10 @@ class GraphApi:
     @validate_call
     def graph_search_with_http_info(
         self,
-        q: Annotated[Optional[StrictStr], Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")] = None,
+        q: Annotated[StrictStr, Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")],
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1837,17 +3539,19 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphReadOut]:
-        """Find assertions by their text rather than by an entity key
+    ) -> ApiResponse[GraphGraphReadOut]:
+        """Finds assertions by their words, where read finds them by their keys, best match first.
 
-        Finds assertions by their text where read finds them by their keys.  It is the READ with one more term, not a second way to leave the store: same order, same ceiling, same tenancy, and searching composes with narrowing by relation and by instant because all of them are terms of one filter.  It resolves nothing. What matches is what was asserted, including claims that were later corrected — which is the honest answer to \"where is this mentioned\" and the reason the caller then asks resolve about what it found.
+        Finds assertions by their words, where read finds them by their keys, best match first.  Every word must match, as a prefix. The answer is ordered by bm25, which weighs a word by how rare it is and a row by how much of it the words are, so a limit keeps the best matches rather than the oldest. It resolves nothing, so a match may be a claim later corrected; ask resolve about what it finds.  Time: as_of and as_known bound it exactly as they bound read; either absent is no bound.
 
-        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.
+        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself. (required)
         :type q: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param as_of: AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.
+        :param as_of: AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1876,6 +3580,7 @@ class GraphApi:
             q=q,
             relation=relation,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1884,7 +3589,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1900,9 +3605,10 @@ class GraphApi:
     @validate_call
     def graph_search_without_preload_content(
         self,
-        q: Annotated[Optional[StrictStr], Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")] = None,
+        q: Annotated[StrictStr, Field(description="Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.")],
         relation: Annotated[Optional[StrictStr], Field(description="Relation narrows to one relation. Absent matches every relation.")] = None,
-        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.")] = None,
+        as_of: Annotated[Optional[StrictStr], Field(description="AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.")] = None,
+        as_known: Annotated[Optional[StrictStr], Field(description="AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.")] = None,
         _request_timeout: Union[
             None,
@@ -1917,16 +3623,18 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Find assertions by their text rather than by an entity key
+        """Finds assertions by their words, where read finds them by their keys, best match first.
 
-        Finds assertions by their text where read finds them by their keys.  It is the READ with one more term, not a second way to leave the store: same order, same ceiling, same tenancy, and searching composes with narrowing by relation and by instant because all of them are terms of one filter.  It resolves nothing. What matches is what was asserted, including claims that were later corrected — which is the honest answer to \"where is this mentioned\" and the reason the caller then asks resolve about what it found.
+        Finds assertions by their words, where read finds them by their keys, best match first.  Every word must match, as a prefix. The answer is ordered by bm25, which weighs a word by how rare it is and a row by how much of it the words are, so a limit keeps the best matches rather than the oldest. It resolves nothing, so a match may be a claim later corrected; ask resolve about what it finds.  Time: as_of and as_known bound it exactly as they bound read; either absent is no bound.
 
-        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself.
+        :param q: Q is what to look for: words, matched as prefixes, all of them required. Punctuation is text here rather than syntax, so an entity key searches as itself. (required)
         :type q: str
         :param relation: Relation narrows to one relation. Absent matches every relation.
         :type relation: str
-        :param as_of: AsOf bounds the search to what was knowable at an instant, RFC 3339. Absent searches everything this plane holds.
+        :param as_of: AsOf bounds the search to statements begun by an instant of the world, RFC 3339. Absent searches every instant.
         :type as_of: str
+        :param as_known: AsKnown bounds the search to what this plane had heard by an instant, RFC 3339. Absent searches everything it holds.
+        :type as_known: str
         :param limit: Limit caps how many assertions come back. Absent, zero, or anything above the walk ceiling is the ceiling.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1955,6 +3663,7 @@ class GraphApi:
             q=q,
             relation=relation,
             as_of=as_of,
+            as_known=as_known,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1963,7 +3672,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphReadOut",
+            '200': "GraphGraphReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1977,6 +3686,7 @@ class GraphApi:
         q,
         relation,
         as_of,
+        as_known,
         limit,
         _request_auth,
         _content_type,
@@ -2012,6 +3722,10 @@ class GraphApi:
             
             _query_params.append(('as_of', as_of))
             
+        if as_known is not None:
+            
+            _query_params.append(('as_known', as_known))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
@@ -2025,7 +3739,8 @@ class GraphApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2068,9 +3783,10 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphVocabularyOut:
-        """The relations in use, and the rule that resolves a conflict
+    ) -> GraphGraphVocabularyOut:
+        """Lists the relations in use, the schema declared for them and the rule that settles a conflict.
 
+        Lists the relations in use, the schema declared for them and the rule that settles a conflict.  Time: it takes no as_of or as_known; the schema is the one in force now.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2102,7 +3818,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphVocabularyOut",
+            '200': "GraphGraphVocabularyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2130,9 +3846,10 @@ class GraphApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphVocabularyOut]:
-        """The relations in use, and the rule that resolves a conflict
+    ) -> ApiResponse[GraphGraphVocabularyOut]:
+        """Lists the relations in use, the schema declared for them and the rule that settles a conflict.
 
+        Lists the relations in use, the schema declared for them and the rule that settles a conflict.  Time: it takes no as_of or as_known; the schema is the one in force now.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2164,7 +3881,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphVocabularyOut",
+            '200': "GraphGraphVocabularyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2193,8 +3910,9 @@ class GraphApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """The relations in use, and the rule that resolves a conflict
+        """Lists the relations in use, the schema declared for them and the rule that settles a conflict.
 
+        Lists the relations in use, the schema declared for them and the rule that settles a conflict.  Time: it takes no as_of or as_known; the schema is the one in force now.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2226,7 +3944,7 @@ class GraphApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphVocabularyOut",
+            '200': "GraphGraphVocabularyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2268,7 +3986,8 @@ class GraphApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

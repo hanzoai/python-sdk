@@ -18,9 +18,9 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ml_create import MlCreate
-from hanzoai.cloud.models.ml_resource import MlResource
-from hanzoai.cloud.models.ml_resource_list import MlResourceList
+from hanzoai.cloud.models.ml_ml_create import MlMlCreate
+from hanzoai.cloud.models.ml_ml_resource import MlMlResource
+from hanzoai.cloud.models.ml_ml_resource_list import MlMlResourceList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -269,6 +269,13 @@ class MlApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -545,7 +552,7 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MlResourceList:
+    ) -> MlMlResourceList:
         """Lists the inference models deployed in the caller's org.
 
         Lists the inference models deployed in the caller's org. Each entry carries the model's name, when Kubernetes admitted it, and kserve's live status — the spec is on the single-model read. An org that has deployed nothing gets an empty list.
@@ -580,7 +587,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResourceList",
+            '200': "MlMlResourceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -608,7 +615,7 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MlResourceList]:
+    ) -> ApiResponse[MlMlResourceList]:
         """Lists the inference models deployed in the caller's org.
 
         Lists the inference models deployed in the caller's org. Each entry carries the model's name, when Kubernetes admitted it, and kserve's live status — the spec is on the single-model read. An org that has deployed nothing gets an empty list.
@@ -643,7 +650,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResourceList",
+            '200': "MlMlResourceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -706,7 +713,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResourceList",
+            '200': "MlMlResourceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -748,7 +755,8 @@ class MlApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -792,7 +800,7 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MlResource:
+    ) -> MlMlResource:
         """Returns one deployed inference model.
 
         Returns one deployed inference model. Its spec comes with it, and kserve's live status, which is where readiness and the serving address appear. A name the caller's org does not own answers 404, exactly as an unknown name does, so a probe learns nothing about another tenant's models.
@@ -830,7 +838,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResource",
+            '200': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -859,7 +867,7 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MlResource]:
+    ) -> ApiResponse[MlMlResource]:
         """Returns one deployed inference model.
 
         Returns one deployed inference model. Its spec comes with it, and kserve's live status, which is where readiness and the serving address appear. A name the caller's org does not own answers 404, exactly as an unknown name does, so a probe learns nothing about another tenant's models.
@@ -897,7 +905,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResource",
+            '200': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -964,7 +972,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MlResource",
+            '200': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1009,7 +1017,8 @@ class MlApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1291,7 +1300,7 @@ class MlApi:
     @validate_call
     def post_ml_models(
         self,
-        ml_create: MlCreate,
+        ml_ml_create: MlMlCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1304,13 +1313,13 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MlResource:
+    ) -> MlMlResource:
         """Deploys one inference model for the caller's org, and answers 201 with the model as Kubernetes admitted it.
 
         Deploys one inference model for the caller's org, and answers 201 with the model as Kubernetes admitted it.  The `spec` is a kserve InferenceService spec, passed through unchanged — this plane owns the tenancy, the billing and the namespace, and kserve owns what a model IS. An unfunded org is refused BEFORE anything is created, so nobody runs free GPU compute and nobody is charged for a resource that was never made.
 
-        :param ml_create: (required)
-        :type ml_create: MlCreate
+        :param ml_ml_create: (required)
+        :type ml_ml_create: MlMlCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1334,7 +1343,7 @@ class MlApi:
         """ # noqa: E501
 
         _param = self._post_ml_models_serialize(
-            ml_create=ml_create,
+            ml_ml_create=ml_ml_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1342,7 +1351,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MlResource",
+            '201': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1358,7 +1367,7 @@ class MlApi:
     @validate_call
     def post_ml_models_with_http_info(
         self,
-        ml_create: MlCreate,
+        ml_ml_create: MlMlCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1371,13 +1380,13 @@ class MlApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MlResource]:
+    ) -> ApiResponse[MlMlResource]:
         """Deploys one inference model for the caller's org, and answers 201 with the model as Kubernetes admitted it.
 
         Deploys one inference model for the caller's org, and answers 201 with the model as Kubernetes admitted it.  The `spec` is a kserve InferenceService spec, passed through unchanged — this plane owns the tenancy, the billing and the namespace, and kserve owns what a model IS. An unfunded org is refused BEFORE anything is created, so nobody runs free GPU compute and nobody is charged for a resource that was never made.
 
-        :param ml_create: (required)
-        :type ml_create: MlCreate
+        :param ml_ml_create: (required)
+        :type ml_ml_create: MlMlCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1401,7 +1410,7 @@ class MlApi:
         """ # noqa: E501
 
         _param = self._post_ml_models_serialize(
-            ml_create=ml_create,
+            ml_ml_create=ml_ml_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1409,7 +1418,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MlResource",
+            '201': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1425,7 +1434,7 @@ class MlApi:
     @validate_call
     def post_ml_models_without_preload_content(
         self,
-        ml_create: MlCreate,
+        ml_ml_create: MlMlCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1443,8 +1452,8 @@ class MlApi:
 
         Deploys one inference model for the caller's org, and answers 201 with the model as Kubernetes admitted it.  The `spec` is a kserve InferenceService spec, passed through unchanged — this plane owns the tenancy, the billing and the namespace, and kserve owns what a model IS. An unfunded org is refused BEFORE anything is created, so nobody runs free GPU compute and nobody is charged for a resource that was never made.
 
-        :param ml_create: (required)
-        :type ml_create: MlCreate
+        :param ml_ml_create: (required)
+        :type ml_ml_create: MlMlCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1468,7 +1477,7 @@ class MlApi:
         """ # noqa: E501
 
         _param = self._post_ml_models_serialize(
-            ml_create=ml_create,
+            ml_ml_create=ml_ml_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1476,7 +1485,7 @@ class MlApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MlResource",
+            '201': "MlMlResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1487,7 +1496,7 @@ class MlApi:
 
     def _post_ml_models_serialize(
         self,
-        ml_create,
+        ml_ml_create,
         _request_auth,
         _content_type,
         _headers,
@@ -1513,15 +1522,16 @@ class MlApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ml_create is not None:
-            _body_params = ml_create
+        if ml_ml_create is not None:
+            _body_params = ml_ml_create
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

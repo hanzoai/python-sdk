@@ -19,12 +19,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.create_endpoint_in import CreateEndpointIn
-from hanzoai.cloud.models.delivery_list import DeliveryList
-from hanzoai.cloud.models.endpoint import Endpoint
-from hanzoai.cloud.models.endpoint_list import EndpointList
-from hanzoai.cloud.models.test_result import TestResult
-from hanzoai.cloud.models.update_endpoint_in import UpdateEndpointIn
+from hanzoai.cloud.models.webhook_create_endpoint_in import WebhookCreateEndpointIn
+from hanzoai.cloud.models.webhook_delivery_list import WebhookDeliveryList
+from hanzoai.cloud.models.webhook_endpoint import WebhookEndpoint
+from hanzoai.cloud.models.webhook_endpoint_list import WebhookEndpointList
+from hanzoai.cloud.models.webhook_test_result import WebhookTestResult
+from hanzoai.cloud.models.webhook_update_endpoint_in import WebhookUpdateEndpointIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -273,6 +273,13 @@ class WebhookApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -313,7 +320,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EndpointList:
+    ) -> WebhookEndpointList:
         """Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts.
 
         Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts. Signing secrets are redacted here — a secret leaves the server only on create and on rotate. The listing is physically org-scoped, so another tenant's endpoints are not reachable from this route at all.
@@ -348,7 +355,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EndpointList",
+            '200': "WebhookEndpointList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -376,7 +383,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EndpointList]:
+    ) -> ApiResponse[WebhookEndpointList]:
         """Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts.
 
         Returns every webhook endpoint the caller's org has registered, newest first, each with its 7-day delivery and failure counts. Signing secrets are redacted here — a secret leaves the server only on create and on rotate. The listing is physically org-scoped, so another tenant's endpoints are not reachable from this route at all.
@@ -411,7 +418,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EndpointList",
+            '200': "WebhookEndpointList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -474,7 +481,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EndpointList",
+            '200': "WebhookEndpointList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -516,7 +523,8 @@ class WebhookApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -560,7 +568,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Endpoint:
+    ) -> WebhookEndpoint:
         """Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted.
 
         Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted. An id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -598,7 +606,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -627,7 +635,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Endpoint]:
+    ) -> ApiResponse[WebhookEndpoint]:
         """Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted.
 
         Returns one of the caller org's webhook endpoints with its 7-day delivery and failure counts, signing secret redacted. An id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -665,7 +673,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -732,7 +740,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -777,7 +785,8 @@ class WebhookApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -823,7 +832,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeliveryList:
+    ) -> WebhookDeliveryList:
         """Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took.
 
         Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took. One event that retried three times appears as three rows sharing a delivery id. It is org-scoped exactly like every other route here: the endpoint lookup only ever finds THIS org's endpoint, so another org's id is a 404 and never a window onto its logs.
@@ -867,7 +876,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryList",
+            '200': "WebhookDeliveryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -898,7 +907,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeliveryList]:
+    ) -> ApiResponse[WebhookDeliveryList]:
         """Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took.
 
         Returns one endpoint's per-attempt delivery log, newest first — the record of what was sent, what the subscriber answered, and how long it took. One event that retried three times appears as three rows sharing a delivery id. It is org-scoped exactly like every other route here: the endpoint lookup only ever finds THIS org's endpoint, so another org's id is a 404 and never a window onto its logs.
@@ -942,7 +951,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryList",
+            '200': "WebhookDeliveryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1017,7 +1026,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeliveryList",
+            '200': "WebhookDeliveryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1072,7 +1081,8 @@ class WebhookApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1103,7 +1113,7 @@ class WebhookApi:
     @validate_call
     def post_webhook(
         self,
-        create_endpoint_in: CreateEndpointIn,
+        webhook_create_endpoint_in: WebhookCreateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1116,13 +1126,13 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Endpoint:
+    ) -> WebhookEndpoint:
         """Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret.
 
         Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret. This is one of only two responses that ever carry that secret (the other is rotate) — store it now, because no later read returns it. The org is stamped by the server from the validated principal, so a body can never register an endpoint in another tenant.
 
-        :param create_endpoint_in: (required)
-        :type create_endpoint_in: CreateEndpointIn
+        :param webhook_create_endpoint_in: (required)
+        :type webhook_create_endpoint_in: WebhookCreateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1146,7 +1156,7 @@ class WebhookApi:
         """ # noqa: E501
 
         _param = self._post_webhook_serialize(
-            create_endpoint_in=create_endpoint_in,
+            webhook_create_endpoint_in=webhook_create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1154,7 +1164,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Endpoint",
+            '201': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1170,7 +1180,7 @@ class WebhookApi:
     @validate_call
     def post_webhook_with_http_info(
         self,
-        create_endpoint_in: CreateEndpointIn,
+        webhook_create_endpoint_in: WebhookCreateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1183,13 +1193,13 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Endpoint]:
+    ) -> ApiResponse[WebhookEndpoint]:
         """Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret.
 
         Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret. This is one of only two responses that ever carry that secret (the other is rotate) — store it now, because no later read returns it. The org is stamped by the server from the validated principal, so a body can never register an endpoint in another tenant.
 
-        :param create_endpoint_in: (required)
-        :type create_endpoint_in: CreateEndpointIn
+        :param webhook_create_endpoint_in: (required)
+        :type webhook_create_endpoint_in: WebhookCreateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1213,7 +1223,7 @@ class WebhookApi:
         """ # noqa: E501
 
         _param = self._post_webhook_serialize(
-            create_endpoint_in=create_endpoint_in,
+            webhook_create_endpoint_in=webhook_create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1221,7 +1231,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Endpoint",
+            '201': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1237,7 +1247,7 @@ class WebhookApi:
     @validate_call
     def post_webhook_without_preload_content(
         self,
-        create_endpoint_in: CreateEndpointIn,
+        webhook_create_endpoint_in: WebhookCreateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1255,8 +1265,8 @@ class WebhookApi:
 
         Registers a new webhook subscription for the caller's org and answers 201 with the endpoint INCLUDING its freshly minted signing secret. This is one of only two responses that ever carry that secret (the other is rotate) — store it now, because no later read returns it. The org is stamped by the server from the validated principal, so a body can never register an endpoint in another tenant.
 
-        :param create_endpoint_in: (required)
-        :type create_endpoint_in: CreateEndpointIn
+        :param webhook_create_endpoint_in: (required)
+        :type webhook_create_endpoint_in: WebhookCreateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1280,7 +1290,7 @@ class WebhookApi:
         """ # noqa: E501
 
         _param = self._post_webhook_serialize(
-            create_endpoint_in=create_endpoint_in,
+            webhook_create_endpoint_in=webhook_create_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1288,7 +1298,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Endpoint",
+            '201': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1299,7 +1309,7 @@ class WebhookApi:
 
     def _post_webhook_serialize(
         self,
-        create_endpoint_in,
+        webhook_create_endpoint_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1325,15 +1335,16 @@ class WebhookApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_endpoint_in is not None:
-            _body_params = create_endpoint_in
+        if webhook_create_endpoint_in is not None:
+            _body_params = webhook_create_endpoint_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1390,7 +1401,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Endpoint:
+    ) -> WebhookEndpoint:
         """Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret.
 
         Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret. The old secret stops working the instant this returns: every subsequent delivery signs with the new one, with no overlap window. Call it when the subscriber is ready to swap the value on its side, not before.
@@ -1428,7 +1439,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1457,7 +1468,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Endpoint]:
+    ) -> ApiResponse[WebhookEndpoint]:
         """Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret.
 
         Mints a NEW HMAC signing secret for the endpoint and answers the endpoint WITH it — the only other response besides create that ever carries a secret. The old secret stops working the instant this returns: every subsequent delivery signs with the new one, with no overlap window. Call it when the subscriber is ready to swap the value on its side, not before.
@@ -1495,7 +1506,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1562,7 +1573,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1607,7 +1618,8 @@ class WebhookApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1651,7 +1663,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TestResult:
+    ) -> WebhookTestResult:
         """Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic.
 
         Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic. It takes the same attempt path the bus dispatcher takes — one attempt, 10s timeout, no retry ladder — and records the result in the endpoint's delivery log. It works on a DISABLED endpoint too: validating one you have paused is the whole point.
@@ -1689,7 +1701,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TestResult",
+            '200': "WebhookTestResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1718,7 +1730,7 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TestResult]:
+    ) -> ApiResponse[WebhookTestResult]:
         """Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic.
 
         Sends ONE signed test event to the endpoint right now and answers the outcome inline, so the console can show whether the subscriber is reachable without waiting for real traffic. It takes the same attempt path the bus dispatcher takes — one attempt, 10s timeout, no retry ladder — and records the result in the endpoint's delivery log. It works on a DISABLED endpoint too: validating one you have paused is the whole point.
@@ -1756,7 +1768,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TestResult",
+            '200': "WebhookTestResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1823,7 +1835,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TestResult",
+            '200': "WebhookTestResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1868,7 +1880,8 @@ class WebhookApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1900,7 +1913,7 @@ class WebhookApi:
     def put_webhook_by_id(
         self,
         id: StrictStr,
-        update_endpoint_in: UpdateEndpointIn,
+        webhook_update_endpoint_in: WebhookUpdateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1913,15 +1926,15 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Endpoint:
+    ) -> WebhookEndpoint:
         """Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted.
 
         Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted. It is a full replace, not a patch: an omitted field is written as its empty value, and an omitted or empty events list resubscribes the endpoint to EVERY event. The signing secret and the creation time are immutable here; rotate the secret with POST /v1/webhook/{id}/secret.
 
         :param id: (required)
         :type id: str
-        :param update_endpoint_in: (required)
-        :type update_endpoint_in: UpdateEndpointIn
+        :param webhook_update_endpoint_in: (required)
+        :type webhook_update_endpoint_in: WebhookUpdateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1946,7 +1959,7 @@ class WebhookApi:
 
         _param = self._put_webhook_by_id_serialize(
             id=id,
-            update_endpoint_in=update_endpoint_in,
+            webhook_update_endpoint_in=webhook_update_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1954,7 +1967,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1971,7 +1984,7 @@ class WebhookApi:
     def put_webhook_by_id_with_http_info(
         self,
         id: StrictStr,
-        update_endpoint_in: UpdateEndpointIn,
+        webhook_update_endpoint_in: WebhookUpdateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1984,15 +1997,15 @@ class WebhookApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Endpoint]:
+    ) -> ApiResponse[WebhookEndpoint]:
         """Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted.
 
         Replaces the editable fields of one of the caller org's endpoints — url, events, status and description — and answers the stored row with its secret redacted. It is a full replace, not a patch: an omitted field is written as its empty value, and an omitted or empty events list resubscribes the endpoint to EVERY event. The signing secret and the creation time are immutable here; rotate the secret with POST /v1/webhook/{id}/secret.
 
         :param id: (required)
         :type id: str
-        :param update_endpoint_in: (required)
-        :type update_endpoint_in: UpdateEndpointIn
+        :param webhook_update_endpoint_in: (required)
+        :type webhook_update_endpoint_in: WebhookUpdateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2017,7 +2030,7 @@ class WebhookApi:
 
         _param = self._put_webhook_by_id_serialize(
             id=id,
-            update_endpoint_in=update_endpoint_in,
+            webhook_update_endpoint_in=webhook_update_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2025,7 +2038,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2042,7 +2055,7 @@ class WebhookApi:
     def put_webhook_by_id_without_preload_content(
         self,
         id: StrictStr,
-        update_endpoint_in: UpdateEndpointIn,
+        webhook_update_endpoint_in: WebhookUpdateEndpointIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2062,8 +2075,8 @@ class WebhookApi:
 
         :param id: (required)
         :type id: str
-        :param update_endpoint_in: (required)
-        :type update_endpoint_in: UpdateEndpointIn
+        :param webhook_update_endpoint_in: (required)
+        :type webhook_update_endpoint_in: WebhookUpdateEndpointIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2088,7 +2101,7 @@ class WebhookApi:
 
         _param = self._put_webhook_by_id_serialize(
             id=id,
-            update_endpoint_in=update_endpoint_in,
+            webhook_update_endpoint_in=webhook_update_endpoint_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2096,7 +2109,7 @@ class WebhookApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Endpoint",
+            '200': "WebhookEndpoint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2108,7 +2121,7 @@ class WebhookApi:
     def _put_webhook_by_id_serialize(
         self,
         id,
-        update_endpoint_in,
+        webhook_update_endpoint_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2136,15 +2149,16 @@ class WebhookApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if update_endpoint_in is not None:
-            _body_params = update_endpoint_in
+        if webhook_update_endpoint_in is not None:
+            _body_params = webhook_update_endpoint_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

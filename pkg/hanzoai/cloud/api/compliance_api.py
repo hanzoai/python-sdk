@@ -19,21 +19,21 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.acc_list import AccList
-from hanzoai.cloud.models.acc_view import AccView
-from hanzoai.cloud.models.accreditation_decision import AccreditationDecision
-from hanzoai.cloud.models.accreditation_req import AccreditationReq
-from hanzoai.cloud.models.audit_list import AuditList
-from hanzoai.cloud.models.check_list import CheckList
-from hanzoai.cloud.models.check_view import CheckView
-from hanzoai.cloud.models.health_view import HealthView
-from hanzoai.cloud.models.record_list import RecordList
-from hanzoai.cloud.models.status_view import StatusView
-from hanzoai.cloud.models.subject import Subject
-from hanzoai.cloud.models.subject_list import SubjectList
-from hanzoai.cloud.models.subject_req import SubjectReq
-from hanzoai.cloud.models.verification_decision import VerificationDecision
-from hanzoai.cloud.models.verification_req import VerificationReq
+from hanzoai.cloud.models.compliance_acc_list import ComplianceAccList
+from hanzoai.cloud.models.compliance_acc_view import ComplianceAccView
+from hanzoai.cloud.models.compliance_accreditation_decision import ComplianceAccreditationDecision
+from hanzoai.cloud.models.compliance_accreditation_req import ComplianceAccreditationReq
+from hanzoai.cloud.models.compliance_audit_list import ComplianceAuditList
+from hanzoai.cloud.models.compliance_check_list import ComplianceCheckList
+from hanzoai.cloud.models.compliance_check_view import ComplianceCheckView
+from hanzoai.cloud.models.compliance_health_view import ComplianceHealthView
+from hanzoai.cloud.models.compliance_record_list import ComplianceRecordList
+from hanzoai.cloud.models.compliance_status_view import ComplianceStatusView
+from hanzoai.cloud.models.compliance_subject import ComplianceSubject
+from hanzoai.cloud.models.compliance_subject_list import ComplianceSubjectList
+from hanzoai.cloud.models.compliance_subject_req import ComplianceSubjectReq
+from hanzoai.cloud.models.compliance_verification_decision import ComplianceVerificationDecision
+from hanzoai.cloud.models.compliance_verification_req import ComplianceVerificationReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -69,7 +69,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccList:
+    ) -> ComplianceAccList:
         """Returns the org's tracked accreditation-state records, newest first — evidence entries the org keeps, never a platform certification.
 
         Returns the org's tracked accreditation-state records, newest first — evidence entries the org keeps, never a platform certification.
@@ -107,7 +107,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccList",
+            '200': "ComplianceAccList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -136,7 +136,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccList]:
+    ) -> ApiResponse[ComplianceAccList]:
         """Returns the org's tracked accreditation-state records, newest first — evidence entries the org keeps, never a platform certification.
 
         Returns the org's tracked accreditation-state records, newest first — evidence entries the org keeps, never a platform certification.
@@ -174,7 +174,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccList",
+            '200': "ComplianceAccList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -241,7 +241,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccList",
+            '200': "ComplianceAccList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -288,7 +288,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -332,7 +333,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccView:
+    ) -> ComplianceAccView:
         """Returns one tracked accreditation record.
 
         Returns one tracked accreditation record.
@@ -370,7 +371,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -399,7 +400,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccView]:
+    ) -> ApiResponse[ComplianceAccView]:
         """Returns one tracked accreditation record.
 
         Returns one tracked accreditation record.
@@ -437,7 +438,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -504,7 +505,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -549,7 +550,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -593,10 +595,10 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AuditList:
+    ) -> ComplianceAuditList:
         """AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when).
 
-        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 403, no configured audit store a 501.
+        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 401, no configured audit store a 501.
 
         :param result: Result filters rows by outcome result: success, deny, or error; empty means all.
         :type result: str
@@ -631,7 +633,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuditList",
+            '200': "ComplianceAuditList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -660,10 +662,10 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AuditList]:
+    ) -> ApiResponse[ComplianceAuditList]:
         """AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when).
 
-        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 403, no configured audit store a 501.
+        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 401, no configured audit store a 501.
 
         :param result: Result filters rows by outcome result: success, deny, or error; empty means all.
         :type result: str
@@ -698,7 +700,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuditList",
+            '200': "ComplianceAuditList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -730,7 +732,7 @@ class ComplianceApi:
     ) -> RESTResponseType:
         """AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when).
 
-        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 403, no configured audit store a 501.
+        AuditRead is the compliance read of the SHARED tamper-evident audit plane — the SOC 2 posture surface (privileged actions: who started/decided what, when). The org is PINNED to the caller's validated org and the rows are narrowed to compliance.* actions. Fail-closed: no principal is a 401, no configured audit store a 501.
 
         :param result: Result filters rows by outcome result: success, deny, or error; empty means all.
         :type result: str
@@ -765,7 +767,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuditList",
+            '200': "ComplianceAuditList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -812,7 +814,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -855,10 +858,10 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HealthView:
-        """Health reports subsystem liveness and the wired verification provider.
+    ) -> ComplianceHealthView:
+        """Reports subsystem liveness and the wired verification provider.
 
-        Health reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
+        Reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -890,7 +893,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "ComplianceHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -918,10 +921,10 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HealthView]:
-        """Health reports subsystem liveness and the wired verification provider.
+    ) -> ApiResponse[ComplianceHealthView]:
+        """Reports subsystem liveness and the wired verification provider.
 
-        Health reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
+        Reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -953,7 +956,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "ComplianceHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -982,9 +985,9 @@ class ComplianceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports subsystem liveness and the wired verification provider.
+        """Reports subsystem liveness and the wired verification provider.
 
-        Health reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
+        Reports subsystem liveness and the wired verification provider. Fail-open on purpose: it never probes the external provider, so a provider outage cannot fail liveness.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1016,7 +1019,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthView",
+            '200': "ComplianceHealthView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1058,7 +1061,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1102,7 +1106,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RecordList:
+    ) -> ComplianceRecordList:
         """ListRecords is the unified compliance-record view for the org: its verifications and accreditation records together, each provider-reported or tracked, never platform-asserted.
 
         ListRecords is the unified compliance-record view for the org: its verifications and accreditation records together, each provider-reported or tracked, never platform-asserted. PII stays in the subject store; records carry only opaque ids and statuses.
@@ -1140,7 +1144,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RecordList",
+            '200': "ComplianceRecordList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1169,7 +1173,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RecordList]:
+    ) -> ApiResponse[ComplianceRecordList]:
         """ListRecords is the unified compliance-record view for the org: its verifications and accreditation records together, each provider-reported or tracked, never platform-asserted.
 
         ListRecords is the unified compliance-record view for the org: its verifications and accreditation records together, each provider-reported or tracked, never platform-asserted. PII stays in the subject store; records carry only opaque ids and statuses.
@@ -1207,7 +1211,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RecordList",
+            '200': "ComplianceRecordList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1274,7 +1278,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RecordList",
+            '200': "ComplianceRecordList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1321,7 +1325,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1364,7 +1369,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StatusView:
+    ) -> ComplianceStatusView:
         """Status is the org's honest posture read: the wired provider and the per-status tally of its verifications.
 
         Status is the org's honest posture read: the wired provider and the per-status tally of its verifications. It is deliberately NOT a boolean \"compliant\" — it reports counts of provider-reported states and carries the boundary disclaimer.
@@ -1399,7 +1404,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatusView",
+            '200': "ComplianceStatusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1427,7 +1432,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StatusView]:
+    ) -> ApiResponse[ComplianceStatusView]:
         """Status is the org's honest posture read: the wired provider and the per-status tally of its verifications.
 
         Status is the org's honest posture read: the wired provider and the per-status tally of its verifications. It is deliberately NOT a boolean \"compliant\" — it reports counts of provider-reported states and carries the boundary disclaimer.
@@ -1462,7 +1467,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatusView",
+            '200': "ComplianceStatusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1525,7 +1530,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatusView",
+            '200': "ComplianceStatusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1567,7 +1572,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1611,7 +1617,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SubjectList:
+    ) -> ComplianceSubjectList:
         """Returns the org's subjects as PII-MINIMIZED summaries — no name or email, only whether an email is on file.
 
         Returns the org's subjects as PII-MINIMIZED summaries — no name or email, only whether an email is on file. The full record is returned only by the explicit single-subject read.
@@ -1649,7 +1655,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubjectList",
+            '200': "ComplianceSubjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1678,7 +1684,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SubjectList]:
+    ) -> ApiResponse[ComplianceSubjectList]:
         """Returns the org's subjects as PII-MINIMIZED summaries — no name or email, only whether an email is on file.
 
         Returns the org's subjects as PII-MINIMIZED summaries — no name or email, only whether an email is on file. The full record is returned only by the explicit single-subject read.
@@ -1716,7 +1722,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubjectList",
+            '200': "ComplianceSubjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1783,7 +1789,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubjectList",
+            '200': "ComplianceSubjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1830,7 +1836,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1874,7 +1881,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Subject:
+    ) -> ComplianceSubject:
         """Returns one subject WITH its contact PII — the only surface that returns it, and only to the owning org.
 
         Returns one subject WITH its contact PII — the only surface that returns it, and only to the owning org. The response is never cached by any intermediary.
@@ -1912,7 +1919,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subject",
+            '200': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1941,7 +1948,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Subject]:
+    ) -> ApiResponse[ComplianceSubject]:
         """Returns one subject WITH its contact PII — the only surface that returns it, and only to the owning org.
 
         Returns one subject WITH its contact PII — the only surface that returns it, and only to the owning org. The response is never cached by any intermediary.
@@ -1979,7 +1986,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subject",
+            '200': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2046,7 +2053,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subject",
+            '200': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2091,7 +2098,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2135,7 +2143,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CheckList:
+    ) -> ComplianceCheckList:
         """Returns the org's KYC/KYB verifications, newest first — opaque subject references and provider-reported statuses only, no subject PII.
 
         Returns the org's KYC/KYB verifications, newest first — opaque subject references and provider-reported statuses only, no subject PII.
@@ -2173,7 +2181,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckList",
+            '200': "ComplianceCheckList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2202,7 +2210,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CheckList]:
+    ) -> ApiResponse[ComplianceCheckList]:
         """Returns the org's KYC/KYB verifications, newest first — opaque subject references and provider-reported statuses only, no subject PII.
 
         Returns the org's KYC/KYB verifications, newest first — opaque subject references and provider-reported statuses only, no subject PII.
@@ -2240,7 +2248,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckList",
+            '200': "ComplianceCheckList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2307,7 +2315,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckList",
+            '200': "ComplianceCheckList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2354,7 +2362,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2398,7 +2407,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CheckView:
+    ) -> ComplianceCheckView:
         """Returns one verification — its opaque subject reference and provider-reported status, no subject PII.
 
         Returns one verification — its opaque subject reference and provider-reported status, no subject PII.
@@ -2436,7 +2445,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2465,7 +2474,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CheckView]:
+    ) -> ApiResponse[ComplianceCheckView]:
         """Returns one verification — its opaque subject reference and provider-reported status, no subject PII.
 
         Returns one verification — its opaque subject reference and provider-reported status, no subject PII.
@@ -2503,7 +2512,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2570,7 +2579,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2615,7 +2624,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2646,7 +2656,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_accreditation(
         self,
-        accreditation_req: AccreditationReq,
+        compliance_accreditation_req: ComplianceAccreditationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2659,13 +2669,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccView:
+    ) -> ComplianceAccView:
         """Records an ASSERTED accreditation state for a subject — the subject's own assertion, with no verifier.
 
         Records an ASSERTED accreditation state for a subject — the subject's own assertion, with no verifier. Every CONFIRMED state (provider_verified, reviewer_confirmed) and every rejected/expired state is a DECISION recorded via the decision endpoint, attributed to the reviewer — a create can never stamp a confirmation. The underlying figures (income, net worth) are never stored; only the method, category, and state.
 
-        :param accreditation_req: (required)
-        :type accreditation_req: AccreditationReq
+        :param compliance_accreditation_req: (required)
+        :type compliance_accreditation_req: ComplianceAccreditationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2689,7 +2699,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_accreditation_serialize(
-            accreditation_req=accreditation_req,
+            compliance_accreditation_req=compliance_accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2697,7 +2707,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AccView",
+            '201': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2713,7 +2723,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_accreditation_with_http_info(
         self,
-        accreditation_req: AccreditationReq,
+        compliance_accreditation_req: ComplianceAccreditationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2726,13 +2736,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccView]:
+    ) -> ApiResponse[ComplianceAccView]:
         """Records an ASSERTED accreditation state for a subject — the subject's own assertion, with no verifier.
 
         Records an ASSERTED accreditation state for a subject — the subject's own assertion, with no verifier. Every CONFIRMED state (provider_verified, reviewer_confirmed) and every rejected/expired state is a DECISION recorded via the decision endpoint, attributed to the reviewer — a create can never stamp a confirmation. The underlying figures (income, net worth) are never stored; only the method, category, and state.
 
-        :param accreditation_req: (required)
-        :type accreditation_req: AccreditationReq
+        :param compliance_accreditation_req: (required)
+        :type compliance_accreditation_req: ComplianceAccreditationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2756,7 +2766,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_accreditation_serialize(
-            accreditation_req=accreditation_req,
+            compliance_accreditation_req=compliance_accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2764,7 +2774,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AccView",
+            '201': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2780,7 +2790,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_accreditation_without_preload_content(
         self,
-        accreditation_req: AccreditationReq,
+        compliance_accreditation_req: ComplianceAccreditationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2798,8 +2808,8 @@ class ComplianceApi:
 
         Records an ASSERTED accreditation state for a subject — the subject's own assertion, with no verifier. Every CONFIRMED state (provider_verified, reviewer_confirmed) and every rejected/expired state is a DECISION recorded via the decision endpoint, attributed to the reviewer — a create can never stamp a confirmation. The underlying figures (income, net worth) are never stored; only the method, category, and state.
 
-        :param accreditation_req: (required)
-        :type accreditation_req: AccreditationReq
+        :param compliance_accreditation_req: (required)
+        :type compliance_accreditation_req: ComplianceAccreditationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2823,7 +2833,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_accreditation_serialize(
-            accreditation_req=accreditation_req,
+            compliance_accreditation_req=compliance_accreditation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2831,7 +2841,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AccView",
+            '201': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2842,7 +2852,7 @@ class ComplianceApi:
 
     def _post_compliance_accreditation_serialize(
         self,
-        accreditation_req,
+        compliance_accreditation_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2868,15 +2878,16 @@ class ComplianceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if accreditation_req is not None:
-            _body_params = accreditation_req
+        if compliance_accreditation_req is not None:
+            _body_params = compliance_accreditation_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2921,7 +2932,7 @@ class ComplianceApi:
     def post_compliance_accreditation_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
-        accreditation_decision: AccreditationDecision,
+        compliance_accreditation_decision: ComplianceAccreditationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2934,15 +2945,15 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccView:
+    ) -> ComplianceAccView:
         """Records an org reviewer's decision on an accreditation record — a reviewer confirmation, a provider verification the reviewer has evidence of (a CPA/attorney letter, a verifier report), a rejection, or an expiry.
 
         Records an org reviewer's decision on an accreditation record — a reviewer confirmation, a provider verification the reviewer has evidence of (a CPA/attorney letter, a verifier report), a rejection, or an expiry. ROLE-GATED (an org admin or platform reviewer) and ATTRIBUTED: the reviewer's identity is recorded as ReviewerSub and audited. Human-in-the-loop: the platform never confirms on its own, and even a provider_verified state carries the reviewer who recorded it.
 
         :param id: ID is the accreditation record to decide, from the path. (required)
         :type id: str
-        :param accreditation_decision: (required)
-        :type accreditation_decision: AccreditationDecision
+        :param compliance_accreditation_decision: (required)
+        :type compliance_accreditation_decision: ComplianceAccreditationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2967,7 +2978,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
-            accreditation_decision=accreditation_decision,
+            compliance_accreditation_decision=compliance_accreditation_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2975,7 +2986,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2992,7 +3003,7 @@ class ComplianceApi:
     def post_compliance_accreditation_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
-        accreditation_decision: AccreditationDecision,
+        compliance_accreditation_decision: ComplianceAccreditationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3005,15 +3016,15 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccView]:
+    ) -> ApiResponse[ComplianceAccView]:
         """Records an org reviewer's decision on an accreditation record — a reviewer confirmation, a provider verification the reviewer has evidence of (a CPA/attorney letter, a verifier report), a rejection, or an expiry.
 
         Records an org reviewer's decision on an accreditation record — a reviewer confirmation, a provider verification the reviewer has evidence of (a CPA/attorney letter, a verifier report), a rejection, or an expiry. ROLE-GATED (an org admin or platform reviewer) and ATTRIBUTED: the reviewer's identity is recorded as ReviewerSub and audited. Human-in-the-loop: the platform never confirms on its own, and even a provider_verified state carries the reviewer who recorded it.
 
         :param id: ID is the accreditation record to decide, from the path. (required)
         :type id: str
-        :param accreditation_decision: (required)
-        :type accreditation_decision: AccreditationDecision
+        :param compliance_accreditation_decision: (required)
+        :type compliance_accreditation_decision: ComplianceAccreditationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3038,7 +3049,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
-            accreditation_decision=accreditation_decision,
+            compliance_accreditation_decision=compliance_accreditation_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3046,7 +3057,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3063,7 +3074,7 @@ class ComplianceApi:
     def post_compliance_accreditation_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the accreditation record to decide, from the path.")],
-        accreditation_decision: AccreditationDecision,
+        compliance_accreditation_decision: ComplianceAccreditationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3083,8 +3094,8 @@ class ComplianceApi:
 
         :param id: ID is the accreditation record to decide, from the path. (required)
         :type id: str
-        :param accreditation_decision: (required)
-        :type accreditation_decision: AccreditationDecision
+        :param compliance_accreditation_decision: (required)
+        :type compliance_accreditation_decision: ComplianceAccreditationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3109,7 +3120,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_accreditation_by_id_decision_serialize(
             id=id,
-            accreditation_decision=accreditation_decision,
+            compliance_accreditation_decision=compliance_accreditation_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3117,7 +3128,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccView",
+            '200': "ComplianceAccView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3129,7 +3140,7 @@ class ComplianceApi:
     def _post_compliance_accreditation_by_id_decision_serialize(
         self,
         id,
-        accreditation_decision,
+        compliance_accreditation_decision,
         _request_auth,
         _content_type,
         _headers,
@@ -3157,15 +3168,16 @@ class ComplianceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if accreditation_decision is not None:
-            _body_params = accreditation_decision
+        if compliance_accreditation_decision is not None:
+            _body_params = compliance_accreditation_decision
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3209,7 +3221,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_subjects(
         self,
-        subject_req: SubjectReq,
+        compliance_subject_req: ComplianceSubjectReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3222,13 +3234,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Subject:
+    ) -> ComplianceSubject:
         """Records a party the org is verifying as part of its own onboarding/compliance — a team member, vendor, customer, or counterparty.
 
         Records a party the org is verifying as part of its own onboarding/compliance — a team member, vendor, customer, or counterparty. The subject's contact PII (name/email) is sealed at rest and returned only to the owning org; downstream records reference the subject by opaque id.
 
-        :param subject_req: (required)
-        :type subject_req: SubjectReq
+        :param compliance_subject_req: (required)
+        :type compliance_subject_req: ComplianceSubjectReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3252,7 +3264,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_subjects_serialize(
-            subject_req=subject_req,
+            compliance_subject_req=compliance_subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3260,7 +3272,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Subject",
+            '201': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3276,7 +3288,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_subjects_with_http_info(
         self,
-        subject_req: SubjectReq,
+        compliance_subject_req: ComplianceSubjectReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3289,13 +3301,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Subject]:
+    ) -> ApiResponse[ComplianceSubject]:
         """Records a party the org is verifying as part of its own onboarding/compliance — a team member, vendor, customer, or counterparty.
 
         Records a party the org is verifying as part of its own onboarding/compliance — a team member, vendor, customer, or counterparty. The subject's contact PII (name/email) is sealed at rest and returned only to the owning org; downstream records reference the subject by opaque id.
 
-        :param subject_req: (required)
-        :type subject_req: SubjectReq
+        :param compliance_subject_req: (required)
+        :type compliance_subject_req: ComplianceSubjectReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3319,7 +3331,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_subjects_serialize(
-            subject_req=subject_req,
+            compliance_subject_req=compliance_subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3327,7 +3339,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Subject",
+            '201': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3343,7 +3355,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_subjects_without_preload_content(
         self,
-        subject_req: SubjectReq,
+        compliance_subject_req: ComplianceSubjectReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3361,8 +3373,8 @@ class ComplianceApi:
 
         Records a party the org is verifying as part of its own onboarding/compliance — a team member, vendor, customer, or counterparty. The subject's contact PII (name/email) is sealed at rest and returned only to the owning org; downstream records reference the subject by opaque id.
 
-        :param subject_req: (required)
-        :type subject_req: SubjectReq
+        :param compliance_subject_req: (required)
+        :type compliance_subject_req: ComplianceSubjectReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3386,7 +3398,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_subjects_serialize(
-            subject_req=subject_req,
+            compliance_subject_req=compliance_subject_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3394,7 +3406,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Subject",
+            '201': "ComplianceSubject",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3405,7 +3417,7 @@ class ComplianceApi:
 
     def _post_compliance_subjects_serialize(
         self,
-        subject_req,
+        compliance_subject_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3431,15 +3443,16 @@ class ComplianceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if subject_req is not None:
-            _body_params = subject_req
+        if compliance_subject_req is not None:
+            _body_params = compliance_subject_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3483,7 +3496,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_verifications(
         self,
-        verification_req: VerificationReq,
+        compliance_verification_req: ComplianceVerificationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3496,13 +3509,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CheckView:
+    ) -> ComplianceCheckView:
         """Begins a KYC/KYB verification of a subject through the wired provider — an existing subject by id, or one created inline from the request.
 
         Begins a KYC/KYB verification of a subject through the wired provider — an existing subject by id, or one created inline from the request. The returned status is provider-reported and never terminal on a fresh start: starting a verification can never yield a verified record, and a provider error is a 502, never a verification.
 
-        :param verification_req: (required)
-        :type verification_req: VerificationReq
+        :param compliance_verification_req: (required)
+        :type compliance_verification_req: ComplianceVerificationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3526,7 +3539,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_verifications_serialize(
-            verification_req=verification_req,
+            compliance_verification_req=compliance_verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3534,7 +3547,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CheckView",
+            '201': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3550,7 +3563,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_verifications_with_http_info(
         self,
-        verification_req: VerificationReq,
+        compliance_verification_req: ComplianceVerificationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3563,13 +3576,13 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CheckView]:
+    ) -> ApiResponse[ComplianceCheckView]:
         """Begins a KYC/KYB verification of a subject through the wired provider — an existing subject by id, or one created inline from the request.
 
         Begins a KYC/KYB verification of a subject through the wired provider — an existing subject by id, or one created inline from the request. The returned status is provider-reported and never terminal on a fresh start: starting a verification can never yield a verified record, and a provider error is a 502, never a verification.
 
-        :param verification_req: (required)
-        :type verification_req: VerificationReq
+        :param compliance_verification_req: (required)
+        :type compliance_verification_req: ComplianceVerificationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3593,7 +3606,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_verifications_serialize(
-            verification_req=verification_req,
+            compliance_verification_req=compliance_verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3601,7 +3614,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CheckView",
+            '201': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3617,7 +3630,7 @@ class ComplianceApi:
     @validate_call
     def post_compliance_verifications_without_preload_content(
         self,
-        verification_req: VerificationReq,
+        compliance_verification_req: ComplianceVerificationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3635,8 +3648,8 @@ class ComplianceApi:
 
         Begins a KYC/KYB verification of a subject through the wired provider — an existing subject by id, or one created inline from the request. The returned status is provider-reported and never terminal on a fresh start: starting a verification can never yield a verified record, and a provider error is a 502, never a verification.
 
-        :param verification_req: (required)
-        :type verification_req: VerificationReq
+        :param compliance_verification_req: (required)
+        :type compliance_verification_req: ComplianceVerificationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3660,7 +3673,7 @@ class ComplianceApi:
         """ # noqa: E501
 
         _param = self._post_compliance_verifications_serialize(
-            verification_req=verification_req,
+            compliance_verification_req=compliance_verification_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3668,7 +3681,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CheckView",
+            '201': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3679,7 +3692,7 @@ class ComplianceApi:
 
     def _post_compliance_verifications_serialize(
         self,
-        verification_req,
+        compliance_verification_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3705,15 +3718,16 @@ class ComplianceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if verification_req is not None:
-            _body_params = verification_req
+        if compliance_verification_req is not None:
+            _body_params = compliance_verification_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3758,7 +3772,7 @@ class ComplianceApi:
     def post_compliance_verifications_by_id_decision(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
-        verification_decision: VerificationDecision,
+        compliance_verification_decision: ComplianceVerificationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3771,15 +3785,15 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CheckView:
+    ) -> ComplianceCheckView:
         """Records a privileged reviewer's MANUAL decision on a verification — the human-in-the-loop path, and the ONLY route to a passing status when no real provider is wired.
 
         Records a privileged reviewer's MANUAL decision on a verification — the human-in-the-loop path, and the ONLY route to a passing status when no real provider is wired. It produces a DISTINCT reviewer_confirmed, never a provider_verified (a provider decision is the provider's to report, via the webhook or a reconcile), and it is ROLE-GATED (an org admin or platform reviewer) AND ATTRIBUTED (the reviewer's user id is DecidedBy), so a manual pass is always accountable.
 
         :param id: ID is the verification to decide, from the path. (required)
         :type id: str
-        :param verification_decision: (required)
-        :type verification_decision: VerificationDecision
+        :param compliance_verification_decision: (required)
+        :type compliance_verification_decision: ComplianceVerificationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3804,7 +3818,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
-            verification_decision=verification_decision,
+            compliance_verification_decision=compliance_verification_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3812,7 +3826,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3829,7 +3843,7 @@ class ComplianceApi:
     def post_compliance_verifications_by_id_decision_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
-        verification_decision: VerificationDecision,
+        compliance_verification_decision: ComplianceVerificationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3842,15 +3856,15 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CheckView]:
+    ) -> ApiResponse[ComplianceCheckView]:
         """Records a privileged reviewer's MANUAL decision on a verification — the human-in-the-loop path, and the ONLY route to a passing status when no real provider is wired.
 
         Records a privileged reviewer's MANUAL decision on a verification — the human-in-the-loop path, and the ONLY route to a passing status when no real provider is wired. It produces a DISTINCT reviewer_confirmed, never a provider_verified (a provider decision is the provider's to report, via the webhook or a reconcile), and it is ROLE-GATED (an org admin or platform reviewer) AND ATTRIBUTED (the reviewer's user id is DecidedBy), so a manual pass is always accountable.
 
         :param id: ID is the verification to decide, from the path. (required)
         :type id: str
-        :param verification_decision: (required)
-        :type verification_decision: VerificationDecision
+        :param compliance_verification_decision: (required)
+        :type compliance_verification_decision: ComplianceVerificationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3875,7 +3889,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
-            verification_decision=verification_decision,
+            compliance_verification_decision=compliance_verification_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3883,7 +3897,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3900,7 +3914,7 @@ class ComplianceApi:
     def post_compliance_verifications_by_id_decision_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the verification to decide, from the path.")],
-        verification_decision: VerificationDecision,
+        compliance_verification_decision: ComplianceVerificationDecision,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3920,8 +3934,8 @@ class ComplianceApi:
 
         :param id: ID is the verification to decide, from the path. (required)
         :type id: str
-        :param verification_decision: (required)
-        :type verification_decision: VerificationDecision
+        :param compliance_verification_decision: (required)
+        :type compliance_verification_decision: ComplianceVerificationDecision
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3946,7 +3960,7 @@ class ComplianceApi:
 
         _param = self._post_compliance_verifications_by_id_decision_serialize(
             id=id,
-            verification_decision=verification_decision,
+            compliance_verification_decision=compliance_verification_decision,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3954,7 +3968,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3966,7 +3980,7 @@ class ComplianceApi:
     def _post_compliance_verifications_by_id_decision_serialize(
         self,
         id,
-        verification_decision,
+        compliance_verification_decision,
         _request_auth,
         _content_type,
         _headers,
@@ -3994,15 +4008,16 @@ class ComplianceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if verification_decision is not None:
-            _body_params = verification_decision
+        if compliance_verification_decision is not None:
+            _body_params = compliance_verification_decision
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4059,7 +4074,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CheckView:
+    ) -> ComplianceCheckView:
         """Polls the wired provider for its current decision and records it, ATTRIBUTED to the provider — the internal PULL reconcile.
 
         Polls the wired provider for its current decision and records it, ATTRIBUTED to the provider — the internal PULL reconcile. For the Manual provider the check stays pending; for a hosted provider it reflects the provider's settled status. A poll error is a 502, never a verification.
@@ -4097,7 +4112,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4126,7 +4141,7 @@ class ComplianceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CheckView]:
+    ) -> ApiResponse[ComplianceCheckView]:
         """Polls the wired provider for its current decision and records it, ATTRIBUTED to the provider — the internal PULL reconcile.
 
         Polls the wired provider for its current decision and records it, ATTRIBUTED to the provider — the internal PULL reconcile. For the Manual provider the check stays pending; for a hosted provider it reflects the provider's settled status. A poll error is a 502, never a verification.
@@ -4164,7 +4179,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4231,7 +4246,7 @@ class ComplianceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CheckView",
+            '200': "ComplianceCheckView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4276,7 +4291,8 @@ class ComplianceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

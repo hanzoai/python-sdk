@@ -19,28 +19,28 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.activation_req import ActivationReq
-from hanzoai.cloud.models.activation_set import ActivationSet
-from hanzoai.cloud.models.authored_plugin_list import AuthoredPluginList
-from hanzoai.cloud.models.authored_skill_list import AuthoredSkillList
-from hanzoai.cloud.models.build_out import BuildOut
-from hanzoai.cloud.models.build_request import BuildRequest
-from hanzoai.cloud.models.create_server_req import CreateServerReq
-from hanzoai.cloud.models.curate_req import CurateReq
-from hanzoai.cloud.models.mcp_listing import MCPListing
-from hanzoai.cloud.models.mcp_server import MCPServer
-from hanzoai.cloud.models.mcp_catalog import McpCatalog
-from hanzoai.cloud.models.mcp_catalog_sync import McpCatalogSync
-from hanzoai.cloud.models.mcp_server_list import McpServerList
-from hanzoai.cloud.models.plugin_deleted import PluginDeleted
-from hanzoai.cloud.models.plugin_mount_list import PluginMountList
-from hanzoai.cloud.models.skill_deleted import SkillDeleted
-from hanzoai.cloud.models.skill_in import SkillIn
-from hanzoai.cloud.models.skill_written import SkillWritten
-from hanzoai.cloud.models.source_tool_list import SourceToolList
-from hanzoai.cloud.models.tool_call import ToolCall
-from hanzoai.cloud.models.tool_list import ToolList
-from hanzoai.cloud.models.tool_result import ToolResult
+from hanzoai.cloud.models.tool_activation_req import ToolActivationReq
+from hanzoai.cloud.models.tool_activation_set import ToolActivationSet
+from hanzoai.cloud.models.tool_authored_plugin_list import ToolAuthoredPluginList
+from hanzoai.cloud.models.tool_authored_skill_list import ToolAuthoredSkillList
+from hanzoai.cloud.models.tool_build_out import ToolBuildOut
+from hanzoai.cloud.models.tool_build_request import ToolBuildRequest
+from hanzoai.cloud.models.tool_create_server_req import ToolCreateServerReq
+from hanzoai.cloud.models.tool_curate_req import ToolCurateReq
+from hanzoai.cloud.models.tool_mcp_listing import ToolMCPListing
+from hanzoai.cloud.models.tool_mcp_server import ToolMCPServer
+from hanzoai.cloud.models.tool_mcp_catalog import ToolMcpCatalog
+from hanzoai.cloud.models.tool_mcp_catalog_sync import ToolMcpCatalogSync
+from hanzoai.cloud.models.tool_mcp_server_list import ToolMcpServerList
+from hanzoai.cloud.models.tool_plugin_deleted import ToolPluginDeleted
+from hanzoai.cloud.models.tool_plugin_mount_list import ToolPluginMountList
+from hanzoai.cloud.models.tool_skill_deleted import ToolSkillDeleted
+from hanzoai.cloud.models.tool_skill_in import ToolSkillIn
+from hanzoai.cloud.models.tool_skill_written import ToolSkillWritten
+from hanzoai.cloud.models.tool_source_tool_list import ToolSourceToolList
+from hanzoai.cloud.models.tool_tool_call import ToolToolCall
+from hanzoai.cloud.models.tool_tool_list import ToolToolList
+from hanzoai.cloud.models.tool_tool_result import ToolToolResult
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -79,7 +79,7 @@ class ToolApi:
     ) -> None:
         """Deregisters one of the caller org's external MCP servers, so its tools leave the registry.
 
-        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404.
+        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404. Like registering one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the server to deregister, from the path. (required)
         :type id: str
@@ -146,7 +146,7 @@ class ToolApi:
     ) -> ApiResponse[None]:
         """Deregisters one of the caller org's external MCP servers, so its tools leave the registry.
 
-        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404.
+        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404. Like registering one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the server to deregister, from the path. (required)
         :type id: str
@@ -213,7 +213,7 @@ class ToolApi:
     ) -> RESTResponseType:
         """Deregisters one of the caller org's external MCP servers, so its tools leave the registry.
 
-        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404.
+        Deregisters one of the caller org's external MCP servers, so its tools leave the registry. Scoped to the caller's org, so an id belonging to another tenant is a 404 and not a delete. Answers 204 with no body; a server this org does not have is 404. Like registering one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the server to deregister, from the path. (required)
         :type id: str
@@ -289,6 +289,13 @@ class ToolApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -330,7 +337,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PluginDeleted:
+    ) -> ToolPluginDeleted:
         """Removes one of the caller org's built plugins, so the runtime can no longer load it.
 
         Removes one of the caller org's built plugins, so the runtime can no longer load it. Scoped to the caller's org, so an id belonging to another tenant answers 404 and is not deleted.
@@ -368,7 +375,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginDeleted",
+            '200': "ToolPluginDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -397,7 +404,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PluginDeleted]:
+    ) -> ApiResponse[ToolPluginDeleted]:
         """Removes one of the caller org's built plugins, so the runtime can no longer load it.
 
         Removes one of the caller org's built plugins, so the runtime can no longer load it. Scoped to the caller's org, so an id belonging to another tenant answers 404 and is not deleted.
@@ -435,7 +442,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginDeleted",
+            '200': "ToolPluginDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -502,7 +509,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginDeleted",
+            '200': "ToolPluginDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -547,7 +554,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -591,10 +599,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SkillDeleted:
+    ) -> ToolSkillDeleted:
         """Removes one of the caller org's authored skills.
 
-        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is.
+        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is. Like writing one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the skill to remove, from the path. It is the skill's name. (required)
         :type id: str
@@ -629,7 +637,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SkillDeleted",
+            '200': "ToolSkillDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -658,10 +666,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SkillDeleted]:
+    ) -> ApiResponse[ToolSkillDeleted]:
         """Removes one of the caller org's authored skills.
 
-        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is.
+        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is. Like writing one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the skill to remove, from the path. It is the skill's name. (required)
         :type id: str
@@ -696,7 +704,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SkillDeleted",
+            '200': "ToolSkillDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -728,7 +736,7 @@ class ToolApi:
     ) -> RESTResponseType:
         """Removes one of the caller org's authored skills.
 
-        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is.
+        Removes one of the caller org's authored skills. Scoped to the caller's org, so an id belonging to another tenant is never reached. Removing what is not there is not an error — the caller's intent is \"gone\", and it is. Like writing one it takes an admin of the org or a SuperAdmin, and is on the org's audit trail before it is made.
 
         :param id: ID is the skill to remove, from the path. It is the skill's name. (required)
         :type id: str
@@ -763,7 +771,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SkillDeleted",
+            '200': "ToolSkillDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -808,7 +816,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -853,7 +862,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ToolList:
+    ) -> ToolToolList:
         """Lists every tool the caller's org and project can reach, from every source, each flagged with whether it is activated.
 
         Lists every tool the caller's org and project can reach, from every source, each flagged with whether it is activated. This is the discovery surface: one flat set of names spanning connector actions, user functions, zap-service routes, agents, skills and the org's own external MCP servers, deduplicated by name so the highest-precedence source wins a collision. It lists; it does not call — dispatch is POST /v1/tool/call.
@@ -894,7 +903,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolList",
+            '200': "ToolToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -924,7 +933,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ToolList]:
+    ) -> ApiResponse[ToolToolList]:
         """Lists every tool the caller's org and project can reach, from every source, each flagged with whether it is activated.
 
         Lists every tool the caller's org and project can reach, from every source, each flagged with whether it is activated. This is the discovery surface: one flat set of names spanning connector actions, user functions, zap-service routes, agents, skills and the org's own external MCP servers, deduplicated by name so the highest-precedence source wins a collision. It lists; it does not call — dispatch is POST /v1/tool/call.
@@ -965,7 +974,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolList",
+            '200': "ToolToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1036,7 +1045,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolList",
+            '200': "ToolToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1088,7 +1097,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1131,7 +1141,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActivationSet:
+    ) -> ToolActivationSet:
         """Reports which tools are switched on for the caller's org and project.
 
         Reports which tools are switched on for the caller's org and project. Activation is what makes a tool dispatchable and what makes it visible to an agent, so this is the set the MCP tool list is drawn from — every other tool in the registry is discoverable but refused at call time.
@@ -1166,7 +1176,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1194,7 +1204,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActivationSet]:
+    ) -> ApiResponse[ToolActivationSet]:
         """Reports which tools are switched on for the caller's org and project.
 
         Reports which tools are switched on for the caller's org and project. Activation is what makes a tool dispatchable and what makes it visible to an agent, so this is the set the MCP tool list is drawn from — every other tool in the registry is discoverable but refused at call time.
@@ -1229,7 +1239,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1292,7 +1302,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1334,7 +1344,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1382,10 +1393,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> McpCatalog:
+    ) -> ToolMcpCatalog:
         """Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.
 
-        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.
+        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.  It needs no credential: the shelf is a copy of public registries, the same for every org, and a storefront shows it to a visitor before anyone signs in.
 
         :param q: Q matches the name, title or description, case-insensitively.
         :type q: str
@@ -1432,7 +1443,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalog",
+            '200': "ToolMcpCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1465,10 +1476,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[McpCatalog]:
+    ) -> ApiResponse[ToolMcpCatalog]:
         """Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.
 
-        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.
+        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.  It needs no credential: the shelf is a copy of public registries, the same for every org, and a storefront shows it to a visitor before anyone signs in.
 
         :param q: Q matches the name, title or description, case-insensitively.
         :type q: str
@@ -1515,7 +1526,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalog",
+            '200': "ToolMcpCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1551,7 +1562,7 @@ class ToolApi:
     ) -> RESTResponseType:
         """Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.
 
-        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.
+        Lists the MCP servers the public registries publish, as we hold them: our canonical copy of registry.modelcontextprotocol.io, plus what we decided about each entry.  This is the SHELF an org picks from. A listing with a streamable-http endpoint can be enabled as-is — POST /v1/tool/mcp/servers with its id — and its tools then join the org's tool plane and the fleet's MCP server. A listing that only ships a stdio package needs a process to run it, which is why the transports are on every entry rather than implied.  Hidden entries are absent: they are the ones we took off the shelf. A platform SuperAdmin sees them, because the same query answers \"what is on the shelf\" and \"what is in the catalog\" and two queries would drift apart.  It is PAGED — 50 by default, 200 at most. The public registry publishes tens of thousands of servers, so an unbounded answer is a twenty-megabyte response and a storefront that renders in a minute. total is the whole match, not the page.  It needs no credential: the shelf is a copy of public registries, the same for every org, and a storefront shows it to a visitor before anyone signs in.
 
         :param q: Q matches the name, title or description, case-insensitively.
         :type q: str
@@ -1598,7 +1609,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalog",
+            '200': "ToolMcpCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1665,14 +1676,14 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
 
         # authentication setting
         _auth_settings: List[str] = [
-            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1709,10 +1720,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MCPListing:
+    ) -> ToolMCPListing:
         """Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint.
 
-        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back.
+        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back. Like the shelf, it needs no credential.
 
         :param id: ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\". (required)
         :type id: str
@@ -1747,7 +1758,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1776,10 +1787,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MCPListing]:
+    ) -> ApiResponse[ToolMCPListing]:
         """Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint.
 
-        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back.
+        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back. Like the shelf, it needs no credential.
 
         :param id: ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\". (required)
         :type id: str
@@ -1814,7 +1825,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1846,7 +1857,7 @@ class ToolApi:
     ) -> RESTResponseType:
         """Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint.
 
-        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back.
+        Returns one catalog entry in full: the publisher's description, its repository and site, every package form with the runtime that launches it, and every hosted endpoint. It is what a branding page renders, and what tells a caller whether the listing can be enabled here and now (a streamable-http remote) or needs somewhere to run first (a stdio package).  A HIDDEN listing is not served to an org — a shelf that renders what it does not list would be a way around the shelf — but is served to a SuperAdmin, who is the one deciding whether to put it back. Like the shelf, it needs no credential.
 
         :param id: ID is the listing, from the path. It is the publisher's reverse-DNS name with its one slash written as an underscore — \"com.stripe_mcp\". (required)
         :type id: str
@@ -1881,7 +1892,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1926,14 +1937,14 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
 
         # authentication setting
         _auth_settings: List[str] = [
-            'bearer'
         ]
 
         return self.api_client.param_serialize(
@@ -1969,10 +1980,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> McpServerList:
+    ) -> ToolMcpServerList:
         """Lists the external MCP servers the caller's org has registered.
 
-        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it.
+        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it. Each also says whether its tools could be listed — status, a reason when they could not, and how many there are — so a server that contributes nothing says why.  The whole URL is answered to an admin of the org or a SuperAdmin, who register servers. A member is answered its scheme and host: which server it is, and not a path or query an admin may have put a key in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2004,7 +2015,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpServerList",
+            '200': "ToolMcpServerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2032,10 +2043,10 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[McpServerList]:
+    ) -> ApiResponse[ToolMcpServerList]:
         """Lists the external MCP servers the caller's org has registered.
 
-        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it.
+        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it. Each also says whether its tools could be listed — status, a reason when they could not, and how many there are — so a server that contributes nothing says why.  The whole URL is answered to an admin of the org or a SuperAdmin, who register servers. A member is answered its scheme and host: which server it is, and not a path or query an admin may have put a key in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2067,7 +2078,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpServerList",
+            '200': "ToolMcpServerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2098,7 +2109,7 @@ class ToolApi:
     ) -> RESTResponseType:
         """Lists the external MCP servers the caller's org has registered.
 
-        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it.
+        Lists the external MCP servers the caller's org has registered. Each record carries the URL and the name of the header its credential is injected into; the credential VALUE lives only in KMS and is never returned, so hasSecret is the whole of what this surface says about it. Each also says whether its tools could be listed — status, a reason when they could not, and how many there are — so a server that contributes nothing says why.  The whole URL is answered to an admin of the org or a SuperAdmin, who register servers. A member is answered its scheme and host: which server it is, and not a path or query an admin may have put a key in.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2130,7 +2141,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpServerList",
+            '200': "ToolMcpServerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2172,7 +2183,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2216,7 +2228,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PluginMountList:
+    ) -> ToolPluginMountList:
         """Reports what this deployment actually mounted: every subsystem the composition root declared and whether it is switched on.
 
         Reports what this deployment actually mounted: every subsystem the composition root declared and whether it is switched on. A plugin here is MOUNTED CODE that extends the deployment's own surface — not a tool an agent calls — so this is an inventory and not a tool source. It is read off the same boot snapshot every traced request resolves its subsystem label against, so it cannot drift from what is serving. Enabled-only by default, because a caller asking what this deployment can do wants what is running; ?all=true adds the configured-but-off ones.
@@ -2254,7 +2266,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginMountList",
+            '200': "ToolPluginMountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2283,7 +2295,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PluginMountList]:
+    ) -> ApiResponse[ToolPluginMountList]:
         """Reports what this deployment actually mounted: every subsystem the composition root declared and whether it is switched on.
 
         Reports what this deployment actually mounted: every subsystem the composition root declared and whether it is switched on. A plugin here is MOUNTED CODE that extends the deployment's own surface — not a tool an agent calls — so this is an inventory and not a tool source. It is read off the same boot snapshot every traced request resolves its subsystem label against, so it cannot drift from what is serving. Enabled-only by default, because a caller asking what this deployment can do wants what is running; ?all=true adds the configured-but-off ones.
@@ -2321,7 +2333,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginMountList",
+            '200': "ToolPluginMountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2388,7 +2400,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PluginMountList",
+            '200': "ToolPluginMountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2435,7 +2447,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2478,7 +2491,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AuthoredPluginList:
+    ) -> ToolAuthoredPluginList:
         """Lists the plugins the caller's org BUILT, newest first, each with the TypeScript as authored.
 
         Lists the plugins the caller's org BUILT, newest first, each with the TypeScript as authored. That is a different set with a different lifecycle from GET /v1/tool/plugins, which reports the subsystems this deployment mounted. The bundled CommonJS the runtime executes is never included, and neither is any credential — a plugin names the connectors provider it needs and reads the credential from ctx.auth at run time.
@@ -2513,7 +2526,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredPluginList",
+            '200': "ToolAuthoredPluginList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2541,7 +2554,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AuthoredPluginList]:
+    ) -> ApiResponse[ToolAuthoredPluginList]:
         """Lists the plugins the caller's org BUILT, newest first, each with the TypeScript as authored.
 
         Lists the plugins the caller's org BUILT, newest first, each with the TypeScript as authored. That is a different set with a different lifecycle from GET /v1/tool/plugins, which reports the subsystems this deployment mounted. The bundled CommonJS the runtime executes is never included, and neither is any credential — a plugin names the connectors provider it needs and reads the credential from ctx.auth at run time.
@@ -2576,7 +2589,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredPluginList",
+            '200': "ToolAuthoredPluginList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2639,7 +2652,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredPluginList",
+            '200': "ToolAuthoredPluginList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2681,7 +2694,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2725,7 +2739,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SourceToolList:
+    ) -> ToolSourceToolList:
         """Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag.
 
         Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag. A skill is discovery and activation metadata attached to an agent, never called directly, so every entry here is non-dispatchable. It is GET /v1/tool narrowed to one source, not a second store: a name a caller sees here is the same entry, with the same activation state, that discovery reports.
@@ -2763,7 +2777,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceToolList",
+            '200': "ToolSourceToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2792,7 +2806,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SourceToolList]:
+    ) -> ApiResponse[ToolSourceToolList]:
         """Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag.
 
         Lists the skills the caller's org can reach — the brand's embedded catalogue plus the org's own authored ones — with each one's activation flag. A skill is discovery and activation metadata attached to an agent, never called directly, so every entry here is non-dispatchable. It is GET /v1/tool narrowed to one source, not a second store: a name a caller sees here is the same entry, with the same activation state, that discovery reports.
@@ -2830,7 +2844,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceToolList",
+            '200': "ToolSourceToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2897,7 +2911,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SourceToolList",
+            '200': "ToolSourceToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2944,7 +2958,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2987,7 +3002,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AuthoredSkillList:
+    ) -> ToolAuthoredSkillList:
         """Lists the caller org's OWN skills with their SKILL.md bodies.
 
         Lists the caller org's OWN skills with their SKILL.md bodies. GET /v1/tool/skills is the registry view — the brand's catalogue plus this org's, with activation flags and no bodies; this is the EDITABLE set, so it carries the content that view omits and nothing the org did not write.
@@ -3022,7 +3037,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredSkillList",
+            '200': "ToolAuthoredSkillList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3050,7 +3065,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AuthoredSkillList]:
+    ) -> ApiResponse[ToolAuthoredSkillList]:
         """Lists the caller org's OWN skills with their SKILL.md bodies.
 
         Lists the caller org's OWN skills with their SKILL.md bodies. GET /v1/tool/skills is the registry view — the brand's catalogue plus this org's, with activation flags and no bodies; this is the EDITABLE set, so it carries the content that view omits and nothing the org did not write.
@@ -3085,7 +3100,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredSkillList",
+            '200': "ToolAuthoredSkillList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3148,7 +3163,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthoredSkillList",
+            '200': "ToolAuthoredSkillList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3190,7 +3205,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3222,7 +3238,7 @@ class ToolApi:
     def patch_tool_catalog_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
-        curate_req: CurateReq,
+        tool_curate_req: ToolCurateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3235,15 +3251,15 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MCPListing:
+    ) -> ToolMCPListing:
         """Sets what WE say about one catalog entry — hidden, featured, official, logo — and answers with the stored listing.
 
         Sets what WE say about one catalog entry — hidden, featured, official, logo — and answers with the stored listing. SuperAdmin only; every other caller is refused.  Curation is the half of a catalog row a sync cannot write, and this is the only thing that writes it. The upstream half is never editable here: a description that disagreed with the publisher's would be a fork of their listing, and the next sync would silently undo it.
 
         :param id: ID is the listing to curate, from the path. (required)
         :type id: str
-        :param curate_req: (required)
-        :type curate_req: CurateReq
+        :param tool_curate_req: (required)
+        :type tool_curate_req: ToolCurateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3268,7 +3284,7 @@ class ToolApi:
 
         _param = self._patch_tool_catalog_by_id_serialize(
             id=id,
-            curate_req=curate_req,
+            tool_curate_req=tool_curate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3276,7 +3292,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3293,7 +3309,7 @@ class ToolApi:
     def patch_tool_catalog_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
-        curate_req: CurateReq,
+        tool_curate_req: ToolCurateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3306,15 +3322,15 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MCPListing]:
+    ) -> ApiResponse[ToolMCPListing]:
         """Sets what WE say about one catalog entry — hidden, featured, official, logo — and answers with the stored listing.
 
         Sets what WE say about one catalog entry — hidden, featured, official, logo — and answers with the stored listing. SuperAdmin only; every other caller is refused.  Curation is the half of a catalog row a sync cannot write, and this is the only thing that writes it. The upstream half is never editable here: a description that disagreed with the publisher's would be a fork of their listing, and the next sync would silently undo it.
 
         :param id: ID is the listing to curate, from the path. (required)
         :type id: str
-        :param curate_req: (required)
-        :type curate_req: CurateReq
+        :param tool_curate_req: (required)
+        :type tool_curate_req: ToolCurateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3339,7 +3355,7 @@ class ToolApi:
 
         _param = self._patch_tool_catalog_by_id_serialize(
             id=id,
-            curate_req=curate_req,
+            tool_curate_req=tool_curate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3347,7 +3363,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3364,7 +3380,7 @@ class ToolApi:
     def patch_tool_catalog_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the listing to curate, from the path.")],
-        curate_req: CurateReq,
+        tool_curate_req: ToolCurateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3384,8 +3400,8 @@ class ToolApi:
 
         :param id: ID is the listing to curate, from the path. (required)
         :type id: str
-        :param curate_req: (required)
-        :type curate_req: CurateReq
+        :param tool_curate_req: (required)
+        :type tool_curate_req: ToolCurateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3410,7 +3426,7 @@ class ToolApi:
 
         _param = self._patch_tool_catalog_by_id_serialize(
             id=id,
-            curate_req=curate_req,
+            tool_curate_req=tool_curate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3418,7 +3434,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MCPListing",
+            '200': "ToolMCPListing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3430,7 +3446,7 @@ class ToolApi:
     def _patch_tool_catalog_by_id_serialize(
         self,
         id,
-        curate_req,
+        tool_curate_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3458,15 +3474,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if curate_req is not None:
-            _body_params = curate_req
+        if tool_curate_req is not None:
+            _body_params = tool_curate_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3510,7 +3527,7 @@ class ToolApi:
     @validate_call
     def post_tool_call(
         self,
-        tool_call: ToolCall,
+        tool_tool_call: ToolToolCall,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3523,13 +3540,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ToolResult:
+    ) -> ToolToolResult:
         """Runs one of the caller's activated tools and answers with its output.
 
         Runs one of the caller's activated tools and answers with its output.  This is the endpoint onto the tool plane's DYNAMIC half — the half no build-time catalogue can hold, because it is per-tenant: an org's connected connector actions, its authored skills, its agents and functions, and the tools of every external MCP server it registered. A tool's existence, its price and its activation are all rows, not code, so they cannot be known until the caller is.  One policy, the registry's: resolve by precedence, refuse an unactivated tool 403, settle a priced one through the x402 client or fail closed 402, then dispatch to the winning source bound to the caller's own (org, project). One metered unit, one audit record. A caller can only ever dispatch its own tools.  Discovery is GET /v1/tool — ?activated=true for the callable set.
 
-        :param tool_call: (required)
-        :type tool_call: ToolCall
+        :param tool_tool_call: (required)
+        :type tool_tool_call: ToolToolCall
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3553,7 +3570,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_call_serialize(
-            tool_call=tool_call,
+            tool_tool_call=tool_tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3561,7 +3578,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolResult",
+            '200': "ToolToolResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3577,7 +3594,7 @@ class ToolApi:
     @validate_call
     def post_tool_call_with_http_info(
         self,
-        tool_call: ToolCall,
+        tool_tool_call: ToolToolCall,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3590,13 +3607,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ToolResult]:
+    ) -> ApiResponse[ToolToolResult]:
         """Runs one of the caller's activated tools and answers with its output.
 
         Runs one of the caller's activated tools and answers with its output.  This is the endpoint onto the tool plane's DYNAMIC half — the half no build-time catalogue can hold, because it is per-tenant: an org's connected connector actions, its authored skills, its agents and functions, and the tools of every external MCP server it registered. A tool's existence, its price and its activation are all rows, not code, so they cannot be known until the caller is.  One policy, the registry's: resolve by precedence, refuse an unactivated tool 403, settle a priced one through the x402 client or fail closed 402, then dispatch to the winning source bound to the caller's own (org, project). One metered unit, one audit record. A caller can only ever dispatch its own tools.  Discovery is GET /v1/tool — ?activated=true for the callable set.
 
-        :param tool_call: (required)
-        :type tool_call: ToolCall
+        :param tool_tool_call: (required)
+        :type tool_tool_call: ToolToolCall
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3620,7 +3637,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_call_serialize(
-            tool_call=tool_call,
+            tool_tool_call=tool_tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3628,7 +3645,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolResult",
+            '200': "ToolToolResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3644,7 +3661,7 @@ class ToolApi:
     @validate_call
     def post_tool_call_without_preload_content(
         self,
-        tool_call: ToolCall,
+        tool_tool_call: ToolToolCall,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3662,8 +3679,8 @@ class ToolApi:
 
         Runs one of the caller's activated tools and answers with its output.  This is the endpoint onto the tool plane's DYNAMIC half — the half no build-time catalogue can hold, because it is per-tenant: an org's connected connector actions, its authored skills, its agents and functions, and the tools of every external MCP server it registered. A tool's existence, its price and its activation are all rows, not code, so they cannot be known until the caller is.  One policy, the registry's: resolve by precedence, refuse an unactivated tool 403, settle a priced one through the x402 client or fail closed 402, then dispatch to the winning source bound to the caller's own (org, project). One metered unit, one audit record. A caller can only ever dispatch its own tools.  Discovery is GET /v1/tool — ?activated=true for the callable set.
 
-        :param tool_call: (required)
-        :type tool_call: ToolCall
+        :param tool_tool_call: (required)
+        :type tool_tool_call: ToolToolCall
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3687,7 +3704,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_call_serialize(
-            tool_call=tool_call,
+            tool_tool_call=tool_tool_call,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3695,7 +3712,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ToolResult",
+            '200': "ToolToolResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3706,7 +3723,7 @@ class ToolApi:
 
     def _post_tool_call_serialize(
         self,
-        tool_call,
+        tool_tool_call,
         _request_auth,
         _content_type,
         _headers,
@@ -3732,15 +3749,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if tool_call is not None:
-            _body_params = tool_call
+        if tool_tool_call is not None:
+            _body_params = tool_tool_call
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3796,7 +3814,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> McpCatalogSync:
+    ) -> ToolMcpCatalogSync:
         """Pulls the public MCP registry into our canonical copy and reports what changed.
 
         Pulls the public MCP registry into our canonical copy and reports what changed. SuperAdmin only; every other caller is refused.  It is IDEMPOTENT: a listing is keyed by the publisher's own reverse-DNS name, so a second pass over an unchanged registry rewrites the same rows and reports added=0, updated=0. It never deletes — a listing that vanishes upstream may be one an org has already enabled, and dropping its description would not drop its server. And it never touches CURATION: hidden, featured, an admin-set official and a logo survive every sync, because the write does not name those columns.
@@ -3831,7 +3849,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalogSync",
+            '200': "ToolMcpCatalogSync",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3859,7 +3877,7 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[McpCatalogSync]:
+    ) -> ApiResponse[ToolMcpCatalogSync]:
         """Pulls the public MCP registry into our canonical copy and reports what changed.
 
         Pulls the public MCP registry into our canonical copy and reports what changed. SuperAdmin only; every other caller is refused.  It is IDEMPOTENT: a listing is keyed by the publisher's own reverse-DNS name, so a second pass over an unchanged registry rewrites the same rows and reports added=0, updated=0. It never deletes — a listing that vanishes upstream may be one an org has already enabled, and dropping its description would not drop its server. And it never touches CURATION: hidden, featured, an admin-set official and a logo survive every sync, because the write does not name those columns.
@@ -3894,7 +3912,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalogSync",
+            '200': "ToolMcpCatalogSync",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3957,7 +3975,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "McpCatalogSync",
+            '200': "ToolMcpCatalogSync",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3999,7 +4017,8 @@ class ToolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4030,7 +4049,7 @@ class ToolApi:
     @validate_call
     def post_tool_mcp_servers(
         self,
-        create_server_req: CreateServerReq,
+        tool_create_server_req: ToolCreateServerReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4043,13 +4062,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MCPServer:
+    ) -> ToolMCPServer:
         """Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server.
 
-        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.
+        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.  A server and the tools of it the org activates are carried into every agent run in the org, so registering one — or revising one, credential included — takes an admin of the org or a SuperAdmin; a member is refused 403. The registration is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param create_server_req: (required)
-        :type create_server_req: CreateServerReq
+        :param tool_create_server_req: (required)
+        :type tool_create_server_req: ToolCreateServerReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4073,7 +4092,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_mcp_servers_serialize(
-            create_server_req=create_server_req,
+            tool_create_server_req=tool_create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4081,7 +4100,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MCPServer",
+            '201': "ToolMCPServer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4097,7 +4116,7 @@ class ToolApi:
     @validate_call
     def post_tool_mcp_servers_with_http_info(
         self,
-        create_server_req: CreateServerReq,
+        tool_create_server_req: ToolCreateServerReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4110,13 +4129,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MCPServer]:
+    ) -> ApiResponse[ToolMCPServer]:
         """Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server.
 
-        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.
+        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.  A server and the tools of it the org activates are carried into every agent run in the org, so registering one — or revising one, credential included — takes an admin of the org or a SuperAdmin; a member is refused 403. The registration is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param create_server_req: (required)
-        :type create_server_req: CreateServerReq
+        :param tool_create_server_req: (required)
+        :type tool_create_server_req: ToolCreateServerReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4140,7 +4159,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_mcp_servers_serialize(
-            create_server_req=create_server_req,
+            tool_create_server_req=tool_create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4148,7 +4167,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MCPServer",
+            '201': "ToolMCPServer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4164,7 +4183,7 @@ class ToolApi:
     @validate_call
     def post_tool_mcp_servers_without_preload_content(
         self,
-        create_server_req: CreateServerReq,
+        tool_create_server_req: ToolCreateServerReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4180,10 +4199,10 @@ class ToolApi:
     ) -> RESTResponseType:
         """Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server.
 
-        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.
+        Gives the caller's org one more external MCP server, so its tools join the org's tool plane and the fleet's MCP server. It is the ONE way an org gains a server, whether it typed the URL in or enabled a catalog listing: both write the SAME record, and `source` says which it was. A second registration path would be a second place for a server to exist, and then a second place to forget to check the credential.  The credential VALUE is sealed in KMS under a per-org ref; the row keeps only the URL, the header name to inject it into, and a has-secret flag — so a secret with no KMS configured is refused 503 rather than stored in the clear. The URL is SSRF-validated here and re-checked by the dialer at connect time, which is the DNS-rebinding defense.  Enabling a listing the org already enabled REVISES that server rather than adding a near-duplicate beside it, so a retried enable is the same one server. Answers 201 with the stored record.  A server and the tools of it the org activates are carried into every agent run in the org, so registering one — or revising one, credential included — takes an admin of the org or a SuperAdmin; a member is refused 403. The registration is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param create_server_req: (required)
-        :type create_server_req: CreateServerReq
+        :param tool_create_server_req: (required)
+        :type tool_create_server_req: ToolCreateServerReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4207,7 +4226,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_mcp_servers_serialize(
-            create_server_req=create_server_req,
+            tool_create_server_req=tool_create_server_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4215,7 +4234,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MCPServer",
+            '201': "ToolMCPServer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4226,7 +4245,7 @@ class ToolApi:
 
     def _post_tool_mcp_servers_serialize(
         self,
-        create_server_req,
+        tool_create_server_req,
         _request_auth,
         _content_type,
         _headers,
@@ -4252,15 +4271,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_server_req is not None:
-            _body_params = create_server_req
+        if tool_create_server_req is not None:
+            _body_params = tool_create_server_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4304,7 +4324,7 @@ class ToolApi:
     @validate_call
     def post_tool_plugins_build(
         self,
-        build_request: BuildRequest,
+        tool_build_request: ToolBuildRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4317,13 +4337,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BuildOut:
+    ) -> ToolBuildOut:
         """Builds and stores one plugin for the caller's org.
 
         Builds and stores one plugin for the caller's org. The 201 carries the bundle's size, whether a model wrote the source, and the plugin as stored.  Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error (`detail`), the source that failed, and whether the model wrote it.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that carries something key-shaped is REFUSED rather than silently persisted — a scrubbed key looks like it worked.
 
-        :param build_request: (required)
-        :type build_request: BuildRequest
+        :param tool_build_request: (required)
+        :type tool_build_request: ToolBuildRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4347,7 +4367,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_plugins_build_serialize(
-            build_request=build_request,
+            tool_build_request=tool_build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4355,7 +4375,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BuildOut",
+            '201': "ToolBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4371,7 +4391,7 @@ class ToolApi:
     @validate_call
     def post_tool_plugins_build_with_http_info(
         self,
-        build_request: BuildRequest,
+        tool_build_request: ToolBuildRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4384,13 +4404,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BuildOut]:
+    ) -> ApiResponse[ToolBuildOut]:
         """Builds and stores one plugin for the caller's org.
 
         Builds and stores one plugin for the caller's org. The 201 carries the bundle's size, whether a model wrote the source, and the plugin as stored.  Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error (`detail`), the source that failed, and whether the model wrote it.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that carries something key-shaped is REFUSED rather than silently persisted — a scrubbed key looks like it worked.
 
-        :param build_request: (required)
-        :type build_request: BuildRequest
+        :param tool_build_request: (required)
+        :type tool_build_request: ToolBuildRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4414,7 +4434,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_plugins_build_serialize(
-            build_request=build_request,
+            tool_build_request=tool_build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4422,7 +4442,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BuildOut",
+            '201': "ToolBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4438,7 +4458,7 @@ class ToolApi:
     @validate_call
     def post_tool_plugins_build_without_preload_content(
         self,
-        build_request: BuildRequest,
+        tool_build_request: ToolBuildRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4456,8 +4476,8 @@ class ToolApi:
 
         Builds and stores one plugin for the caller's org. The 201 carries the bundle's size, whether a model wrote the source, and the plugin as stored.  Post `source` to build TypeScript as-is, or `spec` — an OpenAPI document or plain prose describing the endpoints — to have one generated; the generated source comes back in the answer, so a caller reads what will run before it runs. Exactly one of the two, and `name` must be one lowercase path segment; both or neither is 400.  COMPILING IS THE GATE. The source goes through the same pipeline the committed connectors do — esbuild to one CommonJS program, then compiled in the goja runtime that will actually execute it — and anything that fails is rejected and NEVER stored. So a plugin in the store is one this deployment has already loaded once, not one a model claimed was fine. A failed build answers 422 carrying the diagnostics a caller needs to fix it: the bundler's error (`detail`), the source that failed, and whether the model wrote it.  CREDENTIALS ARE NOT PART OF A PLUGIN. A plugin names the connectors `provider` it needs and reads that credential from `ctx.auth` at run time, under KMS custody. Source that carries something key-shaped is REFUSED rather than silently persisted — a scrubbed key looks like it worked.
 
-        :param build_request: (required)
-        :type build_request: BuildRequest
+        :param tool_build_request: (required)
+        :type tool_build_request: ToolBuildRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4481,7 +4501,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_plugins_build_serialize(
-            build_request=build_request,
+            tool_build_request=tool_build_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4489,7 +4509,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BuildOut",
+            '201': "ToolBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4500,7 +4520,7 @@ class ToolApi:
 
     def _post_tool_plugins_build_serialize(
         self,
-        build_request,
+        tool_build_request,
         _request_auth,
         _content_type,
         _headers,
@@ -4526,15 +4546,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if build_request is not None:
-            _body_params = build_request
+        if tool_build_request is not None:
+            _body_params = tool_build_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4578,7 +4599,7 @@ class ToolApi:
     @validate_call
     def post_tool_skills(
         self,
-        skill_in: SkillIn,
+        tool_skill_in: ToolSkillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4591,13 +4612,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SkillWritten:
+    ) -> ToolSkillWritten:
         """Adds or revises one of the caller org's own skills, and answers 201 with the stored record.
 
-        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.
+        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.  An activated skill is carried into every agent run in the org, so writing one takes an admin of the org or a SuperAdmin; a member is refused 403. The write is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param skill_in: (required)
-        :type skill_in: SkillIn
+        :param tool_skill_in: (required)
+        :type tool_skill_in: ToolSkillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4621,7 +4642,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_skills_serialize(
-            skill_in=skill_in,
+            tool_skill_in=tool_skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4629,7 +4650,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SkillWritten",
+            '201': "ToolSkillWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4645,7 +4666,7 @@ class ToolApi:
     @validate_call
     def post_tool_skills_with_http_info(
         self,
-        skill_in: SkillIn,
+        tool_skill_in: ToolSkillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4658,13 +4679,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SkillWritten]:
+    ) -> ApiResponse[ToolSkillWritten]:
         """Adds or revises one of the caller org's own skills, and answers 201 with the stored record.
 
-        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.
+        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.  An activated skill is carried into every agent run in the org, so writing one takes an admin of the org or a SuperAdmin; a member is refused 403. The write is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param skill_in: (required)
-        :type skill_in: SkillIn
+        :param tool_skill_in: (required)
+        :type tool_skill_in: ToolSkillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4688,7 +4709,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_skills_serialize(
-            skill_in=skill_in,
+            tool_skill_in=tool_skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4696,7 +4717,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SkillWritten",
+            '201': "ToolSkillWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4712,7 +4733,7 @@ class ToolApi:
     @validate_call
     def post_tool_skills_without_preload_content(
         self,
-        skill_in: SkillIn,
+        tool_skill_in: ToolSkillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4728,10 +4749,10 @@ class ToolApi:
     ) -> RESTResponseType:
         """Adds or revises one of the caller org's own skills, and answers 201 with the stored record.
 
-        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.
+        Adds or revises one of the caller org's own skills, and answers 201 with the stored record. The id is derived from the name, so writing the same name again REVISES that skill rather than accumulating near-duplicates that would then collide in the registry. An org's skills are private to it by construction — they live in a different store from the brand's embedded catalogue and have no path into the public gallery — and a brand skill always wins a name collision against an org's.  An activated skill is carried into every agent run in the org, so writing one takes an admin of the org or a SuperAdmin; a member is refused 403. The write is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param skill_in: (required)
-        :type skill_in: SkillIn
+        :param tool_skill_in: (required)
+        :type tool_skill_in: ToolSkillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4755,7 +4776,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._post_tool_skills_serialize(
-            skill_in=skill_in,
+            tool_skill_in=tool_skill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4763,7 +4784,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SkillWritten",
+            '201': "ToolSkillWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4774,7 +4795,7 @@ class ToolApi:
 
     def _post_tool_skills_serialize(
         self,
-        skill_in,
+        tool_skill_in,
         _request_auth,
         _content_type,
         _headers,
@@ -4800,15 +4821,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if skill_in is not None:
-            _body_params = skill_in
+        if tool_skill_in is not None:
+            _body_params = tool_skill_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4852,7 +4874,7 @@ class ToolApi:
     @validate_call
     def put_tool_activation(
         self,
-        activation_req: ActivationReq,
+        tool_activation_req: ToolActivationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4865,13 +4887,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActivationSet:
+    ) -> ToolActivationSet:
         """Switches tools on and off for the caller's org and project, and answers with the resulting activated set.
 
-        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.
+        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.  Switching a skill (skill_<name>) or a tool of an MCP server the org registered (<server>_<tool>) changes what every agent run in the org carries, so it takes an admin of the org or a SuperAdmin: a member naming one is refused 403 and nothing in the request is switched. Every change is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param activation_req: (required)
-        :type activation_req: ActivationReq
+        :param tool_activation_req: (required)
+        :type tool_activation_req: ToolActivationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4895,7 +4917,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._put_tool_activation_serialize(
-            activation_req=activation_req,
+            tool_activation_req=tool_activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4903,7 +4925,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4919,7 +4941,7 @@ class ToolApi:
     @validate_call
     def put_tool_activation_with_http_info(
         self,
-        activation_req: ActivationReq,
+        tool_activation_req: ToolActivationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4932,13 +4954,13 @@ class ToolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActivationSet]:
+    ) -> ApiResponse[ToolActivationSet]:
         """Switches tools on and off for the caller's org and project, and answers with the resulting activated set.
 
-        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.
+        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.  Switching a skill (skill_<name>) or a tool of an MCP server the org registered (<server>_<tool>) changes what every agent run in the org carries, so it takes an admin of the org or a SuperAdmin: a member naming one is refused 403 and nothing in the request is switched. Every change is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param activation_req: (required)
-        :type activation_req: ActivationReq
+        :param tool_activation_req: (required)
+        :type tool_activation_req: ToolActivationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4962,7 +4984,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._put_tool_activation_serialize(
-            activation_req=activation_req,
+            tool_activation_req=tool_activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4970,7 +4992,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4986,7 +5008,7 @@ class ToolApi:
     @validate_call
     def put_tool_activation_without_preload_content(
         self,
-        activation_req: ActivationReq,
+        tool_activation_req: ToolActivationReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5002,10 +5024,10 @@ class ToolApi:
     ) -> RESTResponseType:
         """Switches tools on and off for the caller's org and project, and answers with the resulting activated set.
 
-        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.
+        Switches tools on and off for the caller's org and project, and answers with the resulting activated set. It is the ONE write path that turns skills, plugins and connectors into callable tools — an unactivated tool is listed by discovery but refused 403 at dispatch. Activate is applied before Deactivate, so a name in both lists ends up off. More than 256 toggles in one request is refused 413.  Switching a skill (skill_<name>) or a tool of an MCP server the org registered (<server>_<tool>) changes what every agent run in the org carries, so it takes an admin of the org or a SuperAdmin: a member naming one is refused 403 and nothing in the request is switched. Every change is on the org's audit trail before it is made, and one the trail cannot record is refused 503.
 
-        :param activation_req: (required)
-        :type activation_req: ActivationReq
+        :param tool_activation_req: (required)
+        :type tool_activation_req: ToolActivationReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5029,7 +5051,7 @@ class ToolApi:
         """ # noqa: E501
 
         _param = self._put_tool_activation_serialize(
-            activation_req=activation_req,
+            tool_activation_req=tool_activation_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5037,7 +5059,7 @@ class ToolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivationSet",
+            '200': "ToolActivationSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5048,7 +5070,7 @@ class ToolApi:
 
     def _put_tool_activation_serialize(
         self,
-        activation_req,
+        tool_activation_req,
         _request_auth,
         _content_type,
         _headers,
@@ -5074,15 +5096,16 @@ class ToolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if activation_req is not None:
-            _body_params = activation_req
+        if tool_activation_req is not None:
+            _body_params = tool_activation_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

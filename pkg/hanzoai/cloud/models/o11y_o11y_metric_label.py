@@ -28,7 +28,7 @@ class O11yO11yMetricLabel(BaseModel):
     O11yO11yMetricLabel
     """ # noqa: E501
     key: Optional[O11yO11yMetricField] = Field(default=None, description="Key is the label's field.")
-    value: Optional[Dict[str, Any]] = Field(default=None, description="Value is the label's value.")
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["key", "value"]
 
     model_config = ConfigDict(
@@ -73,6 +73,11 @@ class O11yO11yMetricLabel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of key
         if self.key:
             _dict['key'] = self.key.to_dict()
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

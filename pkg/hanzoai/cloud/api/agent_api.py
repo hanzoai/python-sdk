@@ -19,42 +19,45 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.activity_feed import ActivityFeed
-from hanzoai.cloud.models.agent_detail import AgentDetail
-from hanzoai.cloud.models.agent_list import AgentList
-from hanzoai.cloud.models.agent_view import AgentView
-from hanzoai.cloud.models.build_list import BuildList
-from hanzoai.cloud.models.build_view import BuildView
-from hanzoai.cloud.models.claim_key_out import ClaimKeyOut
-from hanzoai.cloud.models.coding_start_in import CodingStartIn
-from hanzoai.cloud.models.coding_started import CodingStarted
-from hanzoai.cloud.models.control_drain import ControlDrain
-from hanzoai.cloud.models.control_in import ControlIn
-from hanzoai.cloud.models.control_result import ControlResult
-from hanzoai.cloud.models.create_agent_in import CreateAgentIn
-from hanzoai.cloud.models.event_in import EventIn
-from hanzoai.cloud.models.event_view import EventView
-from hanzoai.cloud.models.metrics_view import MetricsView
-from hanzoai.cloud.models.patch_session_in import PatchSessionIn
-from hanzoai.cloud.models.patch_target_in import PatchTargetIn
-from hanzoai.cloud.models.register_req import RegisterReq
-from hanzoai.cloud.models.report_out import ReportOut
-from hanzoai.cloud.models.report_run_in import ReportRunIn
-from hanzoai.cloud.models.routed_run_out import RoutedRunOut
-from hanzoai.cloud.models.run_list import RunList
-from hanzoai.cloud.models.session_budget_in import SessionBudgetIn
-from hanzoai.cloud.models.session_budget_view import SessionBudgetView
-from hanzoai.cloud.models.session_detail import SessionDetail
-from hanzoai.cloud.models.session_list import SessionList
-from hanzoai.cloud.models.session_progress import SessionProgress
-from hanzoai.cloud.models.session_view import SessionView
-from hanzoai.cloud.models.spend_view import SpendView
-from hanzoai.cloud.models.target_deleted import TargetDeleted
-from hanzoai.cloud.models.target_list import TargetList
-from hanzoai.cloud.models.target_req import TargetReq
-from hanzoai.cloud.models.target_view import TargetView
-from hanzoai.cloud.models.tree_node import TreeNode
-from hanzoai.cloud.models.update_agent_in import UpdateAgentIn
+from hanzoai.cloud.models.agent_activity_feed import AgentActivityFeed
+from hanzoai.cloud.models.agent_agent_detail import AgentAgentDetail
+from hanzoai.cloud.models.agent_agent_list import AgentAgentList
+from hanzoai.cloud.models.agent_agent_view import AgentAgentView
+from hanzoai.cloud.models.agent_build_list import AgentBuildList
+from hanzoai.cloud.models.agent_build_view import AgentBuildView
+from hanzoai.cloud.models.agent_claim_key_out import AgentClaimKeyOut
+from hanzoai.cloud.models.agent_coding_blob import AgentCodingBlob
+from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges
+from hanzoai.cloud.models.agent_coding_start_in import AgentCodingStartIn
+from hanzoai.cloud.models.agent_coding_started import AgentCodingStarted
+from hanzoai.cloud.models.agent_coding_tree import AgentCodingTree
+from hanzoai.cloud.models.agent_control_drain import AgentControlDrain
+from hanzoai.cloud.models.agent_control_in import AgentControlIn
+from hanzoai.cloud.models.agent_control_result import AgentControlResult
+from hanzoai.cloud.models.agent_create_agent_in import AgentCreateAgentIn
+from hanzoai.cloud.models.agent_event_in import AgentEventIn
+from hanzoai.cloud.models.agent_event_view import AgentEventView
+from hanzoai.cloud.models.agent_metrics_view import AgentMetricsView
+from hanzoai.cloud.models.agent_patch_session_in import AgentPatchSessionIn
+from hanzoai.cloud.models.agent_patch_target_in import AgentPatchTargetIn
+from hanzoai.cloud.models.agent_register_req import AgentRegisterReq
+from hanzoai.cloud.models.agent_report_out import AgentReportOut
+from hanzoai.cloud.models.agent_report_run_in import AgentReportRunIn
+from hanzoai.cloud.models.agent_routed_run_out import AgentRoutedRunOut
+from hanzoai.cloud.models.agent_run_list import AgentRunList
+from hanzoai.cloud.models.agent_session_budget_in import AgentSessionBudgetIn
+from hanzoai.cloud.models.agent_session_budget_view import AgentSessionBudgetView
+from hanzoai.cloud.models.agent_session_detail import AgentSessionDetail
+from hanzoai.cloud.models.agent_session_list import AgentSessionList
+from hanzoai.cloud.models.agent_session_progress import AgentSessionProgress
+from hanzoai.cloud.models.agent_session_view import AgentSessionView
+from hanzoai.cloud.models.agent_spend_view import AgentSpendView
+from hanzoai.cloud.models.agent_target_deleted import AgentTargetDeleted
+from hanzoai.cloud.models.agent_target_list import AgentTargetList
+from hanzoai.cloud.models.agent_target_req import AgentTargetReq
+from hanzoai.cloud.models.agent_target_view import AgentTargetView
+from hanzoai.cloud.models.agent_tree_node import AgentTreeNode
+from hanzoai.cloud.models.agent_update_agent_in import AgentUpdateAgentIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -303,6 +306,13 @@ class AgentApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -344,7 +354,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TargetDeleted:
+    ) -> AgentTargetDeleted:
         """Deregisters one machine.
 
         Deregisters one machine. Only its owner, or an org admin, may remove it; an unknown id, a cross-org id and a machine owned by someone else all answer the same not-found, so a probe learns nothing about what exists.
@@ -382,7 +392,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetDeleted",
+            '200': "AgentTargetDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -411,7 +421,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TargetDeleted]:
+    ) -> ApiResponse[AgentTargetDeleted]:
         """Deregisters one machine.
 
         Deregisters one machine. Only its owner, or an org admin, may remove it; an unknown id, a cross-org id and a machine owned by someone else all answer the same not-found, so a probe learns nothing about what exists.
@@ -449,7 +459,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetDeleted",
+            '200': "AgentTargetDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -516,7 +526,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetDeleted",
+            '200': "AgentTargetDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -561,7 +571,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -604,7 +615,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentList:
+    ) -> AgentAgentList:
         """Returns every agent defined in the caller's org, each with the number of runs recorded against it.
 
         Returns every agent defined in the caller's org, each with the number of runs recorded against it.
@@ -639,7 +650,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentList",
+            '200': "AgentAgentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -667,7 +678,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentList]:
+    ) -> ApiResponse[AgentAgentList]:
         """Returns every agent defined in the caller's org, each with the number of runs recorded against it.
 
         Returns every agent defined in the caller's org, each with the number of runs recorded against it.
@@ -702,7 +713,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentList",
+            '200': "AgentAgentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -765,7 +776,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentList",
+            '200': "AgentAgentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -807,7 +818,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -850,7 +862,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActivityFeed:
+    ) -> AgentActivityFeed:
         """Serves the org-wide recent-activity feed.
 
         Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
@@ -885,7 +897,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityFeed",
+            '200': "AgentActivityFeed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -913,7 +925,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActivityFeed]:
+    ) -> ApiResponse[AgentActivityFeed]:
         """Serves the org-wide recent-activity feed.
 
         Serves the org-wide recent-activity feed. Events are REAL: each recorded run is an invoked (ok) or failed (error) event; each agent's own create/update timestamps are created/updated events. Merged, newest first, capped. Nothing is invented — an org with no agents and no runs gets [].
@@ -948,7 +960,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityFeed",
+            '200': "AgentActivityFeed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1011,7 +1023,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityFeed",
+            '200': "AgentActivityFeed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1053,7 +1065,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1097,7 +1110,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BuildList:
+    ) -> AgentBuildList:
         """Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product.
 
         Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product. PUBLIC, no tenancy: publishing is the author's act, and only published root sessions appear here.
@@ -1135,7 +1148,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildList",
+            '200': "AgentBuildList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1164,7 +1177,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BuildList]:
+    ) -> ApiResponse[AgentBuildList]:
         """Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product.
 
         Returns the public index of every published build, most recently updated first, so a gallery can link straight to the story behind each product. PUBLIC, no tenancy: publishing is the author's act, and only published root sessions appear here.
@@ -1202,7 +1215,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildList",
+            '200': "AgentBuildList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1269,7 +1282,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildList",
+            '200': "AgentBuildList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1316,7 +1329,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1361,7 +1375,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BuildView:
+    ) -> AgentBuildView:
         """Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.
 
         Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.  PUBLIC, no tenancy: it answers only for a session its author explicitly published, which is what makes it safe to be anonymous. An unpublished session is invisible here no matter who asks; its owner reads it through the org-scoped /v1/agent/sessions routes, which need a validated principal.
@@ -1402,7 +1416,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildView",
+            '200': "AgentBuildView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1432,7 +1446,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BuildView]:
+    ) -> ApiResponse[AgentBuildView]:
         """Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.
 
         Returns the readable build of one product: the agent session that produced it, turn by turn — the prompts, the reasoning, the commits each turn produced — plus the exact `git log` that re-derives every commit binding from git itself, so nothing here has to be taken on trust.  PUBLIC, no tenancy: it answers only for a session its author explicitly published, which is what makes it safe to be anonymous. An unpublished session is invisible here no matter who asks; its owner reads it through the org-scoped /v1/agent/sessions routes, which need a validated principal.
@@ -1473,7 +1487,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildView",
+            '200': "AgentBuildView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1544,7 +1558,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildView",
+            '200': "AgentBuildView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1592,7 +1606,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1636,7 +1651,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentDetail:
+    ) -> AgentAgentDetail:
         """Returns one agent with its system prompt and its 20 most recent runs.
 
         Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
@@ -1674,7 +1689,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
+            '200': "AgentAgentDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1703,7 +1718,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentDetail]:
+    ) -> ApiResponse[AgentAgentDetail]:
         """Returns one agent with its system prompt and its 20 most recent runs.
 
         Returns one agent with its system prompt and its 20 most recent runs. The ref is the agent's public id or its org-unique name — a created agent is immediately gettable by whatever create handed back.
@@ -1741,7 +1756,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
+            '200': "AgentAgentDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1808,7 +1823,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentDetail",
+            '200': "AgentAgentDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1853,7 +1868,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1898,7 +1914,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunList:
+    ) -> AgentRunList:
         """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
 
         Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
@@ -1939,7 +1955,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1969,7 +1985,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunList]:
+    ) -> ApiResponse[AgentRunList]:
         """Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took.
 
         Returns one agent's execution history, newest first — each run's input, its output or its error, and how long it took. Every row is a run that actually happened.
@@ -2010,7 +2026,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2081,7 +2097,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2131,7 +2147,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2176,7 +2193,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SpendView:
+    ) -> AgentSpendView:
         """Answers what one of your org's agents has spent, in integer micro-USD.
 
         Answers what one of your org's agents has spent, in integer micro-USD.  It answers the agent's budget — `cap_micro_usd` per `period`, `max_task_micro_usd` per run — with what the current period has consumed, what remains, and `by_component`: the spend attributed to `model` (every completion the agent bought), `computer` (the runtime it was resident for) and `tool`. A component with no spend is absent, not zero. Every amount is an integer number of micro-USD (1,000,000 = $1); 11902000 is $11.902. Pass `by=component` to ask for the breakdown by name — it is the one grouping, and the default.
@@ -2217,7 +2234,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpendView",
+            '200': "AgentSpendView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2247,7 +2264,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SpendView]:
+    ) -> ApiResponse[AgentSpendView]:
         """Answers what one of your org's agents has spent, in integer micro-USD.
 
         Answers what one of your org's agents has spent, in integer micro-USD.  It answers the agent's budget — `cap_micro_usd` per `period`, `max_task_micro_usd` per run — with what the current period has consumed, what remains, and `by_component`: the spend attributed to `model` (every completion the agent bought), `computer` (the runtime it was resident for) and `tool`. A component with no spend is absent, not zero. Every amount is an integer number of micro-USD (1,000,000 = $1); 11902000 is $11.902. Pass `by=component` to ask for the breakdown by name — it is the one grouping, and the default.
@@ -2288,7 +2305,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpendView",
+            '200': "AgentSpendView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2359,7 +2376,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpendView",
+            '200': "AgentSpendView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2409,7 +2426,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2455,7 +2473,7 @@ class AgentApi:
     ) -> None:
         """List the agent threads in your org
 
-        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required; 403 without one.
+        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2517,7 +2535,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """List the agent threads in your org
 
-        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required; 403 without one.
+        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2579,7 +2597,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """List the agent threads in your org
 
-        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required; 403 without one.
+        Returns a summary of every agent conversation in the caller's org — id, derived title, and when it was last appended to — for populating a thread list.  Scoped to the caller's org and nothing else, and that isolation is structural rather than a filter: conversations are persisted in a store opened PER ORG, so there is no query in which another tenant's threads could appear. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2692,7 +2710,7 @@ class AgentApi:
     ) -> None:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required; 403 without one.
+        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -2758,7 +2776,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required; 403 without one.
+        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -2824,7 +2842,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Read one agent thread in full
 
-        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required; 403 without one.
+        Returns every message of one conversation in order — role, content, the assistant's tool calls where it made any, and each message's creation time — which is the transcript a client replays to resume a thread.  The lookup happens inside the caller's OWN per-org store, so an id belonging to another tenant is not refused, it is simply absent: the answer is 200 with an empty message list. Read it as \"no such conversation for you\" rather than as an empty thread. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -3161,6 +3179,826 @@ class AgentApi:
 
 
     @validate_call
+    def get_agent_coding_by_session_blob(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingBlob:
+        """Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_blob_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingBlob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_coding_by_session_blob_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingBlob]:
+        """Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_blob_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingBlob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_coding_by_session_blob_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        Returns one file of a coding run's repository, read where the tree is read, in the shape GET /v1/git/repos/{name}/blob answers: text verbatim, anything else base64, and a file past the 1 MiB view cap marked truncated with no content.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_blob_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingBlob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_coding_by_session_blob_serialize(
+        self,
+        session,
+        path,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        if path is not None:
+            
+            _query_params.append(('path', path))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/coding/{session}/blob',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_coding_by_session_changes(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingChanges:
+        """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
+
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+
+        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :type session: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_changes_serialize(
+            session=session,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingChanges",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_coding_by_session_changes_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingChanges]:
+        """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
+
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+
+        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :type session: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_changes_serialize(
+            session=session,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingChanges",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_coding_by_session_changes_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.
+
+        Returns what a coding run changed, read from the forge it pushed its branch to: the commits on its branch that the base does not have, newest first; the net change of the branch against its base, one entry per file with that file's patch; and its pull request with the reviews it has had, or null while it has none.  A run whose branch is not on the forge yet — still working, or finished with nothing to change — answers with no commits, no files and no pull request. Every read is made as the caller, so a repository they cannot open on the forge is not found here either, whoever can see the run.  One answer is bounded, and says where it was cut rather than failing: the newest 250 commits (`moreCommits` when there are more), the change up to 8 MiB of diff or 3000 files (`moreFiles`, the last file marked truncated), and the first 50 reviews (`moreReviews`), each body up to 16 KiB and 256 KiB across them (`truncated` on a cut one). A caller has at most two of these reads in flight and is answered 429 past that; two asking for the same change at once share one read.
+
+        :param session: Session is the run's handle — the sessionId POST /v1/agent/coding answered with — from the path. (required)
+        :type session: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_changes_serialize(
+            session=session,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingChanges",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_coding_by_session_changes_serialize(
+        self,
+        session,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/coding/{session}/changes',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_agent_coding_by_session_tree(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentCodingTree:
+        """Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which.
+
+        Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which. Walk down a level at a time; an empty path is the root.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_tree_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingTree",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_agent_coding_by_session_tree_with_http_info(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AgentCodingTree]:
+        """Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which.
+
+        Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which. Walk down a level at a time; an empty path is the root.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_tree_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingTree",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_agent_coding_by_session_tree_without_preload_content(
+        self,
+        session: Annotated[StrictStr, Field(description="Session is the run's handle, from the path.")],
+        path: Annotated[Optional[StrictStr], Field(description="Path is repo-relative, from the query. Empty is the repository's root.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which.
+
+        Lists one directory of a coding run's repository, one level down with directories first: at the run's own branch once the forge holds it, and at the branch it started from until then — `ref` says which. Walk down a level at a time; an empty path is the root.
+
+        :param session: Session is the run's handle, from the path. (required)
+        :type session: str
+        :param path: Path is repo-relative, from the query. Empty is the repository's root.
+        :type path: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_agent_coding_by_session_tree_serialize(
+            session=session,
+            path=path,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AgentCodingTree",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_agent_coding_by_session_tree_serialize(
+        self,
+        session,
+        path,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if session is not None:
+            _path_params['session'] = session
+        # process the query parameters
+        if path is not None:
+            
+            _query_params.append(('path', path))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/agent/coding/{session}/tree',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_agent_metrics(
         self,
         range: Annotated[Optional[StrictStr], Field(description="Range is the window to bucket: 24H, 7D or 30D. Anything else reads as 30D.")] = None,
@@ -3176,7 +4014,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MetricsView:
+    ) -> AgentMetricsView:
         """Serves the invocations-over-time histogram for the org's Agents dashboard.
 
         Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
@@ -3214,7 +4052,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsView",
+            '200': "AgentMetricsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3243,7 +4081,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MetricsView]:
+    ) -> ApiResponse[AgentMetricsView]:
         """Serves the invocations-over-time histogram for the org's Agents dashboard.
 
         Serves the invocations-over-time histogram for the org's Agents dashboard. Every point is a REAL count of recorded runs in that time bucket — one series line per agent that ran in the window. The Resource Usage rollup is all-null because this store meters no CPU/memory/storage/cost; the console renders those as \"—\" rather than a fabricated figure. No runs => empty series (an honest \"not connected / no activity yet\"), never a synthesized trend.
@@ -3281,7 +4119,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsView",
+            '200': "AgentMetricsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3348,7 +4186,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsView",
+            '200': "AgentMetricsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3395,7 +4233,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3440,7 +4279,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunList:
+    ) -> AgentRunList:
         """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
 
         Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
@@ -3481,7 +4320,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3511,7 +4350,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunList]:
+    ) -> ApiResponse[AgentRunList]:
         """Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.
 
         Returns the org's agent runs across EVERY agent, newest first — what ran here, for whom, on which model, how long it took, and why it failed.  It is the feed the per-agent history could not be: an operator asking \"what is this tenant's agent plane doing\" does not start out knowing an agent ref, and answering by listing the agents and then paging each one's history is N+1 round trips to reconstruct one ordering the database already has (RunsSince, ordered by created_at over the org index).  The org is the CALLER's, resolved from identity by tenantStore — never a parameter. There is deliberately no org field on orgRunsQuery to forge: run history is the tenant's own record, and the only tenant this can answer for is the one asking.
@@ -3552,7 +4391,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3623,7 +4462,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunList",
+            '200': "AgentRunList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3675,7 +4514,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3711,7 +4551,9 @@ class AgentApi:
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
         room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3724,7 +4566,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionList:
+    ) -> AgentSessionList:
         """Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event.
 
         Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event. With no filter it returns ROOT sessions only, so a dashboard shows one row per flow rather than one per subagent; ?root= or ?parent= descends.
@@ -3739,8 +4581,12 @@ class AgentApi:
         :type project: str
         :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
+        :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
+        :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the newest.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3769,7 +4615,9 @@ class AgentApi:
             status=status,
             project=project,
             room=room,
+            kind=kind,
             limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3777,7 +4625,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionList",
+            '200': "AgentSessionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3798,7 +4646,9 @@ class AgentApi:
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
         room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3811,7 +4661,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionList]:
+    ) -> ApiResponse[AgentSessionList]:
         """Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event.
 
         Returns the caller org's live sessions, newest first — each with its event count, its direct-child count and a one-line preview of its latest event. With no filter it returns ROOT sessions only, so a dashboard shows one row per flow rather than one per subagent; ?root= or ?parent= descends.
@@ -3826,8 +4676,12 @@ class AgentApi:
         :type project: str
         :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
+        :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
+        :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the newest.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3856,7 +4710,9 @@ class AgentApi:
             status=status,
             project=project,
             room=room,
+            kind=kind,
             limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3864,7 +4720,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionList",
+            '200': "AgentSessionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3885,7 +4741,9 @@ class AgentApi:
         status: Annotated[Optional[StrictStr], Field(description="Status filters to running, paused, done or error.")] = None,
         project: Annotated[Optional[StrictStr], Field(description="Project filters to the sessions tagged with one product slug.")] = None,
         room: Annotated[Optional[StrictStr], Field(description="Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit caps the page. Absent, zero or over 500 reads as 100.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the newest.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3913,8 +4771,12 @@ class AgentApi:
         :type project: str
         :param room: Room filters to the sessions started in one collaborative room — the query a space view runs to show what has been run in it.
         :type room: str
+        :param kind: Kind filters to the sessions of one kind of run: \"coding\" lists coding runs, each carrying its repo, base, branch, environment and pull request.
+        :type kind: str
         :param limit: Limit caps the page. Absent, zero or over 500 reads as 100.
         :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the newest.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3943,7 +4805,9 @@ class AgentApi:
             status=status,
             project=project,
             room=room,
+            kind=kind,
             limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3951,7 +4815,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionList",
+            '200': "AgentSessionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3967,7 +4831,9 @@ class AgentApi:
         status,
         project,
         room,
+        kind,
         limit,
+        after,
         _request_auth,
         _content_type,
         _headers,
@@ -4010,9 +4876,17 @@ class AgentApi:
             
             _query_params.append(('room', room))
             
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if after is not None:
+            
+            _query_params.append(('after', after))
             
         # process the header parameters
         # process the form parameters
@@ -4023,7 +4897,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4067,10 +4942,10 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionDetail:
+    ) -> AgentSessionDetail:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -4105,7 +4980,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionDetail",
+            '200': "AgentSessionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4134,10 +5009,10 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionDetail]:
+    ) -> ApiResponse[AgentSessionDetail]:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -4172,7 +5047,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionDetail",
+            '200': "AgentSessionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4204,7 +5079,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -4239,7 +5114,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionDetail",
+            '200': "AgentSessionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4284,7 +5159,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4329,7 +5205,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlDrain:
+    ) -> AgentControlDrain:
         """Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next.
 
         Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next. It is how a locally started `hanzo code` session — which is not task-backed, so nothing forwards its commands to an execution engine — consumes what the dashboard posted. Read-only and bounded at 200 per poll, so a steady poll is cheap and an applied command is never redelivered.
@@ -4370,7 +5246,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlDrain",
+            '200': "AgentControlDrain",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4400,7 +5276,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlDrain]:
+    ) -> ApiResponse[AgentControlDrain]:
         """Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next.
 
         Returns the steering commands (pause/resume/stop/message) recorded against the caller's own session that are newer than the cursor, oldest first, with the cursor to poll from next. It is how a locally started `hanzo code` session — which is not task-backed, so nothing forwards its commands to an execution engine — consumes what the dashboard posted. Read-only and bounded at 200 per poll, so a steady poll is cheap and an applied command is never redelivered.
@@ -4441,7 +5317,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlDrain",
+            '200': "AgentControlDrain",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4512,7 +5388,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlDrain",
+            '200': "AgentControlDrain",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4562,7 +5438,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4606,7 +5483,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionProgress:
+    ) -> AgentSessionProgress:
         """Returns how far along one run is: the share of its goal that is done, whether it is running, blocked or finished, and a line saying what it is doing right now.
 
         Returns how far along one run is: the share of its goal that is done, whether it is running, blocked or finished, and a line saying what it is doing right now.  It is a MODEL ESTIMATE read off the run's own transcript, not a measurement — `estimated` says so on every answer, and a run whose progress cannot be told reports phase \"unknown\" with no percentage rather than a zero it does not mean. A session that has already finished answers from its own status instead, and is marked not estimated.  The list and detail reads carry the same value; this address is the one that WAITS. Where the stored estimate has gone stale it is remade before answering, so a human deciding whether to step into a run gets a current reading rather than the last poll's — which costs one small completion, charged to the same wallet the session already names, at most once every thirty seconds per run.
@@ -4644,7 +5521,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionProgress",
+            '200': "AgentSessionProgress",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4673,7 +5550,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionProgress]:
+    ) -> ApiResponse[AgentSessionProgress]:
         """Returns how far along one run is: the share of its goal that is done, whether it is running, blocked or finished, and a line saying what it is doing right now.
 
         Returns how far along one run is: the share of its goal that is done, whether it is running, blocked or finished, and a line saying what it is doing right now.  It is a MODEL ESTIMATE read off the run's own transcript, not a measurement — `estimated` says so on every answer, and a run whose progress cannot be told reports phase \"unknown\" with no percentage rather than a zero it does not mean. A session that has already finished answers from its own status instead, and is marked not estimated.  The list and detail reads carry the same value; this address is the one that WAITS. Where the stored estimate has gone stale it is remade before answering, so a human deciding whether to step into a run gets a current reading rather than the last poll's — which costs one small completion, charged to the same wallet the session already names, at most once every thirty seconds per run.
@@ -4711,7 +5588,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionProgress",
+            '200': "AgentSessionProgress",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4778,7 +5655,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionProgress",
+            '200': "AgentSessionProgress",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4823,7 +5700,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4867,10 +5745,10 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TreeNode:
+    ) -> AgentTreeNode:
         """Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count.
 
-        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node.
+        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node. It holds the sessions the caller may see — a member's own, every one for an admin of the org — and a session they may not see is absent with all beneath it.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -4905,7 +5783,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeNode",
+            '200': "AgentTreeNode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4934,10 +5812,10 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TreeNode]:
+    ) -> ApiResponse[AgentTreeNode]:
         """Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count.
 
-        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node.
+        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node. It holds the sessions the caller may see — a member's own, every one for an admin of the org — and a session they may not see is absent with all beneath it.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -4972,7 +5850,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeNode",
+            '200': "AgentTreeNode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5004,7 +5882,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count.
 
-        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node.
+        Returns the subagent-flow graph rooted at this session: the session, its children, their children, each node carrying its own event count. One indexed read pulls the whole flow (every node of a flow shares a root id), so the shape is assembled in memory rather than by walking the store per node. It holds the sessions the caller may see — a member's own, every one for an admin of the org — and a session they may not see is absent with all beneath it.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -5039,7 +5917,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeNode",
+            '200': "AgentTreeNode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5084,7 +5962,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5130,7 +6009,7 @@ class AgentApi:
     ) -> None:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org; 403 without one. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5192,7 +6071,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org; 403 without one. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5254,7 +6133,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Live session and event updates for the caller's org, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org; 403 without one. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
+        Holds the connection open as text/event-stream and pushes a frame each time the org's registry moves: an `event: session` frame carrying the same session shape the list and detail reads answer with (a registration, an update, or a login-manager revoke tearing a session down), and an `event: event` frame carrying one appended turn. Optional ?root=<session id> narrows the feed to a single subagent tree.  Requires a validated principal carrying an org: 401 without a principal, 403 without an org. Org-scoped fail-closed: the bus filters on tenant before it fans out, so a subscriber only ever receives its own org's updates, and ?root= narrows that further but can never widen it. Within the org a subscriber receives what GET /v1/agent/sessions/{id} would show them: a member the frames of the sessions they opened, an org admin or a SuperAdmin the org's.  Delivery is best-effort and the GET reads remain the source of truth. A subscriber that falls more than 256 frames behind is DROPPED — its channel is closed and the stream ends — so one stuck dashboard can never back-pressure a session write; the client reconnects and re-reads the session endpoints to resynchronise. A `: ping` comment every 25 seconds holds the connection open through proxies and is how a departed client is noticed.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5363,7 +6242,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TargetList:
+    ) -> AgentTargetList:
         """Returns every machine registered to the caller's org, newest first, each with its live session load.
 
         Returns every machine registered to the caller's org, newest first, each with its live session load.
@@ -5398,7 +6277,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetList",
+            '200': "AgentTargetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5426,7 +6305,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TargetList]:
+    ) -> ApiResponse[AgentTargetList]:
         """Returns every machine registered to the caller's org, newest first, each with its live session load.
 
         Returns every machine registered to the caller's org, newest first, each with its live session load.
@@ -5461,7 +6340,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetList",
+            '200': "AgentTargetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5524,7 +6403,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetList",
+            '200': "AgentTargetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5566,7 +6445,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5610,7 +6490,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TargetView:
+    ) -> AgentTargetView:
         """Returns one registered machine, with its live session load.
 
         Returns one registered machine, with its live session load.
@@ -5648,7 +6528,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5677,7 +6557,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TargetView]:
+    ) -> ApiResponse[AgentTargetView]:
         """Returns one registered machine, with its live session load.
 
         Returns one registered machine, with its live session load.
@@ -5715,7 +6595,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5782,7 +6662,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5827,7 +6707,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5859,7 +6740,7 @@ class AgentApi:
     def patch_agent_by_ref(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
-        update_agent_in: UpdateAgentIn,
+        agent_update_agent_in: AgentUpdateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5872,15 +6753,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentView:
+    ) -> AgentAgentView:
         """Changes an agent in place.
 
         Changes an agent in place. Every field is optional; a field the request omits keeps its stored value. The resulting mode+schedule are re-validated together, so a partial update can never leave a long-running agent without the cron the scheduler needs to fire it, and a transition INTO long-running counts against the per-org cap on scheduled agents.
 
         :param ref: Ref is the agent to update — its public id or org-unique name, from the path. (required)
         :type ref: str
-        :param update_agent_in: (required)
-        :type update_agent_in: UpdateAgentIn
+        :param agent_update_agent_in: (required)
+        :type agent_update_agent_in: AgentUpdateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5905,7 +6786,7 @@ class AgentApi:
 
         _param = self._patch_agent_by_ref_serialize(
             ref=ref,
-            update_agent_in=update_agent_in,
+            agent_update_agent_in=agent_update_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5913,7 +6794,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentView",
+            '200': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5930,7 +6811,7 @@ class AgentApi:
     def patch_agent_by_ref_with_http_info(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
-        update_agent_in: UpdateAgentIn,
+        agent_update_agent_in: AgentUpdateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5943,15 +6824,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentView]:
+    ) -> ApiResponse[AgentAgentView]:
         """Changes an agent in place.
 
         Changes an agent in place. Every field is optional; a field the request omits keeps its stored value. The resulting mode+schedule are re-validated together, so a partial update can never leave a long-running agent without the cron the scheduler needs to fire it, and a transition INTO long-running counts against the per-org cap on scheduled agents.
 
         :param ref: Ref is the agent to update — its public id or org-unique name, from the path. (required)
         :type ref: str
-        :param update_agent_in: (required)
-        :type update_agent_in: UpdateAgentIn
+        :param agent_update_agent_in: (required)
+        :type agent_update_agent_in: AgentUpdateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5976,7 +6857,7 @@ class AgentApi:
 
         _param = self._patch_agent_by_ref_serialize(
             ref=ref,
-            update_agent_in=update_agent_in,
+            agent_update_agent_in=agent_update_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5984,7 +6865,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentView",
+            '200': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6001,7 +6882,7 @@ class AgentApi:
     def patch_agent_by_ref_without_preload_content(
         self,
         ref: Annotated[StrictStr, Field(description="Ref is the agent to update — its public id or org-unique name, from the path.")],
-        update_agent_in: UpdateAgentIn,
+        agent_update_agent_in: AgentUpdateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6021,8 +6902,8 @@ class AgentApi:
 
         :param ref: Ref is the agent to update — its public id or org-unique name, from the path. (required)
         :type ref: str
-        :param update_agent_in: (required)
-        :type update_agent_in: UpdateAgentIn
+        :param agent_update_agent_in: (required)
+        :type agent_update_agent_in: AgentUpdateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6047,7 +6928,7 @@ class AgentApi:
 
         _param = self._patch_agent_by_ref_serialize(
             ref=ref,
-            update_agent_in=update_agent_in,
+            agent_update_agent_in=agent_update_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6055,7 +6936,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentView",
+            '200': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6067,7 +6948,7 @@ class AgentApi:
     def _patch_agent_by_ref_serialize(
         self,
         ref,
-        update_agent_in,
+        agent_update_agent_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6095,15 +6976,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if update_agent_in is not None:
-            _body_params = update_agent_in
+        if agent_update_agent_in is not None:
+            _body_params = agent_update_agent_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6148,7 +7030,7 @@ class AgentApi:
     def patch_agent_sessions_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
-        patch_session_in: PatchSessionIn,
+        agent_patch_session_in: AgentPatchSessionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6161,15 +7043,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionView:
+    ) -> AgentSessionView:
         """Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public.
 
         Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public. A FINISHED session stays finished — reopening a done/error run would fabricate liveness — and publishing is refused unless the session names the project it built, because the public build route is keyed on (org, project).
 
         :param id: ID is the session to update, from the path. (required)
         :type id: str
-        :param patch_session_in: (required)
-        :type patch_session_in: PatchSessionIn
+        :param agent_patch_session_in: (required)
+        :type agent_patch_session_in: AgentPatchSessionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6194,7 +7076,7 @@ class AgentApi:
 
         _param = self._patch_agent_sessions_by_id_serialize(
             id=id,
-            patch_session_in=patch_session_in,
+            agent_patch_session_in=agent_patch_session_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6202,7 +7084,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionView",
+            '200': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6219,7 +7101,7 @@ class AgentApi:
     def patch_agent_sessions_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
-        patch_session_in: PatchSessionIn,
+        agent_patch_session_in: AgentPatchSessionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6232,15 +7114,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionView]:
+    ) -> ApiResponse[AgentSessionView]:
         """Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public.
 
         Updates a session's surface-owned truth: its status, its title, the run-target it is dispatched to, and the product it built plus whether that build's story is public. A FINISHED session stays finished — reopening a done/error run would fabricate liveness — and publishing is refused unless the session names the project it built, because the public build route is keyed on (org, project).
 
         :param id: ID is the session to update, from the path. (required)
         :type id: str
-        :param patch_session_in: (required)
-        :type patch_session_in: PatchSessionIn
+        :param agent_patch_session_in: (required)
+        :type agent_patch_session_in: AgentPatchSessionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6265,7 +7147,7 @@ class AgentApi:
 
         _param = self._patch_agent_sessions_by_id_serialize(
             id=id,
-            patch_session_in=patch_session_in,
+            agent_patch_session_in=agent_patch_session_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6273,7 +7155,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionView",
+            '200': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6290,7 +7172,7 @@ class AgentApi:
     def patch_agent_sessions_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to update, from the path.")],
-        patch_session_in: PatchSessionIn,
+        agent_patch_session_in: AgentPatchSessionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6310,8 +7192,8 @@ class AgentApi:
 
         :param id: ID is the session to update, from the path. (required)
         :type id: str
-        :param patch_session_in: (required)
-        :type patch_session_in: PatchSessionIn
+        :param agent_patch_session_in: (required)
+        :type agent_patch_session_in: AgentPatchSessionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6336,7 +7218,7 @@ class AgentApi:
 
         _param = self._patch_agent_sessions_by_id_serialize(
             id=id,
-            patch_session_in=patch_session_in,
+            agent_patch_session_in=agent_patch_session_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6344,7 +7226,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionView",
+            '200': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6356,7 +7238,7 @@ class AgentApi:
     def _patch_agent_sessions_by_id_serialize(
         self,
         id,
-        patch_session_in,
+        agent_patch_session_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6384,15 +7266,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch_session_in is not None:
-            _body_params = patch_session_in
+        if agent_patch_session_in is not None:
+            _body_params = agent_patch_session_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6437,7 +7320,7 @@ class AgentApi:
     def patch_agent_targets_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
-        patch_target_in: PatchTargetIn,
+        agent_patch_target_in: AgentPatchTargetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6450,15 +7333,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TargetView:
+    ) -> AgentTargetView:
         """Updates one machine in place.
 
         Updates one machine in place. Every field is optional; a field the request omits is left alone. A metrics patch IS a heartbeat — the server stamps its own clock, so a client can neither forge nor backdate staleness.
 
         :param id: ID is the target to update, from the path. (required)
         :type id: str
-        :param patch_target_in: (required)
-        :type patch_target_in: PatchTargetIn
+        :param agent_patch_target_in: (required)
+        :type agent_patch_target_in: AgentPatchTargetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6483,7 +7366,7 @@ class AgentApi:
 
         _param = self._patch_agent_targets_by_id_serialize(
             id=id,
-            patch_target_in=patch_target_in,
+            agent_patch_target_in=agent_patch_target_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6491,7 +7374,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6508,7 +7391,7 @@ class AgentApi:
     def patch_agent_targets_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
-        patch_target_in: PatchTargetIn,
+        agent_patch_target_in: AgentPatchTargetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6521,15 +7404,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TargetView]:
+    ) -> ApiResponse[AgentTargetView]:
         """Updates one machine in place.
 
         Updates one machine in place. Every field is optional; a field the request omits is left alone. A metrics patch IS a heartbeat — the server stamps its own clock, so a client can neither forge nor backdate staleness.
 
         :param id: ID is the target to update, from the path. (required)
         :type id: str
-        :param patch_target_in: (required)
-        :type patch_target_in: PatchTargetIn
+        :param agent_patch_target_in: (required)
+        :type agent_patch_target_in: AgentPatchTargetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6554,7 +7437,7 @@ class AgentApi:
 
         _param = self._patch_agent_targets_by_id_serialize(
             id=id,
-            patch_target_in=patch_target_in,
+            agent_patch_target_in=agent_patch_target_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6562,7 +7445,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6579,7 +7462,7 @@ class AgentApi:
     def patch_agent_targets_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the target to update, from the path.")],
-        patch_target_in: PatchTargetIn,
+        agent_patch_target_in: AgentPatchTargetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6599,8 +7482,8 @@ class AgentApi:
 
         :param id: ID is the target to update, from the path. (required)
         :type id: str
-        :param patch_target_in: (required)
-        :type patch_target_in: PatchTargetIn
+        :param agent_patch_target_in: (required)
+        :type agent_patch_target_in: AgentPatchTargetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6625,7 +7508,7 @@ class AgentApi:
 
         _param = self._patch_agent_targets_by_id_serialize(
             id=id,
-            patch_target_in=patch_target_in,
+            agent_patch_target_in=agent_patch_target_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6633,7 +7516,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6645,7 +7528,7 @@ class AgentApi:
     def _patch_agent_targets_by_id_serialize(
         self,
         id,
-        patch_target_in,
+        agent_patch_target_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6673,15 +7556,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch_target_in is not None:
-            _body_params = patch_target_in
+        if agent_patch_target_in is not None:
+            _body_params = agent_patch_target_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6725,7 +7609,7 @@ class AgentApi:
     @validate_call
     def post_agent(
         self,
-        create_agent_in: CreateAgentIn,
+        agent_create_agent_in: AgentCreateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6738,13 +7622,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentView:
+    ) -> AgentAgentView:
         """Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names.
 
-        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents.
+        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents. An agent spawned by another names it as its parent; the parent must be an agent of the caller's org, and the new agent carries its whole lineage.
 
-        :param create_agent_in: (required)
-        :type create_agent_in: CreateAgentIn
+        :param agent_create_agent_in: (required)
+        :type agent_create_agent_in: AgentCreateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6768,7 +7652,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_serialize(
-            create_agent_in=create_agent_in,
+            agent_create_agent_in=agent_create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6776,7 +7660,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AgentView",
+            '201': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6792,7 +7676,7 @@ class AgentApi:
     @validate_call
     def post_agent_with_http_info(
         self,
-        create_agent_in: CreateAgentIn,
+        agent_create_agent_in: AgentCreateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6805,13 +7689,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentView]:
+    ) -> ApiResponse[AgentAgentView]:
         """Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names.
 
-        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents.
+        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents. An agent spawned by another names it as its parent; the parent must be an agent of the caller's org, and the new agent carries its whole lineage.
 
-        :param create_agent_in: (required)
-        :type create_agent_in: CreateAgentIn
+        :param agent_create_agent_in: (required)
+        :type agent_create_agent_in: AgentCreateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6835,7 +7719,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_serialize(
-            create_agent_in=create_agent_in,
+            agent_create_agent_in=agent_create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6843,7 +7727,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AgentView",
+            '201': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6859,7 +7743,7 @@ class AgentApi:
     @validate_call
     def post_agent_without_preload_content(
         self,
-        create_agent_in: CreateAgentIn,
+        agent_create_agent_in: AgentCreateAgentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6875,10 +7759,10 @@ class AgentApi:
     ) -> RESTResponseType:
         """Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names.
 
-        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents.
+        Defines an agent in the caller's org: a model, a system prompt (instructions) and a set of tool names. The name must be unique in the org and match ^[A-Za-z0-9][A-Za-z0-9._-]{0,63}$. An omitted model takes the deployment's configured default; a named one is checked against the gateway's served catalog, so a model this deployment never serves is refused here rather than failing at run time. A long-running agent must carry a 5-field cron schedule (the scheduler would otherwise never fire it) and counts against a per-org cap on scheduled agents. An agent spawned by another names it as its parent; the parent must be an agent of the caller's org, and the new agent carries its whole lineage.
 
-        :param create_agent_in: (required)
-        :type create_agent_in: CreateAgentIn
+        :param agent_create_agent_in: (required)
+        :type agent_create_agent_in: AgentCreateAgentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6902,7 +7786,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_serialize(
-            create_agent_in=create_agent_in,
+            agent_create_agent_in=agent_create_agent_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6910,7 +7794,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AgentView",
+            '201': "AgentAgentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6921,7 +7805,7 @@ class AgentApi:
 
     def _post_agent_serialize(
         self,
-        create_agent_in,
+        agent_create_agent_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6947,15 +7831,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_agent_in is not None:
-            _body_params = create_agent_in
+        if agent_create_agent_in is not None:
+            _body_params = agent_create_agent_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6981,6 +7866,242 @@ class AgentApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/agent',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_ask(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """The MCP server a coding run's harness asks its person through.
+
+        Speaks MCP over streamable HTTP and serves one tool, ask_user: a question and 2 to 8 options, shown as buttons in the run's thread, answered by the person the run is for. The call waits for the answer, up to 30 minutes, streaming as text/event-stream with a comment every 15 seconds, and returns it as the tool's result, or says none came.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. The ticket is minted for one run, opens this server and nothing else, names the run the question belongs to, and ends with the run. A request without a live ticket is 401, and any tool but ask_user is refused.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_ask_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_ask_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """The MCP server a coding run's harness asks its person through.
+
+        Speaks MCP over streamable HTTP and serves one tool, ask_user: a question and 2 to 8 options, shown as buttons in the run's thread, answered by the person the run is for. The call waits for the answer, up to 30 minutes, streaming as text/event-stream with a comment every 15 seconds, and returns it as the tool's result, or says none came.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. The ticket is minted for one run, opens this server and nothing else, names the run the question belongs to, and ends with the run. A request without a live ticket is 401, and any tool but ask_user is refused.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_ask_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_ask_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """The MCP server a coding run's harness asks its person through.
+
+        Speaks MCP over streamable HTTP and serves one tool, ask_user: a question and 2 to 8 options, shown as buttons in the run's thread, answered by the person the run is for. The call waits for the answer, up to 30 minutes, streaming as text/event-stream with a comment every 15 seconds, and returns it as the tool's result, or says none came.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. The ticket is minted for one run, opens this server and nothing else, names the run the question belongs to, and ends with the run. A request without a live ticket is 401, and any tool but ask_user is refused.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_ask_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_ask_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/ask',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7501,7 +8622,7 @@ class AgentApi:
     ) -> None:
         """Record turns in a conversation
 
-        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7563,7 +8684,7 @@ class AgentApi:
     ) -> ApiResponse[None]:
         """Record turns in a conversation
 
-        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7625,7 +8746,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Record turns in a conversation
 
-        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required; 403 without one.
+        Writes turns to the caller's thread store without running a completion, and answers the `conversationId` they were written under. An absent `conversationId` opens a new thread; supplying one appends to it.  This is for a client that streams its own turn through /v1/chat/completions and still wants the conversation in its history — the round records what IT answers, and is otherwise the only writer. It takes the same store, the same per-org isolation and the same notion of a thread: what is recorded here reads back through the two GETs beside it and the round can continue it by id. A validated principal with a non-empty org is required: 401 without a principal, 403 without an org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -7722,7 +8843,7 @@ class AgentApi:
     @validate_call
     def post_agent_coding(
         self,
-        coding_start_in: CodingStartIn,
+        agent_coding_start_in: AgentCodingStartIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7735,12 +8856,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CodingStarted:
+    ) -> AgentCodingStarted:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run starts something new: a project in the caller's org named from the prompt, numbered when the name is taken rather than refused, and a repository of the same name to work in. Its slug comes back as `project`.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
-        :param coding_start_in: (required)
-        :type coding_start_in: CodingStartIn
+        :param agent_coding_start_in: (required)
+        :type agent_coding_start_in: AgentCodingStartIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7764,7 +8886,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_coding_serialize(
-            coding_start_in=coding_start_in,
+            agent_coding_start_in=agent_coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7772,7 +8894,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CodingStarted",
+            '202': "AgentCodingStarted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7788,7 +8910,7 @@ class AgentApi:
     @validate_call
     def post_agent_coding_with_http_info(
         self,
-        coding_start_in: CodingStartIn,
+        agent_coding_start_in: AgentCodingStartIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7801,12 +8923,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CodingStarted]:
+    ) -> ApiResponse[AgentCodingStarted]:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run starts something new: a project in the caller's org named from the prompt, numbered when the name is taken rather than refused, and a repository of the same name to work in. Its slug comes back as `project`.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
-        :param coding_start_in: (required)
-        :type coding_start_in: CodingStartIn
+        :param agent_coding_start_in: (required)
+        :type agent_coding_start_in: AgentCodingStartIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7830,7 +8953,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_coding_serialize(
-            coding_start_in=coding_start_in,
+            agent_coding_start_in=agent_coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7838,7 +8961,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CodingStarted",
+            '202': "AgentCodingStarted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7854,7 +8977,7 @@ class AgentApi:
     @validate_call
     def post_agent_coding_without_preload_content(
         self,
-        coding_start_in: CodingStartIn,
+        agent_coding_start_in: AgentCodingStartIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7870,9 +8993,10 @@ class AgentApi:
     ) -> RESTResponseType:
         """Start one autonomous coding run against a repo in the caller's org
 
+        Runs a coding task on a repository: clones it into a sandbox, lets a model read and edit the code, run the tests, and push the work to a branch. Say the thing you want done — \"fix the failing auth test in hanzoai/cloud\" — and the run infers the repo, the branch and the plan. No prefix, no ceremony.  Name no repo and the run starts something new: a project in the caller's org named from the prompt, numbered when the name is taken rather than refused, and a repository of the same name to work in. Its slug comes back as `project`.  It answers 202 with the run's handle the moment the run is ADMITTED — not when it finishes. A coding run takes minutes; holding a request open for one would tie a connection to a model loop and give the caller nothing it cannot get better from the session stream.  The handle is a session id, and that is deliberate: the session is already the run's durable record and its live stream (/v1/agent/sessions/stream?root=<id>), so this op does not grow a progress endpoint, a status endpoint or a cancel endpoint of its own. One way to watch a run, whoever started it.  It is also how work CONTINUES. Pass an earlier run's session as `after` and this one starts from where that one stopped, so \"now add tests for it\" builds on the branch already pushed instead of a fresh clone. The follow-up still gets its own branch and its own session — one run, one branch, always reviewable on its own.
 
-        :param coding_start_in: (required)
-        :type coding_start_in: CodingStartIn
+        :param agent_coding_start_in: (required)
+        :type agent_coding_start_in: AgentCodingStartIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7896,7 +9020,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_coding_serialize(
-            coding_start_in=coding_start_in,
+            agent_coding_start_in=agent_coding_start_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7904,7 +9028,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "CodingStarted",
+            '202': "AgentCodingStarted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7915,7 +9039,7 @@ class AgentApi:
 
     def _post_agent_coding_serialize(
         self,
-        coding_start_in,
+        agent_coding_start_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7941,15 +9065,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if coding_start_in is not None:
-            _body_params = coding_start_in
+        if agent_coding_start_in is not None:
+            _body_params = agent_coding_start_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7991,9 +9116,9 @@ class AgentApi:
 
 
     @validate_call
-    def post_agent_sessions(
+    def post_agent_mcp_by_server(
         self,
-        register_req: RegisterReq,
+        server: StrictStr,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8006,13 +9131,264 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionView:
+    ) -> None:
+        """The MCP address a coding run's harness reaches one of its org's MCP servers through.
+
+        Speaks MCP over streamable HTTP for one of the org's MCP servers, named by its id: tools/list answers the tools of it an admin of the org activated, and tools/call calls one. The server's address and credential never reach the run: the tool plane adds the credential and dials the server.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. A request without a live ticket is 401, and a server the run's kit did not carry when it started is 403. A run has at most four requests in flight here and twenty in a burst, then one a second; a request past that is 429 with Retry-After.
+
+        :param server: (required)
+        :type server: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_mcp_by_server_serialize(
+            server=server,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_agent_mcp_by_server_with_http_info(
+        self,
+        server: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """The MCP address a coding run's harness reaches one of its org's MCP servers through.
+
+        Speaks MCP over streamable HTTP for one of the org's MCP servers, named by its id: tools/list answers the tools of it an admin of the org activated, and tools/call calls one. The server's address and credential never reach the run: the tool plane adds the credential and dials the server.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. A request without a live ticket is 401, and a server the run's kit did not carry when it started is 403. A run has at most four requests in flight here and twenty in a burst, then one a second; a request past that is 429 with Retry-After.
+
+        :param server: (required)
+        :type server: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_mcp_by_server_serialize(
+            server=server,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_agent_mcp_by_server_without_preload_content(
+        self,
+        server: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """The MCP address a coding run's harness reaches one of its org's MCP servers through.
+
+        Speaks MCP over streamable HTTP for one of the org's MCP servers, named by its id: tools/list answers the tools of it an admin of the org activated, and tools/call calls one. The server's address and credential never reach the run: the tool plane adds the credential and dials the server.  The caller is a coding run, not a tenant: the request carries the run's ticket in X-Hanzo-Run and no bearer. A request without a live ticket is 401, and a server the run's kit did not carry when it started is 403. A run has at most four requests in flight here and twenty in a burst, then one a second; a request past that is 429 with Retry-After.
+
+        :param server: (required)
+        :type server: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_agent_mcp_by_server_serialize(
+            server=server,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_agent_mcp_by_server_serialize(
+        self,
+        server,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if server is not None:
+            _path_params['server'] = server
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/agent/mcp/{server}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_agent_sessions(
+        self,
+        agent_register_req: AgentRegisterReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AgentSessionView:
         """Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off.
 
         Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off. A session with a parentSessionId becomes a subagent of that session and inherits its root, so one flow is one tree; without one it is itself a root. Registering with a terminal status records a session that has already finished.
 
-        :param register_req: (required)
-        :type register_req: RegisterReq
+        :param agent_register_req: (required)
+        :type agent_register_req: AgentRegisterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8036,7 +9412,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_sessions_serialize(
-            register_req=register_req,
+            agent_register_req=agent_register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8044,7 +9420,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SessionView",
+            '201': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8060,7 +9436,7 @@ class AgentApi:
     @validate_call
     def post_agent_sessions_with_http_info(
         self,
-        register_req: RegisterReq,
+        agent_register_req: AgentRegisterReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8073,13 +9449,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionView]:
+    ) -> ApiResponse[AgentSessionView]:
         """Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off.
 
         Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off. A session with a parentSessionId becomes a subagent of that session and inherits its root, so one flow is one tree; without one it is itself a root. Registering with a terminal status records a session that has already finished.
 
-        :param register_req: (required)
-        :type register_req: RegisterReq
+        :param agent_register_req: (required)
+        :type agent_register_req: AgentRegisterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8103,7 +9479,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_sessions_serialize(
-            register_req=register_req,
+            agent_register_req=agent_register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8111,7 +9487,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SessionView",
+            '201': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8127,7 +9503,7 @@ class AgentApi:
     @validate_call
     def post_agent_sessions_without_preload_content(
         self,
-        register_req: RegisterReq,
+        agent_register_req: AgentRegisterReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8145,8 +9521,8 @@ class AgentApi:
 
         Opens a live agent session in the caller's org — the row every surface (the CLI's outer agent, hanzo.bot, the console, chat) hangs its activity off. A session with a parentSessionId becomes a subagent of that session and inherits its root, so one flow is one tree; without one it is itself a root. Registering with a terminal status records a session that has already finished.
 
-        :param register_req: (required)
-        :type register_req: RegisterReq
+        :param agent_register_req: (required)
+        :type agent_register_req: AgentRegisterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8170,7 +9546,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_sessions_serialize(
-            register_req=register_req,
+            agent_register_req=agent_register_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8178,7 +9554,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SessionView",
+            '201': "AgentSessionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8189,7 +9565,7 @@ class AgentApi:
 
     def _post_agent_sessions_serialize(
         self,
-        register_req,
+        agent_register_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8215,15 +9591,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if register_req is not None:
-            _body_params = register_req
+        if agent_register_req is not None:
+            _body_params = agent_register_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8268,7 +9645,7 @@ class AgentApi:
     def post_agent_sessions_by_id_budget(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
-        session_budget_in: SessionBudgetIn,
+        agent_session_budget_in: AgentSessionBudgetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8281,15 +9658,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionBudgetView:
+    ) -> AgentSessionBudgetView:
         """Sets, raises, or removes a session's cap.
 
         Sets, raises, or removes a session's cap.    - a replacement must be strictly greater than what the session has consumed   - removal is one-way: a session whose cap was removed cannot take one again,     and a session created without one cannot be given one   - raising or removing the cap resumes work that paused at it
 
         :param id: ID is the session, from the path. (required)
         :type id: str
-        :param session_budget_in: (required)
-        :type session_budget_in: SessionBudgetIn
+        :param agent_session_budget_in: (required)
+        :type agent_session_budget_in: AgentSessionBudgetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8314,7 +9691,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_budget_serialize(
             id=id,
-            session_budget_in=session_budget_in,
+            agent_session_budget_in=agent_session_budget_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8322,7 +9699,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionBudgetView",
+            '200': "AgentSessionBudgetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8339,7 +9716,7 @@ class AgentApi:
     def post_agent_sessions_by_id_budget_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
-        session_budget_in: SessionBudgetIn,
+        agent_session_budget_in: AgentSessionBudgetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8352,15 +9729,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionBudgetView]:
+    ) -> ApiResponse[AgentSessionBudgetView]:
         """Sets, raises, or removes a session's cap.
 
         Sets, raises, or removes a session's cap.    - a replacement must be strictly greater than what the session has consumed   - removal is one-way: a session whose cap was removed cannot take one again,     and a session created without one cannot be given one   - raising or removing the cap resumes work that paused at it
 
         :param id: ID is the session, from the path. (required)
         :type id: str
-        :param session_budget_in: (required)
-        :type session_budget_in: SessionBudgetIn
+        :param agent_session_budget_in: (required)
+        :type agent_session_budget_in: AgentSessionBudgetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8385,7 +9762,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_budget_serialize(
             id=id,
-            session_budget_in=session_budget_in,
+            agent_session_budget_in=agent_session_budget_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8393,7 +9770,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionBudgetView",
+            '200': "AgentSessionBudgetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8410,7 +9787,7 @@ class AgentApi:
     def post_agent_sessions_by_id_budget_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session, from the path.")],
-        session_budget_in: SessionBudgetIn,
+        agent_session_budget_in: AgentSessionBudgetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8430,8 +9807,8 @@ class AgentApi:
 
         :param id: ID is the session, from the path. (required)
         :type id: str
-        :param session_budget_in: (required)
-        :type session_budget_in: SessionBudgetIn
+        :param agent_session_budget_in: (required)
+        :type agent_session_budget_in: AgentSessionBudgetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8456,7 +9833,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_budget_serialize(
             id=id,
-            session_budget_in=session_budget_in,
+            agent_session_budget_in=agent_session_budget_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8464,7 +9841,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionBudgetView",
+            '200': "AgentSessionBudgetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8476,7 +9853,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_budget_serialize(
         self,
         id,
-        session_budget_in,
+        agent_session_budget_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8504,15 +9881,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if session_budget_in is not None:
-            _body_params = session_budget_in
+        if agent_session_budget_in is not None:
+            _body_params = agent_session_budget_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8557,7 +9935,7 @@ class AgentApi:
     def post_agent_sessions_by_id_events(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
-        event_in: EventIn,
+        agent_event_in: AgentEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8570,15 +9948,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EventView:
+    ) -> AgentEventView:
         """Records one turn of a session's transcript and answers 201 with it.
 
         Records one turn of a session's transcript and answers 201 with it.  A `progress` turn additionally MOVES THE SESSION'S PROGRESS, marked as the run's own word rather than an estimate, and pushes the updated session onto the live stream — so a board's bar follows the run without polling and without a second write path. See progress.go.  THE TURN IS SCANNED BEFORE IT IS STORED. The same engine the code-security surface runs reads the payload at this boundary, and a credential in it refuses the append with 422 rather than redacting it — a redacted transcript is one that still had the secret in it once, and this way the author learns which value to rotate. The refusal carries every finding: the rule, the severity, the line, a MASKED preview and the fingerprint. The secret is never in the answer.
 
         :param id: ID is the session to append to, from the path. (required)
         :type id: str
-        :param event_in: (required)
-        :type event_in: EventIn
+        :param agent_event_in: (required)
+        :type agent_event_in: AgentEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8603,7 +9981,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_events_serialize(
             id=id,
-            event_in=event_in,
+            agent_event_in=agent_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8611,7 +9989,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EventView",
+            '201': "AgentEventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8628,7 +10006,7 @@ class AgentApi:
     def post_agent_sessions_by_id_events_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
-        event_in: EventIn,
+        agent_event_in: AgentEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8641,15 +10019,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EventView]:
+    ) -> ApiResponse[AgentEventView]:
         """Records one turn of a session's transcript and answers 201 with it.
 
         Records one turn of a session's transcript and answers 201 with it.  A `progress` turn additionally MOVES THE SESSION'S PROGRESS, marked as the run's own word rather than an estimate, and pushes the updated session onto the live stream — so a board's bar follows the run without polling and without a second write path. See progress.go.  THE TURN IS SCANNED BEFORE IT IS STORED. The same engine the code-security surface runs reads the payload at this boundary, and a credential in it refuses the append with 422 rather than redacting it — a redacted transcript is one that still had the secret in it once, and this way the author learns which value to rotate. The refusal carries every finding: the rule, the severity, the line, a MASKED preview and the fingerprint. The secret is never in the answer.
 
         :param id: ID is the session to append to, from the path. (required)
         :type id: str
-        :param event_in: (required)
-        :type event_in: EventIn
+        :param agent_event_in: (required)
+        :type agent_event_in: AgentEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8674,7 +10052,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_events_serialize(
             id=id,
-            event_in=event_in,
+            agent_event_in=agent_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8682,7 +10060,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EventView",
+            '201': "AgentEventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8699,7 +10077,7 @@ class AgentApi:
     def post_agent_sessions_by_id_events_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to append to, from the path.")],
-        event_in: EventIn,
+        agent_event_in: AgentEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8719,8 +10097,8 @@ class AgentApi:
 
         :param id: ID is the session to append to, from the path. (required)
         :type id: str
-        :param event_in: (required)
-        :type event_in: EventIn
+        :param agent_event_in: (required)
+        :type agent_event_in: AgentEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8745,7 +10123,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_events_serialize(
             id=id,
-            event_in=event_in,
+            agent_event_in=agent_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8753,7 +10131,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EventView",
+            '201': "AgentEventView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8765,7 +10143,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_events_serialize(
         self,
         id,
-        event_in,
+        agent_event_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8793,15 +10171,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if event_in is not None:
-            _body_params = event_in
+        if agent_event_in is not None:
+            _body_params = agent_event_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8846,7 +10225,7 @@ class AgentApi:
     def post_agent_sessions_by_id_message(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8859,15 +10238,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlResult:
+    ) -> AgentControlResult:
         """Sends a steering message to a running session — the endpoint a human or another agent interrupts through.
 
-        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
+        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.  A chat turn's run READS it: the message is handed to the model as the person's next words at its next step, and a message that arrives while the model is writing its answer gets a step of its own before the answer stands. A turn that has already answered takes no more and answers 409 — what is said after an answer is a new turn.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8892,7 +10271,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_message_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8900,7 +10279,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8917,7 +10296,7 @@ class AgentApi:
     def post_agent_sessions_by_id_message_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8930,15 +10309,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlResult]:
+    ) -> ApiResponse[AgentControlResult]:
         """Sends a steering message to a running session — the endpoint a human or another agent interrupts through.
 
-        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
+        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.  A chat turn's run READS it: the message is handed to the model as the person's next words at its next step, and a message that arrives while the model is writing its answer gets a step of its own before the answer stands. A turn that has already answered takes no more and answers 409 — what is said after an answer is a new turn.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8963,7 +10342,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_message_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8971,7 +10350,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8988,7 +10367,7 @@ class AgentApi:
     def post_agent_sessions_by_id_message_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9004,12 +10383,12 @@ class AgentApi:
     ) -> RESTResponseType:
         """Sends a steering message to a running session — the endpoint a human or another agent interrupts through.
 
-        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.
+        Sends a steering message to a running session — the endpoint a human or another agent interrupts through. It requires a `message` or a `payload`; the other three commands do not.  A chat turn's run READS it: the message is handed to the model as the person's next words at its next step, and a message that arrives while the model is writing its answer gets a step of its own before the answer stands. A turn that has already answered takes no more and answers 409 — what is said after an answer is a new turn.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9034,7 +10413,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_message_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9042,7 +10421,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9054,7 +10433,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_message_serialize(
         self,
         id,
-        control_in,
+        agent_control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -9082,15 +10461,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if control_in is not None:
-            _body_params = control_in
+        if agent_control_in is not None:
+            _body_params = agent_control_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9135,7 +10515,7 @@ class AgentApi:
     def post_agent_sessions_by_id_pause(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9148,15 +10528,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlResult:
+    ) -> AgentControlResult:
         """Asks a running session to pause.
 
-        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.  A chat turn's run is paused where it runs: it stops, the session stays live as `paused`, and its sandbox is PARKED — the pod stops and every file stays, with nothing billed for compute — until a resume picks it up.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9181,7 +10561,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_pause_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9189,7 +10569,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9206,7 +10586,7 @@ class AgentApi:
     def post_agent_sessions_by_id_pause_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9219,15 +10599,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlResult]:
+    ) -> ApiResponse[AgentControlResult]:
         """Asks a running session to pause.
 
-        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.  A chat turn's run is paused where it runs: it stops, the session stays live as `paused`, and its sandbox is PARKED — the pod stops and every file stays, with nothing billed for compute — until a resume picks it up.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9252,7 +10632,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_pause_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9260,7 +10640,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9277,7 +10657,7 @@ class AgentApi:
     def post_agent_sessions_by_id_pause_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9293,12 +10673,12 @@ class AgentApi:
     ) -> RESTResponseType:
         """Asks a running session to pause.
 
-        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.
+        Asks a running session to pause. Recorded durably, and forwarded to the durable-execution engine when the session is task-backed.  A chat turn's run is paused where it runs: it stops, the session stays live as `paused`, and its sandbox is PARKED — the pod stops and every file stays, with nothing billed for compute — until a resume picks it up.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9323,7 +10703,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_pause_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9331,7 +10711,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9343,7 +10723,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_pause_serialize(
         self,
         id,
-        control_in,
+        agent_control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -9371,15 +10751,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if control_in is not None:
-            _body_params = control_in
+        if agent_control_in is not None:
+            _body_params = agent_control_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9424,7 +10805,7 @@ class AgentApi:
     def post_agent_sessions_by_id_resume(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9437,15 +10818,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlResult:
+    ) -> AgentControlResult:
         """Asks a paused session to continue, on the same terms as a pause.
 
-        Asks a paused session to continue, on the same terms as a pause.
+        Asks a paused session to continue, on the same terms as a pause.  A chat turn that was paused or STOPPED runs again: the same session, in the same sandbox with every file it had written, told `message` next (\"Continue where you left off.\" when there is none). Only the person whose turn it was may resume it, since the agent runs as them.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9470,7 +10851,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_resume_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9478,7 +10859,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9495,7 +10876,7 @@ class AgentApi:
     def post_agent_sessions_by_id_resume_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9508,15 +10889,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlResult]:
+    ) -> ApiResponse[AgentControlResult]:
         """Asks a paused session to continue, on the same terms as a pause.
 
-        Asks a paused session to continue, on the same terms as a pause.
+        Asks a paused session to continue, on the same terms as a pause.  A chat turn that was paused or STOPPED runs again: the same session, in the same sandbox with every file it had written, told `message` next (\"Continue where you left off.\" when there is none). Only the person whose turn it was may resume it, since the agent runs as them.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9541,7 +10922,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_resume_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9549,7 +10930,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9566,7 +10947,7 @@ class AgentApi:
     def post_agent_sessions_by_id_resume_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9582,12 +10963,12 @@ class AgentApi:
     ) -> RESTResponseType:
         """Asks a paused session to continue, on the same terms as a pause.
 
-        Asks a paused session to continue, on the same terms as a pause.
+        Asks a paused session to continue, on the same terms as a pause.  A chat turn that was paused or STOPPED runs again: the same session, in the same sandbox with every file it had written, told `message` next (\"Continue where you left off.\" when there is none). Only the person whose turn it was may resume it, since the agent runs as them.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9612,7 +10993,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_resume_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9620,7 +11001,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9632,7 +11013,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_resume_serialize(
         self,
         id,
-        control_in,
+        agent_control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -9660,15 +11041,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if control_in is not None:
-            _body_params = control_in
+        if agent_control_in is not None:
+            _body_params = agent_control_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9713,7 +11095,7 @@ class AgentApi:
     def post_agent_sessions_by_id_stop(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9726,15 +11108,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlResult:
+    ) -> AgentControlResult:
         """Ends a running session.
 
         Ends a running session. `message` is recorded as the cancellation reason, which is what a later reader of the transcript sees.  STOPPING IS NOT DELETING: the session, its transcript and anything it produced stay readable. A session that has already finished is 409 rather than a second stop.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9759,7 +11141,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_stop_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9767,7 +11149,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9784,7 +11166,7 @@ class AgentApi:
     def post_agent_sessions_by_id_stop_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9797,15 +11179,15 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlResult]:
+    ) -> ApiResponse[AgentControlResult]:
         """Ends a running session.
 
         Ends a running session. `message` is recorded as the cancellation reason, which is what a later reader of the transcript sees.  STOPPING IS NOT DELETING: the session, its transcript and anything it produced stay readable. A session that has already finished is 409 rather than a second stop.
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9830,7 +11212,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_stop_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9838,7 +11220,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9855,7 +11237,7 @@ class AgentApi:
     def post_agent_sessions_by_id_stop_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the session to steer, from the path.")],
-        control_in: ControlIn,
+        agent_control_in: AgentControlIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9875,8 +11257,8 @@ class AgentApi:
 
         :param id: ID is the session to steer, from the path. (required)
         :type id: str
-        :param control_in: (required)
-        :type control_in: ControlIn
+        :param agent_control_in: (required)
+        :type agent_control_in: AgentControlIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9901,7 +11283,7 @@ class AgentApi:
 
         _param = self._post_agent_sessions_by_id_stop_serialize(
             id=id,
-            control_in=control_in,
+            agent_control_in=agent_control_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9909,7 +11291,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlResult",
+            '200': "AgentControlResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9921,7 +11303,7 @@ class AgentApi:
     def _post_agent_sessions_by_id_stop_serialize(
         self,
         id,
-        control_in,
+        agent_control_in,
         _request_auth,
         _content_type,
         _headers,
@@ -9949,15 +11331,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if control_in is not None:
-            _body_params = control_in
+        if agent_control_in is not None:
+            _body_params = agent_control_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10001,7 +11384,7 @@ class AgentApi:
     @validate_call
     def post_agent_targets(
         self,
-        target_req: TargetReq,
+        agent_target_req: AgentTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10014,13 +11397,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TargetView:
+    ) -> AgentTargetView:
         """Registers a machine as an agent target, or re-links one that is already registered.
 
         Registers a machine as an agent target, or re-links one that is already registered. Re-linking is idempotent and keyed on org+host+owner, so a machine that reconnects refreshes its own row rather than piling up duplicates; it answers 200, while a first registration answers 201.
 
-        :param target_req: (required)
-        :type target_req: TargetReq
+        :param agent_target_req: (required)
+        :type agent_target_req: AgentTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10044,7 +11427,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_targets_serialize(
-            target_req=target_req,
+            agent_target_req=agent_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10052,7 +11435,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10068,7 +11451,7 @@ class AgentApi:
     @validate_call
     def post_agent_targets_with_http_info(
         self,
-        target_req: TargetReq,
+        agent_target_req: AgentTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10081,13 +11464,13 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TargetView]:
+    ) -> ApiResponse[AgentTargetView]:
         """Registers a machine as an agent target, or re-links one that is already registered.
 
         Registers a machine as an agent target, or re-links one that is already registered. Re-linking is idempotent and keyed on org+host+owner, so a machine that reconnects refreshes its own row rather than piling up duplicates; it answers 200, while a first registration answers 201.
 
-        :param target_req: (required)
-        :type target_req: TargetReq
+        :param agent_target_req: (required)
+        :type agent_target_req: AgentTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10111,7 +11494,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_targets_serialize(
-            target_req=target_req,
+            agent_target_req=agent_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10119,7 +11502,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10135,7 +11518,7 @@ class AgentApi:
     @validate_call
     def post_agent_targets_without_preload_content(
         self,
-        target_req: TargetReq,
+        agent_target_req: AgentTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10153,8 +11536,8 @@ class AgentApi:
 
         Registers a machine as an agent target, or re-links one that is already registered. Re-linking is idempotent and keyed on org+host+owner, so a machine that reconnects refreshes its own row rather than piling up duplicates; it answers 200, while a first registration answers 201.
 
-        :param target_req: (required)
-        :type target_req: TargetReq
+        :param agent_target_req: (required)
+        :type agent_target_req: AgentTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10178,7 +11561,7 @@ class AgentApi:
         """ # noqa: E501
 
         _param = self._post_agent_targets_serialize(
-            target_req=target_req,
+            agent_target_req=agent_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10186,7 +11569,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TargetView",
+            '200': "AgentTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10197,7 +11580,7 @@ class AgentApi:
 
     def _post_agent_targets_serialize(
         self,
-        target_req,
+        agent_target_req,
         _request_auth,
         _content_type,
         _headers,
@@ -10223,15 +11606,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if target_req is not None:
-            _body_params = target_req
+        if agent_target_req is not None:
+            _body_params = agent_target_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10288,7 +11672,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RoutedRunOut:
+    ) -> AgentRoutedRunOut:
         """ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine.
 
         ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine. It answers the run when one arrives and 204 with no body when the window elapses, on which the daemon re-polls immediately.  TWO independent proofs are required and both fail closed to the same 403: the caller must own this machine (or be an org admin) AND present its claim key in X-Target-Key. A run offered to one machine is unreachable from another's claim.
@@ -10326,7 +11710,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutedRunOut",
+            '200': "AgentRoutedRunOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10355,7 +11739,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RoutedRunOut]:
+    ) -> ApiResponse[AgentRoutedRunOut]:
         """ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine.
 
         ClaimRoutedRun is the machine's long poll for work: it authenticates the daemon, stamps the liveness the dispatch gate reads (the poll IS the proof a runner is listening), and waits up to 25 seconds for the next run addressed to THIS machine. It answers the run when one arrives and 204 with no body when the window elapses, on which the daemon re-polls immediately.  TWO independent proofs are required and both fail closed to the same 403: the caller must own this machine (or be an org admin) AND present its claim key in X-Target-Key. A run offered to one machine is unreachable from another's claim.
@@ -10393,7 +11777,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutedRunOut",
+            '200': "AgentRoutedRunOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10460,7 +11844,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutedRunOut",
+            '200': "AgentRoutedRunOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10505,7 +11889,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10549,7 +11934,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClaimKeyOut:
+    ) -> AgentClaimKeyOut:
         """Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored.
 
         Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored. Rotating supersedes any prior daemon, so only the machine's owner — or an org admin — may call it; every other caller gets the same not-found an unknown id gets, and learns nothing about what exists.
@@ -10587,7 +11972,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimKeyOut",
+            '200': "AgentClaimKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10616,7 +12001,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClaimKeyOut]:
+    ) -> ApiResponse[AgentClaimKeyOut]:
         """Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored.
 
         Mints (or rotates) the claim key a `hanzo code --serve` daemon presents to claim work for this machine, and returns it ONCE: only its SHA-256 hash is stored. Rotating supersedes any prior daemon, so only the machine's owner — or an org admin — may call it; every other caller gets the same not-found an unknown id gets, and learns nothing about what exists.
@@ -10654,7 +12039,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimKeyOut",
+            '200': "AgentClaimKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10721,7 +12106,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimKeyOut",
+            '200': "AgentClaimKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10766,7 +12151,8 @@ class AgentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10799,7 +12185,7 @@ class AgentApi:
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
-        report_run_in: ReportRunIn,
+        agent_report_run_in: AgentReportRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10812,7 +12198,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReportOut:
+    ) -> AgentReportOut:
         """Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish.
 
         Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish. Scoped to (org, target, run) and claim-key authenticated, so a machine can only ever report a run it legitimately holds. Idempotent — a report for an unknown or already-finished run answers delivered:false rather than failing, because the session's terminal state was already set by the machine's own stream.
@@ -10821,8 +12207,8 @@ class AgentApi:
         :type id: str
         :param run_id: RunID is the routed run being completed, from the path. (required)
         :type run_id: str
-        :param report_run_in: (required)
-        :type report_run_in: ReportRunIn
+        :param agent_report_run_in: (required)
+        :type agent_report_run_in: AgentReportRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10848,7 +12234,7 @@ class AgentApi:
         _param = self._post_agent_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
-            report_run_in=report_run_in,
+            agent_report_run_in=agent_report_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10856,7 +12242,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReportOut",
+            '200': "AgentReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10874,7 +12260,7 @@ class AgentApi:
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
-        report_run_in: ReportRunIn,
+        agent_report_run_in: AgentReportRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10887,7 +12273,7 @@ class AgentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReportOut]:
+    ) -> ApiResponse[AgentReportOut]:
         """Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish.
 
         Completes a claimed run: it delivers the terminal result to the run's durable owner, which is what lets that workflow finish. Scoped to (org, target, run) and claim-key authenticated, so a machine can only ever report a run it legitimately holds. Idempotent — a report for an unknown or already-finished run answers delivered:false rather than failing, because the session's terminal state was already set by the machine's own stream.
@@ -10896,8 +12282,8 @@ class AgentApi:
         :type id: str
         :param run_id: RunID is the routed run being completed, from the path. (required)
         :type run_id: str
-        :param report_run_in: (required)
-        :type report_run_in: ReportRunIn
+        :param agent_report_run_in: (required)
+        :type agent_report_run_in: AgentReportRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10923,7 +12309,7 @@ class AgentApi:
         _param = self._post_agent_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
-            report_run_in=report_run_in,
+            agent_report_run_in=agent_report_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10931,7 +12317,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReportOut",
+            '200': "AgentReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10949,7 +12335,7 @@ class AgentApi:
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine reporting, from the path.")],
         run_id: Annotated[StrictStr, Field(description="RunID is the routed run being completed, from the path.")],
-        report_run_in: ReportRunIn,
+        agent_report_run_in: AgentReportRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10971,8 +12357,8 @@ class AgentApi:
         :type id: str
         :param run_id: RunID is the routed run being completed, from the path. (required)
         :type run_id: str
-        :param report_run_in: (required)
-        :type report_run_in: ReportRunIn
+        :param agent_report_run_in: (required)
+        :type agent_report_run_in: AgentReportRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10998,7 +12384,7 @@ class AgentApi:
         _param = self._post_agent_targets_by_id_runs_by_runid_report_serialize(
             id=id,
             run_id=run_id,
-            report_run_in=report_run_in,
+            agent_report_run_in=agent_report_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11006,7 +12392,7 @@ class AgentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReportOut",
+            '200': "AgentReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11019,7 +12405,7 @@ class AgentApi:
         self,
         id,
         run_id,
-        report_run_in,
+        agent_report_run_in,
         _request_auth,
         _content_type,
         _headers,
@@ -11049,15 +12435,16 @@ class AgentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if report_run_in is not None:
-            _body_params = report_run_in
+        if agent_report_run_in is not None:
+            _body_params = agent_report_run_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

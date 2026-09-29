@@ -19,52 +19,68 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.authorize_out import AuthorizeOut
-from hanzoai.cloud.models.connect_in import ConnectIn
-from hanzoai.cloud.models.connect_out import ConnectOut
-from hanzoai.cloud.models.disconnect_out import DisconnectOut
 from hanzoai.cloud.models.forge_job import ForgeJob
 from hanzoai.cloud.models.forge_launched import ForgeLaunched
-from hanzoai.cloud.models.github_backfill_in import GithubBackfillIn
-from hanzoai.cloud.models.github_backfill_result import GithubBackfillResult
-from hanzoai.cloud.models.github_claim_in import GithubClaimIn
-from hanzoai.cloud.models.github_claim_out import GithubClaimOut
-from hanzoai.cloud.models.github_fork_out import GithubForkOut
-from hanzoai.cloud.models.github_fork_req import GithubForkReq
-from hanzoai.cloud.models.github_import_in import GithubImportIn
-from hanzoai.cloud.models.github_import_out import GithubImportOut
-from hanzoai.cloud.models.github_installations_out import GithubInstallationsOut
-from hanzoai.cloud.models.github_pages_build_out import GithubPagesBuildOut
-from hanzoai.cloud.models.github_pages_disabled_out import GithubPagesDisabledOut
-from hanzoai.cloud.models.github_pages_enable_req import GithubPagesEnableReq
-from hanzoai.cloud.models.github_pages_update_req import GithubPagesUpdateReq
-from hanzoai.cloud.models.github_pages_updated_out import GithubPagesUpdatedOut
-from hanzoai.cloud.models.github_pages_view import GithubPagesView
-from hanzoai.cloud.models.github_repos_out import GithubReposOut
-from hanzoai.cloud.models.github_search_out import GithubSearchOut
-from hanzoai.cloud.models.github_search_req import GithubSearchReq
-from hanzoai.cloud.models.gitlab_projects_out import GitlabProjectsOut
-from hanzoai.cloud.models.linear_backfill_in import LinearBackfillIn
-from hanzoai.cloud.models.linear_backfill_result import LinearBackfillResult
-from hanzoai.cloud.models.linear_claim_in import LinearClaimIn
-from hanzoai.cloud.models.linear_claim_out import LinearClaimOut
-from hanzoai.cloud.models.linear_comment_in import LinearCommentIn
-from hanzoai.cloud.models.linear_comment_out import LinearCommentOut
-from hanzoai.cloud.models.list_out import ListOut
-from hanzoai.cloud.models.provider_view import ProviderView
-from hanzoai.cloud.models.slack_channels_out import SlackChannelsOut
-from hanzoai.cloud.models.slack_delete_message_out import SlackDeleteMessageOut
-from hanzoai.cloud.models.slack_join_out import SlackJoinOut
-from hanzoai.cloud.models.slack_messages_out import SlackMessagesOut
-from hanzoai.cloud.models.slack_react_in import SlackReactIn
-from hanzoai.cloud.models.slack_react_out import SlackReactOut
-from hanzoai.cloud.models.slack_search_in import SlackSearchIn
-from hanzoai.cloud.models.slack_search_out import SlackSearchOut
-from hanzoai.cloud.models.slack_send_message_in import SlackSendMessageIn
-from hanzoai.cloud.models.slack_send_message_out import SlackSendMessageOut
-from hanzoai.cloud.models.slack_update_message_in import SlackUpdateMessageIn
-from hanzoai.cloud.models.slack_update_message_out import SlackUpdateMessageOut
-from hanzoai.cloud.models.verify_out import VerifyOut
+from hanzoai.cloud.models.provider_authorize_out import ProviderAuthorizeOut
+from hanzoai.cloud.models.provider_connect_in import ProviderConnectIn
+from hanzoai.cloud.models.provider_connect_out import ProviderConnectOut
+from hanzoai.cloud.models.provider_connections_out import ProviderConnectionsOut
+from hanzoai.cloud.models.provider_credential_in import ProviderCredentialIn
+from hanzoai.cloud.models.provider_credential_out import ProviderCredentialOut
+from hanzoai.cloud.models.provider_device_poll_out import ProviderDevicePollOut
+from hanzoai.cloud.models.provider_device_start_in import ProviderDeviceStartIn
+from hanzoai.cloud.models.provider_device_start_out import ProviderDeviceStartOut
+from hanzoai.cloud.models.provider_disconnect_out import ProviderDisconnectOut
+from hanzoai.cloud.models.provider_github_backfill_in import ProviderGithubBackfillIn
+from hanzoai.cloud.models.provider_github_backfill_result import ProviderGithubBackfillResult
+from hanzoai.cloud.models.provider_github_branches_out import ProviderGithubBranchesOut
+from hanzoai.cloud.models.provider_github_claim_in import ProviderGithubClaimIn
+from hanzoai.cloud.models.provider_github_claim_out import ProviderGithubClaimOut
+from hanzoai.cloud.models.provider_github_fork_out import ProviderGithubForkOut
+from hanzoai.cloud.models.provider_github_fork_req import ProviderGithubForkReq
+from hanzoai.cloud.models.provider_github_import_in import ProviderGithubImportIn
+from hanzoai.cloud.models.provider_github_import_out import ProviderGithubImportOut
+from hanzoai.cloud.models.provider_github_installations_out import ProviderGithubInstallationsOut
+from hanzoai.cloud.models.provider_github_pages_build_out import ProviderGithubPagesBuildOut
+from hanzoai.cloud.models.provider_github_pages_disabled_out import ProviderGithubPagesDisabledOut
+from hanzoai.cloud.models.provider_github_pages_enable_req import ProviderGithubPagesEnableReq
+from hanzoai.cloud.models.provider_github_pages_update_req import ProviderGithubPagesUpdateReq
+from hanzoai.cloud.models.provider_github_pages_updated_out import ProviderGithubPagesUpdatedOut
+from hanzoai.cloud.models.provider_github_pages_view import ProviderGithubPagesView
+from hanzoai.cloud.models.provider_github_repos_out import ProviderGithubReposOut
+from hanzoai.cloud.models.provider_github_search_out import ProviderGithubSearchOut
+from hanzoai.cloud.models.provider_github_search_req import ProviderGithubSearchReq
+from hanzoai.cloud.models.provider_github_user_complete_in import ProviderGithubUserCompleteIn
+from hanzoai.cloud.models.provider_github_user_connect_out import ProviderGithubUserConnectOut
+from hanzoai.cloud.models.provider_github_user_disconnect_out import ProviderGithubUserDisconnectOut
+from hanzoai.cloud.models.provider_github_user_out import ProviderGithubUserOut
+from hanzoai.cloud.models.provider_gitlab_projects_out import ProviderGitlabProjectsOut
+from hanzoai.cloud.models.provider_linear_backfill_in import ProviderLinearBackfillIn
+from hanzoai.cloud.models.provider_linear_backfill_result import ProviderLinearBackfillResult
+from hanzoai.cloud.models.provider_linear_claim_in import ProviderLinearClaimIn
+from hanzoai.cloud.models.provider_linear_claim_out import ProviderLinearClaimOut
+from hanzoai.cloud.models.provider_linear_comment_in import ProviderLinearCommentIn
+from hanzoai.cloud.models.provider_linear_comment_out import ProviderLinearCommentOut
+from hanzoai.cloud.models.provider_list_out import ProviderListOut
+from hanzoai.cloud.models.provider_provider_view import ProviderProviderView
+from hanzoai.cloud.models.provider_refresh_out import ProviderRefreshOut
+from hanzoai.cloud.models.provider_run_in import ProviderRunIn
+from hanzoai.cloud.models.provider_run_out import ProviderRunOut
+from hanzoai.cloud.models.provider_slack_channels_out import ProviderSlackChannelsOut
+from hanzoai.cloud.models.provider_slack_delete_message_out import ProviderSlackDeleteMessageOut
+from hanzoai.cloud.models.provider_slack_join_out import ProviderSlackJoinOut
+from hanzoai.cloud.models.provider_slack_messages_out import ProviderSlackMessagesOut
+from hanzoai.cloud.models.provider_slack_react_in import ProviderSlackReactIn
+from hanzoai.cloud.models.provider_slack_react_out import ProviderSlackReactOut
+from hanzoai.cloud.models.provider_slack_search_in import ProviderSlackSearchIn
+from hanzoai.cloud.models.provider_slack_search_out import ProviderSlackSearchOut
+from hanzoai.cloud.models.provider_slack_send_message_in import ProviderSlackSendMessageIn
+from hanzoai.cloud.models.provider_slack_send_message_out import ProviderSlackSendMessageOut
+from hanzoai.cloud.models.provider_slack_update_message_in import ProviderSlackUpdateMessageIn
+from hanzoai.cloud.models.provider_slack_update_message_out import ProviderSlackUpdateMessageOut
+from hanzoai.cloud.models.provider_token_out import ProviderTokenOut
+from hanzoai.cloud.models.provider_user_catalog_out import ProviderUserCatalogOut
+from hanzoai.cloud.models.provider_verify_out import ProviderVerifyOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -85,6 +101,268 @@ class ProviderApi:
 
 
     @validate_call
+    def delete_connection_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderDisconnectOut:
+        """Forgets a connector: every custodied secret, then the row.
+
+        Forgets a connector: every custodied secret, then the row. Idempotent — dropping a never-connected id still answers {disconnected:true} (disconnect() parity). No provider Revoke: none of the user-plane providers exposes a revoke endpoint.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_connection_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_connection_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderDisconnectOut]:
+        """Forgets a connector: every custodied secret, then the row.
+
+        Forgets a connector: every custodied secret, then the row. Idempotent — dropping a never-connected id still answers {disconnected:true} (disconnect() parity). No provider Revoke: none of the user-plane providers exposes a revoke endpoint.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_connection_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_connection_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Forgets a connector: every custodied secret, then the row.
+
+        Forgets a connector: every custodied secret, then the row. Idempotent — dropping a never-connected id still answers {disconnected:true} (disconnect() parity). No provider Revoke: none of the user-plane providers exposes a revoke endpoint.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_connection_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_connection_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/connection/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def delete_provider_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository's short name within the org's installation, with no owner prefix (the owner is server-derived from the grant). A trailing \".git\" is stripped.")],
@@ -100,7 +378,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubPagesDisabledOut:
+    ) -> ProviderGithubPagesDisabledOut:
         """Deletes the repo's Pages site.
 
         Deletes the repo's Pages site. 404 when there is none, so a caller can tell \"turned it off\" from \"there was nothing on\".
@@ -138,7 +416,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesDisabledOut",
+            '200': "ProviderGithubPagesDisabledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -167,7 +445,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubPagesDisabledOut]:
+    ) -> ApiResponse[ProviderGithubPagesDisabledOut]:
         """Deletes the repo's Pages site.
 
         Deletes the repo's Pages site. 404 when there is none, so a caller can tell \"turned it off\" from \"there was nothing on\".
@@ -205,7 +483,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesDisabledOut",
+            '200': "ProviderGithubPagesDisabledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -272,7 +550,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesDisabledOut",
+            '200': "ProviderGithubPagesDisabledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -317,7 +595,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -362,7 +641,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackDeleteMessageOut:
+    ) -> ProviderSlackDeleteMessageOut:
         """Takes back one of this app's messages: DELETE /v1/provider/slack/messages.
 
         Takes back one of this app's messages: DELETE /v1/provider/slack/messages.
@@ -403,7 +682,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackDeleteMessageOut",
+            '200': "ProviderSlackDeleteMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -433,7 +712,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackDeleteMessageOut]:
+    ) -> ApiResponse[ProviderSlackDeleteMessageOut]:
         """Takes back one of this app's messages: DELETE /v1/provider/slack/messages.
 
         Takes back one of this app's messages: DELETE /v1/provider/slack/messages.
@@ -474,7 +753,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackDeleteMessageOut",
+            '200': "ProviderSlackDeleteMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -545,7 +824,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackDeleteMessageOut",
+            '200': "ProviderSlackDeleteMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -597,7 +876,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -610,6 +890,762 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/provider/slack/messages',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_connection(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderConnectionsOut:
+        """Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+
+        Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints. Rows are keyed (org,user), so this can never surface another user's connector, and no secret is in the view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectionsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_connection_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderConnectionsOut]:
+        """Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+
+        Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints. Rows are keyed (org,user), so this can never surface another user's connector, and no secret is in the view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectionsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_connection_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints.
+
+        Lists the caller's OWN connectors across every provider — the set `hanzo connector ls` prints. Rows are keyed (org,user), so this can never surface another user's connector, and no secret is in the view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectionsOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_connection_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/connection',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_connection_by_id_token(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderTokenOut:
+        """Hands the custodied access token to its owner — the ONE place custody exits.
+
+        Hands the custodied access token to its owner — the ONE place custody exits. The (org,user)-keyed row IS the same-user gate: another user's id is simply \"no row\" → 404. fresh() auto-rotates within the refreshSkew window; static providers degenerate to a plain kmsGet of Secrets[0]. Refresh tokens are NEVER returned — custody keeps the sink. The token is never logged.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_by_id_token_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderTokenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_connection_by_id_token_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderTokenOut]:
+        """Hands the custodied access token to its owner — the ONE place custody exits.
+
+        Hands the custodied access token to its owner — the ONE place custody exits. The (org,user)-keyed row IS the same-user gate: another user's id is simply \"no row\" → 404. fresh() auto-rotates within the refreshSkew window; static providers degenerate to a plain kmsGet of Secrets[0]. Refresh tokens are NEVER returned — custody keeps the sink. The token is never logged.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_by_id_token_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderTokenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_connection_by_id_token_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Hands the custodied access token to its owner — the ONE place custody exits.
+
+        Hands the custodied access token to its owner — the ONE place custody exits. The (org,user)-keyed row IS the same-user gate: another user's id is simply \"no row\" → 404. fresh() auto-rotates within the refreshSkew window; static providers degenerate to a plain kmsGet of Secrets[0]. Refresh tokens are NEVER returned — custody keeps the sink. The token is never logged.
+
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_by_id_token_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderTokenOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_connection_by_id_token_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/connection/{id}/token',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_connection_providers(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderUserCatalogOut:
+        """Lists the USER-plane provider cards.
+
+        Lists the USER-plane provider cards. It is not the org catalog at /v1/provider and the two are not a duplicate of one another: a provider declares its custody plane, and the planes are disjoint, so a user-scoped provider 404s on the org surface and vice versa. Hence the catalog of what a user can connect, and how. Modes derive from capabilities (Device/Adopt/Verify — Mount asserts at least one), never from a parallel kind enum.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_providers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderUserCatalogOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_connection_providers_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderUserCatalogOut]:
+        """Lists the USER-plane provider cards.
+
+        Lists the USER-plane provider cards. It is not the org catalog at /v1/provider and the two are not a duplicate of one another: a provider declares its custody plane, and the planes are disjoint, so a user-scoped provider 404s on the org surface and vice versa. Hence the catalog of what a user can connect, and how. Modes derive from capabilities (Device/Adopt/Verify — Mount asserts at least one), never from a parallel kind enum.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_providers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderUserCatalogOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_connection_providers_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists the USER-plane provider cards.
+
+        Lists the USER-plane provider cards. It is not the org catalog at /v1/provider and the two are not a duplicate of one another: a provider declares its custody plane, and the planes are disjoint, so a user-scoped provider 404s on the org surface and vice versa. Hence the catalog of what a user can connect, and how. Modes derive from capabilities (Device/Adopt/Verify — Mount asserts at least one), never from a parallel kind enum.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_connection_providers_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderUserCatalogOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_connection_providers_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/connection/providers',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -640,7 +1676,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ListOut:
+    ) -> ProviderListOut:
         """Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders.
 
         Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders. Org-authed: a caller with no validated principal is 403, because the status is per-org and there is no org-less answer. User-plane providers (the /v1/connection surface) are omitted; the two planes are disjoint.
@@ -675,7 +1711,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListOut",
+            '200': "ProviderListOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -703,7 +1739,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ListOut]:
+    ) -> ApiResponse[ProviderListOut]:
         """Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders.
 
         Returns every registered integration provider together with THIS org's connection status for it — the catalog the console's Integrations page renders. Org-authed: a caller with no validated principal is 403, because the status is per-org and there is no org-less answer. User-plane providers (the /v1/connection surface) are omitted; the two planes are disjoint.
@@ -738,7 +1774,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListOut",
+            '200': "ProviderListOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -801,7 +1837,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListOut",
+            '200': "ProviderListOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -843,7 +1879,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -887,7 +1924,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProviderView:
+    ) -> ProviderProviderView:
         """Returns ONE provider with this org's connection status — the same view list carries, for a single id.
 
         Returns ONE provider with this org's connection status — the same view list carries, for a single id. An unknown id is 404, and so is a user-plane provider: the org surface never resolves one.
@@ -925,7 +1962,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProviderView",
+            '200': "ProviderProviderView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -954,7 +1991,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProviderView]:
+    ) -> ApiResponse[ProviderProviderView]:
         """Returns ONE provider with this org's connection status — the same view list carries, for a single id.
 
         Returns ONE provider with this org's connection status — the same view list carries, for a single id. An unknown id is 404, and so is a user-plane provider: the org surface never resolves one.
@@ -992,7 +2029,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProviderView",
+            '200': "ProviderProviderView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1059,7 +2096,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProviderView",
+            '200': "ProviderProviderView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1104,7 +2141,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1368,6 +2406,257 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/provider/{provider}/callback',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_provider_by_provider_logo(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Serves a connector's logo from the catalog.
+
+        Serves a connector's logo from the catalog. PUBLIC: an <img> carries no bearer, and a logo is not the org's. It is served from the embedded catalog only, never fetched, with a policy that runs nothing — an SVG opened directly is a picture, not a page.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_by_provider_logo_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_by_provider_logo_with_http_info(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Serves a connector's logo from the catalog.
+
+        Serves a connector's logo from the catalog. PUBLIC: an <img> carries no bearer, and a logo is not the org's. It is served from the embedded catalog only, never fetched, with a policy that runs nothing — an SVG opened directly is a picture, not a page.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_by_provider_logo_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_by_provider_logo_without_preload_content(
+        self,
+        provider: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Serves a connector's logo from the catalog.
+
+        Serves a connector's logo from the catalog. PUBLIC: an <img> carries no bearer, and a logo is not the org's. It is served from the embedded catalog only, never fetched, with a policy that runs nothing — an SVG opened directly is a picture, not a page.
+
+        :param provider: (required)
+        :type provider: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_by_provider_logo_serialize(
+            provider=provider,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_by_provider_logo_serialize(
+        self,
+        provider,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/{provider}/logo',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2106,7 +3395,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubInstallationsOut:
+    ) -> ProviderGithubInstallationsOut:
         """Lists the GitHub accounts the caller may see the App installed on, each confirmed against the App's own list, plus where to add another.
 
         Lists the GitHub accounts the caller may see the App installed on, each confirmed against the App's own list, plus where to add another.  The confirmation is the point. A connection row holds an installation id, and an id whose installation was since removed on GitHub is a row that mints nothing — every list and import against it fails with a token error, which reads as \"our git integration is broken\" rather than \"that install is gone\". Checking the App's view turns that into a fact the caller can act on.  ORG-SCOPED for a tenant, deliberately. The App is installed across every customer, so the raw list is the customer list; a tenant sees only accounts its own org has bound. It discovers a NEW account by installing it (InstallURL), which is GitHub's own consent screen — not by reading ours.  A SUPER ADMIN sees the App's whole install list, because that list is the platform's own inventory rather than any one tenant's data, and platform sudo is the single cross-tenant scope this house has. Without it an App installed out-of-band — granted straight from GitHub, so no connect flow ever ran and no connection row exists — is invisible to everyone: the console card reads \"not connected\" and an operator asked \"which GitHub orgs do you see\" can only answer for accounts already bound, which is precisely the accounts that were never the question.
@@ -2141,7 +3430,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubInstallationsOut",
+            '200': "ProviderGithubInstallationsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2169,7 +3458,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubInstallationsOut]:
+    ) -> ApiResponse[ProviderGithubInstallationsOut]:
         """Lists the GitHub accounts the caller may see the App installed on, each confirmed against the App's own list, plus where to add another.
 
         Lists the GitHub accounts the caller may see the App installed on, each confirmed against the App's own list, plus where to add another.  The confirmation is the point. A connection row holds an installation id, and an id whose installation was since removed on GitHub is a row that mints nothing — every list and import against it fails with a token error, which reads as \"our git integration is broken\" rather than \"that install is gone\". Checking the App's view turns that into a fact the caller can act on.  ORG-SCOPED for a tenant, deliberately. The App is installed across every customer, so the raw list is the customer list; a tenant sees only accounts its own org has bound. It discovers a NEW account by installing it (InstallURL), which is GitHub's own consent screen — not by reading ours.  A SUPER ADMIN sees the App's whole install list, because that list is the platform's own inventory rather than any one tenant's data, and platform sudo is the single cross-tenant scope this house has. Without it an App installed out-of-band — granted straight from GitHub, so no connect flow ever ran and no connection row exists — is invisible to everyone: the console card reads \"not connected\" and an operator asked \"which GitHub orgs do you see\" can only answer for accounts already bound, which is precisely the accounts that were never the question.
@@ -2204,7 +3493,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubInstallationsOut",
+            '200': "ProviderGithubInstallationsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2267,7 +3556,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubInstallationsOut",
+            '200': "ProviderGithubInstallationsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2309,7 +3598,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2340,6 +3630,10 @@ class ProviderApi:
     @validate_call
     def get_provider_github_repos(
         self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps repositories whose owner/name contains it, case-insensitively.")] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner keeps one GitHub account's repositories — an org or a user login.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the most recently pushed.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2352,11 +3646,19 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubReposOut:
-        """Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane.
+    ) -> ProviderGithubReposOut:
+        """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane. Org-authed: the org comes from the validated principal, and the granted set is bounded to THAT org's installation token — an org can never enumerate another org's repos. The console polls it to watch an import flip a repo to imported.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
+        :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
+        :type q: str
+        :param owner: Owner keeps one GitHub account's repositories — an org or a user login.
+        :type owner: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the most recently pushed.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2380,6 +3682,10 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._get_provider_github_repos_serialize(
+            q=q,
+            owner=owner,
+            limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2387,7 +3693,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubReposOut",
+            '200': "ProviderGithubReposOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2403,6 +3709,10 @@ class ProviderApi:
     @validate_call
     def get_provider_github_repos_with_http_info(
         self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps repositories whose owner/name contains it, case-insensitively.")] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner keeps one GitHub account's repositories — an org or a user login.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the most recently pushed.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2415,11 +3725,19 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubReposOut]:
-        """Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane.
+    ) -> ApiResponse[ProviderGithubReposOut]:
+        """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane. Org-authed: the org comes from the validated principal, and the granted set is bounded to THAT org's installation token — an org can never enumerate another org's repos. The console polls it to watch an import flip a repo to imported.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
+        :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
+        :type q: str
+        :param owner: Owner keeps one GitHub account's repositories — an org or a user login.
+        :type owner: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the most recently pushed.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2443,6 +3761,10 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._get_provider_github_repos_serialize(
+            q=q,
+            owner=owner,
+            limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2450,7 +3772,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubReposOut",
+            '200': "ProviderGithubReposOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2466,6 +3788,10 @@ class ProviderApi:
     @validate_call
     def get_provider_github_repos_without_preload_content(
         self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps repositories whose owner/name contains it, case-insensitively.")] = None,
+        owner: Annotated[Optional[StrictStr], Field(description="Owner keeps one GitHub account's repositories — an org or a user login.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page. Absent starts at the most recently pushed.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2479,10 +3805,18 @@ class ProviderApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane.
+        """Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.
 
-        Lists the org's granted GitHub repositories, each annotated with its native import + sync status from the git object plane. Org-authed: the org comes from the validated principal, and the granted set is bounded to THAT org's installation token — an org can never enumerate another org's repos. The console polls it to watch an import flip a repo to imported.
+        Lists the GitHub repositories the caller may work on, most recently pushed first, searched and paged on the server.  A person who connected their own GitHub sees what their token reaches in this App's installations. An org admin who has not sees every repository in the installations their org holds. Anyone else gets an empty page with connected:false, which is the console's cue to ask them to connect.
 
+        :param q: Q keeps repositories whose owner/name contains it, case-insensitively.
+        :type q: str
+        :param owner: Owner keeps one GitHub account's repositories — an org or a user login.
+        :type owner: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page. Absent starts at the most recently pushed.
+        :type after: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2506,6 +3840,10 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._get_provider_github_repos_serialize(
+            q=q,
+            owner=owner,
+            limit=limit,
+            after=after,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2513,7 +3851,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubReposOut",
+            '200': "ProviderGithubReposOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2524,6 +3862,10 @@ class ProviderApi:
 
     def _get_provider_github_repos_serialize(
         self,
+        q,
+        owner,
+        limit,
+        after,
         _request_auth,
         _content_type,
         _headers,
@@ -2546,6 +3888,22 @@ class ProviderApi:
 
         # process the path parameters
         # process the query parameters
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if owner is not None:
+            
+            _query_params.append(('owner', owner))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if after is not None:
+            
+            _query_params.append(('after', after))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -2555,7 +3913,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2568,6 +3927,334 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/provider/github/repos',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_provider_github_repos_by_owner_by_repo_branches(
+        self,
+        owner: Annotated[StrictStr, Field(description="Owner is the GitHub account that holds the repository.")],
+        repo: Annotated[StrictStr, Field(description="Repo is the repository's name within that account.")],
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps branches whose name starts with it, matched by GitHub.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubBranchesOut:
+        """Lists a repository's branches, the default first, with prefix search.
+
+        Lists a repository's branches, the default first, with prefix search. The repository must be one the caller may see — the same set GET /v1/provider/github/repos lists — or it is 404.
+
+        :param owner: Owner is the GitHub account that holds the repository. (required)
+        :type owner: str
+        :param repo: Repo is the repository's name within that account. (required)
+        :type repo: str
+        :param q: Q keeps branches whose name starts with it, matched by GitHub.
+        :type q: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page.
+        :type after: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_repos_by_owner_by_repo_branches_serialize(
+            owner=owner,
+            repo=repo,
+            q=q,
+            limit=limit,
+            after=after,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubBranchesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_github_repos_by_owner_by_repo_branches_with_http_info(
+        self,
+        owner: Annotated[StrictStr, Field(description="Owner is the GitHub account that holds the repository.")],
+        repo: Annotated[StrictStr, Field(description="Repo is the repository's name within that account.")],
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps branches whose name starts with it, matched by GitHub.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubBranchesOut]:
+        """Lists a repository's branches, the default first, with prefix search.
+
+        Lists a repository's branches, the default first, with prefix search. The repository must be one the caller may see — the same set GET /v1/provider/github/repos lists — or it is 404.
+
+        :param owner: Owner is the GitHub account that holds the repository. (required)
+        :type owner: str
+        :param repo: Repo is the repository's name within that account. (required)
+        :type repo: str
+        :param q: Q keeps branches whose name starts with it, matched by GitHub.
+        :type q: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page.
+        :type after: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_repos_by_owner_by_repo_branches_serialize(
+            owner=owner,
+            repo=repo,
+            q=q,
+            limit=limit,
+            after=after,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubBranchesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_github_repos_by_owner_by_repo_branches_without_preload_content(
+        self,
+        owner: Annotated[StrictStr, Field(description="Owner is the GitHub account that holds the repository.")],
+        repo: Annotated[StrictStr, Field(description="Repo is the repository's name within that account.")],
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps branches whose name starts with it, matched by GitHub.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 1 to 100, and 50 when absent or unreadable.")] = None,
+        after: Annotated[Optional[StrictStr], Field(description="After is the `next` of the previous page.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists a repository's branches, the default first, with prefix search.
+
+        Lists a repository's branches, the default first, with prefix search. The repository must be one the caller may see — the same set GET /v1/provider/github/repos lists — or it is 404.
+
+        :param owner: Owner is the GitHub account that holds the repository. (required)
+        :type owner: str
+        :param repo: Repo is the repository's name within that account. (required)
+        :type repo: str
+        :param q: Q keeps branches whose name starts with it, matched by GitHub.
+        :type q: str
+        :param limit: Limit is the page size: 1 to 100, and 50 when absent or unreadable.
+        :type limit: int
+        :param after: After is the `next` of the previous page.
+        :type after: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_repos_by_owner_by_repo_branches_serialize(
+            owner=owner,
+            repo=repo,
+            q=q,
+            limit=limit,
+            after=after,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubBranchesOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_github_repos_by_owner_by_repo_branches_serialize(
+        self,
+        owner,
+        repo,
+        q,
+        limit,
+        after,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if owner is not None:
+            _path_params['owner'] = owner
+        if repo is not None:
+            _path_params['repo'] = repo
+        # process the query parameters
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if after is not None:
+            
+            _query_params.append(('after', after))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/github/repos/{owner}/{repo}/branches',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2599,7 +4286,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubPagesView:
+    ) -> ProviderGithubPagesView:
         """Returns the repo's Pages status, live URL, custom domain and build source.
 
         Returns the repo's Pages status, live URL, custom domain and build source. The repo is resolved against the org installation's GRANTED set, so a caller can never address a repo the App was not granted; 404 when the repo has no Pages site.
@@ -2637,7 +4324,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2666,7 +4353,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubPagesView]:
+    ) -> ApiResponse[ProviderGithubPagesView]:
         """Returns the repo's Pages status, live URL, custom domain and build source.
 
         Returns the repo's Pages status, live URL, custom domain and build source. The repo is resolved against the org installation's GRANTED set, so a caller can never address a repo the App was not granted; 404 when the repo has no Pages site.
@@ -2704,7 +4391,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2771,7 +4458,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2816,7 +4503,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2829,6 +4517,489 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/provider/github/repos/{repo}/pages',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_provider_github_user(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubUserOut:
+        """Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_github_user_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubUserOut]:
+        """Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_github_user_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        Reports whether the caller has connected their own GitHub account in the org they act in, and as whom.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_github_user_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/github/user',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_provider_github_user_callback(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Is where GitHub returns the person.
+
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_provider_github_user_callback_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Is where GitHub returns the person.
+
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_provider_github_user_callback_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Is where GitHub returns the person.
+
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_provider_github_user_callback_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_provider_github_user_callback_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/provider/github/user/callback',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2859,7 +5030,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GitlabProjectsOut:
+    ) -> ProviderGitlabProjectsOut:
         """Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
 
         Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
@@ -2894,7 +5065,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitlabProjectsOut",
+            '200': "ProviderGitlabProjectsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2922,7 +5093,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GitlabProjectsOut]:
+    ) -> ApiResponse[ProviderGitlabProjectsOut]:
         """Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
 
         Lists the projects the org's GitLab connection can reach — membership projects, most recently active first.
@@ -2957,7 +5128,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitlabProjectsOut",
+            '200': "ProviderGitlabProjectsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3020,7 +5191,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitlabProjectsOut",
+            '200': "ProviderGitlabProjectsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3062,7 +5233,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3107,7 +5279,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackChannelsOut:
+    ) -> ProviderSlackChannelsOut:
         """Lists Slack conversations for the caller's connected workspace.
 
         Lists Slack conversations for the caller's connected workspace. Read next_cursor until empty to discover channels, including private channels or group DMs when types requests them and the bot has their read scopes.
@@ -3148,7 +5320,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackChannelsOut",
+            '200': "ProviderSlackChannelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3178,7 +5350,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackChannelsOut]:
+    ) -> ApiResponse[ProviderSlackChannelsOut]:
         """Lists Slack conversations for the caller's connected workspace.
 
         Lists Slack conversations for the caller's connected workspace. Read next_cursor until empty to discover channels, including private channels or group DMs when types requests them and the bot has their read scopes.
@@ -3219,7 +5391,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackChannelsOut",
+            '200': "ProviderSlackChannelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3290,7 +5462,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackChannelsOut",
+            '200': "ProviderSlackChannelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3342,7 +5514,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4571,7 +6744,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackMessagesOut:
+    ) -> ProviderSlackMessagesOut:
         """Reads recent messages from a named Slack channel such as #hanzo-gtm.
 
         Reads recent messages from a named Slack channel such as #hanzo-gtm. The bot must be a member and have the relevant history scope. Set thread_ts to fetch a parent's replies, and cursor to continue a page. Channel history is newest first; thread replies are oldest first.
@@ -4624,7 +6797,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackMessagesOut",
+            '200': "ProviderSlackMessagesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4658,7 +6831,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackMessagesOut]:
+    ) -> ApiResponse[ProviderSlackMessagesOut]:
         """Reads recent messages from a named Slack channel such as #hanzo-gtm.
 
         Reads recent messages from a named Slack channel such as #hanzo-gtm. The bot must be a member and have the relevant history scope. Set thread_ts to fetch a parent's replies, and cursor to continue a page. Channel history is newest first; thread replies are oldest first.
@@ -4711,7 +6884,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackMessagesOut",
+            '200': "ProviderSlackMessagesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4798,7 +6971,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackMessagesOut",
+            '200': "ProviderSlackMessagesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4870,7 +7043,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6551,10 +8725,9 @@ class ProviderApi:
 
 
     @validate_call
-    def post_provider_by_provider_connect(
+    def post_connection_by_id_refresh(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
-        connect_in: ConnectIn,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6567,15 +8740,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConnectOut:
-        """Acquires the org's credential for one provider.
+    ) -> ProviderRefreshOut:
+        """Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
 
-        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+        Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window. Only providers that declare a Refresh support it.
 
-        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
-        :type provider: str
-        :param connect_in: (required)
-        :type connect_in: ConnectIn
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6598,9 +8769,8 @@ class ProviderApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_provider_by_provider_connect_serialize(
-            provider=provider,
-            connect_in=connect_in,
+        _param = self._post_connection_by_id_refresh_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6608,7 +8778,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectOut",
+            '200': "ProviderRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6622,10 +8792,9 @@ class ProviderApi:
 
 
     @validate_call
-    def post_provider_by_provider_connect_with_http_info(
+    def post_connection_by_id_refresh_with_http_info(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
-        connect_in: ConnectIn,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6638,15 +8807,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConnectOut]:
-        """Acquires the org's credential for one provider.
+    ) -> ApiResponse[ProviderRefreshOut]:
+        """Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
 
-        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+        Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window. Only providers that declare a Refresh support it.
 
-        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
-        :type provider: str
-        :param connect_in: (required)
-        :type connect_in: ConnectIn
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6669,9 +8836,8 @@ class ProviderApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_provider_by_provider_connect_serialize(
-            provider=provider,
-            connect_in=connect_in,
+        _param = self._post_connection_by_id_refresh_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6679,7 +8845,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectOut",
+            '200': "ProviderRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6693,10 +8859,9 @@ class ProviderApi:
 
 
     @validate_call
-    def post_provider_by_provider_connect_without_preload_content(
+    def post_connection_by_id_refresh_without_preload_content(
         self,
-        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
-        connect_in: ConnectIn,
+        id: Annotated[StrictStr, Field(description="ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6710,14 +8875,12 @@ class ProviderApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Acquires the org's credential for one provider.
+        """Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window.
 
-        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+        Forces a token rotation for a connected connector, ahead of the automatic rotation a token read would do inside the expiry window. Only providers that declare a Refresh support it.
 
-        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
-        :type provider: str
-        :param connect_in: (required)
-        :type connect_in: ConnectIn
+        :param id: ID is the connector id, provider + \":\" + label (\"openai:default\") — the auth-profile-id shape. Another user's id is simply no row, so 404. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6740,9 +8903,8 @@ class ProviderApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_provider_by_provider_connect_serialize(
-            provider=provider,
-            connect_in=connect_in,
+        _param = self._post_connection_by_id_refresh_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6750,7 +8912,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectOut",
+            '200': "ProviderRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6759,10 +8921,284 @@ class ProviderApi:
         return response_data.response
 
 
-    def _post_provider_by_provider_connect_serialize(
+    def _post_connection_by_id_refresh_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/connection/{id}/refresh',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_connection_by_provider_credential(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_credential_in: ProviderCredentialIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderCredentialOut:
+        """Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+
+        Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt). ALWAYS verify-before-store: a bad credential is refused and NOTHING is persisted (connectByCredential's fail-closed order).
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_credential_in: (required)
+        :type provider_credential_in: ProviderCredentialIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_credential_serialize(
+            provider=provider,
+            provider_credential_in=provider_credential_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderCredentialOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_connection_by_provider_credential_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_credential_in: ProviderCredentialIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderCredentialOut]:
+        """Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+
+        Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt). ALWAYS verify-before-store: a bad credential is refused and NOTHING is persisted (connectByCredential's fail-closed order).
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_credential_in: (required)
+        :type provider_credential_in: ProviderCredentialIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_credential_serialize(
+            provider=provider,
+            provider_credential_in=provider_credential_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderCredentialOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_connection_by_provider_credential_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_credential_in: ProviderCredentialIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt).
+
+        Is the direct intake path: a customer-held token/setup-token (Verify) or an externally obtained OAuth bundle from the CLI's local PKCE (Adopt). ALWAYS verify-before-store: a bad credential is refused and NOTHING is persisted (connectByCredential's fail-closed order).
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_credential_in: (required)
+        :type provider_credential_in: ProviderCredentialIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_credential_serialize(
+            provider=provider,
+            provider_credential_in=provider_credential_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderCredentialOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_connection_by_provider_credential_serialize(
         self,
         provider,
-        connect_in,
+        provider_credential_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6790,15 +9226,873 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if connect_in is not None:
-            _body_params = connect_in
+        if provider_credential_in is not None:
+            _body_params = provider_credential_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/connection/{provider}/credential',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_connection_by_provider_device(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_device_start_in: ProviderDeviceStartIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderDeviceStartOut:
+        """Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+
+        Begins a device sign-in and returns the code to show the user plus how to poll for completion. KMS readiness is checked NOW rather than dead-ending the user at poll-done (connect() parity), and the per-provider connector cap is checked before the provider is called. The provider's device code is persisted only in the encrypted grants table and is NEVER returned.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_device_start_in: (required)
+        :type provider_device_start_in: ProviderDeviceStartIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_serialize(
+            provider=provider,
+            provider_device_start_in=provider_device_start_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDeviceStartOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_connection_by_provider_device_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_device_start_in: ProviderDeviceStartIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderDeviceStartOut]:
+        """Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+
+        Begins a device sign-in and returns the code to show the user plus how to poll for completion. KMS readiness is checked NOW rather than dead-ending the user at poll-done (connect() parity), and the per-provider connector cap is checked before the provider is called. The provider's device code is persisted only in the encrypted grants table and is NEVER returned.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_device_start_in: (required)
+        :type provider_device_start_in: ProviderDeviceStartIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_serialize(
+            provider=provider,
+            provider_device_start_in=provider_device_start_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDeviceStartOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_connection_by_provider_device_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        provider_device_start_in: ProviderDeviceStartIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Begins a device sign-in and returns the code to show the user plus how to poll for completion.
+
+        Begins a device sign-in and returns the code to show the user plus how to poll for completion. KMS readiness is checked NOW rather than dead-ending the user at poll-done (connect() parity), and the per-provider connector cap is checked before the provider is called. The provider's device code is persisted only in the encrypted grants table and is NEVER returned.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param provider_device_start_in: (required)
+        :type provider_device_start_in: ProviderDeviceStartIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_serialize(
+            provider=provider,
+            provider_device_start_in=provider_device_start_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDeviceStartOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_connection_by_provider_device_serialize(
+        self,
+        provider,
+        provider_device_start_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_device_start_in is not None:
+            _body_params = provider_device_start_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/connection/{provider}/device',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_connection_by_provider_device_by_flow_poll(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderDevicePollOut:
+        """Advances a device sign-in.
+
+        Advances a device sign-in. Terminal outcomes are DATA, not errors (verifyConn {active:false} discipline) — the status set is closed: pending|connected|denied|expired. pollSlow collapses to \"pending\" on the wire; the raised cadence rides interval.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param flow: Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404. (required)
+        :type flow: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_by_flow_poll_serialize(
+            provider=provider,
+            flow=flow,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDevicePollOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_connection_by_provider_device_by_flow_poll_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderDevicePollOut]:
+        """Advances a device sign-in.
+
+        Advances a device sign-in. Terminal outcomes are DATA, not errors (verifyConn {active:false} discipline) — the status set is closed: pending|connected|denied|expired. pollSlow collapses to \"pending\" on the wire; the raised cadence rides interval.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param flow: Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404. (required)
+        :type flow: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_by_flow_poll_serialize(
+            provider=provider,
+            flow=flow,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDevicePollOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_connection_by_provider_device_by_flow_poll_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the user-scoped provider's registry id, from the path.")],
+        flow: Annotated[StrictStr, Field(description="Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Advances a device sign-in.
+
+        Advances a device sign-in. Terminal outcomes are DATA, not errors (verifyConn {active:false} discipline) — the status set is closed: pending|connected|denied|expired. pollSlow collapses to \"pending\" on the wire; the raised cadence rides interval.
+
+        :param provider: Provider is the user-scoped provider's registry id, from the path. (required)
+        :type provider: str
+        :param flow: Flow is the id deviceStartOut returned. Expired or another user's flow is indistinguishable from an unknown one: 404. (required)
+        :type flow: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_connection_by_provider_device_by_flow_poll_serialize(
+            provider=provider,
+            flow=flow,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderDevicePollOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_connection_by_provider_device_by_flow_poll_serialize(
+        self,
+        provider,
+        flow,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        if flow is not None:
+            _path_params['flow'] = flow
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/connection/{provider}/device/{flow}/poll',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_by_provider_connect(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_connect_in: ProviderConnectIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderConnectOut:
+        """Acquires the org's credential for one provider.
+
+        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
+        :type provider: str
+        :param provider_connect_in: (required)
+        :type provider_connect_in: ProviderConnectIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_connect_serialize(
+            provider=provider,
+            provider_connect_in=provider_connect_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_by_provider_connect_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_connect_in: ProviderConnectIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderConnectOut]:
+        """Acquires the org's credential for one provider.
+
+        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
+        :type provider: str
+        :param provider_connect_in: (required)
+        :type provider_connect_in: ProviderConnectIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_connect_serialize(
+            provider=provider,
+            provider_connect_in=provider_connect_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_by_provider_connect_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector's registry id, from the :provider path segment.")],
+        provider_connect_in: ProviderConnectIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Acquires the org's credential for one provider.
+
+        Acquires the org's credential for one provider. It has TWO paths and the REQUEST picks which: a \"token\" key in the body seals that credential directly (verify-before-store), and its absence begins the 3-legged OAuth flow — minting a single-use nonce plus an HMAC-signed state that binds this org to this provider, and answering with the provider's authorize URL for the caller to redirect to.  Fail-closed order, unchanged: no principal → 403; unknown provider → 404; an AdminOnly connector without the caller's own-org admin bit → 403; not configured → 503; KMS not ready → 503 (the flow WILL need to seal a token, so refuse now rather than dead-end at the callback).
+
+        :param provider: Provider is the connector's registry id, from the :provider path segment. (required)
+        :type provider: str
+        :param provider_connect_in: (required)
+        :type provider_connect_in: ProviderConnectIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_connect_serialize(
+            provider=provider,
+            provider_connect_in=provider_connect_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_by_provider_connect_serialize(
+        self,
+        provider,
+        provider_connect_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_connect_in is not None:
+            _body_params = provider_connect_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6855,7 +10149,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DisconnectOut:
+    ) -> ProviderDisconnectOut:
         """Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
 
         Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.
@@ -6893,7 +10187,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DisconnectOut",
+            '200': "ProviderDisconnectOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6922,7 +10216,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DisconnectOut]:
+    ) -> ApiResponse[ProviderDisconnectOut]:
         """Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row.
 
         Revokes (best-effort) and forgets an org's connection: it deletes every custodied KMS secret and the connection row. Idempotent — disconnecting a provider that was never connected still returns {disconnected:true}. Symmetric with connect: an AdminOnly connector needs the caller's own-org admin bit.
@@ -6960,7 +10254,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DisconnectOut",
+            '200': "ProviderDisconnectOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7027,7 +10321,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DisconnectOut",
+            '200': "ProviderDisconnectOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7072,7 +10366,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7085,6 +10380,296 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/provider/{provider}/disconnect',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_by_provider_run(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector, from the path.")],
+        provider_run_in: ProviderRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderRunOut:
+        """Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned.
+
+        Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned. The credential is read from the org's KMS namespace here and never leaves this service. An action that ran and failed is ok:false with the reason; an unknown connector is 404, an action that does not run on this deployment 422, and a connector the org has not connected 424.
+
+        :param provider: Provider is the connector, from the path. (required)
+        :type provider: str
+        :param provider_run_in: (required)
+        :type provider_run_in: ProviderRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_run_serialize(
+            provider=provider,
+            provider_run_in=provider_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderRunOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_by_provider_run_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector, from the path.")],
+        provider_run_in: ProviderRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderRunOut]:
+        """Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned.
+
+        Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned. The credential is read from the org's KMS namespace here and never leaves this service. An action that ran and failed is ok:false with the reason; an unknown connector is 404, an action that does not run on this deployment 422, and a connector the org has not connected 424.
+
+        :param provider: Provider is the connector, from the path. (required)
+        :type provider: str
+        :param provider_run_in: (required)
+        :type provider_run_in: ProviderRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_run_serialize(
+            provider=provider,
+            provider_run_in=provider_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderRunOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_by_provider_run_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the connector, from the path.")],
+        provider_run_in: ProviderRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned.
+
+        Runs one action of a connector as the caller's org, with the credential the org connected, and answers what the action returned. The credential is read from the org's KMS namespace here and never leaves this service. An action that ran and failed is ok:false with the reason; an unknown connector is 404, an action that does not run on this deployment 422, and a connector the org has not connected 424.
+
+        :param provider: Provider is the connector, from the path. (required)
+        :type provider: str
+        :param provider_run_in: (required)
+        :type provider_run_in: ProviderRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_by_provider_run_serialize(
+            provider=provider,
+            provider_run_in=provider_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderRunOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_by_provider_run_serialize(
+        self,
+        provider,
+        provider_run_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_run_in is not None:
+            _body_params = provider_run_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/{provider}/run',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7116,7 +10701,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VerifyOut:
+    ) -> ProviderVerifyOut:
         """Re-checks a CONNECTED apikey connector's stored credential against the provider, live (`hanzo connector verify`).
 
         Re-checks a CONNECTED apikey connector's stored credential against the provider, live (`hanzo connector verify`). Org-scoped (any member may check status); the credential is read from KMS, verified, and NEVER returned or logged. A verification failure is reported as {active:false}, not an error — the console/ CLI renders it. Only apikey providers support verify (OAuth tokens are checked at use, not re-verified here).
@@ -7154,7 +10739,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyOut",
+            '200': "ProviderVerifyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7183,7 +10768,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VerifyOut]:
+    ) -> ApiResponse[ProviderVerifyOut]:
         """Re-checks a CONNECTED apikey connector's stored credential against the provider, live (`hanzo connector verify`).
 
         Re-checks a CONNECTED apikey connector's stored credential against the provider, live (`hanzo connector verify`). Org-scoped (any member may check status); the credential is read from KMS, verified, and NEVER returned or logged. A verification failure is reported as {active:false}, not an error — the console/ CLI renders it. Only apikey providers support verify (OAuth tokens are checked at use, not re-verified here).
@@ -7221,7 +10806,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyOut",
+            '200': "ProviderVerifyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7288,7 +10873,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VerifyOut",
+            '200': "ProviderVerifyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7333,7 +10918,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7874,7 +11460,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_claim(
         self,
-        github_claim_in: GithubClaimIn,
+        provider_github_claim_in: ProviderGithubClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7887,13 +11473,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubClaimOut:
+    ) -> ProviderGithubClaimOut:
         """Binds installations the App ALREADY holds to the org the caller is acting in — the reconciliation for a grant that happened outside our connect flow.
 
         Binds installations the App ALREADY holds to the org the caller is acting in — the reconciliation for a grant that happened outside our connect flow.  An installation IS the grant: GitHub recorded the consent when the App was installed, and our connection row is bookkeeping that never got written because nobody came through our callback. This writes that row from the App's own view, so 23 accounts granted straight from GitHub stop reading as nothing.  The org is taken from the VALIDATED PRINCIPAL and never from the body, because it is the one part GitHub cannot tell us. An installation carries an account login, a type and a repository selection — nothing that names a Hanzo org. So the binding cannot be DERIVED, only asserted, and the only unforgeable assertion available is the org the caller is already acting in. Inferring one from the account name would be a guess the store cannot catch: its key is (org,provider,owner), so a wrong org is a valid row, and a valid row is a mirror pointed at the wrong tenant.  SUPER ADMIN only, for that same reason. A tenant's proof that an account is theirs is GitHub's own consent screen — the connect flow — and without it any org could claim any account the App holds. Platform sudo is already the scope that reads the whole install list, so it is the scope that may bind from it; giving a tenant this verb would hand it every other tenant's repositories.  Idempotent: the row is keyed (org,provider,owner) and connected_at survives an upsert, so claiming twice rebinds the same account to the same org and reports it under `already`. Re-claiming also REFRESHES the installation id, so an account reinstalled on GitHub — new id, same login — self-heals instead of minting tokens against a dead installation.  Claiming an account another org holds ADDS this org's row and leaves theirs standing, so no org loses an integration it is using.
 
-        :param github_claim_in: (required)
-        :type github_claim_in: GithubClaimIn
+        :param provider_github_claim_in: (required)
+        :type provider_github_claim_in: ProviderGithubClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7917,7 +11503,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_claim_serialize(
-            github_claim_in=github_claim_in,
+            provider_github_claim_in=provider_github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7925,7 +11511,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubClaimOut",
+            '200': "ProviderGithubClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7941,7 +11527,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_claim_with_http_info(
         self,
-        github_claim_in: GithubClaimIn,
+        provider_github_claim_in: ProviderGithubClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7954,13 +11540,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubClaimOut]:
+    ) -> ApiResponse[ProviderGithubClaimOut]:
         """Binds installations the App ALREADY holds to the org the caller is acting in — the reconciliation for a grant that happened outside our connect flow.
 
         Binds installations the App ALREADY holds to the org the caller is acting in — the reconciliation for a grant that happened outside our connect flow.  An installation IS the grant: GitHub recorded the consent when the App was installed, and our connection row is bookkeeping that never got written because nobody came through our callback. This writes that row from the App's own view, so 23 accounts granted straight from GitHub stop reading as nothing.  The org is taken from the VALIDATED PRINCIPAL and never from the body, because it is the one part GitHub cannot tell us. An installation carries an account login, a type and a repository selection — nothing that names a Hanzo org. So the binding cannot be DERIVED, only asserted, and the only unforgeable assertion available is the org the caller is already acting in. Inferring one from the account name would be a guess the store cannot catch: its key is (org,provider,owner), so a wrong org is a valid row, and a valid row is a mirror pointed at the wrong tenant.  SUPER ADMIN only, for that same reason. A tenant's proof that an account is theirs is GitHub's own consent screen — the connect flow — and without it any org could claim any account the App holds. Platform sudo is already the scope that reads the whole install list, so it is the scope that may bind from it; giving a tenant this verb would hand it every other tenant's repositories.  Idempotent: the row is keyed (org,provider,owner) and connected_at survives an upsert, so claiming twice rebinds the same account to the same org and reports it under `already`. Re-claiming also REFRESHES the installation id, so an account reinstalled on GitHub — new id, same login — self-heals instead of minting tokens against a dead installation.  Claiming an account another org holds ADDS this org's row and leaves theirs standing, so no org loses an integration it is using.
 
-        :param github_claim_in: (required)
-        :type github_claim_in: GithubClaimIn
+        :param provider_github_claim_in: (required)
+        :type provider_github_claim_in: ProviderGithubClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7984,7 +11570,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_claim_serialize(
-            github_claim_in=github_claim_in,
+            provider_github_claim_in=provider_github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7992,7 +11578,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubClaimOut",
+            '200': "ProviderGithubClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8008,7 +11594,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_claim_without_preload_content(
         self,
-        github_claim_in: GithubClaimIn,
+        provider_github_claim_in: ProviderGithubClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8026,8 +11612,8 @@ class ProviderApi:
 
         Binds installations the App ALREADY holds to the org the caller is acting in — the reconciliation for a grant that happened outside our connect flow.  An installation IS the grant: GitHub recorded the consent when the App was installed, and our connection row is bookkeeping that never got written because nobody came through our callback. This writes that row from the App's own view, so 23 accounts granted straight from GitHub stop reading as nothing.  The org is taken from the VALIDATED PRINCIPAL and never from the body, because it is the one part GitHub cannot tell us. An installation carries an account login, a type and a repository selection — nothing that names a Hanzo org. So the binding cannot be DERIVED, only asserted, and the only unforgeable assertion available is the org the caller is already acting in. Inferring one from the account name would be a guess the store cannot catch: its key is (org,provider,owner), so a wrong org is a valid row, and a valid row is a mirror pointed at the wrong tenant.  SUPER ADMIN only, for that same reason. A tenant's proof that an account is theirs is GitHub's own consent screen — the connect flow — and without it any org could claim any account the App holds. Platform sudo is already the scope that reads the whole install list, so it is the scope that may bind from it; giving a tenant this verb would hand it every other tenant's repositories.  Idempotent: the row is keyed (org,provider,owner) and connected_at survives an upsert, so claiming twice rebinds the same account to the same org and reports it under `already`. Re-claiming also REFRESHES the installation id, so an account reinstalled on GitHub — new id, same login — self-heals instead of minting tokens against a dead installation.  Claiming an account another org holds ADDS this org's row and leaves theirs standing, so no org loses an integration it is using.
 
-        :param github_claim_in: (required)
-        :type github_claim_in: GithubClaimIn
+        :param provider_github_claim_in: (required)
+        :type provider_github_claim_in: ProviderGithubClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8051,7 +11637,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_claim_serialize(
-            github_claim_in=github_claim_in,
+            provider_github_claim_in=provider_github_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8059,7 +11645,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubClaimOut",
+            '200': "ProviderGithubClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8070,7 +11656,7 @@ class ProviderApi:
 
     def _post_provider_github_claim_serialize(
         self,
-        github_claim_in,
+        provider_github_claim_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8096,15 +11682,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_claim_in is not None:
-            _body_params = github_claim_in
+        if provider_github_claim_in is not None:
+            _body_params = provider_github_claim_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8148,7 +11735,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_fork(
         self,
-        github_fork_req: GithubForkReq,
+        provider_github_fork_req: ProviderGithubForkReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8161,13 +11748,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubForkOut:
+    ) -> ProviderGithubForkOut:
         """Forks a granted repository.
 
         Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
-        :param github_fork_req: (required)
-        :type github_fork_req: GithubForkReq
+        :param provider_github_fork_req: (required)
+        :type provider_github_fork_req: ProviderGithubForkReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8191,7 +11778,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_fork_serialize(
-            github_fork_req=github_fork_req,
+            provider_github_fork_req=provider_github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8199,7 +11786,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubForkOut",
+            '200': "ProviderGithubForkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8215,7 +11802,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_fork_with_http_info(
         self,
-        github_fork_req: GithubForkReq,
+        provider_github_fork_req: ProviderGithubForkReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8228,13 +11815,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubForkOut]:
+    ) -> ApiResponse[ProviderGithubForkOut]:
         """Forks a granted repository.
 
         Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
-        :param github_fork_req: (required)
-        :type github_fork_req: GithubForkReq
+        :param provider_github_fork_req: (required)
+        :type provider_github_fork_req: ProviderGithubForkReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8258,7 +11845,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_fork_serialize(
-            github_fork_req=github_fork_req,
+            provider_github_fork_req=provider_github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8266,7 +11853,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubForkOut",
+            '200': "ProviderGithubForkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8282,7 +11869,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_fork_without_preload_content(
         self,
-        github_fork_req: GithubForkReq,
+        provider_github_fork_req: ProviderGithubForkReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8300,8 +11887,8 @@ class ProviderApi:
 
         Forks a granted repository.  GitHub's fork is ASYNCHRONOUS: it answers 202 with the target repo and populates it in the background, and it answers the same 202 when the fork already exists. So this reports what GitHub said rather than waiting — a call that blocked until the clone finished would time out on a large repository and tell the caller nothing it does not already know.
 
-        :param github_fork_req: (required)
-        :type github_fork_req: GithubForkReq
+        :param provider_github_fork_req: (required)
+        :type provider_github_fork_req: ProviderGithubForkReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8325,7 +11912,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_fork_serialize(
-            github_fork_req=github_fork_req,
+            provider_github_fork_req=provider_github_fork_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8333,7 +11920,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubForkOut",
+            '200': "ProviderGithubForkOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8344,7 +11931,7 @@ class ProviderApi:
 
     def _post_provider_github_fork_serialize(
         self,
-        github_fork_req,
+        provider_github_fork_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8370,15 +11957,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_fork_req is not None:
-            _body_params = github_fork_req
+        if provider_github_fork_req is not None:
+            _body_params = provider_github_fork_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8422,7 +12010,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_issues_backfill(
         self,
-        github_backfill_in: GithubBackfillIn,
+        provider_github_backfill_in: ProviderGithubBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8435,13 +12023,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubBackfillResult:
+    ) -> ProviderGithubBackfillResult:
         """Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
 
         Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
-        :param github_backfill_in: (required)
-        :type github_backfill_in: GithubBackfillIn
+        :param provider_github_backfill_in: (required)
+        :type provider_github_backfill_in: ProviderGithubBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8465,7 +12053,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_issues_backfill_serialize(
-            github_backfill_in=github_backfill_in,
+            provider_github_backfill_in=provider_github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8473,7 +12061,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubBackfillResult",
+            '200': "ProviderGithubBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8489,7 +12077,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_issues_backfill_with_http_info(
         self,
-        github_backfill_in: GithubBackfillIn,
+        provider_github_backfill_in: ProviderGithubBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8502,13 +12090,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubBackfillResult]:
+    ) -> ApiResponse[ProviderGithubBackfillResult]:
         """Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter.
 
         Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
-        :param github_backfill_in: (required)
-        :type github_backfill_in: GithubBackfillIn
+        :param provider_github_backfill_in: (required)
+        :type provider_github_backfill_in: ProviderGithubBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8532,7 +12120,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_issues_backfill_serialize(
-            github_backfill_in=github_backfill_in,
+            provider_github_backfill_in=provider_github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8540,7 +12128,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubBackfillResult",
+            '200': "ProviderGithubBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8556,7 +12144,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_issues_backfill_without_preload_content(
         self,
-        github_backfill_in: GithubBackfillIn,
+        provider_github_backfill_in: ProviderGithubBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8574,8 +12162,8 @@ class ProviderApi:
 
         Seeds the native todo with the EXISTING issues across the org's granted repos (default state=open); the webhook keeps them live thereafter. Org-scoped by the validated principal — a caller only ever backfills its OWN org. Synchronous + bounded (a total time budget and an issue cap) so it returns the counts directly; idempotent by ExtRef, so a re-run continues where a truncated pass left off and never duplicates.
 
-        :param github_backfill_in: (required)
-        :type github_backfill_in: GithubBackfillIn
+        :param provider_github_backfill_in: (required)
+        :type provider_github_backfill_in: ProviderGithubBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8599,7 +12187,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_issues_backfill_serialize(
-            github_backfill_in=github_backfill_in,
+            provider_github_backfill_in=provider_github_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8607,7 +12195,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubBackfillResult",
+            '200': "ProviderGithubBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8618,7 +12206,7 @@ class ProviderApi:
 
     def _post_provider_github_issues_backfill_serialize(
         self,
-        github_backfill_in,
+        provider_github_backfill_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8644,15 +12232,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_backfill_in is not None:
-            _body_params = github_backfill_in
+        if provider_github_backfill_in is not None:
+            _body_params = provider_github_backfill_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8697,7 +12286,7 @@ class ProviderApi:
     def post_provider_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_enable_req: GithubPagesEnableReq,
+        provider_github_pages_enable_req: ProviderGithubPagesEnableReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8710,15 +12299,15 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubPagesView:
+    ) -> ProviderGithubPagesView:
         """Creates the repo's Pages site and answers 201 Created with it.
 
         Creates the repo's Pages site and answers 201 Created with it. With buildType \"workflow\" the site builds via GitHub Actions; otherwise it builds from a branch source, defaulting to the repo's own default branch when none is given. Only \"/\" and \"/docs\" are legal source paths (GitHub's rule).
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_enable_req: (required)
-        :type github_pages_enable_req: GithubPagesEnableReq
+        :param provider_github_pages_enable_req: (required)
+        :type provider_github_pages_enable_req: ProviderGithubPagesEnableReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8743,7 +12332,7 @@ class ProviderApi:
 
         _param = self._post_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_enable_req=github_pages_enable_req,
+            provider_github_pages_enable_req=provider_github_pages_enable_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8751,7 +12340,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8768,7 +12357,7 @@ class ProviderApi:
     def post_provider_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_enable_req: GithubPagesEnableReq,
+        provider_github_pages_enable_req: ProviderGithubPagesEnableReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8781,15 +12370,15 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubPagesView]:
+    ) -> ApiResponse[ProviderGithubPagesView]:
         """Creates the repo's Pages site and answers 201 Created with it.
 
         Creates the repo's Pages site and answers 201 Created with it. With buildType \"workflow\" the site builds via GitHub Actions; otherwise it builds from a branch source, defaulting to the repo's own default branch when none is given. Only \"/\" and \"/docs\" are legal source paths (GitHub's rule).
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_enable_req: (required)
-        :type github_pages_enable_req: GithubPagesEnableReq
+        :param provider_github_pages_enable_req: (required)
+        :type provider_github_pages_enable_req: ProviderGithubPagesEnableReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8814,7 +12403,7 @@ class ProviderApi:
 
         _param = self._post_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_enable_req=github_pages_enable_req,
+            provider_github_pages_enable_req=provider_github_pages_enable_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8822,7 +12411,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8839,7 +12428,7 @@ class ProviderApi:
     def post_provider_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_enable_req: GithubPagesEnableReq,
+        provider_github_pages_enable_req: ProviderGithubPagesEnableReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8859,8 +12448,8 @@ class ProviderApi:
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_enable_req: (required)
-        :type github_pages_enable_req: GithubPagesEnableReq
+        :param provider_github_pages_enable_req: (required)
+        :type provider_github_pages_enable_req: ProviderGithubPagesEnableReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8885,7 +12474,7 @@ class ProviderApi:
 
         _param = self._post_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_enable_req=github_pages_enable_req,
+            provider_github_pages_enable_req=provider_github_pages_enable_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8893,7 +12482,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesView",
+            '200': "ProviderGithubPagesView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8905,7 +12494,7 @@ class ProviderApi:
     def _post_provider_github_repos_by_repo_pages_serialize(
         self,
         repo,
-        github_pages_enable_req,
+        provider_github_pages_enable_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8933,15 +12522,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_pages_enable_req is not None:
-            _body_params = github_pages_enable_req
+        if provider_github_pages_enable_req is not None:
+            _body_params = provider_github_pages_enable_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8998,7 +12588,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubPagesBuildOut:
+    ) -> ProviderGithubPagesBuildOut:
         """Requests a Pages rebuild and returns the queued build's status.
 
         Requests a Pages rebuild and returns the queued build's status. The build is queued AT GITHUB, not completed here, so the answer is 202 Accepted and its status is the one GitHub reported at queue time. 404 when the repository has no Pages site, or when the org's installation was not granted it.
@@ -9036,7 +12626,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubPagesBuildOut",
+            '202': "ProviderGithubPagesBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9065,7 +12655,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubPagesBuildOut]:
+    ) -> ApiResponse[ProviderGithubPagesBuildOut]:
         """Requests a Pages rebuild and returns the queued build's status.
 
         Requests a Pages rebuild and returns the queued build's status. The build is queued AT GITHUB, not completed here, so the answer is 202 Accepted and its status is the one GitHub reported at queue time. 404 when the repository has no Pages site, or when the org's installation was not granted it.
@@ -9103,7 +12693,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubPagesBuildOut",
+            '202': "ProviderGithubPagesBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9170,7 +12760,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubPagesBuildOut",
+            '202': "ProviderGithubPagesBuildOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9215,7 +12805,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9246,7 +12837,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_repos_import(
         self,
-        github_import_in: GithubImportIn,
+        provider_github_import_in: ProviderGithubImportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9259,13 +12850,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubImportOut:
+    ) -> ProviderGithubImportOut:
         """Imports the selected (or all) granted repos into git.hanzo.ai.
 
-        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/provider/github/repos for the per-repo status to flip to imported.
+        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/git/repos for each repository to appear on git.hanzo.ai.
 
-        :param github_import_in: (required)
-        :type github_import_in: GithubImportIn
+        :param provider_github_import_in: (required)
+        :type provider_github_import_in: ProviderGithubImportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9289,7 +12880,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_repos_import_serialize(
-            github_import_in=github_import_in,
+            provider_github_import_in=provider_github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9297,7 +12888,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubImportOut",
+            '202': "ProviderGithubImportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9313,7 +12904,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_repos_import_with_http_info(
         self,
-        github_import_in: GithubImportIn,
+        provider_github_import_in: ProviderGithubImportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9326,13 +12917,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubImportOut]:
+    ) -> ApiResponse[ProviderGithubImportOut]:
         """Imports the selected (or all) granted repos into git.hanzo.ai.
 
-        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/provider/github/repos for the per-repo status to flip to imported.
+        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/git/repos for each repository to appear on git.hanzo.ai.
 
-        :param github_import_in: (required)
-        :type github_import_in: GithubImportIn
+        :param provider_github_import_in: (required)
+        :type provider_github_import_in: ProviderGithubImportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9356,7 +12947,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_repos_import_serialize(
-            github_import_in=github_import_in,
+            provider_github_import_in=provider_github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9364,7 +12955,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubImportOut",
+            '202': "ProviderGithubImportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9380,7 +12971,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_repos_import_without_preload_content(
         self,
-        github_import_in: GithubImportIn,
+        provider_github_import_in: ProviderGithubImportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9396,10 +12987,10 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Imports the selected (or all) granted repos into git.hanzo.ai.
 
-        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/provider/github/repos for the per-repo status to flip to imported.
+        Imports the selected (or all) granted repos into git.hanzo.ai. The selection is intersected with the installation's GRANTED set, so a client can never import a repo the App was not granted (org isolation + a grant check). The import runs in a bounded background worker (don't block the request), so the answer is 202 Accepted; poll GET /v1/git/repos for each repository to appear on git.hanzo.ai.
 
-        :param github_import_in: (required)
-        :type github_import_in: GithubImportIn
+        :param provider_github_import_in: (required)
+        :type provider_github_import_in: ProviderGithubImportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9423,7 +13014,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_repos_import_serialize(
-            github_import_in=github_import_in,
+            provider_github_import_in=provider_github_import_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9431,7 +13022,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "GithubImportOut",
+            '202': "ProviderGithubImportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9442,7 +13033,7 @@ class ProviderApi:
 
     def _post_provider_github_repos_import_serialize(
         self,
-        github_import_in,
+        provider_github_import_in,
         _request_auth,
         _content_type,
         _headers,
@@ -9468,15 +13059,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_import_in is not None:
-            _body_params = github_import_in
+        if provider_github_import_in is not None:
+            _body_params = provider_github_import_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9520,7 +13112,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_search(
         self,
-        github_search_req: GithubSearchReq,
+        provider_github_search_req: ProviderGithubSearchReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9533,13 +13125,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubSearchOut:
+    ) -> ProviderGithubSearchOut:
         """Finds repositories on GitHub.
 
         Finds repositories on GitHub.  This reads the PUBLIC index and returns nothing an installation unlocks: it is how you find a repository to fork, not a way to see inside one. The org's own token is used only so the query is rate-limited against the installation rather than anonymously — the results are the same ones anyone would get.
 
-        :param github_search_req: (required)
-        :type github_search_req: GithubSearchReq
+        :param provider_github_search_req: (required)
+        :type provider_github_search_req: ProviderGithubSearchReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9563,7 +13155,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_search_serialize(
-            github_search_req=github_search_req,
+            provider_github_search_req=provider_github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9571,7 +13163,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubSearchOut",
+            '200': "ProviderGithubSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9587,7 +13179,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_search_with_http_info(
         self,
-        github_search_req: GithubSearchReq,
+        provider_github_search_req: ProviderGithubSearchReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9600,13 +13192,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubSearchOut]:
+    ) -> ApiResponse[ProviderGithubSearchOut]:
         """Finds repositories on GitHub.
 
         Finds repositories on GitHub.  This reads the PUBLIC index and returns nothing an installation unlocks: it is how you find a repository to fork, not a way to see inside one. The org's own token is used only so the query is rate-limited against the installation rather than anonymously — the results are the same ones anyone would get.
 
-        :param github_search_req: (required)
-        :type github_search_req: GithubSearchReq
+        :param provider_github_search_req: (required)
+        :type provider_github_search_req: ProviderGithubSearchReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9630,7 +13222,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_search_serialize(
-            github_search_req=github_search_req,
+            provider_github_search_req=provider_github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9638,7 +13230,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubSearchOut",
+            '200': "ProviderGithubSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9654,7 +13246,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_search_without_preload_content(
         self,
-        github_search_req: GithubSearchReq,
+        provider_github_search_req: ProviderGithubSearchReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9672,8 +13264,8 @@ class ProviderApi:
 
         Finds repositories on GitHub.  This reads the PUBLIC index and returns nothing an installation unlocks: it is how you find a repository to fork, not a way to see inside one. The org's own token is used only so the query is rate-limited against the installation rather than anonymously — the results are the same ones anyone would get.
 
-        :param github_search_req: (required)
-        :type github_search_req: GithubSearchReq
+        :param provider_github_search_req: (required)
+        :type provider_github_search_req: ProviderGithubSearchReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9697,7 +13289,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_search_serialize(
-            github_search_req=github_search_req,
+            provider_github_search_req=provider_github_search_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9705,7 +13297,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubSearchOut",
+            '200': "ProviderGithubSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9716,7 +13308,7 @@ class ProviderApi:
 
     def _post_provider_github_search_serialize(
         self,
-        github_search_req,
+        provider_github_search_req,
         _request_auth,
         _content_type,
         _headers,
@@ -9742,15 +13334,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_search_req is not None:
-            _body_params = github_search_req
+        if provider_github_search_req is not None:
+            _body_params = provider_github_search_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9776,6 +13369,775 @@ class ProviderApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/provider/github/search',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_github_user_complete(
+        self,
+        provider_github_user_complete_in: ProviderGithubUserCompleteIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubUserOut:
+        """Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it.
+
+        Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it. Only the person who started the flow can complete it — another person's grant id is simply not found — and a grant completes once.
+
+        :param provider_github_user_complete_in: (required)
+        :type provider_github_user_complete_in: ProviderGithubUserCompleteIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_complete_serialize(
+            provider_github_user_complete_in=provider_github_user_complete_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_github_user_complete_with_http_info(
+        self,
+        provider_github_user_complete_in: ProviderGithubUserCompleteIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubUserOut]:
+        """Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it.
+
+        Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it. Only the person who started the flow can complete it — another person's grant id is simply not found — and a grant completes once.
+
+        :param provider_github_user_complete_in: (required)
+        :type provider_github_user_complete_in: ProviderGithubUserCompleteIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_complete_serialize(
+            provider_github_user_complete_in=provider_github_user_complete_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_github_user_complete_without_preload_content(
+        self,
+        provider_github_user_complete_in: ProviderGithubUserCompleteIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it.
+
+        Finishes connecting the caller's GitHub account: it takes the authorization the callback parked, trades it for the person's token, and seals it. Only the person who started the flow can complete it — another person's grant id is simply not found — and a grant completes once.
+
+        :param provider_github_user_complete_in: (required)
+        :type provider_github_user_complete_in: ProviderGithubUserCompleteIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_complete_serialize(
+            provider_github_user_complete_in=provider_github_user_complete_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_github_user_complete_serialize(
+        self,
+        provider_github_user_complete_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if provider_github_user_complete_in is not None:
+            _body_params = provider_github_user_complete_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/github/user/complete',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_github_user_connect(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubUserConnectOut:
+        """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
+
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_connect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_github_user_connect_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubUserConnectOut]:
+        """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
+
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_connect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_github_user_connect_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person.
+
+        Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_connect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserConnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_github_user_connect_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/github/user/connect',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_provider_github_user_disconnect(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ProviderGithubUserDisconnectOut:
+        """Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go.
+
+        Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go. It says whether GitHub confirmed the revocation rather than reporting a success it did not see. Disconnecting what is not connected succeeds.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_disconnect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_provider_github_user_disconnect_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ProviderGithubUserDisconnectOut]:
+        """Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go.
+
+        Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go. It says whether GitHub confirmed the revocation rather than reporting a success it did not see. Disconnecting what is not connected succeeds.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_disconnect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_provider_github_user_disconnect_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go.
+
+        Forgets the caller's GitHub connection in this org: the token is revoked at GitHub, and the sealed secrets and the row go. It says whether GitHub confirmed the revocation rather than reporting a success it did not see. Disconnecting what is not connected succeeds.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_provider_github_user_disconnect_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ProviderGithubUserDisconnectOut",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_provider_github_user_disconnect_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/provider/github/user/disconnect',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -10030,7 +14392,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_claim(
         self,
-        linear_claim_in: LinearClaimIn,
+        provider_linear_claim_in: ProviderLinearClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10043,13 +14405,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinearClaimOut:
+    ) -> ProviderLinearClaimOut:
         """Binds the caller's Linear organization to the org and seals the webhook secret.
 
         Binds the caller's Linear organization to the org and seals the webhook secret. The organization is READ from the caller's own key, never taken from the body: a person can only bind an organization they are a member of. An organization another org already holds is refused.
 
-        :param linear_claim_in: (required)
-        :type linear_claim_in: LinearClaimIn
+        :param provider_linear_claim_in: (required)
+        :type provider_linear_claim_in: ProviderLinearClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10073,7 +14435,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_claim_serialize(
-            linear_claim_in=linear_claim_in,
+            provider_linear_claim_in=provider_linear_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10081,7 +14443,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearClaimOut",
+            '200': "ProviderLinearClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10097,7 +14459,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_claim_with_http_info(
         self,
-        linear_claim_in: LinearClaimIn,
+        provider_linear_claim_in: ProviderLinearClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10110,13 +14472,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinearClaimOut]:
+    ) -> ApiResponse[ProviderLinearClaimOut]:
         """Binds the caller's Linear organization to the org and seals the webhook secret.
 
         Binds the caller's Linear organization to the org and seals the webhook secret. The organization is READ from the caller's own key, never taken from the body: a person can only bind an organization they are a member of. An organization another org already holds is refused.
 
-        :param linear_claim_in: (required)
-        :type linear_claim_in: LinearClaimIn
+        :param provider_linear_claim_in: (required)
+        :type provider_linear_claim_in: ProviderLinearClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10140,7 +14502,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_claim_serialize(
-            linear_claim_in=linear_claim_in,
+            provider_linear_claim_in=provider_linear_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10148,7 +14510,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearClaimOut",
+            '200': "ProviderLinearClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10164,7 +14526,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_claim_without_preload_content(
         self,
-        linear_claim_in: LinearClaimIn,
+        provider_linear_claim_in: ProviderLinearClaimIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10182,8 +14544,8 @@ class ProviderApi:
 
         Binds the caller's Linear organization to the org and seals the webhook secret. The organization is READ from the caller's own key, never taken from the body: a person can only bind an organization they are a member of. An organization another org already holds is refused.
 
-        :param linear_claim_in: (required)
-        :type linear_claim_in: LinearClaimIn
+        :param provider_linear_claim_in: (required)
+        :type provider_linear_claim_in: ProviderLinearClaimIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10207,7 +14569,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_claim_serialize(
-            linear_claim_in=linear_claim_in,
+            provider_linear_claim_in=provider_linear_claim_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10215,7 +14577,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearClaimOut",
+            '200': "ProviderLinearClaimOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10226,7 +14588,7 @@ class ProviderApi:
 
     def _post_provider_linear_claim_serialize(
         self,
-        linear_claim_in,
+        provider_linear_claim_in,
         _request_auth,
         _content_type,
         _headers,
@@ -10252,15 +14614,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if linear_claim_in is not None:
-            _body_params = linear_claim_in
+        if provider_linear_claim_in is not None:
+            _body_params = provider_linear_claim_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10304,7 +14667,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_comments(
         self,
-        linear_comment_in: LinearCommentIn,
+        provider_linear_comment_in: ProviderLinearCommentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10317,13 +14680,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinearCommentOut:
+    ) -> ProviderLinearCommentOut:
         """Posts a comment on a Linear issue with the caller's own key, so it carries their name.
 
         Posts a comment on a Linear issue with the caller's own key, so it carries their name. This is the op an agent is offered when it should answer in Linear rather than in chat.
 
-        :param linear_comment_in: (required)
-        :type linear_comment_in: LinearCommentIn
+        :param provider_linear_comment_in: (required)
+        :type provider_linear_comment_in: ProviderLinearCommentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10347,7 +14710,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_comments_serialize(
-            linear_comment_in=linear_comment_in,
+            provider_linear_comment_in=provider_linear_comment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10355,7 +14718,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinearCommentOut",
+            '201': "ProviderLinearCommentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10371,7 +14734,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_comments_with_http_info(
         self,
-        linear_comment_in: LinearCommentIn,
+        provider_linear_comment_in: ProviderLinearCommentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10384,13 +14747,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinearCommentOut]:
+    ) -> ApiResponse[ProviderLinearCommentOut]:
         """Posts a comment on a Linear issue with the caller's own key, so it carries their name.
 
         Posts a comment on a Linear issue with the caller's own key, so it carries their name. This is the op an agent is offered when it should answer in Linear rather than in chat.
 
-        :param linear_comment_in: (required)
-        :type linear_comment_in: LinearCommentIn
+        :param provider_linear_comment_in: (required)
+        :type provider_linear_comment_in: ProviderLinearCommentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10414,7 +14777,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_comments_serialize(
-            linear_comment_in=linear_comment_in,
+            provider_linear_comment_in=provider_linear_comment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10422,7 +14785,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinearCommentOut",
+            '201': "ProviderLinearCommentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10438,7 +14801,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_comments_without_preload_content(
         self,
-        linear_comment_in: LinearCommentIn,
+        provider_linear_comment_in: ProviderLinearCommentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10456,8 +14819,8 @@ class ProviderApi:
 
         Posts a comment on a Linear issue with the caller's own key, so it carries their name. This is the op an agent is offered when it should answer in Linear rather than in chat.
 
-        :param linear_comment_in: (required)
-        :type linear_comment_in: LinearCommentIn
+        :param provider_linear_comment_in: (required)
+        :type provider_linear_comment_in: ProviderLinearCommentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10481,7 +14844,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_comments_serialize(
-            linear_comment_in=linear_comment_in,
+            provider_linear_comment_in=provider_linear_comment_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10489,7 +14852,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinearCommentOut",
+            '201': "ProviderLinearCommentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10500,7 +14863,7 @@ class ProviderApi:
 
     def _post_provider_linear_comments_serialize(
         self,
-        linear_comment_in,
+        provider_linear_comment_in,
         _request_auth,
         _content_type,
         _headers,
@@ -10526,15 +14889,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if linear_comment_in is not None:
-            _body_params = linear_comment_in
+        if provider_linear_comment_in is not None:
+            _body_params = provider_linear_comment_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10578,7 +14942,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_issues_backfill(
         self,
-        linear_backfill_in: LinearBackfillIn,
+        provider_linear_backfill_in: ProviderLinearBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10591,13 +14955,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinearBackfillResult:
+    ) -> ProviderLinearBackfillResult:
         """Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter.
 
         Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter. Synchronous and bounded, idempotent by ExtRef.
 
-        :param linear_backfill_in: (required)
-        :type linear_backfill_in: LinearBackfillIn
+        :param provider_linear_backfill_in: (required)
+        :type provider_linear_backfill_in: ProviderLinearBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10621,7 +14985,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_issues_backfill_serialize(
-            linear_backfill_in=linear_backfill_in,
+            provider_linear_backfill_in=provider_linear_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10629,7 +14993,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearBackfillResult",
+            '200': "ProviderLinearBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10645,7 +15009,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_issues_backfill_with_http_info(
         self,
-        linear_backfill_in: LinearBackfillIn,
+        provider_linear_backfill_in: ProviderLinearBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10658,13 +15022,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinearBackfillResult]:
+    ) -> ApiResponse[ProviderLinearBackfillResult]:
         """Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter.
 
         Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter. Synchronous and bounded, idempotent by ExtRef.
 
-        :param linear_backfill_in: (required)
-        :type linear_backfill_in: LinearBackfillIn
+        :param provider_linear_backfill_in: (required)
+        :type provider_linear_backfill_in: ProviderLinearBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10688,7 +15052,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_issues_backfill_serialize(
-            linear_backfill_in=linear_backfill_in,
+            provider_linear_backfill_in=provider_linear_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10696,7 +15060,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearBackfillResult",
+            '200': "ProviderLinearBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10712,7 +15076,7 @@ class ProviderApi:
     @validate_call
     def post_provider_linear_issues_backfill_without_preload_content(
         self,
-        linear_backfill_in: LinearBackfillIn,
+        provider_linear_backfill_in: ProviderLinearBackfillIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10730,8 +15094,8 @@ class ProviderApi:
 
         Seeds the native todo with the EXISTING Linear issues the caller's key can see (default state=open); the webhook keeps them live thereafter. Synchronous and bounded, idempotent by ExtRef.
 
-        :param linear_backfill_in: (required)
-        :type linear_backfill_in: LinearBackfillIn
+        :param provider_linear_backfill_in: (required)
+        :type provider_linear_backfill_in: ProviderLinearBackfillIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10755,7 +15119,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_linear_issues_backfill_serialize(
-            linear_backfill_in=linear_backfill_in,
+            provider_linear_backfill_in=provider_linear_backfill_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10763,7 +15127,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinearBackfillResult",
+            '200': "ProviderLinearBackfillResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10774,7 +15138,7 @@ class ProviderApi:
 
     def _post_provider_linear_issues_backfill_serialize(
         self,
-        linear_backfill_in,
+        provider_linear_backfill_in,
         _request_auth,
         _content_type,
         _headers,
@@ -10800,15 +15164,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if linear_backfill_in is not None:
-            _body_params = linear_backfill_in
+        if provider_linear_backfill_in is not None:
+            _body_params = provider_linear_backfill_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11846,7 +16211,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackJoinOut:
+    ) -> ProviderSlackJoinOut:
         """Joins every public channel in the caller org's workspace.
 
         Joins every public channel in the caller org's workspace.  Org admin, because it changes what the whole workspace sees: after it the agent is a member of every public room and answers in all of them.
@@ -11881,7 +16246,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackJoinOut",
+            '200': "ProviderSlackJoinOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11909,7 +16274,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackJoinOut]:
+    ) -> ApiResponse[ProviderSlackJoinOut]:
         """Joins every public channel in the caller org's workspace.
 
         Joins every public channel in the caller org's workspace.  Org admin, because it changes what the whole workspace sees: after it the agent is a member of every public room and answers in all of them.
@@ -11944,7 +16309,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackJoinOut",
+            '200': "ProviderSlackJoinOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12007,7 +16372,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackJoinOut",
+            '200': "ProviderSlackJoinOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12049,7 +16414,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12080,7 +16446,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_messages(
         self,
-        slack_send_message_in: SlackSendMessageIn,
+        provider_slack_send_message_in: ProviderSlackSendMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12093,13 +16459,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackSendMessageOut:
+    ) -> ProviderSlackSendMessageOut:
         """Posts as Hanzo to the caller's connected Slack workspace.
 
         Posts as Hanzo to the caller's connected Slack workspace. Use channel from a message read and thread_ts to reply to a specific message. Requires chat:write; this operation does not join channels automatically.
 
-        :param slack_send_message_in: (required)
-        :type slack_send_message_in: SlackSendMessageIn
+        :param provider_slack_send_message_in: (required)
+        :type provider_slack_send_message_in: ProviderSlackSendMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12123,7 +16489,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_messages_serialize(
-            slack_send_message_in=slack_send_message_in,
+            provider_slack_send_message_in=provider_slack_send_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12131,7 +16497,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSendMessageOut",
+            '200': "ProviderSlackSendMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12147,7 +16513,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_messages_with_http_info(
         self,
-        slack_send_message_in: SlackSendMessageIn,
+        provider_slack_send_message_in: ProviderSlackSendMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12160,13 +16526,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackSendMessageOut]:
+    ) -> ApiResponse[ProviderSlackSendMessageOut]:
         """Posts as Hanzo to the caller's connected Slack workspace.
 
         Posts as Hanzo to the caller's connected Slack workspace. Use channel from a message read and thread_ts to reply to a specific message. Requires chat:write; this operation does not join channels automatically.
 
-        :param slack_send_message_in: (required)
-        :type slack_send_message_in: SlackSendMessageIn
+        :param provider_slack_send_message_in: (required)
+        :type provider_slack_send_message_in: ProviderSlackSendMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12190,7 +16556,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_messages_serialize(
-            slack_send_message_in=slack_send_message_in,
+            provider_slack_send_message_in=provider_slack_send_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12198,7 +16564,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSendMessageOut",
+            '200': "ProviderSlackSendMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12214,7 +16580,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_messages_without_preload_content(
         self,
-        slack_send_message_in: SlackSendMessageIn,
+        provider_slack_send_message_in: ProviderSlackSendMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12232,8 +16598,8 @@ class ProviderApi:
 
         Posts as Hanzo to the caller's connected Slack workspace. Use channel from a message read and thread_ts to reply to a specific message. Requires chat:write; this operation does not join channels automatically.
 
-        :param slack_send_message_in: (required)
-        :type slack_send_message_in: SlackSendMessageIn
+        :param provider_slack_send_message_in: (required)
+        :type provider_slack_send_message_in: ProviderSlackSendMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12257,7 +16623,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_messages_serialize(
-            slack_send_message_in=slack_send_message_in,
+            provider_slack_send_message_in=provider_slack_send_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12265,7 +16631,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSendMessageOut",
+            '200': "ProviderSlackSendMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12276,7 +16642,7 @@ class ProviderApi:
 
     def _post_provider_slack_messages_serialize(
         self,
-        slack_send_message_in,
+        provider_slack_send_message_in,
         _request_auth,
         _content_type,
         _headers,
@@ -12302,15 +16668,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if slack_send_message_in is not None:
-            _body_params = slack_send_message_in
+        if provider_slack_send_message_in is not None:
+            _body_params = provider_slack_send_message_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12354,7 +16721,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_reactions(
         self,
-        slack_react_in: SlackReactIn,
+        provider_slack_react_in: ProviderSlackReactIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12367,13 +16734,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackReactOut:
+    ) -> ProviderSlackReactOut:
         """Adds an emoji reaction: POST /v1/provider/slack/reactions.
 
         Adds an emoji reaction: POST /v1/provider/slack/reactions.
 
-        :param slack_react_in: (required)
-        :type slack_react_in: SlackReactIn
+        :param provider_slack_react_in: (required)
+        :type provider_slack_react_in: ProviderSlackReactIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12397,7 +16764,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_reactions_serialize(
-            slack_react_in=slack_react_in,
+            provider_slack_react_in=provider_slack_react_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12405,7 +16772,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackReactOut",
+            '200': "ProviderSlackReactOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12421,7 +16788,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_reactions_with_http_info(
         self,
-        slack_react_in: SlackReactIn,
+        provider_slack_react_in: ProviderSlackReactIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12434,13 +16801,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackReactOut]:
+    ) -> ApiResponse[ProviderSlackReactOut]:
         """Adds an emoji reaction: POST /v1/provider/slack/reactions.
 
         Adds an emoji reaction: POST /v1/provider/slack/reactions.
 
-        :param slack_react_in: (required)
-        :type slack_react_in: SlackReactIn
+        :param provider_slack_react_in: (required)
+        :type provider_slack_react_in: ProviderSlackReactIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12464,7 +16831,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_reactions_serialize(
-            slack_react_in=slack_react_in,
+            provider_slack_react_in=provider_slack_react_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12472,7 +16839,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackReactOut",
+            '200': "ProviderSlackReactOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12488,7 +16855,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_reactions_without_preload_content(
         self,
-        slack_react_in: SlackReactIn,
+        provider_slack_react_in: ProviderSlackReactIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12506,8 +16873,8 @@ class ProviderApi:
 
         Adds an emoji reaction: POST /v1/provider/slack/reactions.
 
-        :param slack_react_in: (required)
-        :type slack_react_in: SlackReactIn
+        :param provider_slack_react_in: (required)
+        :type provider_slack_react_in: ProviderSlackReactIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12531,7 +16898,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_reactions_serialize(
-            slack_react_in=slack_react_in,
+            provider_slack_react_in=provider_slack_react_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12539,7 +16906,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackReactOut",
+            '200': "ProviderSlackReactOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12550,7 +16917,7 @@ class ProviderApi:
 
     def _post_provider_slack_reactions_serialize(
         self,
-        slack_react_in,
+        provider_slack_react_in,
         _request_auth,
         _content_type,
         _headers,
@@ -12576,15 +16943,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if slack_react_in is not None:
-            _body_params = slack_react_in
+        if provider_slack_react_in is not None:
+            _body_params = provider_slack_react_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12628,7 +16996,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_search(
         self,
-        slack_search_in: SlackSearchIn,
+        provider_slack_search_in: ProviderSlackSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12641,13 +17009,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackSearchOut:
+    ) -> ProviderSlackSearchOut:
         """Answers a workspace question: POST /v1/provider/slack/search.
 
         Answers a workspace question: POST /v1/provider/slack/search.  Slack's search.messages wants a USER token for a person's own view of a workspace; a bot token searches what the app can see. Whichever the install granted, the token custodied for this org is the one sent.
 
-        :param slack_search_in: (required)
-        :type slack_search_in: SlackSearchIn
+        :param provider_slack_search_in: (required)
+        :type provider_slack_search_in: ProviderSlackSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12671,7 +17039,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_search_serialize(
-            slack_search_in=slack_search_in,
+            provider_slack_search_in=provider_slack_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12679,7 +17047,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSearchOut",
+            '200': "ProviderSlackSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12695,7 +17063,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_search_with_http_info(
         self,
-        slack_search_in: SlackSearchIn,
+        provider_slack_search_in: ProviderSlackSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12708,13 +17076,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackSearchOut]:
+    ) -> ApiResponse[ProviderSlackSearchOut]:
         """Answers a workspace question: POST /v1/provider/slack/search.
 
         Answers a workspace question: POST /v1/provider/slack/search.  Slack's search.messages wants a USER token for a person's own view of a workspace; a bot token searches what the app can see. Whichever the install granted, the token custodied for this org is the one sent.
 
-        :param slack_search_in: (required)
-        :type slack_search_in: SlackSearchIn
+        :param provider_slack_search_in: (required)
+        :type provider_slack_search_in: ProviderSlackSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12738,7 +17106,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_search_serialize(
-            slack_search_in=slack_search_in,
+            provider_slack_search_in=provider_slack_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12746,7 +17114,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSearchOut",
+            '200': "ProviderSlackSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12762,7 +17130,7 @@ class ProviderApi:
     @validate_call
     def post_provider_slack_search_without_preload_content(
         self,
-        slack_search_in: SlackSearchIn,
+        provider_slack_search_in: ProviderSlackSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12780,8 +17148,8 @@ class ProviderApi:
 
         Answers a workspace question: POST /v1/provider/slack/search.  Slack's search.messages wants a USER token for a person's own view of a workspace; a bot token searches what the app can see. Whichever the install granted, the token custodied for this org is the one sent.
 
-        :param slack_search_in: (required)
-        :type slack_search_in: SlackSearchIn
+        :param provider_slack_search_in: (required)
+        :type provider_slack_search_in: ProviderSlackSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12805,7 +17173,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_slack_search_serialize(
-            slack_search_in=slack_search_in,
+            provider_slack_search_in=provider_slack_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12813,7 +17181,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackSearchOut",
+            '200': "ProviderSlackSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12824,7 +17192,7 @@ class ProviderApi:
 
     def _post_provider_slack_search_serialize(
         self,
-        slack_search_in,
+        provider_slack_search_in,
         _request_auth,
         _content_type,
         _headers,
@@ -12850,15 +17218,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if slack_search_in is not None:
-            _body_params = slack_search_in
+        if provider_slack_search_in is not None:
+            _body_params = provider_slack_search_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13150,7 +17519,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AuthorizeOut:
+    ) -> ProviderAuthorizeOut:
         """Mints a short, single-use deep-link code bound to the caller's org and returns the t.me link the console navigates to.
 
         Mints a short, single-use deep-link code bound to the caller's org and returns the t.me link the console navigates to. Org-authed: a caller with no validated principal is 403 (same gate as the framework connect). The code is stored as an oauth_nonce (org,telegram); the webhook's /start handler claims it to bind chat→org. It is short (128-bit hex) so it fits Telegram's 64-char `start` payload limit.
@@ -13185,7 +17554,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthorizeOut",
+            '200': "ProviderAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13213,7 +17582,7 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AuthorizeOut]:
+    ) -> ApiResponse[ProviderAuthorizeOut]:
         """Mints a short, single-use deep-link code bound to the caller's org and returns the t.me link the console navigates to.
 
         Mints a short, single-use deep-link code bound to the caller's org and returns the t.me link the console navigates to. Org-authed: a caller with no validated principal is 403 (same gate as the framework connect). The code is stored as an oauth_nonce (org,telegram); the webhook's /start handler claims it to bind chat→org. It is short (128-bit hex) so it fits Telegram's 64-char `start` payload limit.
@@ -13248,7 +17617,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthorizeOut",
+            '200': "ProviderAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13311,7 +17680,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AuthorizeOut",
+            '200': "ProviderAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13353,7 +17722,8 @@ class ProviderApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13857,7 +18227,7 @@ class ProviderApi:
     def put_provider_github_repos_by_repo_pages(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_update_req: GithubPagesUpdateReq,
+        provider_github_pages_update_req: ProviderGithubPagesUpdateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13870,15 +18240,15 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GithubPagesUpdatedOut:
+    ) -> ProviderGithubPagesUpdatedOut:
         """Sets or clears the custom domain (cname) and updates HTTPS enforcement, build type, or source.
 
         Sets or clears the custom domain (cname) and updates HTTPS enforcement, build type, or source. ONLY the provided fields are sent to GitHub, so an update never resets a setting the caller did not mention.
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_update_req: (required)
-        :type github_pages_update_req: GithubPagesUpdateReq
+        :param provider_github_pages_update_req: (required)
+        :type provider_github_pages_update_req: ProviderGithubPagesUpdateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13903,7 +18273,7 @@ class ProviderApi:
 
         _param = self._put_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_update_req=github_pages_update_req,
+            provider_github_pages_update_req=provider_github_pages_update_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13911,7 +18281,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesUpdatedOut",
+            '200': "ProviderGithubPagesUpdatedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13928,7 +18298,7 @@ class ProviderApi:
     def put_provider_github_repos_by_repo_pages_with_http_info(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_update_req: GithubPagesUpdateReq,
+        provider_github_pages_update_req: ProviderGithubPagesUpdateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13941,15 +18311,15 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GithubPagesUpdatedOut]:
+    ) -> ApiResponse[ProviderGithubPagesUpdatedOut]:
         """Sets or clears the custom domain (cname) and updates HTTPS enforcement, build type, or source.
 
         Sets or clears the custom domain (cname) and updates HTTPS enforcement, build type, or source. ONLY the provided fields are sent to GitHub, so an update never resets a setting the caller did not mention.
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_update_req: (required)
-        :type github_pages_update_req: GithubPagesUpdateReq
+        :param provider_github_pages_update_req: (required)
+        :type provider_github_pages_update_req: ProviderGithubPagesUpdateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13974,7 +18344,7 @@ class ProviderApi:
 
         _param = self._put_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_update_req=github_pages_update_req,
+            provider_github_pages_update_req=provider_github_pages_update_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13982,7 +18352,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesUpdatedOut",
+            '200': "ProviderGithubPagesUpdatedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13999,7 +18369,7 @@ class ProviderApi:
     def put_provider_github_repos_by_repo_pages_without_preload_content(
         self,
         repo: Annotated[StrictStr, Field(description="Repo is the repository, from the :repo path segment.")],
-        github_pages_update_req: GithubPagesUpdateReq,
+        provider_github_pages_update_req: ProviderGithubPagesUpdateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14019,8 +18389,8 @@ class ProviderApi:
 
         :param repo: Repo is the repository, from the :repo path segment. (required)
         :type repo: str
-        :param github_pages_update_req: (required)
-        :type github_pages_update_req: GithubPagesUpdateReq
+        :param provider_github_pages_update_req: (required)
+        :type provider_github_pages_update_req: ProviderGithubPagesUpdateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14045,7 +18415,7 @@ class ProviderApi:
 
         _param = self._put_provider_github_repos_by_repo_pages_serialize(
             repo=repo,
-            github_pages_update_req=github_pages_update_req,
+            provider_github_pages_update_req=provider_github_pages_update_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14053,7 +18423,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GithubPagesUpdatedOut",
+            '200': "ProviderGithubPagesUpdatedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14065,7 +18435,7 @@ class ProviderApi:
     def _put_provider_github_repos_by_repo_pages_serialize(
         self,
         repo,
-        github_pages_update_req,
+        provider_github_pages_update_req,
         _request_auth,
         _content_type,
         _headers,
@@ -14093,15 +18463,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if github_pages_update_req is not None:
-            _body_params = github_pages_update_req
+        if provider_github_pages_update_req is not None:
+            _body_params = provider_github_pages_update_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14145,7 +18516,7 @@ class ProviderApi:
     @validate_call
     def put_provider_slack_messages(
         self,
-        slack_update_message_in: SlackUpdateMessageIn,
+        provider_slack_update_message_in: ProviderSlackUpdateMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14158,13 +18529,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlackUpdateMessageOut:
+    ) -> ProviderSlackUpdateMessageOut:
         """Rewrites one of this app's messages: PUT /v1/provider/slack/messages.
 
         Rewrites one of this app's messages: PUT /v1/provider/slack/messages. Slack refuses a message the token did not post, and that refusal is reported as it arrives.
 
-        :param slack_update_message_in: (required)
-        :type slack_update_message_in: SlackUpdateMessageIn
+        :param provider_slack_update_message_in: (required)
+        :type provider_slack_update_message_in: ProviderSlackUpdateMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14188,7 +18559,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._put_provider_slack_messages_serialize(
-            slack_update_message_in=slack_update_message_in,
+            provider_slack_update_message_in=provider_slack_update_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14196,7 +18567,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackUpdateMessageOut",
+            '200': "ProviderSlackUpdateMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14212,7 +18583,7 @@ class ProviderApi:
     @validate_call
     def put_provider_slack_messages_with_http_info(
         self,
-        slack_update_message_in: SlackUpdateMessageIn,
+        provider_slack_update_message_in: ProviderSlackUpdateMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14225,13 +18596,13 @@ class ProviderApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlackUpdateMessageOut]:
+    ) -> ApiResponse[ProviderSlackUpdateMessageOut]:
         """Rewrites one of this app's messages: PUT /v1/provider/slack/messages.
 
         Rewrites one of this app's messages: PUT /v1/provider/slack/messages. Slack refuses a message the token did not post, and that refusal is reported as it arrives.
 
-        :param slack_update_message_in: (required)
-        :type slack_update_message_in: SlackUpdateMessageIn
+        :param provider_slack_update_message_in: (required)
+        :type provider_slack_update_message_in: ProviderSlackUpdateMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14255,7 +18626,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._put_provider_slack_messages_serialize(
-            slack_update_message_in=slack_update_message_in,
+            provider_slack_update_message_in=provider_slack_update_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14263,7 +18634,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackUpdateMessageOut",
+            '200': "ProviderSlackUpdateMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14279,7 +18650,7 @@ class ProviderApi:
     @validate_call
     def put_provider_slack_messages_without_preload_content(
         self,
-        slack_update_message_in: SlackUpdateMessageIn,
+        provider_slack_update_message_in: ProviderSlackUpdateMessageIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -14297,8 +18668,8 @@ class ProviderApi:
 
         Rewrites one of this app's messages: PUT /v1/provider/slack/messages. Slack refuses a message the token did not post, and that refusal is reported as it arrives.
 
-        :param slack_update_message_in: (required)
-        :type slack_update_message_in: SlackUpdateMessageIn
+        :param provider_slack_update_message_in: (required)
+        :type provider_slack_update_message_in: ProviderSlackUpdateMessageIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -14322,7 +18693,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._put_provider_slack_messages_serialize(
-            slack_update_message_in=slack_update_message_in,
+            provider_slack_update_message_in=provider_slack_update_message_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -14330,7 +18701,7 @@ class ProviderApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlackUpdateMessageOut",
+            '200': "ProviderSlackUpdateMessageOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14341,7 +18712,7 @@ class ProviderApi:
 
     def _put_provider_slack_messages_serialize(
         self,
-        slack_update_message_in,
+        provider_slack_update_message_in,
         _request_auth,
         _content_type,
         _headers,
@@ -14367,15 +18738,16 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if slack_update_message_in is not None:
-            _body_params = slack_update_message_in
+        if provider_slack_update_message_in is not None:
+            _body_params = provider_slack_update_message_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

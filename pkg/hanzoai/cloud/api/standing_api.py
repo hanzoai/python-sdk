@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.upkeep import Upkeep
-from hanzoai.cloud.models.upkeep_in import UpkeepIn
+from hanzoai.cloud.models.standing_upkeep import StandingUpkeep
+from hanzoai.cloud.models.standing_upkeep_in import StandingUpkeepIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -40,7 +40,7 @@ class StandingApi:
     @validate_call
     def post_standing_upkeep(
         self,
-        upkeep_in: UpkeepIn,
+        standing_upkeep_in: StandingUpkeepIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53,13 +53,13 @@ class StandingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Upkeep:
+    ) -> StandingUpkeep:
         """Reports what keeping this entity costs every year, itemised.
 
         Reports what keeping this entity costs every year, itemised.  This is the figure that decides where to incorporate, and the one a formation price cannot show: Delaware is cheaper to form than Wyoming for a corporation and dearer to keep, so a founder shown only the formation fee is shown the half that reverses. Each state line carries the authority that publishes it and the date it was checked, and a franchise tax that scales is marked a minimum rather than quoted as final.
 
-        :param upkeep_in: (required)
-        :type upkeep_in: UpkeepIn
+        :param standing_upkeep_in: (required)
+        :type standing_upkeep_in: StandingUpkeepIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -83,7 +83,7 @@ class StandingApi:
         """ # noqa: E501
 
         _param = self._post_standing_upkeep_serialize(
-            upkeep_in=upkeep_in,
+            standing_upkeep_in=standing_upkeep_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -91,7 +91,7 @@ class StandingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upkeep",
+            '200': "StandingUpkeep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107,7 +107,7 @@ class StandingApi:
     @validate_call
     def post_standing_upkeep_with_http_info(
         self,
-        upkeep_in: UpkeepIn,
+        standing_upkeep_in: StandingUpkeepIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -120,13 +120,13 @@ class StandingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Upkeep]:
+    ) -> ApiResponse[StandingUpkeep]:
         """Reports what keeping this entity costs every year, itemised.
 
         Reports what keeping this entity costs every year, itemised.  This is the figure that decides where to incorporate, and the one a formation price cannot show: Delaware is cheaper to form than Wyoming for a corporation and dearer to keep, so a founder shown only the formation fee is shown the half that reverses. Each state line carries the authority that publishes it and the date it was checked, and a franchise tax that scales is marked a minimum rather than quoted as final.
 
-        :param upkeep_in: (required)
-        :type upkeep_in: UpkeepIn
+        :param standing_upkeep_in: (required)
+        :type standing_upkeep_in: StandingUpkeepIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -150,7 +150,7 @@ class StandingApi:
         """ # noqa: E501
 
         _param = self._post_standing_upkeep_serialize(
-            upkeep_in=upkeep_in,
+            standing_upkeep_in=standing_upkeep_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -158,7 +158,7 @@ class StandingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upkeep",
+            '200': "StandingUpkeep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -174,7 +174,7 @@ class StandingApi:
     @validate_call
     def post_standing_upkeep_without_preload_content(
         self,
-        upkeep_in: UpkeepIn,
+        standing_upkeep_in: StandingUpkeepIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -192,8 +192,8 @@ class StandingApi:
 
         Reports what keeping this entity costs every year, itemised.  This is the figure that decides where to incorporate, and the one a formation price cannot show: Delaware is cheaper to form than Wyoming for a corporation and dearer to keep, so a founder shown only the formation fee is shown the half that reverses. Each state line carries the authority that publishes it and the date it was checked, and a franchise tax that scales is marked a minimum rather than quoted as final.
 
-        :param upkeep_in: (required)
-        :type upkeep_in: UpkeepIn
+        :param standing_upkeep_in: (required)
+        :type standing_upkeep_in: StandingUpkeepIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -217,7 +217,7 @@ class StandingApi:
         """ # noqa: E501
 
         _param = self._post_standing_upkeep_serialize(
-            upkeep_in=upkeep_in,
+            standing_upkeep_in=standing_upkeep_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -225,7 +225,7 @@ class StandingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upkeep",
+            '200': "StandingUpkeep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -236,7 +236,7 @@ class StandingApi:
 
     def _post_standing_upkeep_serialize(
         self,
-        upkeep_in,
+        standing_upkeep_in,
         _request_auth,
         _content_type,
         _headers,
@@ -262,15 +262,16 @@ class StandingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if upkeep_in is not None:
-            _body_params = upkeep_in
+        if standing_upkeep_in is not None:
+            _body_params = standing_upkeep_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

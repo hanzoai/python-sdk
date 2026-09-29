@@ -19,14 +19,14 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.drive_in import DriveIn
-from hanzoai.cloud.models.drive_item import DriveItem
-from hanzoai.cloud.models.drive_list import DriveList
-from hanzoai.cloud.models.file_list import FileList
-from hanzoai.cloud.models.space_health import SpaceHealth
-from hanzoai.cloud.models.space_in import SpaceIn
-from hanzoai.cloud.models.space_item import SpaceItem
-from hanzoai.cloud.models.space_list import SpaceList
+from hanzoai.cloud.models.space_drive_in import SpaceDriveIn
+from hanzoai.cloud.models.space_drive_item import SpaceDriveItem
+from hanzoai.cloud.models.space_drive_list import SpaceDriveList
+from hanzoai.cloud.models.space_file_list import SpaceFileList
+from hanzoai.cloud.models.space_space_health import SpaceSpaceHealth
+from hanzoai.cloud.models.space_space_in import SpaceSpaceIn
+from hanzoai.cloud.models.space_space_item import SpaceSpaceItem
+from hanzoai.cloud.models.space_space_list import SpaceSpaceList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -290,6 +290,13 @@ class SpaceApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -331,7 +338,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DriveList:
+    ) -> SpaceDriveList:
         """Lists a space's drives.
 
         Lists a space's drives.  Listing the drives IS listing the space's root folder, because a drive is the first segment of a key and nothing else — so the two can never disagree the way a drives table and the keys under it would. A space the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -369,7 +376,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveList",
+            '200': "SpaceDriveList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -398,7 +405,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DriveList]:
+    ) -> ApiResponse[SpaceDriveList]:
         """Lists a space's drives.
 
         Lists a space's drives.  Listing the drives IS listing the space's root folder, because a drive is the first segment of a key and nothing else — so the two can never disagree the way a drives table and the keys under it would. A space the caller's org does not own is the same 404 an unknown name gives.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -436,7 +443,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveList",
+            '200': "SpaceDriveList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -503,7 +510,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriveList",
+            '200': "SpaceDriveList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -548,7 +555,8 @@ class SpaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -595,7 +603,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FileList:
+    ) -> SpaceFileList:
         """Lists one folder level of a drive.
 
         Lists one folder level of a drive.  Folder-style by default: sub-folders come back as folder entries, which is the file-manager view. `?recursive=true` lists every file flat under the folder instead. Names are RELATIVE to `?folder=`, and the listing is bounded so a huge drive cannot exhaust memory — Total is what came back, not what the drive holds.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -642,7 +650,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileList",
+            '200': "SpaceFileList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -674,7 +682,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FileList]:
+    ) -> ApiResponse[SpaceFileList]:
         """Lists one folder level of a drive.
 
         Lists one folder level of a drive.  Folder-style by default: sub-folders come back as folder entries, which is the file-manager view. `?recursive=true` lists every file flat under the folder instead. Names are RELATIVE to `?folder=`, and the listing is bounded so a huge drive cannot exhaust memory — Total is what came back, not what the drive holds.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -721,7 +729,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileList",
+            '200': "SpaceFileList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -800,7 +808,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileList",
+            '200': "SpaceFileList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -858,7 +866,8 @@ class SpaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -901,10 +910,10 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SpaceHealth:
-        """Health reports whether this deployment can serve spaces, drives and files.
+    ) -> SpaceSpaceHealth:
+        """Reports whether this deployment can serve spaces, drives and files.
 
-        Health reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
+        Reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -936,8 +945,8 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceHealth",
-            '503': "SpaceHealth",
+            '200': "SpaceSpaceHealth",
+            '503': "SpaceSpaceHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -965,10 +974,10 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SpaceHealth]:
-        """Health reports whether this deployment can serve spaces, drives and files.
+    ) -> ApiResponse[SpaceSpaceHealth]:
+        """Reports whether this deployment can serve spaces, drives and files.
 
-        Health reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
+        Reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1000,8 +1009,8 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceHealth",
-            '503': "SpaceHealth",
+            '200': "SpaceSpaceHealth",
+            '503': "SpaceSpaceHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1030,9 +1039,9 @@ class SpaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports whether this deployment can serve spaces, drives and files.
+        """Reports whether this deployment can serve spaces, drives and files.
 
-        Health reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
+        Reports whether this deployment can serve spaces, drives and files.  It is a REAL probe rather than a constant: 200 when object-store credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no space and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1064,8 +1073,8 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceHealth",
-            '503': "SpaceHealth",
+            '200': "SpaceSpaceHealth",
+            '503': "SpaceSpaceHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1107,7 +1116,8 @@ class SpaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1150,7 +1160,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SpaceList:
+    ) -> SpaceSpaceList:
         """Lists the caller org's own spaces.
 
         Lists the caller org's own spaces.  Only the caller's: every space is physically named under a per-org prefix and the listing strips that prefix, so another org's spaces are not in the answer at all. Another org's space is not refused but INVISIBLE, so this cannot be used to learn that a name is taken elsewhere.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing done, and the debit lands only once the work has succeeded.
@@ -1185,7 +1195,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceList",
+            '200': "SpaceSpaceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1213,7 +1223,7 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SpaceList]:
+    ) -> ApiResponse[SpaceSpaceList]:
         """Lists the caller org's own spaces.
 
         Lists the caller org's own spaces.  Only the caller's: every space is physically named under a per-org prefix and the listing strips that prefix, so another org's spaces are not in the answer at all. Another org's space is not refused but INVISIBLE, so this cannot be used to learn that a name is taken elsewhere.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing done, and the debit lands only once the work has succeeded.
@@ -1248,7 +1258,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceList",
+            '200': "SpaceSpaceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1311,7 +1321,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SpaceList",
+            '200': "SpaceSpaceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1353,7 +1363,8 @@ class SpaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1385,7 +1396,7 @@ class SpaceApi:
     def post_space_by_space_drives(
         self,
         space: Annotated[StrictStr, Field(description="Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address.")],
-        drive_in: DriveIn,
+        space_drive_in: SpaceDriveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1398,15 +1409,15 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DriveItem:
+    ) -> SpaceDriveItem:
         """Makes a new drive in a space and answers 201 with it.
 
         Makes a new drive in a space and answers 201 with it.  A drive is a PREFIX and not a bucket, so making one writes a zero-byte marker at \"<name>/\" — which is what makes an empty drive visible to a listing that has no other key to find. A name already taken in the space is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the drive exists.
 
         :param space: Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address. (required)
         :type space: str
-        :param drive_in: (required)
-        :type drive_in: DriveIn
+        :param space_drive_in: (required)
+        :type space_drive_in: SpaceDriveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1431,7 +1442,7 @@ class SpaceApi:
 
         _param = self._post_space_by_space_drives_serialize(
             space=space,
-            drive_in=drive_in,
+            space_drive_in=space_drive_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1439,7 +1450,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DriveItem",
+            '201': "SpaceDriveItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1456,7 +1467,7 @@ class SpaceApi:
     def post_space_by_space_drives_with_http_info(
         self,
         space: Annotated[StrictStr, Field(description="Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address.")],
-        drive_in: DriveIn,
+        space_drive_in: SpaceDriveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1469,15 +1480,15 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DriveItem]:
+    ) -> ApiResponse[SpaceDriveItem]:
         """Makes a new drive in a space and answers 201 with it.
 
         Makes a new drive in a space and answers 201 with it.  A drive is a PREFIX and not a bucket, so making one writes a zero-byte marker at \"<name>/\" — which is what makes an empty drive visible to a listing that has no other key to find. A name already taken in the space is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the drive exists.
 
         :param space: Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address. (required)
         :type space: str
-        :param drive_in: (required)
-        :type drive_in: DriveIn
+        :param space_drive_in: (required)
+        :type space_drive_in: SpaceDriveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1502,7 +1513,7 @@ class SpaceApi:
 
         _param = self._post_space_by_space_drives_serialize(
             space=space,
-            drive_in=drive_in,
+            space_drive_in=space_drive_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1510,7 +1521,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DriveItem",
+            '201': "SpaceDriveItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1527,7 +1538,7 @@ class SpaceApi:
     def post_space_by_space_drives_without_preload_content(
         self,
         space: Annotated[StrictStr, Field(description="Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address.")],
-        drive_in: DriveIn,
+        space_drive_in: SpaceDriveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1547,8 +1558,8 @@ class SpaceApi:
 
         :param space: Space is the space to create the drive in, from the path. It carries NO `url:\"-\"`, unlike the field below it, and the difference is the whole reason both tags are written out: zip's binder skips a field tagged \"-\" for EVERY URL source, path params included, so a path-borne value that carried it would arrive empty and the create would refuse a perfectly good address. (required)
         :type space: str
-        :param drive_in: (required)
-        :type drive_in: DriveIn
+        :param space_drive_in: (required)
+        :type space_drive_in: SpaceDriveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1573,7 +1584,7 @@ class SpaceApi:
 
         _param = self._post_space_by_space_drives_serialize(
             space=space,
-            drive_in=drive_in,
+            space_drive_in=space_drive_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1581,7 +1592,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DriveItem",
+            '201': "SpaceDriveItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1593,7 +1604,7 @@ class SpaceApi:
     def _post_space_by_space_drives_serialize(
         self,
         space,
-        drive_in,
+        space_drive_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1621,15 +1632,16 @@ class SpaceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if drive_in is not None:
-            _body_params = drive_in
+        if space_drive_in is not None:
+            _body_params = space_drive_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1673,7 +1685,7 @@ class SpaceApi:
     @validate_call
     def post_space_spaces(
         self,
-        space_in: SpaceIn,
+        space_space_in: SpaceSpaceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1686,13 +1698,13 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SpaceItem:
+    ) -> SpaceSpaceItem:
         """Makes a new space for the caller's org and answers 201 with it.
 
         Makes a new space for the caller's org and answers 201 with it.  The one bucket a space's files live in is derived from the caller's VALIDATED org, so an org can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the space exists.
 
-        :param space_in: (required)
-        :type space_in: SpaceIn
+        :param space_space_in: (required)
+        :type space_space_in: SpaceSpaceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1716,7 +1728,7 @@ class SpaceApi:
         """ # noqa: E501
 
         _param = self._post_space_spaces_serialize(
-            space_in=space_in,
+            space_space_in=space_space_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1724,7 +1736,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SpaceItem",
+            '201': "SpaceSpaceItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1740,7 +1752,7 @@ class SpaceApi:
     @validate_call
     def post_space_spaces_with_http_info(
         self,
-        space_in: SpaceIn,
+        space_space_in: SpaceSpaceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1753,13 +1765,13 @@ class SpaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SpaceItem]:
+    ) -> ApiResponse[SpaceSpaceItem]:
         """Makes a new space for the caller's org and answers 201 with it.
 
         Makes a new space for the caller's org and answers 201 with it.  The one bucket a space's files live in is derived from the caller's VALIDATED org, so an org can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the space exists.
 
-        :param space_in: (required)
-        :type space_in: SpaceIn
+        :param space_space_in: (required)
+        :type space_space_in: SpaceSpaceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1783,7 +1795,7 @@ class SpaceApi:
         """ # noqa: E501
 
         _param = self._post_space_spaces_serialize(
-            space_in=space_in,
+            space_space_in=space_space_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1791,7 +1803,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SpaceItem",
+            '201': "SpaceSpaceItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1807,7 +1819,7 @@ class SpaceApi:
     @validate_call
     def post_space_spaces_without_preload_content(
         self,
-        space_in: SpaceIn,
+        space_space_in: SpaceSpaceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1825,8 +1837,8 @@ class SpaceApi:
 
         Makes a new space for the caller's org and answers 201 with it.  The one bucket a space's files live in is derived from the caller's VALIDATED org, so an org can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the space exists.
 
-        :param space_in: (required)
-        :type space_in: SpaceIn
+        :param space_space_in: (required)
+        :type space_space_in: SpaceSpaceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1850,7 +1862,7 @@ class SpaceApi:
         """ # noqa: E501
 
         _param = self._post_space_spaces_serialize(
-            space_in=space_in,
+            space_space_in=space_space_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1858,7 +1870,7 @@ class SpaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SpaceItem",
+            '201': "SpaceSpaceItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1869,7 +1881,7 @@ class SpaceApi:
 
     def _post_space_spaces_serialize(
         self,
-        space_in,
+        space_space_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1895,15 +1907,16 @@ class SpaceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if space_in is not None:
-            _body_params = space_in
+        if space_space_in is not None:
+            _body_params = space_space_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

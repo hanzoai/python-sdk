@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.api_key_list import ApiKeyList
-from hanzoai.cloud.models.appearance import Appearance
-from hanzoai.cloud.models.csrf_resp import CsrfResp
-from hanzoai.cloud.models.embed_status_resp import EmbedStatusResp
-from hanzoai.cloud.models.key_type_in import KeyTypeIn
-from hanzoai.cloud.models.minted_key import MintedKey
-from hanzoai.cloud.models.onboard_req import OnboardReq
-from hanzoai.cloud.models.onboard_resp import OnboardResp
-from hanzoai.cloud.models.revoked_key import RevokedKey
+from hanzoai.cloud.models.account_api_key_list import AccountApiKeyList
+from hanzoai.cloud.models.account_appearance import AccountAppearance
+from hanzoai.cloud.models.account_csrf_resp import AccountCsrfResp
+from hanzoai.cloud.models.account_embed_status_resp import AccountEmbedStatusResp
+from hanzoai.cloud.models.account_key_type_in import AccountKeyTypeIn
+from hanzoai.cloud.models.account_minted_key import AccountMintedKey
+from hanzoai.cloud.models.account_onboard_req import AccountOnboardReq
+from hanzoai.cloud.models.account_onboard_resp import AccountOnboardResp
+from hanzoai.cloud.models.account_revoked_key import AccountRevokedKey
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -63,10 +63,10 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RevokedKey:
+    ) -> AccountRevokedKey:
         """Revokes the caller's own API key of the requested class.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but the gateway caches keys for a few minutes, so a request that beat the cache expiry may still be served.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
 
         :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
         :type type: str
@@ -101,7 +101,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokedKey",
+            '200': "AccountRevokedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -130,10 +130,10 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RevokedKey]:
+    ) -> ApiResponse[AccountRevokedKey]:
         """Revokes the caller's own API key of the requested class.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but the gateway caches keys for a few minutes, so a request that beat the cache expiry may still be served.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
 
         :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
         :type type: str
@@ -168,7 +168,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokedKey",
+            '200': "AccountRevokedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -200,7 +200,7 @@ class AccountApi:
     ) -> RESTResponseType:
         """Revokes the caller's own API key of the requested class.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but the gateway caches keys for a few minutes, so a request that beat the cache expiry may still be served.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
 
         :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
         :type type: str
@@ -235,7 +235,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokedKey",
+            '200': "AccountRevokedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -282,7 +282,8 @@ class AccountApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -325,7 +326,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Appearance:
+    ) -> AccountAppearance:
         """Returns the signed-in caller's own appearance preference — text size, density and accent — read from their IAM account so it is the same on every device and every Hanzo surface.
 
         Returns the signed-in caller's own appearance preference — text size, density and accent — read from their IAM account so it is the same on every device and every Hanzo surface. An unset preference is an empty object.  A transient IAM read failure reports the empty preference rather than a 5xx, so a surface applies its published default and never error-toasts on load — the same fail-soft the key read uses.
@@ -360,7 +361,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -388,7 +389,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Appearance]:
+    ) -> ApiResponse[AccountAppearance]:
         """Returns the signed-in caller's own appearance preference — text size, density and accent — read from their IAM account so it is the same on every device and every Hanzo surface.
 
         Returns the signed-in caller's own appearance preference — text size, density and accent — read from their IAM account so it is the same on every device and every Hanzo surface. An unset preference is an empty object.  A transient IAM read failure reports the empty preference rather than a 5xx, so a surface applies its published default and never error-toasts on load — the same fail-soft the key read uses.
@@ -423,7 +424,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -486,7 +487,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -528,7 +529,8 @@ class AccountApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -852,10 +854,10 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CsrfResp:
-        """IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
+    ) -> AccountCsrfResp:
+        """Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
 
-        IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
+        Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -887,7 +889,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CsrfResp",
+            '200': "AccountCsrfResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -915,10 +917,10 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CsrfResp]:
-        """IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
+    ) -> ApiResponse[AccountCsrfResp]:
+        """Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
 
-        IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
+        Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -950,7 +952,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CsrfResp",
+            '200': "AccountCsrfResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -979,9 +981,9 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
+        """Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for.
 
-        IssueCSRFToken mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
+        Mints the anti-forgery token a browser echoes as X-CSRF-Token on every change it asks for. The token is bound to the caller's validated identity and expires, so one minted for one identity cannot authorize a change as another.  It is answered no-store, so it is never cached by a shared proxy. This is the same-origin endpoint the embedded console reads — the Same-Origin Policy is what stops a cross-site page from reading the response and forging a change.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1013,7 +1015,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CsrfResp",
+            '200': "AccountCsrfResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1055,7 +1057,8 @@ class AccountApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1099,7 +1102,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EmbedStatusResp:
+    ) -> AccountEmbedStatusResp:
         """Reports whether one of this brand's shared embedded apps (cms, erp, help) may be framed by the caller and is actually running, so a console module can choose between the embed and the provision panel.
 
         Reports whether one of this brand's shared embedded apps (cms, erp, help) may be framed by the caller and is actually running, so a console module can choose between the embed and the provision panel.  It answers two questions the browser cannot answer for itself. ENTITLEMENT is server-authoritative: each app is a single shared per-BRAND instance, so only a member of the owning brand org — or a SuperAdmin — is given the embed URL; every other caller gets phase \"not-entitled\" and no URL. REACHABILITY is a probe of that origin, which a cross-origin page cannot read for itself.  The probed host is always <app>.<this deployment's own brand domain>: no part of it comes from the request, so this can never be steered into probing an arbitrary origin.
@@ -1137,7 +1140,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EmbedStatusResp",
+            '200': "AccountEmbedStatusResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1166,7 +1169,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EmbedStatusResp]:
+    ) -> ApiResponse[AccountEmbedStatusResp]:
         """Reports whether one of this brand's shared embedded apps (cms, erp, help) may be framed by the caller and is actually running, so a console module can choose between the embed and the provision panel.
 
         Reports whether one of this brand's shared embedded apps (cms, erp, help) may be framed by the caller and is actually running, so a console module can choose between the embed and the provision panel.  It answers two questions the browser cannot answer for itself. ENTITLEMENT is server-authoritative: each app is a single shared per-BRAND instance, so only a member of the owning brand org — or a SuperAdmin — is given the embed URL; every other caller gets phase \"not-entitled\" and no URL. REACHABILITY is a probe of that origin, which a cross-origin page cannot read for itself.  The probed host is always <app>.<this deployment's own brand domain>: no part of it comes from the request, so this can never be steered into probing an arbitrary origin.
@@ -1204,7 +1207,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EmbedStatusResp",
+            '200': "AccountEmbedStatusResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1271,7 +1274,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EmbedStatusResp",
+            '200': "AccountEmbedStatusResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1318,7 +1321,8 @@ class AccountApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1361,7 +1365,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiKeyList:
+    ) -> AccountApiKeyList:
         """Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
 
         Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
@@ -1396,7 +1400,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiKeyList",
+            '200': "AccountApiKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1424,7 +1428,7 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ApiKeyList]:
+    ) -> ApiResponse[AccountApiKeyList]:
         """Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
 
         Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
@@ -1459,7 +1463,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiKeyList",
+            '200': "AccountApiKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1522,7 +1526,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ApiKeyList",
+            '200': "AccountApiKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1564,7 +1568,8 @@ class AccountApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1595,7 +1600,7 @@ class AccountApi:
     @validate_call
     def post_account_appearance(
         self,
-        appearance: Appearance,
+        account_appearance: AccountAppearance,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1608,13 +1613,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Appearance:
+    ) -> AccountAppearance:
         """Stores the caller's appearance preference on their IAM account, preserving every other field of the row.
 
         Stores the caller's appearance preference on their IAM account, preserving every other field of the row. The accent is validated as a real colour token before it is stored; an unset or invalid axis is dropped rather than stored.
 
-        :param appearance: (required)
-        :type appearance: Appearance
+        :param account_appearance: (required)
+        :type account_appearance: AccountAppearance
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1638,7 +1643,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_appearance_serialize(
-            appearance=appearance,
+            account_appearance=account_appearance,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1646,7 +1651,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1662,7 +1667,7 @@ class AccountApi:
     @validate_call
     def post_account_appearance_with_http_info(
         self,
-        appearance: Appearance,
+        account_appearance: AccountAppearance,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1675,13 +1680,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Appearance]:
+    ) -> ApiResponse[AccountAppearance]:
         """Stores the caller's appearance preference on their IAM account, preserving every other field of the row.
 
         Stores the caller's appearance preference on their IAM account, preserving every other field of the row. The accent is validated as a real colour token before it is stored; an unset or invalid axis is dropped rather than stored.
 
-        :param appearance: (required)
-        :type appearance: Appearance
+        :param account_appearance: (required)
+        :type account_appearance: AccountAppearance
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1705,7 +1710,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_appearance_serialize(
-            appearance=appearance,
+            account_appearance=account_appearance,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1713,7 +1718,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1729,7 +1734,7 @@ class AccountApi:
     @validate_call
     def post_account_appearance_without_preload_content(
         self,
-        appearance: Appearance,
+        account_appearance: AccountAppearance,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1747,8 +1752,8 @@ class AccountApi:
 
         Stores the caller's appearance preference on their IAM account, preserving every other field of the row. The accent is validated as a real colour token before it is stored; an unset or invalid axis is dropped rather than stored.
 
-        :param appearance: (required)
-        :type appearance: Appearance
+        :param account_appearance: (required)
+        :type account_appearance: AccountAppearance
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1772,7 +1777,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_appearance_serialize(
-            appearance=appearance,
+            account_appearance=account_appearance,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1780,7 +1785,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Appearance",
+            '200': "AccountAppearance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1791,7 +1796,7 @@ class AccountApi:
 
     def _post_account_appearance_serialize(
         self,
-        appearance,
+        account_appearance,
         _request_auth,
         _content_type,
         _headers,
@@ -1817,15 +1822,16 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if appearance is not None:
-            _body_params = appearance
+        if account_appearance is not None:
+            _body_params = account_appearance
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2105,7 +2111,7 @@ class AccountApi:
     @validate_call
     def post_account_keys(
         self,
-        key_type_in: KeyTypeIn,
+        account_key_type_in: AccountKeyTypeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2118,13 +2124,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MintedKey:
+    ) -> AccountMintedKey:
         """Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
 
         Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
 
-        :param key_type_in: (required)
-        :type key_type_in: KeyTypeIn
+        :param account_key_type_in: (required)
+        :type account_key_type_in: AccountKeyTypeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2148,7 +2154,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            key_type_in=key_type_in,
+            account_key_type_in=account_key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2156,7 +2162,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MintedKey",
+            '200': "AccountMintedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2172,7 +2178,7 @@ class AccountApi:
     @validate_call
     def post_account_keys_with_http_info(
         self,
-        key_type_in: KeyTypeIn,
+        account_key_type_in: AccountKeyTypeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2185,13 +2191,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MintedKey]:
+    ) -> ApiResponse[AccountMintedKey]:
         """Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
 
         Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
 
-        :param key_type_in: (required)
-        :type key_type_in: KeyTypeIn
+        :param account_key_type_in: (required)
+        :type account_key_type_in: AccountKeyTypeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2215,7 +2221,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            key_type_in=key_type_in,
+            account_key_type_in=account_key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2223,7 +2229,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MintedKey",
+            '200': "AccountMintedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2239,7 +2245,7 @@ class AccountApi:
     @validate_call
     def post_account_keys_without_preload_content(
         self,
-        key_type_in: KeyTypeIn,
+        account_key_type_in: AccountKeyTypeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2257,8 +2263,8 @@ class AccountApi:
 
         Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
 
-        :param key_type_in: (required)
-        :type key_type_in: KeyTypeIn
+        :param account_key_type_in: (required)
+        :type account_key_type_in: AccountKeyTypeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2282,7 +2288,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            key_type_in=key_type_in,
+            account_key_type_in=account_key_type_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2290,7 +2296,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MintedKey",
+            '200': "AccountMintedKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2301,7 +2307,7 @@ class AccountApi:
 
     def _post_account_keys_serialize(
         self,
-        key_type_in,
+        account_key_type_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2327,15 +2333,16 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if key_type_in is not None:
-            _body_params = key_type_in
+        if account_key_type_in is not None:
+            _body_params = account_key_type_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2379,7 +2386,7 @@ class AccountApi:
     @validate_call
     def post_account_orgs(
         self,
-        onboard_req: OnboardReq,
+        account_onboard_req: AccountOnboardReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2392,13 +2399,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OnboardResp:
-        """Onboard creates the caller's organization.
+    ) -> AccountOnboardResp:
+        """Creates the caller's organization.
 
-        Onboard creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
+        Creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
 
-        :param onboard_req: (required)
-        :type onboard_req: OnboardReq
+        :param account_onboard_req: (required)
+        :type account_onboard_req: AccountOnboardReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2422,7 +2429,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_orgs_serialize(
-            onboard_req=onboard_req,
+            account_onboard_req=account_onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2430,7 +2437,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OnboardResp",
+            '200': "AccountOnboardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2446,7 +2453,7 @@ class AccountApi:
     @validate_call
     def post_account_orgs_with_http_info(
         self,
-        onboard_req: OnboardReq,
+        account_onboard_req: AccountOnboardReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2459,13 +2466,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OnboardResp]:
-        """Onboard creates the caller's organization.
+    ) -> ApiResponse[AccountOnboardResp]:
+        """Creates the caller's organization.
 
-        Onboard creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
+        Creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
 
-        :param onboard_req: (required)
-        :type onboard_req: OnboardReq
+        :param account_onboard_req: (required)
+        :type account_onboard_req: AccountOnboardReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2489,7 +2496,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_orgs_serialize(
-            onboard_req=onboard_req,
+            account_onboard_req=account_onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2497,7 +2504,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OnboardResp",
+            '200': "AccountOnboardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2513,7 +2520,7 @@ class AccountApi:
     @validate_call
     def post_account_orgs_without_preload_content(
         self,
-        onboard_req: OnboardReq,
+        account_onboard_req: AccountOnboardReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2527,12 +2534,12 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Onboard creates the caller's organization.
+        """Creates the caller's organization.
 
-        Onboard creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
+        Creates the caller's organization. Two flows, keyed on whether the caller already has a home org (mirrors app/onboard/route.ts):    - FIRST-RUN (no home org): create + MOVE the user in as admin, so their next     JWT carries the new owner and the cloud scopes everything to it. This is the     path a fresh OAuth sign-up takes, from the sign-up application's org.   - ADDITIONAL (owner set): create the org but do NOT move the user — a move     changes their IAM owner (stripping a SuperAdmin's status + orphaning their     current org). They reach the new org via the OrgSwitcher, which re-scopes     X-Org-Id without touching IAM membership. A personal-org request from someone     who already has an org is meaningless → 409.
 
-        :param onboard_req: (required)
-        :type onboard_req: OnboardReq
+        :param account_onboard_req: (required)
+        :type account_onboard_req: AccountOnboardReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2556,7 +2563,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_orgs_serialize(
-            onboard_req=onboard_req,
+            account_onboard_req=account_onboard_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2564,7 +2571,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OnboardResp",
+            '200': "AccountOnboardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2575,7 +2582,7 @@ class AccountApi:
 
     def _post_account_orgs_serialize(
         self,
-        onboard_req,
+        account_onboard_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2601,15 +2608,16 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if onboard_req is not None:
-            _body_params = onboard_req
+        if account_onboard_req is not None:
+            _body_params = account_onboard_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

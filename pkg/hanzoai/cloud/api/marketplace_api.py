@@ -16,14 +16,32 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictStr
+from pydantic import Field, StrictInt, StrictStr
+from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.install_req import InstallReq
-from hanzoai.cloud.models.install_state import InstallState
-from hanzoai.cloud.models.listing import Listing
-from hanzoai.cloud.models.listing_page import ListingPage
-from hanzoai.cloud.models.market_catalog import MarketCatalog
-from hanzoai.cloud.models.publish_req import PublishReq
+from hanzoai.cloud.models.marketplace_decline_in import MarketplaceDeclineIn
+from hanzoai.cloud.models.marketplace_deliver_in import MarketplaceDeliverIn
+from hanzoai.cloud.models.marketplace_dispute_in import MarketplaceDisputeIn
+from hanzoai.cloud.models.marketplace_feedback import MarketplaceFeedback
+from hanzoai.cloud.models.marketplace_feedback_in import MarketplaceFeedbackIn
+from hanzoai.cloud.models.marketplace_hire_in import MarketplaceHireIn
+from hanzoai.cloud.models.marketplace_install_req import MarketplaceInstallReq
+from hanzoai.cloud.models.marketplace_install_state import MarketplaceInstallState
+from hanzoai.cloud.models.marketplace_job import MarketplaceJob
+from hanzoai.cloud.models.marketplace_job_page import MarketplaceJobPage
+from hanzoai.cloud.models.marketplace_listing import MarketplaceListing
+from hanzoai.cloud.models.marketplace_listing_page import MarketplaceListingPage
+from hanzoai.cloud.models.marketplace_market_catalog import MarketplaceMarketCatalog
+from hanzoai.cloud.models.marketplace_onboarding import MarketplaceOnboarding
+from hanzoai.cloud.models.marketplace_patch_req import MarketplacePatchReq
+from hanzoai.cloud.models.marketplace_payout import MarketplacePayout
+from hanzoai.cloud.models.marketplace_payout_challenge import MarketplacePayoutChallenge
+from hanzoai.cloud.models.marketplace_payout_in import MarketplacePayoutIn
+from hanzoai.cloud.models.marketplace_publish_req import MarketplacePublishReq
+from hanzoai.cloud.models.marketplace_resolve_in import MarketplaceResolveIn
+from hanzoai.cloud.models.marketplace_shop import MarketplaceShop
+from hanzoai.cloud.models.marketplace_shop_listing import MarketplaceShopListing
+from hanzoai.cloud.models.marketplace_verify_in import MarketplaceVerifyIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -46,7 +64,7 @@ class MarketplaceApi:
     @validate_call
     def delete_marketplace_listings_by_id(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60,11 +78,11 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Unpublish withdraws one of the caller org's listings from the marketplace and answers 204.
+        """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Unpublish withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
 
-        :param id: ID is the listing to unpublish, from the path. (required)
+        :param id: ID is the listing, from the path. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -113,7 +131,7 @@ class MarketplaceApi:
     @validate_call
     def delete_marketplace_listings_by_id_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -127,11 +145,11 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Unpublish withdraws one of the caller org's listings from the marketplace and answers 204.
+        """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Unpublish withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
 
-        :param id: ID is the listing to unpublish, from the path. (required)
+        :param id: ID is the listing, from the path. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -180,7 +198,7 @@ class MarketplaceApi:
     @validate_call
     def delete_marketplace_listings_by_id_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the listing to unpublish, from the path.")],
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -194,11 +212,11 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Unpublish withdraws one of the caller org's listings from the marketplace and answers 204.
+        """Withdraws one of the caller org's listings from the marketplace and answers 204.
 
-        Unpublish withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it.
+        Withdraws one of the caller org's listings from the marketplace and answers 204. Only the publishing org can remove its own listing; an id that is unknown, or belongs to another org, is the same 404, so a probe learns nothing about what exists. Removing a listing removes its price from per-call enforcement; it does not uninstall the tool for anyone who already installed it, and a job already opened through it runs to its end. An org admin unpublishes.
 
-        :param id: ID is the listing to unpublish, from the path. (required)
+        :param id: ID is the listing, from the path. (required)
         :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -272,6 +290,13 @@ class MarketplaceApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -312,10 +337,10 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MarketCatalog:
-        """Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
+    ) -> MarketplaceMarketCatalog:
+        """Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
 
-        Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
+        Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -347,7 +372,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MarketCatalog",
+            '200': "MarketplaceMarketCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -375,10 +400,10 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MarketCatalog]:
-        """Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
+    ) -> ApiResponse[MarketplaceMarketCatalog]:
+        """Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
 
-        Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
+        Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -410,7 +435,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MarketCatalog",
+            '200': "MarketplaceMarketCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -439,9 +464,9 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
+        """Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope.
 
-        Discover lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
+        Lists every tool and agent the caller can reach in their own org and project, enriched with any public listing's title, category and price, and with installed=true on the ones already activated for that scope. It is the shop window: one read that answers what exists, what it costs and what is already on.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -473,7 +498,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MarketCatalog",
+            '200': "MarketplaceMarketCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -515,7 +540,8 @@ class MarketplaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -528,6 +554,549 @@ class MarketplaceApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/marketplace',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketplace_jobs(
+        self,
+        role: Annotated[Optional[StrictStr], Field(description="Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one state.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJobPage:
+        """Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote.
+
+        Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote. Any member of the org.
+
+        :param role: Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.
+        :type role: str
+        :param status: Status keeps one state.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_serialize(
+            role=role,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_jobs_with_http_info(
+        self,
+        role: Annotated[Optional[StrictStr], Field(description="Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one state.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJobPage]:
+        """Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote.
+
+        Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote. Any member of the org.
+
+        :param role: Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.
+        :type role: str
+        :param status: Status keeps one state.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_serialize(
+            role=role,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_jobs_without_preload_content(
+        self,
+        role: Annotated[Optional[StrictStr], Field(description="Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.")] = None,
+        status: Annotated[Optional[StrictStr], Field(description="Status keeps one state.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote.
+
+        Lists the jobs the caller's org is a party to, newest first: as buyer, the work it hired — with the quotes it has not paid and the jobs being funded, each with the attempt that made it, so a hire whose answer was lost is found here — and as seller, the work it was hired for, which never includes another org's quote. Any member of the org.
+
+        :param role: Role is buyer — the jobs the caller's org hired for — or seller, the jobs it was hired for. Buyer when empty.
+        :type role: str
+        :param status: Status keeps one state.
+        :type status: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_serialize(
+            role=role,
+            status=status,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJobPage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_jobs_serialize(
+        self,
+        role,
+        status,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if role is not None:
+            
+            _query_params.append(('role', role))
+            
+        if status is not None:
+            
+            _query_params.append(('status', status))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/jobs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketplace_jobs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Reads one job the caller's org is a party to.
+
+        Reads one job the caller's org is a party to. Another org's job, and one that does not exist, are the same 404.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_jobs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Reads one job the caller's org is a party to.
+
+        Reads one job the caller's org is a party to. Another org's job, and one that does not exist, are the same 404.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_jobs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one job the caller's org is a party to.
+
+        Reads one job the caller's org is a party to. Another org's job, and one that does not exist, are the same 404.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_jobs_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_jobs_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/jobs/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -558,7 +1127,7 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ListingPage:
+    ) -> MarketplaceListingPage:
         """Returns the listings the caller's own org has published — what this org is offering, not what it can buy.
 
         Returns the listings the caller's own org has published — what this org is offering, not what it can buy. A publisher only ever sees its own rows.
@@ -593,7 +1162,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListingPage",
+            '200': "MarketplaceListingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -621,7 +1190,7 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ListingPage]:
+    ) -> ApiResponse[MarketplaceListingPage]:
         """Returns the listings the caller's own org has published — what this org is offering, not what it can buy.
 
         Returns the listings the caller's own org has published — what this org is offering, not what it can buy. A publisher only ever sees its own rows.
@@ -656,7 +1225,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListingPage",
+            '200': "MarketplaceListingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -719,7 +1288,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ListingPage",
+            '200': "MarketplaceListingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -761,7 +1330,8 @@ class MarketplaceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -790,9 +1360,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_install(
+    def get_marketplace_seller(
         self,
-        install_req: InstallReq,
+        year: Annotated[Optional[StrictInt], Field(description="Year is the calendar year (UTC); the current one when zero.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -805,13 +1375,1210 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InstallState:
-        """Install activates one tool for the caller's own org and project.
+    ) -> MarketplaceOnboarding:
+        """Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it.
 
-        Install activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
+        Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it. Ready says nothing is missing. Each owning app is asked as the org; one this deployment does not run is named absent rather than read as empty. An org admin reads it.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param year: Year is the calendar year (UTC); the current one when zero.
+        :type year: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_seller_serialize(
+            year=year,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceOnboarding",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_seller_with_http_info(
+        self,
+        year: Annotated[Optional[StrictInt], Field(description="Year is the calendar year (UTC); the current one when zero.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceOnboarding]:
+        """Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it.
+
+        Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it. Ready says nothing is missing. Each owning app is asked as the org; one this deployment does not run is named absent rather than read as empty. An org admin reads it.
+
+        :param year: Year is the calendar year (UTC); the current one when zero.
+        :type year: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_seller_serialize(
+            year=year,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceOnboarding",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_seller_without_preload_content(
+        self,
+        year: Annotated[Optional[StrictInt], Field(description="Year is the calendar year (UTC); the current one when zero.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it.
+
+        Answers where the caller's org stands as a seller, in one read: its founders' identity verification (KYC) and legal entity (KYB), its tax form and whether it is certified and valid, its own sanctions screening — only what an org may see about itself — the payout wallet it proved, the TaxPrincipalCredentials signed for its agents, what it earned in the year from the economic events the rails stated, and the 1099s payers furnished it. Ready says nothing is missing. Each owning app is asked as the org; one this deployment does not run is named absent rather than read as empty. An org admin reads it.
+
+        :param year: Year is the calendar year (UTC); the current one when zero.
+        :type year: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_seller_serialize(
+            year=year,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceOnboarding",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_seller_serialize(
+        self,
+        year,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if year is not None:
+            
+            _query_params.append(('year', year))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/seller',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketplace_shop(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
+        price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
+        rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
+        seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceShop:
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+
+        :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
+        :type q: str
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :type kind: str
+        :param category: Category keeps one category, exactly.
+        :type category: str
+        :param price: Price keeps free listings or priced ones.
+        :type price: str
+        :param rating: Rating keeps listings rated at least this many stars, 1 to 5.
+        :type rating: int
+        :param seller: Seller keeps one seller org's listings.
+        :type seller: str
+        :param limit: Limit is the page size: 48 by default, 200 at most.
+        :type limit: int
+        :param offset: Offset is where the page starts.
+        :type offset: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_serialize(
+            q=q,
+            kind=kind,
+            category=category,
+            price=price,
+            rating=rating,
+            seller=seller,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShop",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_shop_with_http_info(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
+        price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
+        rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
+        seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceShop]:
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+
+        :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
+        :type q: str
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :type kind: str
+        :param category: Category keeps one category, exactly.
+        :type category: str
+        :param price: Price keeps free listings or priced ones.
+        :type price: str
+        :param rating: Rating keeps listings rated at least this many stars, 1 to 5.
+        :type rating: int
+        :param seller: Seller keeps one seller org's listings.
+        :type seller: str
+        :param limit: Limit is the page size: 48 by default, 200 at most.
+        :type limit: int
+        :param offset: Offset is where the page starts.
+        :type offset: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_serialize(
+            q=q,
+            kind=kind,
+            category=category,
+            price=price,
+            rating=rating,
+            seller=seller,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShop",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_shop_without_preload_content(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.")] = None,
+        kind: Annotated[Optional[StrictStr], Field(description="Kind keeps one kind: agent, persona, app, skill, mcp or tool.")] = None,
+        category: Annotated[Optional[StrictStr], Field(description="Category keeps one category, exactly.")] = None,
+        price: Annotated[Optional[StrictStr], Field(description="Price keeps free listings or priced ones.")] = None,
+        rating: Annotated[Optional[StrictInt], Field(description="Rating keeps listings rated at least this many stars, 1 to 5.")] = None,
+        seller: Annotated[Optional[StrictStr], Field(description="Seller keeps one seller org's listings.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the page size: 48 by default, 200 at most.")] = None,
+        offset: Annotated[Optional[StrictInt], Field(description="Offset is where the page starts.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged.
+
+        Searches every public listing of every kind — agents and personas to hire, apps, skills, MCP servers and tools — newest first, with facets by kind, category, price and rating, paged. Each listing carries its seller's public face, its reputation from settled jobs and installs, and the command and MCP operation that buy it. It needs no credential and answers the same to everyone.
+
+        :param q: Q keeps listings whose title, description, category, thing or seller contains every word of it, case-insensitively.
+        :type q: str
+        :param kind: Kind keeps one kind: agent, persona, app, skill, mcp or tool.
+        :type kind: str
+        :param category: Category keeps one category, exactly.
+        :type category: str
+        :param price: Price keeps free listings or priced ones.
+        :type price: str
+        :param rating: Rating keeps listings rated at least this many stars, 1 to 5.
+        :type rating: int
+        :param seller: Seller keeps one seller org's listings.
+        :type seller: str
+        :param limit: Limit is the page size: 48 by default, 200 at most.
+        :type limit: int
+        :param offset: Offset is where the page starts.
+        :type offset: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_serialize(
+            q=q,
+            kind=kind,
+            category=category,
+            price=price,
+            rating=rating,
+            seller=seller,
+            limit=limit,
+            offset=offset,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShop",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_shop_serialize(
+        self,
+        q,
+        kind,
+        category,
+        price,
+        rating,
+        seller,
+        limit,
+        offset,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if kind is not None:
+            
+            _query_params.append(('kind', kind))
+            
+        if category is not None:
+            
+            _query_params.append(('category', category))
+            
+        if price is not None:
+            
+            _query_params.append(('price', price))
+            
+        if rating is not None:
+            
+            _query_params.append(('rating', rating))
+            
+        if seller is not None:
+            
+            _query_params.append(('seller', seller))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        if offset is not None:
+            
+            _query_params.append(('offset', offset))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/shop',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_marketplace_shop_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceShopListing:
+        """Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it.
+
+        Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it. A private listing and one that does not exist are the same 404. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_marketplace_shop_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceShopListing]:
+        """Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it.
+
+        Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it. A private listing and one that does not exist are the same 404. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_marketplace_shop_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it.
+
+        Reads one public listing as the shop shows it — its seller's public face, its reputation and the ways to buy it. A private listing and one that does not exist are the same 404. It needs no credential.
+
+        :param id: ID is the listing, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_marketplace_shop_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceShopListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_marketplace_shop_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/marketplace/shop/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_marketplace_listings_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing to edit, from the path.")],
+        marketplace_patch_req: MarketplacePatchReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceListing:
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+
+        :param id: ID is the listing to edit, from the path. (required)
+        :type id: str
+        :param marketplace_patch_req: (required)
+        :type marketplace_patch_req: MarketplacePatchReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketplace_listings_by_id_serialize(
+            id=id,
+            marketplace_patch_req=marketplace_patch_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_marketplace_listings_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing to edit, from the path.")],
+        marketplace_patch_req: MarketplacePatchReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceListing]:
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+
+        :param id: ID is the listing to edit, from the path. (required)
+        :type id: str
+        :param marketplace_patch_req: (required)
+        :type marketplace_patch_req: MarketplacePatchReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketplace_listings_by_id_serialize(
+            id=id,
+            marketplace_patch_req=marketplace_patch_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_marketplace_listings_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the listing to edit, from the path.")],
+        marketplace_patch_req: MarketplacePatchReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands.
+
+        Edits one of the caller org's listings — its copy, price, payout wallet, visibility and documentation — under the same rules publish applies, and answers the listing as it now stands. Another org's listing and one that does not exist are the same 404. An org admin edits.
+
+        :param id: ID is the listing to edit, from the path. (required)
+        :type id: str
+        :param marketplace_patch_req: (required)
+        :type marketplace_patch_req: MarketplacePatchReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_marketplace_listings_by_id_serialize(
+            id=id,
+            marketplace_patch_req=marketplace_patch_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_marketplace_listings_by_id_serialize(
+        self,
+        id,
+        marketplace_patch_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_patch_req is not None:
+            _body_params = marketplace_patch_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/marketplace/listings/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_install(
+        self,
+        marketplace_install_req: MarketplaceInstallReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceInstallState:
+        """Activates one tool for the caller's own org and project.
+
+        Activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
+
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -835,7 +2602,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._post_marketplace_install_serialize(
-            install_req=install_req,
+            marketplace_install_req=marketplace_install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -843,7 +2610,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplaceInstallState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -859,7 +2626,7 @@ class MarketplaceApi:
     @validate_call
     def post_marketplace_install_with_http_info(
         self,
-        install_req: InstallReq,
+        marketplace_install_req: MarketplaceInstallReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -872,13 +2639,13 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InstallState]:
-        """Install activates one tool for the caller's own org and project.
+    ) -> ApiResponse[MarketplaceInstallState]:
+        """Activates one tool for the caller's own org and project.
 
-        Install activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
+        Activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -902,7 +2669,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._post_marketplace_install_serialize(
-            install_req=install_req,
+            marketplace_install_req=marketplace_install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -910,7 +2677,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplaceInstallState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -926,7 +2693,7 @@ class MarketplaceApi:
     @validate_call
     def post_marketplace_install_without_preload_content(
         self,
-        install_req: InstallReq,
+        marketplace_install_req: MarketplaceInstallReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -940,12 +2707,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Install activates one tool for the caller's own org and project.
+        """Activates one tool for the caller's own org and project.
 
-        Install activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
+        Activates one tool for the caller's own org and project. A marketplace install IS the tool plane's activation write — one store, one truth — so an installed capability is immediately dispatchable and a monetized one is priced from its listing at every call. The tool must resolve in the caller's scope, so installing something that does not exist is refused rather than recorded.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -969,7 +2736,7 @@ class MarketplaceApi:
         """ # noqa: E501
 
         _param = self._post_marketplace_install_serialize(
-            install_req=install_req,
+            marketplace_install_req=marketplace_install_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -977,7 +2744,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplaceInstallState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -988,7 +2755,7 @@ class MarketplaceApi:
 
     def _post_marketplace_install_serialize(
         self,
-        install_req,
+        marketplace_install_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1014,15 +2781,16 @@ class MarketplaceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if install_req is not None:
-            _body_params = install_req
+        if marketplace_install_req is not None:
+            _body_params = marketplace_install_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1064,9 +2832,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_listings(
+    def post_marketplace_jobs(
         self,
-        publish_req: PublishReq,
+        marketplace_hire_in: MarketplaceHireIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1079,13 +2847,13 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Listing:
-        """Publish offers one tool on the marketplace, optionally monetized.
+    ) -> MarketplaceJob:
+        """Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.  It is paid over x402, in two steps on this one call. Sent without payment, the terms are cleared first — principal decides whether the buyer may pay the seller this amount, and a blocked payment, one that waits on the seller's tax form, and one that clears only with tax withheld, which this rail does not withhold, are refused and nothing is opened — and it answers 402 with the terms to sign, for the job resource job:<id>: on PAYMENT-REQUIRED, in the body, and in the message. Sent again with the signed authorization — on PAYMENT-SIGNATURE, or as payment — echoing that resource, the terms are cleared once more, the job is funding, and the rail checks the payment against exactly those terms, checks it stays acceptable until a dispute could last be ruled on, holds it for this job, and sets the amount aside in the buyer's wallet: a wallet that cannot cover it answers 402 insufficient_funds and opens nothing. Nothing is paid until the buyer releases the job, or its review window passes after delivery; a job that ends unpaid returns the amount to the wallet. Any member of the buying org; a platform SuperAdmin inspecting another org cannot spend it.  A hire sent with an attempt — the buyer's own key for it, in the body — is one hire however often it is sent: the same attempt with the same request answers the same job, so a request whose answer was lost is sent again as it was, and opens one job and sets its amount aside once. It answers the quote's terms again while the job is quoted or funding (a quote over its hour is given up and quoted anew), and the job, 201, once it opened. Another request under an attempt already used is refused, 422. The buyer's own jobs list its quotes and those being funded, with their attempts, so an attempt in flight is found there too. Without an attempt, the same terms asked again within the hour answer the same quote, and the same payment sent again answers the job it opened.
 
-        :param publish_req: (required)
-        :type publish_req: PublishReq
+        :param marketplace_hire_in: (required)
+        :type marketplace_hire_in: MarketplaceHireIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1108,8 +2876,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_listings_serialize(
-            publish_req=publish_req,
+        _param = self._post_marketplace_jobs_serialize(
+            marketplace_hire_in=marketplace_hire_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1117,7 +2885,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Listing",
+            '201': "MarketplaceJob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1131,9 +2899,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_listings_with_http_info(
+    def post_marketplace_jobs_with_http_info(
         self,
-        publish_req: PublishReq,
+        marketplace_hire_in: MarketplaceHireIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1146,13 +2914,13 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Listing]:
-        """Publish offers one tool on the marketplace, optionally monetized.
+    ) -> ApiResponse[MarketplaceJob]:
+        """Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.  It is paid over x402, in two steps on this one call. Sent without payment, the terms are cleared first — principal decides whether the buyer may pay the seller this amount, and a blocked payment, one that waits on the seller's tax form, and one that clears only with tax withheld, which this rail does not withhold, are refused and nothing is opened — and it answers 402 with the terms to sign, for the job resource job:<id>: on PAYMENT-REQUIRED, in the body, and in the message. Sent again with the signed authorization — on PAYMENT-SIGNATURE, or as payment — echoing that resource, the terms are cleared once more, the job is funding, and the rail checks the payment against exactly those terms, checks it stays acceptable until a dispute could last be ruled on, holds it for this job, and sets the amount aside in the buyer's wallet: a wallet that cannot cover it answers 402 insufficient_funds and opens nothing. Nothing is paid until the buyer releases the job, or its review window passes after delivery; a job that ends unpaid returns the amount to the wallet. Any member of the buying org; a platform SuperAdmin inspecting another org cannot spend it.  A hire sent with an attempt — the buyer's own key for it, in the body — is one hire however often it is sent: the same attempt with the same request answers the same job, so a request whose answer was lost is sent again as it was, and opens one job and sets its amount aside once. It answers the quote's terms again while the job is quoted or funding (a quote over its hour is given up and quoted anew), and the job, 201, once it opened. Another request under an attempt already used is refused, 422. The buyer's own jobs list its quotes and those being funded, with their attempts, so an attempt in flight is found there too. Without an attempt, the same terms asked again within the hour answer the same quote, and the same payment sent again answers the job it opened.
 
-        :param publish_req: (required)
-        :type publish_req: PublishReq
+        :param marketplace_hire_in: (required)
+        :type marketplace_hire_in: MarketplaceHireIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1175,8 +2943,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_listings_serialize(
-            publish_req=publish_req,
+        _param = self._post_marketplace_jobs_serialize(
+            marketplace_hire_in=marketplace_hire_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1184,7 +2952,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Listing",
+            '201': "MarketplaceJob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1198,9 +2966,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_listings_without_preload_content(
+    def post_marketplace_jobs_without_preload_content(
         self,
-        publish_req: PublishReq,
+        marketplace_hire_in: MarketplaceHireIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1214,12 +2982,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Publish offers one tool on the marketplace, optionally monetized.
+        """Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.
 
-        Publish offers one tool on the marketplace, optionally monetized. The tool must already resolve in the publisher's own scope, so a listing can never advertise a capability that does not exist; a listing with a price must name the payout wallet the x402 client settles to, so a monetized offer is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. The listing is owned by the publishing org, paid into a wallet of that same org, and answers 201 with the created row.
+        Hires another org for a piece of work, through a public listing or by a direct offer, and answers 201 with the job — open, waiting for the seller.  It is paid over x402, in two steps on this one call. Sent without payment, the terms are cleared first — principal decides whether the buyer may pay the seller this amount, and a blocked payment, one that waits on the seller's tax form, and one that clears only with tax withheld, which this rail does not withhold, are refused and nothing is opened — and it answers 402 with the terms to sign, for the job resource job:<id>: on PAYMENT-REQUIRED, in the body, and in the message. Sent again with the signed authorization — on PAYMENT-SIGNATURE, or as payment — echoing that resource, the terms are cleared once more, the job is funding, and the rail checks the payment against exactly those terms, checks it stays acceptable until a dispute could last be ruled on, holds it for this job, and sets the amount aside in the buyer's wallet: a wallet that cannot cover it answers 402 insufficient_funds and opens nothing. Nothing is paid until the buyer releases the job, or its review window passes after delivery; a job that ends unpaid returns the amount to the wallet. Any member of the buying org; a platform SuperAdmin inspecting another org cannot spend it.  A hire sent with an attempt — the buyer's own key for it, in the body — is one hire however often it is sent: the same attempt with the same request answers the same job, so a request whose answer was lost is sent again as it was, and opens one job and sets its amount aside once. It answers the quote's terms again while the job is quoted or funding (a quote over its hour is given up and quoted anew), and the job, 201, once it opened. Another request under an attempt already used is refused, 422. The buyer's own jobs list its quotes and those being funded, with their attempts, so an attempt in flight is found there too. Without an attempt, the same terms asked again within the hour answer the same quote, and the same payment sent again answers the job it opened.
 
-        :param publish_req: (required)
-        :type publish_req: PublishReq
+        :param marketplace_hire_in: (required)
+        :type marketplace_hire_in: MarketplaceHireIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1242,8 +3010,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_listings_serialize(
-            publish_req=publish_req,
+        _param = self._post_marketplace_jobs_serialize(
+            marketplace_hire_in=marketplace_hire_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1251,7 +3019,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Listing",
+            '201': "MarketplaceJob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1260,9 +3028,9 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _post_marketplace_listings_serialize(
+    def _post_marketplace_jobs_serialize(
         self,
-        publish_req,
+        marketplace_hire_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1288,15 +3056,2789 @@ class MarketplaceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if publish_req is not None:
-            _body_params = publish_req
+        if marketplace_hire_in is not None:
+            _body_params = marketplace_hire_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_accept(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's.
+
+        Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's. Only an open job, and only before its deadline.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_accept_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_accept_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's.
+
+        Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's. Only an open job, and only before its deadline.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_accept_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_accept_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's.
+
+        Accepts a job the caller's org was hired for: the seller takes the work on and the clock toward its deadline is the seller's. Only an open job, and only before its deadline.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_accept_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_accept_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/accept',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_cancel(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Takes back a job the caller's org opened, before the seller accepts it.
+
+        Takes back a job the caller's org opened, before the seller accepts it. Nothing was paid: the amount set aside returns to the wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_cancel_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Takes back a job the caller's org opened, before the seller accepts it.
+
+        Takes back a job the caller's org opened, before the seller accepts it. Nothing was paid: the amount set aside returns to the wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_cancel_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes back a job the caller's org opened, before the seller accepts it.
+
+        Takes back a job the caller's org opened, before the seller accepts it. Nothing was paid: the amount set aside returns to the wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_cancel_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_cancel_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/cancel',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_decline(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_decline_in: MarketplaceDeclineIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Declines a job the caller's org was hired for, before any work.
+
+        Declines a job the caller's org was hired for, before any work. Nothing was paid: the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_decline_in: (required)
+        :type marketplace_decline_in: MarketplaceDeclineIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_decline_serialize(
+            id=id,
+            marketplace_decline_in=marketplace_decline_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_decline_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_decline_in: MarketplaceDeclineIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Declines a job the caller's org was hired for, before any work.
+
+        Declines a job the caller's org was hired for, before any work. Nothing was paid: the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_decline_in: (required)
+        :type marketplace_decline_in: MarketplaceDeclineIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_decline_serialize(
+            id=id,
+            marketplace_decline_in=marketplace_decline_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_decline_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_decline_in: MarketplaceDeclineIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Declines a job the caller's org was hired for, before any work.
+
+        Declines a job the caller's org was hired for, before any work. Nothing was paid: the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_decline_in: (required)
+        :type marketplace_decline_in: MarketplaceDeclineIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_decline_serialize(
+            id=id,
+            marketplace_decline_in=marketplace_decline_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_decline_serialize(
+        self,
+        id,
+        marketplace_decline_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_decline_in is not None:
+            _body_params = marketplace_decline_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/decline',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_deliver(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_deliver_in: MarketplaceDeliverIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_deliver_in: (required)
+        :type marketplace_deliver_in: MarketplaceDeliverIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_deliver_serialize(
+            id=id,
+            marketplace_deliver_in=marketplace_deliver_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_deliver_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_deliver_in: MarketplaceDeliverIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_deliver_in: (required)
+        :type marketplace_deliver_in: MarketplaceDeliverIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_deliver_serialize(
+            id=id,
+            marketplace_deliver_in=marketplace_deliver_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_deliver_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_deliver_in: MarketplaceDeliverIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        Records delivery of a job the caller's org accepted, before its deadline, and starts the review window: the buyer releases or disputes within it, or it releases itself when it closes.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_deliver_in: (required)
+        :type marketplace_deliver_in: MarketplaceDeliverIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_deliver_serialize(
+            id=id,
+            marketplace_deliver_in=marketplace_deliver_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_deliver_serialize(
+        self,
+        id,
+        marketplace_deliver_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_deliver_in is not None:
+            _body_params = marketplace_deliver_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/deliver',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_dispute(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_dispute_in: MarketplaceDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it.
+
+        Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it. Nothing moves while it is disputed. It ends when the buyer releases it, the seller refunds it, the platform's arbiter rules, or the arbiter's time lapses and it is refunded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_dispute_in: (required)
+        :type marketplace_dispute_in: MarketplaceDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_dispute_serialize(
+            id=id,
+            marketplace_dispute_in=marketplace_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_dispute_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_dispute_in: MarketplaceDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it.
+
+        Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it. Nothing moves while it is disputed. It ends when the buyer releases it, the seller refunds it, the platform's arbiter rules, or the arbiter's time lapses and it is refunded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_dispute_in: (required)
+        :type marketplace_dispute_in: MarketplaceDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_dispute_serialize(
+            id=id,
+            marketplace_dispute_in=marketplace_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_dispute_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_dispute_in: MarketplaceDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it.
+
+        Stops a job for a ruling, as either party: before delivery (and before the deadline), or within the review window after it. Nothing moves while it is disputed. It ends when the buyer releases it, the seller refunds it, the platform's arbiter rules, or the arbiter's time lapses and it is refunded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_dispute_in: (required)
+        :type marketplace_dispute_in: MarketplaceDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_dispute_serialize(
+            id=id,
+            marketplace_dispute_in=marketplace_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_dispute_serialize(
+        self,
+        id,
+        marketplace_dispute_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_dispute_in is not None:
+            _body_params = marketplace_dispute_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/dispute',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_feedback(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_feedback_in: MarketplaceFeedbackIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceFeedback:
+        """Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited.
+
+        Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited. A job counts as settled once it was released, or refunded after the seller took it on; one cancelled or declined before any work earns nothing. What buyers say of a seller is its listing's and its own reputation in the shop. It answers 201 with the feedback recorded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_feedback_in: (required)
+        :type marketplace_feedback_in: MarketplaceFeedbackIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_feedback_serialize(
+            id=id,
+            marketplace_feedback_in=marketplace_feedback_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceFeedback",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_feedback_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_feedback_in: MarketplaceFeedbackIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceFeedback]:
+        """Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited.
+
+        Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited. A job counts as settled once it was released, or refunded after the seller took it on; one cancelled or declined before any work earns nothing. What buyers say of a seller is its listing's and its own reputation in the shop. It answers 201 with the feedback recorded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_feedback_in: (required)
+        :type marketplace_feedback_in: MarketplaceFeedbackIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_feedback_serialize(
+            id=id,
+            marketplace_feedback_in=marketplace_feedback_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceFeedback",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_feedback_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_feedback_in: MarketplaceFeedbackIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited.
+
+        Rates the other party of a settled job — the seller when the caller's org bought, the buyer when it sold — once per party per job, and never edited. A job counts as settled once it was released, or refunded after the seller took it on; one cancelled or declined before any work earns nothing. What buyers say of a seller is its listing's and its own reputation in the shop. It answers 201 with the feedback recorded.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_feedback_in: (required)
+        :type marketplace_feedback_in: MarketplaceFeedbackIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_feedback_serialize(
+            id=id,
+            marketplace_feedback_in=marketplace_feedback_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceFeedback",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_feedback_serialize(
+        self,
+        id,
+        marketplace_feedback_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_feedback_in is not None:
+            _body_params = marketplace_feedback_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/feedback',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_refund(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_refund_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_refund_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_refund_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_refund_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        Refunds a job the caller's org accepted, as the seller, at any point before it is paid: nothing was moved, so the buyer's authorization is given up, never settled, and the amount it set aside returns to the buyer's wallet.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_refund_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_refund_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/refund',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_release(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment.
+
+        Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment. The buyer may release any time after acceptance, including to end a dispute.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_release_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_release_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment.
+
+        Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment. The buyer may release any time after acceptance, including to end a dispute.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_release_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_release_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment.
+
+        Releases a job the caller's org is paying for, paying the seller the whole amount: the buyer's authorization is settled on the rail, once, and the rail states the payment. The buyer may release any time after acceptance, including to end a dispute.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_release_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_release_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/release',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_resolve(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_resolve_in: MarketplaceResolveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceJob:
+        """Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet.
+
+        Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet. A platform SuperAdmin only.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_resolve_in: (required)
+        :type marketplace_resolve_in: MarketplaceResolveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_resolve_serialize(
+            id=id,
+            marketplace_resolve_in=marketplace_resolve_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_resolve_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_resolve_in: MarketplaceResolveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceJob]:
+        """Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet.
+
+        Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet. A platform SuperAdmin only.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_resolve_in: (required)
+        :type marketplace_resolve_in: MarketplaceResolveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_resolve_serialize(
+            id=id,
+            marketplace_resolve_in=marketplace_resolve_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_jobs_by_id_resolve_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the job, from the path.")],
+        marketplace_resolve_in: MarketplaceResolveIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet.
+
+        Rules on a disputed job, as the platform's arbiter: release pays the seller the whole amount from the buyer's held authorization, if the payment still clears; refund ends it with nothing paid, and the amount set aside returns to the buyer's wallet. A platform SuperAdmin only.
+
+        :param id: ID is the job, from the path. (required)
+        :type id: str
+        :param marketplace_resolve_in: (required)
+        :type marketplace_resolve_in: MarketplaceResolveIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_jobs_by_id_resolve_serialize(
+            id=id,
+            marketplace_resolve_in=marketplace_resolve_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceJob",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_jobs_by_id_resolve_serialize(
+        self,
+        id,
+        marketplace_resolve_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_resolve_in is not None:
+            _body_params = marketplace_resolve_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/jobs/{id}/resolve',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_listings(
+        self,
+        marketplace_publish_req: MarketplacePublishReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceListing:
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+
+        :param marketplace_publish_req: (required)
+        :type marketplace_publish_req: MarketplacePublishReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_serialize(
+            marketplace_publish_req=marketplace_publish_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_listings_with_http_info(
+        self,
+        marketplace_publish_req: MarketplacePublishReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceListing]:
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+
+        :param marketplace_publish_req: (required)
+        :type marketplace_publish_req: MarketplacePublishReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_serialize(
+            marketplace_publish_req=marketplace_publish_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_listings_without_preload_content(
+        self,
+        marketplace_publish_req: MarketplacePublishReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized.
+
+        Offers one thing the caller's org owns on the marketplace — an agent, persona, app, skill or MCP server, or, for the platform, a tool sold per call — optionally monetized. The owning app is asked, as the org, whether the thing is the org's, so a listing never sells something that does not exist or belongs to someone else: a tool every org reaches is the platform's, and a server enabled off the public shelf is the shelf's. A monetized listing names a payout wallet of the org's own, which wallets confirms, so a price is never unpayable. The price is exact to 18 decimal places, so a per-call price below a cent is a real price and not a rounded-away zero. An org admin publishes, at most 1000 listings an org; it answers 201 with the created row.
+
+        :param marketplace_publish_req: (required)
+        :type marketplace_publish_req: MarketplacePublishReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_listings_serialize(
+            marketplace_publish_req=marketplace_publish_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketplaceListing",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_listings_serialize(
+        self,
+        marketplace_publish_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_publish_req is not None:
+            _body_params = marketplace_publish_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1338,9 +5880,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_uninstall(
+    def post_marketplace_seller_payout(
         self,
-        install_req: InstallReq,
+        marketplace_payout_in: MarketplacePayoutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1353,13 +5895,13 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InstallState:
-        """Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+    ) -> MarketplacePayoutChallenge:
+        """Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify.
 
-        Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+        Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify. A newer challenge replaces an older one. An org admin binds.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param marketplace_payout_in: (required)
+        :type marketplace_payout_in: MarketplacePayoutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1382,8 +5924,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_uninstall_serialize(
-            install_req=install_req,
+        _param = self._post_marketplace_seller_payout_serialize(
+            marketplace_payout_in=marketplace_payout_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1391,7 +5933,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplacePayoutChallenge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1405,9 +5947,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_uninstall_with_http_info(
+    def post_marketplace_seller_payout_with_http_info(
         self,
-        install_req: InstallReq,
+        marketplace_payout_in: MarketplacePayoutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1420,13 +5962,13 @@ class MarketplaceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InstallState]:
-        """Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+    ) -> ApiResponse[MarketplacePayoutChallenge]:
+        """Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify.
 
-        Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+        Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify. A newer challenge replaces an older one. An org admin binds.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param marketplace_payout_in: (required)
+        :type marketplace_payout_in: MarketplacePayoutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1449,8 +5991,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_uninstall_serialize(
-            install_req=install_req,
+        _param = self._post_marketplace_seller_payout_serialize(
+            marketplace_payout_in=marketplace_payout_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1458,7 +6000,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplacePayoutChallenge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1472,9 +6014,9 @@ class MarketplaceApi:
 
 
     @validate_call
-    def post_marketplace_uninstall_without_preload_content(
+    def post_marketplace_seller_payout_without_preload_content(
         self,
-        install_req: InstallReq,
+        marketplace_payout_in: MarketplacePayoutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1488,12 +6030,12 @@ class MarketplaceApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+        """Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify.
 
-        Uninstall deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+        Starts binding one of the caller org's wallets as the wallet it is paid into: answers a challenge naming the org, the wallet and its address, to be signed with that wallet within fifteen minutes and sent to POST /v1/marketplace/seller/payout/verify. A newer challenge replaces an older one. An org admin binds.
 
-        :param install_req: (required)
-        :type install_req: InstallReq
+        :param marketplace_payout_in: (required)
+        :type marketplace_payout_in: MarketplacePayoutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1516,8 +6058,8 @@ class MarketplaceApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_marketplace_uninstall_serialize(
-            install_req=install_req,
+        _param = self._post_marketplace_seller_payout_serialize(
+            marketplace_payout_in=marketplace_payout_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1525,7 +6067,7 @@ class MarketplaceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InstallState",
+            '200': "MarketplacePayoutChallenge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1534,9 +6076,9 @@ class MarketplaceApi:
         return response_data.response
 
 
-    def _post_marketplace_uninstall_serialize(
+    def _post_marketplace_seller_payout_serialize(
         self,
-        install_req,
+        marketplace_payout_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1562,15 +6104,566 @@ class MarketplaceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if install_req is not None:
-            _body_params = install_req
+        if marketplace_payout_in is not None:
+            _body_params = marketplace_payout_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/seller/payout',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_seller_payout_verify(
+        self,
+        marketplace_verify_in: MarketplaceVerifyIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplacePayout:
+        """Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires.
+
+        Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires. A challenge binds once. It answers the payout wallet as it now stands; a job offered directly to the org is paid into it. An org admin binds.
+
+        :param marketplace_verify_in: (required)
+        :type marketplace_verify_in: MarketplaceVerifyIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_seller_payout_verify_serialize(
+            marketplace_verify_in=marketplace_verify_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplacePayout",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_seller_payout_verify_with_http_info(
+        self,
+        marketplace_verify_in: MarketplaceVerifyIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplacePayout]:
+        """Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires.
+
+        Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires. A challenge binds once. It answers the payout wallet as it now stands; a job offered directly to the org is paid into it. An org admin binds.
+
+        :param marketplace_verify_in: (required)
+        :type marketplace_verify_in: MarketplaceVerifyIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_seller_payout_verify_serialize(
+            marketplace_verify_in=marketplace_verify_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplacePayout",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_seller_payout_verify_without_preload_content(
+        self,
+        marketplace_verify_in: MarketplaceVerifyIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires.
+
+        Binds the caller org's payout wallet: the signature over its outstanding challenge is recovered, and must recover to the wallet's address, before the challenge expires. A challenge binds once. It answers the payout wallet as it now stands; a job offered directly to the org is paid into it. An org admin binds.
+
+        :param marketplace_verify_in: (required)
+        :type marketplace_verify_in: MarketplaceVerifyIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_seller_payout_verify_serialize(
+            marketplace_verify_in=marketplace_verify_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplacePayout",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_seller_payout_verify_serialize(
+        self,
+        marketplace_verify_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_verify_in is not None:
+            _body_params = marketplace_verify_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketplace/seller/payout/verify',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketplace_uninstall(
+        self,
+        marketplace_install_req: MarketplaceInstallReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketplaceInstallState:
+        """Deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+
+        Deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_uninstall_serialize(
+            marketplace_install_req=marketplace_install_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceInstallState",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketplace_uninstall_with_http_info(
+        self,
+        marketplace_install_req: MarketplaceInstallReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketplaceInstallState]:
+        """Deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+
+        Deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_uninstall_serialize(
+            marketplace_install_req=marketplace_install_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceInstallState",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketplace_uninstall_without_preload_content(
+        self,
+        marketplace_install_req: MarketplaceInstallReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Deactivates one tool for the caller's own org and project, so it stops being dispatchable there.
+
+        Deactivates one tool for the caller's own org and project, so it stops being dispatchable there. It is the exact inverse of install and touches the same activation record; deactivating something that was never active is not an error. The listing itself is untouched — this withdraws the caller's use of a capability, not anyone's offer of it.
+
+        :param marketplace_install_req: (required)
+        :type marketplace_install_req: MarketplaceInstallReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketplace_uninstall_serialize(
+            marketplace_install_req=marketplace_install_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "MarketplaceInstallState",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketplace_uninstall_serialize(
+        self,
+        marketplace_install_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketplace_install_req is not None:
+            _body_params = marketplace_install_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -26,8 +26,8 @@ class LineItem(BaseModel):
     """
     LineItem
     """ # noqa: E501
-    amount_cents: Optional[StrictInt] = Field(default=None, description="AmountCents is that line's amount in whole cents. The scanner is instructed to return integer cents rather than a decimal, so no float rounding can enter the ledger through here.", alias="amountCents")
-    description: Optional[StrictStr] = Field(default=None, description="Description is the line as it appears on the document.")
+    amount_cents: Optional[StrictInt] = Field(default=None, alias="amountCents")
+    description: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["amountCents", "description"]
 
     model_config = ConfigDict(

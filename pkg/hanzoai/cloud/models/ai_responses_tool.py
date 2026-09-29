@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictBytes, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional, Union
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,9 +27,9 @@ class AiResponsesTool(BaseModel):
     AiResponsesTool
     """ # noqa: E501
     description: Optional[StrictStr] = None
-    format: Optional[Union[StrictBytes, StrictStr]] = None
+    format: Optional[Any] = None
     name: Optional[StrictStr] = None
-    parameters: Optional[Union[StrictBytes, StrictStr]] = None
+    parameters: Optional[Any] = None
     strict: Optional[StrictBool] = None
     type: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["description", "format", "name", "parameters", "strict", "type"]
@@ -73,6 +73,16 @@ class AiResponsesTool(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if format (nullable) is None
+        # and model_fields_set contains the field
+        if self.format is None and "format" in self.model_fields_set:
+            _dict['format'] = None
+
+        # set to None if parameters (nullable) is None
+        # and model_fields_set contains the field
+        if self.parameters is None and "parameters" in self.model_fields_set:
+            _dict['parameters'] = None
+
         return _dict
 
     @classmethod

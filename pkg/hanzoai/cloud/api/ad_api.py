@@ -19,11 +19,11 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ad_campaign import AdCampaign
-from hanzoai.cloud.models.ad_summary import AdSummary
-from hanzoai.cloud.models.campaign_input import CampaignInput
-from hanzoai.cloud.models.campaign_list import CampaignList
-from hanzoai.cloud.models.update_campaign_in import UpdateCampaignIn
+from hanzoai.cloud.models.ad_ad_campaign import AdAdCampaign
+from hanzoai.cloud.models.ad_ad_summary import AdAdSummary
+from hanzoai.cloud.models.ad_campaign_input import AdCampaignInput
+from hanzoai.cloud.models.ad_campaign_list import AdCampaignList
+from hanzoai.cloud.models.ad_update_campaign_in import AdUpdateCampaignIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -272,6 +272,13 @@ class AdApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -314,7 +321,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignList:
+    ) -> AdCampaignList:
         """Returns the caller org's ad campaigns, most recently updated first, optionally narrowed to one lifecycle status.
 
         Returns the caller org's ad campaigns, most recently updated first, optionally narrowed to one lifecycle status. The listing is bounded by the org: another tenant's campaigns are not reachable from here at all.
@@ -355,7 +362,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "AdCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -385,7 +392,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignList]:
+    ) -> ApiResponse[AdCampaignList]:
         """Returns the caller org's ad campaigns, most recently updated first, optionally narrowed to one lifecycle status.
 
         Returns the caller org's ad campaigns, most recently updated first, optionally narrowed to one lifecycle status. The listing is bounded by the org: another tenant's campaigns are not reachable from here at all.
@@ -426,7 +433,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "AdCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -497,7 +504,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "AdCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -549,7 +556,8 @@ class AdApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -593,7 +601,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AdCampaign:
+    ) -> AdAdCampaign:
         """Returns one of the caller org's campaigns.
 
         Returns one of the caller org's campaigns. An id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -631,7 +639,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -660,7 +668,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AdCampaign]:
+    ) -> ApiResponse[AdAdCampaign]:
         """Returns one of the caller org's campaigns.
 
         Returns one of the caller org's campaigns. An id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -698,7 +706,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -765,7 +773,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -810,7 +818,8 @@ class AdApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -853,7 +862,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AdSummary:
+    ) -> AdAdSummary:
         """Rolls the caller org's ad campaigns up into four numbers: how many campaigns exist, how many are active, and the summed budget and spend across all of them.
 
         Rolls the caller org's ad campaigns up into four numbers: how many campaigns exist, how many are active, and the summed budget and spend across all of them. Budget and spend are MINOR units (cents), the same units the campaign rows carry. It counts only this org's campaigns.
@@ -888,7 +897,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdSummary",
+            '200': "AdAdSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -916,7 +925,7 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AdSummary]:
+    ) -> ApiResponse[AdAdSummary]:
         """Rolls the caller org's ad campaigns up into four numbers: how many campaigns exist, how many are active, and the summed budget and spend across all of them.
 
         Rolls the caller org's ad campaigns up into four numbers: how many campaigns exist, how many are active, and the summed budget and spend across all of them. Budget and spend are MINOR units (cents), the same units the campaign rows carry. It counts only this org's campaigns.
@@ -951,7 +960,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdSummary",
+            '200': "AdAdSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1014,7 +1023,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdSummary",
+            '200': "AdAdSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1056,7 +1065,8 @@ class AdApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1087,7 +1097,7 @@ class AdApi:
     @validate_call
     def post_ad_campaigns(
         self,
-        campaign_input: CampaignInput,
+        ad_campaign_input: AdCampaignInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1100,13 +1110,13 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AdCampaign:
+    ) -> AdAdCampaign:
         """Registers a new ad campaign for the caller's org and answers 201 with the stored row.
 
         Registers a new ad campaign for the caller's org and answers 201 with the stored row. It only records the campaign — nothing is sent to the ad network until POST /v1/ad/campaigns/{id}/launch runs it. The org is stamped by the server from the validated principal, so a body can never place a campaign in another tenant.
 
-        :param campaign_input: (required)
-        :type campaign_input: CampaignInput
+        :param ad_campaign_input: (required)
+        :type ad_campaign_input: AdCampaignInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1130,7 +1140,7 @@ class AdApi:
         """ # noqa: E501
 
         _param = self._post_ad_campaigns_serialize(
-            campaign_input=campaign_input,
+            ad_campaign_input=ad_campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1138,7 +1148,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AdCampaign",
+            '201': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1154,7 +1164,7 @@ class AdApi:
     @validate_call
     def post_ad_campaigns_with_http_info(
         self,
-        campaign_input: CampaignInput,
+        ad_campaign_input: AdCampaignInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1167,13 +1177,13 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AdCampaign]:
+    ) -> ApiResponse[AdAdCampaign]:
         """Registers a new ad campaign for the caller's org and answers 201 with the stored row.
 
         Registers a new ad campaign for the caller's org and answers 201 with the stored row. It only records the campaign — nothing is sent to the ad network until POST /v1/ad/campaigns/{id}/launch runs it. The org is stamped by the server from the validated principal, so a body can never place a campaign in another tenant.
 
-        :param campaign_input: (required)
-        :type campaign_input: CampaignInput
+        :param ad_campaign_input: (required)
+        :type ad_campaign_input: AdCampaignInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1197,7 +1207,7 @@ class AdApi:
         """ # noqa: E501
 
         _param = self._post_ad_campaigns_serialize(
-            campaign_input=campaign_input,
+            ad_campaign_input=ad_campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1205,7 +1215,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AdCampaign",
+            '201': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1221,7 +1231,7 @@ class AdApi:
     @validate_call
     def post_ad_campaigns_without_preload_content(
         self,
-        campaign_input: CampaignInput,
+        ad_campaign_input: AdCampaignInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1239,8 +1249,8 @@ class AdApi:
 
         Registers a new ad campaign for the caller's org and answers 201 with the stored row. It only records the campaign — nothing is sent to the ad network until POST /v1/ad/campaigns/{id}/launch runs it. The org is stamped by the server from the validated principal, so a body can never place a campaign in another tenant.
 
-        :param campaign_input: (required)
-        :type campaign_input: CampaignInput
+        :param ad_campaign_input: (required)
+        :type ad_campaign_input: AdCampaignInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1264,7 +1274,7 @@ class AdApi:
         """ # noqa: E501
 
         _param = self._post_ad_campaigns_serialize(
-            campaign_input=campaign_input,
+            ad_campaign_input=ad_campaign_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1272,7 +1282,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AdCampaign",
+            '201': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1283,7 +1293,7 @@ class AdApi:
 
     def _post_ad_campaigns_serialize(
         self,
-        campaign_input,
+        ad_campaign_input,
         _request_auth,
         _content_type,
         _headers,
@@ -1309,15 +1319,16 @@ class AdApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if campaign_input is not None:
-            _body_params = campaign_input
+        if ad_campaign_input is not None:
+            _body_params = ad_campaign_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1613,7 +1624,7 @@ class AdApi:
     def put_ad_campaigns_by_id(
         self,
         id: StrictStr,
-        update_campaign_in: UpdateCampaignIn,
+        ad_update_campaign_in: AdUpdateCampaignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1626,15 +1637,15 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AdCampaign:
+    ) -> AdAdCampaign:
         """Replaces the user-owned fields of one of the caller org's campaigns and answers the stored row.
 
         Replaces the user-owned fields of one of the caller org's campaigns and answers the stored row. It is a full replace, not a patch: every field is written from the request, so an omitted one is cleared. externalId is launch-owned and is never touched here, so editing a campaign cannot break its link to a live provider execution.
 
         :param id: (required)
         :type id: str
-        :param update_campaign_in: (required)
-        :type update_campaign_in: UpdateCampaignIn
+        :param ad_update_campaign_in: (required)
+        :type ad_update_campaign_in: AdUpdateCampaignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1659,7 +1670,7 @@ class AdApi:
 
         _param = self._put_ad_campaigns_by_id_serialize(
             id=id,
-            update_campaign_in=update_campaign_in,
+            ad_update_campaign_in=ad_update_campaign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1667,7 +1678,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1684,7 +1695,7 @@ class AdApi:
     def put_ad_campaigns_by_id_with_http_info(
         self,
         id: StrictStr,
-        update_campaign_in: UpdateCampaignIn,
+        ad_update_campaign_in: AdUpdateCampaignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1697,15 +1708,15 @@ class AdApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AdCampaign]:
+    ) -> ApiResponse[AdAdCampaign]:
         """Replaces the user-owned fields of one of the caller org's campaigns and answers the stored row.
 
         Replaces the user-owned fields of one of the caller org's campaigns and answers the stored row. It is a full replace, not a patch: every field is written from the request, so an omitted one is cleared. externalId is launch-owned and is never touched here, so editing a campaign cannot break its link to a live provider execution.
 
         :param id: (required)
         :type id: str
-        :param update_campaign_in: (required)
-        :type update_campaign_in: UpdateCampaignIn
+        :param ad_update_campaign_in: (required)
+        :type ad_update_campaign_in: AdUpdateCampaignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1730,7 +1741,7 @@ class AdApi:
 
         _param = self._put_ad_campaigns_by_id_serialize(
             id=id,
-            update_campaign_in=update_campaign_in,
+            ad_update_campaign_in=ad_update_campaign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1738,7 +1749,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1755,7 +1766,7 @@ class AdApi:
     def put_ad_campaigns_by_id_without_preload_content(
         self,
         id: StrictStr,
-        update_campaign_in: UpdateCampaignIn,
+        ad_update_campaign_in: AdUpdateCampaignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1775,8 +1786,8 @@ class AdApi:
 
         :param id: (required)
         :type id: str
-        :param update_campaign_in: (required)
-        :type update_campaign_in: UpdateCampaignIn
+        :param ad_update_campaign_in: (required)
+        :type ad_update_campaign_in: AdUpdateCampaignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1801,7 +1812,7 @@ class AdApi:
 
         _param = self._put_ad_campaigns_by_id_serialize(
             id=id,
-            update_campaign_in=update_campaign_in,
+            ad_update_campaign_in=ad_update_campaign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1809,7 +1820,7 @@ class AdApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AdCampaign",
+            '200': "AdAdCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1821,7 +1832,7 @@ class AdApi:
     def _put_ad_campaigns_by_id_serialize(
         self,
         id,
-        update_campaign_in,
+        ad_update_campaign_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1849,15 +1860,16 @@ class AdApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if update_campaign_in is not None:
-            _body_params = update_campaign_in
+        if ad_update_campaign_in is not None:
+            _body_params = ad_update_campaign_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

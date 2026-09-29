@@ -27,7 +27,7 @@ class IamReply(BaseModel):
     IamReply
     """ # noqa: E501
     action: Optional[StrictStr] = None
-    data: Optional[Dict[str, Any]] = None
+    data: Optional[Any] = None
     msg: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["action", "data", "msg", "status"]
@@ -71,6 +71,11 @@ class IamReply(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if data (nullable) is None
+        # and model_fields_set contains the field
+        if self.data is None and "data" in self.model_fields_set:
+            _dict['data'] = None
+
         return _dict
 
     @classmethod

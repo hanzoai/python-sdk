@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.kms_config import KmsConfig
-from hanzoai.cloud.models.kms_health import KmsHealth
-from hanzoai.cloud.models.kms_login import KmsLogin
-from hanzoai.cloud.models.kms_put import KmsPut
-from hanzoai.cloud.models.kms_secrets import KmsSecrets
-from hanzoai.cloud.models.kms_stored import KmsStored
-from hanzoai.cloud.models.kms_token import KmsToken
+from hanzoai.cloud.models.kms_kms_config import KmsKmsConfig
+from hanzoai.cloud.models.kms_kms_health import KmsKmsHealth
+from hanzoai.cloud.models.kms_kms_login import KmsKmsLogin
+from hanzoai.cloud.models.kms_kms_put import KmsKmsPut
+from hanzoai.cloud.models.kms_kms_secrets import KmsKmsSecrets
+from hanzoai.cloud.models.kms_kms_stored import KmsKmsStored
+from hanzoai.cloud.models.kms_kms_token import KmsKmsToken
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,7 +60,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsConfig:
+    ) -> KmsKmsConfig:
         """Returns the runtime configuration for the KMS console.
 
         Returns the runtime configuration for the KMS console.  What the console needs before anyone has signed in: the brand, the OIDC issuer it authenticates against, the API base for this subsystem and the path of the login exchange.  Public on purpose, and it holds nothing sensitive — it is deliberately kept under this subsystem's own namespace rather than under an admin prefix, so a gateway that admin-gates the admin routes cannot break the console's legitimate pre-login fetch.
@@ -95,7 +95,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsConfig",
+            '200': "KmsKmsConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -123,7 +123,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsConfig]:
+    ) -> ApiResponse[KmsKmsConfig]:
         """Returns the runtime configuration for the KMS console.
 
         Returns the runtime configuration for the KMS console.  What the console needs before anyone has signed in: the brand, the OIDC issuer it authenticates against, the API base for this subsystem and the path of the login exchange.  Public on purpose, and it holds nothing sensitive — it is deliberately kept under this subsystem's own namespace rather than under an admin prefix, so a gateway that admin-gates the admin routes cannot break the console's legitimate pre-login fetch.
@@ -158,7 +158,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsConfig",
+            '200': "KmsKmsConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -221,7 +221,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsConfig",
+            '200': "KmsKmsConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -263,7 +263,8 @@ class KmsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -306,7 +307,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsHealth:
+    ) -> KmsKmsHealth:
         """Reports whether this broker can actually serve secrets.
 
         Reports whether this broker can actually serve secrets.  A real readiness probe, not a liveness stub: 200 only when the store is open AND a master key is configured, with `signing` reporting whether signing keys are set up too. Anything less answers 503 with `ready:false` and the reason — no in-process store, or no master key — which are exactly the two states in which the secret operations refuse.  Not token-gated, because the platform must be able to probe it without a credential. It reports the broker's configuration state only; no secret, no key material and no tenant name appears in it.
@@ -341,8 +342,8 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsHealth",
-            '503': "KmsHealth",
+            '200': "KmsKmsHealth",
+            '503': "KmsKmsHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -370,7 +371,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsHealth]:
+    ) -> ApiResponse[KmsKmsHealth]:
         """Reports whether this broker can actually serve secrets.
 
         Reports whether this broker can actually serve secrets.  A real readiness probe, not a liveness stub: 200 only when the store is open AND a master key is configured, with `signing` reporting whether signing keys are set up too. Anything less answers 503 with `ready:false` and the reason — no in-process store, or no master key — which are exactly the two states in which the secret operations refuse.  Not token-gated, because the platform must be able to probe it without a credential. It reports the broker's configuration state only; no secret, no key material and no tenant name appears in it.
@@ -405,8 +406,8 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsHealth",
-            '503': "KmsHealth",
+            '200': "KmsKmsHealth",
+            '503': "KmsKmsHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -469,8 +470,8 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsHealth",
-            '503': "KmsHealth",
+            '200': "KmsKmsHealth",
+            '503': "KmsKmsHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -512,7 +513,8 @@ class KmsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -559,7 +561,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsSecrets:
+    ) -> KmsKmsSecrets:
         """Lists the secrets your org holds, without their values.
 
         Lists the secrets your org holds, without their values.  Returns the METADATA of the caller's own secrets: each one's name, path, environment and sealing scheme. No value and no ciphertext is included — this operation exists to enumerate what is held, and reading a value is a separate, per-secret call.  Scoped to the caller's own org and nothing else, structurally: there is no org in the path, the store root is derived from the validated org claim, and a caller therefore has no way to name another tenant's namespace. `path` narrows to a subpath and `env` selects the environment; both are also accepted under the operator's spellings, `secretPath` and `environment`. An omitted `env` means every environment and an omitted `path` means the whole org, because a default here reported a populated store as empty.  Admission is fail-closed and in order: a validated member, an org that is a DNS-1123 label, and a store holding a master key — 403, 400 and 503 respectively, all decided before any record is touched.
@@ -606,7 +608,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsSecrets",
+            '200': "KmsKmsSecrets",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -638,7 +640,7 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsSecrets]:
+    ) -> ApiResponse[KmsKmsSecrets]:
         """Lists the secrets your org holds, without their values.
 
         Lists the secrets your org holds, without their values.  Returns the METADATA of the caller's own secrets: each one's name, path, environment and sealing scheme. No value and no ciphertext is included — this operation exists to enumerate what is held, and reading a value is a separate, per-secret call.  Scoped to the caller's own org and nothing else, structurally: there is no org in the path, the store root is derived from the validated org claim, and a caller therefore has no way to name another tenant's namespace. `path` narrows to a subpath and `env` selects the environment; both are also accepted under the operator's spellings, `secretPath` and `environment`. An omitted `env` means every environment and an omitted `path` means the whole org, because a default here reported a populated store as empty.  Admission is fail-closed and in order: a validated member, an org that is a DNS-1123 label, and a store holding a master key — 403, 400 and 503 respectively, all decided before any record is touched.
@@ -685,7 +687,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsSecrets",
+            '200': "KmsKmsSecrets",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -764,7 +766,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsSecrets",
+            '200': "KmsKmsSecrets",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -826,7 +828,8 @@ class KmsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -857,7 +860,7 @@ class KmsApi:
     @validate_call
     def post_kms_auth_login(
         self,
-        kms_login: KmsLogin,
+        kms_kms_login: KmsKmsLogin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -870,13 +873,13 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsToken:
+    ) -> KmsKmsToken:
         """Exchanges a machine credential for an IAM bearer token.
 
         Exchanges a machine credential for an IAM bearer token.  Takes a tenant's machine credential — a client id and client secret — and returns an owner-scoped IAM access token with its lifetime, which is the bearer the caller then carries on the org-scoped secret operations.  It is deliberately public and unauthenticated, because it IS the credential exchange and runs before any principal exists. That makes it the one route in this subsystem rate-limited PER SOURCE IP, keyed on the real TCP peer rather than on any caller-supplied header, and body-capped in the same place.  The submitted secret is never logged and never echoed, and failures collapse to one clean status with no upstream detail: 401 when the credential does not authenticate, 502 when the identity provider is unreachable, 503 when no issuer is configured. That is on purpose — a richer error would be a validity oracle for guessed credentials.
 
-        :param kms_login: (required)
-        :type kms_login: KmsLogin
+        :param kms_kms_login: (required)
+        :type kms_kms_login: KmsKmsLogin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -900,7 +903,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_auth_login_serialize(
-            kms_login=kms_login,
+            kms_kms_login=kms_kms_login,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -908,7 +911,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsToken",
+            '200': "KmsKmsToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -924,7 +927,7 @@ class KmsApi:
     @validate_call
     def post_kms_auth_login_with_http_info(
         self,
-        kms_login: KmsLogin,
+        kms_kms_login: KmsKmsLogin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -937,13 +940,13 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsToken]:
+    ) -> ApiResponse[KmsKmsToken]:
         """Exchanges a machine credential for an IAM bearer token.
 
         Exchanges a machine credential for an IAM bearer token.  Takes a tenant's machine credential — a client id and client secret — and returns an owner-scoped IAM access token with its lifetime, which is the bearer the caller then carries on the org-scoped secret operations.  It is deliberately public and unauthenticated, because it IS the credential exchange and runs before any principal exists. That makes it the one route in this subsystem rate-limited PER SOURCE IP, keyed on the real TCP peer rather than on any caller-supplied header, and body-capped in the same place.  The submitted secret is never logged and never echoed, and failures collapse to one clean status with no upstream detail: 401 when the credential does not authenticate, 502 when the identity provider is unreachable, 503 when no issuer is configured. That is on purpose — a richer error would be a validity oracle for guessed credentials.
 
-        :param kms_login: (required)
-        :type kms_login: KmsLogin
+        :param kms_kms_login: (required)
+        :type kms_kms_login: KmsKmsLogin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -967,7 +970,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_auth_login_serialize(
-            kms_login=kms_login,
+            kms_kms_login=kms_kms_login,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -975,7 +978,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsToken",
+            '200': "KmsKmsToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -991,7 +994,7 @@ class KmsApi:
     @validate_call
     def post_kms_auth_login_without_preload_content(
         self,
-        kms_login: KmsLogin,
+        kms_kms_login: KmsKmsLogin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1009,8 +1012,8 @@ class KmsApi:
 
         Exchanges a machine credential for an IAM bearer token.  Takes a tenant's machine credential — a client id and client secret — and returns an owner-scoped IAM access token with its lifetime, which is the bearer the caller then carries on the org-scoped secret operations.  It is deliberately public and unauthenticated, because it IS the credential exchange and runs before any principal exists. That makes it the one route in this subsystem rate-limited PER SOURCE IP, keyed on the real TCP peer rather than on any caller-supplied header, and body-capped in the same place.  The submitted secret is never logged and never echoed, and failures collapse to one clean status with no upstream detail: 401 when the credential does not authenticate, 502 when the identity provider is unreachable, 503 when no issuer is configured. That is on purpose — a richer error would be a validity oracle for guessed credentials.
 
-        :param kms_login: (required)
-        :type kms_login: KmsLogin
+        :param kms_kms_login: (required)
+        :type kms_kms_login: KmsKmsLogin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1034,7 +1037,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_auth_login_serialize(
-            kms_login=kms_login,
+            kms_kms_login=kms_kms_login,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1042,7 +1045,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsToken",
+            '200': "KmsKmsToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1053,7 +1056,7 @@ class KmsApi:
 
     def _post_kms_auth_login_serialize(
         self,
-        kms_login,
+        kms_kms_login,
         _request_auth,
         _content_type,
         _headers,
@@ -1079,15 +1082,16 @@ class KmsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if kms_login is not None:
-            _body_params = kms_login
+        if kms_kms_login is not None:
+            _body_params = kms_kms_login
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1131,7 +1135,7 @@ class KmsApi:
     @validate_call
     def post_kms_secrets(
         self,
-        kms_put: KmsPut,
+        kms_kms_put: KmsKmsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1144,13 +1148,13 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KmsStored:
+    ) -> KmsKmsStored:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
-        :param kms_put: (required)
-        :type kms_put: KmsPut
+        :param kms_kms_put: (required)
+        :type kms_kms_put: KmsKmsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1174,7 +1178,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_secrets_serialize(
-            kms_put=kms_put,
+            kms_kms_put=kms_kms_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1182,7 +1186,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsStored",
+            '200': "KmsKmsStored",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1198,7 +1202,7 @@ class KmsApi:
     @validate_call
     def post_kms_secrets_with_http_info(
         self,
-        kms_put: KmsPut,
+        kms_kms_put: KmsKmsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1211,13 +1215,13 @@ class KmsApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KmsStored]:
+    ) -> ApiResponse[KmsKmsStored]:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
-        :param kms_put: (required)
-        :type kms_put: KmsPut
+        :param kms_kms_put: (required)
+        :type kms_kms_put: KmsKmsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1241,7 +1245,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_secrets_serialize(
-            kms_put=kms_put,
+            kms_kms_put=kms_kms_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1249,7 +1253,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsStored",
+            '200': "KmsKmsStored",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1265,7 +1269,7 @@ class KmsApi:
     @validate_call
     def post_kms_secrets_without_preload_content(
         self,
-        kms_put: KmsPut,
+        kms_kms_put: KmsKmsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1281,10 +1285,10 @@ class KmsApi:
     ) -> RESTResponseType:
         """Stores or replaces one secret in your org.
 
-        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Requires ADMIN authority over the org — a member reads, an admin writes. A machine credential holds no membership and so is never an org admin: it can read the secrets it was issued for and cannot replace one. Fail-closed admission, in order: admin of the org, well-formed org, master key present — 403, 400 and 503, all decided before any record is touched.
+        Stores or replaces one secret in your org.  Upserts one secret under the caller's own org. The value is sealed before it is written — a fresh per-secret data key, itself wrapped by the master key — so plaintext never reaches disk. The receipt confirms the name and environment that were written and does not echo the value.  `env` is REQUIRED on a write and has no default, which is the rule most easily got wrong here: reads and deletes still fall back to the default environment for older callers, but a write must not, because the environment is part of the storage key. A silently defaulted write lands in a bucket the readers that resolve project, environment and path never look in, and the stale value keeps being served — so the write fails loudly instead.  `name` is required, `path` is an optional subpath beneath the org root, and the org is taken from the validated claim rather than the body.  Opens only for SuperAdmin holding an access token, audited, or for a holder a declared WRITE grant covers at this exact path, key and environment. Org admin confers nothing here. Fail-closed admission, in order: a validated member, well-formed org, master key present, well-formed input, then the grant — 401/403, 400, 503, 400 and 403, all decided before any record is touched.  A value this deployment seals on the org's behalf — an MCP server's credential, a wallet's signing key, a delivery provider's token — is written by the app that holds it, through that app's own operation, and is never replaced here for membership or org admin, whatever the grant declaration says about enforcement.
 
-        :param kms_put: (required)
-        :type kms_put: KmsPut
+        :param kms_kms_put: (required)
+        :type kms_kms_put: KmsKmsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1308,7 +1312,7 @@ class KmsApi:
         """ # noqa: E501
 
         _param = self._post_kms_secrets_serialize(
-            kms_put=kms_put,
+            kms_kms_put=kms_kms_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1316,7 +1320,7 @@ class KmsApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KmsStored",
+            '200': "KmsKmsStored",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1327,7 +1331,7 @@ class KmsApi:
 
     def _post_kms_secrets_serialize(
         self,
-        kms_put,
+        kms_kms_put,
         _request_auth,
         _content_type,
         _headers,
@@ -1353,15 +1357,16 @@ class KmsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if kms_put is not None:
-            _body_params = kms_put
+        if kms_kms_put is not None:
+            _body_params = kms_kms_put
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

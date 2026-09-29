@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.doc_type import DocType
-from hanzoai.cloud.models.doc_type_list import DocTypeList
-from hanzoai.cloud.models.document_list import DocumentList
-from hanzoai.cloud.models.install import Install
-from hanzoai.cloud.models.module_list import ModuleList
-from hanzoai.cloud.models.module_state import ModuleState
-from hanzoai.cloud.models.summary_view import SummaryView
+from hanzoai.cloud.models.framework_doc_type import FrameworkDocType
+from hanzoai.cloud.models.framework_doc_type_list import FrameworkDocTypeList
+from hanzoai.cloud.models.framework_document_list import FrameworkDocumentList
+from hanzoai.cloud.models.framework_install import FrameworkInstall
+from hanzoai.cloud.models.framework_module_list import FrameworkModuleList
+from hanzoai.cloud.models.framework_module_state import FrameworkModuleState
+from hanzoai.cloud.models.framework_summary_view import FrameworkSummaryView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -289,6 +289,13 @@ class FrameworkApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -543,6 +550,13 @@ class FrameworkApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -588,7 +602,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocumentList:
+    ) -> FrameworkDocumentList:
         """Returns the caller org's documents of one DocType, filtered, ordered and projected by the query.
 
         Returns the caller org's documents of one DocType, filtered, ordered and projected by the query. The DocType is resolved FIRST — through the same permission gate the list itself uses — because the query is validated against its schema: a filter, sort or field name the DocType does not declare is refused rather than reaching the store.
@@ -638,7 +652,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentList",
+            '200': "FrameworkDocumentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -671,7 +685,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocumentList]:
+    ) -> ApiResponse[FrameworkDocumentList]:
         """Returns the caller org's documents of one DocType, filtered, ordered and projected by the query.
 
         Returns the caller org's documents of one DocType, filtered, ordered and projected by the query. The DocType is resolved FIRST — through the same permission gate the list itself uses — because the query is validated against its schema: a filter, sort or field name the DocType does not declare is refused rather than reaching the store.
@@ -721,7 +735,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentList",
+            '200': "FrameworkDocumentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -804,7 +818,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentList",
+            '200': "FrameworkDocumentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -869,7 +883,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1145,7 +1160,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1188,7 +1204,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocTypeList:
+    ) -> FrameworkDocTypeList:
         """Returns every DocType defined in the caller's org.
 
         Returns every DocType defined in the caller's org. Another tenant's definitions are never included: the org is part of the store key.
@@ -1223,7 +1239,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocTypeList",
+            '200': "FrameworkDocTypeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1251,7 +1267,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocTypeList]:
+    ) -> ApiResponse[FrameworkDocTypeList]:
         """Returns every DocType defined in the caller's org.
 
         Returns every DocType defined in the caller's org. Another tenant's definitions are never included: the org is part of the store key.
@@ -1286,7 +1302,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocTypeList",
+            '200': "FrameworkDocTypeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1349,7 +1365,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocTypeList",
+            '200': "FrameworkDocTypeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1391,7 +1407,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1435,7 +1452,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocType:
+    ) -> FrameworkDocType:
         """Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags.
 
         Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags. Scoped to the caller's org, so another tenant's DocType of the same name is simply not found.
@@ -1473,7 +1490,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1502,7 +1519,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocType]:
+    ) -> ApiResponse[FrameworkDocType]:
         """Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags.
 
         Returns one DocType definition — its fields, naming rule, permissions and lifecycle flags. Scoped to the caller's org, so another tenant's DocType of the same name is simply not found.
@@ -1540,7 +1557,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1607,7 +1624,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1652,7 +1669,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1695,7 +1713,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ModuleList:
+    ) -> FrameworkModuleList:
         """Returns every app lane compiled into this deployment and the DocTypes each one installs.
 
         Returns every app lane compiled into this deployment and the DocTypes each one installs. It describes the BINARY, not the org: what a given org has actually installed is the per-module state below.
@@ -1730,7 +1748,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleList",
+            '200': "FrameworkModuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1758,7 +1776,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ModuleList]:
+    ) -> ApiResponse[FrameworkModuleList]:
         """Returns every app lane compiled into this deployment and the DocTypes each one installs.
 
         Returns every app lane compiled into this deployment and the DocTypes each one installs. It describes the BINARY, not the org: what a given org has actually installed is the per-module state below.
@@ -1793,7 +1811,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleList",
+            '200': "FrameworkModuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1856,7 +1874,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleList",
+            '200': "FrameworkModuleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1898,7 +1916,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1942,7 +1961,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ModuleState:
+    ) -> FrameworkModuleState:
         """Returns one app lane's install state for the caller's org: the DocTypes the lane declares, and which of them already exist in the org.
 
         Returns one app lane's install state for the caller's org: the DocTypes the lane declares, and which of them already exist in the org. That is the honest \"set up\" versus \"installed\" answer a console renders.
@@ -1980,7 +1999,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleState",
+            '200': "FrameworkModuleState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2009,7 +2028,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ModuleState]:
+    ) -> ApiResponse[FrameworkModuleState]:
         """Returns one app lane's install state for the caller's org: the DocTypes the lane declares, and which of them already exist in the org.
 
         Returns one app lane's install state for the caller's org: the DocTypes the lane declares, and which of them already exist in the org. That is the honest \"set up\" versus \"installed\" answer a console renders.
@@ -2047,7 +2066,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleState",
+            '200': "FrameworkModuleState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2114,7 +2133,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ModuleState",
+            '200': "FrameworkModuleState",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2159,7 +2178,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2202,7 +2222,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SummaryView:
+    ) -> FrameworkSummaryView:
         """Reports how much of the DocType surface the caller's org uses: how many DocTypes it has defined, and how many documents exist across them.
 
         Reports how much of the DocType surface the caller's org uses: how many DocTypes it has defined, and how many documents exist across them.
@@ -2237,7 +2257,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryView",
+            '200': "FrameworkSummaryView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2265,7 +2285,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SummaryView]:
+    ) -> ApiResponse[FrameworkSummaryView]:
         """Reports how much of the DocType surface the caller's org uses: how many DocTypes it has defined, and how many documents exist across them.
 
         Reports how much of the DocType surface the caller's org uses: how many DocTypes it has defined, and how many documents exist across them.
@@ -2300,7 +2320,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryView",
+            '200': "FrameworkSummaryView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2363,7 +2383,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryView",
+            '200': "FrameworkSummaryView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2405,7 +2425,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2932,7 +2953,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3208,7 +3230,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3239,7 +3262,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_doctypes(
         self,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3252,13 +3275,13 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocType:
+    ) -> FrameworkDocType:
         """Defines a DocType in the caller's org: the metadata that gives a document surface its fields, its naming rule, whether it has a submit/cancel lifecycle, and which role may do what to it.
 
         Defines a DocType in the caller's org: the metadata that gives a document surface its fields, its naming rule, whether it has a submit/cancel lifecycle, and which role may do what to it. Manager-only — on a fresh org the first caller to administer it is seeded as its System Manager, after which only a System Manager (or a platform admin) may define. Answers 201.
 
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3282,7 +3305,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_framework_doctypes_serialize(
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3290,7 +3313,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocType",
+            '201': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3306,7 +3329,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_doctypes_with_http_info(
         self,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3319,13 +3342,13 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocType]:
+    ) -> ApiResponse[FrameworkDocType]:
         """Defines a DocType in the caller's org: the metadata that gives a document surface its fields, its naming rule, whether it has a submit/cancel lifecycle, and which role may do what to it.
 
         Defines a DocType in the caller's org: the metadata that gives a document surface its fields, its naming rule, whether it has a submit/cancel lifecycle, and which role may do what to it. Manager-only — on a fresh org the first caller to administer it is seeded as its System Manager, after which only a System Manager (or a platform admin) may define. Answers 201.
 
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3349,7 +3372,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_framework_doctypes_serialize(
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3357,7 +3380,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocType",
+            '201': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3373,7 +3396,7 @@ class FrameworkApi:
     @validate_call
     def post_framework_doctypes_without_preload_content(
         self,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3391,8 +3414,8 @@ class FrameworkApi:
 
         Defines a DocType in the caller's org: the metadata that gives a document surface its fields, its naming rule, whether it has a submit/cancel lifecycle, and which role may do what to it. Manager-only — on a fresh org the first caller to administer it is seeded as its System Manager, after which only a System Manager (or a platform admin) may define. Answers 201.
 
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3416,7 +3439,7 @@ class FrameworkApi:
         """ # noqa: E501
 
         _param = self._post_framework_doctypes_serialize(
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3424,7 +3447,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocType",
+            '201': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3435,7 +3458,7 @@ class FrameworkApi:
 
     def _post_framework_doctypes_serialize(
         self,
-        doc_type,
+        framework_doc_type,
         _request_auth,
         _content_type,
         _headers,
@@ -3461,15 +3484,16 @@ class FrameworkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if doc_type is not None:
-            _body_params = doc_type
+        if framework_doc_type is not None:
+            _body_params = framework_doc_type
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3526,7 +3550,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Install:
+    ) -> FrameworkInstall:
         """Creates an app lane's DocTypes in the caller's org.
 
         Creates an app lane's DocTypes in the caller's org. Idempotent and create-if-absent: a DocType the org already has is reported as existing and never replaced, so re-installing cannot clobber a definition the org has since edited. Manager-only.
@@ -3564,7 +3588,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Install",
+            '200': "FrameworkInstall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3593,7 +3617,7 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Install]:
+    ) -> ApiResponse[FrameworkInstall]:
         """Creates an app lane's DocTypes in the caller's org.
 
         Creates an app lane's DocTypes in the caller's org. Idempotent and create-if-absent: a DocType the org already has is reported as existing and never replaced, so re-installing cannot clobber a definition the org has since edited. Manager-only.
@@ -3631,7 +3655,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Install",
+            '200': "FrameworkInstall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3698,7 +3722,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Install",
+            '200': "FrameworkInstall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3743,7 +3767,8 @@ class FrameworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4041,7 +4066,7 @@ class FrameworkApi:
     def put_framework_doctypes_by_name(
         self,
         name: StrictStr,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4054,15 +4079,15 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocType:
+    ) -> FrameworkDocType:
         """Replaces a DocType definition wholesale (PUT semantics): the stored definition becomes the body.
 
         Replaces a DocType definition wholesale (PUT semantics): the stored definition becomes the body. The name in the URL is authoritative over the body's, and documents already stored under the DocType are left intact. Manager-only.
 
         :param name: (required)
         :type name: str
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4087,7 +4112,7 @@ class FrameworkApi:
 
         _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4095,7 +4120,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4112,7 +4137,7 @@ class FrameworkApi:
     def put_framework_doctypes_by_name_with_http_info(
         self,
         name: StrictStr,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4125,15 +4150,15 @@ class FrameworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocType]:
+    ) -> ApiResponse[FrameworkDocType]:
         """Replaces a DocType definition wholesale (PUT semantics): the stored definition becomes the body.
 
         Replaces a DocType definition wholesale (PUT semantics): the stored definition becomes the body. The name in the URL is authoritative over the body's, and documents already stored under the DocType are left intact. Manager-only.
 
         :param name: (required)
         :type name: str
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4158,7 +4183,7 @@ class FrameworkApi:
 
         _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4166,7 +4191,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4183,7 +4208,7 @@ class FrameworkApi:
     def put_framework_doctypes_by_name_without_preload_content(
         self,
         name: StrictStr,
-        doc_type: DocType,
+        framework_doc_type: FrameworkDocType,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4203,8 +4228,8 @@ class FrameworkApi:
 
         :param name: (required)
         :type name: str
-        :param doc_type: (required)
-        :type doc_type: DocType
+        :param framework_doc_type: (required)
+        :type framework_doc_type: FrameworkDocType
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4229,7 +4254,7 @@ class FrameworkApi:
 
         _param = self._put_framework_doctypes_by_name_serialize(
             name=name,
-            doc_type=doc_type,
+            framework_doc_type=framework_doc_type,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4237,7 +4262,7 @@ class FrameworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocType",
+            '200': "FrameworkDocType",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4249,7 +4274,7 @@ class FrameworkApi:
     def _put_framework_doctypes_by_name_serialize(
         self,
         name,
-        doc_type,
+        framework_doc_type,
         _request_auth,
         _content_type,
         _headers,
@@ -4277,15 +4302,16 @@ class FrameworkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if doc_type is not None:
-            _body_params = doc_type
+        if framework_doc_type is not None:
+            _body_params = framework_doc_type
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

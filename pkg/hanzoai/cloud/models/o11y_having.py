@@ -28,7 +28,7 @@ class O11yHaving(BaseModel):
     """ # noqa: E501
     column_name: Optional[StrictStr] = Field(default=None, alias="columnName")
     op: Optional[StrictStr] = None
-    value: Optional[Dict[str, Any]] = None
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["columnName", "op", "value"]
 
     model_config = ConfigDict(
@@ -70,6 +70,11 @@ class O11yHaving(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

@@ -17,9 +17,13 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import Field, StrictBool, StrictStr
-from typing import List, Optional
+from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.ai_anthropic_request import AiAnthropicRequest
 from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse
+from hanzoai.cloud.models.ai_decisions_request import AiDecisionsRequest
+from hanzoai.cloud.models.ai_decisions_response import AiDecisionsResponse
+from hanzoai.cloud.models.ai_limits import AiLimits
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
 from hanzoai.cloud.models.ai_model_list import AiModelList
 from hanzoai.cloud.models.ai_ranking import AiRanking
@@ -68,7 +72,9 @@ from hanzoai.cloud.models.get_ai_videos200_response import GetAiVideos200Respons
 from hanzoai.cloud.models.get_ai_workflows200_response import GetAiWorkflows200Response
 from hanzoai.cloud.models.get_models_providers200_response import GetModelsProviders200Response
 from hanzoai.cloud.models.openai_audio_response import OpenaiAudioResponse
+from hanzoai.cloud.models.openai_chat_completion_request import OpenaiChatCompletionRequest
 from hanzoai.cloud.models.openai_chat_completion_response import OpenaiChatCompletionResponse
+from hanzoai.cloud.models.openai_embedding_request import OpenaiEmbeddingRequest
 from hanzoai.cloud.models.openai_embedding_response import OpenaiEmbeddingResponse
 from hanzoai.cloud.models.openai_image_response import OpenaiImageResponse
 from hanzoai.cloud.models.post_ai_articles200_response import PostAiArticles200Response
@@ -123,6 +129,500 @@ class AiApi:
 
 
     @validate_call
+    def ai_limits(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiLimits:
+        """Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_limits_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiLimits]:
+        """Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_limits_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        Reads the caller's plan AI limits: each window's billed cents used and allowed, when it resets, and whether their one free reset for the period is still there.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_limits_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/ai/limits',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def ai_limits_reset(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiLimits:
+        """Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now.
+
+        Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now. The month is untouched, so total spend never passes the plan's ceiling. One per period by default; an unused reset lapses at the period end. Answers the limits as they stand after the reset.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_reset_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_limits_reset_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiLimits]:
+        """Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now.
+
+        Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now. The month is untouched, so total spend never passes the plan's ceiling. One per period by default; an unused reset lapses at the period end. Answers the limits as they stand after the reset.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_reset_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_limits_reset_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now.
+
+        Uses the caller's free reset for this billing period: their session and weekly windows start again from zero now. The month is untouched, so total spend never passes the plan's ceiling. One per period by default; an unused reset lapses at the period end. Answers the limits as they stand after the reset.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_limits_reset_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiLimits",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_limits_reset_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/ai/limits/reset',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def ai_mcp_tools(
         self,
         names: Annotated[Optional[StrictBool], Field(description="Names asks for this process's tool NAMES and not only how many there are. Off by default: a list of names is a page, and the question this op exists to answer (\"is the MCP server up and does it have anything behind it\") is answered by the count.")] = None,
@@ -139,9 +639,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AiMCPSurface:
-        """Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
+        """Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
 
-        Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
+        Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
 
         :param names: Names asks for this process's tool NAMES and not only how many there are. Off by default: a list of names is a page, and the question this op exists to answer (\"is the MCP server up and does it have anything behind it\") is answered by the count.
         :type names: bool
@@ -206,9 +706,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AiMCPSurface]:
-        """Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
+        """Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
 
-        Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
+        Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
 
         :param names: Names asks for this process's tool NAMES and not only how many there are. Off by default: a list of names is a page, and the question this op exists to answer (\"is the MCP server up and does it have anything behind it\") is answered by the count.
         :type names: bool
@@ -273,9 +773,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
+        """Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed.
 
-        Tools reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
+        Reports what THIS PROCESS's MCP server carries: how many tools its own registry projects, optionally their names, and which subsystems this process composed. It is the answer to \"is this MCP server up and does it have anything behind it\" — a question a status code cannot answer, since an empty server and a full one are both 200. What the FLEET's server carries is the fleet server's own answer: POST /v1/mcp, tools/list, which asks every subsystem and names the ones that did not reply.
 
         :param names: Names asks for this process's tool NAMES and not only how many there are. Off by default: a list of names is a page, and the question this op exists to answer (\"is the MCP server up and does it have anything behind it\") is answered by the count.
         :type names: bool
@@ -357,7 +857,8 @@ class AiApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39338,6 +39839,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39359,6 +39861,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39384,6 +39888,7 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39411,6 +39916,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39432,6 +39938,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39457,6 +39965,7 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39484,6 +39993,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39505,6 +40015,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39530,6 +40042,7 @@ class AiApi:
         _param = self._patch_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39552,6 +40065,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -39581,6 +40095,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -39591,6 +40107,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -39620,6 +40149,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39641,6 +40171,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39666,6 +40198,7 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39693,6 +40226,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39714,6 +40248,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39739,6 +40275,7 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39766,6 +40303,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39787,6 +40325,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39812,6 +40352,7 @@ class AiApi:
         _param = self._patch_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39834,6 +40375,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -39863,6 +40405,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -39873,6 +40417,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -39902,6 +40459,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39923,6 +40481,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -39948,6 +40508,7 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -39975,6 +40536,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -39996,6 +40558,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40021,6 +40585,7 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40048,6 +40613,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40069,6 +40635,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40094,6 +40662,7 @@ class AiApi:
         _param = self._patch_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40116,6 +40685,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40145,6 +40715,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -40155,6 +40727,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40184,6 +40769,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40205,6 +40791,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40230,6 +40818,7 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40257,6 +40846,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40278,6 +40868,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40303,6 +40895,7 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40330,6 +40923,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40351,6 +40945,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40376,6 +40972,7 @@ class AiApi:
         _param = self._patch_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40398,6 +40995,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40427,6 +41025,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -40437,6 +41037,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40466,6 +41079,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40487,6 +41101,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40512,6 +41128,7 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40539,6 +41156,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40560,6 +41178,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40585,6 +41205,7 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40612,6 +41233,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40633,6 +41255,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40658,6 +41282,7 @@ class AiApi:
         _param = self._patch_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40680,6 +41305,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40709,6 +41335,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -40719,6 +41347,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -40748,6 +41389,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40769,6 +41411,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40794,6 +41438,7 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40821,6 +41466,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40842,6 +41488,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40867,6 +41515,7 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40894,6 +41543,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -40915,6 +41565,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -40940,6 +41592,7 @@ class AiApi:
         _param = self._patch_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -40962,6 +41615,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -40991,6 +41645,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -41001,6 +41657,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41030,6 +41699,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41051,6 +41721,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41076,6 +41748,7 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41103,6 +41776,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41124,6 +41798,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41149,6 +41825,7 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41176,6 +41853,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41197,6 +41875,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41222,6 +41902,7 @@ class AiApi:
         _param = self._patch_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41244,6 +41925,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41273,6 +41955,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -41283,6 +41967,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41312,6 +42009,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41333,6 +42031,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41358,6 +42058,7 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41385,6 +42086,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41406,6 +42108,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41431,6 +42135,7 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41458,6 +42163,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41479,6 +42185,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41504,6 +42212,7 @@ class AiApi:
         _param = self._patch_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41526,6 +42235,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41555,6 +42265,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -41565,6 +42277,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -41594,6 +42319,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41615,6 +42341,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41640,6 +42368,7 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41667,6 +42396,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41688,6 +42418,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41713,6 +42445,7 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41740,6 +42473,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -41761,6 +42495,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -41786,6 +42522,7 @@ class AiApi:
         _param = self._patch_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -41808,6 +42545,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -41837,6 +42575,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -41847,6 +42587,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42378,6 +43131,7 @@ class AiApi:
     @validate_call
     def patch_ai_preferences(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42394,6 +43148,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42417,6 +43173,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42442,6 +43199,7 @@ class AiApi:
     @validate_call
     def patch_ai_preferences_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42458,6 +43216,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42481,6 +43241,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42506,6 +43267,7 @@ class AiApi:
     @validate_call
     def patch_ai_preferences_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42522,6 +43284,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42545,6 +43309,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42565,6 +43330,7 @@ class AiApi:
 
     def _patch_ai_preferences_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -42590,6 +43356,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -42600,6 +43368,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42629,6 +43410,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42650,6 +43432,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42675,6 +43459,7 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42702,6 +43487,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42723,6 +43509,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42748,6 +43536,7 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42775,6 +43564,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42796,6 +43586,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42821,6 +43613,7 @@ class AiApi:
         _param = self._patch_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42843,6 +43636,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -42872,6 +43666,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -42882,6 +43678,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -42911,6 +43720,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -42932,6 +43742,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -42957,6 +43769,7 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -42984,6 +43797,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43005,6 +43819,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43030,6 +43846,7 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43057,6 +43874,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43078,6 +43896,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43103,6 +43923,7 @@ class AiApi:
         _param = self._patch_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43125,6 +43946,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43154,6 +43976,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -43164,6 +43988,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -43193,6 +44030,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43214,6 +44052,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43239,6 +44079,7 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43266,6 +44107,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43287,6 +44129,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43312,6 +44156,7 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43339,6 +44184,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -43360,6 +44206,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -43385,6 +44233,7 @@ class AiApi:
         _param = self._patch_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -43407,6 +44256,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -43436,6 +44286,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -43446,6 +44298,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -44735,6 +45600,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44756,6 +45622,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44781,6 +45649,7 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44808,6 +45677,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44829,6 +45699,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44854,6 +45726,7 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44881,6 +45754,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -44902,6 +45776,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -44927,6 +45803,7 @@ class AiApi:
         _param = self._patch_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -44949,6 +45826,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -44978,6 +45856,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -44988,6 +45868,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45017,6 +45910,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45038,6 +45932,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45063,6 +45959,7 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45090,6 +45987,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45111,6 +46009,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45136,6 +46036,7 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45163,6 +46064,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45184,6 +46086,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45209,6 +46113,7 @@ class AiApi:
         _param = self._patch_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45231,6 +46136,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45260,6 +46166,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -45270,6 +46178,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45299,6 +46220,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45320,6 +46242,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45345,6 +46269,7 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45372,6 +46297,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45393,6 +46319,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45418,6 +46346,7 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45445,6 +46374,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45466,6 +46396,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45491,6 +46423,7 @@ class AiApi:
         _param = self._patch_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45513,6 +46446,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45542,6 +46476,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -45552,6 +46488,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45581,6 +46530,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45602,6 +46552,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45627,6 +46579,7 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45654,6 +46607,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45675,6 +46629,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45700,6 +46656,7 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45727,6 +46684,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45748,6 +46706,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45773,6 +46733,7 @@ class AiApi:
         _param = self._patch_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45795,6 +46756,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -45824,6 +46786,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -45834,6 +46798,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -45863,6 +46840,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45884,6 +46862,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45909,6 +46889,7 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -45936,6 +46917,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -45957,6 +46939,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -45982,6 +46966,7 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46009,6 +46994,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46030,6 +47016,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46055,6 +47043,7 @@ class AiApi:
         _param = self._patch_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46077,6 +47066,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46106,6 +47096,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -46116,6 +47108,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46145,6 +47150,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46166,6 +47172,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46191,6 +47199,7 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46218,6 +47227,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46239,6 +47249,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46264,6 +47276,7 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46291,6 +47304,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46312,6 +47326,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46337,6 +47353,7 @@ class AiApi:
         _param = self._patch_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46359,6 +47376,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46388,6 +47406,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -46398,6 +47418,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46427,6 +47460,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46448,6 +47482,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46473,6 +47509,7 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46500,6 +47537,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46521,6 +47559,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46546,6 +47586,7 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46573,6 +47614,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46594,6 +47636,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46619,6 +47663,7 @@ class AiApi:
         _param = self._patch_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46641,6 +47686,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46670,6 +47716,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -46680,6 +47728,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46707,6 +47768,7 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46723,6 +47785,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46746,6 +47810,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46771,6 +47836,7 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46787,6 +47853,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46810,6 +47878,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46835,6 +47904,7 @@ class AiApi:
     @validate_call
     def patch_ai_training_contribution_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46851,6 +47921,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -46874,6 +47946,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._patch_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -46894,6 +47967,7 @@ class AiApi:
 
     def _patch_ai_training_contribution_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -46919,6 +47993,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -46929,6 +48005,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -46958,6 +48047,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -46979,6 +48069,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47004,6 +48096,7 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47031,6 +48124,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47052,6 +48146,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47077,6 +48173,7 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47104,6 +48201,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47125,6 +48223,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47150,6 +48250,7 @@ class AiApi:
         _param = self._patch_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47172,6 +48273,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47201,6 +48303,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -47211,6 +48315,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47240,6 +48357,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47261,6 +48379,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47286,6 +48406,7 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47313,6 +48434,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47334,6 +48456,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47359,6 +48483,7 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47386,6 +48511,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47407,6 +48533,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47432,6 +48560,7 @@ class AiApi:
         _param = self._patch_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47454,6 +48583,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47483,6 +48613,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -47493,6 +48625,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47522,6 +48667,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47543,6 +48689,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47568,6 +48716,7 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47595,6 +48744,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47616,6 +48766,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47641,6 +48793,7 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47668,6 +48821,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47689,6 +48843,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47714,6 +48870,7 @@ class AiApi:
         _param = self._patch_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47736,6 +48893,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -47765,6 +48923,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -47775,6 +48935,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -47804,6 +48977,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47825,6 +48999,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47850,6 +49026,7 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47877,6 +49054,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47898,6 +49076,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47923,6 +49103,7 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -47950,6 +49131,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -47971,6 +49153,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -47996,6 +49180,7 @@ class AiApi:
         _param = self._patch_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48018,6 +49203,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48047,6 +49233,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -48057,6 +49245,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48320,6 +49521,7 @@ class AiApi:
     @validate_call
     def post_ai_articles(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48337,6 +49539,8 @@ class AiApi:
 
         Create one article.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48360,6 +49564,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48385,6 +49590,7 @@ class AiApi:
     @validate_call
     def post_ai_articles_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48402,6 +49608,8 @@ class AiApi:
 
         Create one article.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48425,6 +49633,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48450,6 +49659,7 @@ class AiApi:
     @validate_call
     def post_ai_articles_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48467,6 +49677,8 @@ class AiApi:
 
         Create one article.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48490,6 +49702,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_articles_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48510,6 +49723,7 @@ class AiApi:
 
     def _post_ai_articles_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48535,6 +49749,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -48545,6 +49761,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48572,6 +49801,7 @@ class AiApi:
     @validate_call
     def post_ai_assets(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48589,6 +49819,8 @@ class AiApi:
 
         Create one asset.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48612,6 +49844,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48637,6 +49870,7 @@ class AiApi:
     @validate_call
     def post_ai_assets_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48654,6 +49888,8 @@ class AiApi:
 
         Create one asset.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48677,6 +49913,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48702,6 +49939,7 @@ class AiApi:
     @validate_call
     def post_ai_assets_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48719,6 +49957,8 @@ class AiApi:
 
         Create one asset.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48742,6 +49982,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48762,6 +50003,7 @@ class AiApi:
 
     def _post_ai_assets_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -48787,6 +50029,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -48797,6 +50041,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -48826,6 +50083,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48846,6 +50104,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48871,6 +50131,7 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48898,6 +50159,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48918,6 +50180,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -48943,6 +50207,7 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -48970,6 +50235,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -48990,6 +50256,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49015,6 +50283,7 @@ class AiApi:
         _param = self._post_ai_assets_by_owner_by_name_scan_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49037,6 +50306,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49066,6 +50336,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -49076,6 +50348,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49103,6 +50388,7 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49119,6 +50405,8 @@ class AiApi:
         """Scan (asset)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49142,6 +50430,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49167,6 +50456,7 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49183,6 +50473,8 @@ class AiApi:
         """Scan (asset)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49206,6 +50498,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49231,6 +50524,7 @@ class AiApi:
     @validate_call
     def post_ai_assets_scan_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49247,6 +50541,8 @@ class AiApi:
         """Scan (asset)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49270,6 +50566,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_assets_scan_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49290,6 +50587,7 @@ class AiApi:
 
     def _post_ai_assets_scan_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49315,6 +50613,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -49325,6 +50625,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -49352,6 +50665,7 @@ class AiApi:
     @validate_call
     def post_ai_chats(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49369,6 +50683,8 @@ class AiApi:
 
         Create one chat.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49392,6 +50708,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49417,6 +50734,7 @@ class AiApi:
     @validate_call
     def post_ai_chats_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49434,6 +50752,8 @@ class AiApi:
 
         Create one chat.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49457,6 +50777,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49482,6 +50803,7 @@ class AiApi:
     @validate_call
     def post_ai_chats_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -49499,6 +50821,8 @@ class AiApi:
 
         Create one chat.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -49522,6 +50846,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_chats_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -49542,6 +50867,7 @@ class AiApi:
 
     def _post_ai_chats_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -49567,6 +50893,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -49577,6 +50905,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50123,6 +51464,7 @@ class AiApi:
     @validate_call
     def post_ai_deployments(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50140,6 +51482,8 @@ class AiApi:
 
         Create one application.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50163,6 +51507,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50188,6 +51533,7 @@ class AiApi:
     @validate_call
     def post_ai_deployments_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50205,6 +51551,8 @@ class AiApi:
 
         Create one application.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50228,6 +51576,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50253,6 +51602,7 @@ class AiApi:
     @validate_call
     def post_ai_deployments_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50270,6 +51620,8 @@ class AiApi:
 
         Create one application.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50293,6 +51645,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_deployments_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50313,6 +51666,7 @@ class AiApi:
 
     def _post_ai_deployments_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50338,6 +51692,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -50348,6 +51704,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50377,6 +51746,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50397,6 +51767,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50422,6 +51794,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50449,6 +51822,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50469,6 +51843,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50494,6 +51870,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50521,6 +51898,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50541,6 +51919,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50566,6 +51946,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_deploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50588,6 +51969,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50617,6 +51999,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -50627,6 +52011,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -50656,6 +52053,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50676,6 +52074,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50701,6 +52101,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50728,6 +52129,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50748,6 +52150,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50773,6 +52177,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50800,6 +52205,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -50820,6 +52226,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -50845,6 +52253,7 @@ class AiApi:
         _param = self._post_ai_deployments_by_owner_by_name_undeploy_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -50867,6 +52276,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -50896,6 +52306,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -50906,6 +52318,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51185,6 +52610,7 @@ class AiApi:
     @validate_call
     def post_ai_files(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51202,6 +52628,8 @@ class AiApi:
 
         Create one file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51225,6 +52653,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51250,6 +52679,7 @@ class AiApi:
     @validate_call
     def post_ai_files_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51267,6 +52697,8 @@ class AiApi:
 
         Create one file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51290,6 +52722,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51315,6 +52748,7 @@ class AiApi:
     @validate_call
     def post_ai_files_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51332,6 +52766,8 @@ class AiApi:
 
         Create one file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51355,6 +52791,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51375,6 +52812,7 @@ class AiApi:
 
     def _post_ai_files_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51400,6 +52838,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -51410,6 +52850,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51437,6 +52890,7 @@ class AiApi:
     @validate_call
     def post_ai_files_activate(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51453,6 +52907,8 @@ class AiApi:
         """Activate (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51476,6 +52932,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51501,6 +52958,7 @@ class AiApi:
     @validate_call
     def post_ai_files_activate_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51517,6 +52975,8 @@ class AiApi:
         """Activate (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51540,6 +53000,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51565,6 +53026,7 @@ class AiApi:
     @validate_call
     def post_ai_files_activate_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51581,6 +53043,8 @@ class AiApi:
         """Activate (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51604,6 +53068,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_activate_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51624,6 +53089,7 @@ class AiApi:
 
     def _post_ai_files_activate_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51649,6 +53115,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -51659,6 +53127,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51688,6 +53169,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51708,6 +53190,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51733,6 +53217,7 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51760,6 +53245,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51780,6 +53266,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51805,6 +53293,7 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51832,6 +53321,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51852,6 +53342,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -51877,6 +53369,7 @@ class AiApi:
         _param = self._post_ai_files_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -51899,6 +53392,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -51928,6 +53422,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -51938,6 +53434,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -51965,6 +53474,7 @@ class AiApi:
     @validate_call
     def post_ai_files_upload(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -51981,6 +53491,8 @@ class AiApi:
         """Upload (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52004,6 +53516,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52029,6 +53542,7 @@ class AiApi:
     @validate_call
     def post_ai_files_upload_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52045,6 +53559,8 @@ class AiApi:
         """Upload (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52068,6 +53584,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52093,6 +53610,7 @@ class AiApi:
     @validate_call
     def post_ai_files_upload_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52109,6 +53627,8 @@ class AiApi:
         """Upload (file)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52132,6 +53652,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_files_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52152,6 +53673,7 @@ class AiApi:
 
     def _post_ai_files_upload_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -52177,6 +53699,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -52187,6 +53711,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -52970,6 +54507,7 @@ class AiApi:
     @validate_call
     def post_ai_forms(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52987,6 +54525,8 @@ class AiApi:
 
         Create one form.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53010,6 +54550,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53035,6 +54576,7 @@ class AiApi:
     @validate_call
     def post_ai_forms_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53052,6 +54594,8 @@ class AiApi:
 
         Create one form.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53075,6 +54619,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53100,6 +54645,7 @@ class AiApi:
     @validate_call
     def post_ai_forms_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53117,6 +54663,8 @@ class AiApi:
 
         Create one form.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53140,6 +54688,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_forms_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53160,6 +54709,7 @@ class AiApi:
 
     def _post_ai_forms_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53185,6 +54735,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -53195,6 +54747,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -53222,6 +54787,7 @@ class AiApi:
     @validate_call
     def post_ai_graphs(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53239,6 +54805,8 @@ class AiApi:
 
         Create one graph.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53262,6 +54830,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53287,6 +54856,7 @@ class AiApi:
     @validate_call
     def post_ai_graphs_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53304,6 +54874,8 @@ class AiApi:
 
         Create one graph.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53327,6 +54899,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53352,6 +54925,7 @@ class AiApi:
     @validate_call
     def post_ai_graphs_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53369,6 +54943,8 @@ class AiApi:
 
         Create one graph.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53392,6 +54968,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_graphs_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53412,6 +54989,7 @@ class AiApi:
 
     def _post_ai_graphs_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -53437,6 +55015,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -53447,6 +55027,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54230,6 +55823,7 @@ class AiApi:
     @validate_call
     def post_ai_messages(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54247,6 +55841,8 @@ class AiApi:
 
         Create one message.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54270,6 +55866,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54295,6 +55892,7 @@ class AiApi:
     @validate_call
     def post_ai_messages_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54312,6 +55910,8 @@ class AiApi:
 
         Create one message.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54335,6 +55935,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54360,6 +55961,7 @@ class AiApi:
     @validate_call
     def post_ai_messages_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54377,6 +55979,8 @@ class AiApi:
 
         Create one message.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54400,6 +56004,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_messages_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54420,6 +56025,7 @@ class AiApi:
 
     def _post_ai_messages_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54445,6 +56051,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -54455,6 +56063,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54482,6 +56103,7 @@ class AiApi:
     @validate_call
     def post_ai_nodes(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54499,6 +56121,8 @@ class AiApi:
 
         Create one node.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54522,6 +56146,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54547,6 +56172,7 @@ class AiApi:
     @validate_call
     def post_ai_nodes_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54564,6 +56190,8 @@ class AiApi:
 
         Create one node.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54587,6 +56215,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54612,6 +56241,7 @@ class AiApi:
     @validate_call
     def post_ai_nodes_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54629,6 +56259,8 @@ class AiApi:
 
         Create one node.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54652,6 +56284,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_nodes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54672,6 +56305,7 @@ class AiApi:
 
     def _post_ai_nodes_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54697,6 +56331,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -54707,6 +56343,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -54736,6 +56385,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54756,6 +56406,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54781,6 +56433,7 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54808,6 +56461,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54828,6 +56482,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54853,6 +56509,7 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54880,6 +56537,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -54900,6 +56558,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -54925,6 +56585,7 @@ class AiApi:
         _param = self._post_ai_nodes_by_owner_by_name_tunnel_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -54947,6 +56608,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -54976,6 +56638,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -54986,6 +56650,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -55517,6 +57194,7 @@ class AiApi:
     @validate_call
     def post_ai_providers(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55534,6 +57212,8 @@ class AiApi:
 
         Create one provider.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55557,6 +57237,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55582,6 +57263,7 @@ class AiApi:
     @validate_call
     def post_ai_providers_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55599,6 +57281,8 @@ class AiApi:
 
         Create one provider.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55622,6 +57306,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55647,6 +57332,7 @@ class AiApi:
     @validate_call
     def post_ai_providers_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55664,6 +57350,8 @@ class AiApi:
 
         Create one provider.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55687,6 +57375,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55707,6 +57396,7 @@ class AiApi:
 
     def _post_ai_providers_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -55732,6 +57422,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -55742,6 +57434,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -55769,6 +57474,7 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55785,6 +57491,8 @@ class AiApi:
         """Mcp Tools (provider)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55808,6 +57516,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55833,6 +57542,7 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55849,6 +57559,8 @@ class AiApi:
         """Mcp Tools (provider)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55872,6 +57584,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55897,6 +57610,7 @@ class AiApi:
     @validate_call
     def post_ai_providers_mcp_tools_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55913,6 +57627,8 @@ class AiApi:
         """Mcp Tools (provider)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -55936,6 +57652,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_providers_mcp_tools_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -55956,6 +57673,7 @@ class AiApi:
 
     def _post_ai_providers_mcp_tools_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -55981,6 +57699,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -55991,6 +57711,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57278,6 +59011,7 @@ class AiApi:
     @validate_call
     def post_ai_records(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57295,6 +59029,8 @@ class AiApi:
 
         Create one record.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57318,6 +59054,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57343,6 +59080,7 @@ class AiApi:
     @validate_call
     def post_ai_records_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57360,6 +59098,8 @@ class AiApi:
 
         Create one record.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57383,6 +59123,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57408,6 +59149,7 @@ class AiApi:
     @validate_call
     def post_ai_records_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57425,6 +59167,8 @@ class AiApi:
 
         Create one record.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57448,6 +59192,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57468,6 +59213,7 @@ class AiApi:
 
     def _post_ai_records_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57493,6 +59239,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -57503,6 +59251,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57530,6 +59291,7 @@ class AiApi:
     @validate_call
     def post_ai_records_batch(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57546,6 +59308,8 @@ class AiApi:
         """Batch (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57569,6 +59333,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57594,6 +59359,7 @@ class AiApi:
     @validate_call
     def post_ai_records_batch_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57610,6 +59376,8 @@ class AiApi:
         """Batch (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57633,6 +59401,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57658,6 +59427,7 @@ class AiApi:
     @validate_call
     def post_ai_records_batch_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57674,6 +59444,8 @@ class AiApi:
         """Batch (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57697,6 +59469,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_batch_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57717,6 +59490,7 @@ class AiApi:
 
     def _post_ai_records_batch_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57742,6 +59516,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -57752,6 +59528,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -57779,6 +59568,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57795,6 +59585,8 @@ class AiApi:
         """Commit (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57818,6 +59610,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57843,6 +59636,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57859,6 +59653,8 @@ class AiApi:
         """Commit (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57882,6 +59678,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57907,6 +59704,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -57923,6 +59721,8 @@ class AiApi:
         """Commit (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -57946,6 +59746,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -57966,6 +59767,7 @@ class AiApi:
 
     def _post_ai_records_commit_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -57991,6 +59793,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -58001,6 +59805,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -58028,6 +59845,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58044,6 +59862,8 @@ class AiApi:
         """Commit Second (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58067,6 +59887,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58092,6 +59913,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58108,6 +59930,8 @@ class AiApi:
         """Commit Second (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58131,6 +59955,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58156,6 +59981,7 @@ class AiApi:
     @validate_call
     def post_ai_records_commit_second_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58172,6 +59998,8 @@ class AiApi:
         """Commit Second (record)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58195,6 +60023,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_records_commit_second_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58215,6 +60044,7 @@ class AiApi:
 
     def _post_ai_records_commit_second_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -58240,6 +60070,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -58250,6 +60082,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -58277,6 +60122,7 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58294,6 +60140,8 @@ class AiApi:
 
         Create one connection.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58317,6 +60165,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58342,6 +60191,7 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58359,6 +60209,8 @@ class AiApi:
 
         Create one connection.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58382,6 +60234,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58407,6 +60260,7 @@ class AiApi:
     @validate_call
     def post_ai_remote_connections_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58424,6 +60278,8 @@ class AiApi:
 
         Create one connection.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58447,6 +60303,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_remote_connections_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58467,6 +60324,7 @@ class AiApi:
 
     def _post_ai_remote_connections_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -58492,6 +60350,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -58502,6 +60362,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -58531,6 +60404,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58551,6 +60425,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58576,6 +60452,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58603,6 +60480,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58623,6 +60501,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58648,6 +60528,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58675,6 +60556,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58695,6 +60577,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58720,6 +60604,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_start_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58742,6 +60627,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -58771,6 +60657,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -58781,6 +60669,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -58810,6 +60711,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58830,6 +60732,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58855,6 +60759,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58882,6 +60787,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58902,6 +60808,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58927,6 +60835,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -58954,6 +60863,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -58974,6 +60884,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -58999,6 +60911,7 @@ class AiApi:
         _param = self._post_ai_remote_connections_by_owner_by_name_stop_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -59021,6 +60934,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -59050,6 +60964,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -59060,6 +60976,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -60347,6 +62276,7 @@ class AiApi:
     @validate_call
     def post_ai_routes(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60364,6 +62294,8 @@ class AiApi:
 
         Create one model-route.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60387,6 +62319,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60412,6 +62345,7 @@ class AiApi:
     @validate_call
     def post_ai_routes_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60429,6 +62363,8 @@ class AiApi:
 
         Create one model-route.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60452,6 +62388,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60477,6 +62414,7 @@ class AiApi:
     @validate_call
     def post_ai_routes_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60494,6 +62432,8 @@ class AiApi:
 
         Create one model-route.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60517,6 +62457,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_routes_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60537,6 +62478,7 @@ class AiApi:
 
     def _post_ai_routes_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -60562,6 +62504,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -60572,6 +62516,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -60599,6 +62556,7 @@ class AiApi:
     @validate_call
     def post_ai_scales(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60616,6 +62574,8 @@ class AiApi:
 
         Create one scale.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60639,6 +62599,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60664,6 +62625,7 @@ class AiApi:
     @validate_call
     def post_ai_scales_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60681,6 +62643,8 @@ class AiApi:
 
         Create one scale.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60704,6 +62668,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60729,6 +62694,7 @@ class AiApi:
     @validate_call
     def post_ai_scales_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60746,6 +62712,8 @@ class AiApi:
 
         Create one scale.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60769,6 +62737,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scales_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60789,6 +62758,7 @@ class AiApi:
 
     def _post_ai_scales_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -60814,6 +62784,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -60824,6 +62796,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -60851,6 +62836,7 @@ class AiApi:
     @validate_call
     def post_ai_scans(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60868,6 +62854,8 @@ class AiApi:
 
         Create one scan.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60891,6 +62879,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60916,6 +62905,7 @@ class AiApi:
     @validate_call
     def post_ai_scans_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60933,6 +62923,8 @@ class AiApi:
 
         Create one scan.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -60956,6 +62948,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -60981,6 +62974,7 @@ class AiApi:
     @validate_call
     def post_ai_scans_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -60998,6 +62992,8 @@ class AiApi:
 
         Create one scan.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61021,6 +63017,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_scans_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61041,6 +63038,7 @@ class AiApi:
 
     def _post_ai_scans_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -61066,6 +63064,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -61076,6 +63076,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -61103,6 +63116,7 @@ class AiApi:
     @validate_call
     def post_ai_signin(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61119,6 +63133,8 @@ class AiApi:
         """Signin
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61142,6 +63158,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61167,6 +63184,7 @@ class AiApi:
     @validate_call
     def post_ai_signin_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61183,6 +63201,8 @@ class AiApi:
         """Signin
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61206,6 +63226,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61231,6 +63252,7 @@ class AiApi:
     @validate_call
     def post_ai_signin_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61247,6 +63269,8 @@ class AiApi:
         """Signin
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61270,6 +63294,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61290,6 +63315,7 @@ class AiApi:
 
     def _post_ai_signin_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -61315,6 +63341,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -61325,6 +63353,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -61352,6 +63393,7 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61369,6 +63411,8 @@ class AiApi:
 
         Create one session.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61392,6 +63436,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61417,6 +63462,7 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61434,6 +63480,8 @@ class AiApi:
 
         Create one session.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61457,6 +63505,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61482,6 +63531,7 @@ class AiApi:
     @validate_call
     def post_ai_signin_sessions_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61499,6 +63549,8 @@ class AiApi:
 
         Create one session.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61522,6 +63574,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signin_sessions_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61542,6 +63595,7 @@ class AiApi:
 
     def _post_ai_signin_sessions_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -61567,6 +63621,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -61577,6 +63633,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -61604,6 +63673,7 @@ class AiApi:
     @validate_call
     def post_ai_signout(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61620,6 +63690,8 @@ class AiApi:
         """Signout
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61643,6 +63715,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61668,6 +63741,7 @@ class AiApi:
     @validate_call
     def post_ai_signout_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61684,6 +63758,8 @@ class AiApi:
         """Signout
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61707,6 +63783,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61732,6 +63809,7 @@ class AiApi:
     @validate_call
     def post_ai_signout_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61748,6 +63826,8 @@ class AiApi:
         """Signout
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61771,6 +63851,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_signout_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61791,6 +63872,7 @@ class AiApi:
 
     def _post_ai_signout_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -61816,6 +63898,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -61826,6 +63910,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -61853,6 +63950,7 @@ class AiApi:
     @validate_call
     def post_ai_stores(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61870,6 +63968,8 @@ class AiApi:
 
         Create one store.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61893,6 +63993,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61918,6 +64019,7 @@ class AiApi:
     @validate_call
     def post_ai_stores_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61935,6 +64037,8 @@ class AiApi:
 
         Create one store.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -61958,6 +64062,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -61983,6 +64088,7 @@ class AiApi:
     @validate_call
     def post_ai_stores_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62000,6 +64106,8 @@ class AiApi:
 
         Create one store.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62023,6 +64131,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_stores_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62043,6 +64152,7 @@ class AiApi:
 
     def _post_ai_stores_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -62068,6 +64178,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -62078,6 +64190,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -62107,6 +64232,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62127,6 +64253,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62152,6 +64280,7 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62179,6 +64308,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62199,6 +64329,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62224,6 +64356,7 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62251,6 +64384,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62271,6 +64405,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62296,6 +64432,7 @@ class AiApi:
         _param = self._post_ai_stores_by_owner_by_name_vectors_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62318,6 +64455,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -62347,6 +64485,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -62357,6 +64497,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -62384,6 +64537,7 @@ class AiApi:
     @validate_call
     def post_ai_tasks(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62401,6 +64555,8 @@ class AiApi:
 
         Create one task.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62424,6 +64580,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62449,6 +64606,7 @@ class AiApi:
     @validate_call
     def post_ai_tasks_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62466,6 +64624,8 @@ class AiApi:
 
         Create one task.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62489,6 +64649,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62514,6 +64675,7 @@ class AiApi:
     @validate_call
     def post_ai_tasks_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62531,6 +64693,8 @@ class AiApi:
 
         Create one task.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62554,6 +64718,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tasks_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62574,6 +64739,7 @@ class AiApi:
 
     def _post_ai_tasks_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -62599,6 +64765,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -62609,6 +64777,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -62638,6 +64819,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62658,6 +64840,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62683,6 +64867,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62710,6 +64895,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62730,6 +64916,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62755,6 +64943,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62782,6 +64971,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62802,6 +64992,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62827,6 +65019,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_analyze_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62849,6 +65042,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -62878,6 +65072,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -62888,6 +65084,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -62917,6 +65126,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -62937,6 +65147,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -62962,6 +65174,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -62989,6 +65202,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63009,6 +65223,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63034,6 +65250,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63061,6 +65278,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63081,6 +65299,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63106,6 +65326,7 @@ class AiApi:
         _param = self._post_ai_tasks_by_owner_by_name_document_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63128,6 +65349,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -63157,6 +65379,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -63167,6 +65391,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -63194,6 +65431,7 @@ class AiApi:
     @validate_call
     def post_ai_templates(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63211,6 +65449,8 @@ class AiApi:
 
         Create one template.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63234,6 +65474,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63259,6 +65500,7 @@ class AiApi:
     @validate_call
     def post_ai_templates_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63276,6 +65518,8 @@ class AiApi:
 
         Create one template.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63299,6 +65543,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63324,6 +65569,7 @@ class AiApi:
     @validate_call
     def post_ai_templates_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63341,6 +65587,8 @@ class AiApi:
 
         Create one template.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63364,6 +65612,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_templates_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63384,6 +65633,7 @@ class AiApi:
 
     def _post_ai_templates_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -63409,6 +65659,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -63419,6 +65671,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -63446,6 +65711,7 @@ class AiApi:
     @validate_call
     def post_ai_tree_files(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63463,6 +65729,8 @@ class AiApi:
 
         Create one tree-file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63486,6 +65754,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63511,6 +65780,7 @@ class AiApi:
     @validate_call
     def post_ai_tree_files_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63528,6 +65798,8 @@ class AiApi:
 
         Create one tree-file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63551,6 +65823,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63576,6 +65849,7 @@ class AiApi:
     @validate_call
     def post_ai_tree_files_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63593,6 +65867,8 @@ class AiApi:
 
         Create one tree-file.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63616,6 +65892,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_tree_files_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63636,6 +65913,7 @@ class AiApi:
 
     def _post_ai_tree_files_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -63661,6 +65939,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -63671,6 +65951,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -63698,6 +65991,7 @@ class AiApi:
     @validate_call
     def post_ai_vectors(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63715,6 +66009,8 @@ class AiApi:
 
         Create one vector.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63738,6 +66034,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63763,6 +66060,7 @@ class AiApi:
     @validate_call
     def post_ai_vectors_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63780,6 +66078,8 @@ class AiApi:
 
         Create one vector.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63803,6 +66103,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63828,6 +66129,7 @@ class AiApi:
     @validate_call
     def post_ai_vectors_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63845,6 +66147,8 @@ class AiApi:
 
         Create one vector.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63868,6 +66172,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_vectors_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -63888,6 +66193,7 @@ class AiApi:
 
     def _post_ai_vectors_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -63913,6 +66219,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -63923,6 +66231,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -63950,6 +66271,7 @@ class AiApi:
     @validate_call
     def post_ai_videos(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63967,6 +66289,8 @@ class AiApi:
 
         Create one video.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -63990,6 +66314,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64015,6 +66340,7 @@ class AiApi:
     @validate_call
     def post_ai_videos_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64032,6 +66358,8 @@ class AiApi:
 
         Create one video.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64055,6 +66383,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64080,6 +66409,7 @@ class AiApi:
     @validate_call
     def post_ai_videos_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64097,6 +66427,8 @@ class AiApi:
 
         Create one video.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64120,6 +66452,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64140,6 +66473,7 @@ class AiApi:
 
     def _post_ai_videos_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -64165,6 +66499,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -64175,6 +66511,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -64202,6 +66551,7 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64218,6 +66568,8 @@ class AiApi:
         """Upload (video)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64241,6 +66593,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64266,6 +66619,7 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64282,6 +66636,8 @@ class AiApi:
         """Upload (video)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64305,6 +66661,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64330,6 +66687,7 @@ class AiApi:
     @validate_call
     def post_ai_videos_upload_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64346,6 +66704,8 @@ class AiApi:
         """Upload (video)
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64369,6 +66729,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_videos_upload_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64389,6 +66750,7 @@ class AiApi:
 
     def _post_ai_videos_upload_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -64414,6 +66776,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -64424,6 +66788,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -64451,6 +66828,7 @@ class AiApi:
     @validate_call
     def post_ai_workflows(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64468,6 +66846,8 @@ class AiApi:
 
         Create one workflow.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64491,6 +66871,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64516,6 +66897,7 @@ class AiApi:
     @validate_call
     def post_ai_workflows_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64533,6 +66915,8 @@ class AiApi:
 
         Create one workflow.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64556,6 +66940,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64581,6 +66966,7 @@ class AiApi:
     @validate_call
     def post_ai_workflows_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64598,6 +66984,8 @@ class AiApi:
 
         Create one workflow.
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -64621,6 +67009,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_workflows_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -64641,6 +67030,7 @@ class AiApi:
 
     def _post_ai_workflows_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -64666,6 +67056,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -64676,6 +67068,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -65899,6 +68304,7 @@ class AiApi:
     @validate_call
     def post_chat(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65916,6 +68322,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -65939,6 +68347,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -65964,6 +68373,7 @@ class AiApi:
     @validate_call
     def post_chat_with_http_info(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65981,6 +68391,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66004,6 +68416,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66029,6 +68442,7 @@ class AiApi:
     @validate_call
     def post_chat_without_preload_content(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66046,6 +68460,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66069,6 +68485,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66089,6 +68506,7 @@ class AiApi:
 
     def _post_chat_serialize(
         self,
+        openai_chat_completion_request,
         _request_auth,
         _content_type,
         _headers,
@@ -66114,6 +68532,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if openai_chat_completion_request is not None:
+            _body_params = openai_chat_completion_request
 
 
         # set the HTTP header `Accept`
@@ -66124,6 +68544,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -66151,6 +68584,7 @@ class AiApi:
     @validate_call
     def post_chat_completions(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66168,6 +68602,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66191,6 +68627,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66216,6 +68653,7 @@ class AiApi:
     @validate_call
     def post_chat_completions_with_http_info(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66233,6 +68671,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66256,6 +68696,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66281,6 +68722,7 @@ class AiApi:
     @validate_call
     def post_chat_completions_without_preload_content(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66298,6 +68740,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66321,6 +68765,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66341,6 +68786,7 @@ class AiApi:
 
     def _post_chat_completions_serialize(
         self,
+        openai_chat_completion_request,
         _request_auth,
         _content_type,
         _headers,
@@ -66366,6 +68812,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if openai_chat_completion_request is not None:
+            _body_params = openai_chat_completion_request
 
 
         # set the HTTP header `Accept`
@@ -66376,6 +68824,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -66403,6 +68864,7 @@ class AiApi:
     @validate_call
     def post_chat_public(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66420,6 +68882,8 @@ class AiApi:
 
         Serves one completion to a caller with no account.
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66443,6 +68907,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_public_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66468,6 +68933,7 @@ class AiApi:
     @validate_call
     def post_chat_public_with_http_info(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66485,6 +68951,8 @@ class AiApi:
 
         Serves one completion to a caller with no account.
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66508,6 +68976,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_public_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66533,6 +69002,7 @@ class AiApi:
     @validate_call
     def post_chat_public_without_preload_content(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66550,6 +69020,8 @@ class AiApi:
 
         Serves one completion to a caller with no account.
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66573,6 +69045,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_chat_public_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66593,6 +69066,7 @@ class AiApi:
 
     def _post_chat_public_serialize(
         self,
+        openai_chat_completion_request,
         _request_auth,
         _content_type,
         _headers,
@@ -66618,6 +69092,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if openai_chat_completion_request is not None:
+            _body_params = openai_chat_completion_request
 
 
         # set the HTTP header `Accept`
@@ -66628,6 +69104,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -66655,6 +69144,7 @@ class AiApi:
     @validate_call
     def post_completions(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66672,6 +69162,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66695,6 +69187,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66720,6 +69213,7 @@ class AiApi:
     @validate_call
     def post_completions_with_http_info(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66737,6 +69231,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66760,6 +69256,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66785,6 +69282,7 @@ class AiApi:
     @validate_call
     def post_completions_without_preload_content(
         self,
+        openai_chat_completion_request: OpenaiChatCompletionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66802,6 +69300,8 @@ class AiApi:
 
         Implements the OpenAI-compatible chat completions API
 
+        :param openai_chat_completion_request: (required)
+        :type openai_chat_completion_request: OpenaiChatCompletionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66825,6 +69325,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_completions_serialize(
+            openai_chat_completion_request=openai_chat_completion_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66845,6 +69346,7 @@ class AiApi:
 
     def _post_completions_serialize(
         self,
+        openai_chat_completion_request,
         _request_auth,
         _content_type,
         _headers,
@@ -66870,6 +69372,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if openai_chat_completion_request is not None:
+            _body_params = openai_chat_completion_request
 
 
         # set the HTTP header `Accept`
@@ -66880,6 +69384,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -66905,8 +69422,9 @@ class AiApi:
 
 
     @validate_call
-    def post_embeddings(
+    def post_decisions(
         self,
+        ai_decisions_request: AiDecisionsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66919,11 +69437,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OpenaiEmbeddingResponse:
-        """Implements POST /v1/embeddings (OpenAI-compatible).
+    ) -> AiDecisionsResponse:
+        """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": \"...\", \"criteria\": ...}}}  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"}}  The body goes to the decision service under the id the model's route names upstream, and its answer comes back naming the model asked for, errors unchanged ({\"error\":{\"code\",\"message\"}}). An unknown model is refused here in that shape, without a call. Billed on the answer's input tokens at the model's price.
 
+        :param ai_decisions_request: (required)
+        :type ai_decisions_request: AiDecisionsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -66946,7 +69466,8 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_embeddings_serialize(
+        _param = self._post_decisions_serialize(
+            ai_decisions_request=ai_decisions_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -66954,7 +69475,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiEmbeddingResponse",
+            '200': "AiDecisionsResponse",
             '401': None,
             '403': None,
         }
@@ -66970,8 +69491,9 @@ class AiApi:
 
 
     @validate_call
-    def post_embeddings_with_http_info(
+    def post_decisions_with_http_info(
         self,
+        ai_decisions_request: AiDecisionsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -66984,11 +69506,13 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OpenaiEmbeddingResponse]:
-        """Implements POST /v1/embeddings (OpenAI-compatible).
+    ) -> ApiResponse[AiDecisionsResponse]:
+        """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": \"...\", \"criteria\": ...}}}  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"}}  The body goes to the decision service under the id the model's route names upstream, and its answer comes back naming the model asked for, errors unchanged ({\"error\":{\"code\",\"message\"}}). An unknown model is refused here in that shape, without a call. Billed on the answer's input tokens at the model's price.
 
+        :param ai_decisions_request: (required)
+        :type ai_decisions_request: AiDecisionsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -67011,7 +69535,8 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_embeddings_serialize(
+        _param = self._post_decisions_serialize(
+            ai_decisions_request=ai_decisions_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -67019,7 +69544,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiEmbeddingResponse",
+            '200': "AiDecisionsResponse",
             '401': None,
             '403': None,
         }
@@ -67035,8 +69560,9 @@ class AiApi:
 
 
     @validate_call
-    def post_embeddings_without_preload_content(
+    def post_decisions_without_preload_content(
         self,
+        ai_decisions_request: AiDecisionsRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67050,10 +69576,12 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Implements POST /v1/embeddings (OpenAI-compatible).
+        """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": \"...\", \"criteria\": ...}}}  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"}}  The body goes to the decision service under the id the model's route names upstream, and its answer comes back naming the model asked for, errors unchanged ({\"error\":{\"code\",\"message\"}}). An unknown model is refused here in that shape, without a call. Billed on the answer's input tokens at the model's price.
 
+        :param ai_decisions_request: (required)
+        :type ai_decisions_request: AiDecisionsRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -67076,7 +69604,8 @@ class AiApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_embeddings_serialize(
+        _param = self._post_decisions_serialize(
+            ai_decisions_request=ai_decisions_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -67084,7 +69613,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiEmbeddingResponse",
+            '200': "AiDecisionsResponse",
             '401': None,
             '403': None,
         }
@@ -67095,8 +69624,9 @@ class AiApi:
         return response_data.response
 
 
-    def _post_embeddings_serialize(
+    def _post_decisions_serialize(
         self,
+        ai_decisions_request,
         _request_auth,
         _content_type,
         _headers,
@@ -67122,6 +69652,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if ai_decisions_request is not None:
+            _body_params = ai_decisions_request
 
 
         # set the HTTP header `Accept`
@@ -67132,6 +69664,299 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/decisions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_embeddings(
+        self,
+        openai_embedding_request: OpenaiEmbeddingRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> OpenaiEmbeddingResponse:
+        """Implements POST /v1/embeddings (OpenAI-compatible).
+
+        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+
+        :param openai_embedding_request: (required)
+        :type openai_embedding_request: OpenaiEmbeddingRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_embeddings_serialize(
+            openai_embedding_request=openai_embedding_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_embeddings_with_http_info(
+        self,
+        openai_embedding_request: OpenaiEmbeddingRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[OpenaiEmbeddingResponse]:
+        """Implements POST /v1/embeddings (OpenAI-compatible).
+
+        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+
+        :param openai_embedding_request: (required)
+        :type openai_embedding_request: OpenaiEmbeddingRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_embeddings_serialize(
+            openai_embedding_request=openai_embedding_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_embeddings_without_preload_content(
+        self,
+        openai_embedding_request: OpenaiEmbeddingRequest,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Implements POST /v1/embeddings (OpenAI-compatible).
+
+        Implements POST /v1/embeddings (OpenAI-compatible).  Body: {\"model\": \"...\", \"input\": \"...\"|[\"...\", ...], \"encoding_format\"?, \"dimensions\"?} It authenticates the caller, resolves the model to its upstream provider via the shared routing table, rewrites the user-facing model name to the upstream id, and proxies the request to the provider's /embeddings endpoint verbatim.
+
+        :param openai_embedding_request: (required)
+        :type openai_embedding_request: OpenaiEmbeddingRequest
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_embeddings_serialize(
+            openai_embedding_request=openai_embedding_request,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "OpenaiEmbeddingResponse",
+            '401': None,
+            '403': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_embeddings_serialize(
+        self,
+        openai_embedding_request,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if openai_embedding_request is not None:
+            _body_params = openai_embedding_request
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -67411,6 +70236,7 @@ class AiApi:
     @validate_call
     def post_messages(
         self,
+        ai_anthropic_request: AiAnthropicRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67428,6 +70254,8 @@ class AiApi:
 
         Implements the Anthropic Messages API.
 
+        :param ai_anthropic_request: (required)
+        :type ai_anthropic_request: AiAnthropicRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -67451,6 +70279,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_messages_serialize(
+            ai_anthropic_request=ai_anthropic_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -67476,6 +70305,7 @@ class AiApi:
     @validate_call
     def post_messages_with_http_info(
         self,
+        ai_anthropic_request: AiAnthropicRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67493,6 +70323,8 @@ class AiApi:
 
         Implements the Anthropic Messages API.
 
+        :param ai_anthropic_request: (required)
+        :type ai_anthropic_request: AiAnthropicRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -67516,6 +70348,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_messages_serialize(
+            ai_anthropic_request=ai_anthropic_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -67541,6 +70374,7 @@ class AiApi:
     @validate_call
     def post_messages_without_preload_content(
         self,
+        ai_anthropic_request: AiAnthropicRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -67558,6 +70392,8 @@ class AiApi:
 
         Implements the Anthropic Messages API.
 
+        :param ai_anthropic_request: (required)
+        :type ai_anthropic_request: AiAnthropicRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -67581,6 +70417,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_messages_serialize(
+            ai_anthropic_request=ai_anthropic_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -67601,6 +70438,7 @@ class AiApi:
 
     def _post_messages_serialize(
         self,
+        ai_anthropic_request,
         _request_auth,
         _content_type,
         _headers,
@@ -67626,6 +70464,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if ai_anthropic_request is not None:
+            _body_params = ai_anthropic_request
 
 
         # set the HTTP header `Accept`
@@ -67636,6 +70476,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -68940,6 +71793,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -68961,6 +71815,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -68986,6 +71842,7 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69013,6 +71870,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69034,6 +71892,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69059,6 +71919,7 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69086,6 +71947,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69107,6 +71969,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69132,6 +71996,7 @@ class AiApi:
         _param = self._put_ai_articles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69154,6 +72019,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -69183,6 +72049,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -69193,6 +72061,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -69222,6 +72103,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69243,6 +72125,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69268,6 +72152,7 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69295,6 +72180,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69316,6 +72202,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69341,6 +72229,7 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69368,6 +72257,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69389,6 +72279,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69414,6 +72306,7 @@ class AiApi:
         _param = self._put_ai_assets_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69436,6 +72329,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -69465,6 +72359,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -69475,6 +72371,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -69504,6 +72413,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69525,6 +72435,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69550,6 +72462,7 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69577,6 +72490,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69598,6 +72512,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69623,6 +72539,7 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69650,6 +72567,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69671,6 +72589,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69696,6 +72616,7 @@ class AiApi:
         _param = self._put_ai_chats_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69718,6 +72639,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -69747,6 +72669,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -69757,6 +72681,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -69786,6 +72723,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69807,6 +72745,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69832,6 +72772,7 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69859,6 +72800,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69880,6 +72822,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69905,6 +72849,7 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -69932,6 +72877,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -69953,6 +72899,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -69978,6 +72926,7 @@ class AiApi:
         _param = self._put_ai_deployments_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70000,6 +72949,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -70029,6 +72979,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -70039,6 +72991,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -70068,6 +73033,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70089,6 +73055,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70114,6 +73082,7 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70141,6 +73110,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70162,6 +73132,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70187,6 +73159,7 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70214,6 +73187,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70235,6 +73209,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70260,6 +73236,7 @@ class AiApi:
         _param = self._put_ai_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70282,6 +73259,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -70311,6 +73289,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -70321,6 +73301,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -70350,6 +73343,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70371,6 +73365,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70396,6 +73392,7 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70423,6 +73420,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70444,6 +73442,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70469,6 +73469,7 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70496,6 +73497,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70517,6 +73519,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70542,6 +73546,7 @@ class AiApi:
         _param = self._put_ai_forms_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70564,6 +73569,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -70593,6 +73599,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -70603,6 +73611,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -70632,6 +73653,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70653,6 +73675,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70678,6 +73702,7 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70705,6 +73730,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70726,6 +73752,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70751,6 +73779,7 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70778,6 +73807,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70799,6 +73829,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70824,6 +73856,7 @@ class AiApi:
         _param = self._put_ai_graphs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70846,6 +73879,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -70875,6 +73909,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -70885,6 +73921,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -70914,6 +73963,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70935,6 +73985,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70960,6 +74012,7 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70987,6 +74040,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71008,6 +74062,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71033,6 +74089,7 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71060,6 +74117,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71081,6 +74139,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71106,6 +74166,7 @@ class AiApi:
         _param = self._put_ai_messages_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71128,6 +74189,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -71157,6 +74219,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -71167,6 +74231,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -71196,6 +74273,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71217,6 +74295,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71242,6 +74322,7 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71269,6 +74350,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71290,6 +74372,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71315,6 +74399,7 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71342,6 +74427,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71363,6 +74449,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71388,6 +74476,7 @@ class AiApi:
         _param = self._put_ai_nodes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71410,6 +74499,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -71439,6 +74529,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -71449,6 +74541,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -71980,6 +75085,7 @@ class AiApi:
     @validate_call
     def put_ai_preferences(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71996,6 +75102,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72019,6 +75127,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72044,6 +75153,7 @@ class AiApi:
     @validate_call
     def put_ai_preferences_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72060,6 +75170,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72083,6 +75195,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72108,6 +75221,7 @@ class AiApi:
     @validate_call
     def put_ai_preferences_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72124,6 +75238,8 @@ class AiApi:
         """Preferences
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72147,6 +75263,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_preferences_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72167,6 +75284,7 @@ class AiApi:
 
     def _put_ai_preferences_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -72192,6 +75310,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -72202,6 +75322,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -72231,6 +75364,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72252,6 +75386,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72277,6 +75413,7 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72304,6 +75441,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72325,6 +75463,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72350,6 +75490,7 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72377,6 +75518,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72398,6 +75540,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72423,6 +75567,7 @@ class AiApi:
         _param = self._put_ai_providers_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72445,6 +75590,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -72474,6 +75620,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -72484,6 +75632,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -72513,6 +75674,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72534,6 +75696,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72559,6 +75723,7 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72586,6 +75751,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72607,6 +75773,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72632,6 +75800,7 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72659,6 +75828,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72680,6 +75850,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72705,6 +75877,7 @@ class AiApi:
         _param = self._put_ai_records_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72727,6 +75900,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -72756,6 +75930,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -72766,6 +75942,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -72795,6 +75984,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72816,6 +76006,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72841,6 +76033,7 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72868,6 +76061,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72889,6 +76083,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72914,6 +76110,7 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -72941,6 +76138,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -72962,6 +76160,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -72987,6 +76187,7 @@ class AiApi:
         _param = self._put_ai_remote_connections_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -73009,6 +76210,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -73038,6 +76240,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -73048,6 +76252,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -74337,6 +77554,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74358,6 +77576,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74383,6 +77603,7 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74410,6 +77631,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74431,6 +77653,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74456,6 +77680,7 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74483,6 +77708,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74504,6 +77730,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74529,6 +77757,7 @@ class AiApi:
         _param = self._put_ai_routes_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74551,6 +77780,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -74580,6 +77810,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -74590,6 +77822,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -74619,6 +77864,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74640,6 +77886,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74665,6 +77913,7 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74692,6 +77941,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74713,6 +77963,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74738,6 +77990,7 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74765,6 +78018,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74786,6 +78040,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74811,6 +78067,7 @@ class AiApi:
         _param = self._put_ai_scales_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74833,6 +78090,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -74862,6 +78120,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -74872,6 +78132,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -74901,6 +78174,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74922,6 +78196,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -74947,6 +78223,7 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -74974,6 +78251,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -74995,6 +78273,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75020,6 +78300,7 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75047,6 +78328,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75068,6 +78350,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75093,6 +78377,7 @@ class AiApi:
         _param = self._put_ai_scans_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75115,6 +78400,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -75144,6 +78430,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -75154,6 +78442,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -75183,6 +78484,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75204,6 +78506,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75229,6 +78533,7 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75256,6 +78561,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75277,6 +78583,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75302,6 +78610,7 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75329,6 +78638,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75350,6 +78660,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75375,6 +78687,7 @@ class AiApi:
         _param = self._put_ai_signin_sessions_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75397,6 +78710,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -75426,6 +78740,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -75436,6 +78752,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -75465,6 +78794,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75486,6 +78816,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75511,6 +78843,7 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75538,6 +78871,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75559,6 +78893,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75584,6 +78920,7 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75611,6 +78948,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75632,6 +78970,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75657,6 +78997,7 @@ class AiApi:
         _param = self._put_ai_stores_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75679,6 +79020,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -75708,6 +79050,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -75718,6 +79062,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -75747,6 +79104,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75768,6 +79126,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75793,6 +79153,7 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75820,6 +79181,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75841,6 +79203,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75866,6 +79230,7 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75893,6 +79258,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -75914,6 +79280,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -75939,6 +79307,7 @@ class AiApi:
         _param = self._put_ai_tasks_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -75961,6 +79330,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -75990,6 +79360,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -76000,6 +79372,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -76029,6 +79414,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76050,6 +79436,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76075,6 +79463,7 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76102,6 +79491,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76123,6 +79513,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76148,6 +79540,7 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76175,6 +79568,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76196,6 +79590,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76221,6 +79617,7 @@ class AiApi:
         _param = self._put_ai_templates_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76243,6 +79640,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -76272,6 +79670,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -76282,6 +79682,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -76309,6 +79722,7 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76325,6 +79739,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76348,6 +79764,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76373,6 +79790,7 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution_with_http_info(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76389,6 +79807,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76412,6 +79832,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76437,6 +79858,7 @@ class AiApi:
     @validate_call
     def put_ai_training_contribution_without_preload_content(
         self,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76453,6 +79875,8 @@ class AiApi:
         """Training Contribution
 
 
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76476,6 +79900,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._put_ai_training_contribution_serialize(
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76496,6 +79921,7 @@ class AiApi:
 
     def _put_ai_training_contribution_serialize(
         self,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -76521,6 +79947,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -76531,6 +79959,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -76560,6 +80001,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76581,6 +80023,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76606,6 +80050,7 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76633,6 +80078,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76654,6 +80100,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76679,6 +80127,7 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76706,6 +80155,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76727,6 +80177,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76752,6 +80204,7 @@ class AiApi:
         _param = self._put_ai_tree_files_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76774,6 +80227,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -76803,6 +80257,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -76813,6 +80269,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -76842,6 +80311,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76863,6 +80333,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76888,6 +80360,7 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76915,6 +80388,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -76936,6 +80410,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -76961,6 +80437,7 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -76988,6 +80465,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77009,6 +80487,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77034,6 +80514,7 @@ class AiApi:
         _param = self._put_ai_vectors_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77056,6 +80537,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -77085,6 +80567,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -77095,6 +80579,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -77124,6 +80621,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77145,6 +80643,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77170,6 +80670,7 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77197,6 +80698,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77218,6 +80720,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77243,6 +80747,7 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77270,6 +80775,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77291,6 +80797,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77316,6 +80824,7 @@ class AiApi:
         _param = self._put_ai_videos_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77338,6 +80847,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -77367,6 +80877,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -77377,6 +80889,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -77406,6 +80931,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77427,6 +80953,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77452,6 +80980,7 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77479,6 +81008,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77500,6 +81030,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77525,6 +81057,7 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77552,6 +81085,7 @@ class AiApi:
         self,
         owner: StrictStr,
         name: StrictStr,
+        body: Dict[str, Any],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -77573,6 +81107,8 @@ class AiApi:
         :type owner: str
         :param name: (required)
         :type name: str
+        :param body: (required)
+        :type body: object
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -77598,6 +81134,7 @@ class AiApi:
         _param = self._put_ai_workflows_by_owner_by_name_serialize(
             owner=owner,
             name=name,
+            body=body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -77620,6 +81157,7 @@ class AiApi:
         self,
         owner,
         name,
+        body,
         _request_auth,
         _content_type,
         _headers,
@@ -77649,6 +81187,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if body is not None:
+            _body_params = body
 
 
         # set the HTTP header `Accept`
@@ -77659,6 +81199,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

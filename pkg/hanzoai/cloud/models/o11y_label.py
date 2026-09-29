@@ -28,7 +28,7 @@ class O11yLabel(BaseModel):
     O11yLabel
     """ # noqa: E501
     key: Optional[O11yTelemetryFieldKey] = None
-    value: Optional[Dict[str, Any]] = None
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["key", "value"]
 
     model_config = ConfigDict(
@@ -73,6 +73,11 @@ class O11yLabel(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of key
         if self.key:
             _dict['key'] = self.key.to_dict()
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

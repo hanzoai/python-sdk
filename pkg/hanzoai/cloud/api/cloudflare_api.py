@@ -19,17 +19,17 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.bucket_create_in import BucketCreateIn
-from hanzoai.cloud.models.d1_query import D1Query
-from hanzoai.cloud.models.database_create_in import DatabaseCreateIn
-from hanzoai.cloud.models.domain_add_in import DomainAddIn
-from hanzoai.cloud.models.namespace_create_in import NamespaceCreateIn
+from hanzoai.cloud.models.cloudflare_bucket_create_in import CloudflareBucketCreateIn
+from hanzoai.cloud.models.cloudflare_d1_query import CloudflareD1Query
+from hanzoai.cloud.models.cloudflare_database_create_in import CloudflareDatabaseCreateIn
+from hanzoai.cloud.models.cloudflare_domain_add_in import CloudflareDomainAddIn
+from hanzoai.cloud.models.cloudflare_namespace_create_in import CloudflareNamespaceCreateIn
+from hanzoai.cloud.models.cloudflare_pages_project_create import CloudflarePagesProjectCreate
+from hanzoai.cloud.models.cloudflare_purge_in import CloudflarePurgeIn
+from hanzoai.cloud.models.cloudflare_route_create_in import CloudflareRouteCreateIn
+from hanzoai.cloud.models.cloudflare_subdomain_set_in import CloudflareSubdomainSetIn
+from hanzoai.cloud.models.cloudflare_worker_script_put import CloudflareWorkerScriptPut
 from hanzoai.cloud.models.pages_deploy import PagesDeploy
-from hanzoai.cloud.models.pages_project_create import PagesProjectCreate
-from hanzoai.cloud.models.purge_in import PurgeIn
-from hanzoai.cloud.models.route_create_in import RouteCreateIn
-from hanzoai.cloud.models.subdomain_set_in import SubdomainSetIn
-from hanzoai.cloud.models.worker_script_put import WorkerScriptPut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -282,7 +282,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -327,9 +328,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """KVNamespaceDelete deletes a Workers KV namespace and every key in it.
+        """Deletes a Workers KV namespace and every key in it.
 
-        KVNamespaceDelete deletes a Workers KV namespace and every key in it. Requires org admin.
+        Deletes a Workers KV namespace and every key in it. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -394,9 +395,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """KVNamespaceDelete deletes a Workers KV namespace and every key in it.
+        """Deletes a Workers KV namespace and every key in it.
 
-        KVNamespaceDelete deletes a Workers KV namespace and every key in it. Requires org admin.
+        Deletes a Workers KV namespace and every key in it. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -461,9 +462,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """KVNamespaceDelete deletes a Workers KV namespace and every key in it.
+        """Deletes a Workers KV namespace and every key in it.
 
-        KVNamespaceDelete deletes a Workers KV namespace and every key in it. Requires org admin.
+        Deletes a Workers KV namespace and every key in it. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -543,7 +544,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -589,9 +591,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """KVValueDelete removes one key from a Workers KV namespace.
+        """Removes one key from a Workers KV namespace.
 
-        KVValueDelete removes one key from a Workers KV namespace. Requires org admin.
+        Removes one key from a Workers KV namespace. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -660,9 +662,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """KVValueDelete removes one key from a Workers KV namespace.
+        """Removes one key from a Workers KV namespace.
 
-        KVValueDelete removes one key from a Workers KV namespace. Requires org admin.
+        Removes one key from a Workers KV namespace. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -731,9 +733,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """KVValueDelete removes one key from a Workers KV namespace.
+        """Removes one key from a Workers KV namespace.
 
-        KVValueDelete removes one key from a Workers KV namespace. Requires org admin.
+        Removes one key from a Workers KV namespace. Requires org admin.
 
         :param namespace: Namespace is the Cloudflare KV namespace id. (required)
         :type namespace: str
@@ -819,7 +821,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1080,7 +1083,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1356,7 +1360,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1617,7 +1622,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1878,7 +1884,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2154,7 +2161,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2451,7 +2459,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2499,9 +2508,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account.
+        """Lists the Workers KV namespaces on the org's Cloudflare account.
 
-        KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
+        Lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
 
         :param page: Page is the 1-based page of namespaces to return.
         :type page: str
@@ -2578,9 +2587,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account.
+        """Lists the Workers KV namespaces on the org's Cloudflare account.
 
-        KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
+        Lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
 
         :param page: Page is the 1-based page of namespaces to return.
         :type page: str
@@ -2657,9 +2666,9 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account.
+        """Lists the Workers KV namespaces on the org's Cloudflare account.
 
-        KVNamespaceList lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
+        Lists the Workers KV namespaces on the org's Cloudflare account. Any org member may read.
 
         :param page: Page is the 1-based page of namespaces to return.
         :type page: str
@@ -2765,7 +2774,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3277,7 +3287,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3538,7 +3549,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3869,7 +3881,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4115,7 +4128,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4361,7 +4375,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4622,7 +4637,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4970,7 +4986,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5231,7 +5248,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5543,7 +5561,8 @@ class CloudflareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5574,7 +5593,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_d1_databases(
         self,
-        database_create_in: DatabaseCreateIn,
+        cloudflare_database_create_in: CloudflareDatabaseCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5592,8 +5611,8 @@ class CloudflareApi:
 
         Creates a D1 database on the org's Cloudflare account. Requires org admin.
 
-        :param database_create_in: (required)
-        :type database_create_in: DatabaseCreateIn
+        :param cloudflare_database_create_in: (required)
+        :type cloudflare_database_create_in: CloudflareDatabaseCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5617,7 +5636,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_d1_databases_serialize(
-            database_create_in=database_create_in,
+            cloudflare_database_create_in=cloudflare_database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5641,7 +5660,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_d1_databases_with_http_info(
         self,
-        database_create_in: DatabaseCreateIn,
+        cloudflare_database_create_in: CloudflareDatabaseCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5659,8 +5678,8 @@ class CloudflareApi:
 
         Creates a D1 database on the org's Cloudflare account. Requires org admin.
 
-        :param database_create_in: (required)
-        :type database_create_in: DatabaseCreateIn
+        :param cloudflare_database_create_in: (required)
+        :type cloudflare_database_create_in: CloudflareDatabaseCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5684,7 +5703,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_d1_databases_serialize(
-            database_create_in=database_create_in,
+            cloudflare_database_create_in=cloudflare_database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5708,7 +5727,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_d1_databases_without_preload_content(
         self,
-        database_create_in: DatabaseCreateIn,
+        cloudflare_database_create_in: CloudflareDatabaseCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5726,8 +5745,8 @@ class CloudflareApi:
 
         Creates a D1 database on the org's Cloudflare account. Requires org admin.
 
-        :param database_create_in: (required)
-        :type database_create_in: DatabaseCreateIn
+        :param cloudflare_database_create_in: (required)
+        :type cloudflare_database_create_in: CloudflareDatabaseCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5751,7 +5770,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_d1_databases_serialize(
-            database_create_in=database_create_in,
+            cloudflare_database_create_in=cloudflare_database_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5770,7 +5789,7 @@ class CloudflareApi:
 
     def _post_cloudflare_d1_databases_serialize(
         self,
-        database_create_in,
+        cloudflare_database_create_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5796,15 +5815,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if database_create_in is not None:
-            _body_params = database_create_in
+        if cloudflare_database_create_in is not None:
+            _body_params = cloudflare_database_create_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5849,7 +5869,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query(
         self,
         database: StrictStr,
-        d1_query: D1Query,
+        cloudflare_d1_query: CloudflareD1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5869,8 +5889,8 @@ class CloudflareApi:
 
         :param database: (required)
         :type database: str
-        :param d1_query: (required)
-        :type d1_query: D1Query
+        :param cloudflare_d1_query: (required)
+        :type cloudflare_d1_query: CloudflareD1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5895,7 +5915,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
-            d1_query=d1_query,
+            cloudflare_d1_query=cloudflare_d1_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5920,7 +5940,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query_with_http_info(
         self,
         database: StrictStr,
-        d1_query: D1Query,
+        cloudflare_d1_query: CloudflareD1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5940,8 +5960,8 @@ class CloudflareApi:
 
         :param database: (required)
         :type database: str
-        :param d1_query: (required)
-        :type d1_query: D1Query
+        :param cloudflare_d1_query: (required)
+        :type cloudflare_d1_query: CloudflareD1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5966,7 +5986,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
-            d1_query=d1_query,
+            cloudflare_d1_query=cloudflare_d1_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5991,7 +6011,7 @@ class CloudflareApi:
     def post_cloudflare_d1_databases_by_database_query_without_preload_content(
         self,
         database: StrictStr,
-        d1_query: D1Query,
+        cloudflare_d1_query: CloudflareD1Query,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6011,8 +6031,8 @@ class CloudflareApi:
 
         :param database: (required)
         :type database: str
-        :param d1_query: (required)
-        :type d1_query: D1Query
+        :param cloudflare_d1_query: (required)
+        :type cloudflare_d1_query: CloudflareD1Query
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6037,7 +6057,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_d1_databases_by_database_query_serialize(
             database=database,
-            d1_query=d1_query,
+            cloudflare_d1_query=cloudflare_d1_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6057,7 +6077,7 @@ class CloudflareApi:
     def _post_cloudflare_d1_databases_by_database_query_serialize(
         self,
         database,
-        d1_query,
+        cloudflare_d1_query,
         _request_auth,
         _content_type,
         _headers,
@@ -6085,15 +6105,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if d1_query is not None:
-            _body_params = d1_query
+        if cloudflare_d1_query is not None:
+            _body_params = cloudflare_d1_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6137,7 +6158,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_kv_namespaces(
         self,
-        namespace_create_in: NamespaceCreateIn,
+        cloudflare_namespace_create_in: CloudflareNamespaceCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6151,12 +6172,12 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account.
+        """Creates a Workers KV namespace on the org's Cloudflare account.
 
-        KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
+        Creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
 
-        :param namespace_create_in: (required)
-        :type namespace_create_in: NamespaceCreateIn
+        :param cloudflare_namespace_create_in: (required)
+        :type cloudflare_namespace_create_in: CloudflareNamespaceCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6180,7 +6201,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_kv_namespaces_serialize(
-            namespace_create_in=namespace_create_in,
+            cloudflare_namespace_create_in=cloudflare_namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6204,7 +6225,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_kv_namespaces_with_http_info(
         self,
-        namespace_create_in: NamespaceCreateIn,
+        cloudflare_namespace_create_in: CloudflareNamespaceCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6218,12 +6239,12 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account.
+        """Creates a Workers KV namespace on the org's Cloudflare account.
 
-        KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
+        Creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
 
-        :param namespace_create_in: (required)
-        :type namespace_create_in: NamespaceCreateIn
+        :param cloudflare_namespace_create_in: (required)
+        :type cloudflare_namespace_create_in: CloudflareNamespaceCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6247,7 +6268,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_kv_namespaces_serialize(
-            namespace_create_in=namespace_create_in,
+            cloudflare_namespace_create_in=cloudflare_namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6271,7 +6292,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_kv_namespaces_without_preload_content(
         self,
-        namespace_create_in: NamespaceCreateIn,
+        cloudflare_namespace_create_in: CloudflareNamespaceCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6285,12 +6306,12 @@ class CloudflareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account.
+        """Creates a Workers KV namespace on the org's Cloudflare account.
 
-        KVNamespaceCreate creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
+        Creates a Workers KV namespace on the org's Cloudflare account. Requires org admin. Cloudflare mints the namespace id the value routes address.
 
-        :param namespace_create_in: (required)
-        :type namespace_create_in: NamespaceCreateIn
+        :param cloudflare_namespace_create_in: (required)
+        :type cloudflare_namespace_create_in: CloudflareNamespaceCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6314,7 +6335,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_kv_namespaces_serialize(
-            namespace_create_in=namespace_create_in,
+            cloudflare_namespace_create_in=cloudflare_namespace_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6333,7 +6354,7 @@ class CloudflareApi:
 
     def _post_cloudflare_kv_namespaces_serialize(
         self,
-        namespace_create_in,
+        cloudflare_namespace_create_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6359,15 +6380,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if namespace_create_in is not None:
-            _body_params = namespace_create_in
+        if cloudflare_namespace_create_in is not None:
+            _body_params = cloudflare_namespace_create_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6411,7 +6433,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_pages_projects(
         self,
-        pages_project_create: PagesProjectCreate,
+        cloudflare_pages_project_create: CloudflarePagesProjectCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6429,8 +6451,8 @@ class CloudflareApi:
 
         Creates a Cloudflare Pages project on the org's account. Requires org admin. Only the modeled fields reach Cloudflare, so an unmodeled key in the request is dropped rather than forwarded.
 
-        :param pages_project_create: (required)
-        :type pages_project_create: PagesProjectCreate
+        :param cloudflare_pages_project_create: (required)
+        :type cloudflare_pages_project_create: CloudflarePagesProjectCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6454,7 +6476,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_pages_projects_serialize(
-            pages_project_create=pages_project_create,
+            cloudflare_pages_project_create=cloudflare_pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6478,7 +6500,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_pages_projects_with_http_info(
         self,
-        pages_project_create: PagesProjectCreate,
+        cloudflare_pages_project_create: CloudflarePagesProjectCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6496,8 +6518,8 @@ class CloudflareApi:
 
         Creates a Cloudflare Pages project on the org's account. Requires org admin. Only the modeled fields reach Cloudflare, so an unmodeled key in the request is dropped rather than forwarded.
 
-        :param pages_project_create: (required)
-        :type pages_project_create: PagesProjectCreate
+        :param cloudflare_pages_project_create: (required)
+        :type cloudflare_pages_project_create: CloudflarePagesProjectCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6521,7 +6543,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_pages_projects_serialize(
-            pages_project_create=pages_project_create,
+            cloudflare_pages_project_create=cloudflare_pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6545,7 +6567,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_pages_projects_without_preload_content(
         self,
-        pages_project_create: PagesProjectCreate,
+        cloudflare_pages_project_create: CloudflarePagesProjectCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6563,8 +6585,8 @@ class CloudflareApi:
 
         Creates a Cloudflare Pages project on the org's account. Requires org admin. Only the modeled fields reach Cloudflare, so an unmodeled key in the request is dropped rather than forwarded.
 
-        :param pages_project_create: (required)
-        :type pages_project_create: PagesProjectCreate
+        :param cloudflare_pages_project_create: (required)
+        :type cloudflare_pages_project_create: CloudflarePagesProjectCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6588,7 +6610,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_pages_projects_serialize(
-            pages_project_create=pages_project_create,
+            cloudflare_pages_project_create=cloudflare_pages_project_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6607,7 +6629,7 @@ class CloudflareApi:
 
     def _post_cloudflare_pages_projects_serialize(
         self,
-        pages_project_create,
+        cloudflare_pages_project_create,
         _request_auth,
         _content_type,
         _headers,
@@ -6633,15 +6655,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if pages_project_create is not None:
-            _body_params = pages_project_create
+        if cloudflare_pages_project_create is not None:
+            _body_params = cloudflare_pages_project_create
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6975,7 +6998,7 @@ class CloudflareApi:
     def post_cloudflare_pages_projects_by_project_domains(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
-        domain_add_in: DomainAddIn,
+        cloudflare_domain_add_in: CloudflareDomainAddIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6995,8 +7018,8 @@ class CloudflareApi:
 
         :param project: Project is the Pages project name, from the path. (required)
         :type project: str
-        :param domain_add_in: (required)
-        :type domain_add_in: DomainAddIn
+        :param cloudflare_domain_add_in: (required)
+        :type cloudflare_domain_add_in: CloudflareDomainAddIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7021,7 +7044,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
-            domain_add_in=domain_add_in,
+            cloudflare_domain_add_in=cloudflare_domain_add_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7046,7 +7069,7 @@ class CloudflareApi:
     def post_cloudflare_pages_projects_by_project_domains_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
-        domain_add_in: DomainAddIn,
+        cloudflare_domain_add_in: CloudflareDomainAddIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7066,8 +7089,8 @@ class CloudflareApi:
 
         :param project: Project is the Pages project name, from the path. (required)
         :type project: str
-        :param domain_add_in: (required)
-        :type domain_add_in: DomainAddIn
+        :param cloudflare_domain_add_in: (required)
+        :type cloudflare_domain_add_in: CloudflareDomainAddIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7092,7 +7115,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
-            domain_add_in=domain_add_in,
+            cloudflare_domain_add_in=cloudflare_domain_add_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7117,7 +7140,7 @@ class CloudflareApi:
     def post_cloudflare_pages_projects_by_project_domains_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the Pages project name, from the path.")],
-        domain_add_in: DomainAddIn,
+        cloudflare_domain_add_in: CloudflareDomainAddIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7137,8 +7160,8 @@ class CloudflareApi:
 
         :param project: Project is the Pages project name, from the path. (required)
         :type project: str
-        :param domain_add_in: (required)
-        :type domain_add_in: DomainAddIn
+        :param cloudflare_domain_add_in: (required)
+        :type cloudflare_domain_add_in: CloudflareDomainAddIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7163,7 +7186,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_pages_projects_by_project_domains_serialize(
             project=project,
-            domain_add_in=domain_add_in,
+            cloudflare_domain_add_in=cloudflare_domain_add_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7183,7 +7206,7 @@ class CloudflareApi:
     def _post_cloudflare_pages_projects_by_project_domains_serialize(
         self,
         project,
-        domain_add_in,
+        cloudflare_domain_add_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7211,15 +7234,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if domain_add_in is not None:
-            _body_params = domain_add_in
+        if cloudflare_domain_add_in is not None:
+            _body_params = cloudflare_domain_add_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7263,7 +7287,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_r2_buckets(
         self,
-        bucket_create_in: BucketCreateIn,
+        cloudflare_bucket_create_in: CloudflareBucketCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7281,8 +7305,8 @@ class CloudflareApi:
 
         Creates an R2 bucket on the org's Cloudflare account. Requires org admin.
 
-        :param bucket_create_in: (required)
-        :type bucket_create_in: BucketCreateIn
+        :param cloudflare_bucket_create_in: (required)
+        :type cloudflare_bucket_create_in: CloudflareBucketCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7306,7 +7330,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_r2_buckets_serialize(
-            bucket_create_in=bucket_create_in,
+            cloudflare_bucket_create_in=cloudflare_bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7330,7 +7354,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_r2_buckets_with_http_info(
         self,
-        bucket_create_in: BucketCreateIn,
+        cloudflare_bucket_create_in: CloudflareBucketCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7348,8 +7372,8 @@ class CloudflareApi:
 
         Creates an R2 bucket on the org's Cloudflare account. Requires org admin.
 
-        :param bucket_create_in: (required)
-        :type bucket_create_in: BucketCreateIn
+        :param cloudflare_bucket_create_in: (required)
+        :type cloudflare_bucket_create_in: CloudflareBucketCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7373,7 +7397,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_r2_buckets_serialize(
-            bucket_create_in=bucket_create_in,
+            cloudflare_bucket_create_in=cloudflare_bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7397,7 +7421,7 @@ class CloudflareApi:
     @validate_call
     def post_cloudflare_r2_buckets_without_preload_content(
         self,
-        bucket_create_in: BucketCreateIn,
+        cloudflare_bucket_create_in: CloudflareBucketCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7415,8 +7439,8 @@ class CloudflareApi:
 
         Creates an R2 bucket on the org's Cloudflare account. Requires org admin.
 
-        :param bucket_create_in: (required)
-        :type bucket_create_in: BucketCreateIn
+        :param cloudflare_bucket_create_in: (required)
+        :type cloudflare_bucket_create_in: CloudflareBucketCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7440,7 +7464,7 @@ class CloudflareApi:
         """ # noqa: E501
 
         _param = self._post_cloudflare_r2_buckets_serialize(
-            bucket_create_in=bucket_create_in,
+            cloudflare_bucket_create_in=cloudflare_bucket_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7459,7 +7483,7 @@ class CloudflareApi:
 
     def _post_cloudflare_r2_buckets_serialize(
         self,
-        bucket_create_in,
+        cloudflare_bucket_create_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7485,15 +7509,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bucket_create_in is not None:
-            _body_params = bucket_create_in
+        if cloudflare_bucket_create_in is not None:
+            _body_params = cloudflare_bucket_create_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7538,7 +7563,7 @@ class CloudflareApi:
     def post_cloudflare_workers_scripts_by_script_subdomain(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
-        subdomain_set_in: SubdomainSetIn,
+        cloudflare_subdomain_set_in: CloudflareSubdomainSetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7558,8 +7583,8 @@ class CloudflareApi:
 
         :param script: Script is the Worker script name, from the path. (required)
         :type script: str
-        :param subdomain_set_in: (required)
-        :type subdomain_set_in: SubdomainSetIn
+        :param cloudflare_subdomain_set_in: (required)
+        :type cloudflare_subdomain_set_in: CloudflareSubdomainSetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7584,7 +7609,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
-            subdomain_set_in=subdomain_set_in,
+            cloudflare_subdomain_set_in=cloudflare_subdomain_set_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7609,7 +7634,7 @@ class CloudflareApi:
     def post_cloudflare_workers_scripts_by_script_subdomain_with_http_info(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
-        subdomain_set_in: SubdomainSetIn,
+        cloudflare_subdomain_set_in: CloudflareSubdomainSetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7629,8 +7654,8 @@ class CloudflareApi:
 
         :param script: Script is the Worker script name, from the path. (required)
         :type script: str
-        :param subdomain_set_in: (required)
-        :type subdomain_set_in: SubdomainSetIn
+        :param cloudflare_subdomain_set_in: (required)
+        :type cloudflare_subdomain_set_in: CloudflareSubdomainSetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7655,7 +7680,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
-            subdomain_set_in=subdomain_set_in,
+            cloudflare_subdomain_set_in=cloudflare_subdomain_set_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7680,7 +7705,7 @@ class CloudflareApi:
     def post_cloudflare_workers_scripts_by_script_subdomain_without_preload_content(
         self,
         script: Annotated[StrictStr, Field(description="Script is the Worker script name, from the path.")],
-        subdomain_set_in: SubdomainSetIn,
+        cloudflare_subdomain_set_in: CloudflareSubdomainSetIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7700,8 +7725,8 @@ class CloudflareApi:
 
         :param script: Script is the Worker script name, from the path. (required)
         :type script: str
-        :param subdomain_set_in: (required)
-        :type subdomain_set_in: SubdomainSetIn
+        :param cloudflare_subdomain_set_in: (required)
+        :type cloudflare_subdomain_set_in: CloudflareSubdomainSetIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7726,7 +7751,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_scripts_by_script_subdomain_serialize(
             script=script,
-            subdomain_set_in=subdomain_set_in,
+            cloudflare_subdomain_set_in=cloudflare_subdomain_set_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7746,7 +7771,7 @@ class CloudflareApi:
     def _post_cloudflare_workers_scripts_by_script_subdomain_serialize(
         self,
         script,
-        subdomain_set_in,
+        cloudflare_subdomain_set_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7774,15 +7799,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if subdomain_set_in is not None:
-            _body_params = subdomain_set_in
+        if cloudflare_subdomain_set_in is not None:
+            _body_params = cloudflare_subdomain_set_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7827,7 +7853,7 @@ class CloudflareApi:
     def post_cloudflare_workers_zones_by_zone_routes(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        route_create_in: RouteCreateIn,
+        cloudflare_route_create_in: CloudflareRouteCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7847,8 +7873,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param route_create_in: (required)
-        :type route_create_in: RouteCreateIn
+        :param cloudflare_route_create_in: (required)
+        :type cloudflare_route_create_in: CloudflareRouteCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7873,7 +7899,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
-            route_create_in=route_create_in,
+            cloudflare_route_create_in=cloudflare_route_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7898,7 +7924,7 @@ class CloudflareApi:
     def post_cloudflare_workers_zones_by_zone_routes_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        route_create_in: RouteCreateIn,
+        cloudflare_route_create_in: CloudflareRouteCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7918,8 +7944,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param route_create_in: (required)
-        :type route_create_in: RouteCreateIn
+        :param cloudflare_route_create_in: (required)
+        :type cloudflare_route_create_in: CloudflareRouteCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7944,7 +7970,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
-            route_create_in=route_create_in,
+            cloudflare_route_create_in=cloudflare_route_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7969,7 +7995,7 @@ class CloudflareApi:
     def post_cloudflare_workers_zones_by_zone_routes_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        route_create_in: RouteCreateIn,
+        cloudflare_route_create_in: CloudflareRouteCreateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7989,8 +8015,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param route_create_in: (required)
-        :type route_create_in: RouteCreateIn
+        :param cloudflare_route_create_in: (required)
+        :type cloudflare_route_create_in: CloudflareRouteCreateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8015,7 +8041,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_workers_zones_by_zone_routes_serialize(
             zone=zone,
-            route_create_in=route_create_in,
+            cloudflare_route_create_in=cloudflare_route_create_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8035,7 +8061,7 @@ class CloudflareApi:
     def _post_cloudflare_workers_zones_by_zone_routes_serialize(
         self,
         zone,
-        route_create_in,
+        cloudflare_route_create_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8063,15 +8089,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if route_create_in is not None:
-            _body_params = route_create_in
+        if cloudflare_route_create_in is not None:
+            _body_params = cloudflare_route_create_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8116,7 +8143,7 @@ class CloudflareApi:
     def post_cloudflare_zones_by_zone_purge(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        purge_in: PurgeIn,
+        cloudflare_purge_in: CloudflarePurgeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8136,8 +8163,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param purge_in: (required)
-        :type purge_in: PurgeIn
+        :param cloudflare_purge_in: (required)
+        :type cloudflare_purge_in: CloudflarePurgeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8162,7 +8189,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
-            purge_in=purge_in,
+            cloudflare_purge_in=cloudflare_purge_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8187,7 +8214,7 @@ class CloudflareApi:
     def post_cloudflare_zones_by_zone_purge_with_http_info(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        purge_in: PurgeIn,
+        cloudflare_purge_in: CloudflarePurgeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8207,8 +8234,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param purge_in: (required)
-        :type purge_in: PurgeIn
+        :param cloudflare_purge_in: (required)
+        :type cloudflare_purge_in: CloudflarePurgeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8233,7 +8260,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
-            purge_in=purge_in,
+            cloudflare_purge_in=cloudflare_purge_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8258,7 +8285,7 @@ class CloudflareApi:
     def post_cloudflare_zones_by_zone_purge_without_preload_content(
         self,
         zone: Annotated[StrictStr, Field(description="Zone is the 32-hex Cloudflare zone id, from the path.")],
-        purge_in: PurgeIn,
+        cloudflare_purge_in: CloudflarePurgeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8278,8 +8305,8 @@ class CloudflareApi:
 
         :param zone: Zone is the 32-hex Cloudflare zone id, from the path. (required)
         :type zone: str
-        :param purge_in: (required)
-        :type purge_in: PurgeIn
+        :param cloudflare_purge_in: (required)
+        :type cloudflare_purge_in: CloudflarePurgeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8304,7 +8331,7 @@ class CloudflareApi:
 
         _param = self._post_cloudflare_zones_by_zone_purge_serialize(
             zone=zone,
-            purge_in=purge_in,
+            cloudflare_purge_in=cloudflare_purge_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8324,7 +8351,7 @@ class CloudflareApi:
     def _post_cloudflare_zones_by_zone_purge_serialize(
         self,
         zone,
-        purge_in,
+        cloudflare_purge_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8352,15 +8379,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if purge_in is not None:
-            _body_params = purge_in
+        if cloudflare_purge_in is not None:
+            _body_params = cloudflare_purge_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8671,7 +8699,7 @@ class CloudflareApi:
     def put_cloudflare_workers_scripts_by_script(
         self,
         script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
-        worker_script_put: WorkerScriptPut,
+        cloudflare_worker_script_put: CloudflareWorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8691,8 +8719,8 @@ class CloudflareApi:
 
         :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put: (required)
-        :type worker_script_put: WorkerScriptPut
+        :param cloudflare_worker_script_put: (required)
+        :type cloudflare_worker_script_put: CloudflareWorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8717,7 +8745,7 @@ class CloudflareApi:
 
         _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
-            worker_script_put=worker_script_put,
+            cloudflare_worker_script_put=cloudflare_worker_script_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8742,7 +8770,7 @@ class CloudflareApi:
     def put_cloudflare_workers_scripts_by_script_with_http_info(
         self,
         script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
-        worker_script_put: WorkerScriptPut,
+        cloudflare_worker_script_put: CloudflareWorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8762,8 +8790,8 @@ class CloudflareApi:
 
         :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put: (required)
-        :type worker_script_put: WorkerScriptPut
+        :param cloudflare_worker_script_put: (required)
+        :type cloudflare_worker_script_put: CloudflareWorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8788,7 +8816,7 @@ class CloudflareApi:
 
         _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
-            worker_script_put=worker_script_put,
+            cloudflare_worker_script_put=cloudflare_worker_script_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8813,7 +8841,7 @@ class CloudflareApi:
     def put_cloudflare_workers_scripts_by_script_without_preload_content(
         self,
         script: Annotated[StrictStr, Field(description="Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker.")],
-        worker_script_put: WorkerScriptPut,
+        cloudflare_worker_script_put: CloudflareWorkerScriptPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8833,8 +8861,8 @@ class CloudflareApi:
 
         :param script: Script means two things on this route, and the document says so in both places it appears: the PATH segment names the Worker to publish, and the BODY field carries that Worker's ES-module source — the code itself, never a name or a URL. A blank or absent source is refused; there is no empty Worker. (required)
         :type script: str
-        :param worker_script_put: (required)
-        :type worker_script_put: WorkerScriptPut
+        :param cloudflare_worker_script_put: (required)
+        :type cloudflare_worker_script_put: CloudflareWorkerScriptPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8859,7 +8887,7 @@ class CloudflareApi:
 
         _param = self._put_cloudflare_workers_scripts_by_script_serialize(
             script=script,
-            worker_script_put=worker_script_put,
+            cloudflare_worker_script_put=cloudflare_worker_script_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8879,7 +8907,7 @@ class CloudflareApi:
     def _put_cloudflare_workers_scripts_by_script_serialize(
         self,
         script,
-        worker_script_put,
+        cloudflare_worker_script_put,
         _request_auth,
         _content_type,
         _headers,
@@ -8907,15 +8935,16 @@ class CloudflareApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if worker_script_put is not None:
-            _body_params = worker_script_put
+        if cloudflare_worker_script_put is not None:
+            _body_params = cloudflare_worker_script_put
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ask_answer import AskAnswer
-from hanzoai.cloud.models.ask_post_in import AskPostIn
-from hanzoai.cloud.models.context_bundle import ContextBundle
-from hanzoai.cloud.models.context_in import ContextIn
-from hanzoai.cloud.models.file_content import FileContent
-from hanzoai.cloud.models.index_in import IndexIn
-from hanzoai.cloud.models.index_result import IndexResult
-from hanzoai.cloud.models.repo_tree import RepoTree
-from hanzoai.cloud.models.search_results import SearchResults
+from hanzoai.cloud.models.code_ask_answer import CodeAskAnswer
+from hanzoai.cloud.models.code_ask_post_in import CodeAskPostIn
+from hanzoai.cloud.models.code_context_bundle import CodeContextBundle
+from hanzoai.cloud.models.code_context_in import CodeContextIn
+from hanzoai.cloud.models.code_file_content import CodeFileContent
+from hanzoai.cloud.models.code_index_in import CodeIndexIn
+from hanzoai.cloud.models.code_index_result import CodeIndexResult
+from hanzoai.cloud.models.code_repo_tree import CodeRepoTree
+from hanzoai.cloud.models.code_search_results import CodeSearchResults
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -64,7 +64,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AskAnswer:
+    ) -> CodeAskAnswer:
         """Answers a question about the caller org's code with a CITED answer: retrieval packs grounding context, then the synthesizer writes the answer over exactly those spans, which come back alongside it.
 
         Answers a question about the caller org's code with a CITED answer: retrieval packs grounding context, then the synthesizer writes the answer over exactly those spans, which come back alongside it. It never answers without grounding — with no matched code the answer is empty and says so, and with no synthesizer available the citations still come back with \"degraded\": true so the caller can reason over the spans itself.
@@ -105,7 +105,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -135,7 +135,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AskAnswer]:
+    ) -> ApiResponse[CodeAskAnswer]:
         """Answers a question about the caller org's code with a CITED answer: retrieval packs grounding context, then the synthesizer writes the answer over exactly those spans, which come back alongside it.
 
         Answers a question about the caller org's code with a CITED answer: retrieval packs grounding context, then the synthesizer writes the answer over exactly those spans, which come back alongside it. It never answers without grounding — with no matched code the answer is empty and says so, and with no synthesizer available the citations still come back with \"degraded\": true so the caller can reason over the spans itself.
@@ -176,7 +176,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -247,7 +247,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -299,7 +299,8 @@ class CodeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -344,7 +345,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FileContent:
+    ) -> CodeFileContent:
         """Returns the INDEXED content of one file — read_file over the chunks the search tiers hold, for pulling up code an agent just found.
 
         Returns the INDEXED content of one file — read_file over the chunks the search tiers hold, for pulling up code an agent just found. It is NOT byte-verbatim: the git object plane is the source of record for exact bytes, history and blame. A file absent from the index is a 404, so an agent can tell \"not indexed\" from \"empty file\".
@@ -385,7 +386,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileContent",
+            '200': "CodeFileContent",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -415,7 +416,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FileContent]:
+    ) -> ApiResponse[CodeFileContent]:
         """Returns the INDEXED content of one file — read_file over the chunks the search tiers hold, for pulling up code an agent just found.
 
         Returns the INDEXED content of one file — read_file over the chunks the search tiers hold, for pulling up code an agent just found. It is NOT byte-verbatim: the git object plane is the source of record for exact bytes, history and blame. A file absent from the index is a 404, so an agent can tell \"not indexed\" from \"empty file\".
@@ -456,7 +457,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileContent",
+            '200': "CodeFileContent",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -527,7 +528,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FileContent",
+            '200': "CodeFileContent",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -579,7 +580,8 @@ class CodeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -626,7 +628,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SearchResults:
+    ) -> CodeSearchResults:
         """Finds code in the caller org's index across three orthogonal retrieval tiers fused by reciprocal-rank fusion: lexical (FTS5 trigram over code-tokenized text), symbolic (real definition and reference edges), and semantic (embedding cosine over AST-boundary chunks).
 
         Finds code in the caller org's index across three orthogonal retrieval tiers fused by reciprocal-rank fusion: lexical (FTS5 trigram over code-tokenized text), symbolic (real definition and reference edges), and semantic (embedding cosine over AST-boundary chunks). Pick one tier with `type`, or leave it to run all three as hybrid, which is what a coding agent usually wants. It is FAIL-HONEST: a retrieval outage answers 200 with an empty result set and \"degraded\": true rather than a 5xx, so an agent degrades instead of stalling. A malformed regex is a 400.
@@ -673,7 +675,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResults",
+            '200': "CodeSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -705,7 +707,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SearchResults]:
+    ) -> ApiResponse[CodeSearchResults]:
         """Finds code in the caller org's index across three orthogonal retrieval tiers fused by reciprocal-rank fusion: lexical (FTS5 trigram over code-tokenized text), symbolic (real definition and reference edges), and semantic (embedding cosine over AST-boundary chunks).
 
         Finds code in the caller org's index across three orthogonal retrieval tiers fused by reciprocal-rank fusion: lexical (FTS5 trigram over code-tokenized text), symbolic (real definition and reference edges), and semantic (embedding cosine over AST-boundary chunks). Pick one tier with `type`, or leave it to run all three as hybrid, which is what a coding agent usually wants. It is FAIL-HONEST: a retrieval outage answers 200 with an empty result set and \"degraded\": true rather than a 5xx, so an agent degrades instead of stalling. A malformed regex is a 400.
@@ -752,7 +754,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResults",
+            '200': "CodeSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -831,7 +833,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchResults",
+            '200': "CodeSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -893,7 +895,8 @@ class CodeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -937,7 +940,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoTree:
+    ) -> CodeRepoTree:
         """Returns one repository's file structure with a per-file symbol count — get_repo_structure over the org's own index, with no git checkout involved.
 
         Returns one repository's file structure with a per-file symbol count — get_repo_structure over the org's own index, with no git checkout involved. A repository that has not been indexed answers an empty tree rather than an error, so an agent can tell \"nothing here\" without handling a failure.
@@ -975,7 +978,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoTree",
+            '200': "CodeRepoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1004,7 +1007,7 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoTree]:
+    ) -> ApiResponse[CodeRepoTree]:
         """Returns one repository's file structure with a per-file symbol count — get_repo_structure over the org's own index, with no git checkout involved.
 
         Returns one repository's file structure with a per-file symbol count — get_repo_structure over the org's own index, with no git checkout involved. A repository that has not been indexed answers an empty tree rather than an error, so an agent can tell \"nothing here\" without handling a failure.
@@ -1042,7 +1045,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoTree",
+            '200': "CodeRepoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1109,7 +1112,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoTree",
+            '200': "CodeRepoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1156,7 +1159,8 @@ class CodeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1187,7 +1191,7 @@ class CodeApi:
     @validate_call
     def post_code_ask(
         self,
-        ask_post_in: AskPostIn,
+        code_ask_post_in: CodeAskPostIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1200,13 +1204,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AskAnswer:
-        """Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL.
+    ) -> CodeAskAnswer:
+        """Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL.
 
-        Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
+        Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
 
-        :param ask_post_in: (required)
-        :type ask_post_in: AskPostIn
+        :param code_ask_post_in: (required)
+        :type code_ask_post_in: CodeAskPostIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1230,7 +1234,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_ask_serialize(
-            ask_post_in=ask_post_in,
+            code_ask_post_in=code_ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1238,7 +1242,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1254,7 +1258,7 @@ class CodeApi:
     @validate_call
     def post_code_ask_with_http_info(
         self,
-        ask_post_in: AskPostIn,
+        code_ask_post_in: CodeAskPostIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1267,13 +1271,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AskAnswer]:
-        """Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL.
+    ) -> ApiResponse[CodeAskAnswer]:
+        """Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL.
 
-        Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
+        Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
 
-        :param ask_post_in: (required)
-        :type ask_post_in: AskPostIn
+        :param code_ask_post_in: (required)
+        :type code_ask_post_in: CodeAskPostIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1297,7 +1301,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_ask_serialize(
-            ask_post_in=ask_post_in,
+            code_ask_post_in=code_ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1305,7 +1309,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1321,7 +1325,7 @@ class CodeApi:
     @validate_call
     def post_code_ask_without_preload_content(
         self,
-        ask_post_in: AskPostIn,
+        code_ask_post_in: CodeAskPostIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1335,12 +1339,12 @@ class CodeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL.
+        """Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL.
 
-        Is askGet with the question in the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
+        Answers a question about the caller org's code with a CITED answer, taking the question from the request BODY, for a question too long or too awkward to put in a URL. `query` and `repo` in the body take precedence over `?q=` and `?repo=`; either source works alone.
 
-        :param ask_post_in: (required)
-        :type ask_post_in: AskPostIn
+        :param code_ask_post_in: (required)
+        :type code_ask_post_in: CodeAskPostIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1364,7 +1368,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_ask_serialize(
-            ask_post_in=ask_post_in,
+            code_ask_post_in=code_ask_post_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1372,7 +1376,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskAnswer",
+            '200': "CodeAskAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1383,7 +1387,7 @@ class CodeApi:
 
     def _post_code_ask_serialize(
         self,
-        ask_post_in,
+        code_ask_post_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1409,15 +1413,16 @@ class CodeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ask_post_in is not None:
-            _body_params = ask_post_in
+        if code_ask_post_in is not None:
+            _body_params = code_ask_post_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1461,7 +1466,7 @@ class CodeApi:
     @validate_call
     def post_code_context(
         self,
-        context_in: ContextIn,
+        code_context_in: CodeContextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1474,13 +1479,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ContextBundle:
+    ) -> CodeContextBundle:
         """Packs the most relevant code for a query into a token budget — THE primitive for a coding agent that has to decide what to put in a prompt.
 
         Packs the most relevant code for a query into a token budget — THE primitive for a coding agent that has to decide what to put in a prompt. It retrieves seed spans, expands each with the definitions it calls and its key callers, then greedily fills the budget, so the answer is a coherent slice of the codebase rather than a list of disconnected matches. The top match is always included, truncated if it alone overflows, so a matched query never comes back empty. A retrieval outage answers 200 with an empty bundle rather than a 5xx.
 
-        :param context_in: (required)
-        :type context_in: ContextIn
+        :param code_context_in: (required)
+        :type code_context_in: CodeContextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1504,7 +1509,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_context_serialize(
-            context_in=context_in,
+            code_context_in=code_context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1512,7 +1517,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ContextBundle",
+            '200': "CodeContextBundle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1528,7 +1533,7 @@ class CodeApi:
     @validate_call
     def post_code_context_with_http_info(
         self,
-        context_in: ContextIn,
+        code_context_in: CodeContextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1541,13 +1546,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ContextBundle]:
+    ) -> ApiResponse[CodeContextBundle]:
         """Packs the most relevant code for a query into a token budget — THE primitive for a coding agent that has to decide what to put in a prompt.
 
         Packs the most relevant code for a query into a token budget — THE primitive for a coding agent that has to decide what to put in a prompt. It retrieves seed spans, expands each with the definitions it calls and its key callers, then greedily fills the budget, so the answer is a coherent slice of the codebase rather than a list of disconnected matches. The top match is always included, truncated if it alone overflows, so a matched query never comes back empty. A retrieval outage answers 200 with an empty bundle rather than a 5xx.
 
-        :param context_in: (required)
-        :type context_in: ContextIn
+        :param code_context_in: (required)
+        :type code_context_in: CodeContextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1571,7 +1576,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_context_serialize(
-            context_in=context_in,
+            code_context_in=code_context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1579,7 +1584,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ContextBundle",
+            '200': "CodeContextBundle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1595,7 +1600,7 @@ class CodeApi:
     @validate_call
     def post_code_context_without_preload_content(
         self,
-        context_in: ContextIn,
+        code_context_in: CodeContextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1613,8 +1618,8 @@ class CodeApi:
 
         Packs the most relevant code for a query into a token budget — THE primitive for a coding agent that has to decide what to put in a prompt. It retrieves seed spans, expands each with the definitions it calls and its key callers, then greedily fills the budget, so the answer is a coherent slice of the codebase rather than a list of disconnected matches. The top match is always included, truncated if it alone overflows, so a matched query never comes back empty. A retrieval outage answers 200 with an empty bundle rather than a 5xx.
 
-        :param context_in: (required)
-        :type context_in: ContextIn
+        :param code_context_in: (required)
+        :type code_context_in: CodeContextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1638,7 +1643,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_context_serialize(
-            context_in=context_in,
+            code_context_in=code_context_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1646,7 +1651,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ContextBundle",
+            '200': "CodeContextBundle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1657,7 +1662,7 @@ class CodeApi:
 
     def _post_code_context_serialize(
         self,
-        context_in,
+        code_context_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1683,15 +1688,16 @@ class CodeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if context_in is not None:
-            _body_params = context_in
+        if code_context_in is not None:
+            _body_params = code_context_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1735,7 +1741,7 @@ class CodeApi:
     @validate_call
     def post_code_index(
         self,
-        index_in: IndexIn,
+        code_index_in: CodeIndexIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1748,13 +1754,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexResult:
+    ) -> CodeIndexResult:
         """(re)indexes a repository for the caller's org, incrementally: files whose content hash is unchanged are skipped, so re-sending a whole tree is cheap.
 
         (re)indexes a repository for the caller's org, incrementally: files whose content hash is unchanged are skipped, so re-sending a whole tree is cheap. Each file is parsed for symbols, split at AST boundaries and — when the semantic tier is available — embedded, which is what makes it searchable across all three retrieval tiers. Pass `prune` to also DELETE indexed files absent from the request, which turns the call into a full sync; without it the call is an upsert. The index is written to the caller org's own physically separate database.
 
-        :param index_in: (required)
-        :type index_in: IndexIn
+        :param code_index_in: (required)
+        :type code_index_in: CodeIndexIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1778,7 +1784,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_index_serialize(
-            index_in=index_in,
+            code_index_in=code_index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1786,7 +1792,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexResult",
+            '200': "CodeIndexResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1802,7 +1808,7 @@ class CodeApi:
     @validate_call
     def post_code_index_with_http_info(
         self,
-        index_in: IndexIn,
+        code_index_in: CodeIndexIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1815,13 +1821,13 @@ class CodeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexResult]:
+    ) -> ApiResponse[CodeIndexResult]:
         """(re)indexes a repository for the caller's org, incrementally: files whose content hash is unchanged are skipped, so re-sending a whole tree is cheap.
 
         (re)indexes a repository for the caller's org, incrementally: files whose content hash is unchanged are skipped, so re-sending a whole tree is cheap. Each file is parsed for symbols, split at AST boundaries and — when the semantic tier is available — embedded, which is what makes it searchable across all three retrieval tiers. Pass `prune` to also DELETE indexed files absent from the request, which turns the call into a full sync; without it the call is an upsert. The index is written to the caller org's own physically separate database.
 
-        :param index_in: (required)
-        :type index_in: IndexIn
+        :param code_index_in: (required)
+        :type code_index_in: CodeIndexIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1845,7 +1851,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_index_serialize(
-            index_in=index_in,
+            code_index_in=code_index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1853,7 +1859,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexResult",
+            '200': "CodeIndexResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1869,7 +1875,7 @@ class CodeApi:
     @validate_call
     def post_code_index_without_preload_content(
         self,
-        index_in: IndexIn,
+        code_index_in: CodeIndexIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1887,8 +1893,8 @@ class CodeApi:
 
         (re)indexes a repository for the caller's org, incrementally: files whose content hash is unchanged are skipped, so re-sending a whole tree is cheap. Each file is parsed for symbols, split at AST boundaries and — when the semantic tier is available — embedded, which is what makes it searchable across all three retrieval tiers. Pass `prune` to also DELETE indexed files absent from the request, which turns the call into a full sync; without it the call is an upsert. The index is written to the caller org's own physically separate database.
 
-        :param index_in: (required)
-        :type index_in: IndexIn
+        :param code_index_in: (required)
+        :type code_index_in: CodeIndexIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1912,7 +1918,7 @@ class CodeApi:
         """ # noqa: E501
 
         _param = self._post_code_index_serialize(
-            index_in=index_in,
+            code_index_in=code_index_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1920,7 +1926,7 @@ class CodeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexResult",
+            '200': "CodeIndexResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1931,7 +1937,7 @@ class CodeApi:
 
     def _post_code_index_serialize(
         self,
-        index_in,
+        code_index_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1957,15 +1963,16 @@ class CodeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if index_in is not None:
-            _body_params = index_in
+        if code_index_in is not None:
+            _body_params = code_index_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

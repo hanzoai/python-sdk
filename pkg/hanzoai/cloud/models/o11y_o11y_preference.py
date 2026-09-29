@@ -28,10 +28,10 @@ class O11yO11yPreference(BaseModel):
     """ # noqa: E501
     allowed_scopes: Optional[List[StrictStr]] = Field(default=None, description="AllowedScopes are the scopes the preference may be set at — org, user.", alias="allowedScopes")
     allowed_values: Optional[List[StrictStr]] = Field(default=None, description="AllowedValues restricts a string preference to these values.", alias="allowedValues")
-    default_value: Optional[Dict[str, Any]] = Field(default=None, description="DefaultValue is the value before anyone set one.", alias="defaultValue")
+    default_value: Optional[Any] = Field(default=None, alias="defaultValue")
     description: Optional[StrictStr] = Field(default=None, description="Description says what the preference does.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the preference name.")
-    value: Optional[Dict[str, Any]] = Field(default=None, description="Value is the current value.")
+    value: Optional[Any] = None
     value_type: Optional[StrictStr] = Field(default=None, description="ValueType is the JSON type a value must have — string, integer, float or boolean.", alias="valueType")
     __properties: ClassVar[List[str]] = ["allowedScopes", "allowedValues", "defaultValue", "description", "name", "value", "valueType"]
 
@@ -74,6 +74,16 @@ class O11yO11yPreference(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if default_value (nullable) is None
+        # and model_fields_set contains the field
+        if self.default_value is None and "default_value" in self.model_fields_set:
+            _dict['defaultValue'] = None
+
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

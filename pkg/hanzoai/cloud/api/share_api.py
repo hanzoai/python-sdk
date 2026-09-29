@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.enable_resp import EnableResp
-from hanzoai.cloud.models.shares_out import SharesOut
+from hanzoai.cloud.models.share_enable_resp import ShareEnableResp
+from hanzoai.cloud.models.share_shares_out import ShareSharesOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class ShareApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SharesOut:
+    ) -> ShareSharesOut:
         """Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
 
         Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
@@ -87,7 +87,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SharesOut",
+            '200': "ShareSharesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +115,7 @@ class ShareApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SharesOut]:
+    ) -> ApiResponse[ShareSharesOut]:
         """Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
 
         Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
@@ -150,7 +150,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SharesOut",
+            '200': "ShareSharesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -213,7 +213,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SharesOut",
+            '200': "ShareSharesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -255,7 +255,8 @@ class ShareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -298,10 +299,10 @@ class ShareApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EnableResp:
-        """Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+    ) -> ShareEnableResp:
+        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -333,7 +334,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnableResp",
+            '200': "ShareEnableResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -361,10 +362,10 @@ class ShareApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EnableResp]:
-        """Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+    ) -> ApiResponse[ShareEnableResp]:
+        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -396,7 +397,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnableResp",
+            '200': "ShareEnableResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -425,9 +426,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Enable provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -459,7 +460,7 @@ class ShareApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnableResp",
+            '200': "ShareEnableResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,8 @@ class ShareApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

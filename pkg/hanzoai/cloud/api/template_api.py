@@ -18,10 +18,10 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.kit_list import KitList
-from hanzoai.cloud.models.publish_kit_in import PublishKitIn
-from hanzoai.cloud.models.replace_kit_in import ReplaceKitIn
-from hanzoai.cloud.models.starter_kit import StarterKit
+from hanzoai.cloud.models.template_kit_list import TemplateKitList
+from hanzoai.cloud.models.template_publish_kit_in import TemplatePublishKitIn
+from hanzoai.cloud.models.template_replace_kit_in import TemplateReplaceKitIn
+from hanzoai.cloud.models.template_starter_kit import TemplateStarterKit
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -270,6 +270,13 @@ class TemplateApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -310,7 +317,7 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KitList:
+    ) -> TemplateKitList:
         """Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits.
 
         Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits. No request field can widen the scope: the org comes from the validated principal, so an anonymous or cross-org caller structurally sees the public catalog only.
@@ -345,7 +352,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KitList",
+            '200': "TemplateKitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -373,7 +380,7 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KitList]:
+    ) -> ApiResponse[TemplateKitList]:
         """Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits.
 
         Lists the public starter-kit catalog plus, for a validated caller, that org's own private kits. No request field can widen the scope: the org comes from the validated principal, so an anonymous or cross-org caller structurally sees the public catalog only.
@@ -408,7 +415,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KitList",
+            '200': "TemplateKitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -471,7 +478,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KitList",
+            '200': "TemplateKitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -513,7 +520,8 @@ class TemplateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -557,7 +565,7 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StarterKit:
+    ) -> TemplateStarterKit:
         """Returns one starter kit: the caller org's own by that slug, else the public catalog's.
 
         Returns one starter kit: the caller org's own by that slug, else the public catalog's. A slug another org owns reads as not found.
@@ -595,7 +603,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -624,7 +632,7 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StarterKit]:
+    ) -> ApiResponse[TemplateStarterKit]:
         """Returns one starter kit: the caller org's own by that slug, else the public catalog's.
 
         Returns one starter kit: the caller org's own by that slug, else the public catalog's. A slug another org owns reads as not found.
@@ -662,7 +670,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -729,7 +737,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -774,7 +782,8 @@ class TemplateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -805,7 +814,7 @@ class TemplateApi:
     @validate_call
     def post_template(
         self,
-        publish_kit_in: PublishKitIn,
+        template_publish_kit_in: TemplatePublishKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -818,13 +827,13 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StarterKit:
+    ) -> TemplateStarterKit:
         """Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit.
 
         Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit. The owner is stamped by the server, so a body \"org\" is never trusted; publishing over a public-catalog slug is 409, so a slug still names exactly one kit.
 
-        :param publish_kit_in: (required)
-        :type publish_kit_in: PublishKitIn
+        :param template_publish_kit_in: (required)
+        :type template_publish_kit_in: TemplatePublishKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -848,7 +857,7 @@ class TemplateApi:
         """ # noqa: E501
 
         _param = self._post_template_serialize(
-            publish_kit_in=publish_kit_in,
+            template_publish_kit_in=template_publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -856,7 +865,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "StarterKit",
+            '201': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -872,7 +881,7 @@ class TemplateApi:
     @validate_call
     def post_template_with_http_info(
         self,
-        publish_kit_in: PublishKitIn,
+        template_publish_kit_in: TemplatePublishKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -885,13 +894,13 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StarterKit]:
+    ) -> ApiResponse[TemplateStarterKit]:
         """Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit.
 
         Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit. The owner is stamped by the server, so a body \"org\" is never trusted; publishing over a public-catalog slug is 409, so a slug still names exactly one kit.
 
-        :param publish_kit_in: (required)
-        :type publish_kit_in: PublishKitIn
+        :param template_publish_kit_in: (required)
+        :type template_publish_kit_in: TemplatePublishKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -915,7 +924,7 @@ class TemplateApi:
         """ # noqa: E501
 
         _param = self._post_template_serialize(
-            publish_kit_in=publish_kit_in,
+            template_publish_kit_in=template_publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -923,7 +932,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "StarterKit",
+            '201': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -939,7 +948,7 @@ class TemplateApi:
     @validate_call
     def post_template_without_preload_content(
         self,
-        publish_kit_in: PublishKitIn,
+        template_publish_kit_in: TemplatePublishKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -957,8 +966,8 @@ class TemplateApi:
 
         Creates a starter kit PRIVATE to the caller's org and answers 201 with the stored kit. The owner is stamped by the server, so a body \"org\" is never trusted; publishing over a public-catalog slug is 409, so a slug still names exactly one kit.
 
-        :param publish_kit_in: (required)
-        :type publish_kit_in: PublishKitIn
+        :param template_publish_kit_in: (required)
+        :type template_publish_kit_in: TemplatePublishKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -982,7 +991,7 @@ class TemplateApi:
         """ # noqa: E501
 
         _param = self._post_template_serialize(
-            publish_kit_in=publish_kit_in,
+            template_publish_kit_in=template_publish_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -990,7 +999,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "StarterKit",
+            '201': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1001,7 +1010,7 @@ class TemplateApi:
 
     def _post_template_serialize(
         self,
-        publish_kit_in,
+        template_publish_kit_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1027,15 +1036,16 @@ class TemplateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if publish_kit_in is not None:
-            _body_params = publish_kit_in
+        if template_publish_kit_in is not None:
+            _body_params = template_publish_kit_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1080,7 +1090,7 @@ class TemplateApi:
     def put_template_by_slug(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
-        replace_kit_in: ReplaceKitIn,
+        template_replace_kit_in: TemplateReplaceKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1093,15 +1103,15 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StarterKit:
+    ) -> TemplateStarterKit:
         """Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit.
 
         Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit. A slug they do not own is 404, never a create: the UPDATE binds org, so a PUT can never reach another org's kit.
 
         :param slug: Slug is the kit to replace, from the path. (required)
         :type slug: str
-        :param replace_kit_in: (required)
-        :type replace_kit_in: ReplaceKitIn
+        :param template_replace_kit_in: (required)
+        :type template_replace_kit_in: TemplateReplaceKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1126,7 +1136,7 @@ class TemplateApi:
 
         _param = self._put_template_by_slug_serialize(
             slug=slug,
-            replace_kit_in=replace_kit_in,
+            template_replace_kit_in=template_replace_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1134,7 +1144,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1151,7 +1161,7 @@ class TemplateApi:
     def put_template_by_slug_with_http_info(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
-        replace_kit_in: ReplaceKitIn,
+        template_replace_kit_in: TemplateReplaceKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1164,15 +1174,15 @@ class TemplateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StarterKit]:
+    ) -> ApiResponse[TemplateStarterKit]:
         """Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit.
 
         Overwrites the caller org's OWN starter kit at the path slug, answering the stored kit. A slug they do not own is 404, never a create: the UPDATE binds org, so a PUT can never reach another org's kit.
 
         :param slug: Slug is the kit to replace, from the path. (required)
         :type slug: str
-        :param replace_kit_in: (required)
-        :type replace_kit_in: ReplaceKitIn
+        :param template_replace_kit_in: (required)
+        :type template_replace_kit_in: TemplateReplaceKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1197,7 +1207,7 @@ class TemplateApi:
 
         _param = self._put_template_by_slug_serialize(
             slug=slug,
-            replace_kit_in=replace_kit_in,
+            template_replace_kit_in=template_replace_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1205,7 +1215,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1222,7 +1232,7 @@ class TemplateApi:
     def put_template_by_slug_without_preload_content(
         self,
         slug: Annotated[StrictStr, Field(description="Slug is the kit to replace, from the path.")],
-        replace_kit_in: ReplaceKitIn,
+        template_replace_kit_in: TemplateReplaceKitIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1242,8 +1252,8 @@ class TemplateApi:
 
         :param slug: Slug is the kit to replace, from the path. (required)
         :type slug: str
-        :param replace_kit_in: (required)
-        :type replace_kit_in: ReplaceKitIn
+        :param template_replace_kit_in: (required)
+        :type template_replace_kit_in: TemplateReplaceKitIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1268,7 +1278,7 @@ class TemplateApi:
 
         _param = self._put_template_by_slug_serialize(
             slug=slug,
-            replace_kit_in=replace_kit_in,
+            template_replace_kit_in=template_replace_kit_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1276,7 +1286,7 @@ class TemplateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StarterKit",
+            '200': "TemplateStarterKit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1288,7 +1298,7 @@ class TemplateApi:
     def _put_template_by_slug_serialize(
         self,
         slug,
-        replace_kit_in,
+        template_replace_kit_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1316,15 +1326,16 @@ class TemplateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if replace_kit_in is not None:
-            _body_params = replace_kit_in
+        if template_replace_kit_in is not None:
+            _body_params = template_replace_kit_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

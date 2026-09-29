@@ -18,11 +18,11 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.patch_sync_in import PatchSyncIn
-from hanzoai.cloud.models.sync_list import SyncList
-from hanzoai.cloud.models.sync_queued import SyncQueued
-from hanzoai.cloud.models.sync_req import SyncReq
-from hanzoai.cloud.models.sync_view import SyncView
+from hanzoai.cloud.models.sync_patch_sync_in import SyncPatchSyncIn
+from hanzoai.cloud.models.sync_sync_list import SyncSyncList
+from hanzoai.cloud.models.sync_sync_queued import SyncSyncQueued
+from hanzoai.cloud.models.sync_sync_req import SyncSyncReq
+from hanzoai.cloud.models.sync_sync_view import SyncSyncView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -59,9 +59,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Delete removes one sync and tears down the outbound mirror it derived, answering 204.
+        """Removes one sync and tears down the outbound mirror it derived, answering 204.
 
-        Delete removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
+        Removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -126,9 +126,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Delete removes one sync and tears down the outbound mirror it derived, answering 204.
+        """Removes one sync and tears down the outbound mirror it derived, answering 204.
 
-        Delete removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
+        Removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -193,9 +193,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Delete removes one sync and tears down the outbound mirror it derived, answering 204.
+        """Removes one sync and tears down the outbound mirror it derived, answering 204.
 
-        Delete removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
+        Removes one sync and tears down the outbound mirror it derived, answering 204. The teardown is the point: without it an unsynced repository would keep force-pushing to the upstream it is no longer linked to. Org-scoped, so another tenant's id is the same 404 an unknown id gives.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -271,6 +271,13 @@ class SyncApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -311,10 +318,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncList:
-        """List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+    ) -> SyncSyncList:
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
 
-        List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -346,7 +353,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncList",
+            '200': "SyncSyncList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,10 +381,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncList]:
-        """List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+    ) -> ApiResponse[SyncSyncList]:
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
 
-        List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -409,7 +416,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncList",
+            '200': "SyncSyncList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -438,9 +445,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
 
-        List returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -472,7 +479,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncList",
+            '200': "SyncSyncList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -514,7 +521,8 @@ class SyncApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -558,10 +566,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncView:
-        """Get returns one sync by id.
+    ) -> SyncSyncView:
+        """Returns one sync by id.
 
-        Get returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
+        Returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -596,7 +604,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -625,10 +633,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncView]:
-        """Get returns one sync by id.
+    ) -> ApiResponse[SyncSyncView]:
+        """Returns one sync by id.
 
-        Get returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
+        Returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -663,7 +671,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -693,9 +701,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get returns one sync by id.
+        """Returns one sync by id.
 
-        Get returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
+        Returns one sync by id. It is org-scoped: an id belonging to another tenant is the same 404 an unknown id gives, so a probe learns nothing about what exists.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -730,7 +738,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -775,7 +783,8 @@ class SyncApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -807,7 +816,7 @@ class SyncApi:
     def patch_sync_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
-        patch_sync_in: PatchSyncIn,
+        sync_patch_sync_in: SyncPatchSyncIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -820,15 +829,15 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncView:
-        """Patch updates one sync's mutable policy — direction, trigger and actor — in place.
+    ) -> SyncSyncView:
+        """Updates one sync's mutable policy — direction, trigger and actor — in place.
 
-        Patch updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
+        Updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
 
         :param id: ID is the sync to update, from the path. (required)
         :type id: str
-        :param patch_sync_in: (required)
-        :type patch_sync_in: PatchSyncIn
+        :param sync_patch_sync_in: (required)
+        :type sync_patch_sync_in: SyncPatchSyncIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -853,7 +862,7 @@ class SyncApi:
 
         _param = self._patch_sync_by_id_serialize(
             id=id,
-            patch_sync_in=patch_sync_in,
+            sync_patch_sync_in=sync_patch_sync_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -861,7 +870,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -878,7 +887,7 @@ class SyncApi:
     def patch_sync_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
-        patch_sync_in: PatchSyncIn,
+        sync_patch_sync_in: SyncPatchSyncIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -891,15 +900,15 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncView]:
-        """Patch updates one sync's mutable policy — direction, trigger and actor — in place.
+    ) -> ApiResponse[SyncSyncView]:
+        """Updates one sync's mutable policy — direction, trigger and actor — in place.
 
-        Patch updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
+        Updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
 
         :param id: ID is the sync to update, from the path. (required)
         :type id: str
-        :param patch_sync_in: (required)
-        :type patch_sync_in: PatchSyncIn
+        :param sync_patch_sync_in: (required)
+        :type sync_patch_sync_in: SyncPatchSyncIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -924,7 +933,7 @@ class SyncApi:
 
         _param = self._patch_sync_by_id_serialize(
             id=id,
-            patch_sync_in=patch_sync_in,
+            sync_patch_sync_in=sync_patch_sync_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -932,7 +941,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -949,7 +958,7 @@ class SyncApi:
     def patch_sync_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sync to update, from the path.")],
-        patch_sync_in: PatchSyncIn,
+        sync_patch_sync_in: SyncPatchSyncIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -963,14 +972,14 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Patch updates one sync's mutable policy — direction, trigger and actor — in place.
+        """Updates one sync's mutable policy — direction, trigger and actor — in place.
 
-        Patch updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
+        Updates one sync's mutable policy — direction, trigger and actor — in place. The endpoints and the kind are immutable: re-pointing a sync is a delete and a create, so a link can never silently start syncing somewhere else. A field the request omits is left as it was. Changing the direction immediately reconciles the derived outbound mirror, so turning push off stops the upstream being written to rather than merely recording the intent.
 
         :param id: ID is the sync to update, from the path. (required)
         :type id: str
-        :param patch_sync_in: (required)
-        :type patch_sync_in: PatchSyncIn
+        :param sync_patch_sync_in: (required)
+        :type sync_patch_sync_in: SyncPatchSyncIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -995,7 +1004,7 @@ class SyncApi:
 
         _param = self._patch_sync_by_id_serialize(
             id=id,
-            patch_sync_in=patch_sync_in,
+            sync_patch_sync_in=sync_patch_sync_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1003,7 +1012,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1015,7 +1024,7 @@ class SyncApi:
     def _patch_sync_by_id_serialize(
         self,
         id,
-        patch_sync_in,
+        sync_patch_sync_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1043,15 +1052,16 @@ class SyncApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch_sync_in is not None:
-            _body_params = patch_sync_in
+        if sync_patch_sync_in is not None:
+            _body_params = sync_patch_sync_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1095,7 +1105,7 @@ class SyncApi:
     @validate_call
     def post_sync(
         self,
-        sync_req: SyncReq,
+        sync_sync_req: SyncSyncReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1108,13 +1118,13 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncView:
-        """Create declares a sync between two endpoints and returns it.
+    ) -> SyncSyncView:
+        """Declares a sync between two endpoints and returns it.
 
-        Create declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
-        :param sync_req: (required)
-        :type sync_req: SyncReq
+        :param sync_sync_req: (required)
+        :type sync_sync_req: SyncSyncReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1138,7 +1148,7 @@ class SyncApi:
         """ # noqa: E501
 
         _param = self._post_sync_serialize(
-            sync_req=sync_req,
+            sync_sync_req=sync_sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1146,7 +1156,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1162,7 +1172,7 @@ class SyncApi:
     @validate_call
     def post_sync_with_http_info(
         self,
-        sync_req: SyncReq,
+        sync_sync_req: SyncSyncReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1175,13 +1185,13 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncView]:
-        """Create declares a sync between two endpoints and returns it.
+    ) -> ApiResponse[SyncSyncView]:
+        """Declares a sync between two endpoints and returns it.
 
-        Create declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
-        :param sync_req: (required)
-        :type sync_req: SyncReq
+        :param sync_sync_req: (required)
+        :type sync_sync_req: SyncSyncReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1205,7 +1215,7 @@ class SyncApi:
         """ # noqa: E501
 
         _param = self._post_sync_serialize(
-            sync_req=sync_req,
+            sync_sync_req=sync_sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1213,7 +1223,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1229,7 +1239,7 @@ class SyncApi:
     @validate_call
     def post_sync_without_preload_content(
         self,
-        sync_req: SyncReq,
+        sync_sync_req: SyncSyncReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1243,12 +1253,12 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create declares a sync between two endpoints and returns it.
+        """Declares a sync between two endpoints and returns it.
 
-        Create declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
-        :param sync_req: (required)
-        :type sync_req: SyncReq
+        :param sync_sync_req: (required)
+        :type sync_sync_req: SyncSyncReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1272,7 +1282,7 @@ class SyncApi:
         """ # noqa: E501
 
         _param = self._post_sync_serialize(
-            sync_req=sync_req,
+            sync_sync_req=sync_sync_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1280,7 +1290,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncView",
+            '200': "SyncSyncView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1291,7 +1301,7 @@ class SyncApi:
 
     def _post_sync_serialize(
         self,
-        sync_req,
+        sync_sync_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1317,15 +1327,16 @@ class SyncApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sync_req is not None:
-            _body_params = sync_req
+        if sync_sync_req is not None:
+            _body_params = sync_sync_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1382,10 +1393,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncQueued:
-        """Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
+    ) -> SyncSyncQueued:
+        """Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
 
-        Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
+        Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -1420,7 +1431,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "SyncQueued",
+            '202': "SyncSyncQueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1449,10 +1460,10 @@ class SyncApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncQueued]:
-        """Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
+    ) -> ApiResponse[SyncSyncQueued]:
+        """Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
 
-        Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
+        Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -1487,7 +1498,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "SyncQueued",
+            '202': "SyncSyncQueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1517,9 +1528,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
+        """Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true.
 
-        Run reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
+        Reconciles one sync now — the manual re-sync, and the initial import for a link created without run=true. The work is handed to a bounded background worker and the call answers 202 immediately, so a large mirror-in never holds the request open; queued=true means accepted, not finished.
 
         :param id: ID is the sync to act on, from the path. (required)
         :type id: str
@@ -1554,7 +1565,7 @@ class SyncApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "SyncQueued",
+            '202': "SyncSyncQueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1599,7 +1610,8 @@ class SyncApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

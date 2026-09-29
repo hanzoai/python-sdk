@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class O11yO11yUpdatablePreference(BaseModel):
     """
     O11yO11yUpdatablePreference
     """ # noqa: E501
-    value: Optional[Dict[str, Any]] = Field(default=None, description="Value is the value to set; its JSON type must match the preference's declared value type.")
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["value"]
 
     model_config = ConfigDict(
@@ -68,6 +68,11 @@ class O11yO11yUpdatablePreference(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

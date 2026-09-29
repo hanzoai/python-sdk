@@ -27,11 +27,11 @@ class Voucher(BaseModel):
     """
     Voucher
     """ # noqa: E501
-    description: Optional[StrictStr] = Field(default=None, description="Description is the human line for the event, e.g. the vendor a bill came from.")
-    legs: Optional[List[Leg]] = Field(default=None, description="Legs are the sides of the posting. They must balance: Σdebit == Σcredit, give or take the 2¢ round-off allowance.")
-    posting_at: Optional[StrictStr] = Field(default=None, description="PostingAt is the RFC3339 instant the event posts at — the time every statement window filters on.", alias="postingAt")
-    source_id: Optional[StrictStr] = Field(default=None, description="SourceID is the source event's own id within that namespace. Together with SourceKind it is the key that makes a repeat posting a no-op.", alias="sourceId")
-    source_kind: Optional[StrictStr] = Field(default=None, description="SourceKind is the idempotency namespace naming what booked this, e.g. \"scan\".", alias="sourceKind")
+    description: Optional[StrictStr] = None
+    legs: Optional[List[Leg]] = None
+    posting_at: Optional[StrictStr] = Field(default=None, alias="postingAt")
+    source_id: Optional[StrictStr] = Field(default=None, alias="sourceId")
+    source_kind: Optional[StrictStr] = Field(default=None, alias="sourceKind")
     __properties: ClassVar[List[str]] = ["description", "legs", "postingAt", "sourceId", "sourceKind"]
 
     model_config = ConfigDict(

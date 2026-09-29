@@ -16,9 +16,9 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.claim_request import ClaimRequest
-from hanzoai.cloud.models.claim_view import ClaimView
-from hanzoai.cloud.models.my_referrals import MyReferrals
+from hanzoai.cloud.models.referral_claim_request import ReferralClaimRequest
+from hanzoai.cloud.models.referral_claim_view import ReferralClaimView
+from hanzoai.cloud.models.referral_my_referrals import ReferralMyReferrals
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -53,7 +53,7 @@ class ReferralApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MyReferrals:
+    ) -> ReferralMyReferrals:
         """Returns the caller's referral code, share link and the referrals they have made.
 
         Returns the caller's referral code, share link and the referrals they have made.  The code is a stable, deterministic function of the org, so the link in this response is the same one every time. Each row carries the referee and the status of that attribution.  IT IS A PURE READ. It advances no referral, grants nothing and deposits nothing — a GET reports state, it never changes it. Qualification is the admin sweep's job (POST /v1/admin/referral/sweep). The one row this handler can write is the caller's OWN code-directory entry (EnsureCode), which materialises a value deriveCode already computes deterministically from the org id so the code has an O(1) reverse lookup; it carries no money, no referral state and no other tenant.
@@ -88,7 +88,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MyReferrals",
+            '200': "ReferralMyReferrals",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -116,7 +116,7 @@ class ReferralApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MyReferrals]:
+    ) -> ApiResponse[ReferralMyReferrals]:
         """Returns the caller's referral code, share link and the referrals they have made.
 
         Returns the caller's referral code, share link and the referrals they have made.  The code is a stable, deterministic function of the org, so the link in this response is the same one every time. Each row carries the referee and the status of that attribution.  IT IS A PURE READ. It advances no referral, grants nothing and deposits nothing — a GET reports state, it never changes it. Qualification is the admin sweep's job (POST /v1/admin/referral/sweep). The one row this handler can write is the caller's OWN code-directory entry (EnsureCode), which materialises a value deriveCode already computes deterministically from the org id so the code has an O(1) reverse lookup; it carries no money, no referral state and no other tenant.
@@ -151,7 +151,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MyReferrals",
+            '200': "ReferralMyReferrals",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -214,7 +214,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MyReferrals",
+            '200': "ReferralMyReferrals",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -256,7 +256,8 @@ class ReferralApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -287,7 +288,7 @@ class ReferralApi:
     @validate_call
     def post_referral_claim(
         self,
-        claim_request: ClaimRequest,
+        referral_claim_request: ReferralClaimRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -300,13 +301,13 @@ class ReferralApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClaimView:
+    ) -> ReferralClaimView:
         """Records that the caller's org signed up through a referral code.
 
         Records that the caller's org signed up through a referral code.  The REFEREE is the validated caller, never a client field, and the referrer is resolved from the code — so a caller can only ever attach THEMSELVES to someone else's code. Referring yourself is 400 and an unknown code is 404.  It is idempotent and first-touch: an org can be referred once, ever. A repeat call returns the referral already on file with created=false and 200, where the first call answers 201.  Recording a referral grants nothing, and neither does anything downstream of it: the edge later advances to qualified when the referee makes metered spend (POST /v1/admin/referral/sweep), and that is the end of it. No credit is ever issued from this package.
 
-        :param claim_request: (required)
-        :type claim_request: ClaimRequest
+        :param referral_claim_request: (required)
+        :type referral_claim_request: ReferralClaimRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -330,7 +331,7 @@ class ReferralApi:
         """ # noqa: E501
 
         _param = self._post_referral_claim_serialize(
-            claim_request=claim_request,
+            referral_claim_request=referral_claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -338,7 +339,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimView",
+            '200': "ReferralClaimView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -354,7 +355,7 @@ class ReferralApi:
     @validate_call
     def post_referral_claim_with_http_info(
         self,
-        claim_request: ClaimRequest,
+        referral_claim_request: ReferralClaimRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -367,13 +368,13 @@ class ReferralApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClaimView]:
+    ) -> ApiResponse[ReferralClaimView]:
         """Records that the caller's org signed up through a referral code.
 
         Records that the caller's org signed up through a referral code.  The REFEREE is the validated caller, never a client field, and the referrer is resolved from the code — so a caller can only ever attach THEMSELVES to someone else's code. Referring yourself is 400 and an unknown code is 404.  It is idempotent and first-touch: an org can be referred once, ever. A repeat call returns the referral already on file with created=false and 200, where the first call answers 201.  Recording a referral grants nothing, and neither does anything downstream of it: the edge later advances to qualified when the referee makes metered spend (POST /v1/admin/referral/sweep), and that is the end of it. No credit is ever issued from this package.
 
-        :param claim_request: (required)
-        :type claim_request: ClaimRequest
+        :param referral_claim_request: (required)
+        :type referral_claim_request: ReferralClaimRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -397,7 +398,7 @@ class ReferralApi:
         """ # noqa: E501
 
         _param = self._post_referral_claim_serialize(
-            claim_request=claim_request,
+            referral_claim_request=referral_claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -405,7 +406,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimView",
+            '200': "ReferralClaimView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -421,7 +422,7 @@ class ReferralApi:
     @validate_call
     def post_referral_claim_without_preload_content(
         self,
-        claim_request: ClaimRequest,
+        referral_claim_request: ReferralClaimRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -439,8 +440,8 @@ class ReferralApi:
 
         Records that the caller's org signed up through a referral code.  The REFEREE is the validated caller, never a client field, and the referrer is resolved from the code — so a caller can only ever attach THEMSELVES to someone else's code. Referring yourself is 400 and an unknown code is 404.  It is idempotent and first-touch: an org can be referred once, ever. A repeat call returns the referral already on file with created=false and 200, where the first call answers 201.  Recording a referral grants nothing, and neither does anything downstream of it: the edge later advances to qualified when the referee makes metered spend (POST /v1/admin/referral/sweep), and that is the end of it. No credit is ever issued from this package.
 
-        :param claim_request: (required)
-        :type claim_request: ClaimRequest
+        :param referral_claim_request: (required)
+        :type referral_claim_request: ReferralClaimRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -464,7 +465,7 @@ class ReferralApi:
         """ # noqa: E501
 
         _param = self._post_referral_claim_serialize(
-            claim_request=claim_request,
+            referral_claim_request=referral_claim_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -472,7 +473,7 @@ class ReferralApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimView",
+            '200': "ReferralClaimView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -483,7 +484,7 @@ class ReferralApi:
 
     def _post_referral_claim_serialize(
         self,
-        claim_request,
+        referral_claim_request,
         _request_auth,
         _content_type,
         _headers,
@@ -509,15 +510,16 @@ class ReferralApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if claim_request is not None:
-            _body_params = claim_request
+        if referral_claim_request is not None:
+            _body_params = referral_claim_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

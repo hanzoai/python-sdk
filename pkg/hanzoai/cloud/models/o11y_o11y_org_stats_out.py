@@ -26,7 +26,7 @@ class O11yO11yOrgStatsOut(BaseModel):
     """
     O11yO11yOrgStatsOut
     """ # noqa: E501
-    data: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Data are the statistics, keyed by the reporter's own counter names.")
+    data: Optional[Dict[str, Any]] = Field(default=None, description="Data are the statistics, keyed by the reporter's own counter names.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"success\".")
     __properties: ClassVar[List[str]] = ["data", "status"]
 

@@ -19,11 +19,11 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.history import History
-from hanzoai.cloud.models.pools import Pools
-from hanzoai.cloud.models.roster import Roster
-from hanzoai.cloud.models.survey import Survey
-from hanzoai.cloud.models.tokens import Tokens
+from hanzoai.cloud.models.market_history import MarketHistory
+from hanzoai.cloud.models.market_pools import MarketPools
+from hanzoai.cloud.models.market_roster import MarketRoster
+from hanzoai.cloud.models.market_survey import MarketSurvey
+from hanzoai.cloud.models.market_tokens import MarketTokens
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -58,7 +58,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Roster:
+    ) -> MarketRoster:
         """Answers every chain this deployment can read, what is deployed on each, and what its automated market maker amounts to.
 
         Answers every chain this deployment can read, what is deployed on each, and what its automated market maker amounts to.  One call. It reads the chain registry, then every chain's indexer for its figures and its most recent active day, all at once — where a client doing it itself makes one registry request and two more per chain.  THE ROW IS THE UNIT OF TRUTH. Each carries its own reach, so one indexer being unreachable costs one row its figures and leaves the rest answered. A chain with no market maker deployed — the registry names no factory for it — answers `read` with totals of nothing, which is a fact about that chain and is not the same as a chain nobody could ask.
@@ -93,7 +93,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Roster",
+            '200': "MarketRoster",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -121,7 +121,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Roster]:
+    ) -> ApiResponse[MarketRoster]:
         """Answers every chain this deployment can read, what is deployed on each, and what its automated market maker amounts to.
 
         Answers every chain this deployment can read, what is deployed on each, and what its automated market maker amounts to.  One call. It reads the chain registry, then every chain's indexer for its figures and its most recent active day, all at once — where a client doing it itself makes one registry request and two more per chain.  THE ROW IS THE UNIT OF TRUTH. Each carries its own reach, so one indexer being unreachable costs one row its figures and leaves the rest answered. A chain with no market maker deployed — the registry names no factory for it — answers `read` with totals of nothing, which is a fact about that chain and is not the same as a chain nobody could ask.
@@ -156,7 +156,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Roster",
+            '200': "MarketRoster",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -219,7 +219,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Roster",
+            '200': "MarketRoster",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -261,7 +261,8 @@ class MarketApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -304,7 +305,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Pools:
+    ) -> MarketPools:
         """Answers the automated market makers on one chain: their two tokens, their fee tier, and what has moved through each.
 
         Answers the automated market makers on one chain: their two tokens, their fee tier, and what has moved through each.  The two price fields on a pool are the ratio its own reserves stand at, as the indexer computed them. They are not a price ON either token and not a mark: nothing here derives one, ranks the pools, or names a route through them.  A chain with no market maker deployed answers `read` with no pools. That is the chain's real condition, and it is deliberately not the same answer as an indexer that could not be asked.
@@ -342,7 +343,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pools",
+            '200': "MarketPools",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -371,7 +372,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Pools]:
+    ) -> ApiResponse[MarketPools]:
         """Answers the automated market makers on one chain: their two tokens, their fee tier, and what has moved through each.
 
         Answers the automated market makers on one chain: their two tokens, their fee tier, and what has moved through each.  The two price fields on a pool are the ratio its own reserves stand at, as the indexer computed them. They are not a price ON either token and not a mark: nothing here derives one, ranks the pools, or names a route through them.  A chain with no market maker deployed answers `read` with no pools. That is the chain's real condition, and it is deliberately not the same answer as an indexer that could not be asked.
@@ -409,7 +410,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pools",
+            '200': "MarketPools",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -476,7 +477,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pools",
+            '200': "MarketPools",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -523,7 +524,8 @@ class MarketApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -566,7 +568,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Survey:
+    ) -> MarketSurvey:
         """Answers which of the four settlement precompiles carry code on one chain.
 
         Answers which of the four settlement precompiles carry code on one chain.  An address with no code answers a call with empty data rather than an error, so \"this chain has no view precompile\" and \"this market was never opened\" reach a caller as the same silence — and only the second is a fact about a market. This says which it is, by asking the node for the code at each address.  It reads presence and nothing else. No market, no quote, no depth and no order is requested here, and `eth_getCode` is the only method this operation ever sends.
@@ -604,7 +606,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Survey",
+            '200': "MarketSurvey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -633,7 +635,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Survey]:
+    ) -> ApiResponse[MarketSurvey]:
         """Answers which of the four settlement precompiles carry code on one chain.
 
         Answers which of the four settlement precompiles carry code on one chain.  An address with no code answers a call with empty data rather than an error, so \"this chain has no view precompile\" and \"this market was never opened\" reach a caller as the same silence — and only the second is a fact about a market. This says which it is, by asking the node for the code at each address.  It reads presence and nothing else. No market, no quote, no depth and no order is requested here, and `eth_getCode` is the only method this operation ever sends.
@@ -671,7 +673,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Survey",
+            '200': "MarketSurvey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -738,7 +740,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Survey",
+            '200': "MarketSurvey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -785,7 +787,8 @@ class MarketApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -829,7 +832,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> History:
+    ) -> MarketHistory:
         """Answers one token's daily history — open, high, low, close, price and volume per UTC day, oldest first.
 
         Answers one token's daily history — open, high, low, close, price and volume per UTC day, oldest first.  Every figure is the indexer's own arithmetic, passed through as the decimal string it computed. Nothing here rounds one, converts one, or fills a gap: a day the indexer holds no figure for arrives with that field absent, which says \"not indexed\" where a zero would say \"worth nothing\".
@@ -870,7 +873,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "History",
+            '200': "MarketHistory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -900,7 +903,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[History]:
+    ) -> ApiResponse[MarketHistory]:
         """Answers one token's daily history — open, high, low, close, price and volume per UTC day, oldest first.
 
         Answers one token's daily history — open, high, low, close, price and volume per UTC day, oldest first.  Every figure is the indexer's own arithmetic, passed through as the decimal string it computed. Nothing here rounds one, converts one, or fills a gap: a day the indexer holds no figure for arrives with that field absent, which says \"not indexed\" where a zero would say \"worth nothing\".
@@ -941,7 +944,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "History",
+            '200': "MarketHistory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1012,7 +1015,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "History",
+            '200': "MarketHistory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1064,7 +1067,8 @@ class MarketApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1107,7 +1111,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Tokens:
+    ) -> MarketTokens:
         """Answers the tokens one chain's indexer has seen, with the decimals a caller needs to read any amount of one correctly.
 
         Answers the tokens one chain's indexer has seen, with the decimals a caller needs to read any amount of one correctly.  This is what the indexer INGESTED, which is not the same as what exists on the chain: a token nothing has traded has no row here, and this is not a registry of what is permitted or listed.
@@ -1145,7 +1149,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tokens",
+            '200': "MarketTokens",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1174,7 +1178,7 @@ class MarketApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Tokens]:
+    ) -> ApiResponse[MarketTokens]:
         """Answers the tokens one chain's indexer has seen, with the decimals a caller needs to read any amount of one correctly.
 
         Answers the tokens one chain's indexer has seen, with the decimals a caller needs to read any amount of one correctly.  This is what the indexer INGESTED, which is not the same as what exists on the chain: a token nothing has traded has no row here, and this is not a registry of what is permitted or listed.
@@ -1212,7 +1216,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tokens",
+            '200': "MarketTokens",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1279,7 +1283,7 @@ class MarketApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tokens",
+            '200': "MarketTokens",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1326,7 +1330,8 @@ class MarketApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

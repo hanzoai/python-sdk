@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class Leg(BaseModel):
     """
     Leg
     """ # noqa: E501
-    account: Optional[StrictStr] = Field(default=None, description="Account is the chart-of-accounts number this side posts to, e.g. \"5300\".")
-    credit: Optional[StrictInt] = Field(default=None, description="Credit is the leg's credit in exact cents. Set this or Debit, not both.")
-    debit: Optional[StrictInt] = Field(default=None, description="Debit is the leg's debit in exact cents. Set this or Credit, not both.")
+    account: Optional[StrictStr] = None
+    credit: Optional[StrictInt] = None
+    debit: Optional[StrictInt] = None
     __properties: ClassVar[List[str]] = ["account", "credit", "debit"]
 
     model_config = ConfigDict(

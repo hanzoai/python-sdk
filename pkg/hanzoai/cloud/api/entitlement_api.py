@@ -17,9 +17,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from pydantic import StrictStr
-from hanzoai.cloud.models.entitlements_view import EntitlementsView
-from hanzoai.cloud.models.mutate_req import MutateReq
-from hanzoai.cloud.models.projection_view import ProjectionView
+from hanzoai.cloud.models.entitlement_entitlements_view import EntitlementEntitlementsView
+from hanzoai.cloud.models.entitlement_mutate_req import EntitlementMutateReq
+from hanzoai.cloud.models.entitlement_projection_view import EntitlementProjectionView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -54,10 +54,10 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProjectionView:
-        """Projection reports which console apps the CALLER's org may open, and the plan slug that decides it.
+    ) -> EntitlementProjectionView:
+        """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Projection reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -89,7 +89,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectionView",
+            '200': "EntitlementProjectionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -117,10 +117,10 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProjectionView]:
-        """Projection reports which console apps the CALLER's org may open, and the plan slug that decides it.
+    ) -> ApiResponse[EntitlementProjectionView]:
+        """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Projection reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -152,7 +152,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectionView",
+            '200': "EntitlementProjectionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -181,9 +181,9 @@ class EntitlementApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Projection reports which console apps the CALLER's org may open, and the plan slug that decides it.
+        """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Projection reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -215,7 +215,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectionView",
+            '200': "EntitlementProjectionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -257,7 +257,8 @@ class EntitlementApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -301,10 +302,10 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EntitlementsView:
-        """Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
+    ) -> EntitlementEntitlementsView:
+        """Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
 
-        Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
+        Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
 
         :param org: (required)
         :type org: str
@@ -339,7 +340,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -368,10 +369,10 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EntitlementsView]:
-        """Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
+    ) -> ApiResponse[EntitlementEntitlementsView]:
+        """Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
 
-        Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
+        Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
 
         :param org: (required)
         :type org: str
@@ -406,7 +407,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -436,9 +437,9 @@ class EntitlementApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
+        """Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show.
 
-        Get lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
+        Lists the products an org has ENABLED — its own intent, which the console's paid-product sidebar reads to decide what to show. It is distinct from what the org's plan ENTITLES it to (that is GET /v1/entitlement, resolved from commerce).  A caller may only read its OWN org's row; a platform super admin may read any.
 
         :param org: (required)
         :type org: str
@@ -473,7 +474,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -518,7 +519,8 @@ class EntitlementApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -550,7 +552,7 @@ class EntitlementApi:
     def post_entitlement_orgs_by_org(
         self,
         org: StrictStr,
-        mutate_req: MutateReq,
+        entitlement_mutate_req: EntitlementMutateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -563,15 +565,15 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EntitlementsView:
-        """Post turns products on or off for an org and returns the enabled set afterwards.
+    ) -> EntitlementEntitlementsView:
+        """Turns products on or off for an org and returns the enabled set afterwards.
 
-        Post turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
+        Turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
 
         :param org: (required)
         :type org: str
-        :param mutate_req: (required)
-        :type mutate_req: MutateReq
+        :param entitlement_mutate_req: (required)
+        :type entitlement_mutate_req: EntitlementMutateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -596,7 +598,7 @@ class EntitlementApi:
 
         _param = self._post_entitlement_orgs_by_org_serialize(
             org=org,
-            mutate_req=mutate_req,
+            entitlement_mutate_req=entitlement_mutate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -604,7 +606,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -621,7 +623,7 @@ class EntitlementApi:
     def post_entitlement_orgs_by_org_with_http_info(
         self,
         org: StrictStr,
-        mutate_req: MutateReq,
+        entitlement_mutate_req: EntitlementMutateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -634,15 +636,15 @@ class EntitlementApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EntitlementsView]:
-        """Post turns products on or off for an org and returns the enabled set afterwards.
+    ) -> ApiResponse[EntitlementEntitlementsView]:
+        """Turns products on or off for an org and returns the enabled set afterwards.
 
-        Post turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
+        Turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
 
         :param org: (required)
         :type org: str
-        :param mutate_req: (required)
-        :type mutate_req: MutateReq
+        :param entitlement_mutate_req: (required)
+        :type entitlement_mutate_req: EntitlementMutateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -667,7 +669,7 @@ class EntitlementApi:
 
         _param = self._post_entitlement_orgs_by_org_serialize(
             org=org,
-            mutate_req=mutate_req,
+            entitlement_mutate_req=entitlement_mutate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -675,7 +677,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -692,7 +694,7 @@ class EntitlementApi:
     def post_entitlement_orgs_by_org_without_preload_content(
         self,
         org: StrictStr,
-        mutate_req: MutateReq,
+        entitlement_mutate_req: EntitlementMutateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -706,14 +708,14 @@ class EntitlementApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Post turns products on or off for an org and returns the enabled set afterwards.
+        """Turns products on or off for an org and returns the enabled set afterwards.
 
-        Post turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
+        Turns products on or off for an org and returns the enabled set afterwards.  A product may only be ENABLED if the org's plan already ENTITLES it, so enabling never spends new money — a product the plan does not grant answers 402 and the console routes that to an upgrade prompt. DISABLING is never gated. A platform super admin bypasses the plan check (operator comp/grant) and may target any org; everyone else may only change their own. Commerce unreachable is a 503, never an implicit yes.
 
         :param org: (required)
         :type org: str
-        :param mutate_req: (required)
-        :type mutate_req: MutateReq
+        :param entitlement_mutate_req: (required)
+        :type entitlement_mutate_req: EntitlementMutateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -738,7 +740,7 @@ class EntitlementApi:
 
         _param = self._post_entitlement_orgs_by_org_serialize(
             org=org,
-            mutate_req=mutate_req,
+            entitlement_mutate_req=entitlement_mutate_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -746,7 +748,7 @@ class EntitlementApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EntitlementsView",
+            '200': "EntitlementEntitlementsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -758,7 +760,7 @@ class EntitlementApi:
     def _post_entitlement_orgs_by_org_serialize(
         self,
         org,
-        mutate_req,
+        entitlement_mutate_req,
         _request_auth,
         _content_type,
         _headers,
@@ -786,15 +788,16 @@ class EntitlementApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if mutate_req is not None:
-            _body_params = mutate_req
+        if entitlement_mutate_req is not None:
+            _body_params = entitlement_mutate_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

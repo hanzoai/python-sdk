@@ -27,7 +27,7 @@ class O11yO11yDashboardVarsIn(BaseModel):
     O11yO11yDashboardVarsIn
     """ # noqa: E501
     query: StrictStr = Field(description="Query is the variable query to evaluate. Required.")
-    variables: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Variables are the current values of the other dashboard variables, for queries that reference them.")
+    variables: Optional[Dict[str, Any]] = Field(default=None, description="Variables are the current values of the other dashboard variables, for queries that reference them.")
     __properties: ClassVar[List[str]] = ["query", "variables"]
 
     model_config = ConfigDict(

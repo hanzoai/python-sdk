@@ -36,7 +36,7 @@ class O11yPagerdutyConfig(BaseModel):
     client_url: Optional[StrictStr] = None
     component: Optional[StrictStr] = None
     description: Optional[StrictStr] = None
-    details: Optional[Dict[str, Dict[str, Any]]] = None
+    details: Optional[Dict[str, Any]] = None
     group: Optional[StrictStr] = None
     http_config: Optional[O11yHTTPClientConfig] = None
     images: Optional[List[O11yPagerdutyImage]] = None

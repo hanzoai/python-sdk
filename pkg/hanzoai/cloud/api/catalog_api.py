@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.catalog_page import CatalogPage
+from hanzoai.cloud.models.catalog_catalog_page import CatalogCatalogPage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -64,10 +64,10 @@ class CatalogApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CatalogPage:
-        """Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
+    ) -> CatalogCatalogPage:
+        """Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
 
-        Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
+        Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
 
         :param q: Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.
         :type q: str
@@ -129,7 +129,7 @@ class CatalogApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogPage",
+            '200': "CatalogCatalogPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -167,10 +167,10 @@ class CatalogApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CatalogPage]:
-        """Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
+    ) -> ApiResponse[CatalogCatalogPage]:
+        """Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
 
-        Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
+        Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
 
         :param q: Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.
         :type q: str
@@ -232,7 +232,7 @@ class CatalogApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogPage",
+            '200': "CatalogCatalogPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -271,9 +271,9 @@ class CatalogApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
+        """Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.
 
-        Browse searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
+        Searches AND browses the cross-org catalog: every project, app and site the fleet has built, whichever org built it.  It reads TWO corpora and returns them as one page — the published, world-readable catalog that every caller sees, plus the caller's OWN org's private entries when the request carries a validated principal. Each row says which it came from in `scope`, so a client can warn before sharing a link. An anonymous caller simply gets the published one; no filter can ever widen a caller into another tenant's corpus, because the query that would return it is never run for them.  A request with no q is a browse rather than a search, and both answer the same shape: the page, the total before paging, and the facet counts over the whole matching set.
 
         :param q: Q is the free-text query the lexical index scores relevance on. Empty is a browse rather than a search — the same request either way.
         :type q: str
@@ -335,7 +335,7 @@ class CatalogApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogPage",
+            '200': "CatalogCatalogPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -427,7 +427,8 @@ class CatalogApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

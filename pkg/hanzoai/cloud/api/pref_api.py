@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.prefs_view import PrefsView
+from hanzoai.cloud.models.pref_prefs_view import PrefPrefsView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,7 +51,7 @@ class PrefApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PrefsView:
+    ) -> PrefPrefsView:
         """Returns the signed-in caller's OWN preference document — the theme, density and pinned nav that follow them across every Hanzo surface.
 
         Returns the signed-in caller's OWN preference document — the theme, density and pinned nav that follow them across every Hanzo surface. There is no path to another user's preferences: not for an org admin, not for a platform SuperAdmin, because the subject is built from the validated credential and is the mandatory predicate on the read. A caller who has never saved anything gets an empty document at 200, never a 404, so the user menu always renders.
@@ -86,7 +86,7 @@ class PrefApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PrefsView",
+            '200': "PrefPrefsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -114,7 +114,7 @@ class PrefApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PrefsView]:
+    ) -> ApiResponse[PrefPrefsView]:
         """Returns the signed-in caller's OWN preference document — the theme, density and pinned nav that follow them across every Hanzo surface.
 
         Returns the signed-in caller's OWN preference document — the theme, density and pinned nav that follow them across every Hanzo surface. There is no path to another user's preferences: not for an org admin, not for a platform SuperAdmin, because the subject is built from the validated credential and is the mandatory predicate on the read. A caller who has never saved anything gets an empty document at 200, never a 404, so the user menu always renders.
@@ -149,7 +149,7 @@ class PrefApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PrefsView",
+            '200': "PrefPrefsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -212,7 +212,7 @@ class PrefApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PrefsView",
+            '200': "PrefPrefsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -254,7 +254,8 @@ class PrefApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

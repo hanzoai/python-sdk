@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.answer import Answer
-from hanzoai.cloud.models.query import Query
+from hanzoai.cloud.models.lsp_answer import LspAnswer
+from hanzoai.cloud.models.lsp_query import LspQuery
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -40,7 +40,7 @@ class LspApi:
     @validate_call
     def post_lsp_complete(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53,13 +53,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Answer:
+    ) -> LspAnswer:
         """Offers the candidates a language server has at a position, typed and resolved through the repository's dependencies rather than guessed from text.
 
         Offers the candidates a language server has at a position, typed and resolved through the repository's dependencies rather than guessed from text.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -83,7 +83,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_complete_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -91,7 +91,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107,7 +107,7 @@ class LspApi:
     @validate_call
     def post_lsp_complete_with_http_info(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -120,13 +120,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Answer]:
+    ) -> ApiResponse[LspAnswer]:
         """Offers the candidates a language server has at a position, typed and resolved through the repository's dependencies rather than guessed from text.
 
         Offers the candidates a language server has at a position, typed and resolved through the repository's dependencies rather than guessed from text.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -150,7 +150,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_complete_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -158,7 +158,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -174,7 +174,7 @@ class LspApi:
     @validate_call
     def post_lsp_complete_without_preload_content(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -192,8 +192,8 @@ class LspApi:
 
         Offers the candidates a language server has at a position, typed and resolved through the repository's dependencies rather than guessed from text.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -217,7 +217,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_complete_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -225,7 +225,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -236,7 +236,7 @@ class LspApi:
 
     def _post_lsp_complete_serialize(
         self,
-        query,
+        lsp_query,
         _request_auth,
         _content_type,
         _headers,
@@ -262,15 +262,16 @@ class LspApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if query is not None:
-            _body_params = query
+        if lsp_query is not None:
+            _body_params = lsp_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -314,7 +315,7 @@ class LspApi:
     @validate_call
     def post_lsp_diagnostics(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -327,13 +328,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Answer:
+    ) -> LspAnswer:
         """Reports every problem the language server finds in one file — compile errors, type errors and lints, each with its span and its severity (1 error, 2 warning, 3 information, 4 hint).
 
         Reports every problem the language server finds in one file — compile errors, type errors and lints, each with its span and its severity (1 error, 2 warning, 3 information, 4 hint). The position is ignored.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -357,7 +358,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_diagnostics_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -365,7 +366,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -381,7 +382,7 @@ class LspApi:
     @validate_call
     def post_lsp_diagnostics_with_http_info(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -394,13 +395,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Answer]:
+    ) -> ApiResponse[LspAnswer]:
         """Reports every problem the language server finds in one file — compile errors, type errors and lints, each with its span and its severity (1 error, 2 warning, 3 information, 4 hint).
 
         Reports every problem the language server finds in one file — compile errors, type errors and lints, each with its span and its severity (1 error, 2 warning, 3 information, 4 hint). The position is ignored.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -424,7 +425,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_diagnostics_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -432,7 +433,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -448,7 +449,7 @@ class LspApi:
     @validate_call
     def post_lsp_diagnostics_without_preload_content(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -466,8 +467,8 @@ class LspApi:
 
         Reports every problem the language server finds in one file — compile errors, type errors and lints, each with its span and its severity (1 error, 2 warning, 3 information, 4 hint). The position is ignored.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -491,7 +492,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_diagnostics_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -499,7 +500,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -510,7 +511,7 @@ class LspApi:
 
     def _post_lsp_diagnostics_serialize(
         self,
-        query,
+        lsp_query,
         _request_auth,
         _content_type,
         _headers,
@@ -536,15 +537,16 @@ class LspApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if query is not None:
-            _body_params = query
+        if lsp_query is not None:
+            _body_params = lsp_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -588,7 +590,7 @@ class LspApi:
     @validate_call
     def post_lsp_hover(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -601,13 +603,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Answer:
+    ) -> LspAnswer:
         """Renders the type and documentation of the symbol at a position, as the language server itself renders it.
 
         Renders the type and documentation of the symbol at a position, as the language server itself renders it.  Positions are the LSP's: line and character are 0-BASED and character counts UTF-16 code units, so an editor's 1-based line must have 1 subtracted before it is sent. The repository is named by slug and is always one in the caller's own org; rev pins a branch, tag or commit sha, and empty means the default branch.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -631,7 +633,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_hover_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -639,7 +641,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -655,7 +657,7 @@ class LspApi:
     @validate_call
     def post_lsp_hover_with_http_info(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -668,13 +670,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Answer]:
+    ) -> ApiResponse[LspAnswer]:
         """Renders the type and documentation of the symbol at a position, as the language server itself renders it.
 
         Renders the type and documentation of the symbol at a position, as the language server itself renders it.  Positions are the LSP's: line and character are 0-BASED and character counts UTF-16 code units, so an editor's 1-based line must have 1 subtracted before it is sent. The repository is named by slug and is always one in the caller's own org; rev pins a branch, tag or commit sha, and empty means the default branch.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -698,7 +700,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_hover_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -706,7 +708,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -722,7 +724,7 @@ class LspApi:
     @validate_call
     def post_lsp_hover_without_preload_content(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -740,8 +742,8 @@ class LspApi:
 
         Renders the type and documentation of the symbol at a position, as the language server itself renders it.  Positions are the LSP's: line and character are 0-BASED and character counts UTF-16 code units, so an editor's 1-based line must have 1 subtracted before it is sent. The repository is named by slug and is always one in the caller's own org; rev pins a branch, tag or commit sha, and empty means the default branch.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -765,7 +767,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_hover_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -773,7 +775,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -784,7 +786,7 @@ class LspApi:
 
     def _post_lsp_hover_serialize(
         self,
-        query,
+        lsp_query,
         _request_auth,
         _content_type,
         _headers,
@@ -810,15 +812,16 @@ class LspApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if query is not None:
-            _body_params = query
+        if lsp_query is not None:
+            _body_params = lsp_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -862,7 +865,7 @@ class LspApi:
     @validate_call
     def post_lsp_locate(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -875,13 +878,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Answer:
+    ) -> LspAnswer:
         """Finds where a symbol lives: its definition, its references, its type or its implementations, chosen by relation (definition, reference, type, implementation — empty means definition).
 
         Finds where a symbol lives: its definition, its references, its type or its implementations, chosen by relation (definition, reference, type, implementation — empty means definition).  It resolves THROUGH dependencies. An answer whose external flag is set left the repository, and its path is then the module coordinate it landed in — which is the question a static index cannot answer and this service exists for.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -905,7 +908,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_locate_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -913,7 +916,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -929,7 +932,7 @@ class LspApi:
     @validate_call
     def post_lsp_locate_with_http_info(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -942,13 +945,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Answer]:
+    ) -> ApiResponse[LspAnswer]:
         """Finds where a symbol lives: its definition, its references, its type or its implementations, chosen by relation (definition, reference, type, implementation — empty means definition).
 
         Finds where a symbol lives: its definition, its references, its type or its implementations, chosen by relation (definition, reference, type, implementation — empty means definition).  It resolves THROUGH dependencies. An answer whose external flag is set left the repository, and its path is then the module coordinate it landed in — which is the question a static index cannot answer and this service exists for.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -972,7 +975,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_locate_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -980,7 +983,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -996,7 +999,7 @@ class LspApi:
     @validate_call
     def post_lsp_locate_without_preload_content(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1014,8 +1017,8 @@ class LspApi:
 
         Finds where a symbol lives: its definition, its references, its type or its implementations, chosen by relation (definition, reference, type, implementation — empty means definition).  It resolves THROUGH dependencies. An answer whose external flag is set left the repository, and its path is then the module coordinate it landed in — which is the question a static index cannot answer and this service exists for.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1039,7 +1042,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_locate_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1047,7 +1050,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1058,7 +1061,7 @@ class LspApi:
 
     def _post_lsp_locate_serialize(
         self,
-        query,
+        lsp_query,
         _request_auth,
         _content_type,
         _headers,
@@ -1084,15 +1087,16 @@ class LspApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if query is not None:
-            _body_params = query
+        if lsp_query is not None:
+            _body_params = lsp_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1136,7 +1140,7 @@ class LspApi:
     @validate_call
     def post_lsp_symbols(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1149,13 +1153,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Answer:
+    ) -> LspAnswer:
         """Outlines one file: every declaration in it, with its kind and its span.
 
         Outlines one file: every declaration in it, with its kind and its span. The position is ignored — the answer is the whole file.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1179,7 +1183,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_symbols_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1187,7 +1191,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1203,7 +1207,7 @@ class LspApi:
     @validate_call
     def post_lsp_symbols_with_http_info(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1216,13 +1220,13 @@ class LspApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Answer]:
+    ) -> ApiResponse[LspAnswer]:
         """Outlines one file: every declaration in it, with its kind and its span.
 
         Outlines one file: every declaration in it, with its kind and its span. The position is ignored — the answer is the whole file.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1246,7 +1250,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_symbols_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1254,7 +1258,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1270,7 +1274,7 @@ class LspApi:
     @validate_call
     def post_lsp_symbols_without_preload_content(
         self,
-        query: Query,
+        lsp_query: LspQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1288,8 +1292,8 @@ class LspApi:
 
         Outlines one file: every declaration in it, with its kind and its span. The position is ignored — the answer is the whole file.
 
-        :param query: (required)
-        :type query: Query
+        :param lsp_query: (required)
+        :type lsp_query: LspQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1313,7 +1317,7 @@ class LspApi:
         """ # noqa: E501
 
         _param = self._post_lsp_symbols_serialize(
-            query=query,
+            lsp_query=lsp_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1321,7 +1325,7 @@ class LspApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Answer",
+            '200': "LspAnswer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1332,7 +1336,7 @@ class LspApi:
 
     def _post_lsp_symbols_serialize(
         self,
-        query,
+        lsp_query,
         _request_auth,
         _content_type,
         _headers,
@@ -1358,15 +1362,16 @@ class LspApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if query is not None:
-            _body_params = query
+        if lsp_query is not None:
+            _body_params = lsp_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

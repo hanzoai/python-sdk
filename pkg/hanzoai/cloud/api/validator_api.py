@@ -19,10 +19,10 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.challenge_view import ChallengeView
-from hanzoai.cloud.models.slot_view import SlotView
-from hanzoai.cloud.models.validator_claim import ValidatorClaim
-from hanzoai.cloud.models.validator_list import ValidatorList
+from hanzoai.cloud.models.validator_challenge_view import ValidatorChallengeView
+from hanzoai.cloud.models.validator_slot_view import ValidatorSlotView
+from hanzoai.cloud.models.validator_validator_claim import ValidatorValidatorClaim
+from hanzoai.cloud.models.validator_validator_list import ValidatorValidatorList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -58,7 +58,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ValidatorList:
+    ) -> ValidatorValidatorList:
         """Returns the validator slots the caller's org has claimed.
 
         Returns the validator slots the caller's org has claimed.  One entry per claimed slot with its node identity, its live-ish node status and the owner-gated registration queued for it, if any. Slots are org-scoped by the validated identity, so a caller can only ever see their own — a slot claimed by another org is not merely hidden from this list, it is unreachable through the whole surface.
@@ -96,7 +96,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ValidatorList",
+            '200': "ValidatorValidatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -125,7 +125,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ValidatorList]:
+    ) -> ApiResponse[ValidatorValidatorList]:
         """Returns the validator slots the caller's org has claimed.
 
         Returns the validator slots the caller's org has claimed.  One entry per claimed slot with its node identity, its live-ish node status and the owner-gated registration queued for it, if any. Slots are org-scoped by the validated identity, so a caller can only ever see their own — a slot claimed by another org is not merely hidden from this list, it is unreachable through the whole surface.
@@ -163,7 +163,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ValidatorList",
+            '200': "ValidatorValidatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -230,7 +230,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ValidatorList",
+            '200': "ValidatorValidatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -277,7 +277,8 @@ class ValidatorApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -321,7 +322,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlotView:
+    ) -> ValidatorSlotView:
         """Returns one claimed validator slot, scoped to the caller's org.
 
         Returns one claimed validator slot, scoped to the caller's org.  A slot another org holds, and a slot nobody holds, are both 404 — never a different status, so this route cannot be used to probe which slots are taken.
@@ -359,7 +360,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -388,7 +389,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlotView]:
+    ) -> ApiResponse[ValidatorSlotView]:
         """Returns one claimed validator slot, scoped to the caller's org.
 
         Returns one claimed validator slot, scoped to the caller's org.  A slot another org holds, and a slot nobody holds, are both 404 — never a different status, so this route cannot be used to probe which slots are taken.
@@ -426,7 +427,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -493,7 +494,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -538,7 +539,8 @@ class ValidatorApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -582,7 +584,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChallengeView:
+    ) -> ValidatorChallengeView:
         """Issues the single-use nonce and the exact message a wallet must sign to claim a validator slot.
 
         Issues the single-use nonce and the exact message a wallet must sign to claim a validator slot.  The nonce is bound to (validated org, slot) and stored server-side, so a signature obtained for one org or one slot can never be replayed for another, and the message POST /v1/validator verifies is rebuilt from those same server facts rather than trusted from the caller. Redeem it with POST /v1/validator before it expires; it can be redeemed once.  A tokenId outside the Validator tier is refused here rather than after signing.
@@ -620,7 +622,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChallengeView",
+            '200': "ValidatorChallengeView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -649,7 +651,7 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChallengeView]:
+    ) -> ApiResponse[ValidatorChallengeView]:
         """Issues the single-use nonce and the exact message a wallet must sign to claim a validator slot.
 
         Issues the single-use nonce and the exact message a wallet must sign to claim a validator slot.  The nonce is bound to (validated org, slot) and stored server-side, so a signature obtained for one org or one slot can never be replayed for another, and the message POST /v1/validator verifies is rebuilt from those same server facts rather than trusted from the caller. Redeem it with POST /v1/validator before it expires; it can be redeemed once.  A tokenId outside the Validator tier is refused here rather than after signing.
@@ -687,7 +689,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChallengeView",
+            '200': "ValidatorChallengeView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -754,7 +756,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChallengeView",
+            '200': "ValidatorChallengeView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -801,7 +803,8 @@ class ValidatorApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -832,7 +835,7 @@ class ValidatorApi:
     @validate_call
     def post_validator(
         self,
-        validator_claim: ValidatorClaim,
+        validator_validator_claim: ValidatorValidatorClaim,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -845,13 +848,13 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SlotView:
+    ) -> ValidatorSlotView:
         """Claims a validator slot and provisions its node, after proving the caller's wallet owns the slot's NFT.
 
         Claims a validator slot and provisions its node, after proving the caller's wallet owns the slot's NFT.  The pipeline, all server-enforced: burn the single-use challenge (so a replayed or forged nonce dies before any chain read), recover the signer from the message this server rebuilds, require that wallet to hold Validator-tier GenesisNFT #tokenId on Ethereum mainnet, generate a fresh luxd staking identity and seal it into KMS, write a LuxNetwork CR for a NEW node, and ENQUEUE an owner-gated registration. The registration is never auto-submitted to any P-Chain — the owner co-signs it out of band — and the stake weight is set at co-sign time, never derived from the NFT.  It fails CLOSED at every gate: a bad signature, a non-owner, a non-tier slot or an unavailable KMS all leave no claim persisted and no key material exposed. Re-claiming a slot this org already holds re-applies the node CR and returns 200 with the existing identity (keys and NodeID are stable); a slot held by another org is 409. A cluster-less deployment still claims the slot, seals the keys and queues the registration, reporting the node as \"node_pending\".
 
-        :param validator_claim: (required)
-        :type validator_claim: ValidatorClaim
+        :param validator_validator_claim: (required)
+        :type validator_validator_claim: ValidatorValidatorClaim
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -875,7 +878,7 @@ class ValidatorApi:
         """ # noqa: E501
 
         _param = self._post_validator_serialize(
-            validator_claim=validator_claim,
+            validator_validator_claim=validator_validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -883,7 +886,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -899,7 +902,7 @@ class ValidatorApi:
     @validate_call
     def post_validator_with_http_info(
         self,
-        validator_claim: ValidatorClaim,
+        validator_validator_claim: ValidatorValidatorClaim,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -912,13 +915,13 @@ class ValidatorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SlotView]:
+    ) -> ApiResponse[ValidatorSlotView]:
         """Claims a validator slot and provisions its node, after proving the caller's wallet owns the slot's NFT.
 
         Claims a validator slot and provisions its node, after proving the caller's wallet owns the slot's NFT.  The pipeline, all server-enforced: burn the single-use challenge (so a replayed or forged nonce dies before any chain read), recover the signer from the message this server rebuilds, require that wallet to hold Validator-tier GenesisNFT #tokenId on Ethereum mainnet, generate a fresh luxd staking identity and seal it into KMS, write a LuxNetwork CR for a NEW node, and ENQUEUE an owner-gated registration. The registration is never auto-submitted to any P-Chain — the owner co-signs it out of band — and the stake weight is set at co-sign time, never derived from the NFT.  It fails CLOSED at every gate: a bad signature, a non-owner, a non-tier slot or an unavailable KMS all leave no claim persisted and no key material exposed. Re-claiming a slot this org already holds re-applies the node CR and returns 200 with the existing identity (keys and NodeID are stable); a slot held by another org is 409. A cluster-less deployment still claims the slot, seals the keys and queues the registration, reporting the node as \"node_pending\".
 
-        :param validator_claim: (required)
-        :type validator_claim: ValidatorClaim
+        :param validator_validator_claim: (required)
+        :type validator_validator_claim: ValidatorValidatorClaim
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -942,7 +945,7 @@ class ValidatorApi:
         """ # noqa: E501
 
         _param = self._post_validator_serialize(
-            validator_claim=validator_claim,
+            validator_validator_claim=validator_validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -950,7 +953,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -966,7 +969,7 @@ class ValidatorApi:
     @validate_call
     def post_validator_without_preload_content(
         self,
-        validator_claim: ValidatorClaim,
+        validator_validator_claim: ValidatorValidatorClaim,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -984,8 +987,8 @@ class ValidatorApi:
 
         Claims a validator slot and provisions its node, after proving the caller's wallet owns the slot's NFT.  The pipeline, all server-enforced: burn the single-use challenge (so a replayed or forged nonce dies before any chain read), recover the signer from the message this server rebuilds, require that wallet to hold Validator-tier GenesisNFT #tokenId on Ethereum mainnet, generate a fresh luxd staking identity and seal it into KMS, write a LuxNetwork CR for a NEW node, and ENQUEUE an owner-gated registration. The registration is never auto-submitted to any P-Chain — the owner co-signs it out of band — and the stake weight is set at co-sign time, never derived from the NFT.  It fails CLOSED at every gate: a bad signature, a non-owner, a non-tier slot or an unavailable KMS all leave no claim persisted and no key material exposed. Re-claiming a slot this org already holds re-applies the node CR and returns 200 with the existing identity (keys and NodeID are stable); a slot held by another org is 409. A cluster-less deployment still claims the slot, seals the keys and queues the registration, reporting the node as \"node_pending\".
 
-        :param validator_claim: (required)
-        :type validator_claim: ValidatorClaim
+        :param validator_validator_claim: (required)
+        :type validator_validator_claim: ValidatorValidatorClaim
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1009,7 +1012,7 @@ class ValidatorApi:
         """ # noqa: E501
 
         _param = self._post_validator_serialize(
-            validator_claim=validator_claim,
+            validator_validator_claim=validator_validator_claim,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1017,7 +1020,7 @@ class ValidatorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SlotView",
+            '200': "ValidatorSlotView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1028,7 +1031,7 @@ class ValidatorApi:
 
     def _post_validator_serialize(
         self,
-        validator_claim,
+        validator_validator_claim,
         _request_auth,
         _content_type,
         _headers,
@@ -1054,15 +1057,16 @@ class ValidatorApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if validator_claim is not None:
-            _body_params = validator_claim
+        if validator_validator_claim is not None:
+            _body_params = validator_validator_claim
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

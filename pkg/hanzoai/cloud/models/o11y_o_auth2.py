@@ -29,7 +29,7 @@ class O11yOAuth2(BaseModel):
     """ # noqa: E501
     tls_config: Optional[O11yTLSConfig] = Field(default=None, alias="TLSConfig")
     audience: Optional[StrictStr] = Field(default=None, description="Audience optionally specifies the intended audience of the request.  If empty, the value of TokenURL is used as the intended audience. Only used if GrantType is set to \"urn:ietf:params:oauth:grant-type:jwt-bearer\".")
-    claims: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Claims is a map of claims to be added to the JWT token. Only used if GrantType is set to \"urn:ietf:params:oauth:grant-type:jwt-bearer\".")
+    claims: Optional[Dict[str, Any]] = Field(default=None, description="Claims is a map of claims to be added to the JWT token. Only used if GrantType is set to \"urn:ietf:params:oauth:grant-type:jwt-bearer\".")
     client_certificate_key: Optional[Any] = None
     client_certificate_key_file: Optional[StrictStr] = None
     client_certificate_key_id: Optional[StrictStr] = None

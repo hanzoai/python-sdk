@@ -19,12 +19,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.activity_out import ActivityOut
-from hanzoai.cloud.models.def_row import DefRow
-from hanzoai.cloud.models.defs_out import DefsOut
-from hanzoai.cloud.models.deleted_out import DeletedOut
-from hanzoai.cloud.models.evaluate_in import EvaluateIn
-from hanzoai.cloud.models.health_out import HealthOut
+from hanzoai.cloud.models.flag_activity_out import FlagActivityOut
+from hanzoai.cloud.models.flag_def_row import FlagDefRow
+from hanzoai.cloud.models.flag_defs_out import FlagDefsOut
+from hanzoai.cloud.models.flag_deleted_out import FlagDeletedOut
+from hanzoai.cloud.models.flag_evaluate_in import FlagEvaluateIn
+from hanzoai.cloud.models.flag_health_out import FlagHealthOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,7 +60,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeletedOut:
+    ) -> FlagDeletedOut:
         """Removes one flag definition by key and records the deletion in the change log.
 
         Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404.
@@ -98,7 +98,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeletedOut",
+            '200': "FlagDeletedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -127,7 +127,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeletedOut]:
+    ) -> ApiResponse[FlagDeletedOut]:
         """Removes one flag definition by key and records the deletion in the change log.
 
         Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404.
@@ -165,7 +165,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeletedOut",
+            '200': "FlagDeletedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -232,7 +232,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeletedOut",
+            '200': "FlagDeletedOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -277,7 +277,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -321,7 +322,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActivityOut:
+    ) -> FlagActivityOut:
         """Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
 
         Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
@@ -359,7 +360,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityOut",
+            '200': "FlagActivityOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -388,7 +389,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActivityOut]:
+    ) -> ApiResponse[FlagActivityOut]:
         """Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
 
         Returns the caller's flag change log newest-first: every create, update and delete, with the actor and the time.
@@ -426,7 +427,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityOut",
+            '200': "FlagActivityOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -493,7 +494,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActivityOut",
+            '200': "FlagActivityOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -540,7 +541,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -583,7 +585,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DefsOut:
+    ) -> FlagDefsOut:
         """Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
 
         Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
@@ -618,7 +620,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefsOut",
+            '200': "FlagDefsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -646,7 +648,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DefsOut]:
+    ) -> ApiResponse[FlagDefsOut]:
         """Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
 
         Returns every flag definition in the caller's (org, project) store, by key, with its version and who last changed it.
@@ -681,7 +683,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefsOut",
+            '200': "FlagDefsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -744,7 +746,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefsOut",
+            '200': "FlagDefsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -786,7 +788,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -830,7 +833,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DefRow:
+    ) -> FlagDefRow:
         """Returns one flag definition by key, or 404 when the caller's store has none under that key.
 
         Returns one flag definition by key, or 404 when the caller's store has none under that key.
@@ -868,7 +871,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -897,7 +900,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DefRow]:
+    ) -> ApiResponse[FlagDefRow]:
         """Returns one flag definition by key, or 404 when the caller's store has none under that key.
 
         Returns one flag definition by key, or 404 when the caller's store has none under that key.
@@ -935,7 +938,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1002,7 +1005,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1047,7 +1050,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1090,10 +1094,10 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HealthOut:
-        """Health reports that the flag engine is serving.
+    ) -> FlagHealthOut:
+        """Reports that the flag engine is serving.
 
-        Health reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
+        Reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1125,7 +1129,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthOut",
+            '200': "FlagHealthOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1153,10 +1157,10 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HealthOut]:
-        """Health reports that the flag engine is serving.
+    ) -> ApiResponse[FlagHealthOut]:
+        """Reports that the flag engine is serving.
 
-        Health reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
+        Reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1188,7 +1192,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthOut",
+            '200': "FlagHealthOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1217,9 +1221,9 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports that the flag engine is serving.
+        """Reports that the flag engine is serving.
 
-        Health reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
+        Reports that the flag engine is serving. It is not gated: liveness must be probe-able without a token.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1251,7 +1255,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthOut",
+            '200': "FlagHealthOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1293,7 +1297,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1324,7 +1329,7 @@ class FlagApi:
     @validate_call
     def post_flag(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1338,12 +1343,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1367,7 +1372,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1391,7 +1396,7 @@ class FlagApi:
     @validate_call
     def post_flag_with_http_info(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1405,12 +1410,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1434,7 +1439,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1458,7 +1463,7 @@ class FlagApi:
     @validate_call
     def post_flag_without_preload_content(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1472,12 +1477,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1501,7 +1506,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1520,7 +1525,7 @@ class FlagApi:
 
     def _post_flag_serialize(
         self,
-        evaluate_in,
+        flag_evaluate_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1546,15 +1551,16 @@ class FlagApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if evaluate_in is not None:
-            _body_params = evaluate_in
+        if flag_evaluate_in is not None:
+            _body_params = flag_evaluate_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1598,7 +1604,7 @@ class FlagApi:
     @validate_call
     def post_flag_decide(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1612,12 +1618,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1641,7 +1647,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_decide_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1665,7 +1671,7 @@ class FlagApi:
     @validate_call
     def post_flag_decide_with_http_info(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1679,12 +1685,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1708,7 +1714,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_decide_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1732,7 +1738,7 @@ class FlagApi:
     @validate_call
     def post_flag_decide_without_preload_content(
         self,
-        evaluate_in: EvaluateIn,
+        flag_evaluate_in: FlagEvaluateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1746,12 +1752,12 @@ class FlagApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
+        """Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute.
 
-        Evaluate runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
+        Runs the caller's flag definitions for one identity and returns the flag verdict: which flags are on (or which variant), their payloads, and whether any definition failed to compute. Evaluation is in-process over the caller's own (org, project) definitions — no network hop, no shared KV — so a tenant can only ever evaluate its own flags.
 
-        :param evaluate_in: (required)
-        :type evaluate_in: EvaluateIn
+        :param flag_evaluate_in: (required)
+        :type flag_evaluate_in: FlagEvaluateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1775,7 +1781,7 @@ class FlagApi:
         """ # noqa: E501
 
         _param = self._post_flag_decide_serialize(
-            evaluate_in=evaluate_in,
+            flag_evaluate_in=flag_evaluate_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1794,7 +1800,7 @@ class FlagApi:
 
     def _post_flag_decide_serialize(
         self,
-        evaluate_in,
+        flag_evaluate_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1820,15 +1826,16 @@ class FlagApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if evaluate_in is not None:
-            _body_params = evaluate_in
+        if flag_evaluate_in is not None:
+            _body_params = flag_evaluate_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1886,7 +1893,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DefRow:
+    ) -> FlagDefRow:
         """Creates or replaces the flag definition at the path's key and returns the stored row.
 
         Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity.
@@ -1927,7 +1934,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1957,7 +1964,7 @@ class FlagApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DefRow]:
+    ) -> ApiResponse[FlagDefRow]:
         """Creates or replaces the flag definition at the path's key and returns the stored row.
 
         Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity.
@@ -1998,7 +2005,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2069,7 +2076,7 @@ class FlagApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DefRow",
+            '200': "FlagDefRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2117,7 +2124,8 @@ class FlagApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

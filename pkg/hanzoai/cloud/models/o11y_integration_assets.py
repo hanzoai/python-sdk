@@ -28,7 +28,7 @@ class O11yIntegrationAssets(BaseModel):
     O11yIntegrationAssets
     """ # noqa: E501
     alerts: Optional[List[Any]] = None
-    dashboards: Optional[List[Dict[str, Dict[str, Any]]]] = None
+    dashboards: Optional[List[Dict[str, Any]]] = None
     logs: Optional[O11yLogsAssets] = None
     __properties: ClassVar[List[str]] = ["alerts", "dashboards", "logs"]
 

@@ -17,9 +17,9 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from typing import Optional
+from hanzoai.cloud.models.ask_report import AskReport
 from hanzoai.cloud.models.ask_request import AskRequest
-from hanzoai.cloud.models.report import Report
-from hanzoai.cloud.models.web_question import WebQuestion
+from hanzoai.cloud.models.ask_web_question import AskWebQuestion
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -306,7 +306,7 @@ class AskApi:
     @validate_call
     def research_web(
         self,
-        web_question: WebQuestion,
+        ask_web_question: AskWebQuestion,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -319,13 +319,13 @@ class AskApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Report:
+    ) -> AskReport:
         """Research a question on the live web and answer it with sources cited
 
         Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
 
-        :param web_question: (required)
-        :type web_question: WebQuestion
+        :param ask_web_question: (required)
+        :type ask_web_question: AskWebQuestion
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -349,7 +349,7 @@ class AskApi:
         """ # noqa: E501
 
         _param = self._research_web_serialize(
-            web_question=web_question,
+            ask_web_question=ask_web_question,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -357,7 +357,7 @@ class AskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Report",
+            '200': "AskReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -373,7 +373,7 @@ class AskApi:
     @validate_call
     def research_web_with_http_info(
         self,
-        web_question: WebQuestion,
+        ask_web_question: AskWebQuestion,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -386,13 +386,13 @@ class AskApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Report]:
+    ) -> ApiResponse[AskReport]:
         """Research a question on the live web and answer it with sources cited
 
         Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
 
-        :param web_question: (required)
-        :type web_question: WebQuestion
+        :param ask_web_question: (required)
+        :type ask_web_question: AskWebQuestion
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -416,7 +416,7 @@ class AskApi:
         """ # noqa: E501
 
         _param = self._research_web_serialize(
-            web_question=web_question,
+            ask_web_question=ask_web_question,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -424,7 +424,7 @@ class AskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Report",
+            '200': "AskReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -440,7 +440,7 @@ class AskApi:
     @validate_call
     def research_web_without_preload_content(
         self,
-        web_question: WebQuestion,
+        ask_web_question: AskWebQuestion,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -458,8 +458,8 @@ class AskApi:
 
         Researches a question on the live web and answers it with its sources cited.  This is the DEEP one. It plans the question into topics, runs several web searches, FETCHES AND READS the pages it finds, ranks them, and writes a grounded answer with inline markdown citations. Use it for anything that needs evidence, comparison or current fact — \"what changed in X\", \"compare A and B\", \"is this claim true\". For a plain list of links, use search_web instead; for one page you already have the URL of, use read_page.  `mode` buys depth: `search` is a single fast pass, `news` biases to recency, `research` plans and iterates, `deep` surveys widest. `sources` narrows the evidence to `web`, `news`, `academic`, `github`, `reddit` or `x` — each becomes a site-scoped search, which is how this reaches X/Twitter posts.  EVERY CITATION IS A PAGE THIS CALL FETCHED. That is a property of the text and not an instruction to the model: each source is fenced with a per-request nonce so a crawled page cannot print itself a source number, and every markdown link in the answer is checked against the gathered set before it is returned. So a link in `answer` always appears in `sources`, and a page that was not read cannot be cited.  It is BOUNDED and it degrades rather than failing: a mode's rounds, wall clock and token ceiling all cap it, and a search that finds little or a page that will not load yields a thinner answer, never an error. A validated principal is required, and the answer is billed once to that principal's org.
 
-        :param web_question: (required)
-        :type web_question: WebQuestion
+        :param ask_web_question: (required)
+        :type ask_web_question: AskWebQuestion
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -483,7 +483,7 @@ class AskApi:
         """ # noqa: E501
 
         _param = self._research_web_serialize(
-            web_question=web_question,
+            ask_web_question=ask_web_question,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -491,7 +491,7 @@ class AskApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Report",
+            '200': "AskReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -502,7 +502,7 @@ class AskApi:
 
     def _research_web_serialize(
         self,
-        web_question,
+        ask_web_question,
         _request_auth,
         _content_type,
         _headers,
@@ -528,15 +528,16 @@ class AskApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if web_question is not None:
-            _body_params = web_question
+        if ask_web_question is not None:
+            _body_params = ask_web_question
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

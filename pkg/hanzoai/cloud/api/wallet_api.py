@@ -19,16 +19,16 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.account_list import AccountList
-from hanzoai.cloud.models.create_account_in import CreateAccountIn
-from hanzoai.cloud.models.create_wallet_in import CreateWalletIn
-from hanzoai.cloud.models.safe_proposal import SafeProposal
-from hanzoai.cloud.models.safe_tx_in import SafeTxIn
-from hanzoai.cloud.models.sign_in import SignIn
-from hanzoai.cloud.models.signature import Signature
-from hanzoai.cloud.models.wallet import Wallet
-from hanzoai.cloud.models.wallet_account import WalletAccount
-from hanzoai.cloud.models.wallet_list import WalletList
+from hanzoai.cloud.models.wallet_account_list import WalletAccountList
+from hanzoai.cloud.models.wallet_create_account_in import WalletCreateAccountIn
+from hanzoai.cloud.models.wallet_create_wallet_in import WalletCreateWalletIn
+from hanzoai.cloud.models.wallet_safe_proposal import WalletSafeProposal
+from hanzoai.cloud.models.wallet_safe_tx_in import WalletSafeTxIn
+from hanzoai.cloud.models.wallet_sign_in import WalletSignIn
+from hanzoai.cloud.models.wallet_signature import WalletSignature
+from hanzoai.cloud.models.wallet_wallet import WalletWallet
+from hanzoai.cloud.models.wallet_wallet_account import WalletWalletAccount
+from hanzoai.cloud.models.wallet_wallet_list import WalletWalletList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +66,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WalletList:
+    ) -> WalletWalletList:
         """Returns the caller org's wallets, newest first, optionally NARROWED within the org by project, agent or account.
 
         Returns the caller org's wallets, newest first, optionally NARROWED within the org by project, agent or account. The org is always the bound isolation boundary — the filters only ever narrow inside it, so a caller can never widen past its own org.
@@ -110,7 +110,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletList",
+            '200': "WalletWalletList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -141,7 +141,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WalletList]:
+    ) -> ApiResponse[WalletWalletList]:
         """Returns the caller org's wallets, newest first, optionally NARROWED within the org by project, agent or account.
 
         Returns the caller org's wallets, newest first, optionally NARROWED within the org by project, agent or account. The org is always the bound isolation boundary — the filters only ever narrow inside it, so a caller can never widen past its own org.
@@ -185,7 +185,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletList",
+            '200': "WalletWalletList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -260,7 +260,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletList",
+            '200': "WalletWalletList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -317,7 +317,8 @@ class WalletApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -360,7 +361,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccountList:
+    ) -> WalletAccountList:
         """Returns the caller org's wallet accounts, newest first.
 
         Returns the caller org's wallet accounts, newest first. Accounts are physically org-scoped, so another tenant's are not reachable from here.
@@ -395,7 +396,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountList",
+            '200': "WalletAccountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -423,7 +424,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccountList]:
+    ) -> ApiResponse[WalletAccountList]:
         """Returns the caller org's wallet accounts, newest first.
 
         Returns the caller org's wallet accounts, newest first. Accounts are physically org-scoped, so another tenant's are not reachable from here.
@@ -458,7 +459,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountList",
+            '200': "WalletAccountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -521,7 +522,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountList",
+            '200': "WalletAccountList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -563,7 +564,8 @@ class WalletApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -607,7 +609,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Wallet:
+    ) -> WalletWallet:
         """Returns one of the caller org's wallets: its scope, custody kind, tier, chain and on-chain address.
 
         Returns one of the caller org's wallets: its scope, custody kind, tier, chain and on-chain address. The custody handle to the signing material is never part of the answer. A wallet id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -645,7 +647,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -674,7 +676,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Wallet]:
+    ) -> ApiResponse[WalletWallet]:
         """Returns one of the caller org's wallets: its scope, custody kind, tier, chain and on-chain address.
 
         Returns one of the caller org's wallets: its scope, custody kind, tier, chain and on-chain address. The custody handle to the signing material is never part of the answer. A wallet id another org owns reads as not found, so the response cannot confirm that it exists.
@@ -712,7 +714,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -779,7 +781,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -824,7 +826,8 @@ class WalletApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -855,7 +858,7 @@ class WalletApi:
     @validate_call
     def post_wallet(
         self,
-        create_wallet_in: CreateWalletIn,
+        wallet_create_wallet_in: WalletCreateWalletIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -868,13 +871,13 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Wallet:
+    ) -> WalletWallet:
         """Provisions a new signing identity under one of the caller org's accounts and answers the stored wallet including its on-chain address.
 
         Provisions a new signing identity under one of the caller org's accounts and answers the stored wallet including its on-chain address. The custody backend generates the key material — a KMS-sealed secp256k1 key, an MPC threshold key on the ring, or a Safe smart wallet owned by one — and the HANDLE to it is kept server-side and never returned. A custody kind the deployment has not wired fails CLOSED with 503: a signature is never fabricated. The wallet is scoped to the org, the caller's ambient project, and optionally an agent and the named account; those narrowings are what its key ref is derived from, so each must be a url-safe segment.
 
-        :param create_wallet_in: (required)
-        :type create_wallet_in: CreateWalletIn
+        :param wallet_create_wallet_in: (required)
+        :type wallet_create_wallet_in: WalletCreateWalletIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -898,7 +901,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_serialize(
-            create_wallet_in=create_wallet_in,
+            wallet_create_wallet_in=wallet_create_wallet_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -906,7 +909,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -922,7 +925,7 @@ class WalletApi:
     @validate_call
     def post_wallet_with_http_info(
         self,
-        create_wallet_in: CreateWalletIn,
+        wallet_create_wallet_in: WalletCreateWalletIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -935,13 +938,13 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Wallet]:
+    ) -> ApiResponse[WalletWallet]:
         """Provisions a new signing identity under one of the caller org's accounts and answers the stored wallet including its on-chain address.
 
         Provisions a new signing identity under one of the caller org's accounts and answers the stored wallet including its on-chain address. The custody backend generates the key material — a KMS-sealed secp256k1 key, an MPC threshold key on the ring, or a Safe smart wallet owned by one — and the HANDLE to it is kept server-side and never returned. A custody kind the deployment has not wired fails CLOSED with 503: a signature is never fabricated. The wallet is scoped to the org, the caller's ambient project, and optionally an agent and the named account; those narrowings are what its key ref is derived from, so each must be a url-safe segment.
 
-        :param create_wallet_in: (required)
-        :type create_wallet_in: CreateWalletIn
+        :param wallet_create_wallet_in: (required)
+        :type wallet_create_wallet_in: WalletCreateWalletIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -965,7 +968,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_serialize(
-            create_wallet_in=create_wallet_in,
+            wallet_create_wallet_in=wallet_create_wallet_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -973,7 +976,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -989,7 +992,7 @@ class WalletApi:
     @validate_call
     def post_wallet_without_preload_content(
         self,
-        create_wallet_in: CreateWalletIn,
+        wallet_create_wallet_in: WalletCreateWalletIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1007,8 +1010,8 @@ class WalletApi:
 
         Provisions a new signing identity under one of the caller org's accounts and answers the stored wallet including its on-chain address. The custody backend generates the key material — a KMS-sealed secp256k1 key, an MPC threshold key on the ring, or a Safe smart wallet owned by one — and the HANDLE to it is kept server-side and never returned. A custody kind the deployment has not wired fails CLOSED with 503: a signature is never fabricated. The wallet is scoped to the org, the caller's ambient project, and optionally an agent and the named account; those narrowings are what its key ref is derived from, so each must be a url-safe segment.
 
-        :param create_wallet_in: (required)
-        :type create_wallet_in: CreateWalletIn
+        :param wallet_create_wallet_in: (required)
+        :type wallet_create_wallet_in: WalletCreateWalletIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1032,7 +1035,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_serialize(
-            create_wallet_in=create_wallet_in,
+            wallet_create_wallet_in=wallet_create_wallet_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1040,7 +1043,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1051,7 +1054,7 @@ class WalletApi:
 
     def _post_wallet_serialize(
         self,
-        create_wallet_in,
+        wallet_create_wallet_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1077,15 +1080,16 @@ class WalletApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_wallet_in is not None:
-            _body_params = create_wallet_in
+        if wallet_create_wallet_in is not None:
+            _body_params = wallet_create_wallet_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1129,7 +1133,7 @@ class WalletApi:
     @validate_call
     def post_wallet_accounts(
         self,
-        create_account_in: CreateAccountIn,
+        wallet_create_account_in: WalletCreateAccountIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1142,13 +1146,13 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WalletAccount:
+    ) -> WalletWalletAccount:
         """Opens a named wallet account for the caller's org.
 
         Opens a named wallet account for the caller's org. An account is a GROUPING of wallets, not a key or a balance: wallets are created under one and can be listed by it. The org is stamped by the server from the validated principal, so a request can never open an account in another tenant.
 
-        :param create_account_in: (required)
-        :type create_account_in: CreateAccountIn
+        :param wallet_create_account_in: (required)
+        :type wallet_create_account_in: WalletCreateAccountIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1172,7 +1176,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_accounts_serialize(
-            create_account_in=create_account_in,
+            wallet_create_account_in=wallet_create_account_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1180,7 +1184,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletAccount",
+            '200': "WalletWalletAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1196,7 +1200,7 @@ class WalletApi:
     @validate_call
     def post_wallet_accounts_with_http_info(
         self,
-        create_account_in: CreateAccountIn,
+        wallet_create_account_in: WalletCreateAccountIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1209,13 +1213,13 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WalletAccount]:
+    ) -> ApiResponse[WalletWalletAccount]:
         """Opens a named wallet account for the caller's org.
 
         Opens a named wallet account for the caller's org. An account is a GROUPING of wallets, not a key or a balance: wallets are created under one and can be listed by it. The org is stamped by the server from the validated principal, so a request can never open an account in another tenant.
 
-        :param create_account_in: (required)
-        :type create_account_in: CreateAccountIn
+        :param wallet_create_account_in: (required)
+        :type wallet_create_account_in: WalletCreateAccountIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,7 +1243,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_accounts_serialize(
-            create_account_in=create_account_in,
+            wallet_create_account_in=wallet_create_account_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1247,7 +1251,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletAccount",
+            '200': "WalletWalletAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1263,7 +1267,7 @@ class WalletApi:
     @validate_call
     def post_wallet_accounts_without_preload_content(
         self,
-        create_account_in: CreateAccountIn,
+        wallet_create_account_in: WalletCreateAccountIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1281,8 +1285,8 @@ class WalletApi:
 
         Opens a named wallet account for the caller's org. An account is a GROUPING of wallets, not a key or a balance: wallets are created under one and can be listed by it. The org is stamped by the server from the validated principal, so a request can never open an account in another tenant.
 
-        :param create_account_in: (required)
-        :type create_account_in: CreateAccountIn
+        :param wallet_create_account_in: (required)
+        :type wallet_create_account_in: WalletCreateAccountIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1306,7 +1310,7 @@ class WalletApi:
         """ # noqa: E501
 
         _param = self._post_wallet_accounts_serialize(
-            create_account_in=create_account_in,
+            wallet_create_account_in=wallet_create_account_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1314,7 +1318,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WalletAccount",
+            '200': "WalletWalletAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1325,7 +1329,7 @@ class WalletApi:
 
     def _post_wallet_accounts_serialize(
         self,
-        create_account_in,
+        wallet_create_account_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1351,15 +1355,16 @@ class WalletApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_account_in is not None:
-            _body_params = create_account_in
+        if wallet_create_account_in is not None:
+            _body_params = wallet_create_account_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1416,7 +1421,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Wallet:
+    ) -> WalletWallet:
         """Rolls one wallet's signing material through its own custody backend and answers the wallet with whatever address that produced.
 
         Rolls one wallet's signing material through its own custody backend and answers the wallet with whatever address that produced. For KMS custody a fresh secp256k1 key is generated and sealed, which CHANGES the address — funds and approvals at the old address do not move. For a Safe the address is counterfactual and the owner shares are ring-managed, so rotation is a no-op and the address is unchanged. A backend that is not configured fails closed with 503 rather than leaving the wallet half-rotated.
@@ -1454,7 +1459,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1483,7 +1488,7 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Wallet]:
+    ) -> ApiResponse[WalletWallet]:
         """Rolls one wallet's signing material through its own custody backend and answers the wallet with whatever address that produced.
 
         Rolls one wallet's signing material through its own custody backend and answers the wallet with whatever address that produced. For KMS custody a fresh secp256k1 key is generated and sealed, which CHANGES the address — funds and approvals at the old address do not move. For a Safe the address is counterfactual and the owner shares are ring-managed, so rotation is a no-op and the address is unchanged. A backend that is not configured fails closed with 503 rather than leaving the wallet half-rotated.
@@ -1521,7 +1526,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1588,7 +1593,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wallet",
+            '200': "WalletWallet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1633,7 +1638,8 @@ class WalletApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1665,7 +1671,7 @@ class WalletApi:
     def post_wallet_by_id_sign(
         self,
         id: StrictStr,
-        sign_in: SignIn,
+        wallet_sign_in: WalletSignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1678,15 +1684,15 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Signature:
+    ) -> WalletSignature:
         """Produces a secp256k1 signature from one of the caller org's wallets over a 32-byte digest, through whichever custody backend that wallet uses.
 
         Produces a secp256k1 signature from one of the caller org's wallets over a 32-byte digest, through whichever custody backend that wallet uses. Give it either a `digest` (32 bytes as hex, signed verbatim) or a `message` (hashed with Keccak256 first) — exactly one is required. The private key never leaves its backend: KMS custody opens the sealed key in-process, MPC custody produces a threshold signature on the ring. The answer carries the digest that was signed alongside the signature, so a caller can verify what it got.
 
         :param id: (required)
         :type id: str
-        :param sign_in: (required)
-        :type sign_in: SignIn
+        :param wallet_sign_in: (required)
+        :type wallet_sign_in: WalletSignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1711,7 +1717,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_sign_serialize(
             id=id,
-            sign_in=sign_in,
+            wallet_sign_in=wallet_sign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1719,7 +1725,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Signature",
+            '200': "WalletSignature",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1736,7 +1742,7 @@ class WalletApi:
     def post_wallet_by_id_sign_with_http_info(
         self,
         id: StrictStr,
-        sign_in: SignIn,
+        wallet_sign_in: WalletSignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1749,15 +1755,15 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Signature]:
+    ) -> ApiResponse[WalletSignature]:
         """Produces a secp256k1 signature from one of the caller org's wallets over a 32-byte digest, through whichever custody backend that wallet uses.
 
         Produces a secp256k1 signature from one of the caller org's wallets over a 32-byte digest, through whichever custody backend that wallet uses. Give it either a `digest` (32 bytes as hex, signed verbatim) or a `message` (hashed with Keccak256 first) — exactly one is required. The private key never leaves its backend: KMS custody opens the sealed key in-process, MPC custody produces a threshold signature on the ring. The answer carries the digest that was signed alongside the signature, so a caller can verify what it got.
 
         :param id: (required)
         :type id: str
-        :param sign_in: (required)
-        :type sign_in: SignIn
+        :param wallet_sign_in: (required)
+        :type wallet_sign_in: WalletSignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1782,7 +1788,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_sign_serialize(
             id=id,
-            sign_in=sign_in,
+            wallet_sign_in=wallet_sign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1790,7 +1796,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Signature",
+            '200': "WalletSignature",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1807,7 +1813,7 @@ class WalletApi:
     def post_wallet_by_id_sign_without_preload_content(
         self,
         id: StrictStr,
-        sign_in: SignIn,
+        wallet_sign_in: WalletSignIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1827,8 +1833,8 @@ class WalletApi:
 
         :param id: (required)
         :type id: str
-        :param sign_in: (required)
-        :type sign_in: SignIn
+        :param wallet_sign_in: (required)
+        :type wallet_sign_in: WalletSignIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1853,7 +1859,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_sign_serialize(
             id=id,
-            sign_in=sign_in,
+            wallet_sign_in=wallet_sign_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1861,7 +1867,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Signature",
+            '200': "WalletSignature",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1873,7 +1879,7 @@ class WalletApi:
     def _post_wallet_by_id_sign_serialize(
         self,
         id,
-        sign_in,
+        wallet_sign_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1901,15 +1907,16 @@ class WalletApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sign_in is not None:
-            _body_params = sign_in
+        if wallet_sign_in is not None:
+            _body_params = wallet_sign_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1954,7 +1961,7 @@ class WalletApi:
     def post_wallet_by_id_transactions(
         self,
         id: StrictStr,
-        safe_tx_in: SafeTxIn,
+        wallet_safe_tx_in: WalletSafeTxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1967,15 +1974,15 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SafeProposal:
+    ) -> WalletSafeProposal:
         """Composes a Safe transaction on the MPC ring and answers its EIP-712 hash together with the owner approval the ring's threshold signature produced.
 
         Composes a Safe transaction on the MPC ring and answers its EIP-712 hash together with the owner approval the ring's threshold signature produced. Only a wallet whose custody is \"safe\" can do this — any other custody is a 400, because the backend itself is asked whether it can propose rather than the kind being switched on. The ring computes the Safe-tx hash bound to the Safe contract and the chain id, so the hash a caller gets back is the one the Safe will verify. This PROPOSES: it does not execute the transaction.
 
         :param id: (required)
         :type id: str
-        :param safe_tx_in: (required)
-        :type safe_tx_in: SafeTxIn
+        :param wallet_safe_tx_in: (required)
+        :type wallet_safe_tx_in: WalletSafeTxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2000,7 +2007,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_transactions_serialize(
             id=id,
-            safe_tx_in=safe_tx_in,
+            wallet_safe_tx_in=wallet_safe_tx_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2008,7 +2015,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SafeProposal",
+            '200': "WalletSafeProposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2025,7 +2032,7 @@ class WalletApi:
     def post_wallet_by_id_transactions_with_http_info(
         self,
         id: StrictStr,
-        safe_tx_in: SafeTxIn,
+        wallet_safe_tx_in: WalletSafeTxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2038,15 +2045,15 @@ class WalletApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SafeProposal]:
+    ) -> ApiResponse[WalletSafeProposal]:
         """Composes a Safe transaction on the MPC ring and answers its EIP-712 hash together with the owner approval the ring's threshold signature produced.
 
         Composes a Safe transaction on the MPC ring and answers its EIP-712 hash together with the owner approval the ring's threshold signature produced. Only a wallet whose custody is \"safe\" can do this — any other custody is a 400, because the backend itself is asked whether it can propose rather than the kind being switched on. The ring computes the Safe-tx hash bound to the Safe contract and the chain id, so the hash a caller gets back is the one the Safe will verify. This PROPOSES: it does not execute the transaction.
 
         :param id: (required)
         :type id: str
-        :param safe_tx_in: (required)
-        :type safe_tx_in: SafeTxIn
+        :param wallet_safe_tx_in: (required)
+        :type wallet_safe_tx_in: WalletSafeTxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2071,7 +2078,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_transactions_serialize(
             id=id,
-            safe_tx_in=safe_tx_in,
+            wallet_safe_tx_in=wallet_safe_tx_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2079,7 +2086,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SafeProposal",
+            '200': "WalletSafeProposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2096,7 +2103,7 @@ class WalletApi:
     def post_wallet_by_id_transactions_without_preload_content(
         self,
         id: StrictStr,
-        safe_tx_in: SafeTxIn,
+        wallet_safe_tx_in: WalletSafeTxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2116,8 +2123,8 @@ class WalletApi:
 
         :param id: (required)
         :type id: str
-        :param safe_tx_in: (required)
-        :type safe_tx_in: SafeTxIn
+        :param wallet_safe_tx_in: (required)
+        :type wallet_safe_tx_in: WalletSafeTxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2142,7 +2149,7 @@ class WalletApi:
 
         _param = self._post_wallet_by_id_transactions_serialize(
             id=id,
-            safe_tx_in=safe_tx_in,
+            wallet_safe_tx_in=wallet_safe_tx_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2150,7 +2157,7 @@ class WalletApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SafeProposal",
+            '200': "WalletSafeProposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2162,7 +2169,7 @@ class WalletApi:
     def _post_wallet_by_id_transactions_serialize(
         self,
         id,
-        safe_tx_in,
+        wallet_safe_tx_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2190,15 +2197,16 @@ class WalletApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if safe_tx_in is not None:
-            _body_params = safe_tx_in
+        if wallet_safe_tx_in is not None:
+            _body_params = wallet_safe_tx_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

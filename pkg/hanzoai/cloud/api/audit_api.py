@@ -19,7 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.trail_page import TrailPage
+from hanzoai.cloud.models.audit_trail_page import AuditTrailPage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -63,10 +63,10 @@ class AuditApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrailPage:
-        """List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
+    ) -> AuditTrailPage:
+        """Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
 
-        List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
+        Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
 
         :param sub: Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.
         :type sub: str
@@ -125,7 +125,7 @@ class AuditApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrailPage",
+            '200': "AuditTrailPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -162,10 +162,10 @@ class AuditApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrailPage]:
-        """List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
+    ) -> ApiResponse[AuditTrailPage]:
+        """Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
 
-        List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
+        Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
 
         :param sub: Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.
         :type sub: str
@@ -224,7 +224,7 @@ class AuditApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrailPage",
+            '200': "AuditTrailPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -262,9 +262,9 @@ class AuditApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
+        """Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.
 
-        List reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
+        Reads the caller's OWN org audit trail, newest first, with the total the filter matched so a console can page it.  Every filter is optional and applies WITHIN the caller's org — the org itself is the validated principal's and can never be widened by a request. Fails closed: an absent principal is a true \"not signed in\" (401), and a deployment with no local tamper-evident store answers an honest 501 rather than silently serving somebody else's trail.
 
         :param sub: Sub narrows the trail to one actor — the validated subject that made the request. Blank means every actor in the org.
         :type sub: str
@@ -323,7 +323,7 @@ class AuditApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrailPage",
+            '200': "AuditTrailPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -410,7 +410,8 @@ class AuditApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

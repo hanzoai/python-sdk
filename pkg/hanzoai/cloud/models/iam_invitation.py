@@ -35,19 +35,21 @@ class IamInvitation(BaseModel):
     deleted: Optional[StrictBool] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     email: Optional[StrictStr] = None
+    generated: Optional[StrictBool] = Field(default=None, description="Generated reports that IAM minted Code itself, from crypto/rand, when the invitation was created. Only such a code is compared without limit; any code a caller wrote is compared only while the org is not being guessed at, however it looks, because a code that looks random need not be.")
     id: Optional[StrictStr] = None
     is_regexp: Optional[StrictBool] = Field(default=None, alias="isRegexp")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     phone: Optional[StrictStr] = None
     quota: Optional[StrictInt] = None
+    sent_time: Optional[StrictStr] = Field(default=None, description="SentTime is when an email about this invitation last went to its pinned address (RFC 3339), \"\" when none has. It paces resends, so the send endpoint cannot be used to mail one address over and over.", alias="sentTime")
     signup_group: Optional[StrictStr] = Field(default=None, alias="signupGroup")
     state: Optional[StrictStr] = None
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
     used_count: Optional[StrictInt] = Field(default=None, alias="usedCount")
     username: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["application", "code", "createdAt", "createdTime", "defaultCode", "deleted", "displayName", "email", "id", "isRegexp", "name", "owner", "phone", "quota", "signupGroup", "state", "updatedAt", "updatedTime", "usedCount", "username"]
+    __properties: ClassVar[List[str]] = ["application", "code", "createdAt", "createdTime", "defaultCode", "deleted", "displayName", "email", "generated", "id", "isRegexp", "name", "owner", "phone", "quota", "sentTime", "signupGroup", "state", "updatedAt", "updatedTime", "usedCount", "username"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -108,12 +110,14 @@ class IamInvitation(BaseModel):
             "deleted": obj.get("deleted"),
             "displayName": obj.get("displayName"),
             "email": obj.get("email"),
+            "generated": obj.get("generated"),
             "id": obj.get("id"),
             "isRegexp": obj.get("isRegexp"),
             "name": obj.get("name"),
             "owner": obj.get("owner"),
             "phone": obj.get("phone"),
             "quota": obj.get("quota"),
+            "sentTime": obj.get("sentTime"),
             "signupGroup": obj.get("signupGroup"),
             "state": obj.get("state"),
             "updatedAt": obj.get("updatedAt"),

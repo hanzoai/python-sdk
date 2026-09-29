@@ -19,26 +19,26 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.board import Board
-from hanzoai.cloud.models.dataset_list import DatasetList
-from hanzoai.cloud.models.dataset_req import DatasetReq
-from hanzoai.cloud.models.dataset_view import DatasetView
-from hanzoai.cloud.models.evaluator_list import EvaluatorList
-from hanzoai.cloud.models.evaluator_req import EvaluatorReq
-from hanzoai.cloud.models.evaluator_view import EvaluatorView
-from hanzoai.cloud.models.item_list import ItemList
-from hanzoai.cloud.models.item_req import ItemReq
-from hanzoai.cloud.models.item_view import ItemView
-from hanzoai.cloud.models.run_request import RunRequest
-from hanzoai.cloud.models.run_summary import RunSummary
-from hanzoai.cloud.models.runs import Runs
-from hanzoai.cloud.models.score_config_list import ScoreConfigList
-from hanzoai.cloud.models.score_config_req import ScoreConfigReq
-from hanzoai.cloud.models.score_config_view import ScoreConfigView
-from hanzoai.cloud.models.score_list import ScoreList
-from hanzoai.cloud.models.score_req import ScoreReq
-from hanzoai.cloud.models.score_view import ScoreView
-from hanzoai.cloud.models.trace_list import TraceList
+from hanzoai.cloud.models.eval_board import EvalBoard
+from hanzoai.cloud.models.eval_dataset_list import EvalDatasetList
+from hanzoai.cloud.models.eval_dataset_req import EvalDatasetReq
+from hanzoai.cloud.models.eval_dataset_view import EvalDatasetView
+from hanzoai.cloud.models.eval_evaluator_list import EvalEvaluatorList
+from hanzoai.cloud.models.eval_evaluator_req import EvalEvaluatorReq
+from hanzoai.cloud.models.eval_evaluator_view import EvalEvaluatorView
+from hanzoai.cloud.models.eval_item_list import EvalItemList
+from hanzoai.cloud.models.eval_item_req import EvalItemReq
+from hanzoai.cloud.models.eval_item_view import EvalItemView
+from hanzoai.cloud.models.eval_run_request import EvalRunRequest
+from hanzoai.cloud.models.eval_run_summary import EvalRunSummary
+from hanzoai.cloud.models.eval_runs import EvalRuns
+from hanzoai.cloud.models.eval_score_config_list import EvalScoreConfigList
+from hanzoai.cloud.models.eval_score_config_req import EvalScoreConfigReq
+from hanzoai.cloud.models.eval_score_config_view import EvalScoreConfigView
+from hanzoai.cloud.models.eval_score_list import EvalScoreList
+from hanzoai.cloud.models.eval_score_req import EvalScoreReq
+from hanzoai.cloud.models.eval_score_view import EvalScoreView
+from hanzoai.cloud.models.eval_trace_list import EvalTraceList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -77,7 +77,7 @@ class EvalApi:
     ) -> None:
         """Removes the named dataset of the caller's org AND all of its examples, in one transaction.
 
-        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 403 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
+        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 401 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -144,7 +144,7 @@ class EvalApi:
     ) -> ApiResponse[None]:
         """Removes the named dataset of the caller's org AND all of its examples, in one transaction.
 
-        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 403 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
+        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 401 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -211,7 +211,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Removes the named dataset of the caller's org AND all of its examples, in one transaction.
 
-        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 403 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
+        Removes the named dataset of the caller's org AND all of its examples, in one transaction.  This is not a detach: the examples are gone with the set, so a dataset cannot be resurrected by re-creating the name. A name this org does not have is 404 — never a silent success — and a name belonging to another tenant is the same 404, because the delete is predicated on the validated org. Requires a validated principal; 401 without one. Runs and scores already recorded against the dataset are telemetry events and are NOT deleted with it.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -287,6 +287,13 @@ class EvalApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -328,10 +335,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DatasetList:
+    ) -> EvalDatasetList:
         """Is the datasets your org has, each with its name, description, metadata and timestamps.
 
-        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 403 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
+        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 401 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -366,7 +373,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetList",
+            '200': "EvalDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -395,10 +402,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DatasetList]:
+    ) -> ApiResponse[EvalDatasetList]:
         """Is the datasets your org has, each with its name, description, metadata and timestamps.
 
-        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 403 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
+        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 401 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -433,7 +440,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetList",
+            '200': "EvalDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -465,7 +472,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the datasets your org has, each with its name, description, metadata and timestamps.
 
-        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 403 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
+        Is the datasets your org has, each with its name, description, metadata and timestamps.  It is the only way to enumerate what an org holds. Requires a validated principal; 401 without one. Every row is filtered on the validated org, so there is no parameter that reaches another tenant's datasets. The item count is NOT populated here — read one dataset to get it.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -500,7 +507,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetList",
+            '200': "EvalDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -547,7 +554,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -591,10 +599,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DatasetView:
+    ) -> EvalDatasetView:
         """Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.
 
-        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 403 without one.
+        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 401 without one.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -629,7 +637,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetView",
+            '200': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -658,10 +666,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DatasetView]:
+    ) -> ApiResponse[EvalDatasetView]:
         """Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.
 
-        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 403 without one.
+        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 401 without one.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -696,7 +704,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetView",
+            '200': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -728,7 +736,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.
 
-        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 403 without one.
+        Returns one dataset of the caller's org by name, together with its live item count — the one read that answers how big the set actually is.  A name this org does not have is 404, which is also what another tenant's dataset looks like from here. Requires a validated principal; 401 without one.
 
         :param name: Name is the dataset the URL names. (required)
         :type name: str
@@ -763,7 +771,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DatasetView",
+            '200': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -808,7 +816,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -853,10 +862,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ItemList:
+    ) -> EvalItemList:
         """Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.
 
-        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 403 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
+        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 401 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
@@ -894,7 +903,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ItemList",
+            '200': "EvalItemList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -924,10 +933,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ItemList]:
+    ) -> ApiResponse[EvalItemList]:
         """Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.
 
-        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 403 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
+        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 401 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
@@ -965,7 +974,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ItemList",
+            '200': "EvalItemList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -998,7 +1007,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.
 
-        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 403 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
+        Is the examples in one of your datasets — the set is named in the path, because this collection only exists inside one.  Archived examples are included, so the caller sees the whole set rather than only what a run would use. Requires a validated principal; 401 without one, and the read is filtered on the validated org, so naming another tenant's dataset returns nothing rather than its contents.
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
@@ -1036,7 +1045,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ItemList",
+            '200': "EvalItemList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1086,7 +1095,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1130,10 +1140,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EvaluatorList:
+    ) -> EvalEvaluatorList:
         """Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.
 
-        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1168,7 +1178,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EvaluatorList",
+            '200': "EvalEvaluatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1197,10 +1207,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EvaluatorList]:
+    ) -> ApiResponse[EvalEvaluatorList]:
         """Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.
 
-        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1235,7 +1245,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EvaluatorList",
+            '200': "EvalEvaluatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1267,7 +1277,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.
 
-        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the judges your org has defined, each with its judge model, criteria and the score name it writes under.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1302,7 +1312,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EvaluatorList",
+            '200': "EvalEvaluatorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1349,7 +1359,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1394,10 +1405,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Board:
+    ) -> EvalBoard:
         """Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.
 
-        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 403 without one.
+        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 401 without one.
 
         :param range: Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.
         :type range: str
@@ -1435,7 +1446,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Board",
+            '200': "EvalBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1465,10 +1476,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Board]:
+    ) -> ApiResponse[EvalBoard]:
         """Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.
 
-        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 403 without one.
+        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 401 without one.
 
         :param range: Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.
         :type range: str
@@ -1506,7 +1517,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Board",
+            '200': "EvalBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1539,7 +1550,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.
 
-        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 403 without one.
+        Is your org's AI overview board over a window: totals (generations, prompt and completion tokens, cost in cents, errors, success rate, distinct models and users), a gap-filled time series, a per-model breakdown with the long tail folded into \"other\", and latency percentiles read from the GenAI spans.  The window the answer was actually computed over is echoed back, so a client never has to infer it. A platform admin sees the board across ALL orgs; everyone else sees their own.  The board is HONEST-EMPTY where it cannot be computed: with no datastore wired, or under a named project scope the usage ledger does not yet carry, it answers a valid board with zero totals and a flat series rather than a fabricated number or a 500. Requires a validated principal; 401 without one.
 
         :param range: Range is 24h (the default), 7d or 30d. Anything else normalises to 24h rather than failing, so the board always has a valid window.
         :type range: str
@@ -1577,7 +1588,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Board",
+            '200': "EvalBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1629,7 +1640,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1673,10 +1685,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ScoreConfigList:
+    ) -> EvalScoreConfigList:
         """Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.
 
-        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1711,7 +1723,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreConfigList",
+            '200': "EvalScoreConfigList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1740,10 +1752,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ScoreConfigList]:
+    ) -> ApiResponse[EvalScoreConfigList]:
         """Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.
 
-        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1778,7 +1790,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreConfigList",
+            '200': "EvalScoreConfigList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1810,7 +1822,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.
 
-        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 403 without one, and the listing is filtered on the validated org.
+        Is the score shapes your org has declared — each name's data type, its numeric bounds and its allowed categories.  Requires a validated principal; 401 without one, and the listing is filtered on the validated org.
 
         :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
@@ -1845,7 +1857,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreConfigList",
+            '200': "EvalScoreConfigList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1892,7 +1904,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1937,10 +1950,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Runs:
+    ) -> EvalRuns:
         """Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.
 
-        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 403 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
+        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 401 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
@@ -1978,7 +1991,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Runs",
+            '200': "EvalRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2008,10 +2021,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Runs]:
+    ) -> ApiResponse[EvalRuns]:
         """Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.
 
-        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 403 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
+        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 401 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
@@ -2049,7 +2062,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Runs",
+            '200': "EvalRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2082,7 +2095,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.
 
-        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 403 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
+        Is your past runs and how they scored — the dataset and model, the judge model, how many examples were attempted and how many scored, the average score, and when it happened.  Requires a validated principal; 401 without one, and rows are filtered on the validated org. These records come from the metastore rather than the datastore, so they are readable on a deployment with no telemetry wired — but a run's traces and scores are not.
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
@@ -2120,7 +2133,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Runs",
+            '200': "EvalRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2172,7 +2185,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2219,10 +2233,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ScoreList:
+    ) -> EvalScoreList:
         """Is the score events your org has recorded, narrowed by any of name, runName and traceId.
 
-        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 403 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
+        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 401 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
 
         :param name: Name narrows to one score name.
         :type name: str
@@ -2266,7 +2280,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreList",
+            '200': "EvalScoreList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2298,10 +2312,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ScoreList]:
+    ) -> ApiResponse[EvalScoreList]:
         """Is the score events your org has recorded, narrowed by any of name, runName and traceId.
 
-        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 403 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
+        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 401 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
 
         :param name: Name narrows to one score name.
         :type name: str
@@ -2345,7 +2359,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreList",
+            '200': "EvalScoreList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2380,7 +2394,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the score events your org has recorded, narrowed by any of name, runName and traceId.
 
-        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 403 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
+        Is the score events your org has recorded, narrowed by any of name, runName and traceId.  The org is bound as an authoritative predicate on the query, never taken from a header, so a filter can narrow the caller's own scores but can never widen past them. Requires a validated principal; 401 without one. Scores live in the datastore, so a deployment with none wired answers 503 rather than an empty page that would read as \"no scores\".
 
         :param name: Name narrows to one score name.
         :type name: str
@@ -2424,7 +2438,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ScoreList",
+            '200': "EvalScoreList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2486,7 +2500,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2533,10 +2548,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TraceList:
+    ) -> EvalTraceList:
         """Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.
 
-        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 403 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
+        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 401 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
 
         :param session_id: SessionID narrows to one session, which for an evaluation is one run.
         :type session_id: str
@@ -2580,7 +2595,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TraceList",
+            '200': "EvalTraceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2612,10 +2627,10 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TraceList]:
+    ) -> ApiResponse[EvalTraceList]:
         """Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.
 
-        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 403 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
+        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 401 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
 
         :param session_id: SessionID narrows to one session, which for an evaluation is one run.
         :type session_id: str
@@ -2659,7 +2674,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TraceList",
+            '200': "EvalTraceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2694,7 +2709,7 @@ class EvalApi:
     ) -> RESTResponseType:
         """Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.
 
-        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 403 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
+        Is the traces behind your evaluations — one per model call an evaluation made, carrying its input, output, model and timing — narrowed by any of sessionId, runName and datasetName.  Scoped by org AND by project: the project is the caller's server-minted scope, not a parameter, so it cannot be widened by asking. Requires a validated principal; 401 without one. Traces live in the datastore, so a deployment with none wired answers 503 rather than an empty page.
 
         :param session_id: SessionID narrows to one session, which for an evaluation is one run.
         :type session_id: str
@@ -2738,7 +2753,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TraceList",
+            '200': "EvalTraceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2800,7 +2815,8 @@ class EvalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2831,7 +2847,7 @@ class EvalApi:
     @validate_call
     def post_eval_datasets(
         self,
-        dataset_req: DatasetReq,
+        eval_dataset_req: EvalDatasetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2844,13 +2860,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DatasetView:
+    ) -> EvalDatasetView:
         """Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.
 
-        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 403 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
+        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 401 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
 
-        :param dataset_req: (required)
-        :type dataset_req: DatasetReq
+        :param eval_dataset_req: (required)
+        :type eval_dataset_req: EvalDatasetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2874,7 +2890,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_datasets_serialize(
-            dataset_req=dataset_req,
+            eval_dataset_req=eval_dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2882,7 +2898,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DatasetView",
+            '201': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2898,7 +2914,7 @@ class EvalApi:
     @validate_call
     def post_eval_datasets_with_http_info(
         self,
-        dataset_req: DatasetReq,
+        eval_dataset_req: EvalDatasetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2911,13 +2927,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DatasetView]:
+    ) -> ApiResponse[EvalDatasetView]:
         """Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.
 
-        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 403 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
+        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 401 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
 
-        :param dataset_req: (required)
-        :type dataset_req: DatasetReq
+        :param eval_dataset_req: (required)
+        :type eval_dataset_req: EvalDatasetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2941,7 +2957,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_datasets_serialize(
-            dataset_req=dataset_req,
+            eval_dataset_req=eval_dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2949,7 +2965,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DatasetView",
+            '201': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2965,7 +2981,7 @@ class EvalApi:
     @validate_call
     def post_eval_datasets_without_preload_content(
         self,
-        dataset_req: DatasetReq,
+        eval_dataset_req: EvalDatasetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2981,10 +2997,10 @@ class EvalApi:
     ) -> RESTResponseType:
         """Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.
 
-        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 403 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
+        Writes a dataset — the named set of graded examples a run scores a model against — under the caller's org and answers 201 with it.  The NAME is the key, not an id: posting a name the org already has updates that dataset's description and metadata and keeps its original creation time, so this is create-or-edit and never a duplicate. Its items are untouched.  Requires a validated principal; 401 without one. The org comes from the validated owner claim, never from a client X-Org-Id, so a dataset can only ever be written under the caller's own tenant. A description over 64 KiB is 400.
 
-        :param dataset_req: (required)
-        :type dataset_req: DatasetReq
+        :param eval_dataset_req: (required)
+        :type eval_dataset_req: EvalDatasetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3008,7 +3024,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_datasets_serialize(
-            dataset_req=dataset_req,
+            eval_dataset_req=eval_dataset_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3016,7 +3032,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DatasetView",
+            '201': "EvalDatasetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3027,7 +3043,7 @@ class EvalApi:
 
     def _post_eval_datasets_serialize(
         self,
-        dataset_req,
+        eval_dataset_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3053,15 +3069,16 @@ class EvalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if dataset_req is not None:
-            _body_params = dataset_req
+        if eval_dataset_req is not None:
+            _body_params = eval_dataset_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3106,7 +3123,7 @@ class EvalApi:
     def post_eval_datasets_by_name_items(
         self,
         name: StrictStr,
-        item_req: ItemReq,
+        eval_item_req: EvalItemReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3119,15 +3136,15 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ItemView:
+    ) -> EvalItemView:
         """Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.
 
-        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 403 without one.
+        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 401 without one.
 
         :param name: (required)
         :type name: str
-        :param item_req: (required)
-        :type item_req: ItemReq
+        :param eval_item_req: (required)
+        :type eval_item_req: EvalItemReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3152,7 +3169,7 @@ class EvalApi:
 
         _param = self._post_eval_datasets_by_name_items_serialize(
             name=name,
-            item_req=item_req,
+            eval_item_req=eval_item_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3160,7 +3177,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ItemView",
+            '201': "EvalItemView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3177,7 +3194,7 @@ class EvalApi:
     def post_eval_datasets_by_name_items_with_http_info(
         self,
         name: StrictStr,
-        item_req: ItemReq,
+        eval_item_req: EvalItemReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3190,15 +3207,15 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ItemView]:
+    ) -> ApiResponse[EvalItemView]:
         """Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.
 
-        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 403 without one.
+        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 401 without one.
 
         :param name: (required)
         :type name: str
-        :param item_req: (required)
-        :type item_req: ItemReq
+        :param eval_item_req: (required)
+        :type eval_item_req: EvalItemReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3223,7 +3240,7 @@ class EvalApi:
 
         _param = self._post_eval_datasets_by_name_items_serialize(
             name=name,
-            item_req=item_req,
+            eval_item_req=eval_item_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3231,7 +3248,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ItemView",
+            '201': "EvalItemView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3248,7 +3265,7 @@ class EvalApi:
     def post_eval_datasets_by_name_items_without_preload_content(
         self,
         name: StrictStr,
-        item_req: ItemReq,
+        eval_item_req: EvalItemReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3264,12 +3281,12 @@ class EvalApi:
     ) -> RESTResponseType:
         """Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.
 
-        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 403 without one.
+        Writes one graded example — its input, its expected output, free-form metadata and a status — into the dataset named in the path, and answers 201 with it.  That dataset MUST already exist for this org: an unknown one is 404, never a silent create. Requires a validated principal; 401 without one.
 
         :param name: (required)
         :type name: str
-        :param item_req: (required)
-        :type item_req: ItemReq
+        :param eval_item_req: (required)
+        :type eval_item_req: EvalItemReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3294,7 +3311,7 @@ class EvalApi:
 
         _param = self._post_eval_datasets_by_name_items_serialize(
             name=name,
-            item_req=item_req,
+            eval_item_req=eval_item_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3302,7 +3319,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ItemView",
+            '201': "EvalItemView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3314,7 +3331,7 @@ class EvalApi:
     def _post_eval_datasets_by_name_items_serialize(
         self,
         name,
-        item_req,
+        eval_item_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3342,15 +3359,16 @@ class EvalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if item_req is not None:
-            _body_params = item_req
+        if eval_item_req is not None:
+            _body_params = eval_item_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3394,7 +3412,7 @@ class EvalApi:
     @validate_call
     def post_eval_evaluators(
         self,
-        evaluator_req: EvaluatorReq,
+        eval_evaluator_req: EvalEvaluatorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3407,13 +3425,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EvaluatorView:
+    ) -> EvalEvaluatorView:
         """Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.
 
-        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 403 without one.
+        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 401 without one.
 
-        :param evaluator_req: (required)
-        :type evaluator_req: EvaluatorReq
+        :param eval_evaluator_req: (required)
+        :type eval_evaluator_req: EvalEvaluatorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3437,7 +3455,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_evaluators_serialize(
-            evaluator_req=evaluator_req,
+            eval_evaluator_req=eval_evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3445,7 +3463,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EvaluatorView",
+            '201': "EvalEvaluatorView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3461,7 +3479,7 @@ class EvalApi:
     @validate_call
     def post_eval_evaluators_with_http_info(
         self,
-        evaluator_req: EvaluatorReq,
+        eval_evaluator_req: EvalEvaluatorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3474,13 +3492,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EvaluatorView]:
+    ) -> ApiResponse[EvalEvaluatorView]:
         """Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.
 
-        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 403 without one.
+        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 401 without one.
 
-        :param evaluator_req: (required)
-        :type evaluator_req: EvaluatorReq
+        :param eval_evaluator_req: (required)
+        :type eval_evaluator_req: EvalEvaluatorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3504,7 +3522,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_evaluators_serialize(
-            evaluator_req=evaluator_req,
+            eval_evaluator_req=eval_evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3512,7 +3530,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EvaluatorView",
+            '201': "EvalEvaluatorView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3528,7 +3546,7 @@ class EvalApi:
     @validate_call
     def post_eval_evaluators_without_preload_content(
         self,
-        evaluator_req: EvaluatorReq,
+        eval_evaluator_req: EvalEvaluatorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3544,10 +3562,10 @@ class EvalApi:
     ) -> RESTResponseType:
         """Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.
 
-        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 403 without one.
+        Saves a reusable judge for the caller's org — the judge model and the written criteria it grades against — and answers 201 with it.  Like a dataset, the NAME is the key: re-posting a name edits that judge rather than adding a second one. Requires a validated principal; 401 without one.
 
-        :param evaluator_req: (required)
-        :type evaluator_req: EvaluatorReq
+        :param eval_evaluator_req: (required)
+        :type eval_evaluator_req: EvalEvaluatorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3571,7 +3589,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_evaluators_serialize(
-            evaluator_req=evaluator_req,
+            eval_evaluator_req=eval_evaluator_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3579,7 +3597,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EvaluatorView",
+            '201': "EvalEvaluatorView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3590,7 +3608,7 @@ class EvalApi:
 
     def _post_eval_evaluators_serialize(
         self,
-        evaluator_req,
+        eval_evaluator_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3616,15 +3634,16 @@ class EvalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if evaluator_req is not None:
-            _body_params = evaluator_req
+        if eval_evaluator_req is not None:
+            _body_params = eval_evaluator_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3668,7 +3687,7 @@ class EvalApi:
     @validate_call
     def post_eval_rubrics(
         self,
-        score_config_req: ScoreConfigReq,
+        eval_score_config_req: EvalScoreConfigReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3681,13 +3700,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ScoreConfigView:
+    ) -> EvalScoreConfigView:
         """Defines the shape of one score name for the caller's org and answers 201 with it.
 
-        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 403 without one.
+        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 401 without one.
 
-        :param score_config_req: (required)
-        :type score_config_req: ScoreConfigReq
+        :param eval_score_config_req: (required)
+        :type eval_score_config_req: EvalScoreConfigReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3711,7 +3730,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_rubrics_serialize(
-            score_config_req=score_config_req,
+            eval_score_config_req=eval_score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3719,7 +3738,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreConfigView",
+            '201': "EvalScoreConfigView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3735,7 +3754,7 @@ class EvalApi:
     @validate_call
     def post_eval_rubrics_with_http_info(
         self,
-        score_config_req: ScoreConfigReq,
+        eval_score_config_req: EvalScoreConfigReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3748,13 +3767,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ScoreConfigView]:
+    ) -> ApiResponse[EvalScoreConfigView]:
         """Defines the shape of one score name for the caller's org and answers 201 with it.
 
-        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 403 without one.
+        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 401 without one.
 
-        :param score_config_req: (required)
-        :type score_config_req: ScoreConfigReq
+        :param eval_score_config_req: (required)
+        :type eval_score_config_req: EvalScoreConfigReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3778,7 +3797,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_rubrics_serialize(
-            score_config_req=score_config_req,
+            eval_score_config_req=eval_score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3786,7 +3805,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreConfigView",
+            '201': "EvalScoreConfigView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3802,7 +3821,7 @@ class EvalApi:
     @validate_call
     def post_eval_rubrics_without_preload_content(
         self,
-        score_config_req: ScoreConfigReq,
+        eval_score_config_req: EvalScoreConfigReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3818,10 +3837,10 @@ class EvalApi:
     ) -> RESTResponseType:
         """Defines the shape of one score name for the caller's org and answers 201 with it.
 
-        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 403 without one.
+        Defines the shape of one score name for the caller's org and answers 201 with it.  This is the integrity contract, not documentation: once a rubric exists for a name, every score recorded under that name is checked against it and the rubric's data type is AUTHORITATIVE — a caller cannot claim a different one. Out-of-range values, unlisted labels and non-finite numbers are refused at write time.  A CATEGORICAL rubric with no categories is 400, as is a non-finite bound or a minValue above maxValue. Requires a validated principal; 401 without one.
 
-        :param score_config_req: (required)
-        :type score_config_req: ScoreConfigReq
+        :param eval_score_config_req: (required)
+        :type eval_score_config_req: EvalScoreConfigReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3845,7 +3864,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_rubrics_serialize(
-            score_config_req=score_config_req,
+            eval_score_config_req=eval_score_config_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3853,7 +3872,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreConfigView",
+            '201': "EvalScoreConfigView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3864,7 +3883,7 @@ class EvalApi:
 
     def _post_eval_rubrics_serialize(
         self,
-        score_config_req,
+        eval_score_config_req,
         _request_auth,
         _content_type,
         _headers,
@@ -3890,15 +3909,16 @@ class EvalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if score_config_req is not None:
-            _body_params = score_config_req
+        if eval_score_config_req is not None:
+            _body_params = eval_score_config_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3942,7 +3962,7 @@ class EvalApi:
     @validate_call
     def post_eval_runs(
         self,
-        run_request: RunRequest,
+        eval_run_request: EvalRunRequest,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -3956,13 +3976,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunSummary:
+    ) -> EvalRunSummary:
         """Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.
 
-        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 403 without one.
+        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 401 without one.
 
-        :param run_request: (required)
-        :type run_request: RunRequest
+        :param eval_run_request: (required)
+        :type eval_run_request: EvalRunRequest
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -3988,7 +4008,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_runs_serialize(
-            run_request=run_request,
+            eval_run_request=eval_run_request,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -3997,8 +4017,8 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunSummary",
-            '502': "RunSummary",
+            '200': "EvalRunSummary",
+            '502': "EvalRunSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4014,7 +4034,7 @@ class EvalApi:
     @validate_call
     def post_eval_runs_with_http_info(
         self,
-        run_request: RunRequest,
+        eval_run_request: EvalRunRequest,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -4028,13 +4048,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunSummary]:
+    ) -> ApiResponse[EvalRunSummary]:
         """Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.
 
-        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 403 without one.
+        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 401 without one.
 
-        :param run_request: (required)
-        :type run_request: RunRequest
+        :param eval_run_request: (required)
+        :type eval_run_request: EvalRunRequest
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -4060,7 +4080,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_runs_serialize(
-            run_request=run_request,
+            eval_run_request=eval_run_request,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4069,8 +4089,8 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunSummary",
-            '502': "RunSummary",
+            '200': "EvalRunSummary",
+            '502': "EvalRunSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4086,7 +4106,7 @@ class EvalApi:
     @validate_call
     def post_eval_runs_without_preload_content(
         self,
-        run_request: RunRequest,
+        eval_run_request: EvalRunRequest,
         authorization: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -4103,10 +4123,10 @@ class EvalApi:
     ) -> RESTResponseType:
         """Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.
 
-        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 403 without one.
+        Runs a real evaluation and answers the summary when it is finished — this is synchronous work, not a job id.  For each ACTIVE example in the dataset it calls the model under test, records a trace, calls the LLM-as-judge, and records the judge's score with its reasoning. The answer carries the per-item results (item id, trace id, score, output or error) alongside items, scored and avgScore.  The dataset must belong to the caller's org (404 otherwise) and must have at least one ACTIVE example (422 otherwise).  It runs as YOU: the caller's own Authorization bearer drives the model gateway, so a request without one is 401 rather than a run made anonymously or under a service identity. Only a non-reversible hash of that credential is recorded on the traces.  Bounded and honest about it: an org may have at most 4 runs in flight and the fifth is 429 rather than queued, and the whole run is capped at 10 minutes — examples past the deadline come back with an error instead of a score, and scored counts only real successes. A run where NOTHING scored answers 502, not a 200 that looks like an evaluation. A run must be able to persist what it produces, so a deployment with no datastore wired is 503 up front. Requires a validated principal; 401 without one.
 
-        :param run_request: (required)
-        :type run_request: RunRequest
+        :param eval_run_request: (required)
+        :type eval_run_request: EvalRunRequest
         :param authorization:
         :type authorization: str
         :param _request_timeout: timeout setting for this request. If one
@@ -4132,7 +4152,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_runs_serialize(
-            run_request=run_request,
+            eval_run_request=eval_run_request,
             authorization=authorization,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -4141,8 +4161,8 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunSummary",
-            '502': "RunSummary",
+            '200': "EvalRunSummary",
+            '502': "EvalRunSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4153,7 +4173,7 @@ class EvalApi:
 
     def _post_eval_runs_serialize(
         self,
-        run_request,
+        eval_run_request,
         authorization,
         _request_auth,
         _content_type,
@@ -4182,15 +4202,16 @@ class EvalApi:
             _header_params['Authorization'] = authorization
         # process the form parameters
         # process the body parameter
-        if run_request is not None:
-            _body_params = run_request
+        if eval_run_request is not None:
+            _body_params = eval_run_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4234,7 +4255,7 @@ class EvalApi:
     @validate_call
     def post_eval_scores(
         self,
-        score_req: ScoreReq,
+        eval_score_req: EvalScoreReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4247,13 +4268,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ScoreView:
+    ) -> EvalScoreView:
         """Files one score event for the caller's org and answers 201 with it.
 
-        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 403 without one, and the org is stamped from the validated claim rather than read off the body.
+        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 401 without one, and the org is stamped from the validated claim rather than read off the body.
 
-        :param score_req: (required)
-        :type score_req: ScoreReq
+        :param eval_score_req: (required)
+        :type eval_score_req: EvalScoreReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4277,7 +4298,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_scores_serialize(
-            score_req=score_req,
+            eval_score_req=eval_score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4285,7 +4306,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreView",
+            '201': "EvalScoreView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4301,7 +4322,7 @@ class EvalApi:
     @validate_call
     def post_eval_scores_with_http_info(
         self,
-        score_req: ScoreReq,
+        eval_score_req: EvalScoreReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4314,13 +4335,13 @@ class EvalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ScoreView]:
+    ) -> ApiResponse[EvalScoreView]:
         """Files one score event for the caller's org and answers 201 with it.
 
-        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 403 without one, and the org is stamped from the validated claim rather than read off the body.
+        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 401 without one, and the org is stamped from the validated claim rather than read off the body.
 
-        :param score_req: (required)
-        :type score_req: ScoreReq
+        :param eval_score_req: (required)
+        :type eval_score_req: EvalScoreReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4344,7 +4365,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_scores_serialize(
-            score_req=score_req,
+            eval_score_req=eval_score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4352,7 +4373,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreView",
+            '201': "EvalScoreView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4368,7 +4389,7 @@ class EvalApi:
     @validate_call
     def post_eval_scores_without_preload_content(
         self,
-        score_req: ScoreReq,
+        eval_score_req: EvalScoreReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4384,10 +4405,10 @@ class EvalApi:
     ) -> RESTResponseType:
         """Files one score event for the caller's org and answers 201 with it.
 
-        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 403 without one, and the org is stamped from the validated claim rather than read off the body.
+        Files one score event for the caller's org and answers 201 with it.  This is how human review and out-of-band graders land beside the automatic ones: name the score, give it a value (or a stringValue for a categorical label), and attach it to a trace, a run, a dataset example, or any combination.  Scores are validated fail-closed. A value must be FINITE — NaN and Inf are 400 — and if the org has declared a rubric for this name, that rubric decides the type and the value must satisfy it: inside the numeric bounds, or one of the allowed categories. A caller cannot override the declared type by sending a different dataType.  A score is TELEMETRY, not metadata, so it needs the datastore: a deployment with none wired answers 503 rather than accepting a score it cannot persist. Requires a validated principal; 401 without one, and the org is stamped from the validated claim rather than read off the body.
 
-        :param score_req: (required)
-        :type score_req: ScoreReq
+        :param eval_score_req: (required)
+        :type eval_score_req: EvalScoreReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4411,7 +4432,7 @@ class EvalApi:
         """ # noqa: E501
 
         _param = self._post_eval_scores_serialize(
-            score_req=score_req,
+            eval_score_req=eval_score_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4419,7 +4440,7 @@ class EvalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ScoreView",
+            '201': "EvalScoreView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4430,7 +4451,7 @@ class EvalApi:
 
     def _post_eval_scores_serialize(
         self,
-        score_req,
+        eval_score_req,
         _request_auth,
         _content_type,
         _headers,
@@ -4456,15 +4477,16 @@ class EvalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if score_req is not None:
-            _body_params = score_req
+        if eval_score_req is not None:
+            _body_params = eval_score_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

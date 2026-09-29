@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.allowlist_put_in import AllowlistPutIn
-from hanzoai.cloud.models.allowlist_view import AllowlistView
-from hanzoai.cloud.models.approve_pairing_in import ApprovePairingIn
-from hanzoai.cloud.models.channel_agents import ChannelAgents
-from hanzoai.cloud.models.channel_agents_put import ChannelAgentsPut
-from hanzoai.cloud.models.chat_channels import ChatChannels
-from hanzoai.cloud.models.inbox_page import InboxPage
-from hanzoai.cloud.models.pairing_approved import PairingApproved
-from hanzoai.cloud.models.pairing_queue import PairingQueue
+from hanzoai.cloud.models.channel_allowlist_put_in import ChannelAllowlistPutIn
+from hanzoai.cloud.models.channel_allowlist_view import ChannelAllowlistView
+from hanzoai.cloud.models.channel_approve_pairing_in import ChannelApprovePairingIn
+from hanzoai.cloud.models.channel_channel_agents import ChannelChannelAgents
+from hanzoai.cloud.models.channel_channel_agents_put import ChannelChannelAgentsPut
+from hanzoai.cloud.models.channel_chat_channels import ChannelChatChannels
+from hanzoai.cloud.models.channel_inbox_page import ChannelInboxPage
+from hanzoai.cloud.models.channel_pairing_approved import ChannelPairingApproved
+from hanzoai.cloud.models.channel_pairing_queue import ChannelPairingQueue
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -62,7 +62,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChatChannels:
+    ) -> ChannelChatChannels:
         """Reports every chat channel this org can send through, and whether it can send through it right now.
 
         Reports every chat channel this org can send through, and whether it can send through it right now.  A channel appears here whether or not it is connected — an empty list would leave a caller unable to tell \"this org has no Slack\" from \"Slack is down\", which are different problems with different fixes. Each entry carries the connection behind it, so the answer to \"why can I not post?\" is in the same response as the channel that cannot post.
@@ -97,7 +97,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatChannels",
+            '200': "ChannelChatChannels",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -125,7 +125,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChatChannels]:
+    ) -> ApiResponse[ChannelChatChannels]:
         """Reports every chat channel this org can send through, and whether it can send through it right now.
 
         Reports every chat channel this org can send through, and whether it can send through it right now.  A channel appears here whether or not it is connected — an empty list would leave a caller unable to tell \"this org has no Slack\" from \"Slack is down\", which are different problems with different fixes. Each entry carries the connection behind it, so the answer to \"why can I not post?\" is in the same response as the channel that cannot post.
@@ -160,7 +160,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatChannels",
+            '200': "ChannelChatChannels",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -223,7 +223,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatChannels",
+            '200': "ChannelChatChannels",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -265,7 +265,8 @@ class ChannelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -309,7 +310,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChannelAgents:
+    ) -> ChannelChannelAgents:
         """Returns which agent answers the caller org's channel: the default and every room bound to another agent.
 
         Returns which agent answers the caller org's channel: the default and every room bound to another agent.
@@ -347,7 +348,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -376,7 +377,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChannelAgents]:
+    ) -> ApiResponse[ChannelChannelAgents]:
         """Returns which agent answers the caller org's channel: the default and every room bound to another agent.
 
         Returns which agent answers the caller org's channel: the default and every room bound to another agent.
@@ -414,7 +415,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -481,7 +482,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -528,7 +529,8 @@ class ChannelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -572,7 +574,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AllowlistView:
+    ) -> ChannelAllowlistView:
         """Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups.
 
         Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
@@ -610,7 +612,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -639,7 +641,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AllowlistView]:
+    ) -> ApiResponse[ChannelAllowlistView]:
         """Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups.
 
         Returns the caller org's access policy for one channel: whether DMs are pairing-gated, allowlisted or open, whether group rooms are open, allowlisted or disabled, the config-managed DM and group allow entries, the senders approved through PAIRING (read-only here), and the org's named access groups. An unknown channel is a 404.
@@ -677,7 +679,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -744,7 +746,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -791,7 +793,8 @@ class ChannelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -836,7 +839,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InboxPage:
+    ) -> ChannelInboxPage:
         """Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into.
 
         Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. Only this org's messages are stored under this org, so the feed can never carry another tenant's chat.
@@ -877,7 +880,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxPage",
+            '200': "ChannelInboxPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -907,7 +910,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InboxPage]:
+    ) -> ApiResponse[ChannelInboxPage]:
         """Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into.
 
         Returns the messages people have sent to the caller org's connected chat bots, oldest first, in the portable envelope shape every transport normalises into. It is a CURSOR feed, not a search: pass the returned cursor back as `since` to get only what has arrived since. Only this org's messages are stored under this org, so the feed can never carry another tenant's chat.
@@ -948,7 +951,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxPage",
+            '200': "ChannelInboxPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1019,7 +1022,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxPage",
+            '200': "ChannelInboxPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1071,7 +1074,8 @@ class ChannelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1114,7 +1118,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PairingQueue:
+    ) -> ChannelPairingQueue:
         """Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet.
 
         Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged.
@@ -1149,7 +1153,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingQueue",
+            '200': "ChannelPairingQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1177,7 +1181,7 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PairingQueue]:
+    ) -> ApiResponse[ChannelPairingQueue]:
         """Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet.
 
         Returns the pairing requests waiting for the caller org to approve — one per person who messaged a connected bot on a channel whose DM policy is \"pairing\" and who is not allowed yet. Each row carries the CODE an org admin passes to POST /v1/channel/pairing/approve. Expired requests are not returned. Codes are capability strings: they are shown here, and never logged.
@@ -1212,7 +1216,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingQueue",
+            '200': "ChannelPairingQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1275,7 +1279,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingQueue",
+            '200': "ChannelPairingQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1317,7 +1321,8 @@ class ChannelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1364,7 +1369,7 @@ class ChannelApi:
     ) -> None:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 401 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
@@ -1430,7 +1435,7 @@ class ChannelApi:
     ) -> ApiResponse[None]:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 401 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
@@ -1496,7 +1501,7 @@ class ChannelApi:
     ) -> RESTResponseType:
         """Send a message from your org's bot to one chat room
 
-        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 403 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
+        Delivers text, attachments and actions to one room on a connected chat transport — discord, github, linear, slack, teams, telegram or whatsapp — and answers that transport's own receipt, the `messageId` it assigned and the Unix second it landed. An unknown channel is a 404.  The body is the envelope's NARROW outbound projection: `room`, `text`, `attachments`, `actions`, `replyTo` and `idempotency`, and nothing else. Identity is not a field — the channel is the path segment and the sender is the caller's validated org — so a body carrying `sender`, `account` or `channel` is refused with 400 rather than having it silently dropped. `room.id` is required, and so is something to say: text, or at least one attachment.  Requires a validated principal; 401 without one. The room must already belong to the caller's org — each transport verifies the binding itself, so a room this org has not bound is 403 and a room whose route the bot has never learned is 409, meaning someone has to message the bot there first. A route learned only so a pairing reply could be delivered lasts exactly as long as that pairing request does, so a room whose sender was never approved goes back to 409 within the hour. A transport that fails answers 502 carrying status and shape only, never a token.  Sending is at-most-once only if you ask for it: pass an `idempotency` string and a replay answers 200 with the PRIOR receipt instead of sending twice, while a send that fails releases the key so the caller can re-attempt. Bodies over 1 MiB are refused. Every transport currently renders text only, so attachments and actions are flattened deterministically to one line each after the text rather than dropped.
 
         :param channel: (required)
         :type channel: str
@@ -1599,7 +1604,7 @@ class ChannelApi:
     @validate_call
     def post_channel_pairing_approve(
         self,
-        approve_pairing_in: ApprovePairingIn,
+        channel_approve_pairing_in: ChannelApprovePairingIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1612,13 +1617,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PairingApproved:
+    ) -> ChannelPairingApproved:
         """Turns one pending pairing code into a standing allow entry, so that person can DM the org's bot on that channel from now on.
 
         Turns one pending pairing code into a standing allow entry, so that person can DM the org's bot on that channel from now on. It requires ORG ADMIN, not merely membership. The first approval an org makes on a channel also bootstraps that sender as the channel's owner, which the answer reports. An unknown or expired code is a 404, and a code always belongs to exactly one org, so it can never approve someone into another tenant.
 
-        :param approve_pairing_in: (required)
-        :type approve_pairing_in: ApprovePairingIn
+        :param channel_approve_pairing_in: (required)
+        :type channel_approve_pairing_in: ChannelApprovePairingIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1642,7 +1647,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._post_channel_pairing_approve_serialize(
-            approve_pairing_in=approve_pairing_in,
+            channel_approve_pairing_in=channel_approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1650,7 +1655,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingApproved",
+            '200': "ChannelPairingApproved",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1666,7 +1671,7 @@ class ChannelApi:
     @validate_call
     def post_channel_pairing_approve_with_http_info(
         self,
-        approve_pairing_in: ApprovePairingIn,
+        channel_approve_pairing_in: ChannelApprovePairingIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1679,13 +1684,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PairingApproved]:
+    ) -> ApiResponse[ChannelPairingApproved]:
         """Turns one pending pairing code into a standing allow entry, so that person can DM the org's bot on that channel from now on.
 
         Turns one pending pairing code into a standing allow entry, so that person can DM the org's bot on that channel from now on. It requires ORG ADMIN, not merely membership. The first approval an org makes on a channel also bootstraps that sender as the channel's owner, which the answer reports. An unknown or expired code is a 404, and a code always belongs to exactly one org, so it can never approve someone into another tenant.
 
-        :param approve_pairing_in: (required)
-        :type approve_pairing_in: ApprovePairingIn
+        :param channel_approve_pairing_in: (required)
+        :type channel_approve_pairing_in: ChannelApprovePairingIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1709,7 +1714,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._post_channel_pairing_approve_serialize(
-            approve_pairing_in=approve_pairing_in,
+            channel_approve_pairing_in=channel_approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1717,7 +1722,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingApproved",
+            '200': "ChannelPairingApproved",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1733,7 +1738,7 @@ class ChannelApi:
     @validate_call
     def post_channel_pairing_approve_without_preload_content(
         self,
-        approve_pairing_in: ApprovePairingIn,
+        channel_approve_pairing_in: ChannelApprovePairingIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1751,8 +1756,8 @@ class ChannelApi:
 
         Turns one pending pairing code into a standing allow entry, so that person can DM the org's bot on that channel from now on. It requires ORG ADMIN, not merely membership. The first approval an org makes on a channel also bootstraps that sender as the channel's owner, which the answer reports. An unknown or expired code is a 404, and a code always belongs to exactly one org, so it can never approve someone into another tenant.
 
-        :param approve_pairing_in: (required)
-        :type approve_pairing_in: ApprovePairingIn
+        :param channel_approve_pairing_in: (required)
+        :type channel_approve_pairing_in: ChannelApprovePairingIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1776,7 +1781,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._post_channel_pairing_approve_serialize(
-            approve_pairing_in=approve_pairing_in,
+            channel_approve_pairing_in=channel_approve_pairing_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1784,7 +1789,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PairingApproved",
+            '200': "ChannelPairingApproved",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1795,7 +1800,7 @@ class ChannelApi:
 
     def _post_channel_pairing_approve_serialize(
         self,
-        approve_pairing_in,
+        channel_approve_pairing_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1821,15 +1826,16 @@ class ChannelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if approve_pairing_in is not None:
-            _body_params = approve_pairing_in
+        if channel_approve_pairing_in is not None:
+            _body_params = channel_approve_pairing_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1873,7 +1879,7 @@ class ChannelApi:
     @validate_call
     def put_channel_agent(
         self,
-        channel_agents_put: ChannelAgentsPut,
+        channel_channel_agents_put: ChannelChannelAgentsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1886,13 +1892,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChannelAgents:
+    ) -> ChannelChannelAgents:
         """Binds agents to the caller org's channel and answers the bindings as GET would.
 
         Binds agents to the caller org's channel and answers the bindings as GET would. It requires ORG ADMIN. The agent is named by its ref — the name an org gave it at POST /v1/agent, or a built-in such as dev, des or vi.
 
-        :param channel_agents_put: (required)
-        :type channel_agents_put: ChannelAgentsPut
+        :param channel_channel_agents_put: (required)
+        :type channel_channel_agents_put: ChannelChannelAgentsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1916,7 +1922,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_agent_serialize(
-            channel_agents_put=channel_agents_put,
+            channel_channel_agents_put=channel_channel_agents_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1924,7 +1930,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1940,7 +1946,7 @@ class ChannelApi:
     @validate_call
     def put_channel_agent_with_http_info(
         self,
-        channel_agents_put: ChannelAgentsPut,
+        channel_channel_agents_put: ChannelChannelAgentsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1953,13 +1959,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChannelAgents]:
+    ) -> ApiResponse[ChannelChannelAgents]:
         """Binds agents to the caller org's channel and answers the bindings as GET would.
 
         Binds agents to the caller org's channel and answers the bindings as GET would. It requires ORG ADMIN. The agent is named by its ref — the name an org gave it at POST /v1/agent, or a built-in such as dev, des or vi.
 
-        :param channel_agents_put: (required)
-        :type channel_agents_put: ChannelAgentsPut
+        :param channel_channel_agents_put: (required)
+        :type channel_channel_agents_put: ChannelChannelAgentsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1983,7 +1989,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_agent_serialize(
-            channel_agents_put=channel_agents_put,
+            channel_channel_agents_put=channel_channel_agents_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1991,7 +1997,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2007,7 +2013,7 @@ class ChannelApi:
     @validate_call
     def put_channel_agent_without_preload_content(
         self,
-        channel_agents_put: ChannelAgentsPut,
+        channel_channel_agents_put: ChannelChannelAgentsPut,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2025,8 +2031,8 @@ class ChannelApi:
 
         Binds agents to the caller org's channel and answers the bindings as GET would. It requires ORG ADMIN. The agent is named by its ref — the name an org gave it at POST /v1/agent, or a built-in such as dev, des or vi.
 
-        :param channel_agents_put: (required)
-        :type channel_agents_put: ChannelAgentsPut
+        :param channel_channel_agents_put: (required)
+        :type channel_channel_agents_put: ChannelChannelAgentsPut
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2050,7 +2056,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_agent_serialize(
-            channel_agents_put=channel_agents_put,
+            channel_channel_agents_put=channel_channel_agents_put,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2058,7 +2064,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelAgents",
+            '200': "ChannelChannelAgents",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2069,7 +2075,7 @@ class ChannelApi:
 
     def _put_channel_agent_serialize(
         self,
-        channel_agents_put,
+        channel_channel_agents_put,
         _request_auth,
         _content_type,
         _headers,
@@ -2095,15 +2101,16 @@ class ChannelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if channel_agents_put is not None:
-            _body_params = channel_agents_put
+        if channel_channel_agents_put is not None:
+            _body_params = channel_channel_agents_put
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2147,7 +2154,7 @@ class ChannelApi:
     @validate_call
     def put_channel_allowlist(
         self,
-        allowlist_put_in: AllowlistPutIn,
+        channel_allowlist_put_in: ChannelAllowlistPutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2160,13 +2167,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AllowlistView:
+    ) -> ChannelAllowlistView:
         """Edits the caller org's access policy for one channel and answers the policy as GET would, so both verbs return ONE shape.
 
         Edits the caller org's access policy for one channel and answers the policy as GET would, so both verbs return ONE shape. It requires ORG ADMIN. Every field but `channel` is optional and applied only when provided: an empty policy string leaves that policy alone, an absent or null list leaves that list alone, and an EMPTY list clears it. It writes only CONFIG-sourced allow entries — senders approved through pairing belong to the approval flow, so a policy edit can never revoke one. An unknown channel is a 404.
 
-        :param allowlist_put_in: (required)
-        :type allowlist_put_in: AllowlistPutIn
+        :param channel_allowlist_put_in: (required)
+        :type channel_allowlist_put_in: ChannelAllowlistPutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2190,7 +2197,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_allowlist_serialize(
-            allowlist_put_in=allowlist_put_in,
+            channel_allowlist_put_in=channel_allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2198,7 +2205,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2214,7 +2221,7 @@ class ChannelApi:
     @validate_call
     def put_channel_allowlist_with_http_info(
         self,
-        allowlist_put_in: AllowlistPutIn,
+        channel_allowlist_put_in: ChannelAllowlistPutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2227,13 +2234,13 @@ class ChannelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AllowlistView]:
+    ) -> ApiResponse[ChannelAllowlistView]:
         """Edits the caller org's access policy for one channel and answers the policy as GET would, so both verbs return ONE shape.
 
         Edits the caller org's access policy for one channel and answers the policy as GET would, so both verbs return ONE shape. It requires ORG ADMIN. Every field but `channel` is optional and applied only when provided: an empty policy string leaves that policy alone, an absent or null list leaves that list alone, and an EMPTY list clears it. It writes only CONFIG-sourced allow entries — senders approved through pairing belong to the approval flow, so a policy edit can never revoke one. An unknown channel is a 404.
 
-        :param allowlist_put_in: (required)
-        :type allowlist_put_in: AllowlistPutIn
+        :param channel_allowlist_put_in: (required)
+        :type channel_allowlist_put_in: ChannelAllowlistPutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2257,7 +2264,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_allowlist_serialize(
-            allowlist_put_in=allowlist_put_in,
+            channel_allowlist_put_in=channel_allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2265,7 +2272,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2281,7 +2288,7 @@ class ChannelApi:
     @validate_call
     def put_channel_allowlist_without_preload_content(
         self,
-        allowlist_put_in: AllowlistPutIn,
+        channel_allowlist_put_in: ChannelAllowlistPutIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2299,8 +2306,8 @@ class ChannelApi:
 
         Edits the caller org's access policy for one channel and answers the policy as GET would, so both verbs return ONE shape. It requires ORG ADMIN. Every field but `channel` is optional and applied only when provided: an empty policy string leaves that policy alone, an absent or null list leaves that list alone, and an EMPTY list clears it. It writes only CONFIG-sourced allow entries — senders approved through pairing belong to the approval flow, so a policy edit can never revoke one. An unknown channel is a 404.
 
-        :param allowlist_put_in: (required)
-        :type allowlist_put_in: AllowlistPutIn
+        :param channel_allowlist_put_in: (required)
+        :type channel_allowlist_put_in: ChannelAllowlistPutIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2324,7 +2331,7 @@ class ChannelApi:
         """ # noqa: E501
 
         _param = self._put_channel_allowlist_serialize(
-            allowlist_put_in=allowlist_put_in,
+            channel_allowlist_put_in=channel_allowlist_put_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2332,7 +2339,7 @@ class ChannelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AllowlistView",
+            '200': "ChannelAllowlistView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2343,7 +2350,7 @@ class ChannelApi:
 
     def _put_channel_allowlist_serialize(
         self,
-        allowlist_put_in,
+        channel_allowlist_put_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2369,15 +2376,16 @@ class ChannelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if allowlist_put_in is not None:
-            _body_params = allowlist_put_in
+        if channel_allowlist_put_in is not None:
+            _body_params = channel_allowlist_put_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,12 +19,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.category import Category
-from hanzoai.cloud.models.category_in import CategoryIn
-from hanzoai.cloud.models.deleted import Deleted
-from hanzoai.cloud.models.taxon import Taxon
-from hanzoai.cloud.models.taxon_in import TaxonIn
-from hanzoai.cloud.models.taxonomy import Taxonomy
+from hanzoai.cloud.models.taxonomy_category import TaxonomyCategory
+from hanzoai.cloud.models.taxonomy_category_in import TaxonomyCategoryIn
+from hanzoai.cloud.models.taxonomy_deleted import TaxonomyDeleted
+from hanzoai.cloud.models.taxonomy_taxon import TaxonomyTaxon
+from hanzoai.cloud.models.taxonomy_taxon_in import TaxonomyTaxonIn
+from hanzoai.cloud.models.taxonomy_taxonomy import TaxonomyTaxonomy
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,7 +60,7 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Deleted:
+    ) -> TaxonomyDeleted:
         """Removes one empty category.
 
         Removes one empty category. A category that still has taxa filed under it is refused with 409 and a count: deleting the label off a group must never silently take the products wearing it, and the alternative — orphan rows naming a category that no longer exists — is a catalogue that cannot be rendered. Move or delete its taxa first. An id no category holds is a 404.
@@ -98,7 +98,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -127,7 +127,7 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Deleted]:
+    ) -> ApiResponse[TaxonomyDeleted]:
         """Removes one empty category.
 
         Removes one empty category. A category that still has taxa filed under it is refused with 409 and a count: deleting the label off a group must never silently take the products wearing it, and the alternative — orphan rows naming a category that no longer exists — is a catalogue that cannot be rendered. Move or delete its taxa first. An id no category holds is a 404.
@@ -165,7 +165,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -232,7 +232,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -277,7 +277,8 @@ class TaxonomyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -321,7 +322,7 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Deleted:
+    ) -> TaxonomyDeleted:
         """Removes one product from the catalogue.
 
         Removes one product from the catalogue. An id no taxon holds is a 404. To take a product out of view without losing what was written about it, set `published` to false instead.
@@ -359,7 +360,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -388,7 +389,7 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Deleted]:
+    ) -> ApiResponse[TaxonomyDeleted]:
         """Removes one product from the catalogue.
 
         Removes one product from the catalogue. An id no taxon holds is a 404. To take a product out of view without losing what was written about it, set `published` to false instead.
@@ -426,7 +427,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -493,7 +494,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Deleted",
+            '200': "TaxonomyDeleted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -538,7 +539,8 @@ class TaxonomyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -582,10 +584,10 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Taxonomy:
-        """Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
+    ) -> TaxonomyTaxonomy:
+        """Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
 
-        Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
+        Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
 
         :param brand: Brand returns only what that brand's console shows — the categories it admits, and within them the taxa scoped to it. Empty returns everything.
         :type brand: str
@@ -620,7 +622,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxonomy",
+            '200': "TaxonomyTaxonomy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -649,10 +651,10 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Taxonomy]:
-        """Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
+    ) -> ApiResponse[TaxonomyTaxonomy]:
+        """Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
 
-        Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
+        Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
 
         :param brand: Brand returns only what that brand's console shows — the categories it admits, and within them the taxa scoped to it. Empty returns everything.
         :type brand: str
@@ -687,7 +689,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxonomy",
+            '200': "TaxonomyTaxonomy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -717,9 +719,9 @@ class TaxonomyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
+        """Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs.
 
-        Read returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
+        Returns the product catalogue as this caller sees it: the PLATFORM catalogue — Hanzo's own products, the part that is true for everyone — plus the caller's own org's rows, every category in display order and each carrying the products filed under it in theirs. Another customer's rows are never in it. It is readable signed out, and a signed-out visitor gets the platform catalogue alone, which is what the marketing landing renders from.  Where the caller's org and the platform hold the same id, the caller's own row is the one served. That rule exists because ids are unique per ORG and not globally — two customers may each have a \"crm\", and refusing the second would tell one of them the other exists — so a collision with the platform is possible by construction and something has to win deterministically. Yours does: your own catalogue is the one you edited.  `?brand=` narrows it the way a brand's own console does: only the categories that brand admits, and within them only the taxa scoped to it. An unpublished row is served only to whoever may edit it — a SuperAdmin for the platform's, an org admin for their own — so a product can be staged before anyone sees it without becoming invisible to the person staging it.
 
         :param brand: Brand returns only what that brand's console shows — the categories it admits, and within them the taxa scoped to it. Empty returns everything.
         :type brand: str
@@ -754,7 +756,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxonomy",
+            '200': "TaxonomyTaxonomy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -801,7 +803,8 @@ class TaxonomyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -833,7 +836,7 @@ class TaxonomyApi:
     def put_taxonomy_categories_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the category slug to write, from the path.")],
-        category_in: CategoryIn,
+        taxonomy_category_in: TaxonomyCategoryIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -846,15 +849,15 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Category:
+    ) -> TaxonomyCategory:
         """Creates or replaces one category and returns it as stored.
 
         Creates or replaces one category and returns it as stored. The id in the URL is the one it is filed under whatever the body says, so a category can never be written under a name it was not addressed by — which also makes create and replace the same act, and is why there is no POST beside this.  Platform SuperAdmin only: one catalogue serves every tenant, so an org admin who could rename a category would rename it for all of them.
 
         :param id: ID is the category slug to write, from the path. (required)
         :type id: str
-        :param category_in: (required)
-        :type category_in: CategoryIn
+        :param taxonomy_category_in: (required)
+        :type taxonomy_category_in: TaxonomyCategoryIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -879,7 +882,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_categories_by_id_serialize(
             id=id,
-            category_in=category_in,
+            taxonomy_category_in=taxonomy_category_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -887,7 +890,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Category",
+            '200': "TaxonomyCategory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -904,7 +907,7 @@ class TaxonomyApi:
     def put_taxonomy_categories_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the category slug to write, from the path.")],
-        category_in: CategoryIn,
+        taxonomy_category_in: TaxonomyCategoryIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -917,15 +920,15 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Category]:
+    ) -> ApiResponse[TaxonomyCategory]:
         """Creates or replaces one category and returns it as stored.
 
         Creates or replaces one category and returns it as stored. The id in the URL is the one it is filed under whatever the body says, so a category can never be written under a name it was not addressed by — which also makes create and replace the same act, and is why there is no POST beside this.  Platform SuperAdmin only: one catalogue serves every tenant, so an org admin who could rename a category would rename it for all of them.
 
         :param id: ID is the category slug to write, from the path. (required)
         :type id: str
-        :param category_in: (required)
-        :type category_in: CategoryIn
+        :param taxonomy_category_in: (required)
+        :type taxonomy_category_in: TaxonomyCategoryIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -950,7 +953,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_categories_by_id_serialize(
             id=id,
-            category_in=category_in,
+            taxonomy_category_in=taxonomy_category_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -958,7 +961,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Category",
+            '200': "TaxonomyCategory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -975,7 +978,7 @@ class TaxonomyApi:
     def put_taxonomy_categories_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the category slug to write, from the path.")],
-        category_in: CategoryIn,
+        taxonomy_category_in: TaxonomyCategoryIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -995,8 +998,8 @@ class TaxonomyApi:
 
         :param id: ID is the category slug to write, from the path. (required)
         :type id: str
-        :param category_in: (required)
-        :type category_in: CategoryIn
+        :param taxonomy_category_in: (required)
+        :type taxonomy_category_in: TaxonomyCategoryIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1021,7 +1024,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_categories_by_id_serialize(
             id=id,
-            category_in=category_in,
+            taxonomy_category_in=taxonomy_category_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1029,7 +1032,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Category",
+            '200': "TaxonomyCategory",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1041,7 +1044,7 @@ class TaxonomyApi:
     def _put_taxonomy_categories_by_id_serialize(
         self,
         id,
-        category_in,
+        taxonomy_category_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1069,15 +1072,16 @@ class TaxonomyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if category_in is not None:
-            _body_params = category_in
+        if taxonomy_category_in is not None:
+            _body_params = taxonomy_category_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1122,7 +1126,7 @@ class TaxonomyApi:
     def put_taxonomy_taxa_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the taxon slug to write, from the path.")],
-        taxon_in: TaxonIn,
+        taxonomy_taxon_in: TaxonomyTaxonIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1135,15 +1139,15 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Taxon:
+    ) -> TaxonomyTaxon:
         """Creates or replaces one product and returns it as stored.
 
         Creates or replaces one product and returns it as stored. The id in the URL is the one it is filed under whatever the body says. The category must already exist — a taxon naming a category that does not is refused with 400 rather than stored where nothing can render it.  A taxon opens exactly one way: `route` for a product the console renders itself, or `href` for one that genuinely lives at its own domain. Giving both, or neither, is refused.  Platform SuperAdmin only.
 
         :param id: ID is the taxon slug to write, from the path. (required)
         :type id: str
-        :param taxon_in: (required)
-        :type taxon_in: TaxonIn
+        :param taxonomy_taxon_in: (required)
+        :type taxonomy_taxon_in: TaxonomyTaxonIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1168,7 +1172,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_taxa_by_id_serialize(
             id=id,
-            taxon_in=taxon_in,
+            taxonomy_taxon_in=taxonomy_taxon_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1176,7 +1180,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxon",
+            '200': "TaxonomyTaxon",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1193,7 +1197,7 @@ class TaxonomyApi:
     def put_taxonomy_taxa_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the taxon slug to write, from the path.")],
-        taxon_in: TaxonIn,
+        taxonomy_taxon_in: TaxonomyTaxonIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1206,15 +1210,15 @@ class TaxonomyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Taxon]:
+    ) -> ApiResponse[TaxonomyTaxon]:
         """Creates or replaces one product and returns it as stored.
 
         Creates or replaces one product and returns it as stored. The id in the URL is the one it is filed under whatever the body says. The category must already exist — a taxon naming a category that does not is refused with 400 rather than stored where nothing can render it.  A taxon opens exactly one way: `route` for a product the console renders itself, or `href` for one that genuinely lives at its own domain. Giving both, or neither, is refused.  Platform SuperAdmin only.
 
         :param id: ID is the taxon slug to write, from the path. (required)
         :type id: str
-        :param taxon_in: (required)
-        :type taxon_in: TaxonIn
+        :param taxonomy_taxon_in: (required)
+        :type taxonomy_taxon_in: TaxonomyTaxonIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,7 +1243,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_taxa_by_id_serialize(
             id=id,
-            taxon_in=taxon_in,
+            taxonomy_taxon_in=taxonomy_taxon_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1247,7 +1251,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxon",
+            '200': "TaxonomyTaxon",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1264,7 +1268,7 @@ class TaxonomyApi:
     def put_taxonomy_taxa_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the taxon slug to write, from the path.")],
-        taxon_in: TaxonIn,
+        taxonomy_taxon_in: TaxonomyTaxonIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1284,8 +1288,8 @@ class TaxonomyApi:
 
         :param id: ID is the taxon slug to write, from the path. (required)
         :type id: str
-        :param taxon_in: (required)
-        :type taxon_in: TaxonIn
+        :param taxonomy_taxon_in: (required)
+        :type taxonomy_taxon_in: TaxonomyTaxonIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1310,7 +1314,7 @@ class TaxonomyApi:
 
         _param = self._put_taxonomy_taxa_by_id_serialize(
             id=id,
-            taxon_in=taxon_in,
+            taxonomy_taxon_in=taxonomy_taxon_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1318,7 +1322,7 @@ class TaxonomyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Taxon",
+            '200': "TaxonomyTaxon",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1330,7 +1334,7 @@ class TaxonomyApi:
     def _put_taxonomy_taxa_by_id_serialize(
         self,
         id,
-        taxon_in,
+        taxonomy_taxon_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1358,15 +1362,16 @@ class TaxonomyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if taxon_in is not None:
-            _body_params = taxon_in
+        if taxonomy_taxon_in is not None:
+            _body_params = taxonomy_taxon_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

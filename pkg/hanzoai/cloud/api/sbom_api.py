@@ -16,9 +16,9 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.sbom_health import SbomHealth
-from hanzoai.cloud.models.sbom_ingest import SbomIngest
-from hanzoai.cloud.models.sbom_ingested import SbomIngested
+from hanzoai.cloud.models.sbom_sbom_health import SbomSbomHealth
+from hanzoai.cloud.models.sbom_sbom_ingest import SbomSbomIngest
+from hanzoai.cloud.models.sbom_sbom_ingested import SbomSbomIngested
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -53,7 +53,7 @@ class SbomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SbomHealth:
+    ) -> SbomSbomHealth:
         """Health is a pure liveness probe: the service is up; datastore reflects whether the datastore store is connected.
 
         Health is a pure liveness probe: the service is up; datastore reflects whether the datastore store is connected. Not JWT-gated, always 200 (a disconnected datastore is degraded-but-alive; the data endpoints report that as 503).
@@ -88,7 +88,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SbomHealth",
+            '200': "SbomSbomHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -116,7 +116,7 @@ class SbomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SbomHealth]:
+    ) -> ApiResponse[SbomSbomHealth]:
         """Health is a pure liveness probe: the service is up; datastore reflects whether the datastore store is connected.
 
         Health is a pure liveness probe: the service is up; datastore reflects whether the datastore store is connected. Not JWT-gated, always 200 (a disconnected datastore is degraded-but-alive; the data endpoints report that as 503).
@@ -151,7 +151,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SbomHealth",
+            '200': "SbomSbomHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -214,7 +214,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SbomHealth",
+            '200': "SbomSbomHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -256,7 +256,8 @@ class SbomApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -287,7 +288,7 @@ class SbomApi:
     @validate_call
     def post_sbom(
         self,
-        sbom_ingest: SbomIngest,
+        sbom_sbom_ingest: SbomSbomIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -300,13 +301,13 @@ class SbomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SbomIngested:
-        """Ingest persists a CycloneDX SBOM's components keyed by image digest.
+    ) -> SbomSbomIngested:
+        """Persists a CycloneDX SBOM's components keyed by image digest.
 
-        Ingest persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
+        Persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
 
-        :param sbom_ingest: (required)
-        :type sbom_ingest: SbomIngest
+        :param sbom_sbom_ingest: (required)
+        :type sbom_sbom_ingest: SbomSbomIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -330,7 +331,7 @@ class SbomApi:
         """ # noqa: E501
 
         _param = self._post_sbom_serialize(
-            sbom_ingest=sbom_ingest,
+            sbom_sbom_ingest=sbom_sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -338,7 +339,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SbomIngested",
+            '201': "SbomSbomIngested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -354,7 +355,7 @@ class SbomApi:
     @validate_call
     def post_sbom_with_http_info(
         self,
-        sbom_ingest: SbomIngest,
+        sbom_sbom_ingest: SbomSbomIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -367,13 +368,13 @@ class SbomApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SbomIngested]:
-        """Ingest persists a CycloneDX SBOM's components keyed by image digest.
+    ) -> ApiResponse[SbomSbomIngested]:
+        """Persists a CycloneDX SBOM's components keyed by image digest.
 
-        Ingest persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
+        Persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
 
-        :param sbom_ingest: (required)
-        :type sbom_ingest: SbomIngest
+        :param sbom_sbom_ingest: (required)
+        :type sbom_sbom_ingest: SbomSbomIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -397,7 +398,7 @@ class SbomApi:
         """ # noqa: E501
 
         _param = self._post_sbom_serialize(
-            sbom_ingest=sbom_ingest,
+            sbom_sbom_ingest=sbom_sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -405,7 +406,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SbomIngested",
+            '201': "SbomSbomIngested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -421,7 +422,7 @@ class SbomApi:
     @validate_call
     def post_sbom_without_preload_content(
         self,
-        sbom_ingest: SbomIngest,
+        sbom_sbom_ingest: SbomSbomIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -435,12 +436,12 @@ class SbomApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Ingest persists a CycloneDX SBOM's components keyed by image digest.
+        """Persists a CycloneDX SBOM's components keyed by image digest.
 
-        Ingest persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
+        Persists a CycloneDX SBOM's components keyed by image digest. Gated to a validated SuperAdmin (owner == AdminOrg) — the canonical cloud super-admin check, which the build fleet / CI carries. Re-ingest is idempotent: rows share the (digest, name, version, purl) ORDER BY, so ReplacingMergeTree keeps the latest by ingested_at (and resolve reads FINAL).
 
-        :param sbom_ingest: (required)
-        :type sbom_ingest: SbomIngest
+        :param sbom_sbom_ingest: (required)
+        :type sbom_sbom_ingest: SbomSbomIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -464,7 +465,7 @@ class SbomApi:
         """ # noqa: E501
 
         _param = self._post_sbom_serialize(
-            sbom_ingest=sbom_ingest,
+            sbom_sbom_ingest=sbom_sbom_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -472,7 +473,7 @@ class SbomApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SbomIngested",
+            '201': "SbomSbomIngested",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -483,7 +484,7 @@ class SbomApi:
 
     def _post_sbom_serialize(
         self,
-        sbom_ingest,
+        sbom_sbom_ingest,
         _request_auth,
         _content_type,
         _headers,
@@ -509,15 +510,16 @@ class SbomApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sbom_ingest is not None:
-            _body_params = sbom_ingest
+        if sbom_sbom_ingest is not None:
+            _body_params = sbom_sbom_ingest
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

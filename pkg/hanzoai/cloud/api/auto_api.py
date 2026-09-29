@@ -19,19 +19,19 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.catalog import Catalog
-from hanzoai.cloud.models.create_flow_req import CreateFlowReq
-from hanzoai.cloud.models.create_version_in import CreateVersionIn
-from hanzoai.cloud.models.flow import Flow
-from hanzoai.cloud.models.flow_page import FlowPage
-from hanzoai.cloud.models.flow_run import FlowRun
-from hanzoai.cloud.models.flow_version import FlowVersion
-from hanzoai.cloud.models.patch_flow_in import PatchFlowIn
-from hanzoai.cloud.models.populated_flow import PopulatedFlow
-from hanzoai.cloud.models.run_in import RunIn
-from hanzoai.cloud.models.run_page import RunPage
-from hanzoai.cloud.models.run_resp import RunResp
-from hanzoai.cloud.models.version_page import VersionPage
+from hanzoai.cloud.models.auto_catalog import AutoCatalog
+from hanzoai.cloud.models.auto_create_flow_req import AutoCreateFlowReq
+from hanzoai.cloud.models.auto_create_version_in import AutoCreateVersionIn
+from hanzoai.cloud.models.auto_flow import AutoFlow
+from hanzoai.cloud.models.auto_flow_page import AutoFlowPage
+from hanzoai.cloud.models.auto_flow_run import AutoFlowRun
+from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion
+from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn
+from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow
+from hanzoai.cloud.models.auto_run_in import AutoRunIn
+from hanzoai.cloud.models.auto_run_page import AutoRunPage
+from hanzoai.cloud.models.auto_run_resp import AutoRunResp
+from hanzoai.cloud.models.auto_version_page import AutoVersionPage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -280,250 +280,11 @@ class AutoApi:
         # process the body parameter
 
 
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/auto/flows/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_auto_connectors(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Catalog:
-        """Connectors returns the connector catalogue.
-
-        Connectors returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auto_connectors_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Catalog",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_auto_connectors_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Catalog]:
-        """Connectors returns the connector catalogue.
-
-        Connectors returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auto_connectors_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Catalog",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_auto_connectors_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Connectors returns the connector catalogue.
-
-        Connectors returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auto_connectors_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Catalog",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_auto_connectors_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/problem+json'
                 ]
             )
 
@@ -534,8 +295,8 @@ class AutoApi:
         ]
 
         return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/auto/connectors',
+            method='DELETE',
+            resource_path='/v1/auto/flows/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -567,7 +328,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FlowPage:
+    ) -> AutoFlowPage:
         """Returns the caller org's automations, most-recently-updated first.
 
         Returns the caller org's automations, most-recently-updated first. The optional `limit` query bounds the page.
@@ -605,7 +366,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowPage",
+            '200': "AutoFlowPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -634,7 +395,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FlowPage]:
+    ) -> ApiResponse[AutoFlowPage]:
         """Returns the caller org's automations, most-recently-updated first.
 
         Returns the caller org's automations, most-recently-updated first. The optional `limit` query bounds the page.
@@ -672,7 +433,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowPage",
+            '200': "AutoFlowPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -739,7 +500,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowPage",
+            '200': "AutoFlowPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -786,7 +547,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -830,7 +592,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PopulatedFlow:
+    ) -> AutoPopulatedFlow:
         """Returns one automation and its latest version.
 
         Returns one automation and its latest version. That is the flow record plus the step tree the builder edits; a flow of another org answers not-found.
@@ -868,7 +630,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PopulatedFlow",
+            '200': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -897,7 +659,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PopulatedFlow]:
+    ) -> ApiResponse[AutoPopulatedFlow]:
         """Returns one automation and its latest version.
 
         Returns one automation and its latest version. That is the flow record plus the step tree the builder edits; a flow of another org answers not-found.
@@ -935,7 +697,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PopulatedFlow",
+            '200': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1002,7 +764,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PopulatedFlow",
+            '200': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1047,7 +809,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1092,7 +855,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VersionPage:
+    ) -> AutoVersionPage:
         """Returns one flow's versions, newest first.
 
         Returns one flow's versions, newest first. The optional `limit` query bounds the page.
@@ -1133,7 +896,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionPage",
+            '200': "AutoVersionPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1163,7 +926,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VersionPage]:
+    ) -> ApiResponse[AutoVersionPage]:
         """Returns one flow's versions, newest first.
 
         Returns one flow's versions, newest first. The optional `limit` query bounds the page.
@@ -1204,7 +967,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionPage",
+            '200': "AutoVersionPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1275,7 +1038,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionPage",
+            '200': "AutoVersionPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1325,7 +1088,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1338,6 +1102,253 @@ class AutoApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/auto/flows/{id}/versions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_auto_provider(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoCatalog:
+        """Returns the connector catalogue.
+
+        Returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_provider_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoCatalog",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_auto_provider_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoCatalog]:
+        """Returns the connector catalogue.
+
+        Returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_provider_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoCatalog",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_auto_provider_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the connector catalogue.
+
+        Returns the connector catalogue. Each entry is an external service a flow step can invoke, carrying its auth descriptor and the input properties of its actions and triggers. The catalogue is the same for every tenant, so the gate is a validated principal rather than a per-org view.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_auto_provider_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoCatalog",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_auto_provider_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/auto/provider',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1370,7 +1381,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunPage:
+    ) -> AutoRunPage:
         """Returns the caller org's run history, newest first.
 
         Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
@@ -1411,7 +1422,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunPage",
+            '200': "AutoRunPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1441,7 +1452,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunPage]:
+    ) -> ApiResponse[AutoRunPage]:
         """Returns the caller org's run history, newest first.
 
         Returns the caller org's run history, newest first. The optional `flowId` query narrows it to one flow and `limit` bounds the page.
@@ -1482,7 +1493,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunPage",
+            '200': "AutoRunPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1553,7 +1564,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunPage",
+            '200': "AutoRunPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1605,7 +1616,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1649,7 +1661,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FlowRun:
+    ) -> AutoFlowRun:
         """Returns one run.
 
         Returns one run. A run that has not reached a terminal status is refreshed from the durable engine first — scoped to the org's own namespace — so the caller sees live progress rather than the last status that happened to be persisted.
@@ -1687,7 +1699,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowRun",
+            '200': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1716,7 +1728,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FlowRun]:
+    ) -> ApiResponse[AutoFlowRun]:
         """Returns one run.
 
         Returns one run. A run that has not reached a terminal status is refreshed from the durable engine first — scoped to the org's own namespace — so the caller sees live progress rather than the last status that happened to be persisted.
@@ -1754,7 +1766,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowRun",
+            '200': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1821,7 +1833,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowRun",
+            '200': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1866,7 +1878,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1898,7 +1911,7 @@ class AutoApi:
     def patch_auto_flows_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
-        patch_flow_in: PatchFlowIn,
+        auto_patch_flow_in: AutoPatchFlowIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1911,15 +1924,15 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Flow:
+    ) -> AutoFlow:
         """Updates one automation's metadata in place.
 
         Updates one automation's metadata in place. Every field is optional; a field the request omits is left alone. Publishing a version pins which one runs, and is refused unless that version belongs to this flow.
 
         :param id: ID is the flow to update, from the path. (required)
         :type id: str
-        :param patch_flow_in: (required)
-        :type patch_flow_in: PatchFlowIn
+        :param auto_patch_flow_in: (required)
+        :type auto_patch_flow_in: AutoPatchFlowIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1944,7 +1957,7 @@ class AutoApi:
 
         _param = self._patch_auto_flows_by_id_serialize(
             id=id,
-            patch_flow_in=patch_flow_in,
+            auto_patch_flow_in=auto_patch_flow_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1952,7 +1965,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1969,7 +1982,7 @@ class AutoApi:
     def patch_auto_flows_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
-        patch_flow_in: PatchFlowIn,
+        auto_patch_flow_in: AutoPatchFlowIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1982,15 +1995,15 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Flow]:
+    ) -> ApiResponse[AutoFlow]:
         """Updates one automation's metadata in place.
 
         Updates one automation's metadata in place. Every field is optional; a field the request omits is left alone. Publishing a version pins which one runs, and is refused unless that version belongs to this flow.
 
         :param id: ID is the flow to update, from the path. (required)
         :type id: str
-        :param patch_flow_in: (required)
-        :type patch_flow_in: PatchFlowIn
+        :param auto_patch_flow_in: (required)
+        :type auto_patch_flow_in: AutoPatchFlowIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2015,7 +2028,7 @@ class AutoApi:
 
         _param = self._patch_auto_flows_by_id_serialize(
             id=id,
-            patch_flow_in=patch_flow_in,
+            auto_patch_flow_in=auto_patch_flow_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2023,7 +2036,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2040,7 +2053,7 @@ class AutoApi:
     def patch_auto_flows_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to update, from the path.")],
-        patch_flow_in: PatchFlowIn,
+        auto_patch_flow_in: AutoPatchFlowIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2060,8 +2073,8 @@ class AutoApi:
 
         :param id: ID is the flow to update, from the path. (required)
         :type id: str
-        :param patch_flow_in: (required)
-        :type patch_flow_in: PatchFlowIn
+        :param auto_patch_flow_in: (required)
+        :type auto_patch_flow_in: AutoPatchFlowIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2086,7 +2099,7 @@ class AutoApi:
 
         _param = self._patch_auto_flows_by_id_serialize(
             id=id,
-            patch_flow_in=patch_flow_in,
+            auto_patch_flow_in=auto_patch_flow_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2094,7 +2107,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2106,7 +2119,7 @@ class AutoApi:
     def _patch_auto_flows_by_id_serialize(
         self,
         id,
-        patch_flow_in,
+        auto_patch_flow_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2134,15 +2147,16 @@ class AutoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch_flow_in is not None:
-            _body_params = patch_flow_in
+        if auto_patch_flow_in is not None:
+            _body_params = auto_patch_flow_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2184,298 +2198,9 @@ class AutoApi:
 
 
     @validate_call
-    def post_auto_connectors_by_id_run(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
-        run_in: RunIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunResp:
-        """Run executes one connector action in-process and answers the outcome.
-
-        Run executes one connector action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the connector does not have) answers ok:false with the failure message, not an HTTP error; an unknown connector is 404 and a missing action 422.
-
-        :param id: ID is the connector to run, from the path. (required)
-        :type id: str
-        :param run_in: (required)
-        :type run_in: RunIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_auto_connectors_by_id_run_serialize(
-            id=id,
-            run_in=run_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_auto_connectors_by_id_run_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
-        run_in: RunIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunResp]:
-        """Run executes one connector action in-process and answers the outcome.
-
-        Run executes one connector action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the connector does not have) answers ok:false with the failure message, not an HTTP error; an unknown connector is 404 and a missing action 422.
-
-        :param id: ID is the connector to run, from the path. (required)
-        :type id: str
-        :param run_in: (required)
-        :type run_in: RunIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_auto_connectors_by_id_run_serialize(
-            id=id,
-            run_in=run_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_auto_connectors_by_id_run_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the connector to run, from the path.")],
-        run_in: RunIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Run executes one connector action in-process and answers the outcome.
-
-        Run executes one connector action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the connector does not have) answers ok:false with the failure message, not an HTTP error; an unknown connector is 404 and a missing action 422.
-
-        :param id: ID is the connector to run, from the path. (required)
-        :type id: str
-        :param run_in: (required)
-        :type run_in: RunIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_auto_connectors_by_id_run_serialize(
-            id=id,
-            run_in=run_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunResp",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_auto_connectors_by_id_run_serialize(
-        self,
-        id,
-        run_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if run_in is not None:
-            _body_params = run_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/auto/connectors/{id}/run',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def post_auto_flows(
         self,
-        create_flow_req: CreateFlowReq,
+        auto_create_flow_req: AutoCreateFlowReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2488,13 +2213,13 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PopulatedFlow:
+    ) -> AutoPopulatedFlow:
         """Creates an automation and its initial DRAFT version in one call.
 
         Creates an automation and its initial DRAFT version in one call. The new flow is DISABLED — creating it does not arm its trigger; POST /v1/auto/flows/{id}/enable does that.
 
-        :param create_flow_req: (required)
-        :type create_flow_req: CreateFlowReq
+        :param auto_create_flow_req: (required)
+        :type auto_create_flow_req: AutoCreateFlowReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2518,7 +2243,7 @@ class AutoApi:
         """ # noqa: E501
 
         _param = self._post_auto_flows_serialize(
-            create_flow_req=create_flow_req,
+            auto_create_flow_req=auto_create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2526,7 +2251,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PopulatedFlow",
+            '201': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2542,7 +2267,7 @@ class AutoApi:
     @validate_call
     def post_auto_flows_with_http_info(
         self,
-        create_flow_req: CreateFlowReq,
+        auto_create_flow_req: AutoCreateFlowReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2555,13 +2280,13 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PopulatedFlow]:
+    ) -> ApiResponse[AutoPopulatedFlow]:
         """Creates an automation and its initial DRAFT version in one call.
 
         Creates an automation and its initial DRAFT version in one call. The new flow is DISABLED — creating it does not arm its trigger; POST /v1/auto/flows/{id}/enable does that.
 
-        :param create_flow_req: (required)
-        :type create_flow_req: CreateFlowReq
+        :param auto_create_flow_req: (required)
+        :type auto_create_flow_req: AutoCreateFlowReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2585,7 +2310,7 @@ class AutoApi:
         """ # noqa: E501
 
         _param = self._post_auto_flows_serialize(
-            create_flow_req=create_flow_req,
+            auto_create_flow_req=auto_create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2593,7 +2318,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PopulatedFlow",
+            '201': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2609,7 +2334,7 @@ class AutoApi:
     @validate_call
     def post_auto_flows_without_preload_content(
         self,
-        create_flow_req: CreateFlowReq,
+        auto_create_flow_req: AutoCreateFlowReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2627,8 +2352,8 @@ class AutoApi:
 
         Creates an automation and its initial DRAFT version in one call. The new flow is DISABLED — creating it does not arm its trigger; POST /v1/auto/flows/{id}/enable does that.
 
-        :param create_flow_req: (required)
-        :type create_flow_req: CreateFlowReq
+        :param auto_create_flow_req: (required)
+        :type auto_create_flow_req: AutoCreateFlowReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2652,7 +2377,7 @@ class AutoApi:
         """ # noqa: E501
 
         _param = self._post_auto_flows_serialize(
-            create_flow_req=create_flow_req,
+            auto_create_flow_req=auto_create_flow_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2660,7 +2385,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PopulatedFlow",
+            '201': "AutoPopulatedFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2671,7 +2396,7 @@ class AutoApi:
 
     def _post_auto_flows_serialize(
         self,
-        create_flow_req,
+        auto_create_flow_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2697,15 +2422,16 @@ class AutoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_flow_req is not None:
-            _body_params = create_flow_req
+        if auto_create_flow_req is not None:
+            _body_params = auto_create_flow_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2762,7 +2488,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Flow:
+    ) -> AutoFlow:
         """Disarms a flow's trigger and marks it DISABLED.
 
         Disarms a flow's trigger and marks it DISABLED. Its schedule and its event subscriptions are dropped, so a disabled flow is never a live target; runs already in flight are unaffected, and it can still be started on demand.
@@ -2800,7 +2526,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2829,7 +2555,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Flow]:
+    ) -> ApiResponse[AutoFlow]:
         """Disarms a flow's trigger and marks it DISABLED.
 
         Disarms a flow's trigger and marks it DISABLED. Its schedule and its event subscriptions are dropped, so a disabled flow is never a live target; runs already in flight are unaffected, and it can still be started on demand.
@@ -2867,7 +2593,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2934,7 +2660,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2979,7 +2705,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3023,7 +2750,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Flow:
+    ) -> AutoFlow:
         """Arms a flow's trigger and marks it ENABLED.
 
         Arms a flow's trigger and marks it ENABLED. A POLLING trigger gets a cron schedule on the durable engine; a WEBHOOK trigger gets a subscription in the routing index, so an inbound event starts it; a MANUAL trigger arms nothing and still runs on demand.
@@ -3061,7 +2788,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3090,7 +2817,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Flow]:
+    ) -> ApiResponse[AutoFlow]:
         """Arms a flow's trigger and marks it ENABLED.
 
         Arms a flow's trigger and marks it ENABLED. A POLLING trigger gets a cron schedule on the durable engine; a WEBHOOK trigger gets a subscription in the routing index, so an inbound event starts it; a MANUAL trigger arms nothing and still runs on demand.
@@ -3128,7 +2855,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3195,7 +2922,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Flow",
+            '200': "AutoFlow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3240,7 +2967,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3287,7 +3015,7 @@ class AutoApi:
     ) -> None:
         """Edit a flow — rename it, retarget its trigger, or add, move and delete steps
 
-        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (403 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
+        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (401 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
 
         :param id: (required)
         :type id: str
@@ -3353,7 +3081,7 @@ class AutoApi:
     ) -> ApiResponse[None]:
         """Edit a flow — rename it, retarget its trigger, or add, move and delete steps
 
-        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (403 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
+        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (401 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
 
         :param id: (required)
         :type id: str
@@ -3419,7 +3147,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Edit a flow — rename it, retarget its trigger, or add, move and delete steps
 
-        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (403 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
+        Applies ONE flow operation and answers the thing it changed. The operation is named by `type`, with its arguments under `request`: `CHANGE_NAME`, `UPDATE_TRIGGER`, `ADD_ACTION`, `UPDATE_ACTION`, `MOVE_ACTION`, `DELETE_ACTION` edit the flow's LATEST version and answer with that version, and `CHANGE_STATUS` instead enables or disables the flow and answers with the FLOW. Two response shapes on one address is the rule a reader would otherwise get wrong, and it is why this route is not a typed op.  Edits land on the latest version only — the published version a run executes is untouched until it is republished — and the whole resulting step tree is re-validated against the step-count and size caps after every operation, so a long sequence of `ADD_ACTION` calls cannot grow a flow past a bound one step at a time (422 when it would). Org-scoped and fails closed: a validated principal is required (401 without one), the flow and its version are read under the caller's OWN org so another tenant's id is a 404, and an operation whose `request` does not decode is a 400.
 
         :param id: (required)
         :type id: str
@@ -3535,7 +3263,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FlowRun:
+    ) -> AutoFlowRun:
         """Starts one durable run of a flow now.
 
         Starts one durable run of a flow now. It runs the flow's published version if one is pinned, else its latest, and answers the run record it created. The run is bounded by the org's per-minute run-start budget and its in-flight concurrency ceiling; over either, or with the engine not ready, no run is started and no run id is burned.
@@ -3573,7 +3301,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowRun",
+            '201': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3602,7 +3330,7 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FlowRun]:
+    ) -> ApiResponse[AutoFlowRun]:
         """Starts one durable run of a flow now.
 
         Starts one durable run of a flow now. It runs the flow's published version if one is pinned, else its latest, and answers the run record it created. The run is bounded by the org's per-minute run-start budget and its in-flight concurrency ceiling; over either, or with the engine not ready, no run is started and no run id is burned.
@@ -3640,7 +3368,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowRun",
+            '201': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3707,7 +3435,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowRun",
+            '201': "AutoFlowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3752,7 +3480,8 @@ class AutoApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3784,7 +3513,7 @@ class AutoApi:
     def post_auto_flows_by_id_versions(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
-        create_version_in: CreateVersionIn,
+        auto_create_version_in: AutoCreateVersionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3797,15 +3526,15 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FlowVersion:
+    ) -> AutoFlowVersion:
         """Adds a new DRAFT version to a flow.
 
         Adds a new DRAFT version to a flow. The version is created invalid unless it carries a trigger, and it does not become the running version until it is published (PATCH the flow's publishedVersionId) or becomes the latest.
 
         :param id: ID is the flow to add a version to, from the path. (required)
         :type id: str
-        :param create_version_in: (required)
-        :type create_version_in: CreateVersionIn
+        :param auto_create_version_in: (required)
+        :type auto_create_version_in: AutoCreateVersionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3830,7 +3559,7 @@ class AutoApi:
 
         _param = self._post_auto_flows_by_id_versions_serialize(
             id=id,
-            create_version_in=create_version_in,
+            auto_create_version_in=auto_create_version_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3838,7 +3567,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowVersion",
+            '201': "AutoFlowVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3855,7 +3584,7 @@ class AutoApi:
     def post_auto_flows_by_id_versions_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
-        create_version_in: CreateVersionIn,
+        auto_create_version_in: AutoCreateVersionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3868,15 +3597,15 @@ class AutoApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FlowVersion]:
+    ) -> ApiResponse[AutoFlowVersion]:
         """Adds a new DRAFT version to a flow.
 
         Adds a new DRAFT version to a flow. The version is created invalid unless it carries a trigger, and it does not become the running version until it is published (PATCH the flow's publishedVersionId) or becomes the latest.
 
         :param id: ID is the flow to add a version to, from the path. (required)
         :type id: str
-        :param create_version_in: (required)
-        :type create_version_in: CreateVersionIn
+        :param auto_create_version_in: (required)
+        :type auto_create_version_in: AutoCreateVersionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3901,7 +3630,7 @@ class AutoApi:
 
         _param = self._post_auto_flows_by_id_versions_serialize(
             id=id,
-            create_version_in=create_version_in,
+            auto_create_version_in=auto_create_version_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3909,7 +3638,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowVersion",
+            '201': "AutoFlowVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3926,7 +3655,7 @@ class AutoApi:
     def post_auto_flows_by_id_versions_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the flow to add a version to, from the path.")],
-        create_version_in: CreateVersionIn,
+        auto_create_version_in: AutoCreateVersionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3946,8 +3675,8 @@ class AutoApi:
 
         :param id: ID is the flow to add a version to, from the path. (required)
         :type id: str
-        :param create_version_in: (required)
-        :type create_version_in: CreateVersionIn
+        :param auto_create_version_in: (required)
+        :type auto_create_version_in: AutoCreateVersionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3972,7 +3701,7 @@ class AutoApi:
 
         _param = self._post_auto_flows_by_id_versions_serialize(
             id=id,
-            create_version_in=create_version_in,
+            auto_create_version_in=auto_create_version_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3980,7 +3709,7 @@ class AutoApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FlowVersion",
+            '201': "AutoFlowVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3992,7 +3721,7 @@ class AutoApi:
     def _post_auto_flows_by_id_versions_serialize(
         self,
         id,
-        create_version_in,
+        auto_create_version_in,
         _request_auth,
         _content_type,
         _headers,
@@ -4020,15 +3749,16 @@ class AutoApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_version_in is not None:
-            _body_params = create_version_in
+        if auto_create_version_in is not None:
+            _body_params = auto_create_version_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4089,7 +3819,7 @@ class AutoApi:
     ) -> None:
         """Fire an event that starts every enabled flow subscribed to it
 
-        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (403 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
+        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (401 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
 
         :param source: (required)
         :type source: str
@@ -4159,7 +3889,7 @@ class AutoApi:
     ) -> ApiResponse[None]:
         """Fire an event that starts every enabled flow subscribed to it
 
-        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (403 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
+        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (401 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
 
         :param source: (required)
         :type source: str
@@ -4229,7 +3959,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Fire an event that starts every enabled flow subscribed to it
 
-        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (403 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
+        Delivers one event to the org's automation triggers and answers `{matched:n}` — how many enabled flows had a webhook trigger on this `(source, event)` key and were started by it. A zero match is a success, not an error: nothing was subscribed.  The path is the trigger key and the JSON object body is the event payload, threaded into each started run as `{{trigger.*}}` with all of its keys intact — which is why this is not a typed op, since a declared input struct would silently DISCARD every payload key it had no field for. Re-delivery is a no-op: an `X-Idempotency-Key` header dedupes, and with none the body is content-hashed instead, so a hammer of identical posts collapses to ONE run rather than minting a fresh one per post. An in-platform producer may propagate `X-Causation-Depth` so a firing that a flow caused is bounded against a loop; an absent or invalid header reads as depth 0, an external origin.  Authenticated and org-scoped, unlike a provider's public webhook URL: a validated principal is required (401 without one) and the org is that principal's, never the body's, so a producer can only fire into its own tenant's flows. Both path segments are required (400) and a payload over the size limit is a 413.
 
         :param source: (required)
         :type source: str
@@ -4336,6 +4066,296 @@ class AutoApi:
 
 
     @validate_call
+    def post_auto_provider_by_id_run(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the provider to run, from the path.")],
+        auto_run_in: AutoRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoRunResp:
+        """Executes one provider action in-process and answers the outcome.
+
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+
+        :param id: ID is the provider to run, from the path. (required)
+        :type id: str
+        :param auto_run_in: (required)
+        :type auto_run_in: AutoRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_provider_by_id_run_serialize(
+            id=id,
+            auto_run_in=auto_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoRunResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_auto_provider_by_id_run_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the provider to run, from the path.")],
+        auto_run_in: AutoRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoRunResp]:
+        """Executes one provider action in-process and answers the outcome.
+
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+
+        :param id: ID is the provider to run, from the path. (required)
+        :type id: str
+        :param auto_run_in: (required)
+        :type auto_run_in: AutoRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_provider_by_id_run_serialize(
+            id=id,
+            auto_run_in=auto_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoRunResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_auto_provider_by_id_run_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the provider to run, from the path.")],
+        auto_run_in: AutoRunIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Executes one provider action in-process and answers the outcome.
+
+        Executes one provider action in-process and answers the outcome. The caller's resolved credential travels in `auth`, delivered to the action verbatim — the runtime resolves no credential itself. An action that ran and failed (or an action name the provider does not have) answers ok:false with the failure message, not an HTTP error; an unknown provider is 404 and a missing action 422.
+
+        :param id: ID is the provider to run, from the path. (required)
+        :type id: str
+        :param auto_run_in: (required)
+        :type auto_run_in: AutoRunIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_provider_by_id_run_serialize(
+            id=id,
+            auto_run_in=auto_run_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoRunResp",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_auto_provider_by_id_run_serialize(
+        self,
+        id,
+        auto_run_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if auto_run_in is not None:
+            _body_params = auto_run_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/auto/provider/{id}/run',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def post_auto_runs_by_id_resume(
         self,
         id: StrictStr,
@@ -4354,7 +4374,7 @@ class AutoApi:
     ) -> None:
         """Release a run waiting at an approval step, with the approval payload
 
-        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (403 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
+        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (401 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
 
         :param id: (required)
         :type id: str
@@ -4420,7 +4440,7 @@ class AutoApi:
     ) -> ApiResponse[None]:
         """Release a run waiting at an approval step, with the approval payload
 
-        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (403 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
+        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (401 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
 
         :param id: (required)
         :type id: str
@@ -4486,7 +4506,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Release a run waiting at an approval step, with the approval payload
 
-        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (403 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
+        Delivers the durable `resume` signal to a run parked on a `wait_for_approval` waitpoint and answers `{resumed:true}` once the engine has taken it.  The body is an ARBITRARY JSON value — object, array, string, number — delivered VERBATIM into the workflow as that waitpoint's output, so it is what the steps after the approval read as their input. An empty body resumes with no payload. That open shape is why this route is not a typed op: an operation's input can carry the payload or the run address, never both.  Org-scoped and fails closed: a validated principal is required (401 without one), the run is read under the caller's OWN org so another tenant's run id is a 404, a body that is not JSON is a 400, and a payload over the size limit is a 413 — it becomes durable engine state, so it is bounded here rather than after it lands. The resume is audited as `automations.run.resume`.
 
         :param id: (required)
         :type id: str

@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.blueprint_health import BlueprintHealth
-from hanzoai.cloud.models.blueprint_index import BlueprintIndex
+from hanzoai.cloud.models.blueprint_blueprint_health import BlueprintBlueprintHealth
+from hanzoai.cloud.models.blueprint_blueprint_index import BlueprintBlueprintIndex
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class BlueprintApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BlueprintIndex:
+    ) -> BlueprintBlueprintIndex:
         """Returns every deployable blueprint with its service count and estimated monthly compute cost.
 
         Returns every deployable blueprint with its service count and estimated monthly compute cost.  It is the lightweight index the console renders as a template gallery before drilling into one stack's bill of images — GET /v1/blueprint/sbom?template=<id> is the detail view. The cost is the same figure the deploy path meters the deploying org on and the 20% author royalty is taken from, priced from the active rate card (GET /v1/blueprint/health echoes that card).
@@ -87,7 +87,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintIndex",
+            '200': "BlueprintBlueprintIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +115,7 @@ class BlueprintApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BlueprintIndex]:
+    ) -> ApiResponse[BlueprintBlueprintIndex]:
         """Returns every deployable blueprint with its service count and estimated monthly compute cost.
 
         Returns every deployable blueprint with its service count and estimated monthly compute cost.  It is the lightweight index the console renders as a template gallery before drilling into one stack's bill of images — GET /v1/blueprint/sbom?template=<id> is the detail view. The cost is the same figure the deploy path meters the deploying org on and the 20% author royalty is taken from, priced from the active rate card (GET /v1/blueprint/health echoes that card).
@@ -150,7 +150,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintIndex",
+            '200': "BlueprintBlueprintIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -213,7 +213,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintIndex",
+            '200': "BlueprintBlueprintIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -255,7 +255,8 @@ class BlueprintApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -298,7 +299,7 @@ class BlueprintApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BlueprintHealth:
+    ) -> BlueprintBlueprintHealth:
         """Reports blueprint liveness and echoes the compute rate card in force.
 
         Reports blueprint liveness and echoes the compute rate card in force.  The rate card is the one the estimator actually applies after the operator env overlay, so an operator can confirm a tuned knob took effect rather than inferring it from a price. Not JWT-gated — a liveness probe must be reachable — and it always answers 200 while the subsystem is mounted.
@@ -333,7 +334,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintHealth",
+            '200': "BlueprintBlueprintHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -361,7 +362,7 @@ class BlueprintApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BlueprintHealth]:
+    ) -> ApiResponse[BlueprintBlueprintHealth]:
         """Reports blueprint liveness and echoes the compute rate card in force.
 
         Reports blueprint liveness and echoes the compute rate card in force.  The rate card is the one the estimator actually applies after the operator env overlay, so an operator can confirm a tuned knob took effect rather than inferring it from a price. Not JWT-gated — a liveness probe must be reachable — and it always answers 200 while the subsystem is mounted.
@@ -396,7 +397,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintHealth",
+            '200': "BlueprintBlueprintHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -459,7 +460,7 @@ class BlueprintApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintHealth",
+            '200': "BlueprintBlueprintHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,8 @@ class BlueprintApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

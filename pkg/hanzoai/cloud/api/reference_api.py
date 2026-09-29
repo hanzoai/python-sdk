@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.clear_reference_out import ClearReferenceOut
-from hanzoai.cloud.models.reference_out import ReferenceOut
-from hanzoai.cloud.models.reference_sets_out import ReferenceSetsOut
-from hanzoai.cloud.models.refresh_reference_in import RefreshReferenceIn
-from hanzoai.cloud.models.refresh_reference_out import RefreshReferenceOut
-from hanzoai.cloud.models.resolve_reference_in import ResolveReferenceIn
-from hanzoai.cloud.models.resolve_reference_out import ResolveReferenceOut
-from hanzoai.cloud.models.set_reference_in import SetReferenceIn
-from hanzoai.cloud.models.set_reference_out import SetReferenceOut
+from hanzoai.cloud.models.reference_clear_reference_out import ReferenceClearReferenceOut
+from hanzoai.cloud.models.reference_reference_out import ReferenceReferenceOut
+from hanzoai.cloud.models.reference_reference_sets_out import ReferenceReferenceSetsOut
+from hanzoai.cloud.models.reference_refresh_reference_in import ReferenceRefreshReferenceIn
+from hanzoai.cloud.models.reference_refresh_reference_out import ReferenceRefreshReferenceOut
+from hanzoai.cloud.models.reference_resolve_reference_in import ReferenceResolveReferenceIn
+from hanzoai.cloud.models.reference_resolve_reference_out import ReferenceResolveReferenceOut
+from hanzoai.cloud.models.reference_set_reference_in import ReferenceSetReferenceIn
+from hanzoai.cloud.models.reference_set_reference_out import ReferenceSetReferenceOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -64,7 +64,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClearReferenceOut:
+    ) -> ReferenceClearReferenceOut:
         """Removes one of your organisation's overrides.
 
         Removes one of your organisation's overrides.  It removes an entry your organisation wrote, never a baseline member: the published set is not writable from here, so a removal can only ever restore the baseline's own answer.
@@ -105,7 +105,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClearReferenceOut",
+            '200': "ReferenceClearReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -135,7 +135,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClearReferenceOut]:
+    ) -> ApiResponse[ReferenceClearReferenceOut]:
         """Removes one of your organisation's overrides.
 
         Removes one of your organisation's overrides.  It removes an entry your organisation wrote, never a baseline member: the published set is not writable from here, so a removal can only ever restore the baseline's own answer.
@@ -176,7 +176,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClearReferenceOut",
+            '200': "ReferenceClearReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -247,7 +247,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClearReferenceOut",
+            '200': "ReferenceClearReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -297,7 +297,8 @@ class ReferenceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -343,7 +344,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReferenceOut:
+    ) -> ReferenceReferenceOut:
         """Reference describes one set and lists your org's overrides in it.
 
         Reference describes one set and lists your org's overrides in it.  The set half is public data about a published list — its version, its publishers, their licences and how current each one is. The overrides half is yours alone: it is read from your organisation's own store, and no other organisation's entries can appear in it.
@@ -387,7 +388,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceOut",
+            '200': "ReferenceReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -418,7 +419,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReferenceOut]:
+    ) -> ApiResponse[ReferenceReferenceOut]:
         """Reference describes one set and lists your org's overrides in it.
 
         Reference describes one set and lists your org's overrides in it.  The set half is public data about a published list — its version, its publishers, their licences and how current each one is. The overrides half is yours alone: it is read from your organisation's own store, and no other organisation's entries can appear in it.
@@ -462,7 +463,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceOut",
+            '200': "ReferenceReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -537,7 +538,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceOut",
+            '200': "ReferenceReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -592,7 +593,8 @@ class ReferenceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -635,7 +637,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReferenceSetsOut:
+    ) -> ReferenceReferenceSetsOut:
         """Lists every set this plane publishes, with its version and how fresh it is.
 
         Lists every set this plane publishes, with its version and how fresh it is.  Read the Stale and Refused lists first: they are the two ways this plane can be quietly wrong, and they are reported rather than inferred. A set in Refused answers nothing — it has never loaded, it is held by another component, or it names a source we hold no licence for.
@@ -670,7 +672,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceSetsOut",
+            '200': "ReferenceReferenceSetsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -698,7 +700,7 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReferenceSetsOut]:
+    ) -> ApiResponse[ReferenceReferenceSetsOut]:
         """Lists every set this plane publishes, with its version and how fresh it is.
 
         Lists every set this plane publishes, with its version and how fresh it is.  Read the Stale and Refused lists first: they are the two ways this plane can be quietly wrong, and they are reported rather than inferred. A set in Refused answers nothing — it has never loaded, it is held by another component, or it names a source we hold no licence for.
@@ -733,7 +735,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceSetsOut",
+            '200': "ReferenceReferenceSetsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -796,7 +798,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReferenceSetsOut",
+            '200': "ReferenceReferenceSetsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -838,7 +840,8 @@ class ReferenceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -869,7 +872,7 @@ class ReferenceApi:
     @validate_call
     def risk_refresh_reference(
         self,
-        refresh_reference_in: RefreshReferenceIn,
+        reference_refresh_reference_in: ReferenceRefreshReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -882,13 +885,13 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RefreshReferenceOut:
+    ) -> ReferenceRefreshReferenceOut:
         """Takes a new version of one set.
 
         Takes a new version of one set. SuperAdmin only.  It is platform work, not tenant work: it writes the shared baseline every organisation reads, so it is gated to the platform's own identity. Nothing here can write an organisation's overrides, and nothing an organisation sends can reach this route.  Idempotent. A version is the content digest of what was taken, so refreshing an unchanged publisher writes no rows and reports unchanged. Resumable: a run that died half-way is continued from where it stopped rather than restarted.  A set whose source needs a licence we do not hold is refused with the reason, rather than being quietly skipped.
 
-        :param refresh_reference_in: (required)
-        :type refresh_reference_in: RefreshReferenceIn
+        :param reference_refresh_reference_in: (required)
+        :type reference_refresh_reference_in: ReferenceRefreshReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -912,7 +915,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_refresh_reference_serialize(
-            refresh_reference_in=refresh_reference_in,
+            reference_refresh_reference_in=reference_refresh_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -920,7 +923,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefreshReferenceOut",
+            '200': "ReferenceRefreshReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -936,7 +939,7 @@ class ReferenceApi:
     @validate_call
     def risk_refresh_reference_with_http_info(
         self,
-        refresh_reference_in: RefreshReferenceIn,
+        reference_refresh_reference_in: ReferenceRefreshReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -949,13 +952,13 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RefreshReferenceOut]:
+    ) -> ApiResponse[ReferenceRefreshReferenceOut]:
         """Takes a new version of one set.
 
         Takes a new version of one set. SuperAdmin only.  It is platform work, not tenant work: it writes the shared baseline every organisation reads, so it is gated to the platform's own identity. Nothing here can write an organisation's overrides, and nothing an organisation sends can reach this route.  Idempotent. A version is the content digest of what was taken, so refreshing an unchanged publisher writes no rows and reports unchanged. Resumable: a run that died half-way is continued from where it stopped rather than restarted.  A set whose source needs a licence we do not hold is refused with the reason, rather than being quietly skipped.
 
-        :param refresh_reference_in: (required)
-        :type refresh_reference_in: RefreshReferenceIn
+        :param reference_refresh_reference_in: (required)
+        :type reference_refresh_reference_in: ReferenceRefreshReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -979,7 +982,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_refresh_reference_serialize(
-            refresh_reference_in=refresh_reference_in,
+            reference_refresh_reference_in=reference_refresh_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -987,7 +990,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefreshReferenceOut",
+            '200': "ReferenceRefreshReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1003,7 +1006,7 @@ class ReferenceApi:
     @validate_call
     def risk_refresh_reference_without_preload_content(
         self,
-        refresh_reference_in: RefreshReferenceIn,
+        reference_refresh_reference_in: ReferenceRefreshReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1021,8 +1024,8 @@ class ReferenceApi:
 
         Takes a new version of one set. SuperAdmin only.  It is platform work, not tenant work: it writes the shared baseline every organisation reads, so it is gated to the platform's own identity. Nothing here can write an organisation's overrides, and nothing an organisation sends can reach this route.  Idempotent. A version is the content digest of what was taken, so refreshing an unchanged publisher writes no rows and reports unchanged. Resumable: a run that died half-way is continued from where it stopped rather than restarted.  A set whose source needs a licence we do not hold is refused with the reason, rather than being quietly skipped.
 
-        :param refresh_reference_in: (required)
-        :type refresh_reference_in: RefreshReferenceIn
+        :param reference_refresh_reference_in: (required)
+        :type reference_refresh_reference_in: ReferenceRefreshReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1046,7 +1049,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_refresh_reference_serialize(
-            refresh_reference_in=refresh_reference_in,
+            reference_refresh_reference_in=reference_refresh_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1054,7 +1057,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefreshReferenceOut",
+            '200': "ReferenceRefreshReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1065,7 +1068,7 @@ class ReferenceApi:
 
     def _risk_refresh_reference_serialize(
         self,
-        refresh_reference_in,
+        reference_refresh_reference_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1091,15 +1094,16 @@ class ReferenceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if refresh_reference_in is not None:
-            _body_params = refresh_reference_in
+        if reference_refresh_reference_in is not None:
+            _body_params = reference_refresh_reference_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1143,7 +1147,7 @@ class ReferenceApi:
     @validate_call
     def risk_resolve_reference(
         self,
-        resolve_reference_in: ResolveReferenceIn,
+        reference_resolve_reference_in: ReferenceResolveReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1156,13 +1160,13 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ResolveReferenceOut:
+    ) -> ReferenceResolveReferenceOut:
         """Looks keys up against the reference plane.
 
         Looks keys up against the reference plane.  Your organisation's own overrides are consulted FIRST and win outright; the shared baseline answers everything they do not cover. Every answer names the version that produced it, when that version was current and whether it is stale, so a decision can record exactly what it consulted.  Read Refusal before reading Hit. A set that has never loaded, one held by the component that screens against it, and one whose source needs a licence we do not hold all answer with a refusal — and a miss on a refusing set means nothing is known, not that the key is clean.
 
-        :param resolve_reference_in: (required)
-        :type resolve_reference_in: ResolveReferenceIn
+        :param reference_resolve_reference_in: (required)
+        :type reference_resolve_reference_in: ReferenceResolveReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1186,7 +1190,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_reference_serialize(
-            resolve_reference_in=resolve_reference_in,
+            reference_resolve_reference_in=reference_resolve_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1194,7 +1198,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResolveReferenceOut",
+            '200': "ReferenceResolveReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1210,7 +1214,7 @@ class ReferenceApi:
     @validate_call
     def risk_resolve_reference_with_http_info(
         self,
-        resolve_reference_in: ResolveReferenceIn,
+        reference_resolve_reference_in: ReferenceResolveReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1223,13 +1227,13 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ResolveReferenceOut]:
+    ) -> ApiResponse[ReferenceResolveReferenceOut]:
         """Looks keys up against the reference plane.
 
         Looks keys up against the reference plane.  Your organisation's own overrides are consulted FIRST and win outright; the shared baseline answers everything they do not cover. Every answer names the version that produced it, when that version was current and whether it is stale, so a decision can record exactly what it consulted.  Read Refusal before reading Hit. A set that has never loaded, one held by the component that screens against it, and one whose source needs a licence we do not hold all answer with a refusal — and a miss on a refusing set means nothing is known, not that the key is clean.
 
-        :param resolve_reference_in: (required)
-        :type resolve_reference_in: ResolveReferenceIn
+        :param reference_resolve_reference_in: (required)
+        :type reference_resolve_reference_in: ReferenceResolveReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1253,7 +1257,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_reference_serialize(
-            resolve_reference_in=resolve_reference_in,
+            reference_resolve_reference_in=reference_resolve_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1261,7 +1265,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResolveReferenceOut",
+            '200': "ReferenceResolveReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1277,7 +1281,7 @@ class ReferenceApi:
     @validate_call
     def risk_resolve_reference_without_preload_content(
         self,
-        resolve_reference_in: ResolveReferenceIn,
+        reference_resolve_reference_in: ReferenceResolveReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1295,8 +1299,8 @@ class ReferenceApi:
 
         Looks keys up against the reference plane.  Your organisation's own overrides are consulted FIRST and win outright; the shared baseline answers everything they do not cover. Every answer names the version that produced it, when that version was current and whether it is stale, so a decision can record exactly what it consulted.  Read Refusal before reading Hit. A set that has never loaded, one held by the component that screens against it, and one whose source needs a licence we do not hold all answer with a refusal — and a miss on a refusing set means nothing is known, not that the key is clean.
 
-        :param resolve_reference_in: (required)
-        :type resolve_reference_in: ResolveReferenceIn
+        :param reference_resolve_reference_in: (required)
+        :type reference_resolve_reference_in: ReferenceResolveReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1320,7 +1324,7 @@ class ReferenceApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_reference_serialize(
-            resolve_reference_in=resolve_reference_in,
+            reference_resolve_reference_in=reference_resolve_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1328,7 +1332,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ResolveReferenceOut",
+            '200': "ReferenceResolveReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1339,7 +1343,7 @@ class ReferenceApi:
 
     def _risk_resolve_reference_serialize(
         self,
-        resolve_reference_in,
+        reference_resolve_reference_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1365,15 +1369,16 @@ class ReferenceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if resolve_reference_in is not None:
-            _body_params = resolve_reference_in
+        if reference_resolve_reference_in is not None:
+            _body_params = reference_resolve_reference_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1418,7 +1423,7 @@ class ReferenceApi:
     def risk_set_reference(
         self,
         set: StrictStr,
-        set_reference_in: SetReferenceIn,
+        reference_set_reference_in: ReferenceSetReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1431,15 +1436,15 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SetReferenceOut:
+    ) -> ReferenceSetReferenceOut:
         """Writes your organisation's own allow and deny entries over a set.
 
         Writes your organisation's own allow and deny entries over a set.  Idempotent on the key: writing the same entry twice is one entry, and writing it again replaces the verdict and the note. The whole batch is one transaction, so a batch that would cross the per-set bound writes nothing rather than half of itself — a half-applied deny list is worse than a refused one, because nobody can tell which half applied.  Your entries are held in your organisation's own store and are never visible to another organisation, and they never change what any other organisation sees. The shared baseline is not writable from here at all.
 
         :param set: (required)
         :type set: str
-        :param set_reference_in: (required)
-        :type set_reference_in: SetReferenceIn
+        :param reference_set_reference_in: (required)
+        :type reference_set_reference_in: ReferenceSetReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1464,7 +1469,7 @@ class ReferenceApi:
 
         _param = self._risk_set_reference_serialize(
             set=set,
-            set_reference_in=set_reference_in,
+            reference_set_reference_in=reference_set_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1472,7 +1477,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SetReferenceOut",
+            '200': "ReferenceSetReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1489,7 +1494,7 @@ class ReferenceApi:
     def risk_set_reference_with_http_info(
         self,
         set: StrictStr,
-        set_reference_in: SetReferenceIn,
+        reference_set_reference_in: ReferenceSetReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1502,15 +1507,15 @@ class ReferenceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SetReferenceOut]:
+    ) -> ApiResponse[ReferenceSetReferenceOut]:
         """Writes your organisation's own allow and deny entries over a set.
 
         Writes your organisation's own allow and deny entries over a set.  Idempotent on the key: writing the same entry twice is one entry, and writing it again replaces the verdict and the note. The whole batch is one transaction, so a batch that would cross the per-set bound writes nothing rather than half of itself — a half-applied deny list is worse than a refused one, because nobody can tell which half applied.  Your entries are held in your organisation's own store and are never visible to another organisation, and they never change what any other organisation sees. The shared baseline is not writable from here at all.
 
         :param set: (required)
         :type set: str
-        :param set_reference_in: (required)
-        :type set_reference_in: SetReferenceIn
+        :param reference_set_reference_in: (required)
+        :type reference_set_reference_in: ReferenceSetReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1535,7 +1540,7 @@ class ReferenceApi:
 
         _param = self._risk_set_reference_serialize(
             set=set,
-            set_reference_in=set_reference_in,
+            reference_set_reference_in=reference_set_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1543,7 +1548,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SetReferenceOut",
+            '200': "ReferenceSetReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1560,7 +1565,7 @@ class ReferenceApi:
     def risk_set_reference_without_preload_content(
         self,
         set: StrictStr,
-        set_reference_in: SetReferenceIn,
+        reference_set_reference_in: ReferenceSetReferenceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1580,8 +1585,8 @@ class ReferenceApi:
 
         :param set: (required)
         :type set: str
-        :param set_reference_in: (required)
-        :type set_reference_in: SetReferenceIn
+        :param reference_set_reference_in: (required)
+        :type reference_set_reference_in: ReferenceSetReferenceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1606,7 +1611,7 @@ class ReferenceApi:
 
         _param = self._risk_set_reference_serialize(
             set=set,
-            set_reference_in=set_reference_in,
+            reference_set_reference_in=reference_set_reference_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1614,7 +1619,7 @@ class ReferenceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SetReferenceOut",
+            '200': "ReferenceSetReferenceOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1626,7 +1631,7 @@ class ReferenceApi:
     def _risk_set_reference_serialize(
         self,
         set,
-        set_reference_in,
+        reference_set_reference_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1654,15 +1659,16 @@ class ReferenceApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if set_reference_in is not None:
-            _body_params = set_reference_in
+        if reference_set_reference_in is not None:
+            _body_params = reference_set_reference_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

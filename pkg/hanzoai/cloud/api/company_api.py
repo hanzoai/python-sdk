@@ -19,32 +19,32 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictInt, StrictStr
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
-from hanzoai.cloud.models.advance_in import AdvanceIn
-from hanzoai.cloud.models.begin_in import BeginIn
-from hanzoai.cloud.models.decision_in import DecisionIn
+from hanzoai.cloud.models.company_advance_in import CompanyAdvanceIn
+from hanzoai.cloud.models.company_begin_in import CompanyBeginIn
+from hanzoai.cloud.models.company_decision_in import CompanyDecisionIn
+from hanzoai.cloud.models.company_ein import CompanyEIN
+from hanzoai.cloud.models.company_ein_in import CompanyEinIn
+from hanzoai.cloud.models.company_esign_complete_in import CompanyEsignCompleteIn
+from hanzoai.cloud.models.company_esign_out import CompanyEsignOut
+from hanzoai.cloud.models.company_formation_view import CompanyFormationView
+from hanzoai.cloud.models.company_founders_in import CompanyFoundersIn
+from hanzoai.cloud.models.company_import_cap_table_in import CompanyImportCapTableIn
+from hanzoai.cloud.models.company_import_cap_table_out import CompanyImportCapTableOut
+from hanzoai.cloud.models.company_import_documents_in import CompanyImportDocumentsIn
+from hanzoai.cloud.models.company_import_documents_out import CompanyImportDocumentsOut
+from hanzoai.cloud.models.company_kyc_refresh_out import CompanyKycRefreshOut
+from hanzoai.cloud.models.company_kyc_start_out import CompanyKycStartOut
+from hanzoai.cloud.models.company_register_counts import CompanyRegisterCounts
+from hanzoai.cloud.models.company_register_page import CompanyRegisterPage
+from hanzoai.cloud.models.company_review_queue import CompanyReviewQueue
+from hanzoai.cloud.models.company_round_input import CompanyRoundInput
+from hanzoai.cloud.models.company_round_out import CompanyRoundOut
+from hanzoai.cloud.models.company_safe_in import CompanySafeIn
+from hanzoai.cloud.models.company_safe_out import CompanySafeOut
+from hanzoai.cloud.models.company_structure_in import CompanyStructureIn
+from hanzoai.cloud.models.company_tariff import CompanyTariff
+from hanzoai.cloud.models.company_tariff_in import CompanyTariffIn
 from hanzoai.cloud.models.deck_out import DeckOut
-from hanzoai.cloud.models.ein import EIN
-from hanzoai.cloud.models.ein_in import EinIn
-from hanzoai.cloud.models.esign_complete_in import EsignCompleteIn
-from hanzoai.cloud.models.esign_out import EsignOut
-from hanzoai.cloud.models.formation_view import FormationView
-from hanzoai.cloud.models.founders_in import FoundersIn
-from hanzoai.cloud.models.import_cap_table_in import ImportCapTableIn
-from hanzoai.cloud.models.import_cap_table_out import ImportCapTableOut
-from hanzoai.cloud.models.import_documents_in import ImportDocumentsIn
-from hanzoai.cloud.models.import_documents_out import ImportDocumentsOut
-from hanzoai.cloud.models.kyc_refresh_out import KycRefreshOut
-from hanzoai.cloud.models.kyc_start_out import KycStartOut
-from hanzoai.cloud.models.register_counts import RegisterCounts
-from hanzoai.cloud.models.register_page import RegisterPage
-from hanzoai.cloud.models.review_queue import ReviewQueue
-from hanzoai.cloud.models.round_input import RoundInput
-from hanzoai.cloud.models.round_out import RoundOut
-from hanzoai.cloud.models.safe_in import SafeIn
-from hanzoai.cloud.models.safe_out import SafeOut
-from hanzoai.cloud.models.structure_in import StructureIn
-from hanzoai.cloud.models.tariff import Tariff
-from hanzoai.cloud.models.tariff_in import TariffIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -79,10 +79,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
-        """Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+    ) -> CompanyFormationView:
+        """Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
-        Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+        Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -114,7 +114,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -142,10 +142,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
-        """Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+    ) -> ApiResponse[CompanyFormationView]:
+        """Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
-        Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+        Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -177,7 +177,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -206,9 +206,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+        """Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
-        Get returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
+        Returns the caller org's formation and the stages reachable from it, or 404 when the org has not begun one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -240,7 +240,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -282,7 +282,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -329,7 +330,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegisterPage:
+    ) -> CompanyRegisterPage:
         """Returns the platform's whole formation register, newest activity first — every org's formation, not the caller's.
 
         Returns the platform's whole formation register, newest activity first — every org's formation, not the caller's. It is a Hanzo platform operation: a caller who is not a platform reviewer gets 403.  Filter by stage and structure, page with limit and offset. An unknown stage is refused with 400 rather than returning a silently empty page.
@@ -376,7 +377,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterPage",
+            '200': "CompanyRegisterPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -408,7 +409,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegisterPage]:
+    ) -> ApiResponse[CompanyRegisterPage]:
         """Returns the platform's whole formation register, newest activity first — every org's formation, not the caller's.
 
         Returns the platform's whole formation register, newest activity first — every org's formation, not the caller's. It is a Hanzo platform operation: a caller who is not a platform reviewer gets 403.  Filter by stage and structure, page with limit and offset. An unknown stage is refused with 400 rather than returning a silently empty page.
@@ -455,7 +456,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterPage",
+            '200': "CompanyRegisterPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -534,7 +535,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterPage",
+            '200': "CompanyRegisterPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -596,7 +597,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -639,7 +641,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegisterCounts:
+    ) -> CompanyRegisterCounts:
         """Counts the platform's formations by stage — the register's shape in one read, so a queue that is growing is visible as a number rather than inferred by paging the list.
 
         Counts the platform's formations by stage — the register's shape in one read, so a queue that is growing is visible as a number rather than inferred by paging the list. A Hanzo platform operation: a caller who is not a platform reviewer gets 403.
@@ -674,7 +676,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterCounts",
+            '200': "CompanyRegisterCounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -702,7 +704,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegisterCounts]:
+    ) -> ApiResponse[CompanyRegisterCounts]:
         """Counts the platform's formations by stage — the register's shape in one read, so a queue that is growing is visible as a number rather than inferred by paging the list.
 
         Counts the platform's formations by stage — the register's shape in one read, so a queue that is growing is visible as a number rather than inferred by paging the list. A Hanzo platform operation: a caller who is not a platform reviewer gets 403.
@@ -737,7 +739,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterCounts",
+            '200': "CompanyRegisterCounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -800,7 +802,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterCounts",
+            '200': "CompanyRegisterCounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -842,7 +844,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -886,7 +889,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReviewQueue:
+    ) -> CompanyReviewQueue:
         """Reports the founders whose KYC is not yet settled, oldest formation first, so the queue drains in the order founders have been waiting.
 
         Reports the founders whose KYC is not yet settled, oldest formation first, so the queue drains in the order founders have been waiting. A Hanzo platform operation: a caller who is not a platform reviewer gets 403.  It only says who is waiting; the decision itself is POST /v1/company/kyc/decision.
@@ -924,7 +927,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReviewQueue",
+            '200': "CompanyReviewQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -953,7 +956,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReviewQueue]:
+    ) -> ApiResponse[CompanyReviewQueue]:
         """Reports the founders whose KYC is not yet settled, oldest formation first, so the queue drains in the order founders have been waiting.
 
         Reports the founders whose KYC is not yet settled, oldest formation first, so the queue drains in the order founders have been waiting. A Hanzo platform operation: a caller who is not a platform reviewer gets 403.  It only says who is waiting; the decision itself is POST /v1/company/kyc/decision.
@@ -991,7 +994,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReviewQueue",
+            '200': "CompanyReviewQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1058,7 +1061,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReviewQueue",
+            '200': "CompanyReviewQueue",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1105,7 +1108,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1136,7 +1140,7 @@ class CompanyApi:
     @validate_call
     def post_company(
         self,
-        begin_in: BeginIn,
+        company_begin_in: CompanyBeginIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1149,13 +1153,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
-        """Begin starts the org's one formation and returns it with the stages reachable from it.
+    ) -> CompanyFormationView:
+        """Starts the org's one formation and returns it with the stages reachable from it.
 
-        Begin starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
+        Starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
 
-        :param begin_in: (required)
-        :type begin_in: BeginIn
+        :param company_begin_in: (required)
+        :type company_begin_in: CompanyBeginIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1179,7 +1183,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_serialize(
-            begin_in=begin_in,
+            company_begin_in=company_begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1187,7 +1191,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1203,7 +1207,7 @@ class CompanyApi:
     @validate_call
     def post_company_with_http_info(
         self,
-        begin_in: BeginIn,
+        company_begin_in: CompanyBeginIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1216,13 +1220,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
-        """Begin starts the org's one formation and returns it with the stages reachable from it.
+    ) -> ApiResponse[CompanyFormationView]:
+        """Starts the org's one formation and returns it with the stages reachable from it.
 
-        Begin starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
+        Starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
 
-        :param begin_in: (required)
-        :type begin_in: BeginIn
+        :param company_begin_in: (required)
+        :type company_begin_in: CompanyBeginIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1246,7 +1250,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_serialize(
-            begin_in=begin_in,
+            company_begin_in=company_begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1254,7 +1258,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1270,7 +1274,7 @@ class CompanyApi:
     @validate_call
     def post_company_without_preload_content(
         self,
-        begin_in: BeginIn,
+        company_begin_in: CompanyBeginIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1284,12 +1288,12 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Begin starts the org's one formation and returns it with the stages reachable from it.
+        """Starts the org's one formation and returns it with the stages reachable from it.
 
-        Begin starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
+        Starts the org's one formation and returns it with the stages reachable from it. It is idempotent: an org that already has a formation gets that one back with 200, while a first call creates it and answers 201.
 
-        :param begin_in: (required)
-        :type begin_in: BeginIn
+        :param company_begin_in: (required)
+        :type company_begin_in: CompanyBeginIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1313,7 +1317,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_serialize(
-            begin_in=begin_in,
+            company_begin_in=company_begin_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1321,7 +1325,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1332,7 +1336,7 @@ class CompanyApi:
 
     def _post_company_serialize(
         self,
-        begin_in,
+        company_begin_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1358,15 +1362,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if begin_in is not None:
-            _body_params = begin_in
+        if company_begin_in is not None:
+            _body_params = company_begin_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1410,7 +1415,7 @@ class CompanyApi:
     @validate_call
     def post_company_advance(
         self,
-        advance_in: AdvanceIn,
+        company_advance_in: CompanyAdvanceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1423,13 +1428,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
-        """Advance runs the ONE guarded transition of the formation machine.
+    ) -> CompanyFormationView:
+        """Runs the ONE guarded transition of the formation machine.
 
-        Advance runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
+        Runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
 
-        :param advance_in: (required)
-        :type advance_in: AdvanceIn
+        :param company_advance_in: (required)
+        :type company_advance_in: CompanyAdvanceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1453,7 +1458,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_advance_serialize(
-            advance_in=advance_in,
+            company_advance_in=company_advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1461,7 +1466,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1477,7 +1482,7 @@ class CompanyApi:
     @validate_call
     def post_company_advance_with_http_info(
         self,
-        advance_in: AdvanceIn,
+        company_advance_in: CompanyAdvanceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1490,13 +1495,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
-        """Advance runs the ONE guarded transition of the formation machine.
+    ) -> ApiResponse[CompanyFormationView]:
+        """Runs the ONE guarded transition of the formation machine.
 
-        Advance runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
+        Runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
 
-        :param advance_in: (required)
-        :type advance_in: AdvanceIn
+        :param company_advance_in: (required)
+        :type company_advance_in: CompanyAdvanceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1520,7 +1525,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_advance_serialize(
-            advance_in=advance_in,
+            company_advance_in=company_advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1528,7 +1533,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1544,7 +1549,7 @@ class CompanyApi:
     @validate_call
     def post_company_advance_without_preload_content(
         self,
-        advance_in: AdvanceIn,
+        company_advance_in: CompanyAdvanceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1558,12 +1563,12 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Advance runs the ONE guarded transition of the formation machine.
+        """Runs the ONE guarded transition of the formation machine.
 
-        Advance runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
+        Runs the ONE guarded transition of the formation machine. It is the only endpoint between stages: the actions populate data, this decides ordering.  An edge the machine does not define answers 409; an edge whose guard is not yet satisfied answers 422 naming what is missing. Reaching the terminal `company` stage also records the incorporation on the canonical cap table, and that must succeed before the transition is persisted.
 
-        :param advance_in: (required)
-        :type advance_in: AdvanceIn
+        :param company_advance_in: (required)
+        :type company_advance_in: CompanyAdvanceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1587,7 +1592,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_advance_serialize(
-            advance_in=advance_in,
+            company_advance_in=company_advance_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1595,7 +1600,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1606,7 +1611,7 @@ class CompanyApi:
 
     def _post_company_advance_serialize(
         self,
-        advance_in,
+        company_advance_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1632,15 +1637,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if advance_in is not None:
-            _body_params = advance_in
+        if company_advance_in is not None:
+            _body_params = company_advance_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1696,7 +1702,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.
 
         Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
@@ -1731,7 +1737,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1759,7 +1765,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.
 
         Renders the formation documents for the chosen structure and jurisdiction, ingests each into the org's data room, and submits the state filing through the filing client.  With no filing partner wired the filing is recorded honestly as \"manual\" — no filing id is fabricated. Available only at the documents stage.
@@ -1794,7 +1800,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1857,7 +1863,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1899,7 +1905,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1930,7 +1937,7 @@ class CompanyApi:
     @validate_call
     def post_company_ein(
         self,
-        ein_in: EinIn,
+        company_ein_in: CompanyEinIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1943,13 +1950,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EIN:
+    ) -> CompanyEIN:
         """Opens the EIN application and answers what it owes.
 
         Opens the EIN application and answers what it owes.  The answer states whether it can be filed ONLINE, because that is the fact deciding whether the customer waits a sitting or several weeks — and it names each form with what that form is for, so nobody has to already know what an SS-4 is to understand why they are signing one.
 
-        :param ein_in: (required)
-        :type ein_in: EinIn
+        :param company_ein_in: (required)
+        :type company_ein_in: CompanyEinIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1973,7 +1980,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_ein_serialize(
-            ein_in=ein_in,
+            company_ein_in=company_ein_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1981,7 +1988,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EIN",
+            '200': "CompanyEIN",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1997,7 +2004,7 @@ class CompanyApi:
     @validate_call
     def post_company_ein_with_http_info(
         self,
-        ein_in: EinIn,
+        company_ein_in: CompanyEinIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2010,13 +2017,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EIN]:
+    ) -> ApiResponse[CompanyEIN]:
         """Opens the EIN application and answers what it owes.
 
         Opens the EIN application and answers what it owes.  The answer states whether it can be filed ONLINE, because that is the fact deciding whether the customer waits a sitting or several weeks — and it names each form with what that form is for, so nobody has to already know what an SS-4 is to understand why they are signing one.
 
-        :param ein_in: (required)
-        :type ein_in: EinIn
+        :param company_ein_in: (required)
+        :type company_ein_in: CompanyEinIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2040,7 +2047,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_ein_serialize(
-            ein_in=ein_in,
+            company_ein_in=company_ein_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2048,7 +2055,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EIN",
+            '200': "CompanyEIN",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2064,7 +2071,7 @@ class CompanyApi:
     @validate_call
     def post_company_ein_without_preload_content(
         self,
-        ein_in: EinIn,
+        company_ein_in: CompanyEinIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2082,8 +2089,8 @@ class CompanyApi:
 
         Opens the EIN application and answers what it owes.  The answer states whether it can be filed ONLINE, because that is the fact deciding whether the customer waits a sitting or several weeks — and it names each form with what that form is for, so nobody has to already know what an SS-4 is to understand why they are signing one.
 
-        :param ein_in: (required)
-        :type ein_in: EinIn
+        :param company_ein_in: (required)
+        :type company_ein_in: CompanyEinIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2107,7 +2114,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_ein_serialize(
-            ein_in=ein_in,
+            company_ein_in=company_ein_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2115,7 +2122,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EIN",
+            '200': "CompanyEIN",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2126,7 +2133,7 @@ class CompanyApi:
 
     def _post_company_ein_serialize(
         self,
-        ein_in,
+        company_ein_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2152,15 +2159,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ein_in is not None:
-            _body_params = ein_in
+        if company_ein_in is not None:
+            _body_params = company_ein_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2216,7 +2224,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignOut:
+    ) -> CompanyEsignOut:
         """Sends the generated formation documents for signature by every founder and records the provider's reference on the formation.
 
         Sends the generated formation documents for signature by every founder and records the provider's reference on the formation. Available only at the esign stage.
@@ -2251,7 +2259,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignOut",
+            '200': "CompanyEsignOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2279,7 +2287,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignOut]:
+    ) -> ApiResponse[CompanyEsignOut]:
         """Sends the generated formation documents for signature by every founder and records the provider's reference on the formation.
 
         Sends the generated formation documents for signature by every founder and records the provider's reference on the formation. Available only at the esign stage.
@@ -2314,7 +2322,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignOut",
+            '200': "CompanyEsignOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2377,7 +2385,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignOut",
+            '200': "CompanyEsignOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2419,7 +2427,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2450,7 +2459,7 @@ class CompanyApi:
     @validate_call
     def post_company_esign_complete(
         self,
-        esign_complete_in: EsignCompleteIn,
+        company_esign_complete_in: CompanyEsignCompleteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2463,13 +2472,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Records whether the formation documents have been signed.
 
         Records whether the formation documents have been signed. It consults the e-signature provider, which a real provider's webhook drives; the signal is idempotent.  An explicit `signed` in the request overrides the provider's answer, which is the manual path for the stub provider that never self-completes.
 
-        :param esign_complete_in: (required)
-        :type esign_complete_in: EsignCompleteIn
+        :param company_esign_complete_in: (required)
+        :type company_esign_complete_in: CompanyEsignCompleteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2493,7 +2502,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_esign_complete_serialize(
-            esign_complete_in=esign_complete_in,
+            company_esign_complete_in=company_esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2501,7 +2510,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2517,7 +2526,7 @@ class CompanyApi:
     @validate_call
     def post_company_esign_complete_with_http_info(
         self,
-        esign_complete_in: EsignCompleteIn,
+        company_esign_complete_in: CompanyEsignCompleteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2530,13 +2539,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Records whether the formation documents have been signed.
 
         Records whether the formation documents have been signed. It consults the e-signature provider, which a real provider's webhook drives; the signal is idempotent.  An explicit `signed` in the request overrides the provider's answer, which is the manual path for the stub provider that never self-completes.
 
-        :param esign_complete_in: (required)
-        :type esign_complete_in: EsignCompleteIn
+        :param company_esign_complete_in: (required)
+        :type company_esign_complete_in: CompanyEsignCompleteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2560,7 +2569,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_esign_complete_serialize(
-            esign_complete_in=esign_complete_in,
+            company_esign_complete_in=company_esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2568,7 +2577,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2584,7 +2593,7 @@ class CompanyApi:
     @validate_call
     def post_company_esign_complete_without_preload_content(
         self,
-        esign_complete_in: EsignCompleteIn,
+        company_esign_complete_in: CompanyEsignCompleteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2602,8 +2611,8 @@ class CompanyApi:
 
         Records whether the formation documents have been signed. It consults the e-signature provider, which a real provider's webhook drives; the signal is idempotent.  An explicit `signed` in the request overrides the provider's answer, which is the manual path for the stub provider that never self-completes.
 
-        :param esign_complete_in: (required)
-        :type esign_complete_in: EsignCompleteIn
+        :param company_esign_complete_in: (required)
+        :type company_esign_complete_in: CompanyEsignCompleteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2627,7 +2636,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_esign_complete_serialize(
-            esign_complete_in=esign_complete_in,
+            company_esign_complete_in=company_esign_complete_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2635,7 +2644,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2646,7 +2655,7 @@ class CompanyApi:
 
     def _post_company_esign_complete_serialize(
         self,
-        esign_complete_in,
+        company_esign_complete_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2672,15 +2681,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_complete_in is not None:
-            _body_params = esign_complete_in
+        if company_esign_complete_in is not None:
+            _body_params = company_esign_complete_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2724,7 +2734,7 @@ class CompanyApi:
     @validate_call
     def post_company_founders(
         self,
-        founders_in: FoundersIn,
+        company_founders_in: CompanyFoundersIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2737,13 +2747,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Replaces the formation's founders.
 
         Replaces the formation's founders. Each founder needs a name, an email and an equity share in basis points; every founder is (re)set to pending KYC, so a previously settled decision does not survive a change of the list.
 
-        :param founders_in: (required)
-        :type founders_in: FoundersIn
+        :param company_founders_in: (required)
+        :type company_founders_in: CompanyFoundersIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2767,7 +2777,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_founders_serialize(
-            founders_in=founders_in,
+            company_founders_in=company_founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2775,7 +2785,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2791,7 +2801,7 @@ class CompanyApi:
     @validate_call
     def post_company_founders_with_http_info(
         self,
-        founders_in: FoundersIn,
+        company_founders_in: CompanyFoundersIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2804,13 +2814,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Replaces the formation's founders.
 
         Replaces the formation's founders. Each founder needs a name, an email and an equity share in basis points; every founder is (re)set to pending KYC, so a previously settled decision does not survive a change of the list.
 
-        :param founders_in: (required)
-        :type founders_in: FoundersIn
+        :param company_founders_in: (required)
+        :type company_founders_in: CompanyFoundersIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2834,7 +2844,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_founders_serialize(
-            founders_in=founders_in,
+            company_founders_in=company_founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2842,7 +2852,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2858,7 +2868,7 @@ class CompanyApi:
     @validate_call
     def post_company_founders_without_preload_content(
         self,
-        founders_in: FoundersIn,
+        company_founders_in: CompanyFoundersIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2876,8 +2886,8 @@ class CompanyApi:
 
         Replaces the formation's founders. Each founder needs a name, an email and an equity share in basis points; every founder is (re)set to pending KYC, so a previously settled decision does not survive a change of the list.
 
-        :param founders_in: (required)
-        :type founders_in: FoundersIn
+        :param company_founders_in: (required)
+        :type company_founders_in: CompanyFoundersIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2901,7 +2911,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_founders_serialize(
-            founders_in=founders_in,
+            company_founders_in=company_founders_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2909,7 +2919,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2920,7 +2930,7 @@ class CompanyApi:
 
     def _post_company_founders_serialize(
         self,
-        founders_in,
+        company_founders_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2946,15 +2956,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if founders_in is not None:
-            _body_params = founders_in
+        if company_founders_in is not None:
+            _body_params = company_founders_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3280,7 +3291,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_round(
         self,
-        round_input: RoundInput,
+        company_round_input: CompanyRoundInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3293,13 +3304,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RoundOut:
+    ) -> CompanyRoundOut:
         """Records a fundraising round on the org's canonical cap table.
 
         Records a fundraising round on the org's canonical cap table. Available only after incorporation (stage company); roundType defaults to PRICED.
 
-        :param round_input: (required)
-        :type round_input: RoundInput
+        :param company_round_input: (required)
+        :type company_round_input: CompanyRoundInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3323,7 +3334,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_round_serialize(
-            round_input=round_input,
+            company_round_input=company_round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3331,7 +3342,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoundOut",
+            '201': "CompanyRoundOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3347,7 +3358,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_round_with_http_info(
         self,
-        round_input: RoundInput,
+        company_round_input: CompanyRoundInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3360,13 +3371,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RoundOut]:
+    ) -> ApiResponse[CompanyRoundOut]:
         """Records a fundraising round on the org's canonical cap table.
 
         Records a fundraising round on the org's canonical cap table. Available only after incorporation (stage company); roundType defaults to PRICED.
 
-        :param round_input: (required)
-        :type round_input: RoundInput
+        :param company_round_input: (required)
+        :type company_round_input: CompanyRoundInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3390,7 +3401,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_round_serialize(
-            round_input=round_input,
+            company_round_input=company_round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3398,7 +3409,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoundOut",
+            '201': "CompanyRoundOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3414,7 +3425,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_round_without_preload_content(
         self,
-        round_input: RoundInput,
+        company_round_input: CompanyRoundInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3432,8 +3443,8 @@ class CompanyApi:
 
         Records a fundraising round on the org's canonical cap table. Available only after incorporation (stage company); roundType defaults to PRICED.
 
-        :param round_input: (required)
-        :type round_input: RoundInput
+        :param company_round_input: (required)
+        :type company_round_input: CompanyRoundInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3457,7 +3468,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_round_serialize(
-            round_input=round_input,
+            company_round_input=company_round_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3465,7 +3476,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RoundOut",
+            '201': "CompanyRoundOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3476,7 +3487,7 @@ class CompanyApi:
 
     def _post_company_fundraise_round_serialize(
         self,
-        round_input,
+        company_round_input,
         _request_auth,
         _content_type,
         _headers,
@@ -3502,15 +3513,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if round_input is not None:
-            _body_params = round_input
+        if company_round_input is not None:
+            _body_params = company_round_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3554,7 +3566,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_safe(
         self,
-        safe_in: SafeIn,
+        company_safe_in: CompanySafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3567,13 +3579,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SafeOut:
+    ) -> CompanySafeOut:
         """Raises an e-signature request over documents already in the org's data room — a SAFE, a convertible note, or any other fundraising paper.
 
         Raises an e-signature request over documents already in the org's data room — a SAFE, a convertible note, or any other fundraising paper. Available only after incorporation (stage company).
 
-        :param safe_in: (required)
-        :type safe_in: SafeIn
+        :param company_safe_in: (required)
+        :type company_safe_in: CompanySafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3597,7 +3609,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_safe_serialize(
-            safe_in=safe_in,
+            company_safe_in=company_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3605,7 +3617,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SafeOut",
+            '201': "CompanySafeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3621,7 +3633,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_safe_with_http_info(
         self,
-        safe_in: SafeIn,
+        company_safe_in: CompanySafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3634,13 +3646,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SafeOut]:
+    ) -> ApiResponse[CompanySafeOut]:
         """Raises an e-signature request over documents already in the org's data room — a SAFE, a convertible note, or any other fundraising paper.
 
         Raises an e-signature request over documents already in the org's data room — a SAFE, a convertible note, or any other fundraising paper. Available only after incorporation (stage company).
 
-        :param safe_in: (required)
-        :type safe_in: SafeIn
+        :param company_safe_in: (required)
+        :type company_safe_in: CompanySafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3664,7 +3676,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_safe_serialize(
-            safe_in=safe_in,
+            company_safe_in=company_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3672,7 +3684,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SafeOut",
+            '201': "CompanySafeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3688,7 +3700,7 @@ class CompanyApi:
     @validate_call
     def post_company_fundraise_safe_without_preload_content(
         self,
-        safe_in: SafeIn,
+        company_safe_in: CompanySafeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3706,8 +3718,8 @@ class CompanyApi:
 
         Raises an e-signature request over documents already in the org's data room — a SAFE, a convertible note, or any other fundraising paper. Available only after incorporation (stage company).
 
-        :param safe_in: (required)
-        :type safe_in: SafeIn
+        :param company_safe_in: (required)
+        :type company_safe_in: CompanySafeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3731,7 +3743,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_fundraise_safe_serialize(
-            safe_in=safe_in,
+            company_safe_in=company_safe_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3739,7 +3751,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SafeOut",
+            '201': "CompanySafeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3750,7 +3762,7 @@ class CompanyApi:
 
     def _post_company_fundraise_safe_serialize(
         self,
-        safe_in,
+        company_safe_in,
         _request_auth,
         _content_type,
         _headers,
@@ -3776,15 +3788,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if safe_in is not None:
-            _body_params = safe_in
+        if company_safe_in is not None:
+            _body_params = company_safe_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3840,7 +3853,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Seeds the canonical cap table with the founding allocation (stakeholders, a common share class, issued shares) and anchors the deterministic equity-genesis root on-chain.
 
         Seeds the canonical cap table with the founding allocation (stakeholders, a common share class, issued shares) and anchors the deterministic equity-genesis root on-chain.  It is idempotent: once a root is recorded the cap table is NOT re-seeded, which would double-issue founder share certificates. The root is persisted even when the on-chain submit fails, because the root is the tamper-evident witness and must not be recomputed on retry. Available only at the genesis stage.
@@ -3875,7 +3888,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3903,7 +3916,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Seeds the canonical cap table with the founding allocation (stakeholders, a common share class, issued shares) and anchors the deterministic equity-genesis root on-chain.
 
         Seeds the canonical cap table with the founding allocation (stakeholders, a common share class, issued shares) and anchors the deterministic equity-genesis root on-chain.  It is idempotent: once a root is recorded the cap table is NOT re-seeded, which would double-issue founder share certificates. The root is persisted even when the on-chain submit fails, because the root is the tamper-evident witness and must not be recomputed on retry. Available only at the genesis stage.
@@ -3938,7 +3951,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4001,7 +4014,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4043,7 +4056,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4074,7 +4088,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_captable(
         self,
-        import_cap_table_in: ImportCapTableIn,
+        company_import_cap_table_in: CompanyImportCapTableIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4087,13 +4101,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImportCapTableOut:
+    ) -> CompanyImportCapTableOut:
         """Reads an existing company's cap table from a Google Sheet and adds its stakeholders to the canonical cap table.
 
         Reads an existing company's cap table from a Google Sheet and adds its stakeholders to the canonical cap table.  The first row is a header and columns are matched by name (case-insensitive): name and email are required, type/relationship/institution optional. A sheet without name and email columns, or with no usable data rows, is refused with 400. Available only at the import stage.
 
-        :param import_cap_table_in: (required)
-        :type import_cap_table_in: ImportCapTableIn
+        :param company_import_cap_table_in: (required)
+        :type company_import_cap_table_in: CompanyImportCapTableIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4117,7 +4131,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_captable_serialize(
-            import_cap_table_in=import_cap_table_in,
+            company_import_cap_table_in=company_import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4125,7 +4139,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportCapTableOut",
+            '200': "CompanyImportCapTableOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4141,7 +4155,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_captable_with_http_info(
         self,
-        import_cap_table_in: ImportCapTableIn,
+        company_import_cap_table_in: CompanyImportCapTableIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4154,13 +4168,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImportCapTableOut]:
+    ) -> ApiResponse[CompanyImportCapTableOut]:
         """Reads an existing company's cap table from a Google Sheet and adds its stakeholders to the canonical cap table.
 
         Reads an existing company's cap table from a Google Sheet and adds its stakeholders to the canonical cap table.  The first row is a header and columns are matched by name (case-insensitive): name and email are required, type/relationship/institution optional. A sheet without name and email columns, or with no usable data rows, is refused with 400. Available only at the import stage.
 
-        :param import_cap_table_in: (required)
-        :type import_cap_table_in: ImportCapTableIn
+        :param company_import_cap_table_in: (required)
+        :type company_import_cap_table_in: CompanyImportCapTableIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4184,7 +4198,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_captable_serialize(
-            import_cap_table_in=import_cap_table_in,
+            company_import_cap_table_in=company_import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4192,7 +4206,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportCapTableOut",
+            '200': "CompanyImportCapTableOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4208,7 +4222,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_captable_without_preload_content(
         self,
-        import_cap_table_in: ImportCapTableIn,
+        company_import_cap_table_in: CompanyImportCapTableIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4226,8 +4240,8 @@ class CompanyApi:
 
         Reads an existing company's cap table from a Google Sheet and adds its stakeholders to the canonical cap table.  The first row is a header and columns are matched by name (case-insensitive): name and email are required, type/relationship/institution optional. A sheet without name and email columns, or with no usable data rows, is refused with 400. Available only at the import stage.
 
-        :param import_cap_table_in: (required)
-        :type import_cap_table_in: ImportCapTableIn
+        :param company_import_cap_table_in: (required)
+        :type company_import_cap_table_in: CompanyImportCapTableIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4251,7 +4265,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_captable_serialize(
-            import_cap_table_in=import_cap_table_in,
+            company_import_cap_table_in=company_import_cap_table_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4259,7 +4273,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportCapTableOut",
+            '200': "CompanyImportCapTableOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4270,7 +4284,7 @@ class CompanyApi:
 
     def _post_company_import_captable_serialize(
         self,
-        import_cap_table_in,
+        company_import_cap_table_in,
         _request_auth,
         _content_type,
         _headers,
@@ -4296,15 +4310,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if import_cap_table_in is not None:
-            _body_params = import_cap_table_in
+        if company_import_cap_table_in is not None:
+            _body_params = company_import_cap_table_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4348,7 +4363,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_documents(
         self,
-        import_documents_in: ImportDocumentsIn,
+        company_import_documents_in: CompanyImportDocumentsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4361,13 +4376,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ImportDocumentsOut:
+    ) -> CompanyImportDocumentsOut:
         """Ingests an existing company's corporate documents from a Google Drive folder into the org's data room.
 
         Ingests an existing company's corporate documents from a Google Drive folder into the org's data room. The import is shallow — sub-folders are skipped, not walked — and available only at the import stage.
 
-        :param import_documents_in: (required)
-        :type import_documents_in: ImportDocumentsIn
+        :param company_import_documents_in: (required)
+        :type company_import_documents_in: CompanyImportDocumentsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4391,7 +4406,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_documents_serialize(
-            import_documents_in=import_documents_in,
+            company_import_documents_in=company_import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4399,7 +4414,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportDocumentsOut",
+            '200': "CompanyImportDocumentsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4415,7 +4430,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_documents_with_http_info(
         self,
-        import_documents_in: ImportDocumentsIn,
+        company_import_documents_in: CompanyImportDocumentsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4428,13 +4443,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ImportDocumentsOut]:
+    ) -> ApiResponse[CompanyImportDocumentsOut]:
         """Ingests an existing company's corporate documents from a Google Drive folder into the org's data room.
 
         Ingests an existing company's corporate documents from a Google Drive folder into the org's data room. The import is shallow — sub-folders are skipped, not walked — and available only at the import stage.
 
-        :param import_documents_in: (required)
-        :type import_documents_in: ImportDocumentsIn
+        :param company_import_documents_in: (required)
+        :type company_import_documents_in: CompanyImportDocumentsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4458,7 +4473,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_documents_serialize(
-            import_documents_in=import_documents_in,
+            company_import_documents_in=company_import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4466,7 +4481,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportDocumentsOut",
+            '200': "CompanyImportDocumentsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4482,7 +4497,7 @@ class CompanyApi:
     @validate_call
     def post_company_import_documents_without_preload_content(
         self,
-        import_documents_in: ImportDocumentsIn,
+        company_import_documents_in: CompanyImportDocumentsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4500,8 +4515,8 @@ class CompanyApi:
 
         Ingests an existing company's corporate documents from a Google Drive folder into the org's data room. The import is shallow — sub-folders are skipped, not walked — and available only at the import stage.
 
-        :param import_documents_in: (required)
-        :type import_documents_in: ImportDocumentsIn
+        :param company_import_documents_in: (required)
+        :type company_import_documents_in: CompanyImportDocumentsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4525,7 +4540,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_import_documents_serialize(
-            import_documents_in=import_documents_in,
+            company_import_documents_in=company_import_documents_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4533,7 +4548,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ImportDocumentsOut",
+            '200': "CompanyImportDocumentsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4544,7 +4559,7 @@ class CompanyApi:
 
     def _post_company_import_documents_serialize(
         self,
-        import_documents_in,
+        company_import_documents_in,
         _request_auth,
         _content_type,
         _headers,
@@ -4570,15 +4585,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if import_documents_in is not None:
-            _body_params = import_documents_in
+        if company_import_documents_in is not None:
+            _body_params = company_import_documents_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4634,10 +4650,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KycStartOut:
-        """StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
+    ) -> CompanyKycStartOut:
+        """Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
 
-        StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
+        Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4669,7 +4685,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycStartOut",
+            '200': "CompanyKycStartOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4697,10 +4713,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KycStartOut]:
-        """StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
+    ) -> ApiResponse[CompanyKycStartOut]:
+        """Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
 
-        StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
+        Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4732,7 +4748,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycStartOut",
+            '200': "CompanyKycStartOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4761,9 +4777,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
+        """Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.
 
-        StartKYC opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
+        Opens an identity-verification session for every founder with the wired provider and records each session's reference on the formation.  A start is never a decision: any terminal status the provider reports at inquiry time is clamped back to pending, so the payment gate can never open here. A terminal status arrives only from POST /v1/company/kyc/refresh (the provider) or POST /v1/company/kyc/decision (a Hanzo platform reviewer).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4795,7 +4811,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycStartOut",
+            '200': "CompanyKycStartOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4837,7 +4853,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4868,7 +4885,7 @@ class CompanyApi:
     @validate_call
     def post_company_kyc_decision(
         self,
-        decision_in: DecisionIn,
+        company_decision_in: CompanyDecisionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4881,13 +4898,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """DecideKYC records a privileged reviewer's MANUAL decision on a founder's KYC — the human-in-the-loop path, and the ONLY route to a pass when no real provider is wired.
 
         DecideKYC records a privileged reviewer's MANUAL decision on a founder's KYC — the human-in-the-loop path, and the ONLY route to a pass when no real provider is wired. It produces a DISTINCT reviewer_confirmed, never a provider \"verified\".  Because Hanzo forms the entity and carries the formation KYC/AML obligation, the reviewer is a HANZO platform reviewer (SuperAdmin), and the decision is ATTRIBUTED to them.
 
-        :param decision_in: (required)
-        :type decision_in: DecisionIn
+        :param company_decision_in: (required)
+        :type company_decision_in: CompanyDecisionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4911,7 +4928,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_kyc_decision_serialize(
-            decision_in=decision_in,
+            company_decision_in=company_decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4919,7 +4936,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4935,7 +4952,7 @@ class CompanyApi:
     @validate_call
     def post_company_kyc_decision_with_http_info(
         self,
-        decision_in: DecisionIn,
+        company_decision_in: CompanyDecisionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4948,13 +4965,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """DecideKYC records a privileged reviewer's MANUAL decision on a founder's KYC — the human-in-the-loop path, and the ONLY route to a pass when no real provider is wired.
 
         DecideKYC records a privileged reviewer's MANUAL decision on a founder's KYC — the human-in-the-loop path, and the ONLY route to a pass when no real provider is wired. It produces a DISTINCT reviewer_confirmed, never a provider \"verified\".  Because Hanzo forms the entity and carries the formation KYC/AML obligation, the reviewer is a HANZO platform reviewer (SuperAdmin), and the decision is ATTRIBUTED to them.
 
-        :param decision_in: (required)
-        :type decision_in: DecisionIn
+        :param company_decision_in: (required)
+        :type company_decision_in: CompanyDecisionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4978,7 +4995,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_kyc_decision_serialize(
-            decision_in=decision_in,
+            company_decision_in=company_decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4986,7 +5003,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5002,7 +5019,7 @@ class CompanyApi:
     @validate_call
     def post_company_kyc_decision_without_preload_content(
         self,
-        decision_in: DecisionIn,
+        company_decision_in: CompanyDecisionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5020,8 +5037,8 @@ class CompanyApi:
 
         DecideKYC records a privileged reviewer's MANUAL decision on a founder's KYC — the human-in-the-loop path, and the ONLY route to a pass when no real provider is wired. It produces a DISTINCT reviewer_confirmed, never a provider \"verified\".  Because Hanzo forms the entity and carries the formation KYC/AML obligation, the reviewer is a HANZO platform reviewer (SuperAdmin), and the decision is ATTRIBUTED to them.
 
-        :param decision_in: (required)
-        :type decision_in: DecisionIn
+        :param company_decision_in: (required)
+        :type company_decision_in: CompanyDecisionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5045,7 +5062,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_kyc_decision_serialize(
-            decision_in=decision_in,
+            company_decision_in=company_decision_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5053,7 +5070,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5064,7 +5081,7 @@ class CompanyApi:
 
     def _post_company_kyc_decision_serialize(
         self,
-        decision_in,
+        company_decision_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5090,15 +5107,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if decision_in is not None:
-            _body_params = decision_in
+        if company_decision_in is not None:
+            _body_params = company_decision_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5154,7 +5172,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KycRefreshOut:
+    ) -> CompanyKycRefreshOut:
         """RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status.
 
         RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the PROVIDER — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
@@ -5189,7 +5207,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycRefreshOut",
+            '200': "CompanyKycRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5217,7 +5235,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KycRefreshOut]:
+    ) -> ApiResponse[CompanyKycRefreshOut]:
         """RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status.
 
         RefreshKYC reconciles each pending founder's KYC with the WIRED provider — the PULL path to a provider-reported terminal status. For the manual provider the check stays pending; for a real provider it reflects the settled decision, ATTRIBUTED to the provider.  It NEVER trusts a client-asserted status — the status comes from the PROVIDER — so a client cannot force a pass here, and an already-passing founder (e.g. a reviewer confirmation) is left untouched.
@@ -5252,7 +5270,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycRefreshOut",
+            '200': "CompanyKycRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5315,7 +5333,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KycRefreshOut",
+            '200': "CompanyKycRefreshOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5357,7 +5375,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5400,7 +5419,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Charges the caller's own org the one-time Hanzo Company formation fee.
 
         Charges the caller's own org the one-time Hanzo Company formation fee.  It is $999 unless the deployment sets another, and the answer is the formation record carrying its paid flag and the charge reference. It takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A denial answers the fleet-wide billing contract — 402 insufficient_balance, 402 spend_cap_exceeded, 503 balance_unavailable — carried by cloud.Denied, which is the money wire's own {\"error\":{\"code\",\"message\"}} body rather than a second vocabulary invented for this surface.  The gate is the LAST thing it does, after the stage check and the paid short-circuit, so a caller the machine is about to refuse is never charged. That ordering is why the gate cannot lift into middleware, where it would run first. Both facts are pinned: TestPaymentDenialWire, TestPaymentChargesLast.
@@ -5435,7 +5454,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5463,7 +5482,7 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Charges the caller's own org the one-time Hanzo Company formation fee.
 
         Charges the caller's own org the one-time Hanzo Company formation fee.  It is $999 unless the deployment sets another, and the answer is the formation record carrying its paid flag and the charge reference. It takes no body: the org is the validated tenant and the amount is the platform's, never the caller's to assert.  IDEMPOTENT on the formation rather than on the request: an already-paid formation answers 200 with the same record and is not charged again, so a retry or a double-clicked button costs nothing. Available only at the `payment` stage (409 anywhere else) and only for an org that has begun a formation (404 otherwise).  A denial answers the fleet-wide billing contract — 402 insufficient_balance, 402 spend_cap_exceeded, 503 balance_unavailable — carried by cloud.Denied, which is the money wire's own {\"error\":{\"code\",\"message\"}} body rather than a second vocabulary invented for this surface.  The gate is the LAST thing it does, after the stage check and the paid short-circuit, so a caller the machine is about to refuse is never charged. That ordering is why the gate cannot lift into middleware, where it would run first. Both facts are pinned: TestPaymentDenialWire, TestPaymentChargesLast.
@@ -5498,7 +5517,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5561,7 +5580,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5603,7 +5622,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5646,10 +5666,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
-        """Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
+    ) -> CompanyFormationView:
+        """Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
 
-        Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
+        Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5681,7 +5701,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5709,10 +5729,10 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
-        """Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
+    ) -> ApiResponse[CompanyFormationView]:
+        """Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
 
-        Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
+        Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5744,7 +5764,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5773,9 +5793,9 @@ class CompanyApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
+        """Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity.
 
-        Skip marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
+        Marks the org as already incorporated and moves it onto the import path, so an existing company brings its documents and cap table in instead of forming a new entity. Available only at the structure stage.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5807,7 +5827,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5849,7 +5869,8 @@ class CompanyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5880,7 +5901,7 @@ class CompanyApi:
     @validate_call
     def post_company_tariff(
         self,
-        tariff_in: TariffIn,
+        company_tariff_in: CompanyTariffIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5893,13 +5914,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Tariff:
+    ) -> CompanyTariff:
         """Itemises what a formation costs before anyone commits to it.
 
         Itemises what a formation costs before anyone commits to it.  It answers what is due now and what recurs, as separate figures, and marks the state's filing fee as money we collect and remit rather than keep. A caller can therefore show a payer the whole bill — which is the point of quoting at all, and was impossible while the fee was one number in an error string.  A jurisdiction whose filing fee this deployment has not been told REFUSES, naming the setting that fixes it. Quoting our half as though it were the total is the one answer that would be worse than no answer.
 
-        :param tariff_in: (required)
-        :type tariff_in: TariffIn
+        :param company_tariff_in: (required)
+        :type company_tariff_in: CompanyTariffIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5923,7 +5944,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_tariff_serialize(
-            tariff_in=tariff_in,
+            company_tariff_in=company_tariff_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5931,7 +5952,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tariff",
+            '200': "CompanyTariff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5947,7 +5968,7 @@ class CompanyApi:
     @validate_call
     def post_company_tariff_with_http_info(
         self,
-        tariff_in: TariffIn,
+        company_tariff_in: CompanyTariffIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5960,13 +5981,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Tariff]:
+    ) -> ApiResponse[CompanyTariff]:
         """Itemises what a formation costs before anyone commits to it.
 
         Itemises what a formation costs before anyone commits to it.  It answers what is due now and what recurs, as separate figures, and marks the state's filing fee as money we collect and remit rather than keep. A caller can therefore show a payer the whole bill — which is the point of quoting at all, and was impossible while the fee was one number in an error string.  A jurisdiction whose filing fee this deployment has not been told REFUSES, naming the setting that fixes it. Quoting our half as though it were the total is the one answer that would be worse than no answer.
 
-        :param tariff_in: (required)
-        :type tariff_in: TariffIn
+        :param company_tariff_in: (required)
+        :type company_tariff_in: CompanyTariffIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5990,7 +6011,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_tariff_serialize(
-            tariff_in=tariff_in,
+            company_tariff_in=company_tariff_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5998,7 +6019,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tariff",
+            '200': "CompanyTariff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6014,7 +6035,7 @@ class CompanyApi:
     @validate_call
     def post_company_tariff_without_preload_content(
         self,
-        tariff_in: TariffIn,
+        company_tariff_in: CompanyTariffIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6032,8 +6053,8 @@ class CompanyApi:
 
         Itemises what a formation costs before anyone commits to it.  It answers what is due now and what recurs, as separate figures, and marks the state's filing fee as money we collect and remit rather than keep. A caller can therefore show a payer the whole bill — which is the point of quoting at all, and was impossible while the fee was one number in an error string.  A jurisdiction whose filing fee this deployment has not been told REFUSES, naming the setting that fixes it. Quoting our half as though it were the total is the one answer that would be worse than no answer.
 
-        :param tariff_in: (required)
-        :type tariff_in: TariffIn
+        :param company_tariff_in: (required)
+        :type company_tariff_in: CompanyTariffIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6057,7 +6078,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._post_company_tariff_serialize(
-            tariff_in=tariff_in,
+            company_tariff_in=company_tariff_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6065,7 +6086,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tariff",
+            '200': "CompanyTariff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6076,7 +6097,7 @@ class CompanyApi:
 
     def _post_company_tariff_serialize(
         self,
-        tariff_in,
+        company_tariff_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6102,15 +6123,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if tariff_in is not None:
-            _body_params = tariff_in
+        if company_tariff_in is not None:
+            _body_params = company_tariff_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6154,7 +6176,7 @@ class CompanyApi:
     @validate_call
     def put_company_structure(
         self,
-        structure_in: StructureIn,
+        company_structure_in: CompanyStructureIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6167,13 +6189,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FormationView:
+    ) -> CompanyFormationView:
         """Records the entity kind, the state of formation and the proposed name.
 
         Records the entity kind, the state of formation and the proposed name. Available only at the structure stage; an unknown structure or jurisdiction, or an empty name, is refused with 400.
 
-        :param structure_in: (required)
-        :type structure_in: StructureIn
+        :param company_structure_in: (required)
+        :type company_structure_in: CompanyStructureIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6197,7 +6219,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._put_company_structure_serialize(
-            structure_in=structure_in,
+            company_structure_in=company_structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6205,7 +6227,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6221,7 +6243,7 @@ class CompanyApi:
     @validate_call
     def put_company_structure_with_http_info(
         self,
-        structure_in: StructureIn,
+        company_structure_in: CompanyStructureIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6234,13 +6256,13 @@ class CompanyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FormationView]:
+    ) -> ApiResponse[CompanyFormationView]:
         """Records the entity kind, the state of formation and the proposed name.
 
         Records the entity kind, the state of formation and the proposed name. Available only at the structure stage; an unknown structure or jurisdiction, or an empty name, is refused with 400.
 
-        :param structure_in: (required)
-        :type structure_in: StructureIn
+        :param company_structure_in: (required)
+        :type company_structure_in: CompanyStructureIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6264,7 +6286,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._put_company_structure_serialize(
-            structure_in=structure_in,
+            company_structure_in=company_structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6272,7 +6294,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6288,7 +6310,7 @@ class CompanyApi:
     @validate_call
     def put_company_structure_without_preload_content(
         self,
-        structure_in: StructureIn,
+        company_structure_in: CompanyStructureIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6306,8 +6328,8 @@ class CompanyApi:
 
         Records the entity kind, the state of formation and the proposed name. Available only at the structure stage; an unknown structure or jurisdiction, or an empty name, is refused with 400.
 
-        :param structure_in: (required)
-        :type structure_in: StructureIn
+        :param company_structure_in: (required)
+        :type company_structure_in: CompanyStructureIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6331,7 +6353,7 @@ class CompanyApi:
         """ # noqa: E501
 
         _param = self._put_company_structure_serialize(
-            structure_in=structure_in,
+            company_structure_in=company_structure_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6339,7 +6361,7 @@ class CompanyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FormationView",
+            '200': "CompanyFormationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6350,7 +6372,7 @@ class CompanyApi:
 
     def _put_company_structure_serialize(
         self,
-        structure_in,
+        company_structure_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6376,15 +6398,16 @@ class CompanyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if structure_in is not None:
-            _body_params = structure_in
+        if company_structure_in is not None:
+            _body_params = company_structure_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

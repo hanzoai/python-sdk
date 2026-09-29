@@ -26,12 +26,12 @@ class Question(BaseModel):
     """
     Question
     """ # noqa: E501
-    account: Optional[StrictStr] = Field(default=None, description="Account is the chart number the questioned entry posted to, where one applies.")
-    amount: Optional[StrictStr] = Field(default=None, description="Amount is the figure that makes the question concrete, already FORMATTED for display with its currency symbol — a string, not cents, and not for arithmetic.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the source transaction the question is about, so answering it leads straight back to the entry that raised it.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is what looked wrong: outlier (a charge far above the usual), reversal (a posting undone), roundoff (a balancing plug big enough to be worth explaining), uncosted (revenue booked with no cost matched to it), or overdrawn (a wallet spent past its balance).")
-    posted_at: Optional[StrictStr] = Field(default=None, description="PostedAt anchors the question in time — when the entry it concerns posted.", alias="postedAt")
-    text: Optional[StrictStr] = Field(default=None, description="Text is the question itself, written for a founder to answer directly.")
+    account: Optional[StrictStr] = None
+    amount: Optional[StrictStr] = None
+    id: Optional[StrictStr] = None
+    kind: Optional[StrictStr] = None
+    posted_at: Optional[StrictStr] = Field(default=None, alias="postedAt")
+    text: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["account", "amount", "id", "kind", "postedAt", "text"]
 
     model_config = ConfigDict(

@@ -19,12 +19,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.claim import Claim
-from hanzoai.cloud.models.connect_request import ConnectRequest
-from hanzoai.cloud.models.deploy_record import DeployRecord
-from hanzoai.cloud.models.deploy_request import DeployRequest
-from hanzoai.cloud.models.enrolment import Enrolment
-from hanzoai.cloud.models.verify_request import VerifyRequest
+from hanzoai.cloud.models.author_claim import AuthorClaim
+from hanzoai.cloud.models.author_connect_request import AuthorConnectRequest
+from hanzoai.cloud.models.author_deploy_record import AuthorDeployRecord
+from hanzoai.cloud.models.author_deploy_request import AuthorDeployRequest
+from hanzoai.cloud.models.author_enrolment import AuthorEnrolment
+from hanzoai.cloud.models.author_verify_request import AuthorVerifyRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -262,7 +262,8 @@ class AuthorApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -525,7 +526,8 @@ class AuthorApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -556,7 +558,7 @@ class AuthorApi:
     @validate_call
     def post_author_connect(
         self,
-        connect_request: ConnectRequest,
+        author_connect_request: AuthorConnectRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -569,13 +571,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Enrolment:
+    ) -> AuthorEnrolment:
         """Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs.
 
         Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs. It is IDEMPOTENT: a second call returns the same enrolment rather than a conflict.  The forge login is taken from IAM's LINKED account for the provider when there is one — that is identity proof, not a claim — and only otherwise from the login in the body, which then has to be proven per repository. Connecting does not admit an org to earning: a platform reviewer approves that separately.  Answers 201 when it enrolled the org and 200 when it found an existing enrolment.
 
-        :param connect_request: (required)
-        :type connect_request: ConnectRequest
+        :param author_connect_request: (required)
+        :type author_connect_request: AuthorConnectRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -599,7 +601,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_connect_serialize(
-            connect_request=connect_request,
+            author_connect_request=author_connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -607,7 +609,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Enrolment",
+            '200': "AuthorEnrolment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -623,7 +625,7 @@ class AuthorApi:
     @validate_call
     def post_author_connect_with_http_info(
         self,
-        connect_request: ConnectRequest,
+        author_connect_request: AuthorConnectRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -636,13 +638,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Enrolment]:
+    ) -> ApiResponse[AuthorEnrolment]:
         """Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs.
 
         Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs. It is IDEMPOTENT: a second call returns the same enrolment rather than a conflict.  The forge login is taken from IAM's LINKED account for the provider when there is one — that is identity proof, not a claim — and only otherwise from the login in the body, which then has to be proven per repository. Connecting does not admit an org to earning: a platform reviewer approves that separately.  Answers 201 when it enrolled the org and 200 when it found an existing enrolment.
 
-        :param connect_request: (required)
-        :type connect_request: ConnectRequest
+        :param author_connect_request: (required)
+        :type author_connect_request: AuthorConnectRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -666,7 +668,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_connect_serialize(
-            connect_request=connect_request,
+            author_connect_request=author_connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -674,7 +676,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Enrolment",
+            '200': "AuthorEnrolment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -690,7 +692,7 @@ class AuthorApi:
     @validate_call
     def post_author_connect_without_preload_content(
         self,
-        connect_request: ConnectRequest,
+        author_connect_request: AuthorConnectRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -708,8 +710,8 @@ class AuthorApi:
 
         Enrols the caller's org in the author program at status \"connected\" and returns its enrolment, including the verify code the file method needs. It is IDEMPOTENT: a second call returns the same enrolment rather than a conflict.  The forge login is taken from IAM's LINKED account for the provider when there is one — that is identity proof, not a claim — and only otherwise from the login in the body, which then has to be proven per repository. Connecting does not admit an org to earning: a platform reviewer approves that separately.  Answers 201 when it enrolled the org and 200 when it found an existing enrolment.
 
-        :param connect_request: (required)
-        :type connect_request: ConnectRequest
+        :param author_connect_request: (required)
+        :type author_connect_request: AuthorConnectRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -733,7 +735,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_connect_serialize(
-            connect_request=connect_request,
+            author_connect_request=author_connect_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -741,7 +743,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Enrolment",
+            '200': "AuthorEnrolment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -752,7 +754,7 @@ class AuthorApi:
 
     def _post_author_connect_serialize(
         self,
-        connect_request,
+        author_connect_request,
         _request_auth,
         _content_type,
         _headers,
@@ -778,15 +780,16 @@ class AuthorApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if connect_request is not None:
-            _body_params = connect_request
+        if author_connect_request is not None:
+            _body_params = author_connect_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -830,7 +833,7 @@ class AuthorApi:
     @validate_call
     def post_author_deploys_record(
         self,
-        deploy_request: DeployRequest,
+        author_deploy_request: AuthorDeployRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -843,13 +846,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeployRecord:
+    ) -> AuthorDeployRecord:
         """Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.
 
         Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.  It is deliberately NOT an error for a deploy to attribute to nobody: a project built from no repository, or from one no author has verified, answers {\"recorded\": false, \"reason\"} so a deploy pipeline can fire this on every deploy without branching. Attribution resolves per-repository first, then owner-wide, so a repository with its own claim always earns for its own author.  A deploy of a Hanzo-maintained template attributes to the platform treasury, and a self-deploy (the author's own org deploying its own repository) is recorded for provenance but excluded from accrual. The edge is idempotent per repository+project+org.  Answers 201 when it recorded a new edge and 200 otherwise.
 
-        :param deploy_request: (required)
-        :type deploy_request: DeployRequest
+        :param author_deploy_request: (required)
+        :type author_deploy_request: AuthorDeployRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -873,7 +876,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_deploys_record_serialize(
-            deploy_request=deploy_request,
+            author_deploy_request=author_deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -881,7 +884,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployRecord",
+            '200': "AuthorDeployRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -897,7 +900,7 @@ class AuthorApi:
     @validate_call
     def post_author_deploys_record_with_http_info(
         self,
-        deploy_request: DeployRequest,
+        author_deploy_request: AuthorDeployRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -910,13 +913,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeployRecord]:
+    ) -> ApiResponse[AuthorDeployRecord]:
         """Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.
 
         Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.  It is deliberately NOT an error for a deploy to attribute to nobody: a project built from no repository, or from one no author has verified, answers {\"recorded\": false, \"reason\"} so a deploy pipeline can fire this on every deploy without branching. Attribution resolves per-repository first, then owner-wide, so a repository with its own claim always earns for its own author.  A deploy of a Hanzo-maintained template attributes to the platform treasury, and a self-deploy (the author's own org deploying its own repository) is recorded for provenance but excluded from accrual. The edge is idempotent per repository+project+org.  Answers 201 when it recorded a new edge and 200 otherwise.
 
-        :param deploy_request: (required)
-        :type deploy_request: DeployRequest
+        :param author_deploy_request: (required)
+        :type author_deploy_request: AuthorDeployRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -940,7 +943,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_deploys_record_serialize(
-            deploy_request=deploy_request,
+            author_deploy_request=author_deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -948,7 +951,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployRecord",
+            '200': "AuthorDeployRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -964,7 +967,7 @@ class AuthorApi:
     @validate_call
     def post_author_deploys_record_without_preload_content(
         self,
-        deploy_request: DeployRequest,
+        author_deploy_request: AuthorDeployRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -982,8 +985,8 @@ class AuthorApi:
 
         Records that the caller's org deployed a project built from a source repository, which is the edge that makes an author's work earn royalty.  It is deliberately NOT an error for a deploy to attribute to nobody: a project built from no repository, or from one no author has verified, answers {\"recorded\": false, \"reason\"} so a deploy pipeline can fire this on every deploy without branching. Attribution resolves per-repository first, then owner-wide, so a repository with its own claim always earns for its own author.  A deploy of a Hanzo-maintained template attributes to the platform treasury, and a self-deploy (the author's own org deploying its own repository) is recorded for provenance but excluded from accrual. The edge is idempotent per repository+project+org.  Answers 201 when it recorded a new edge and 200 otherwise.
 
-        :param deploy_request: (required)
-        :type deploy_request: DeployRequest
+        :param author_deploy_request: (required)
+        :type author_deploy_request: AuthorDeployRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1007,7 +1010,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_deploys_record_serialize(
-            deploy_request=deploy_request,
+            author_deploy_request=author_deploy_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1015,7 +1018,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployRecord",
+            '200': "AuthorDeployRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1026,7 +1029,7 @@ class AuthorApi:
 
     def _post_author_deploys_record_serialize(
         self,
-        deploy_request,
+        author_deploy_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1052,15 +1055,16 @@ class AuthorApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if deploy_request is not None:
-            _body_params = deploy_request
+        if author_deploy_request is not None:
+            _body_params = author_deploy_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1104,7 +1108,7 @@ class AuthorApi:
     @validate_call
     def post_author_repos_verify(
         self,
-        verify_request: VerifyRequest,
+        author_verify_request: AuthorVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1117,13 +1121,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Claim:
+    ) -> AuthorClaim:
         """Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.
 
         Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.  Ownership is proven the SAME two ways in both cases, tried in order: an IAM-linked forge token with admin or push permission, or a hanzo.json on the default branch carrying the author's verify code. Claiming an OWNER proves it against that owner's \".github\" control repository, and is exactly as strong as a per-repository claim — an owner the caller cannot prove is refused with 422, never assumed.  A per-repository claim wins over an owner-wide one, so a specifically-claimed repository always earns for its own author. A repository another author has already verified is a 409. The org must have connected first.  Answers 201 when it recorded a new claim and 200 when the claim already existed.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param author_verify_request: (required)
+        :type author_verify_request: AuthorVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1147,7 +1151,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_repos_verify_serialize(
-            verify_request=verify_request,
+            author_verify_request=author_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1155,7 +1159,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Claim",
+            '200': "AuthorClaim",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1171,7 +1175,7 @@ class AuthorApi:
     @validate_call
     def post_author_repos_verify_with_http_info(
         self,
-        verify_request: VerifyRequest,
+        author_verify_request: AuthorVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1184,13 +1188,13 @@ class AuthorApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Claim]:
+    ) -> ApiResponse[AuthorClaim]:
         """Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.
 
         Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.  Ownership is proven the SAME two ways in both cases, tried in order: an IAM-linked forge token with admin or push permission, or a hanzo.json on the default branch carrying the author's verify code. Claiming an OWNER proves it against that owner's \".github\" control repository, and is exactly as strong as a per-repository claim — an owner the caller cannot prove is refused with 422, never assumed.  A per-repository claim wins over an owner-wide one, so a specifically-claimed repository always earns for its own author. A repository another author has already verified is a 409. The org must have connected first.  Answers 201 when it recorded a new claim and 200 when the claim already existed.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param author_verify_request: (required)
+        :type author_verify_request: AuthorVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1214,7 +1218,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_repos_verify_serialize(
-            verify_request=verify_request,
+            author_verify_request=author_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1222,7 +1226,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Claim",
+            '200': "AuthorClaim",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1238,7 +1242,7 @@ class AuthorApi:
     @validate_call
     def post_author_repos_verify_without_preload_content(
         self,
-        verify_request: VerifyRequest,
+        author_verify_request: AuthorVerifyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1256,8 +1260,8 @@ class AuthorApi:
 
         Proves that the caller owns a repository — or a whole OWNER — and records the claim, which is what makes deploys of that code earn royalty.  Ownership is proven the SAME two ways in both cases, tried in order: an IAM-linked forge token with admin or push permission, or a hanzo.json on the default branch carrying the author's verify code. Claiming an OWNER proves it against that owner's \".github\" control repository, and is exactly as strong as a per-repository claim — an owner the caller cannot prove is refused with 422, never assumed.  A per-repository claim wins over an owner-wide one, so a specifically-claimed repository always earns for its own author. A repository another author has already verified is a 409. The org must have connected first.  Answers 201 when it recorded a new claim and 200 when the claim already existed.
 
-        :param verify_request: (required)
-        :type verify_request: VerifyRequest
+        :param author_verify_request: (required)
+        :type author_verify_request: AuthorVerifyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1281,7 +1285,7 @@ class AuthorApi:
         """ # noqa: E501
 
         _param = self._post_author_repos_verify_serialize(
-            verify_request=verify_request,
+            author_verify_request=author_verify_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1289,7 +1293,7 @@ class AuthorApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Claim",
+            '200': "AuthorClaim",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1300,7 +1304,7 @@ class AuthorApi:
 
     def _post_author_repos_verify_serialize(
         self,
-        verify_request,
+        author_verify_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1326,15 +1330,16 @@ class AuthorApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if verify_request is not None:
-            _body_params = verify_request
+        if author_verify_request is not None:
+            _body_params = author_verify_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

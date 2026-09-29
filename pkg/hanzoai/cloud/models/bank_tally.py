@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,12 @@ class BankTally(BaseModel):
     """
     BankTally
     """ # noqa: E501
-    ingested: Optional[StrictInt] = Field(default=None, description="transactions seen")
-    posted: Optional[StrictInt] = Field(default=None, description="vouchers newly posted (outflow + reconciled)")
-    questions: Optional[StrictInt] = Field(default=None, description="unmatched inflows that raised a question")
-    reconciled: Optional[StrictInt] = Field(default=None, description="inflows cleared against Square-clearing")
-    skipped: Optional[StrictInt] = Field(default=None, description="already-processed idempotent no-ops")
-    transfers: Optional[StrictInt] = Field(default=None, description="own-account moves recorded (no P&L)")
+    ingested: Optional[StrictInt] = None
+    posted: Optional[StrictInt] = None
+    questions: Optional[StrictInt] = None
+    reconciled: Optional[StrictInt] = None
+    skipped: Optional[StrictInt] = None
+    transfers: Optional[StrictInt] = None
     __properties: ClassVar[List[str]] = ["ingested", "posted", "questions", "reconciled", "skipped", "transfers"]
 
     model_config = ConfigDict(

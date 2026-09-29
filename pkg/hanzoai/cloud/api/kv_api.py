@@ -18,12 +18,12 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.bucket_record import BucketRecord
-from hanzoai.cloud.models.bucket_write import BucketWrite
-from hanzoai.cloud.models.kv_ack import KvAck
-from hanzoai.cloud.models.kv_entry import KvEntry
-from hanzoai.cloud.models.kv_page import KvPage
-from hanzoai.cloud.models.kv_write import KvWrite
+from hanzoai.cloud.models.kv_bucket_record import KvBucketRecord
+from hanzoai.cloud.models.kv_bucket_write import KvBucketWrite
+from hanzoai.cloud.models.kv_kv_ack import KvKvAck
+from hanzoai.cloud.models.kv_kv_entry import KvKvEntry
+from hanzoai.cloud.models.kv_kv_page import KvKvPage
+from hanzoai.cloud.models.kv_kv_write import KvKvWrite
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -272,6 +272,13 @@ class KvApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -541,6 +548,13 @@ class KvApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -583,10 +597,10 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KvEntry:
-        """Get returns one key's current value and revision.
+    ) -> KvKvEntry:
+        """Returns one key's current value and revision.
 
-        Get returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
+        Returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -624,7 +638,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvEntry",
+            '200': "KvKvEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -654,10 +668,10 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KvEntry]:
-        """Get returns one key's current value and revision.
+    ) -> ApiResponse[KvKvEntry]:
+        """Returns one key's current value and revision.
 
-        Get returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
+        Returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -695,7 +709,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvEntry",
+            '200': "KvKvEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -726,9 +740,9 @@ class KvApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get returns one key's current value and revision.
+        """Returns one key's current value and revision.
 
-        Get returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
+        Returns one key's current value and revision. 404 when the bucket does not exist, the key was never written, or its latest revision is a delete.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -766,7 +780,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvEntry",
+            '200': "KvKvEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -814,7 +828,8 @@ class KvApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -859,10 +874,10 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KvPage:
-        """History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
+    ) -> KvKvPage:
+        """Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
 
-        History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
+        Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -900,7 +915,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvPage",
+            '200': "KvKvPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -930,10 +945,10 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KvPage]:
-        """History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
+    ) -> ApiResponse[KvKvPage]:
+        """Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
 
-        History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
+        Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -971,7 +986,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvPage",
+            '200': "KvKvPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1002,9 +1017,9 @@ class KvApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
+        """Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth.
 
-        History returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
+        Returns one key's retained revisions, oldest first — every put and every delete marker up to the bucket's History depth. 404 when the bucket does not exist or the key was never written.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
@@ -1042,7 +1057,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvPage",
+            '200': "KvKvPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1090,7 +1105,8 @@ class KvApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1122,7 +1138,7 @@ class KvApi:
     def post_kv_by_bucket(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
-        bucket_write: BucketWrite,
+        kv_bucket_write: KvBucketWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1135,15 +1151,15 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BucketRecord:
+    ) -> KvBucketRecord:
         """Creates a KV bucket and returns it.
 
         Creates a KV bucket and returns it. A bucket is keyed state on the same durable plane as the streams: each key holds up to History revisions, entries can expire by TTL, and watchers on the NATS port see every write. 409 when the org already has a bucket of that name.
 
         :param bucket: Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. (required)
         :type bucket: str
-        :param bucket_write: (required)
-        :type bucket_write: BucketWrite
+        :param kv_bucket_write: (required)
+        :type kv_bucket_write: KvBucketWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1168,7 +1184,7 @@ class KvApi:
 
         _param = self._post_kv_by_bucket_serialize(
             bucket=bucket,
-            bucket_write=bucket_write,
+            kv_bucket_write=kv_bucket_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1176,7 +1192,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketRecord",
+            '201': "KvBucketRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1193,7 +1209,7 @@ class KvApi:
     def post_kv_by_bucket_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
-        bucket_write: BucketWrite,
+        kv_bucket_write: KvBucketWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1206,15 +1222,15 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BucketRecord]:
+    ) -> ApiResponse[KvBucketRecord]:
         """Creates a KV bucket and returns it.
 
         Creates a KV bucket and returns it. A bucket is keyed state on the same durable plane as the streams: each key holds up to History revisions, entries can expire by TTL, and watchers on the NATS port see every write. 409 when the org already has a bucket of that name.
 
         :param bucket: Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. (required)
         :type bucket: str
-        :param bucket_write: (required)
-        :type bucket_write: BucketWrite
+        :param kv_bucket_write: (required)
+        :type kv_bucket_write: KvBucketWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,7 +1255,7 @@ class KvApi:
 
         _param = self._post_kv_by_bucket_serialize(
             bucket=bucket,
-            bucket_write=bucket_write,
+            kv_bucket_write=kv_bucket_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1247,7 +1263,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketRecord",
+            '201': "KvBucketRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1264,7 +1280,7 @@ class KvApi:
     def post_kv_by_bucket_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash.")],
-        bucket_write: BucketWrite,
+        kv_bucket_write: KvBucketWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1284,8 +1300,8 @@ class KvApi:
 
         :param bucket: Bucket is the bucket's name within the org, from the path: 1–64 of [A-Za-z0-9_], no dash. (required)
         :type bucket: str
-        :param bucket_write: (required)
-        :type bucket_write: BucketWrite
+        :param kv_bucket_write: (required)
+        :type kv_bucket_write: KvBucketWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1310,7 +1326,7 @@ class KvApi:
 
         _param = self._post_kv_by_bucket_serialize(
             bucket=bucket,
-            bucket_write=bucket_write,
+            kv_bucket_write=kv_bucket_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1318,7 +1334,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketRecord",
+            '201': "KvBucketRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1330,7 +1346,7 @@ class KvApi:
     def _post_kv_by_bucket_serialize(
         self,
         bucket,
-        bucket_write,
+        kv_bucket_write,
         _request_auth,
         _content_type,
         _headers,
@@ -1358,15 +1374,16 @@ class KvApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bucket_write is not None:
-            _body_params = bucket_write
+        if kv_bucket_write is not None:
+            _body_params = kv_bucket_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1412,7 +1429,7 @@ class KvApi:
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
-        kv_write: KvWrite,
+        kv_kv_write: KvKvWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1425,17 +1442,17 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KvAck:
-        """Put sets one key to one value and returns the revision the write created.
+    ) -> KvKvAck:
+        """Sets one key to one value and returns the revision the write created.
 
-        Put sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
+        Sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
         :param key: Key is the key, from the path. (required)
         :type key: str
-        :param kv_write: (required)
-        :type kv_write: KvWrite
+        :param kv_kv_write: (required)
+        :type kv_kv_write: KvKvWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1461,7 +1478,7 @@ class KvApi:
         _param = self._put_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
-            kv_write=kv_write,
+            kv_kv_write=kv_kv_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1469,7 +1486,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvAck",
+            '200': "KvKvAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1487,7 +1504,7 @@ class KvApi:
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
-        kv_write: KvWrite,
+        kv_kv_write: KvKvWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1500,17 +1517,17 @@ class KvApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KvAck]:
-        """Put sets one key to one value and returns the revision the write created.
+    ) -> ApiResponse[KvKvAck]:
+        """Sets one key to one value and returns the revision the write created.
 
-        Put sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
+        Sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
         :param key: Key is the key, from the path. (required)
         :type key: str
-        :param kv_write: (required)
-        :type kv_write: KvWrite
+        :param kv_kv_write: (required)
+        :type kv_kv_write: KvKvWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1536,7 +1553,7 @@ class KvApi:
         _param = self._put_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
-            kv_write=kv_write,
+            kv_kv_write=kv_kv_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1544,7 +1561,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvAck",
+            '200': "KvKvAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1562,7 +1579,7 @@ class KvApi:
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
         key: Annotated[StrictStr, Field(description="Key is the key, from the path.")],
-        kv_write: KvWrite,
+        kv_kv_write: KvKvWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1576,16 +1593,16 @@ class KvApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Put sets one key to one value and returns the revision the write created.
+        """Sets one key to one value and returns the revision the write created.
 
-        Put sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
+        Sets one key to one value and returns the revision the write created. Writes are versioned: each put is a new revision and the bucket retains up to its History of them per key.
 
         :param bucket: Bucket is the bucket, from the path. (required)
         :type bucket: str
         :param key: Key is the key, from the path. (required)
         :type key: str
-        :param kv_write: (required)
-        :type kv_write: KvWrite
+        :param kv_kv_write: (required)
+        :type kv_kv_write: KvKvWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1611,7 +1628,7 @@ class KvApi:
         _param = self._put_kv_by_bucket_by_key_serialize(
             bucket=bucket,
             key=key,
-            kv_write=kv_write,
+            kv_kv_write=kv_kv_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1619,7 +1636,7 @@ class KvApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KvAck",
+            '200': "KvKvAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1632,7 +1649,7 @@ class KvApi:
         self,
         bucket,
         key,
-        kv_write,
+        kv_kv_write,
         _request_auth,
         _content_type,
         _headers,
@@ -1662,15 +1679,16 @@ class KvApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if kv_write is not None:
-            _body_params = kv_write
+        if kv_kv_write is not None:
+            _body_params = kv_kv_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

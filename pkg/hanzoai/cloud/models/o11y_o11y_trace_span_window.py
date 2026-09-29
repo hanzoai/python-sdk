@@ -28,7 +28,7 @@ class O11yO11yTraceSpanWindow(BaseModel):
     """ # noqa: E501
     columns: Optional[List[StrictStr]] = Field(default=None, description="Columns names the fields each row carries, in row order.")
     end_timestamp_millis: Optional[StrictInt] = Field(default=None, description="EndTimestampMillis is when it closes.", alias="endTimestampMillis")
-    events: Optional[List[List[Dict[str, Any]]]] = Field(default=None, description="Events are the rows, each positionally matching Columns.")
+    events: Optional[List[List[Any]]] = Field(default=None, description="Events are the rows, each positionally matching Columns.")
     is_sub_tree: Optional[StrictBool] = Field(default=None, description="IsSubTree says the window is a subtree of the trace rather than the whole of it.", alias="isSubTree")
     start_timestamp_millis: Optional[StrictInt] = Field(default=None, description="StartTimestampMillis is when the window opens.", alias="startTimestampMillis")
     __properties: ClassVar[List[str]] = ["columns", "endTimestampMillis", "events", "isSubTree", "startTimestampMillis"]

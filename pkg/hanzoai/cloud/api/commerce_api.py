@@ -5575,7 +5575,8 @@ class CommerceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5836,7 +5837,8 @@ class CommerceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6792,7 +6794,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/collection/',
+            resource_path='/v1/commerce/collection',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7751,7 +7753,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/disclosure/',
+            resource_path='/v1/commerce/disclosure',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -8238,7 +8240,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/discount/',
+            resource_path='/v1/commerce/discount',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -8723,7 +8725,8 @@ class CommerceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8971,7 +8974,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/movie/',
+            resource_path='/v1/commerce/movie',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -9458,7 +9461,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/note/',
+            resource_path='/v1/commerce/note',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -10417,7 +10420,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/product/',
+            resource_path='/v1/commerce/product',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -11140,7 +11143,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/return/',
+            resource_path='/v1/commerce/return',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -11627,7 +11630,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/saleschannel/',
+            resource_path='/v1/commerce/saleschannel',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -12114,7 +12117,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/stocklocation/',
+            resource_path='/v1/commerce/stocklocation',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -12601,7 +12604,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/store/',
+            resource_path='/v1/commerce/store',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -14875,7 +14878,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/submission/',
+            resource_path='/v1/commerce/submission',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -15362,7 +15365,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/subscriber/',
+            resource_path='/v1/commerce/subscriber',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -15849,7 +15852,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/tokentransaction/',
+            resource_path='/v1/commerce/tokentransaction',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -16336,7 +16339,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/transfer/',
+            resource_path='/v1/commerce/transfer',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -16823,7 +16826,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/variant/',
+            resource_path='/v1/commerce/variant',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -17310,7 +17313,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/wallet/',
+            resource_path='/v1/commerce/wallet',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -17797,7 +17800,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/watchlist/',
+            resource_path='/v1/commerce/watchlist',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -18284,7 +18287,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='GET',
-            resource_path='/v1/commerce/webhook/',
+            resource_path='/v1/commerce/webhook',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -18784,7 +18787,8 @@ class CommerceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24773,7 +24777,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/collection/',
+            resource_path='/v1/commerce/collection',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -25260,7 +25264,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/disclosure/',
+            resource_path='/v1/commerce/disclosure',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -25747,7 +25751,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/discount/',
+            resource_path='/v1/commerce/discount',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -26234,7 +26238,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/movie/',
+            resource_path='/v1/commerce/movie',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -26721,7 +26725,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/note/',
+            resource_path='/v1/commerce/note',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -27680,7 +27684,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/product/',
+            resource_path='/v1/commerce/product',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -28639,7 +28643,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/return/',
+            resource_path='/v1/commerce/return',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -29126,7 +29130,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/saleschannel/',
+            resource_path='/v1/commerce/saleschannel',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -29613,7 +29617,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/stocklocation/',
+            resource_path='/v1/commerce/stocklocation',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -30100,7 +30104,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/store/',
+            resource_path='/v1/commerce/store',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -34974,7 +34978,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/submission/',
+            resource_path='/v1/commerce/submission',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -35461,7 +35465,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/subscriber/',
+            resource_path='/v1/commerce/subscriber',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -35948,7 +35952,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/tokentransaction/',
+            resource_path='/v1/commerce/tokentransaction',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -36435,7 +36439,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/transfer/',
+            resource_path='/v1/commerce/transfer',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -36922,7 +36926,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/variant/',
+            resource_path='/v1/commerce/variant',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -37409,7 +37413,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/wallet/',
+            resource_path='/v1/commerce/wallet',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -37896,7 +37900,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/watchlist/',
+            resource_path='/v1/commerce/watchlist',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -38383,7 +38387,7 @@ class CommerceApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/commerce/webhook/',
+            resource_path='/v1/commerce/webhook',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -44450,7 +44454,8 @@ class CommerceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

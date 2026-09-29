@@ -27,7 +27,7 @@ class O11yO11yTable(BaseModel):
     O11yO11yTable
     """ # noqa: E501
     columns: Optional[List[StrictStr]] = Field(default=None, description="Columns names each position in a row.")
-    rows: Optional[List[List[Dict[str, Any]]]] = Field(default=None, description="Rows are the result rows, each as long as Columns.")
+    rows: Optional[List[List[Any]]] = Field(default=None, description="Rows are the result rows, each as long as Columns.")
     __properties: ClassVar[List[str]] = ["columns", "rows"]
 
     model_config = ConfigDict(

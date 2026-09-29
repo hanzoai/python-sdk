@@ -19,12 +19,12 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.dash_resp import DashResp
-from hanzoai.cloud.models.report_req import ReportReq
-from hanzoai.cloud.models.report_resp import ReportResp
-from hanzoai.cloud.models.usage_analytics_access import UsageAnalyticsAccess
-from hanzoai.cloud.models.usage_analytics_view import UsageAnalyticsView
-from hanzoai.cloud.models.usage_summary import UsageSummary
+from hanzoai.cloud.models.usage_dash_resp import UsageDashResp
+from hanzoai.cloud.models.usage_report_req import UsageReportReq
+from hanzoai.cloud.models.usage_report_resp import UsageReportResp
+from hanzoai.cloud.models.usage_usage_analytics_access import UsageUsageAnalyticsAccess
+from hanzoai.cloud.models.usage_usage_analytics_view import UsageUsageAnalyticsView
+from hanzoai.cloud.models.usage_usage_summary import UsageUsageSummary
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -63,7 +63,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UsageAnalyticsView:
+    ) -> UsageUsageAnalyticsView:
         """Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from.
 
         Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from. Basic own-org usage stays ungated at /v1/usage/summary.  A plan that does not grant the analytics datastore is refused with 402, and an unresolvable plan fails closed to the free floor, which does not grant it. The window is clamped forward to the plan's retention entitlement, so a tenant can never read older than its plan allows even with a custom start. The response is marked no-store.  INTERIM (mirrors apps/world's limits echo): no org→plan resolver exists in cloud yet — the subscription lookup is owned by the billing plane and the gateway principal carries no plan claim — so the caller passes the plan and the gate resolves THAT plan's access.
@@ -110,7 +110,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsView",
+            '200': "UsageUsageAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -142,7 +142,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UsageAnalyticsView]:
+    ) -> ApiResponse[UsageUsageAnalyticsView]:
         """Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from.
 
         Is the entitlement-GATED per-provider breakdown of the caller org's LLM usage — the paid lens over the same warehouse ledger GET /v1/usage/summary reads its totals from. Basic own-org usage stays ungated at /v1/usage/summary.  A plan that does not grant the analytics datastore is refused with 402, and an unresolvable plan fails closed to the free floor, which does not grant it. The window is clamped forward to the plan's retention entitlement, so a tenant can never read older than its plan allows even with a custom start. The response is marked no-store.  INTERIM (mirrors apps/world's limits echo): no org→plan resolver exists in cloud yet — the subscription lookup is owned by the billing plane and the gateway principal carries no plan claim — so the caller passes the plan and the gate resolves THAT plan's access.
@@ -189,7 +189,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsView",
+            '200': "UsageUsageAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -268,7 +268,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsView",
+            '200': "UsageUsageAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -330,7 +330,8 @@ class UsageApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -374,7 +375,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UsageAnalyticsAccess:
+    ) -> UsageUsageAnalyticsAccess:
         """Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers.
 
         Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers. An empty plan resolves the free floor, and a catalog resolution failure serves that same floor rather than erroring — so this always answers 200. It is a read-only contract echo and carries no tenant data.
@@ -412,7 +413,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsAccess",
+            '200': "UsageUsageAnalyticsAccess",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -441,7 +442,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UsageAnalyticsAccess]:
+    ) -> ApiResponse[UsageUsageAnalyticsAccess]:
         """Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers.
 
         Echoes a plan's resolved analytics entitlement so a dashboard can configure itself against the LIVE catalog instead of hardcoding tier numbers. An empty plan resolves the free floor, and a catalog resolution failure serves that same floor rather than erroring — so this always answers 200. It is a read-only contract echo and carries no tenant data.
@@ -479,7 +480,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsAccess",
+            '200': "UsageUsageAnalyticsAccess",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -546,7 +547,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageAnalyticsAccess",
+            '200': "UsageUsageAnalyticsAccess",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -593,7 +594,8 @@ class UsageApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -640,7 +642,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DashResp:
+    ) -> UsageDashResp:
         """Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".
 
         Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".  `current` is the newest instance of each lane (the headline); `windows` is the history behind it. Both come from ONE deduped read, so they can never disagree. The rows are the caller's OWN linked accounts, scoped to the validated principal and its subject — never another user's, and never another org's.
@@ -687,7 +689,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DashResp",
+            '200': "UsageDashResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -719,7 +721,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DashResp]:
+    ) -> ApiResponse[UsageDashResp]:
         """Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".
 
         Is the PER-PROVIDER view: one connected account's own consumption of its own plan — \"my plan is 47% through its 6h window, resets at 14:20\".  `current` is the newest instance of each lane (the headline); `windows` is the history behind it. Both come from ONE deduped read, so they can never disagree. The rows are the caller's OWN linked accounts, scoped to the validated principal and its subject — never another user's, and never another org's.
@@ -766,7 +768,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DashResp",
+            '200': "UsageDashResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -845,7 +847,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DashResp",
+            '200': "UsageDashResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -907,7 +909,8 @@ class UsageApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -953,7 +956,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UsageSummary:
+    ) -> UsageUsageSummary:
         """Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.
 
         Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
@@ -997,7 +1000,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageSummary",
+            '200': "UsageUsageSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1028,7 +1031,7 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UsageSummary]:
+    ) -> ApiResponse[UsageUsageSummary]:
         """Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.
 
         Answers GET /v1/usage/summary: the caller's own usage footprint over one window — the categorized spend roll-up from the commerce ledger, the org's LLM usage totals from the warehouse, and the caller's OWN linked provider accounts beside the org's Hanzo-routed usage.  Every source degrades INDEPENDENTLY to honest zeros and says so in `sources` and in its own `available` flag, so a partial deploy reports \"no data\" rather than fabricating spend. The account rows and the Hanzo rows are concatenated and never summed: a plan's percent is not money.  The response is org-scoped from the validated principal and marked no-store — a signed-out caller is refused.
@@ -1072,7 +1075,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageSummary",
+            '200': "UsageUsageSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1147,7 +1150,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageSummary",
+            '200': "UsageUsageSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1204,7 +1207,8 @@ class UsageApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1235,7 +1239,7 @@ class UsageApi:
     @validate_call
     def post_usage(
         self,
-        report_req: ReportReq,
+        usage_report_req: UsageReportReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1248,13 +1252,13 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReportResp:
+    ) -> UsageReportResp:
         """Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series.
 
         Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series. Answers 202.  Send either a `samples` array or one sample's fields at the top level. Every sample needs a provider, a machine and a known window class; an unknown window or kind is refused rather than silently rewritten, because a dash filled with a class nobody reported is worse than an error. There is no timestamp field: the server owns the observation clock, and a sample says which window it measured with windowStart or resetsAt.  It is FAIL-SOFT on storage: a warehouse outage costs a poll of history (stored:false), never a failed request. It records usage ONLY — the link registry is refreshed separately via POST /v1/link, so there is one and only one way to update an account row.
 
-        :param report_req: (required)
-        :type report_req: ReportReq
+        :param usage_report_req: (required)
+        :type usage_report_req: UsageReportReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1278,7 +1282,7 @@ class UsageApi:
         """ # noqa: E501
 
         _param = self._post_usage_serialize(
-            report_req=report_req,
+            usage_report_req=usage_report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1286,7 +1290,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "ReportResp",
+            '202': "UsageReportResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1302,7 +1306,7 @@ class UsageApi:
     @validate_call
     def post_usage_with_http_info(
         self,
-        report_req: ReportReq,
+        usage_report_req: UsageReportReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1315,13 +1319,13 @@ class UsageApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReportResp]:
+    ) -> ApiResponse[UsageReportResp]:
         """Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series.
 
         Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series. Answers 202.  Send either a `samples` array or one sample's fields at the top level. Every sample needs a provider, a machine and a known window class; an unknown window or kind is refused rather than silently rewritten, because a dash filled with a class nobody reported is worse than an error. There is no timestamp field: the server owns the observation clock, and a sample says which window it measured with windowStart or resetsAt.  It is FAIL-SOFT on storage: a warehouse outage costs a poll of history (stored:false), never a failed request. It records usage ONLY — the link registry is refreshed separately via POST /v1/link, so there is one and only one way to update an account row.
 
-        :param report_req: (required)
-        :type report_req: ReportReq
+        :param usage_report_req: (required)
+        :type usage_report_req: UsageReportReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1345,7 +1349,7 @@ class UsageApi:
         """ # noqa: E501
 
         _param = self._post_usage_serialize(
-            report_req=report_req,
+            usage_report_req=usage_report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1353,7 +1357,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "ReportResp",
+            '202': "UsageReportResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1369,7 +1373,7 @@ class UsageApi:
     @validate_call
     def post_usage_without_preload_content(
         self,
-        report_req: ReportReq,
+        usage_report_req: UsageReportReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1387,8 +1391,8 @@ class UsageApi:
 
         Ingests a batch of account-usage samples — what a developer's OWN AI accounts have consumed of their OWN plans, metered from each provider's own login — and appends them to the warehouse series. Answers 202.  Send either a `samples` array or one sample's fields at the top level. Every sample needs a provider, a machine and a known window class; an unknown window or kind is refused rather than silently rewritten, because a dash filled with a class nobody reported is worse than an error. There is no timestamp field: the server owns the observation clock, and a sample says which window it measured with windowStart or resetsAt.  It is FAIL-SOFT on storage: a warehouse outage costs a poll of history (stored:false), never a failed request. It records usage ONLY — the link registry is refreshed separately via POST /v1/link, so there is one and only one way to update an account row.
 
-        :param report_req: (required)
-        :type report_req: ReportReq
+        :param usage_report_req: (required)
+        :type usage_report_req: UsageReportReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1412,7 +1416,7 @@ class UsageApi:
         """ # noqa: E501
 
         _param = self._post_usage_serialize(
-            report_req=report_req,
+            usage_report_req=usage_report_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1420,7 +1424,7 @@ class UsageApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "ReportResp",
+            '202': "UsageReportResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1431,7 +1435,7 @@ class UsageApi:
 
     def _post_usage_serialize(
         self,
-        report_req,
+        usage_report_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1457,15 +1461,16 @@ class UsageApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if report_req is not None:
-            _body_params = report_req
+        if usage_report_req is not None:
+            _body_params = usage_report_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

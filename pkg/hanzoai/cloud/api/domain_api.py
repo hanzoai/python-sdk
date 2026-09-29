@@ -19,14 +19,14 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.holdings import Holdings
-from hanzoai.cloud.models.order import Order
-from hanzoai.cloud.models.quote_list import QuoteList
-from hanzoai.cloud.models.reachability import Reachability
-from hanzoai.cloud.models.register_result import RegisterResult
-from hanzoai.cloud.models.renew_req import RenewReq
-from hanzoai.cloud.models.renew_result import RenewResult
-from hanzoai.cloud.models.transfer_req import TransferReq
+from hanzoai.cloud.models.domain_holdings import DomainHoldings
+from hanzoai.cloud.models.domain_order import DomainOrder
+from hanzoai.cloud.models.domain_quote_list import DomainQuoteList
+from hanzoai.cloud.models.domain_reachability import DomainReachability
+from hanzoai.cloud.models.domain_register_result import DomainRegisterResult
+from hanzoai.cloud.models.domain_renew_req import DomainRenewReq
+from hanzoai.cloud.models.domain_renew_result import DomainRenewResult
+from hanzoai.cloud.models.domain_transfer_req import DomainTransferReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -62,10 +62,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> QuoteList:
+    ) -> DomainQuoteList:
         """Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.
 
-        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
+        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
 
         :param domain: Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required. (required)
         :type domain: str
@@ -100,7 +100,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -129,10 +129,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[QuoteList]:
+    ) -> ApiResponse[DomainQuoteList]:
         """Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.
 
-        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
+        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
 
         :param domain: Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required. (required)
         :type domain: str
@@ -167,7 +167,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -199,7 +199,7 @@ class DomainApi:
     ) -> RESTResponseType:
         """Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.
 
-        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
+        Checks exact names rather than searching for them, and answers the same quote shape search does — purchasable, premium, first-term and renewal price in cents.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held. A deployment with no registrar credentials answers 503.
 
         :param domain: Domain is one name, or several comma-separated, to check in one call. Names are lowercased. It is required. (required)
         :type domain: str
@@ -234,7 +234,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -281,7 +281,8 @@ class DomainApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -324,10 +325,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Holdings:
+    ) -> DomainHoldings:
         """Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.
 
-        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 403 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
+        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 401 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -359,7 +360,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Holdings",
+            '200': "DomainHoldings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -387,10 +388,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Holdings]:
+    ) -> ApiResponse[DomainHoldings]:
         """Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.
 
-        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 403 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
+        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 401 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -422,7 +423,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Holdings",
+            '200': "DomainHoldings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -453,7 +454,7 @@ class DomainApi:
     ) -> RESTResponseType:
         """Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.
 
-        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 403 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
+        Is the domains your org has bought here, newest registration first, each carrying the name, when it was registered, when it expires, what the org paid, the registrar order id and the nameservers it points at.  Scoped to the validated principal's org — 401 without one, and there is no parameter that reaches another org's holdings.  This is the deployment's OWN ownership record, not a query to the registrar: it lists what was bought THROUGH this surface, so a domain the org holds elsewhere is not here. The default store is in-process, so a deployment that has not swapped in a durable store answers from what this process registered.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -485,7 +486,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Holdings",
+            '200': "DomainHoldings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -527,7 +528,8 @@ class DomainApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -570,7 +572,7 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Reachability:
+    ) -> DomainReachability:
         """Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.
 
         Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.  Missing credentials or an unreachable registrar is 503 carrying configured, reachable and the reason, so an operator reads the blocker instead of guessing at it. It takes no principal, like every subsystem health probe.
@@ -605,8 +607,8 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Reachability",
-            '503': "Reachability",
+            '200': "DomainReachability",
+            '503': "DomainReachability",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -634,7 +636,7 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Reachability]:
+    ) -> ApiResponse[DomainReachability]:
         """Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.
 
         Reports registrar reachability honestly: ok only when the wholesale credentials are present AND name.com accepted them on a live call made while you waited.  Missing credentials or an unreachable registrar is 503 carrying configured, reachable and the reason, so an operator reads the blocker instead of guessing at it. It takes no principal, like every subsystem health probe.
@@ -669,8 +671,8 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Reachability",
-            '503': "Reachability",
+            '200': "DomainReachability",
+            '503': "DomainReachability",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -733,8 +735,8 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Reachability",
-            '503': "Reachability",
+            '200': "DomainReachability",
+            '503': "DomainReachability",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -776,7 +778,8 @@ class DomainApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -821,10 +824,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> QuoteList:
+    ) -> DomainQuoteList:
         """Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.
 
-        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
+        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
 
         :param q: Q is the keyword to build names from. It is required. (required)
         :type q: str
@@ -862,7 +865,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -892,10 +895,10 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[QuoteList]:
+    ) -> ApiResponse[DomainQuoteList]:
         """Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.
 
-        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
+        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
 
         :param q: Q is the keyword to build names from. It is required. (required)
         :type q: str
@@ -933,7 +936,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -966,7 +969,7 @@ class DomainApi:
     ) -> RESTResponseType:
         """Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.
 
-        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 403 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
+        Finds names built from the keyword q, plus the registrar's alternate-TLD suggestions, and answers a quote for each: the name, whether it is purchasable, whether it is premium, the first-term and renewal price in cents, and the TLD.  Prices are RETAIL — this deployment's markup is already applied and the wholesale cost is never on the wire.  It requires a validated principal; 401 without one. Nothing is charged and nothing is held — a quote is not a reservation, and the price is re-quoted at purchase, so a name quoted here can be gone or dearer by the time you buy it. A deployment with no registrar credentials answers 503.
 
         :param q: Q is the keyword to build names from. It is required. (required)
         :type q: str
@@ -1004,7 +1007,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuoteList",
+            '200': "DomainQuoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1056,7 +1059,8 @@ class DomainApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1087,7 +1091,7 @@ class DomainApi:
     @validate_call
     def post_domain_register(
         self,
-        order: Order,
+        domain_order: DomainOrder,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1100,13 +1104,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegisterResult:
+    ) -> DomainRegisterResult:
         """Buys a domain for your org and answers the ownership record together with the quote it was bought at.
 
         Buys a domain for your org and answers the ownership record together with the quote it was bought at.  The order of operations is the product guarantee: quote, refuse anything unpurchasable or unpriced, AUTHORIZE the org's prepaid balance, provision the authoritative zone in Hanzo DNS, register at the registrar already pointing at Hanzo's nameservers, and only then CAPTURE the charge and record ownership. A registrar failure therefore leaves the balance untouched — the org is never billed for a domain it did not get.  It requires a validated principal; that principal's org owns the domain and is the ledger the charge lands on. Re-buying a name the org already holds is 409, not a second purchase.  Refusals are distinct on purpose: 402 when the prepaid balance cannot cover the quoted price, 409 when the name is not available, 503 when the deployment has no registrar credentials, and the registrar's own message with its own 4xx — or 502 for its 5xx — when it rejects the purchase. Zone provisioning is best-effort: if the zone service is down the domain is still registered against Hanzo's nameservers and the zone reconciles afterwards, rather than the purchase failing.
 
-        :param order: (required)
-        :type order: Order
+        :param domain_order: (required)
+        :type domain_order: DomainOrder
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1130,7 +1134,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_register_serialize(
-            order=order,
+            domain_order=domain_order,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1138,7 +1142,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1154,7 +1158,7 @@ class DomainApi:
     @validate_call
     def post_domain_register_with_http_info(
         self,
-        order: Order,
+        domain_order: DomainOrder,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1167,13 +1171,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegisterResult]:
+    ) -> ApiResponse[DomainRegisterResult]:
         """Buys a domain for your org and answers the ownership record together with the quote it was bought at.
 
         Buys a domain for your org and answers the ownership record together with the quote it was bought at.  The order of operations is the product guarantee: quote, refuse anything unpurchasable or unpriced, AUTHORIZE the org's prepaid balance, provision the authoritative zone in Hanzo DNS, register at the registrar already pointing at Hanzo's nameservers, and only then CAPTURE the charge and record ownership. A registrar failure therefore leaves the balance untouched — the org is never billed for a domain it did not get.  It requires a validated principal; that principal's org owns the domain and is the ledger the charge lands on. Re-buying a name the org already holds is 409, not a second purchase.  Refusals are distinct on purpose: 402 when the prepaid balance cannot cover the quoted price, 409 when the name is not available, 503 when the deployment has no registrar credentials, and the registrar's own message with its own 4xx — or 502 for its 5xx — when it rejects the purchase. Zone provisioning is best-effort: if the zone service is down the domain is still registered against Hanzo's nameservers and the zone reconciles afterwards, rather than the purchase failing.
 
-        :param order: (required)
-        :type order: Order
+        :param domain_order: (required)
+        :type domain_order: DomainOrder
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1197,7 +1201,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_register_serialize(
-            order=order,
+            domain_order=domain_order,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1205,7 +1209,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1221,7 +1225,7 @@ class DomainApi:
     @validate_call
     def post_domain_register_without_preload_content(
         self,
-        order: Order,
+        domain_order: DomainOrder,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1239,8 +1243,8 @@ class DomainApi:
 
         Buys a domain for your org and answers the ownership record together with the quote it was bought at.  The order of operations is the product guarantee: quote, refuse anything unpurchasable or unpriced, AUTHORIZE the org's prepaid balance, provision the authoritative zone in Hanzo DNS, register at the registrar already pointing at Hanzo's nameservers, and only then CAPTURE the charge and record ownership. A registrar failure therefore leaves the balance untouched — the org is never billed for a domain it did not get.  It requires a validated principal; that principal's org owns the domain and is the ledger the charge lands on. Re-buying a name the org already holds is 409, not a second purchase.  Refusals are distinct on purpose: 402 when the prepaid balance cannot cover the quoted price, 409 when the name is not available, 503 when the deployment has no registrar credentials, and the registrar's own message with its own 4xx — or 502 for its 5xx — when it rejects the purchase. Zone provisioning is best-effort: if the zone service is down the domain is still registered against Hanzo's nameservers and the zone reconciles afterwards, rather than the purchase failing.
 
-        :param order: (required)
-        :type order: Order
+        :param domain_order: (required)
+        :type domain_order: DomainOrder
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1264,7 +1268,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_register_serialize(
-            order=order,
+            domain_order=domain_order,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1272,7 +1276,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1283,7 +1287,7 @@ class DomainApi:
 
     def _post_domain_register_serialize(
         self,
-        order,
+        domain_order,
         _request_auth,
         _content_type,
         _headers,
@@ -1309,15 +1313,16 @@ class DomainApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if order is not None:
-            _body_params = order
+        if domain_order is not None:
+            _body_params = domain_order
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1361,7 +1366,7 @@ class DomainApi:
     @validate_call
     def post_domain_renew(
         self,
-        renew_req: RenewReq,
+        domain_renew_req: DomainRenewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1374,13 +1379,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RenewResult:
+    ) -> DomainRenewResult:
         """Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.
 
         Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.  Ownership is the gate: a name the caller's org does not hold is 404, so a renewal can never reach another tenant's domain.  The price is re-quoted at the CURRENT renewal rate rather than the one paid at purchase. If the registrar returns no renewal price the org's original price is charged instead, so a renewal is never accidentally free. The balance is authorized before the registrar is called and captured after it confirms — 402 when the prepaid balance cannot cover it, 503 when the deployment has no registrar credentials. Requires a validated principal.
 
-        :param renew_req: (required)
-        :type renew_req: RenewReq
+        :param domain_renew_req: (required)
+        :type domain_renew_req: DomainRenewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1404,7 +1409,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_renew_serialize(
-            renew_req=renew_req,
+            domain_renew_req=domain_renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1412,7 +1417,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RenewResult",
+            '200': "DomainRenewResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1428,7 +1433,7 @@ class DomainApi:
     @validate_call
     def post_domain_renew_with_http_info(
         self,
-        renew_req: RenewReq,
+        domain_renew_req: DomainRenewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1441,13 +1446,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RenewResult]:
+    ) -> ApiResponse[DomainRenewResult]:
         """Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.
 
         Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.  Ownership is the gate: a name the caller's org does not hold is 404, so a renewal can never reach another tenant's domain.  The price is re-quoted at the CURRENT renewal rate rather than the one paid at purchase. If the registrar returns no renewal price the org's original price is charged instead, so a renewal is never accidentally free. The balance is authorized before the registrar is called and captured after it confirms — 402 when the prepaid balance cannot cover it, 503 when the deployment has no registrar credentials. Requires a validated principal.
 
-        :param renew_req: (required)
-        :type renew_req: RenewReq
+        :param domain_renew_req: (required)
+        :type domain_renew_req: DomainRenewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1471,7 +1476,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_renew_serialize(
-            renew_req=renew_req,
+            domain_renew_req=domain_renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1479,7 +1484,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RenewResult",
+            '200': "DomainRenewResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1495,7 +1500,7 @@ class DomainApi:
     @validate_call
     def post_domain_renew_without_preload_content(
         self,
-        renew_req: RenewReq,
+        domain_renew_req: DomainRenewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1513,8 +1518,8 @@ class DomainApi:
 
         Extends a domain your org already owns and answers the updated record with its new expiry alongside what was paid.  Ownership is the gate: a name the caller's org does not hold is 404, so a renewal can never reach another tenant's domain.  The price is re-quoted at the CURRENT renewal rate rather than the one paid at purchase. If the registrar returns no renewal price the org's original price is charged instead, so a renewal is never accidentally free. The balance is authorized before the registrar is called and captured after it confirms — 402 when the prepaid balance cannot cover it, 503 when the deployment has no registrar credentials. Requires a validated principal.
 
-        :param renew_req: (required)
-        :type renew_req: RenewReq
+        :param domain_renew_req: (required)
+        :type domain_renew_req: DomainRenewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1538,7 +1543,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_renew_serialize(
-            renew_req=renew_req,
+            domain_renew_req=domain_renew_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1546,7 +1551,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RenewResult",
+            '200': "DomainRenewResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1557,7 +1562,7 @@ class DomainApi:
 
     def _post_domain_renew_serialize(
         self,
-        renew_req,
+        domain_renew_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1583,15 +1588,16 @@ class DomainApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if renew_req is not None:
-            _body_params = renew_req
+        if domain_renew_req is not None:
+            _body_params = domain_renew_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1635,7 +1641,7 @@ class DomainApi:
     @validate_call
     def post_domain_transfer(
         self,
-        transfer_req: TransferReq,
+        domain_transfer_req: DomainTransferReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1648,13 +1654,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegisterResult:
+    ) -> DomainRegisterResult:
         """Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.
 
         Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.  It is priced and charged exactly like a registration: authorize the org's prepaid balance, ask the registrar for the transfer, capture only after the registrar accepts. A name the registrar will not price is 409, an insufficient balance is 402, and a deployment with no registrar credentials is 503.  It requires a validated principal; the ownership record is written under that org as soon as the registrar ACCEPTS the request, which is not the same instant the transfer completes at the losing registrar. Unlike a registration this does not provision a zone, so the record carries this deployment's configured nameservers.
 
-        :param transfer_req: (required)
-        :type transfer_req: TransferReq
+        :param domain_transfer_req: (required)
+        :type domain_transfer_req: DomainTransferReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1678,7 +1684,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_transfer_serialize(
-            transfer_req=transfer_req,
+            domain_transfer_req=domain_transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1686,7 +1692,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1702,7 +1708,7 @@ class DomainApi:
     @validate_call
     def post_domain_transfer_with_http_info(
         self,
-        transfer_req: TransferReq,
+        domain_transfer_req: DomainTransferReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1715,13 +1721,13 @@ class DomainApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegisterResult]:
+    ) -> ApiResponse[DomainRegisterResult]:
         """Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.
 
         Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.  It is priced and charged exactly like a registration: authorize the org's prepaid balance, ask the registrar for the transfer, capture only after the registrar accepts. A name the registrar will not price is 409, an insufficient balance is 402, and a deployment with no registrar credentials is 503.  It requires a validated principal; the ownership record is written under that org as soon as the registrar ACCEPTS the request, which is not the same instant the transfer completes at the losing registrar. Unlike a registration this does not provision a zone, so the record carries this deployment's configured nameservers.
 
-        :param transfer_req: (required)
-        :type transfer_req: TransferReq
+        :param domain_transfer_req: (required)
+        :type domain_transfer_req: DomainTransferReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1745,7 +1751,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_transfer_serialize(
-            transfer_req=transfer_req,
+            domain_transfer_req=domain_transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1753,7 +1759,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1769,7 +1775,7 @@ class DomainApi:
     @validate_call
     def post_domain_transfer_without_preload_content(
         self,
-        transfer_req: TransferReq,
+        domain_transfer_req: DomainTransferReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1787,8 +1793,8 @@ class DomainApi:
 
         Moves a domain you own at another registrar onto your org here, using its authCode, and answers the same record-plus-quote a purchase does.  It is priced and charged exactly like a registration: authorize the org's prepaid balance, ask the registrar for the transfer, capture only after the registrar accepts. A name the registrar will not price is 409, an insufficient balance is 402, and a deployment with no registrar credentials is 503.  It requires a validated principal; the ownership record is written under that org as soon as the registrar ACCEPTS the request, which is not the same instant the transfer completes at the losing registrar. Unlike a registration this does not provision a zone, so the record carries this deployment's configured nameservers.
 
-        :param transfer_req: (required)
-        :type transfer_req: TransferReq
+        :param domain_transfer_req: (required)
+        :type domain_transfer_req: DomainTransferReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1812,7 +1818,7 @@ class DomainApi:
         """ # noqa: E501
 
         _param = self._post_domain_transfer_serialize(
-            transfer_req=transfer_req,
+            domain_transfer_req=domain_transfer_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1820,7 +1826,7 @@ class DomainApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegisterResult",
+            '200': "DomainRegisterResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1831,7 +1837,7 @@ class DomainApi:
 
     def _post_domain_transfer_serialize(
         self,
-        transfer_req,
+        domain_transfer_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1857,15 +1863,16 @@ class DomainApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if transfer_req is not None:
-            _body_params = transfer_req
+        if domain_transfer_req is not None:
+            _body_params = domain_transfer_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

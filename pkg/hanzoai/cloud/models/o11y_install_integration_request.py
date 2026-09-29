@@ -26,7 +26,7 @@ class O11yInstallIntegrationRequest(BaseModel):
     """
     O11yInstallIntegrationRequest
     """ # noqa: E501
-    config: Optional[Dict[str, Dict[str, Any]]] = None
+    config: Optional[Dict[str, Any]] = None
     integration_id: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["config", "integration_id"]
 

@@ -19,12 +19,16 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.iam_accept_body import IamAcceptBody
 from hanzoai.cloud.models.iam_account_body import IamAccountBody
 from hanzoai.cloud.models.iam_answer import IamAnswer
 from hanzoai.cloud.models.iam_application import IamApplication
 from hanzoai.cloud.models.iam_application_list_result import IamApplicationListResult
 from hanzoai.cloud.models.iam_assume_body import IamAssumeBody
 from hanzoai.cloud.models.iam_audit_log import IamAuditLog
+from hanzoai.cloud.models.iam_auditlogs_delete_output import IamAuditlogsDeleteOutput
+from hanzoai.cloud.models.iam_auditlogs_input import IamAuditlogsInput
+from hanzoai.cloud.models.iam_auditlogs_list_output import IamAuditlogsListOutput
 from hanzoai.cloud.models.iam_cert import IamCert
 from hanzoai.cloud.models.iam_certs_delete_output import IamCertsDeleteOutput
 from hanzoai.cloud.models.iam_certs_list_output import IamCertsListOutput
@@ -43,6 +47,8 @@ from hanzoai.cloud.models.iam_invitations_delete_output import IamInvitationsDel
 from hanzoai.cloud.models.iam_invitations_input import IamInvitationsInput
 from hanzoai.cloud.models.iam_invitations_list_output import IamInvitationsListOutput
 from hanzoai.cloud.models.iam_key import IamKey
+from hanzoai.cloud.models.iam_keys_delete_response import IamKeysDeleteResponse
+from hanzoai.cloud.models.iam_keys_list_response import IamKeysListResponse
 from hanzoai.cloud.models.iam_list_organizations_output import IamListOrganizationsOutput
 from hanzoai.cloud.models.iam_list_output import IamListOutput
 from hanzoai.cloud.models.iam_list_providers_out import IamListProvidersOut
@@ -54,8 +60,6 @@ from hanzoai.cloud.models.iam_mutation_result import IamMutationResult
 from hanzoai.cloud.models.iam_organization import IamOrganization
 from hanzoai.cloud.models.iam_password_body import IamPasswordBody
 from hanzoai.cloud.models.iam_permission import IamPermission
-from hanzoai.cloud.models.iam_permission_delete_response import IamPermissionDeleteResponse
-from hanzoai.cloud.models.iam_permission_list_response import IamPermissionListResponse
 from hanzoai.cloud.models.iam_person import IamPerson
 from hanzoai.cloud.models.iam_project import IamProject
 from hanzoai.cloud.models.iam_projects_delete_output import IamProjectsDeleteOutput
@@ -67,8 +71,8 @@ from hanzoai.cloud.models.iam_registration import IamRegistration
 from hanzoai.cloud.models.iam_reply import IamReply
 from hanzoai.cloud.models.iam_role import IamRole
 from hanzoai.cloud.models.iam_roles_delete_output import IamRolesDeleteOutput
-from hanzoai.cloud.models.iam_roles_input import IamRolesInput
 from hanzoai.cloud.models.iam_roles_list_output import IamRolesListOutput
+from hanzoai.cloud.models.iam_send_output import IamSendOutput
 from hanzoai.cloud.models.iam_session import IamSession
 from hanzoai.cloud.models.iam_set_avatar_input import IamSetAvatarInput
 from hanzoai.cloud.models.iam_set_profile_input import IamSetProfileInput
@@ -83,8 +87,6 @@ from hanzoai.cloud.models.iam_update_input import IamUpdateInput
 from hanzoai.cloud.models.iam_update_organization_input import IamUpdateOrganizationInput
 from hanzoai.cloud.models.iam_update_session_in import IamUpdateSessionIn
 from hanzoai.cloud.models.iam_user import IamUser
-from hanzoai.cloud.models.iam_users_delete_output import IamUsersDeleteOutput
-from hanzoai.cloud.models.iam_users_list_output import IamUsersListOutput
 from hanzoai.cloud.models.iam_webauthn_credential import IamWebauthnCredential
 from hanzoai.cloud.models.iam_webauthn_credential_mutation_result import IamWebauthnCredentialMutationResult
 from hanzoai.cloud.models.iam_webauthn_credential_result import IamWebauthnCredentialResult
@@ -166,7 +168,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -234,7 +236,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -302,7 +304,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -347,7 +349,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -443,7 +446,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -511,7 +514,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -579,7 +582,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -624,7 +627,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -720,7 +724,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -788,7 +792,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -856,7 +860,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -901,7 +905,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -997,7 +1002,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1065,7 +1070,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1133,7 +1138,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1178,7 +1183,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1274,7 +1280,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1342,7 +1348,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1410,7 +1416,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1455,7 +1461,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1555,7 +1562,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1627,7 +1634,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1699,7 +1706,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1747,7 +1754,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1792,7 +1800,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamDeleteOutput:
+    ) -> IamAuditlogsDeleteOutput:
         """Removes an audit entry.
 
         Removes an audit entry. Retention policy is normally what should expire a trail; deleting by hand leaves a gap a reviewer will notice.
@@ -1833,8 +1841,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1864,7 +1872,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamDeleteOutput]:
+    ) -> ApiResponse[IamAuditlogsDeleteOutput]:
         """Removes an audit entry.
 
         Removes an audit entry. Retention policy is normally what should expire a trail; deleting by hand leaves a gap a reviewer will notice.
@@ -1905,8 +1913,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1977,8 +1985,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2026,7 +2034,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2113,7 +2122,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2185,7 +2194,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2257,7 +2266,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2305,7 +2314,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2392,7 +2402,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2464,7 +2474,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2536,7 +2546,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2584,7 +2594,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2629,7 +2640,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamDeleteResponse:
+    ) -> IamKeysDeleteResponse:
         """Revokes an API key.
 
         Revokes an API key. Anything still presenting it stops being authorized at once, so roll the replacement out before you revoke.
@@ -2670,8 +2681,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamKeysDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2701,7 +2712,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamDeleteResponse]:
+    ) -> ApiResponse[IamKeysDeleteResponse]:
         """Revokes an API key.
 
         Revokes an API key. Anything still presenting it stops being authorized at once, so roll the replacement out before you revoke.
@@ -2742,8 +2753,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamKeysDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2814,8 +2825,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamKeysDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2863,7 +2874,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3144,7 +3156,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamPermissionDeleteResponse:
+    ) -> IamDeleteResponse:
         """Revokes a permission.
 
         Revokes a permission. Everyone who held access only through it loses that access immediately; grants they hold by another route are untouched.
@@ -3185,8 +3197,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3216,7 +3228,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamPermissionDeleteResponse]:
+    ) -> ApiResponse[IamDeleteResponse]:
         """Revokes a permission.
 
         Revokes a permission. Everyone who held access only through it loses that access immediately; grants they hold by another route are untouched.
@@ -3257,8 +3269,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3329,8 +3341,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionDeleteResponse",
-            '202': "IamApproval",
+            '200': "IamDeleteResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3378,7 +3390,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3465,7 +3478,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3537,7 +3550,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3609,7 +3622,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3657,7 +3670,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3744,7 +3758,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3816,7 +3830,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3888,7 +3902,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3936,7 +3950,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4536,7 +4551,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4604,7 +4619,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4672,7 +4687,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4717,7 +4732,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4762,10 +4778,10 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamUsersDeleteOutput:
+    ) -> IamDeleteOutput:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -4803,8 +4819,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4834,10 +4850,10 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamUsersDeleteOutput]:
+    ) -> ApiResponse[IamDeleteOutput]:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -4875,8 +4891,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4909,7 +4925,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Removes a person from your organization.
 
-        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.
+        Removes a person from your organization. Their sessions stop working immediately and the account is gone rather than suspended — to keep the record and only stop sign-in, update the user instead.  A SuperAdmin's account is removed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -4947,8 +4963,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersDeleteOutput",
-            '202': "IamApproval",
+            '200': "IamDeleteOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4996,7 +5012,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5349,7 +5366,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5421,7 +5438,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5493,7 +5510,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesDeleteOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5541,7 +5558,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5628,7 +5646,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5700,7 +5718,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5772,7 +5790,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteOrganizationOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5820,7 +5838,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5907,7 +5926,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5979,7 +5998,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6051,7 +6070,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6099,7 +6118,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6190,7 +6210,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6266,7 +6286,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6342,7 +6362,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamDeleteSessionOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6393,7 +6413,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6480,7 +6501,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6552,7 +6573,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6624,7 +6645,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6672,7 +6693,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6759,7 +6781,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6831,7 +6853,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6903,7 +6925,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6951,7 +6973,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7216,6 +7239,242 @@ class IamApi:
 
 
     @validate_call
+    def get_iam_accounts(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.
+
+        Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.  It reads the session cookie and nothing else, so it only ever answers the browser holding the sessions. An account forbidden or deleted since it signed in is left out. A browser with nobody signed in gets an empty list.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_iam_accounts_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.
+
+        Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.  It reads the session cookie and nothing else, so it only ever answers the browser holding the sessions. An account forbidden or deleted since it signed in is left out. A browser with nobody signed in gets an empty list.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_iam_accounts_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.
+
+        Returns the people signed in on this browser, the most recent sign-in first — what the sign-in page lists when an application asks the person to choose an account.  It reads the session cookie and nothing else, so it only ever answers the browser holding the sessions. An account forbidden or deleted since it signed in is left out. A browser with nobody signed in gets an empty list.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_accounts_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_iam_accounts_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/iam/accounts',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_iam_applications(
         self,
         owner: StrictStr,
@@ -7270,7 +7529,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7338,7 +7597,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7406,7 +7665,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplicationListResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7453,7 +7712,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7540,7 +7800,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7612,7 +7872,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7684,7 +7944,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7732,7 +7992,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7776,7 +8037,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamListOutput:
+    ) -> IamAuditlogsListOutput:
         """Returns your organization's audit trail, newest first — who did what, when, and from where.
 
         Returns your organization's audit trail, newest first — who did what, when, and from where. It is the record you reach for during a security review or an incident.  You see your own organization's audit trail and no one else's; which organization that is comes from your credentials, not from the request.
@@ -7814,8 +8075,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7844,7 +8105,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamListOutput]:
+    ) -> ApiResponse[IamAuditlogsListOutput]:
         """Returns your organization's audit trail, newest first — who did what, when, and from where.
 
         Returns your organization's audit trail, newest first — who did what, when, and from where. It is the record you reach for during a security review or an incident.  You see your own organization's audit trail and no one else's; which organization that is comes from your credentials, not from the request.
@@ -7882,8 +8143,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7950,8 +8211,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListOutput",
-            '202': "IamApproval",
+            '200': "IamAuditlogsListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7998,7 +8259,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8085,7 +8347,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8157,7 +8419,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8229,7 +8491,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8277,7 +8539,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8560,7 +8823,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8826,7 +9090,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8909,7 +9174,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8977,7 +9242,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9045,7 +9310,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCertsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9092,7 +9357,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9179,7 +9445,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9251,7 +9517,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9323,7 +9589,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9371,7 +9637,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9654,7 +9921,7 @@ class IamApi:
     ) -> IamInvitationsListOutput:
         """Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.
 
-        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see your own organization's invitations and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see the invitations of the organization your credentials run, and no one else's: your own, or one you own or administer.
 
         :param owner:
         :type owner: str
@@ -9690,7 +9957,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9722,7 +9989,7 @@ class IamApi:
     ) -> ApiResponse[IamInvitationsListOutput]:
         """Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.
 
-        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see your own organization's invitations and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see the invitations of the organization your credentials run, and no one else's: your own, or one you own or administer.
 
         :param owner:
         :type owner: str
@@ -9758,7 +10025,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9790,7 +10057,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.
 
-        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see your own organization's invitations and no one else's; which organization that is comes from your credentials, not from the request.
+        Returns your organization's invitations, newest first — who has been asked to join, on what terms, and how many seats each invitation still has left.  You see the invitations of the organization your credentials run, and no one else's: your own, or one you own or administer.
 
         :param owner:
         :type owner: str
@@ -9826,7 +10093,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitationsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9873,7 +10140,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9960,7 +10228,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10032,7 +10300,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10104,7 +10372,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10152,7 +10420,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10196,7 +10465,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamListResponse:
+    ) -> IamKeysListResponse:
         """Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
 
         Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
@@ -10234,8 +10503,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListResponse",
-            '202': "IamApproval",
+            '200': "IamKeysListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10264,7 +10533,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamListResponse]:
+    ) -> ApiResponse[IamKeysListResponse]:
         """Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
 
         Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
@@ -10302,8 +10571,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListResponse",
-            '202': "IamApproval",
+            '200': "IamKeysListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10370,8 +10639,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamListResponse",
-            '202': "IamApproval",
+            '200': "IamKeysListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10418,7 +10687,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10505,7 +10775,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10577,7 +10847,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10649,7 +10919,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10697,7 +10967,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11453,7 +11724,7 @@ class IamApi:
     ) -> IamAnswer:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
-        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via principal.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
+        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may read the roster of an org it belongs to, or the tenancy of a person whose account it administers, and nothing else. The bound comes from the verified credential via principal.ScopeRead, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a roster read by a stranger is a customer roster leak.
 
         :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
         :type user: str
@@ -11492,7 +11763,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -11526,7 +11797,7 @@ class IamApi:
     ) -> ApiResponse[IamAnswer]:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
-        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via principal.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
+        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may read the roster of an org it belongs to, or the tenancy of a person whose account it administers, and nothing else. The bound comes from the verified credential via principal.ScopeRead, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a roster read by a stranger is a customer roster leak.
 
         :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
         :type user: str
@@ -11565,7 +11836,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -11599,7 +11870,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.
 
-        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may ask about ITS OWN org's roster, or about a user whose home org is its own, and nothing else. The bound comes from the verified credential via principal.Scope, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a cross-tenant read is a customer roster leak.
+        Answers either question about who belongs where: which organizations one person can act in, or who can act in one organization.  Both are org-scoped: a non-SuperAdmin may read the roster of an org it belongs to, or the tenancy of a person whose account it administers, and nothing else. The bound comes from the verified credential via principal.ScopeRead, so a request parameter can never widen it — a membership row names who may act and spend in an org, so a roster read by a stranger is a customer roster leak.
 
         :param user: User is \"<homeOrg>/<username>\" — which organizations that identity may act in.
         :type user: str
@@ -11638,7 +11909,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -11691,7 +11962,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11737,7 +12009,7 @@ class IamApi:
     ) -> None:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -11799,7 +12071,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -11861,7 +12133,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12209,7 +12481,7 @@ class IamApi:
     ) -> None:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12271,7 +12543,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12333,7 +12605,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -12679,7 +12951,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamPermissionListResponse:
+    ) -> IamListResponse:
         """Returns the permissions in one organization, newest first — each one a grant saying which people or roles may do what, and to which resources.
 
         Returns the permissions in one organization, newest first — each one a grant saying which people or roles may do what, and to which resources.
@@ -12717,8 +12989,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionListResponse",
-            '202': "IamApproval",
+            '200': "IamListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12747,7 +13019,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamPermissionListResponse]:
+    ) -> ApiResponse[IamListResponse]:
         """Returns the permissions in one organization, newest first — each one a grant saying which people or roles may do what, and to which resources.
 
         Returns the permissions in one organization, newest first — each one a grant saying which people or roles may do what, and to which resources.
@@ -12785,8 +13057,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionListResponse",
-            '202': "IamApproval",
+            '200': "IamListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12853,8 +13125,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamPermissionListResponse",
-            '202': "IamApproval",
+            '200': "IamListResponse",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12901,7 +13173,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12988,7 +13261,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13060,7 +13333,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13132,7 +13405,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13180,7 +13453,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13263,7 +13537,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13331,7 +13605,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13399,7 +13673,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProjectsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13446,7 +13720,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13533,7 +13808,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13605,7 +13880,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13677,7 +13952,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -13725,7 +14000,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14280,7 +14556,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14348,7 +14624,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14416,7 +14692,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRolesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14463,7 +14739,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14550,7 +14827,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14622,7 +14899,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14694,7 +14971,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14742,7 +15019,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14821,7 +15099,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14885,7 +15163,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14949,7 +15227,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -14991,7 +15269,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15074,7 +15353,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15143,7 +15422,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15212,7 +15491,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15258,7 +15537,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15337,7 +15617,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15401,7 +15681,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15465,7 +15745,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListResponse",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15507,7 +15787,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15590,7 +15871,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15659,7 +15940,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15728,7 +16009,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "object",
-            '202': "IamApproval",
+            '202': "Approval",
             '404': "object",
         }
         response_data = self.api_client.call_api(
@@ -15774,7 +16055,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15853,7 +16135,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15917,7 +16199,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15981,7 +16263,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamConfig",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16023,7 +16305,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -16616,7 +16899,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16693,7 +16976,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16770,7 +17053,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAnswer",
-            '202': "IamApproval",
+            '202': "Approval",
             '400': "IamAnswer",
         }
         response_data = self.api_client.call_api(
@@ -16828,7 +17111,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -16907,7 +17191,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16971,7 +17255,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17035,7 +17319,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeamsListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17077,7 +17361,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17160,7 +17445,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17228,7 +17513,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17296,7 +17581,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17341,7 +17626,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17388,7 +17674,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IamUsersListOutput:
+    ) -> IamListOutput:
         """Returns a page of the people in an organization, with the total so you can page through the rest.
 
         Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
@@ -17435,8 +17721,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersListOutput",
-            '202': "IamApproval",
+            '200': "IamListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17468,7 +17754,7 @@ class IamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IamUsersListOutput]:
+    ) -> ApiResponse[IamListOutput]:
         """Returns a page of the people in an organization, with the total so you can page through the rest.
 
         Returns a page of the people in an organization, with the total so you can page through the rest. Passwords, API secrets and MFA material are stripped from every entry.  Which organization comes from your credentials, not from the request: you read your own and no one else's, and a credential whose scope spans tenants reads the tenant it names — or, naming none, every one of them.
@@ -17515,8 +17801,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersListOutput",
-            '202': "IamApproval",
+            '200': "IamListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17595,8 +17881,8 @@ class IamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IamUsersListOutput",
-            '202': "IamApproval",
+            '200': "IamListOutput",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17658,7 +17944,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17749,7 +18036,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17825,7 +18112,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17901,7 +18188,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17954,7 +18241,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -19689,7 +19977,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19757,7 +20045,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19825,7 +20113,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspacesListOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19872,7 +20160,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -19959,7 +20248,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20031,7 +20320,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20103,7 +20392,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20151,7 +20440,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20238,7 +20528,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20310,7 +20600,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20382,7 +20672,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20430,7 +20720,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20517,7 +20808,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20589,7 +20880,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20661,7 +20952,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProviderResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20709,7 +21000,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20800,7 +21092,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20876,7 +21168,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20952,7 +21244,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21003,7 +21295,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21090,7 +21383,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21162,7 +21455,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21234,7 +21527,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21282,7 +21575,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21369,7 +21663,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21441,7 +21735,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21513,7 +21807,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21561,7 +21855,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21656,7 +21951,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21736,7 +22031,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21816,7 +22111,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListOrganizationsOutput",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21876,7 +22171,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21959,7 +22255,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22027,7 +22323,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22095,7 +22391,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListProvidersOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22142,7 +22438,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22233,7 +22530,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22309,7 +22606,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22385,7 +22682,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListSessionsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22442,7 +22739,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22529,7 +22827,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22601,7 +22899,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22673,7 +22971,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListTokensOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22725,7 +23023,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22808,7 +23107,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22876,7 +23175,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22944,7 +23243,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamListWebauthnCredentialsOut",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22991,7 +23290,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -23576,7 +23876,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23644,7 +23944,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23712,7 +24012,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23757,7 +24057,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24073,7 +24374,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24117,7 +24419,7 @@ class IamApi:
     @validate_call
     def post_iam_audit_logs(
         self,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24135,8 +24437,8 @@ class IamApi:
 
         Records an audit entry, so activity from your own systems lands in the same trail as everything the Hanzo Cloud records for you.
 
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -24160,7 +24462,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_audit_logs_serialize(
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24169,7 +24471,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24185,7 +24487,7 @@ class IamApi:
     @validate_call
     def post_iam_audit_logs_with_http_info(
         self,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24203,8 +24505,8 @@ class IamApi:
 
         Records an audit entry, so activity from your own systems lands in the same trail as everything the Hanzo Cloud records for you.
 
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -24228,7 +24530,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_audit_logs_serialize(
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24237,7 +24539,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24253,7 +24555,7 @@ class IamApi:
     @validate_call
     def post_iam_audit_logs_without_preload_content(
         self,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -24271,8 +24573,8 @@ class IamApi:
 
         Records an audit entry, so activity from your own systems lands in the same trail as everything the Hanzo Cloud records for you.
 
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -24296,7 +24598,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_audit_logs_serialize(
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -24305,7 +24607,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24316,7 +24618,7 @@ class IamApi:
 
     def _post_iam_audit_logs_serialize(
         self,
-        iam_input,
+        iam_auditlogs_input,
         _request_auth,
         _content_type,
         _headers,
@@ -24342,15 +24644,16 @@ class IamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if iam_input is not None:
-            _body_params = iam_input
+        if iam_auditlogs_input is not None:
+            _body_params = iam_auditlogs_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24446,7 +24749,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24514,7 +24817,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24582,7 +24885,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24627,7 +24930,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24959,7 +25263,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25027,7 +25331,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25095,7 +25399,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25140,7 +25444,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -25166,6 +25471,651 @@ class IamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/iam/invitations',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_iam_invitations_accept(
+        self,
+        iam_accept_body: IamAcceptBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IamAnswer:
+        """Joins the caller to an organization through an invitation, for a person who already has an account.
+
+        Joins the caller to an organization through an invitation, for a person who already has an account. Signing up through the invitation is the other way in (signupHandler); this one spends the same seat under the same rules.  Only the caller joins, as a member and never more; the request names nobody else. An invitation pinned to an address admits only the account holding that address, and only with a code IAM sent to it for this join — the account's own verified flag is not enough, because a tenant's identity provider can set it. An invitation pinned to a phone number or a username admits no other org's account this way. Joining an org the caller already belongs to succeeds and spends nothing. Every refusal is recorded, and an account refused acceptLimit times in acceptWindow is refused before anything is looked at.
+
+        :param iam_accept_body: (required)
+        :type iam_accept_body: IamAcceptBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_accept_serialize(
+            iam_accept_body=iam_accept_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '429': "IamAnswer",
+            '502': "IamAnswer",
+            '503': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_iam_invitations_accept_with_http_info(
+        self,
+        iam_accept_body: IamAcceptBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IamAnswer]:
+        """Joins the caller to an organization through an invitation, for a person who already has an account.
+
+        Joins the caller to an organization through an invitation, for a person who already has an account. Signing up through the invitation is the other way in (signupHandler); this one spends the same seat under the same rules.  Only the caller joins, as a member and never more; the request names nobody else. An invitation pinned to an address admits only the account holding that address, and only with a code IAM sent to it for this join — the account's own verified flag is not enough, because a tenant's identity provider can set it. An invitation pinned to a phone number or a username admits no other org's account this way. Joining an org the caller already belongs to succeeds and spends nothing. Every refusal is recorded, and an account refused acceptLimit times in acceptWindow is refused before anything is looked at.
+
+        :param iam_accept_body: (required)
+        :type iam_accept_body: IamAcceptBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_accept_serialize(
+            iam_accept_body=iam_accept_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '429': "IamAnswer",
+            '502': "IamAnswer",
+            '503': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_iam_invitations_accept_without_preload_content(
+        self,
+        iam_accept_body: IamAcceptBody,
+        cookie: Optional[StrictStr] = None,
+        authorization: Optional[StrictStr] = None,
+        sec_fetch_site: Optional[StrictStr] = None,
+        content_type: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Joins the caller to an organization through an invitation, for a person who already has an account.
+
+        Joins the caller to an organization through an invitation, for a person who already has an account. Signing up through the invitation is the other way in (signupHandler); this one spends the same seat under the same rules.  Only the caller joins, as a member and never more; the request names nobody else. An invitation pinned to an address admits only the account holding that address, and only with a code IAM sent to it for this join — the account's own verified flag is not enough, because a tenant's identity provider can set it. An invitation pinned to a phone number or a username admits no other org's account this way. Joining an org the caller already belongs to succeeds and spends nothing. Every refusal is recorded, and an account refused acceptLimit times in acceptWindow is refused before anything is looked at.
+
+        :param iam_accept_body: (required)
+        :type iam_accept_body: IamAcceptBody
+        :param cookie:
+        :type cookie: str
+        :param authorization:
+        :type authorization: str
+        :param sec_fetch_site:
+        :type sec_fetch_site: str
+        :param content_type:
+        :type content_type: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_accept_serialize(
+            iam_accept_body=iam_accept_body,
+            cookie=cookie,
+            authorization=authorization,
+            sec_fetch_site=sec_fetch_site,
+            content_type=content_type,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamAnswer",
+            '400': "IamAnswer",
+            '403': "IamAnswer",
+            '429': "IamAnswer",
+            '502': "IamAnswer",
+            '503': "IamAnswer",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_iam_invitations_accept_serialize(
+        self,
+        iam_accept_body,
+        cookie,
+        authorization,
+        sec_fetch_site,
+        content_type,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        if cookie is not None:
+            _header_params['Cookie'] = cookie
+        if authorization is not None:
+            _header_params['Authorization'] = authorization
+        if sec_fetch_site is not None:
+            _header_params['Sec-Fetch-Site'] = sec_fetch_site
+        if content_type is not None:
+            _header_params['Content-Type'] = content_type
+        # process the form parameters
+        # process the body parameter
+        if iam_accept_body is not None:
+            _body_params = iam_accept_body
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/invitations/accept',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_iam_invitations_by_owner_by_name_send(
+        self,
+        owner: StrictStr,
+        name: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> IamSendOutput:
+        """Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.
+
+        Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.  The caller chooses nothing about how it goes out. It is sent through the platform application the caller's access token was issued to, from that application's org's email account, with a link on the identity host that issued the token — the way the inviter came in. Only the pinned address receives it.
+
+        :param owner: (required)
+        :type owner: str
+        :param name: (required)
+        :type name: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_by_owner_by_name_send_serialize(
+            owner=owner,
+            name=name,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamSendOutput",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_iam_invitations_by_owner_by_name_send_with_http_info(
+        self,
+        owner: StrictStr,
+        name: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[IamSendOutput]:
+        """Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.
+
+        Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.  The caller chooses nothing about how it goes out. It is sent through the platform application the caller's access token was issued to, from that application's org's email account, with a link on the identity host that issued the token — the way the inviter came in. Only the pinned address receives it.
+
+        :param owner: (required)
+        :type owner: str
+        :param name: (required)
+        :type name: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_by_owner_by_name_send_serialize(
+            owner=owner,
+            name=name,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamSendOutput",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_iam_invitations_by_owner_by_name_send_without_preload_content(
+        self,
+        owner: StrictStr,
+        name: StrictStr,
+        authorization: Optional[StrictStr] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.
+
+        Emails an invitation to the address it is pinned to: who invited them, to which organization, and the link that joins them.  The caller chooses nothing about how it goes out. It is sent through the platform application the caller's access token was issued to, from that application's org's email account, with a link on the identity host that issued the token — the way the inviter came in. Only the pinned address receives it.
+
+        :param owner: (required)
+        :type owner: str
+        :param name: (required)
+        :type name: str
+        :param authorization:
+        :type authorization: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_iam_invitations_by_owner_by_name_send_serialize(
+            owner=owner,
+            name=name,
+            authorization=authorization,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "IamSendOutput",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_iam_invitations_by_owner_by_name_send_serialize(
+        self,
+        owner,
+        name,
+        authorization,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if owner is not None:
+            _path_params['owner'] = owner
+        if name is not None:
+            _path_params['name'] = name
+        # process the query parameters
+        # process the header parameters
+        if authorization is not None:
+            _header_params['Authorization'] = authorization
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/iam/invitations/{owner}/{name}/send',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -25236,7 +26186,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25304,7 +26254,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25372,7 +26322,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25417,7 +26367,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -26892,7 +27843,7 @@ class IamApi:
     ) -> None:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -26954,7 +27905,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -27016,7 +27967,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.
 
-        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose which identity to use.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
+        Starts a sign-in — the address you send a browser to, and the beginning of every OAuth and OpenID Connect flow.  If the person is ALREADY signed in here, it does not ask them again: it returns them to the application with a one-time code and they never see this page. Otherwise it shows the right way to sign in for the application they are signing in to, or hands off to another identity provider if that is what they pick.  A client can say what it wants with `prompt`: `none` means answer without any screen at all — with the code if a session exists, with an error if not, but never with a page; `login` means ask for the password again even if a session exists; `select_account` means let the person choose among the accounts signed in on this browser, or sign in to another. `login_hint` names which of those accounts the request is for.  It returns only to an address the application has registered. That check happens before anything else, so a request naming an unregistered address is refused where the person can see it rather than being bounced onwards.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28072,7 +29023,7 @@ class IamApi:
     ) -> None:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28134,7 +29085,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28196,7 +29147,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Ends a sign-in and sends the browser somewhere sensible.
 
-        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard is unchanged: a redirect happens only when a VERIFIED id_token_hint identifies the application and that application has registered the target. Anything else refuses to redirect — nobody can turn your logout link into a redirect to a site of their choosing.
+        Ends a sign-in and sends the browser somewhere sensible. Accepts GET or POST, so it works as a plain link.  It ACTUALLY signs you out — worth stating, because a logout that computes a redirect and answers {\"status\":\"ok\"} while ending no session and revoking no token is worse than none: the person on the shared machine believes it worked. Three things happen here, in this order:   1. The browser session dies — sid revoked server-side AND the cookie expired     (sessions.Clear). Server-side revocation is the load-bearing half: a copy     of the cookie taken before logout must not still resolve.  2. The relying party's tokens are revoked when an id_token_hint names it, so     the refresh token cannot mint a fresh access token after the human left.     Revocation state is authoritative — a JWT's `exp` still reads valid for     days, so expiry is necessary but never sufficient.  3. Only then is a redirect considered, and only to a REGISTERED uri.  The open-redirect guard: a redirect happens only when a VERIFIED id_token_hint (or client_id) identifies the application and that application has registered the target. Nobody can turn your logout link into a redirect to a site of their choosing.  A GET is the end-session navigation (OIDC RP-Initiated Logout 1.0 §2), so it always ends on a page: the registered address when one was asked for, else this issuer's sign-in page for the application being signed out of. A relying party therefore needs no configuration to sign someone out. A POST is also how a program signs out, so it keeps the JSON answer unless it asks for HTML.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28544,7 +29495,7 @@ class IamApi:
     ) -> None:
         """Retires a token before it expires — what you call when someone signs out or a credential may have leaked.
 
-        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has. A native app or CLI is a public PKCE client and holds no secret, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend. RFC 6749 §3.2.1 is the same reading: a client with no credentials identifies itself with client_id.
+        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has (RFC 7009 §2.1 — a public client identifies itself with client_id). A browser app or CLI is a public PKCE client and holds no secret, and that includes the public half of a registration that keeps a secret for a backend path, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it. A caller that did not prove the registration's secret revokes only a grant that was itself established without it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28606,7 +29557,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Retires a token before it expires — what you call when someone signs out or a credential may have leaked.
 
-        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has. A native app or CLI is a public PKCE client and holds no secret, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend. RFC 6749 §3.2.1 is the same reading: a client with no credentials identifies itself with client_id.
+        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has (RFC 7009 §2.1 — a public client identifies itself with client_id). A browser app or CLI is a public PKCE client and holds no secret, and that includes the public half of a registration that keeps a secret for a backend path, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it. A caller that did not prove the registration's secret revokes only a grant that was itself established without it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -28668,7 +29619,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Retires a token before it expires — what you call when someone signs out or a credential may have leaked.
 
-        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has. A native app or CLI is a public PKCE client and holds no secret, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend. RFC 6749 §3.2.1 is the same reading: a client with no credentials identifies itself with client_id.
+        Retires a token before it expires — what you call when someone signs out or a credential may have leaked.  Revoking an access token kills that token. Revoking a REFRESH token kills the whole chain it belongs to, so no further access tokens can be minted from it and every token already minted from it dies with it.  A token that is not yours, or that never existed, answers success and does nothing — so the endpoint cannot be used to discover which tokens are real.  PUBLIC clients revoke too, and must: sign-out is the only control a long-lived refresh token has (RFC 7009 §2.1 — a public client identifies itself with client_id). A browser app or CLI is a public PKCE client and holds no secret, and that includes the public half of a registration that keeps a secret for a backend path, so requiring one here would leave signing out as a local delete — forgetting a credential that stays spendable for the rest of its lifetime.  Widening authentication does not widen authority. The caller must still POSSESS the token — and possession already permits USE, of which revocation is the strict opposite — and the row must belong to the client that presents it. A caller that did not prove the registration's secret revokes only a grant that was itself established without it, so a public client_id buys the ability to destroy exactly what its holder could otherwise spend.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -29525,7 +30476,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29593,7 +30544,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29661,7 +30612,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29706,7 +30657,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30038,7 +30990,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30106,7 +31058,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30174,7 +31126,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30219,7 +31171,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30765,7 +31718,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30809,7 +31763,7 @@ class IamApi:
     @validate_call
     def post_iam_roles(
         self,
-        iam_roles_input: IamRolesInput,
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30827,8 +31781,8 @@ class IamApi:
 
         Makes a role — a named group of people that permissions are granted to. Granting to a role rather than to each person is what keeps access correct as your team changes: add someone to the role and they inherit everything it can do. A name already used in your organization is refused.
 
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30852,7 +31806,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_roles_serialize(
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30861,7 +31815,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30877,7 +31831,7 @@ class IamApi:
     @validate_call
     def post_iam_roles_with_http_info(
         self,
-        iam_roles_input: IamRolesInput,
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30895,8 +31849,8 @@ class IamApi:
 
         Makes a role — a named group of people that permissions are granted to. Granting to a role rather than to each person is what keeps access correct as your team changes: add someone to the role and they inherit everything it can do. A name already used in your organization is refused.
 
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30920,7 +31874,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_roles_serialize(
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30929,7 +31883,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30945,7 +31899,7 @@ class IamApi:
     @validate_call
     def post_iam_roles_without_preload_content(
         self,
-        iam_roles_input: IamRolesInput,
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -30963,8 +31917,8 @@ class IamApi:
 
         Makes a role — a named group of people that permissions are granted to. Granting to a role rather than to each person is what keeps access correct as your team changes: add someone to the role and they inherit everything it can do. A name already used in your organization is refused.
 
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -30988,7 +31942,7 @@ class IamApi:
         """ # noqa: E501
 
         _param = self._post_iam_roles_serialize(
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -30997,7 +31951,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31008,7 +31962,7 @@ class IamApi:
 
     def _post_iam_roles_serialize(
         self,
-        iam_roles_input,
+        iam_input,
         _request_auth,
         _content_type,
         _headers,
@@ -31034,15 +31988,16 @@ class IamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if iam_roles_input is not None:
-            _body_params = iam_roles_input
+        if iam_input is not None:
+            _body_params = iam_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -32333,7 +33288,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32401,7 +33356,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32469,7 +33424,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32514,7 +33469,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -32809,7 +33765,7 @@ class IamApi:
     ) -> None:
         """Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person.
 
-        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (a member of the reserved admin org, the one predicate). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
+        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (schema.User.SuperAdmin, asked of the caller's own row). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here. A SuperAdmin unlinking someone else's method is recorded on the SuperAdmin trail.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -32871,7 +33827,7 @@ class IamApi:
     ) -> ApiResponse[None]:
         """Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person.
 
-        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (a member of the reserved admin org, the one predicate). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
+        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (schema.User.SuperAdmin, asked of the caller's own row). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here. A SuperAdmin unlinking someone else's method is recorded on the SuperAdmin trail.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -32933,7 +33889,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person.
 
-        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (a member of the reserved admin org, the one predicate). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
+        Disconnects one sign-in identity from an account, so that provider can no longer be used to sign in as that person. Their account and every other way they sign in are untouched. Two principals may do it, and only two: the account holder itself, and a SuperAdmin (schema.User.SuperAdmin, asked of the caller's own row). An ORG ADMIN deliberately may NOT — unlinking is not tenant administration, it is unpicking someone's own sign-in method, so the generic org-admin rule is the wrong answer here. A SuperAdmin unlinking someone else's method is recorded on the SuperAdmin trail.  A holder unlinking itself must also be permitted by the application — the provider link's CanUnlink flag — so an organization that mandates federated sign-in cannot have its users strand themselves. A SuperAdmin is not bound by that flag; it is the platform's own recovery path. Fail-closed throughout.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -33082,7 +34038,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33150,7 +34106,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33218,7 +34174,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33263,7 +34219,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -34569,7 +35526,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34637,7 +35594,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34705,7 +35662,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34750,7 +35707,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35057,7 +36015,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35161,7 +36120,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35237,7 +36196,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35313,7 +36272,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamApplication",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35364,7 +36323,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35410,7 +36370,7 @@ class IamApi:
         self,
         owner: StrictStr,
         name: StrictStr,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35432,8 +36392,8 @@ class IamApi:
         :type owner: str
         :param name: (required)
         :type name: str
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35459,7 +36419,7 @@ class IamApi:
         _param = self._put_iam_audit_logs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35468,7 +36428,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35486,7 +36446,7 @@ class IamApi:
         self,
         owner: StrictStr,
         name: StrictStr,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35508,8 +36468,8 @@ class IamApi:
         :type owner: str
         :param name: (required)
         :type name: str
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35535,7 +36495,7 @@ class IamApi:
         _param = self._put_iam_audit_logs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35544,7 +36504,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35562,7 +36522,7 @@ class IamApi:
         self,
         owner: StrictStr,
         name: StrictStr,
-        iam_input: IamInput,
+        iam_auditlogs_input: IamAuditlogsInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -35584,8 +36544,8 @@ class IamApi:
         :type owner: str
         :param name: (required)
         :type name: str
-        :param iam_input: (required)
-        :type iam_input: IamInput
+        :param iam_auditlogs_input: (required)
+        :type iam_auditlogs_input: IamAuditlogsInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -35611,7 +36571,7 @@ class IamApi:
         _param = self._put_iam_audit_logs_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_input=iam_input,
+            iam_auditlogs_input=iam_auditlogs_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -35620,7 +36580,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamAuditLog",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35633,7 +36593,7 @@ class IamApi:
         self,
         owner,
         name,
-        iam_input,
+        iam_auditlogs_input,
         _request_auth,
         _content_type,
         _headers,
@@ -35663,15 +36623,16 @@ class IamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if iam_input is not None:
-            _body_params = iam_input
+        if iam_auditlogs_input is not None:
+            _body_params = iam_auditlogs_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35775,7 +36736,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35851,7 +36812,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35927,7 +36888,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamCert",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35978,7 +36939,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -36318,7 +37280,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36394,7 +37356,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36470,7 +37432,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamInvitation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36521,7 +37483,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -36625,7 +37588,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36701,7 +37664,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36777,7 +37740,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamKey",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36828,7 +37791,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37135,7 +38099,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37239,7 +38204,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37315,7 +38280,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37391,7 +38356,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamPermission",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37442,7 +38407,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37546,7 +38512,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37622,7 +38588,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37698,7 +38664,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamProject",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37749,7 +38715,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37794,8 +38761,8 @@ class IamApi:
     def put_iam_roles_by_owner_by_name(
         self,
         owner: StrictStr,
-        name: StrictStr,
-        iam_roles_input: IamRolesInput,
+        name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37815,10 +38782,10 @@ class IamApi:
 
         :param owner: (required)
         :type owner: str
-        :param name: (required)
+        :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37844,7 +38811,7 @@ class IamApi:
         _param = self._put_iam_roles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37853,7 +38820,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37870,8 +38837,8 @@ class IamApi:
     def put_iam_roles_by_owner_by_name_with_http_info(
         self,
         owner: StrictStr,
-        name: StrictStr,
-        iam_roles_input: IamRolesInput,
+        name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37891,10 +38858,10 @@ class IamApi:
 
         :param owner: (required)
         :type owner: str
-        :param name: (required)
+        :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37920,7 +38887,7 @@ class IamApi:
         _param = self._put_iam_roles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -37929,7 +38896,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37946,8 +38913,8 @@ class IamApi:
     def put_iam_roles_by_owner_by_name_without_preload_content(
         self,
         owner: StrictStr,
-        name: StrictStr,
-        iam_roles_input: IamRolesInput,
+        name: Annotated[StrictStr, Field(description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")],
+        iam_input: IamInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -37967,10 +38934,10 @@ class IamApi:
 
         :param owner: (required)
         :type owner: str
-        :param name: (required)
+        :param name: Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL. (required)
         :type name: str
-        :param iam_roles_input: (required)
-        :type iam_roles_input: IamRolesInput
+        :param iam_input: (required)
+        :type iam_input: IamInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -37996,7 +38963,7 @@ class IamApi:
         _param = self._put_iam_roles_by_owner_by_name_serialize(
             owner=owner,
             name=name,
-            iam_roles_input=iam_roles_input,
+            iam_input=iam_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -38005,7 +38972,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamRole",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38018,7 +38985,7 @@ class IamApi:
         self,
         owner,
         name,
-        iam_roles_input,
+        iam_input,
         _request_auth,
         _content_type,
         _headers,
@@ -38048,15 +39015,16 @@ class IamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if iam_roles_input is not None:
-            _body_params = iam_roles_input
+        if iam_input is not None:
+            _body_params = iam_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -38422,7 +39390,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38494,7 +39462,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38566,7 +39534,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTeam",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38614,7 +39582,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -38676,7 +39645,7 @@ class IamApi:
     ) -> IamUser:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -38718,7 +39687,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38752,7 +39721,7 @@ class IamApi:
     ) -> ApiResponse[IamUser]:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -38794,7 +39763,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38828,7 +39797,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Changes a person's profile, their roles, or the credentials they sign in with.
 
-        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.
+        Changes a person's profile, their roles, or the credentials they sign in with. Send a password to reset it; leave it out and their current one keeps working.  Who they are does not change: their organization, username and the identifier their existing sessions are keyed on all survive the write, so an update never signs anyone out.  A SuperAdmin's account is changed only by a SuperAdmin.
 
         :param owner: (required)
         :type owner: str
@@ -38870,7 +39839,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamUser",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38921,7 +39890,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39025,7 +39995,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39101,7 +40071,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39177,7 +40147,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWorkspace",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39228,7 +40198,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39324,7 +40295,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39392,7 +40363,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39460,7 +40431,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39505,7 +40476,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39601,7 +40573,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39669,7 +40641,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39737,7 +40709,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39782,7 +40754,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39886,7 +40859,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39962,7 +40935,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40038,7 +41011,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamOrganization",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40089,7 +41062,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40193,7 +41167,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40269,7 +41243,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40345,7 +41319,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40396,7 +41370,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40504,7 +41479,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40584,7 +41559,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40664,7 +41639,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamSession",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40718,7 +41693,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40822,7 +41798,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40898,7 +41874,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40974,7 +41950,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamTokenMutation",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41025,7 +42001,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -41129,7 +42106,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41205,7 +42182,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41281,7 +42258,7 @@ class IamApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "IamWebauthnCredentialMutationResult",
-            '202': "IamApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41332,7 +42309,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -41434,6 +42412,7 @@ class IamApi:
             '200': "IamReply",
             '400': "IamReply",
             '401': "IamReply",
+            '409': "IamReply",
             '500': "IamReply",
         }
         response_data = self.api_client.call_api(
@@ -41508,6 +42487,7 @@ class IamApi:
             '200': "IamReply",
             '400': "IamReply",
             '401': "IamReply",
+            '409': "IamReply",
             '500': "IamReply",
         }
         response_data = self.api_client.call_api(
@@ -41582,6 +42562,7 @@ class IamApi:
             '200': "IamReply",
             '400': "IamReply",
             '401': "IamReply",
+            '409': "IamReply",
             '500': "IamReply",
         }
         response_data = self.api_client.call_api(
@@ -41630,7 +42611,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -41691,7 +42673,7 @@ class IamApi:
     ) -> IamReply:
         """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
 
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.  A SuperAdmin's password, email and phone are set when the account is created and kept on every run after.
 
         :param iam_person: (required)
         :type iam_person: IamPerson
@@ -41765,7 +42747,7 @@ class IamApi:
     ) -> ApiResponse[IamReply]:
         """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
 
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.  A SuperAdmin's password, email and phone are set when the account is created and kept on every run after.
 
         :param iam_person: (required)
         :type iam_person: IamPerson
@@ -41839,7 +42821,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.
 
-        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.
+        Creates a person or updates them in place, so a deployment can declare the accounts it needs and re-run that declaration safely.  It DESCRIBES an account it meets and GRANTS only to one it creates: org-admin is never raised on a row that already exists, and a machine identity is answered by name rather than adopted. Both are properties of the update itself, so a steady-state reconcile — which changes neither — is unaffected.  Passwords are hashed before they are stored. Leave the password out and their current one is kept, so a redeploy never locks somebody out; send the same one again and it is kept too, so a steady-state re-run is not a rotation.  A SuperAdmin's password, email and phone are set when the account is created and kept on every run after.
 
         :param iam_person: (required)
         :type iam_person: IamPerson
@@ -41928,7 +42910,8 @@ class IamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

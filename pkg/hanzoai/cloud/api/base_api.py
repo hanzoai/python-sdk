@@ -19,8 +19,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List
 from typing_extensions import Annotated
-from hanzoai.cloud.models.base_health import BaseHealth
-from hanzoai.cloud.models.base_view import BaseView
+from hanzoai.cloud.models.base_base_health import BaseBaseHealth
+from hanzoai.cloud.models.base_base_view import BaseBaseView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -55,7 +55,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[BaseView]:
+    ) -> List[BaseBaseView]:
         """Lists every Base the caller can reach, one per org their token carries.
 
         Lists every Base the caller can reach, one per org their token carries.  The orgs come from IAM's signed membership set, so the list is exactly the orgs the caller is a member of and cannot be widened by asking. It is the account-wide view: a Base is per org, so this is one entry per org and there is nothing to page.  A caller with no membership set — a machine credential, an API key — reaches no Base and receives an empty list rather than a refusal, because holding no membership is an answer and not a failure.
@@ -90,7 +90,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BaseView]",
+            '200': "List[BaseBaseView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -118,7 +118,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[BaseView]]:
+    ) -> ApiResponse[List[BaseBaseView]]:
         """Lists every Base the caller can reach, one per org their token carries.
 
         Lists every Base the caller can reach, one per org their token carries.  The orgs come from IAM's signed membership set, so the list is exactly the orgs the caller is a member of and cannot be widened by asking. It is the account-wide view: a Base is per org, so this is one entry per org and there is nothing to page.  A caller with no membership set — a machine credential, an API key — reaches no Base and receives an empty list rather than a refusal, because holding no membership is an answer and not a failure.
@@ -153,7 +153,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BaseView]",
+            '200': "List[BaseBaseView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -216,7 +216,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BaseView]",
+            '200': "List[BaseBaseView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -258,7 +258,8 @@ class BaseApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -302,7 +303,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BaseView:
+    ) -> BaseBaseView:
         """Describes ONE org's Base — whether its store exists, and what it occupies.
 
         Describes ONE org's Base — whether its store exists, and what it occupies.  The org must be one the caller's token carries; any other is not found, so this cannot be used to learn which orgs exist. That check is the same membership set the listing is built from, which is why the two can never disagree about what a caller may see.
@@ -340,7 +341,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseView",
+            '200': "BaseBaseView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -369,7 +370,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BaseView]:
+    ) -> ApiResponse[BaseBaseView]:
         """Describes ONE org's Base — whether its store exists, and what it occupies.
 
         Describes ONE org's Base — whether its store exists, and what it occupies.  The org must be one the caller's token carries; any other is not found, so this cannot be used to learn which orgs exist. That check is the same membership set the listing is built from, which is why the two can never disagree about what a caller may see.
@@ -407,7 +408,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseView",
+            '200': "BaseBaseView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -474,7 +475,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseView",
+            '200': "BaseBaseView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -519,7 +520,8 @@ class BaseApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -562,7 +564,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BaseHealth:
+    ) -> BaseBaseHealth:
         """Reports that the base subsystem is serving.
 
         Reports that the base subsystem is serving.  It is deliberately INDEPENDENT of whether this deployment actually embeds the Base engine: the route answers before the CLOUD_BASE_EMBED gate and before the /v1/base/* wildcard, so a liveness probe measures the process rather than an optional feature, and the wildcard can never shadow it. It reads no tenant, so a prober that sends no principal is answered rather than refused.
@@ -597,7 +599,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseHealth",
+            '200': "BaseBaseHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -625,7 +627,7 @@ class BaseApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BaseHealth]:
+    ) -> ApiResponse[BaseBaseHealth]:
         """Reports that the base subsystem is serving.
 
         Reports that the base subsystem is serving.  It is deliberately INDEPENDENT of whether this deployment actually embeds the Base engine: the route answers before the CLOUD_BASE_EMBED gate and before the /v1/base/* wildcard, so a liveness probe measures the process rather than an optional feature, and the wildcard can never shadow it. It reads no tenant, so a prober that sends no principal is answered rather than refused.
@@ -660,7 +662,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseHealth",
+            '200': "BaseBaseHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -723,7 +725,7 @@ class BaseApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BaseHealth",
+            '200': "BaseBaseHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -765,7 +767,8 @@ class BaseApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

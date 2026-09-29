@@ -26,7 +26,7 @@ class O11yAgentReport(BaseModel):
     """
     O11yAgentReport
     """ # noqa: E501
-    data: Optional[Dict[str, Dict[str, Any]]] = None
+    data: Optional[Dict[str, Any]] = None
     timestamp_millis: Optional[StrictInt] = Field(default=None, alias="timestampMillis")
     __properties: ClassVar[List[str]] = ["data", "timestampMillis"]
 

@@ -27,14 +27,14 @@ class Extracted(BaseModel):
     """
     Extracted
     """ # noqa: E501
-    category: Optional[StrictStr] = Field(default=None, description="Category is the expense bucket the SCANNER guessed, as a slug — a hint only. Vendor rules override it whenever they know better, so this is the model's reading and not the account the entry will land on.")
-    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO code the document is denominated in.")
-    issued_at: Optional[StrictStr] = Field(default=None, description="IssuedAt is the document's OWN date as YYYY-MM-DD — when the bill was issued, which is not when it was uploaded or when it will post.", alias="issuedAt")
-    line_items: Optional[List[LineItem]] = Field(default=None, description="LineItems are the individual lines read off the document, where it had any. They need not sum to totalCents: a document may carry lines the scanner could not read, and the total is taken from the total.", alias="lineItems")
-    merchant: Optional[StrictStr] = Field(default=None, description="Merchant is the supplier as printed on the document.")
-    note: Optional[StrictStr] = Field(default=None, description="Note is anything else worth carrying from the document that has no field of its own.")
-    tax_cents: Optional[StrictInt] = Field(default=None, description="TaxCents is how much of that total is tax, in cents. It is part of totalCents, not additional to it.", alias="taxCents")
-    total_cents: Optional[StrictInt] = Field(default=None, description="TotalCents is the document total in whole cents, tax INCLUDED.", alias="totalCents")
+    category: Optional[StrictStr] = None
+    currency: Optional[StrictStr] = None
+    issued_at: Optional[StrictStr] = Field(default=None, alias="issuedAt")
+    line_items: Optional[List[LineItem]] = Field(default=None, alias="lineItems")
+    merchant: Optional[StrictStr] = None
+    note: Optional[StrictStr] = None
+    tax_cents: Optional[StrictInt] = Field(default=None, alias="taxCents")
+    total_cents: Optional[StrictInt] = Field(default=None, alias="totalCents")
     __properties: ClassVar[List[str]] = ["category", "currency", "issuedAt", "lineItems", "merchant", "note", "taxCents", "totalCents"]
 
     model_config = ConfigDict(

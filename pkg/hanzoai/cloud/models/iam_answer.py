@@ -27,9 +27,9 @@ class IamAnswer(BaseModel):
     IamAnswer
     """ # noqa: E501
     code: Optional[StrictStr] = None
-    data: Optional[Dict[str, Any]] = None
-    data2: Optional[Dict[str, Any]] = None
-    data3: Optional[Dict[str, Any]] = None
+    data: Optional[Any] = None
+    data2: Optional[Any] = None
+    data3: Optional[Any] = None
     msg: Optional[StrictStr] = None
     name: Optional[StrictStr] = None
     status: Optional[StrictStr] = None
@@ -75,6 +75,21 @@ class IamAnswer(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if data (nullable) is None
+        # and model_fields_set contains the field
+        if self.data is None and "data" in self.model_fields_set:
+            _dict['data'] = None
+
+        # set to None if data2 (nullable) is None
+        # and model_fields_set contains the field
+        if self.data2 is None and "data2" in self.model_fields_set:
+            _dict['data2'] = None
+
+        # set to None if data3 (nullable) is None
+        # and model_fields_set contains the field
+        if self.data3 is None and "data3" in self.model_fields_set:
+            _dict['data3'] = None
+
         return _dict
 
     @classmethod

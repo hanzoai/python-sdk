@@ -16,10 +16,10 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.bus_ack import BusAck
-from hanzoai.cloud.models.bus_message import BusMessage
-from hanzoai.cloud.models.bus_publish import BusPublish
-from hanzoai.cloud.models.bus_request import BusRequest
+from hanzoai.cloud.models.pubsub_bus_ack import PubsubBusAck
+from hanzoai.cloud.models.pubsub_bus_message import PubsubBusMessage
+from hanzoai.cloud.models.pubsub_bus_publish import PubsubBusPublish
+from hanzoai.cloud.models.pubsub_bus_request import PubsubBusRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -42,7 +42,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_publish(
         self,
-        bus_publish: BusPublish,
+        pubsub_bus_publish: PubsubBusPublish,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -55,13 +55,13 @@ class PubsubApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BusAck:
-        """Publish puts one message on the org's bus.
+    ) -> PubsubBusAck:
+        """Puts one message on the org's bus.
 
-        Publish puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
+        Puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
 
-        :param bus_publish: (required)
-        :type bus_publish: BusPublish
+        :param pubsub_bus_publish: (required)
+        :type pubsub_bus_publish: PubsubBusPublish
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -85,7 +85,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_publish_serialize(
-            bus_publish=bus_publish,
+            pubsub_bus_publish=pubsub_bus_publish,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -93,7 +93,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusAck",
+            '200': "PubsubBusAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -109,7 +109,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_publish_with_http_info(
         self,
-        bus_publish: BusPublish,
+        pubsub_bus_publish: PubsubBusPublish,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -122,13 +122,13 @@ class PubsubApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BusAck]:
-        """Publish puts one message on the org's bus.
+    ) -> ApiResponse[PubsubBusAck]:
+        """Puts one message on the org's bus.
 
-        Publish puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
+        Puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
 
-        :param bus_publish: (required)
-        :type bus_publish: BusPublish
+        :param pubsub_bus_publish: (required)
+        :type pubsub_bus_publish: PubsubBusPublish
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -152,7 +152,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_publish_serialize(
-            bus_publish=bus_publish,
+            pubsub_bus_publish=pubsub_bus_publish,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -160,7 +160,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusAck",
+            '200': "PubsubBusAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -176,7 +176,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_publish_without_preload_content(
         self,
-        bus_publish: BusPublish,
+        pubsub_bus_publish: PubsubBusPublish,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -190,12 +190,12 @@ class PubsubApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Publish puts one message on the org's bus.
+        """Puts one message on the org's bus.
 
-        Publish puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
+        Puts one message on the org's bus. When a stream captures the subject the write is DURABLE — the receipt names the stream and sequence only after JetStream has it on storage, and a repeated Nats-Msg-Id header within the dedup window answers duplicate instead of storing twice. When nothing captures it, the message goes out core NATS: delivered to current subscribers, receipt {ok}, nothing retained.
 
-        :param bus_publish: (required)
-        :type bus_publish: BusPublish
+        :param pubsub_bus_publish: (required)
+        :type pubsub_bus_publish: PubsubBusPublish
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -219,7 +219,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_publish_serialize(
-            bus_publish=bus_publish,
+            pubsub_bus_publish=pubsub_bus_publish,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -227,7 +227,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusAck",
+            '200': "PubsubBusAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -238,7 +238,7 @@ class PubsubApi:
 
     def _post_pubsub_publish_serialize(
         self,
-        bus_publish,
+        pubsub_bus_publish,
         _request_auth,
         _content_type,
         _headers,
@@ -264,15 +264,16 @@ class PubsubApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bus_publish is not None:
-            _body_params = bus_publish
+        if pubsub_bus_publish is not None:
+            _body_params = pubsub_bus_publish
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -316,7 +317,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_request(
         self,
-        bus_request: BusRequest,
+        pubsub_bus_request: PubsubBusRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -329,13 +330,13 @@ class PubsubApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BusMessage:
-        """Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
+    ) -> PubsubBusMessage:
+        """Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
 
-        Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
+        Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
 
-        :param bus_request: (required)
-        :type bus_request: BusRequest
+        :param pubsub_bus_request: (required)
+        :type pubsub_bus_request: PubsubBusRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -359,7 +360,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_request_serialize(
-            bus_request=bus_request,
+            pubsub_bus_request=pubsub_bus_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -367,7 +368,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusMessage",
+            '200': "PubsubBusMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -383,7 +384,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_request_with_http_info(
         self,
-        bus_request: BusRequest,
+        pubsub_bus_request: PubsubBusRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -396,13 +397,13 @@ class PubsubApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BusMessage]:
-        """Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
+    ) -> ApiResponse[PubsubBusMessage]:
+        """Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
 
-        Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
+        Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
 
-        :param bus_request: (required)
-        :type bus_request: BusRequest
+        :param pubsub_bus_request: (required)
+        :type pubsub_bus_request: PubsubBusRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -426,7 +427,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_request_serialize(
-            bus_request=bus_request,
+            pubsub_bus_request=pubsub_bus_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -434,7 +435,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusMessage",
+            '200': "PubsubBusMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -450,7 +451,7 @@ class PubsubApi:
     @validate_call
     def post_pubsub_request_without_preload_content(
         self,
-        bus_request: BusRequest,
+        pubsub_bus_request: PubsubBusRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -464,12 +465,12 @@ class PubsubApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
+        """Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port.
 
-        Request sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
+        Sends one request on the org's bus and waits for one reply — the synchronous half of pub/sub, for callers speaking to a responder subscribed on the NATS port. 404 when nobody is listening on the subject; 408 when a responder exists but no reply arrived within the timeout.
 
-        :param bus_request: (required)
-        :type bus_request: BusRequest
+        :param pubsub_bus_request: (required)
+        :type pubsub_bus_request: PubsubBusRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -493,7 +494,7 @@ class PubsubApi:
         """ # noqa: E501
 
         _param = self._post_pubsub_request_serialize(
-            bus_request=bus_request,
+            pubsub_bus_request=pubsub_bus_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -501,7 +502,7 @@ class PubsubApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BusMessage",
+            '200': "PubsubBusMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -512,7 +513,7 @@ class PubsubApi:
 
     def _post_pubsub_request_serialize(
         self,
-        bus_request,
+        pubsub_bus_request,
         _request_auth,
         _content_type,
         _headers,
@@ -538,15 +539,16 @@ class PubsubApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bus_request is not None:
-            _body_params = bus_request
+        if pubsub_bus_request is not None:
+            _body_params = pubsub_bus_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

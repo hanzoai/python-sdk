@@ -19,9 +19,9 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.engine_replica import EngineReplica
-from hanzoai.cloud.models.engine_replica_update import EngineReplicaUpdate
-from hanzoai.cloud.models.engine_status import EngineStatus
+from hanzoai.cloud.models.engine_engine_replica import EngineEngineReplica
+from hanzoai.cloud.models.engine_engine_replica_update import EngineEngineReplicaUpdate
+from hanzoai.cloud.models.engine_engine_status import EngineEngineStatus
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,7 +60,7 @@ class EngineApi:
     ) -> object:
         """Read one model's load state on the serving runtime
 
-        Model reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
+        Reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
 
         :param model: Model is the model id to inspect, exactly as the model list reports it.
         :type model: str
@@ -127,7 +127,7 @@ class EngineApi:
     ) -> ApiResponse[object]:
         """Read one model's load state on the serving runtime
 
-        Model reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
+        Reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
 
         :param model: Model is the model id to inspect, exactly as the model list reports it.
         :type model: str
@@ -194,7 +194,7 @@ class EngineApi:
     ) -> RESTResponseType:
         """Read one model's load state on the serving runtime
 
-        Model reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
+        Reads one model's load state — loaded, unloading, or not_found, as the engine itself reports it.
 
         :param model: Model is the model id to inspect, exactly as the model list reports it.
         :type model: str
@@ -276,7 +276,8 @@ class EngineApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -322,7 +323,7 @@ class EngineApi:
     ) -> object:
         """List the models the serving runtime holds, with each one's load state
 
-        Models lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
+        Lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -385,7 +386,7 @@ class EngineApi:
     ) -> ApiResponse[object]:
         """List the models the serving runtime holds, with each one's load state
 
-        Models lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
+        Lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -448,7 +449,7 @@ class EngineApi:
     ) -> RESTResponseType:
         """List the models the serving runtime holds, with each one's load state
 
-        Models lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
+        Lists the models the engine serves, each with its load state — the server's own model table (its standard list envelope, load status included), relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -522,7 +523,8 @@ class EngineApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -565,10 +567,10 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, List[EngineReplica]]:
+    ) -> Dict[str, List[EngineEngineReplica]]:
         """Read shared AI worker placement and health (SuperAdmin)
 
-        Replicas reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
+        Reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -600,7 +602,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -628,10 +630,10 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, List[EngineReplica]]]:
+    ) -> ApiResponse[Dict[str, List[EngineEngineReplica]]]:
         """Read shared AI worker placement and health (SuperAdmin)
 
-        Replicas reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
+        Reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -663,7 +665,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -694,7 +696,7 @@ class EngineApi:
     ) -> RESTResponseType:
         """Read shared AI worker placement and health (SuperAdmin)
 
-        Replicas reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
+        Reads the private native router's configured model pools, worker health, concurrency, role preferences and observed time to first byte. This shared infrastructure inventory is restricted to platform SuperAdmins.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -726,7 +728,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -768,7 +770,8 @@ class EngineApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -811,10 +814,10 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EngineStatus:
+    ) -> EngineEngineStatus:
         """Whether the serving runtime is reachable, and which build it runs
 
-        Status reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
+        Reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -846,7 +849,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EngineStatus",
+            '200': "EngineEngineStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -874,10 +877,10 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EngineStatus]:
+    ) -> ApiResponse[EngineEngineStatus]:
         """Whether the serving runtime is reachable, and which build it runs
 
-        Status reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
+        Reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -909,7 +912,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EngineStatus",
+            '200': "EngineEngineStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -940,7 +943,7 @@ class EngineApi:
     ) -> RESTResponseType:
         """Whether the serving runtime is reachable, and which build it runs
 
-        Status reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
+        Reports whether the engine deployment is reachable and which build revision it runs — an honest lens for \"is the serving runtime up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -972,7 +975,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EngineStatus",
+            '200': "EngineEngineStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1014,7 +1017,8 @@ class EngineApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1060,7 +1064,7 @@ class EngineApi:
     ) -> object:
         """The serving host's own inventory: devices, memory and build capabilities
 
-        System reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
+        Reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1123,7 +1127,7 @@ class EngineApi:
     ) -> ApiResponse[object]:
         """The serving host's own inventory: devices, memory and build capabilities
 
-        System reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
+        Reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1186,7 +1190,7 @@ class EngineApi:
     ) -> RESTResponseType:
         """The serving host's own inventory: devices, memory and build capabilities
 
-        System reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
+        Reads the engine host's inventory: OS, CPU, memory, every accelerator device with its VRAM and compute capability, and the build's capabilities (CUDA/Metal/flash-attention) — the real hardware under the serving runtime, relayed verbatim.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1260,7 +1264,8 @@ class EngineApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1291,7 +1296,7 @@ class EngineApi:
     @validate_call
     def engine_update_replica(
         self,
-        engine_replica_update: EngineReplicaUpdate,
+        engine_engine_replica_update: EngineEngineReplicaUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1304,13 +1309,13 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dict[str, List[EngineReplica]]:
+    ) -> Dict[str, List[EngineEngineReplica]]:
         """Save shared AI worker capacity and role preferences (SuperAdmin)
 
         Saves capacity, weight and preferred agent roles in the native router's pool file and applies them without dropping running streams or pins. Only platform SuperAdmins can retune shared workers. The Rust runtime owns validation, durable storage and activation; cloud only carries the operation.
 
-        :param engine_replica_update: (required)
-        :type engine_replica_update: EngineReplicaUpdate
+        :param engine_engine_replica_update: (required)
+        :type engine_engine_replica_update: EngineEngineReplicaUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1334,7 +1339,7 @@ class EngineApi:
         """ # noqa: E501
 
         _param = self._engine_update_replica_serialize(
-            engine_replica_update=engine_replica_update,
+            engine_engine_replica_update=engine_engine_replica_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1342,7 +1347,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1358,7 +1363,7 @@ class EngineApi:
     @validate_call
     def engine_update_replica_with_http_info(
         self,
-        engine_replica_update: EngineReplicaUpdate,
+        engine_engine_replica_update: EngineEngineReplicaUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1371,13 +1376,13 @@ class EngineApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dict[str, List[EngineReplica]]]:
+    ) -> ApiResponse[Dict[str, List[EngineEngineReplica]]]:
         """Save shared AI worker capacity and role preferences (SuperAdmin)
 
         Saves capacity, weight and preferred agent roles in the native router's pool file and applies them without dropping running streams or pins. Only platform SuperAdmins can retune shared workers. The Rust runtime owns validation, durable storage and activation; cloud only carries the operation.
 
-        :param engine_replica_update: (required)
-        :type engine_replica_update: EngineReplicaUpdate
+        :param engine_engine_replica_update: (required)
+        :type engine_engine_replica_update: EngineEngineReplicaUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1401,7 +1406,7 @@ class EngineApi:
         """ # noqa: E501
 
         _param = self._engine_update_replica_serialize(
-            engine_replica_update=engine_replica_update,
+            engine_engine_replica_update=engine_engine_replica_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1409,7 +1414,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1425,7 +1430,7 @@ class EngineApi:
     @validate_call
     def engine_update_replica_without_preload_content(
         self,
-        engine_replica_update: EngineReplicaUpdate,
+        engine_engine_replica_update: EngineEngineReplicaUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1443,8 +1448,8 @@ class EngineApi:
 
         Saves capacity, weight and preferred agent roles in the native router's pool file and applies them without dropping running streams or pins. Only platform SuperAdmins can retune shared workers. The Rust runtime owns validation, durable storage and activation; cloud only carries the operation.
 
-        :param engine_replica_update: (required)
-        :type engine_replica_update: EngineReplicaUpdate
+        :param engine_engine_replica_update: (required)
+        :type engine_engine_replica_update: EngineEngineReplicaUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1468,7 +1473,7 @@ class EngineApi:
         """ # noqa: E501
 
         _param = self._engine_update_replica_serialize(
-            engine_replica_update=engine_replica_update,
+            engine_engine_replica_update=engine_engine_replica_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1476,7 +1481,7 @@ class EngineApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dict[str, List[EngineReplica]]",
+            '200': "Dict[str, List[EngineEngineReplica]]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1487,7 +1492,7 @@ class EngineApi:
 
     def _engine_update_replica_serialize(
         self,
-        engine_replica_update,
+        engine_engine_replica_update,
         _request_auth,
         _content_type,
         _headers,
@@ -1513,15 +1518,16 @@ class EngineApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if engine_replica_update is not None:
-            _body_params = engine_replica_update
+        if engine_engine_replica_update is not None:
+            _body_params = engine_engine_replica_update
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

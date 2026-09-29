@@ -16,9 +16,13 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
+from pydantic import Field, StrictStr
 from typing import Any
-from hanzoai.cloud.models.notify_health import NotifyHealth
-from hanzoai.cloud.models.notify_send import NotifySend
+from typing_extensions import Annotated
+from hanzoai.cloud.models.notify_notify_credential import NotifyNotifyCredential
+from hanzoai.cloud.models.notify_notify_health import NotifyNotifyHealth
+from hanzoai.cloud.models.notify_notify_send import NotifyNotifySend
+from hanzoai.cloud.models.notify_notify_stored import NotifyNotifyStored
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -39,6 +43,282 @@ class NotifyApi:
 
 
     @validate_call
+    def delete_notify_credentials_by_provider_by_key(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for.")],
+        key: Annotated[StrictStr, Field(description="Key is the credential's name within that provider.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Removes one of your org's notify provider credentials.
+
+        Removes one of your org's notify provider credentials.  The value is forgotten in KMS. A provider missing a key it cannot send without is no longer picked for its channel, and a send that pins it fails with the key it lacks. Removing a key that is not set succeeds, since what was asked for is already true. Org admin only.
+
+        :param provider: Provider is the delivery provider the credential is for. (required)
+        :type provider: str
+        :param key: Key is the credential's name within that provider. (required)
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_notify_credentials_by_provider_by_key_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for.")],
+        key: Annotated[StrictStr, Field(description="Key is the credential's name within that provider.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Removes one of your org's notify provider credentials.
+
+        Removes one of your org's notify provider credentials.  The value is forgotten in KMS. A provider missing a key it cannot send without is no longer picked for its channel, and a send that pins it fails with the key it lacks. Removing a key that is not set succeeds, since what was asked for is already true. Org admin only.
+
+        :param provider: Provider is the delivery provider the credential is for. (required)
+        :type provider: str
+        :param key: Key is the credential's name within that provider. (required)
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_notify_credentials_by_provider_by_key_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for.")],
+        key: Annotated[StrictStr, Field(description="Key is the credential's name within that provider.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes one of your org's notify provider credentials.
+
+        Removes one of your org's notify provider credentials.  The value is forgotten in KMS. A provider missing a key it cannot send without is no longer picked for its channel, and a send that pins it fails with the key it lacks. Removing a key that is not set succeeds, since what was asked for is already true. Org admin only.
+
+        :param provider: Provider is the delivery provider the credential is for. (required)
+        :type provider: str
+        :param key: Key is the credential's name within that provider. (required)
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_notify_credentials_by_provider_by_key_serialize(
+        self,
+        provider,
+        key,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        if key is not None:
+            _path_params['key'] = key
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/notify/credentials/{provider}/{key}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_notify_health(
         self,
         _request_timeout: Union[
@@ -53,7 +333,7 @@ class NotifyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NotifyHealth:
+    ) -> NotifyNotifyHealth:
         """Reports that the notify send surface is mounted.
 
         Reports that the notify send surface is mounted.  It is a pure liveness probe: it answers 200 whenever this subsystem is mounted and checks nothing downstream, so an \"ok\" here says the routes are reachable, not that any provider credential is configured. The body is notifyd's verbatim, so probes and clients that keyed on the standalone service keep working unchanged.
@@ -88,7 +368,7 @@ class NotifyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NotifyHealth",
+            '200': "NotifyNotifyHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -116,7 +396,7 @@ class NotifyApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NotifyHealth]:
+    ) -> ApiResponse[NotifyNotifyHealth]:
         """Reports that the notify send surface is mounted.
 
         Reports that the notify send surface is mounted.  It is a pure liveness probe: it answers 200 whenever this subsystem is mounted and checks nothing downstream, so an \"ok\" here says the routes are reachable, not that any provider credential is configured. The body is notifyd's verbatim, so probes and clients that keyed on the standalone service keep working unchanged.
@@ -151,7 +431,7 @@ class NotifyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NotifyHealth",
+            '200': "NotifyNotifyHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -214,7 +494,7 @@ class NotifyApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NotifyHealth",
+            '200': "NotifyNotifyHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -256,7 +536,8 @@ class NotifyApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -287,7 +568,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -305,8 +586,8 @@ class NotifyApi:
 
         Delivers one transactional message by email or SMS through the caller org's own provider credential.  The channel comes from the body — sms or email — and the provider credential is read from KMS at orgs/<org>/notify/<service>/<key>, never from the environment. The org is the validated principal's, never a client-supplied value, so a caller can only ever send as their own tenant; an unauthenticated caller gets 401. Naming no provider picks the one whose credentials are actually configured (Twilio, then Plivo for SMS; Twilio Email, then SMTP for email) and fails closed when none is. Delivery is synchronous and per recipient: one recipient answers the bare {message_id,status} outcome, several answer the {items:[…]} envelope. A terminal provider failure is a 200 whose status is failed with the reason in error, never a transport error. sync=true is REQUIRED — an async dispatch answers 503, because the queue plane that would run it is owned elsewhere. The message body wins verbatim when present; otherwise template_id (or the event name) selects a built-in template rendered against template_vars.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -330,7 +611,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -354,7 +635,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_with_http_info(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -372,8 +653,8 @@ class NotifyApi:
 
         Delivers one transactional message by email or SMS through the caller org's own provider credential.  The channel comes from the body — sms or email — and the provider credential is read from KMS at orgs/<org>/notify/<service>/<key>, never from the environment. The org is the validated principal's, never a client-supplied value, so a caller can only ever send as their own tenant; an unauthenticated caller gets 401. Naming no provider picks the one whose credentials are actually configured (Twilio, then Plivo for SMS; Twilio Email, then SMTP for email) and fails closed when none is. Delivery is synchronous and per recipient: one recipient answers the bare {message_id,status} outcome, several answer the {items:[…]} envelope. A terminal provider failure is a 200 whose status is failed with the reason in error, never a transport error. sync=true is REQUIRED — an async dispatch answers 503, because the queue plane that would run it is owned elsewhere. The message body wins verbatim when present; otherwise template_id (or the event name) selects a built-in template rendered against template_vars.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -397,7 +678,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -421,7 +702,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_without_preload_content(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -439,8 +720,8 @@ class NotifyApi:
 
         Delivers one transactional message by email or SMS through the caller org's own provider credential.  The channel comes from the body — sms or email — and the provider credential is read from KMS at orgs/<org>/notify/<service>/<key>, never from the environment. The org is the validated principal's, never a client-supplied value, so a caller can only ever send as their own tenant; an unauthenticated caller gets 401. Naming no provider picks the one whose credentials are actually configured (Twilio, then Plivo for SMS; Twilio Email, then SMTP for email) and fails closed when none is. Delivery is synchronous and per recipient: one recipient answers the bare {message_id,status} outcome, several answer the {items:[…]} envelope. A terminal provider failure is a 200 whose status is failed with the reason in error, never a transport error. sync=true is REQUIRED — an async dispatch answers 503, because the queue plane that would run it is owned elsewhere. The message body wins verbatim when present; otherwise template_id (or the event name) selects a built-in template rendered against template_vars.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -464,7 +745,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -483,7 +764,7 @@ class NotifyApi:
 
     def _post_notify_send_serialize(
         self,
-        notify_send,
+        notify_notify_send,
         _request_auth,
         _content_type,
         _headers,
@@ -509,15 +790,16 @@ class NotifyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if notify_send is not None:
-            _body_params = notify_send
+        if notify_notify_send is not None:
+            _body_params = notify_notify_send
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -561,7 +843,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_email(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -579,8 +861,8 @@ class NotifyApi:
 
         Delivers one transactional email through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to email, OVERRIDING whatever the body names — so a body that says sms still goes out as mail. The provider is the org's own email credential from KMS (Twilio Email, then SMTP), resolved for the validated principal's org; an unauthenticated caller gets 401. Subject is carried on the email channel only.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -604,7 +886,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_email_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -628,7 +910,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_email_with_http_info(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -646,8 +928,8 @@ class NotifyApi:
 
         Delivers one transactional email through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to email, OVERRIDING whatever the body names — so a body that says sms still goes out as mail. The provider is the org's own email credential from KMS (Twilio Email, then SMTP), resolved for the validated principal's org; an unauthenticated caller gets 401. Subject is carried on the email channel only.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -671,7 +953,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_email_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -695,7 +977,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_email_without_preload_content(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -713,8 +995,8 @@ class NotifyApi:
 
         Delivers one transactional email through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to email, OVERRIDING whatever the body names — so a body that says sms still goes out as mail. The provider is the org's own email credential from KMS (Twilio Email, then SMTP), resolved for the validated principal's org; an unauthenticated caller gets 401. Subject is carried on the email channel only.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -738,7 +1020,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_email_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -757,7 +1039,7 @@ class NotifyApi:
 
     def _post_notify_send_email_serialize(
         self,
-        notify_send,
+        notify_notify_send,
         _request_auth,
         _content_type,
         _headers,
@@ -783,15 +1065,16 @@ class NotifyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if notify_send is not None:
-            _body_params = notify_send
+        if notify_notify_send is not None:
+            _body_params = notify_notify_send
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -835,7 +1118,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_sms(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -853,8 +1136,8 @@ class NotifyApi:
 
         Delivers one transactional SMS through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to sms, OVERRIDING whatever the body names — so a body that says email still goes out as a text message. The provider is the org's own SMS credential from KMS (Twilio, then Plivo), resolved for the validated principal's org; an unauthenticated caller gets 401.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -878,7 +1161,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_sms_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -902,7 +1185,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_sms_with_http_info(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -920,8 +1203,8 @@ class NotifyApi:
 
         Delivers one transactional SMS through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to sms, OVERRIDING whatever the body names — so a body that says email still goes out as a text message. The provider is the org's own SMS credential from KMS (Twilio, then Plivo), resolved for the validated principal's org; an unauthenticated caller gets 401.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -945,7 +1228,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_sms_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -969,7 +1252,7 @@ class NotifyApi:
     @validate_call
     def post_notify_send_sms_without_preload_content(
         self,
-        notify_send: NotifySend,
+        notify_notify_send: NotifyNotifySend,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -987,8 +1270,8 @@ class NotifyApi:
 
         Delivers one transactional SMS through the caller org's own provider credential.  It is the channel-pinned form of the generic send: identical in every respect except that the channel is fixed to sms, OVERRIDING whatever the body names — so a body that says email still goes out as a text message. The provider is the org's own SMS credential from KMS (Twilio, then Plivo), resolved for the validated principal's org; an unauthenticated caller gets 401.
 
-        :param notify_send: (required)
-        :type notify_send: NotifySend
+        :param notify_notify_send: (required)
+        :type notify_notify_send: NotifyNotifySend
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1012,7 +1295,7 @@ class NotifyApi:
         """ # noqa: E501
 
         _param = self._post_notify_send_sms_serialize(
-            notify_send=notify_send,
+            notify_notify_send=notify_notify_send,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1031,7 +1314,7 @@ class NotifyApi:
 
     def _post_notify_send_sms_serialize(
         self,
-        notify_send,
+        notify_notify_send,
         _request_auth,
         _content_type,
         _headers,
@@ -1057,15 +1340,16 @@ class NotifyApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if notify_send is not None:
-            _body_params = notify_send
+        if notify_notify_send is not None:
+            _body_params = notify_notify_send
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1091,6 +1375,311 @@ class NotifyApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/notify/send/sms',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_notify_credentials_by_provider_by_key(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail.")],
+        key: Annotated[StrictStr, Field(description="Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused.")],
+        notify_notify_credential: NotifyNotifyCredential,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> NotifyNotifyStored:
+        """Sets one of your org's notify provider credentials.
+
+        Sets one of your org's notify provider credentials.  The value is sealed in KMS under your org and read by notify alone, at the moment it sends; no route answers it back, this one included. Setting a key that is already set replaces it, which is how a credential is rotated, and the next send uses the new value. The key must be one the provider reads — Twilio's account-sid, auth-token and from-number, say — and anything else is a 400 naming the keys it does read. An unknown provider is a 404.  Org admin only: a credential set here is what every message the org sends goes out with.
+
+        :param provider: Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail. (required)
+        :type provider: str
+        :param key: Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused. (required)
+        :type key: str
+        :param notify_notify_credential: (required)
+        :type notify_notify_credential: NotifyNotifyCredential
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            notify_notify_credential=notify_notify_credential,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NotifyNotifyStored",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_notify_credentials_by_provider_by_key_with_http_info(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail.")],
+        key: Annotated[StrictStr, Field(description="Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused.")],
+        notify_notify_credential: NotifyNotifyCredential,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[NotifyNotifyStored]:
+        """Sets one of your org's notify provider credentials.
+
+        Sets one of your org's notify provider credentials.  The value is sealed in KMS under your org and read by notify alone, at the moment it sends; no route answers it back, this one included. Setting a key that is already set replaces it, which is how a credential is rotated, and the next send uses the new value. The key must be one the provider reads — Twilio's account-sid, auth-token and from-number, say — and anything else is a 400 naming the keys it does read. An unknown provider is a 404.  Org admin only: a credential set here is what every message the org sends goes out with.
+
+        :param provider: Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail. (required)
+        :type provider: str
+        :param key: Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused. (required)
+        :type key: str
+        :param notify_notify_credential: (required)
+        :type notify_notify_credential: NotifyNotifyCredential
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            notify_notify_credential=notify_notify_credential,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NotifyNotifyStored",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_notify_credentials_by_provider_by_key_without_preload_content(
+        self,
+        provider: Annotated[StrictStr, Field(description="Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail.")],
+        key: Annotated[StrictStr, Field(description="Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused.")],
+        notify_notify_credential: NotifyNotifyCredential,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sets one of your org's notify provider credentials.
+
+        Sets one of your org's notify provider credentials.  The value is sealed in KMS under your org and read by notify alone, at the moment it sends; no route answers it back, this one included. Setting a key that is already set replaces it, which is how a credential is rotated, and the next send uses the new value. The key must be one the provider reads — Twilio's account-sid, auth-token and from-number, say — and anything else is a 400 naming the keys it does read. An unknown provider is a 404.  Org admin only: a credential set here is what every message the org sends goes out with.
+
+        :param provider: Provider is the delivery provider the credential is for: twilio, plivo, twilio_email or mail. (required)
+        :type provider: str
+        :param key: Key is one of the credentials that provider reads, such as auth-token or smtp-host. A key the provider does not read is refused. (required)
+        :type key: str
+        :param notify_notify_credential: (required)
+        :type notify_notify_credential: NotifyNotifyCredential
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_notify_credentials_by_provider_by_key_serialize(
+            provider=provider,
+            key=key,
+            notify_notify_credential=notify_notify_credential,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "NotifyNotifyStored",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_notify_credentials_by_provider_by_key_serialize(
+        self,
+        provider,
+        key,
+        notify_notify_credential,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if provider is not None:
+            _path_params['provider'] = provider
+        if key is not None:
+            _path_params['key'] = key
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if notify_notify_credential is not None:
+            _body_params = notify_notify_credential
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/notify/credentials/{provider}/{key}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

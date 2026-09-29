@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.o11y_composite_query import O11yCompositeQuery
+from hanzoai.cloud.models.o11y_v3_composite_query import O11yV3CompositeQuery
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,13 +27,13 @@ class O11yQueryRangeParamsV3(BaseModel):
     """
     O11yQueryRangeParamsV3
     """ # noqa: E501
-    composite_query: Optional[O11yCompositeQuery] = Field(default=None, alias="compositeQuery")
+    composite_query: Optional[O11yV3CompositeQuery] = Field(default=None, alias="compositeQuery")
     end: Optional[StrictInt] = None
     format_for_web: Optional[StrictBool] = Field(default=None, alias="formatForWeb")
     no_cache: Optional[StrictBool] = Field(default=None, alias="noCache")
     start: Optional[StrictInt] = None
     step: Optional[StrictInt] = Field(default=None, description="step is in seconds; used for prometheus queries")
-    variables: Optional[Dict[str, Dict[str, Any]]] = None
+    variables: Optional[Dict[str, Any]] = None
     __properties: ClassVar[List[str]] = ["compositeQuery", "end", "formatForWeb", "noCache", "start", "step", "variables"]
 
     model_config = ConfigDict(
@@ -90,7 +90,7 @@ class O11yQueryRangeParamsV3(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "compositeQuery": O11yCompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
+            "compositeQuery": O11yV3CompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
             "end": obj.get("end"),
             "formatForWeb": obj.get("formatForWeb"),
             "noCache": obj.get("noCache"),

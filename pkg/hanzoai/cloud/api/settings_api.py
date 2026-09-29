@@ -18,7 +18,7 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.settings_req import SettingsReq
+from hanzoai.cloud.models.settings_settings_req import SettingsSettingsReq
 from hanzoai.cloud.models.settings_view import SettingsView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -272,7 +272,8 @@ class SettingsApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -304,7 +305,7 @@ class SettingsApi:
     def put_settings_by_product(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
-        settings_req: SettingsReq,
+        settings_settings_req: SettingsSettingsReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -324,8 +325,8 @@ class SettingsApi:
 
         :param product: Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims. (required)
         :type product: str
-        :param settings_req: (required)
-        :type settings_req: SettingsReq
+        :param settings_settings_req: (required)
+        :type settings_settings_req: SettingsSettingsReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -350,7 +351,7 @@ class SettingsApi:
 
         _param = self._put_settings_by_product_serialize(
             product=product,
-            settings_req=settings_req,
+            settings_settings_req=settings_settings_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -375,7 +376,7 @@ class SettingsApi:
     def put_settings_by_product_with_http_info(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
-        settings_req: SettingsReq,
+        settings_settings_req: SettingsSettingsReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -395,8 +396,8 @@ class SettingsApi:
 
         :param product: Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims. (required)
         :type product: str
-        :param settings_req: (required)
-        :type settings_req: SettingsReq
+        :param settings_settings_req: (required)
+        :type settings_settings_req: SettingsSettingsReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -421,7 +422,7 @@ class SettingsApi:
 
         _param = self._put_settings_by_product_serialize(
             product=product,
-            settings_req=settings_req,
+            settings_settings_req=settings_settings_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -446,7 +447,7 @@ class SettingsApi:
     def put_settings_by_product_without_preload_content(
         self,
         product: Annotated[StrictStr, Field(description="Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims.")],
-        settings_req: SettingsReq,
+        settings_settings_req: SettingsSettingsReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -466,8 +467,8 @@ class SettingsApi:
 
         :param product: Product is the catalog slug, from the PATH. zip binds the path last, so the URL names the product being written whatever a body field claims. (required)
         :type product: str
-        :param settings_req: (required)
-        :type settings_req: SettingsReq
+        :param settings_settings_req: (required)
+        :type settings_settings_req: SettingsSettingsReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -492,7 +493,7 @@ class SettingsApi:
 
         _param = self._put_settings_by_product_serialize(
             product=product,
-            settings_req=settings_req,
+            settings_settings_req=settings_settings_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -512,7 +513,7 @@ class SettingsApi:
     def _put_settings_by_product_serialize(
         self,
         product,
-        settings_req,
+        settings_settings_req,
         _request_auth,
         _content_type,
         _headers,
@@ -540,15 +541,16 @@ class SettingsApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if settings_req is not None:
-            _body_params = settings_req
+        if settings_settings_req is not None:
+            _body_params = settings_settings_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

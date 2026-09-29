@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,26 @@ class CatalogEntry(BaseModel):
     """
     CatalogEntry
     """ # noqa: E501
-    configured: Optional[StrictBool] = Field(default=None, description="Configured is whether THIS DEPLOYMENT holds the OAuth client credentials for the provider. False means Connect would dead-end, so the console can offer it disabled instead of broken. It is deployment-wide and says nothing about whether the caller's org has connected the source — that is the connector list's `status`.")
-    description: Optional[StrictStr] = Field(default=None, description="Description is one line of shop copy: what connecting this source pulls in. Native connectors carry written prose; a piece-backed one reads \"activepieces connector (<piece>)\".")
-    display_name: Optional[StrictStr] = Field(default=None, description="DisplayName is the label to show a person. First-party connectors carry a written name (\"GitHub\", \"Google Drive\"); a piece-backed one falls back to the provider capitalized, because the rich activepieces metadata lives behind a cross-service call this read will not make.", alias="displayName")
-    kind: Optional[StrictStr] = Field(default=None, description="\"native\" | \"piece\"")
-    provider: Optional[StrictStr] = Field(default=None, description="Provider is the source's id and the address every connector op takes it by (/v1/knowledge/connectors/:provider). One of github, slack, google, notion.")
-    __properties: ClassVar[List[str]] = ["configured", "description", "displayName", "kind", "provider"]
+    archetype: Optional[StrictStr] = Field(default=None, description="Archetype is WHAT KIND OF THING this is, from a closed and ordered list — model | contract | chain | sdk | template | infra | site | app — derived from the repository's own topics, name and description, first match winning, and always `site` for a deployed site. It is DERIVED, never guessed by a model, because a wrong archetype hides a row from the browse rail more thoroughly than a missing one does. Empty when no topic matched: unclassified, not uncategorisable.")
+    description: Optional[StrictStr] = Field(default=None, description="Description is the repository's own one-line GitHub description, carried verbatim. It comes from the SOURCE half of a row, so a site that was never matched to a repository has none, and nothing here is written by us.")
+    forkable: Optional[StrictBool] = Field(default=None, description="Forkable is NOT omitempty: false is an answer here, not a missing field. Omitted, a client could not tell \"you cannot fork this\" from \"nobody said\".")
+    id: Optional[StrictStr] = Field(default=None, description="ID is \"<org>/<name>\" and is the corpus's primary key: a re-published entry updates in place under it rather than accumulating duplicates, so it is the one handle stable enough to link to or to name in a `template` filter. Two orgs can spell the same id, and `canonical` picks which one keeps it.")
+    kind: Optional[StrictStr] = Field(default=None, description="repo | site")
+    language: Optional[StrictStr] = Field(default=None, description="Language is the repository's primary implementation language as GitHub computes it (\"Go\", \"TypeScript\"), and the case is GitHub's. Empty for a site with no source half and for a repository GitHub could not classify.")
+    license: Optional[StrictStr] = Field(default=None, description="License is the terms that upstream work carries, in whichever form the half that credited it had: an SPDX id (\"MIT\", \"Apache-2.0\") on a GitHub fork, free text on a site whose publisher declared it. GitHub's NOASSERTION — \"we could not identify it\" — reads as none rather than as a licence by that name. So empty means UNDECLARED and never unencumbered, and Upstream is what says whether the question applies at all.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the short identifier inside the org — the repository's name, or the site's slug — and is the half of ID after the slash. Not a display name; Title is.")
+    note: Optional[StrictStr] = Field(default=None, description="Note is why a row is NOT in the published catalog, set by the admission gate (gate.go) on the sites it holds back. It is the difference between a demo that silently vanished from the public lens and one whose owner can read the reason and fix it. A published row never carries one.")
+    org: Optional[StrictStr] = Field(default=None, description="hanzo | lux | zoo")
+    origin: Optional[StrictStr] = Field(default=None, description="Origin is WHAT THIS IS TO YOU: template | community | third-party | product (origin.go owns the four nouns and derives them). Not omitempty, for the same reason Forkable is not: every row has an answer, and a missing one is exactly the flattening this field exists to end.")
+    repo: Optional[StrictStr] = Field(default=None, description="source")
+    scope: Optional[StrictStr] = Field(default=None, description="Scope is provenance, not storage: \"public\" for a row from the published corpus, \"org\" for one only this caller can see. A UI that cannot tell them apart cannot warn before sharing a link.")
+    stars: Optional[StrictInt] = Field(default=None, description="Stars is GitHub's stargazer count for the source repository, read at the last sync and never accumulated here. It is not a ranking — the page sorts on Updated — but it is the tiebreak when two orgs claim one ID. Absent for a site with no repository behind it, and for a repository nobody has starred.")
+    template: Optional[StrictStr] = Field(default=None, description="lineage, if forked from one")
+    title: Optional[StrictStr] = Field(default=None, description="Title is what to SHOW. A site's human name wins where it has one; a repo row falls back to the repository name, so on a repo this usually just repeats Name. Absent only for a site whose project was never named — render Name.")
+    updated: Optional[StrictStr] = Field(default=None, description="Updated is when the thing last MOVED, as RFC 3339 in UTC: a repository's last push, or a site's last deploy. The page is ordered on it, most recent first, by comparing these strings — so the format is load-bearing and not cosmetic. Absent means the source reported no timestamp, and such a row sorts last.")
+    upstream: Optional[StrictStr] = Field(default=None, description="Upstream/License credit the third-party work an entry was published from: the difference between \"this org built it\" and \"somebody else built it and we are showing it to you\".  WHO built it is Org, above — the account that paid for the project. There was once a separate admin-gated `official` boolean here claiming the same thing, and because it was gated it disagreed: apps Hanzo wrote and hosts were published by a script holding an ordinary org token, so it stayed false on all of them and this directory filed our own work as somebody else's. A field that restates an unforgeable fact can only ever be the wrong copy of it.")
+    url: Optional[StrictStr] = Field(default=None, description="live, if it is deployed")
+    __properties: ClassVar[List[str]] = ["archetype", "description", "forkable", "id", "kind", "language", "license", "name", "note", "org", "origin", "repo", "scope", "stars", "template", "title", "updated", "upstream", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,11 +98,25 @@ class CatalogEntry(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "configured": obj.get("configured"),
+            "archetype": obj.get("archetype"),
             "description": obj.get("description"),
-            "displayName": obj.get("displayName"),
+            "forkable": obj.get("forkable"),
+            "id": obj.get("id"),
             "kind": obj.get("kind"),
-            "provider": obj.get("provider")
+            "language": obj.get("language"),
+            "license": obj.get("license"),
+            "name": obj.get("name"),
+            "note": obj.get("note"),
+            "org": obj.get("org"),
+            "origin": obj.get("origin"),
+            "repo": obj.get("repo"),
+            "scope": obj.get("scope"),
+            "stars": obj.get("stars"),
+            "template": obj.get("template"),
+            "title": obj.get("title"),
+            "updated": obj.get("updated"),
+            "upstream": obj.get("upstream"),
+            "url": obj.get("url")
         })
         return _obj
 

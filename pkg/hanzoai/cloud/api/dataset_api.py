@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.risk_dataset import RiskDataset
-from hanzoai.cloud.models.risk_dataset_disposal import RiskDatasetDisposal
-from hanzoai.cloud.models.risk_dataset_list import RiskDatasetList
-from hanzoai.cloud.models.risk_dataset_rows import RiskDatasetRows
-from hanzoai.cloud.models.risk_dataset_spec import RiskDatasetSpec
-from hanzoai.cloud.models.risk_dataset_versions import RiskDatasetVersions
-from hanzoai.cloud.models.risk_lineage import RiskLineage
+from hanzoai.cloud.models.dataset_risk_dataset import DatasetRiskDataset
+from hanzoai.cloud.models.dataset_risk_dataset_disposal import DatasetRiskDatasetDisposal
+from hanzoai.cloud.models.dataset_risk_dataset_list import DatasetRiskDatasetList
+from hanzoai.cloud.models.dataset_risk_dataset_rows import DatasetRiskDatasetRows
+from hanzoai.cloud.models.dataset_risk_dataset_spec import DatasetRiskDatasetSpec
+from hanzoai.cloud.models.dataset_risk_dataset_versions import DatasetRiskDatasetVersions
+from hanzoai.cloud.models.dataset_risk_lineage import DatasetRiskLineage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -48,7 +48,7 @@ class DatasetApi:
     @validate_call
     def risk_create_dataset(
         self,
-        risk_dataset_spec: RiskDatasetSpec,
+        dataset_risk_dataset_spec: DatasetRiskDatasetSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -61,13 +61,13 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDataset:
+    ) -> DatasetRiskDataset:
         """Declare the next version of a dataset
 
         Declares the next version of a dataset from a bound query over this org's own feature surface.  It mints a VERSION and writes no rows: a version is declared, then materialised once, then never rewritten. Version numbers are monotone and never reused, so \"version 3 of signups\" means one thing forever — which is the whole reason a model can cite one.  The window is bounded by the source's retention, the horizon by a year, the rows by the plane's cap, and the number of datasets and versions per org by their own limits. Every refusal names which bound it hit.
 
-        :param risk_dataset_spec: (required)
-        :type risk_dataset_spec: RiskDatasetSpec
+        :param dataset_risk_dataset_spec: (required)
+        :type dataset_risk_dataset_spec: DatasetRiskDatasetSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -91,7 +91,7 @@ class DatasetApi:
         """ # noqa: E501
 
         _param = self._risk_create_dataset_serialize(
-            risk_dataset_spec=risk_dataset_spec,
+            dataset_risk_dataset_spec=dataset_risk_dataset_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -99,7 +99,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDataset",
+            '200': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +115,7 @@ class DatasetApi:
     @validate_call
     def risk_create_dataset_with_http_info(
         self,
-        risk_dataset_spec: RiskDatasetSpec,
+        dataset_risk_dataset_spec: DatasetRiskDatasetSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -128,13 +128,13 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDataset]:
+    ) -> ApiResponse[DatasetRiskDataset]:
         """Declare the next version of a dataset
 
         Declares the next version of a dataset from a bound query over this org's own feature surface.  It mints a VERSION and writes no rows: a version is declared, then materialised once, then never rewritten. Version numbers are monotone and never reused, so \"version 3 of signups\" means one thing forever — which is the whole reason a model can cite one.  The window is bounded by the source's retention, the horizon by a year, the rows by the plane's cap, and the number of datasets and versions per org by their own limits. Every refusal names which bound it hit.
 
-        :param risk_dataset_spec: (required)
-        :type risk_dataset_spec: RiskDatasetSpec
+        :param dataset_risk_dataset_spec: (required)
+        :type dataset_risk_dataset_spec: DatasetRiskDatasetSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -158,7 +158,7 @@ class DatasetApi:
         """ # noqa: E501
 
         _param = self._risk_create_dataset_serialize(
-            risk_dataset_spec=risk_dataset_spec,
+            dataset_risk_dataset_spec=dataset_risk_dataset_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -166,7 +166,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDataset",
+            '200': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -182,7 +182,7 @@ class DatasetApi:
     @validate_call
     def risk_create_dataset_without_preload_content(
         self,
-        risk_dataset_spec: RiskDatasetSpec,
+        dataset_risk_dataset_spec: DatasetRiskDatasetSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -200,8 +200,8 @@ class DatasetApi:
 
         Declares the next version of a dataset from a bound query over this org's own feature surface.  It mints a VERSION and writes no rows: a version is declared, then materialised once, then never rewritten. Version numbers are monotone and never reused, so \"version 3 of signups\" means one thing forever — which is the whole reason a model can cite one.  The window is bounded by the source's retention, the horizon by a year, the rows by the plane's cap, and the number of datasets and versions per org by their own limits. Every refusal names which bound it hit.
 
-        :param risk_dataset_spec: (required)
-        :type risk_dataset_spec: RiskDatasetSpec
+        :param dataset_risk_dataset_spec: (required)
+        :type dataset_risk_dataset_spec: DatasetRiskDatasetSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -225,7 +225,7 @@ class DatasetApi:
         """ # noqa: E501
 
         _param = self._risk_create_dataset_serialize(
-            risk_dataset_spec=risk_dataset_spec,
+            dataset_risk_dataset_spec=dataset_risk_dataset_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -233,7 +233,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDataset",
+            '200': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -244,7 +244,7 @@ class DatasetApi:
 
     def _risk_create_dataset_serialize(
         self,
-        risk_dataset_spec,
+        dataset_risk_dataset_spec,
         _request_auth,
         _content_type,
         _headers,
@@ -270,15 +270,16 @@ class DatasetApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if risk_dataset_spec is not None:
-            _body_params = risk_dataset_spec
+        if dataset_risk_dataset_spec is not None:
+            _body_params = dataset_risk_dataset_spec
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -335,7 +336,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDatasetVersions:
+    ) -> DatasetRiskDatasetVersions:
         """Describe every version of one dataset
 
         Dataset describes every version of one dataset, newest first — the whole history, because the point of a version is that the older ones are still there and a model fitted last quarter cites one of them.  A name this org does not own answers 404, exactly as an unknown name does, so a probe learns nothing about another tenant's datasets.
@@ -373,7 +374,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetVersions",
+            '200': "DatasetRiskDatasetVersions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -402,7 +403,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDatasetVersions]:
+    ) -> ApiResponse[DatasetRiskDatasetVersions]:
         """Describe every version of one dataset
 
         Dataset describes every version of one dataset, newest first — the whole history, because the point of a version is that the older ones are still there and a model fitted last quarter cites one of them.  A name this org does not own answers 404, exactly as an unknown name does, so a probe learns nothing about another tenant's datasets.
@@ -440,7 +441,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetVersions",
+            '200': "DatasetRiskDatasetVersions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -507,7 +508,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetVersions",
+            '200': "DatasetRiskDatasetVersions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -552,7 +553,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -597,7 +599,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskLineage:
+    ) -> DatasetRiskLineage:
         """Show where a version's rows came from, and whether that can still be demonstrated
 
         Shows where a version's rows came from and whether that can still be demonstrated.  The answer is MEASURED, not recalled: the plane asks the source the same bounded question again and compares it to the fingerprint taken when the version was built. Anything but exact agreement is reported as drift — the source is fed by a rollup that runs behind the events, so \"it holds more now\" is the ordinary case and it means re-running the spec would not reproduce this version. An admitted gap is actionable; an unfalsifiable claim is not.  IT IS A PRICED, BOUNDED READ, because it is the same statement a materialisation is charged for: an exact distinct-count over up to 400 days of this org's feature surface. It takes the org's ONE source-scan slot, so a tenant looping it spends one scan and not a thousand; it counts against the plane's ceiling, so the fleet's warehouse is bounded too; and it runs under this plane's own deadline rather than the caller's patience.
@@ -638,7 +640,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLineage",
+            '200': "DatasetRiskLineage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -668,7 +670,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskLineage]:
+    ) -> ApiResponse[DatasetRiskLineage]:
         """Show where a version's rows came from, and whether that can still be demonstrated
 
         Shows where a version's rows came from and whether that can still be demonstrated.  The answer is MEASURED, not recalled: the plane asks the source the same bounded question again and compares it to the fingerprint taken when the version was built. Anything but exact agreement is reported as drift — the source is fed by a rollup that runs behind the events, so \"it holds more now\" is the ordinary case and it means re-running the spec would not reproduce this version. An admitted gap is actionable; an unfalsifiable claim is not.  IT IS A PRICED, BOUNDED READ, because it is the same statement a materialisation is charged for: an exact distinct-count over up to 400 days of this org's feature surface. It takes the org's ONE source-scan slot, so a tenant looping it spends one scan and not a thousand; it counts against the plane's ceiling, so the fleet's warehouse is bounded too; and it runs under this plane's own deadline rather than the caller's patience.
@@ -709,7 +711,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLineage",
+            '200': "DatasetRiskLineage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -780,7 +782,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLineage",
+            '200': "DatasetRiskLineage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -830,7 +832,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -873,7 +876,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDatasetList:
+    ) -> DatasetRiskDatasetList:
         """List this org's datasets
 
         Datasets lists this org's datasets, each with its newest version. An org that has declared none gets an empty list; a store that cannot be reached gets a refusal, never an empty list, because the two read identically and only one of them is true.
@@ -908,7 +911,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetList",
+            '200': "DatasetRiskDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -936,7 +939,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDatasetList]:
+    ) -> ApiResponse[DatasetRiskDatasetList]:
         """List this org's datasets
 
         Datasets lists this org's datasets, each with its newest version. An org that has declared none gets an empty list; a store that cannot be reached gets a refusal, never an empty list, because the two read identically and only one of them is true.
@@ -971,7 +974,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetList",
+            '200': "DatasetRiskDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1034,7 +1037,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetList",
+            '200': "DatasetRiskDatasetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1076,7 +1079,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1120,7 +1124,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDatasetDisposal:
+    ) -> DatasetRiskDatasetDisposal:
         """Dispose of one dataset and every version of it
 
         Disposes of one dataset and every version of it: the rows are dropped and the register is marked with what went.  This is the ONLY expiry in this plane. Neither table carries a TTL, deliberately: a table TTL is a fleet-wide clock no tenant can hold longer or shorten, which is the opposite of a retention decision belonging to the tenant whose records they are. The drop is a partition drop on (org, dataset), so the tenant is the first component of the thing being dropped and a disposal cannot be spelled across one.  The BYTES are what goes. The register keeps one `disposed` row per version — the name, the number, the spec, the digest and who disposed of it when — for two reasons: a retention obligation is answered by a record of the deletion, not by silence; and version numbers must stay monotone, so that after `orders` is disposed of and declared again the next version is 4 and not 1. A number that could be reused would make every citation of `orders v3` ambiguous forever.  It is not reversible and there is no soft state in between. A version a model cited has no rows once this returns, and every read of it says so.
@@ -1158,7 +1162,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetDisposal",
+            '200': "DatasetRiskDatasetDisposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1187,7 +1191,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDatasetDisposal]:
+    ) -> ApiResponse[DatasetRiskDatasetDisposal]:
         """Dispose of one dataset and every version of it
 
         Disposes of one dataset and every version of it: the rows are dropped and the register is marked with what went.  This is the ONLY expiry in this plane. Neither table carries a TTL, deliberately: a table TTL is a fleet-wide clock no tenant can hold longer or shorten, which is the opposite of a retention decision belonging to the tenant whose records they are. The drop is a partition drop on (org, dataset), so the tenant is the first component of the thing being dropped and a disposal cannot be spelled across one.  The BYTES are what goes. The register keeps one `disposed` row per version — the name, the number, the spec, the digest and who disposed of it when — for two reasons: a retention obligation is answered by a record of the deletion, not by silence; and version numbers must stay monotone, so that after `orders` is disposed of and declared again the next version is 4 and not 1. A number that could be reused would make every citation of `orders v3` ambiguous forever.  It is not reversible and there is no soft state in between. A version a model cited has no rows once this returns, and every read of it says so.
@@ -1225,7 +1229,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetDisposal",
+            '200': "DatasetRiskDatasetDisposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1292,7 +1296,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetDisposal",
+            '200': "DatasetRiskDatasetDisposal",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1337,7 +1341,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1385,7 +1390,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDatasetRows:
+    ) -> DatasetRiskDatasetRows:
         """Read a version's rows back, one page at a time
 
         Reads a published version's rows back, one bounded page at a time, in the version's own stable row order.  Only a published version can be exported. Rows written by an attempt that never completed are inert — no register row names them — and they are disposed of with the dataset.
@@ -1435,7 +1440,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetRows",
+            '200': "DatasetRiskDatasetRows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1468,7 +1473,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDatasetRows]:
+    ) -> ApiResponse[DatasetRiskDatasetRows]:
         """Read a version's rows back, one page at a time
 
         Reads a published version's rows back, one bounded page at a time, in the version's own stable row order.  Only a published version can be exported. Rows written by an attempt that never completed are inert — no register row names them — and they are disposed of with the dataset.
@@ -1518,7 +1523,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetRows",
+            '200': "DatasetRiskDatasetRows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1601,7 +1606,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDatasetRows",
+            '200': "DatasetRiskDatasetRows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1666,7 +1671,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1710,7 +1716,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDataset:
+    ) -> DatasetRiskDataset:
         """Materialise the declared version into immutable rows
 
         Builds the declared version into immutable rows and answers 202 as soon as the attempt is on record.  It never holds the request open for the work: a materialisation is a bounded warehouse scan, and letting an HTTP client's timeout be a data plane's timeout is how one tenant's retry loop becomes everyone's outage. ONE materialisation runs per org at a time; a second is refused rather than queued, because a queue admits the same work later and the honest answer to \"again\" while one is running is that one is running.  Only a DECLARED version is admitted. A published version is immutable, and a version whose earlier attempt did not complete is never re-attempted — that would union two runs' rows under one number and make the digest a lie. In both cases the answer is to declare a new version, which is what a second run over a moving source honestly is.
@@ -1748,7 +1754,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RiskDataset",
+            '202': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1777,7 +1783,7 @@ class DatasetApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDataset]:
+    ) -> ApiResponse[DatasetRiskDataset]:
         """Materialise the declared version into immutable rows
 
         Builds the declared version into immutable rows and answers 202 as soon as the attempt is on record.  It never holds the request open for the work: a materialisation is a bounded warehouse scan, and letting an HTTP client's timeout be a data plane's timeout is how one tenant's retry loop becomes everyone's outage. ONE materialisation runs per org at a time; a second is refused rather than queued, because a queue admits the same work later and the honest answer to \"again\" while one is running is that one is running.  Only a DECLARED version is admitted. A published version is immutable, and a version whose earlier attempt did not complete is never re-attempted — that would union two runs' rows under one number and make the digest a lie. In both cases the answer is to declare a new version, which is what a second run over a moving source honestly is.
@@ -1815,7 +1821,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RiskDataset",
+            '202': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1882,7 +1888,7 @@ class DatasetApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RiskDataset",
+            '202': "DatasetRiskDataset",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1927,7 +1933,8 @@ class DatasetApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

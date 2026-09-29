@@ -19,40 +19,40 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.patrol_alarm_in import PatrolAlarmIn
-from hanzoai.cloud.models.patrol_alarm_out import PatrolAlarmOut
-from hanzoai.cloud.models.patrol_camera_list import PatrolCameraList
-from hanzoai.cloud.models.patrol_checkpoint_out import PatrolCheckpointOut
-from hanzoai.cloud.models.patrol_confirm_in import PatrolConfirmIn
-from hanzoai.cloud.models.patrol_event_in import PatrolEventIn
-from hanzoai.cloud.models.patrol_event_list import PatrolEventList
-from hanzoai.cloud.models.patrol_event_out import PatrolEventOut
-from hanzoai.cloud.models.patrol_fix_in import PatrolFixIn
-from hanzoai.cloud.models.patrol_fix_out import PatrolFixOut
-from hanzoai.cloud.models.patrol_incident_act import PatrolIncidentAct
-from hanzoai.cloud.models.patrol_incident_in import PatrolIncidentIn
-from hanzoai.cloud.models.patrol_incident_list import PatrolIncidentList
-from hanzoai.cloud.models.patrol_incident_out import PatrolIncidentOut
-from hanzoai.cloud.models.patrol_key_list import PatrolKeyList
-from hanzoai.cloud.models.patrol_key_out import PatrolKeyOut
-from hanzoai.cloud.models.patrol_move_in import PatrolMoveIn
-from hanzoai.cloud.models.patrol_near_list import PatrolNearList
-from hanzoai.cloud.models.patrol_note_in import PatrolNoteIn
-from hanzoai.cloud.models.patrol_note_list import PatrolNoteList
-from hanzoai.cloud.models.patrol_note_out import PatrolNoteOut
-from hanzoai.cloud.models.patrol_report_in import PatrolReportIn
-from hanzoai.cloud.models.patrol_report_out import PatrolReportOut
-from hanzoai.cloud.models.patrol_site_edit import PatrolSiteEdit
-from hanzoai.cloud.models.patrol_site_list import PatrolSiteList
-from hanzoai.cloud.models.patrol_site_out import PatrolSiteOut
-from hanzoai.cloud.models.patrol_snapshot_out import PatrolSnapshotOut
-from hanzoai.cloud.models.patrol_stream_out import PatrolStreamOut
-from hanzoai.cloud.models.patrol_tenant_out import PatrolTenantOut
-from hanzoai.cloud.models.patrol_ticket_out import PatrolTicketOut
-from hanzoai.cloud.models.patrol_tour_list import PatrolTourList
-from hanzoai.cloud.models.patrol_unit_list import PatrolUnitList
-from hanzoai.cloud.models.patrol_unit_out import PatrolUnitOut
-from hanzoai.cloud.models.patrol_unit_state_in import PatrolUnitStateIn
+from hanzoai.cloud.models.patrol_patrol_alarm_in import PatrolPatrolAlarmIn
+from hanzoai.cloud.models.patrol_patrol_alarm_out import PatrolPatrolAlarmOut
+from hanzoai.cloud.models.patrol_patrol_camera_list import PatrolPatrolCameraList
+from hanzoai.cloud.models.patrol_patrol_checkpoint_out import PatrolPatrolCheckpointOut
+from hanzoai.cloud.models.patrol_patrol_confirm_in import PatrolPatrolConfirmIn
+from hanzoai.cloud.models.patrol_patrol_event_in import PatrolPatrolEventIn
+from hanzoai.cloud.models.patrol_patrol_event_list import PatrolPatrolEventList
+from hanzoai.cloud.models.patrol_patrol_event_out import PatrolPatrolEventOut
+from hanzoai.cloud.models.patrol_patrol_fix_in import PatrolPatrolFixIn
+from hanzoai.cloud.models.patrol_patrol_fix_out import PatrolPatrolFixOut
+from hanzoai.cloud.models.patrol_patrol_incident_act import PatrolPatrolIncidentAct
+from hanzoai.cloud.models.patrol_patrol_incident_in import PatrolPatrolIncidentIn
+from hanzoai.cloud.models.patrol_patrol_incident_list import PatrolPatrolIncidentList
+from hanzoai.cloud.models.patrol_patrol_incident_out import PatrolPatrolIncidentOut
+from hanzoai.cloud.models.patrol_patrol_key_list import PatrolPatrolKeyList
+from hanzoai.cloud.models.patrol_patrol_key_out import PatrolPatrolKeyOut
+from hanzoai.cloud.models.patrol_patrol_move_in import PatrolPatrolMoveIn
+from hanzoai.cloud.models.patrol_patrol_near_list import PatrolPatrolNearList
+from hanzoai.cloud.models.patrol_patrol_note_in import PatrolPatrolNoteIn
+from hanzoai.cloud.models.patrol_patrol_note_list import PatrolPatrolNoteList
+from hanzoai.cloud.models.patrol_patrol_note_out import PatrolPatrolNoteOut
+from hanzoai.cloud.models.patrol_patrol_report_in import PatrolPatrolReportIn
+from hanzoai.cloud.models.patrol_patrol_report_out import PatrolPatrolReportOut
+from hanzoai.cloud.models.patrol_patrol_site_edit import PatrolPatrolSiteEdit
+from hanzoai.cloud.models.patrol_patrol_site_list import PatrolPatrolSiteList
+from hanzoai.cloud.models.patrol_patrol_site_out import PatrolPatrolSiteOut
+from hanzoai.cloud.models.patrol_patrol_snapshot_out import PatrolPatrolSnapshotOut
+from hanzoai.cloud.models.patrol_patrol_stream_out import PatrolPatrolStreamOut
+from hanzoai.cloud.models.patrol_patrol_tenant_out import PatrolPatrolTenantOut
+from hanzoai.cloud.models.patrol_patrol_ticket_out import PatrolPatrolTicketOut
+from hanzoai.cloud.models.patrol_patrol_tour_list import PatrolPatrolTourList
+from hanzoai.cloud.models.patrol_patrol_unit_list import PatrolPatrolUnitList
+from hanzoai.cloud.models.patrol_patrol_unit_out import PatrolPatrolUnitOut
+from hanzoai.cloud.models.patrol_patrol_unit_state_in import PatrolPatrolUnitStateIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -88,7 +88,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolCameraList:
+    ) -> PatrolPatrolCameraList:
         """Lists the cameras a caller may OPEN.
 
         Lists the cameras a caller may OPEN. A row somebody can never reach is a catalogue of a customer's premises and nothing else, so the admission the stream enforces is asked here too rather than left to differ from it.  The stream credential is not part of a camera row — it is a KMS path the document store never holds — so what comes back says where a camera is and never how to reach it.
@@ -126,7 +126,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCameraList",
+            '200': "PatrolPatrolCameraList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -155,7 +155,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolCameraList]:
+    ) -> ApiResponse[PatrolPatrolCameraList]:
         """Lists the cameras a caller may OPEN.
 
         Lists the cameras a caller may OPEN. A row somebody can never reach is a catalogue of a customer's premises and nothing else, so the admission the stream enforces is asked here too rather than left to differ from it.  The stream credential is not part of a camera row — it is a KMS path the document store never holds — so what comes back says where a camera is and never how to reach it.
@@ -193,7 +193,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCameraList",
+            '200': "PatrolPatrolCameraList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -260,7 +260,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCameraList",
+            '200': "PatrolPatrolCameraList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -307,7 +307,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -351,7 +352,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolStreamOut:
+    ) -> PatrolPatrolStreamOut:
         """Mints a short-lived way in to one camera.
 
         Mints a short-lived way in to one camera.  The credential is kept in KMS, at the one place a camera's credential is kept — the org's own patrol namespace, named for the camera — and what comes back is minted from it rather than being it: the camera's address with the user and password removed, bounded by an expiry, and signed so that whatever opens the camera can tell a live ticket from a made-up one. The caller receives something that opens one camera for five minutes and says nothing about how.  A camera whose row points anywhere but its own place, and one with no credential registered, is 404.
@@ -389,7 +390,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolStreamOut",
+            '200': "PatrolPatrolStreamOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -418,7 +419,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolStreamOut]:
+    ) -> ApiResponse[PatrolPatrolStreamOut]:
         """Mints a short-lived way in to one camera.
 
         Mints a short-lived way in to one camera.  The credential is kept in KMS, at the one place a camera's credential is kept — the org's own patrol namespace, named for the camera — and what comes back is minted from it rather than being it: the camera's address with the user and password removed, bounded by an expiry, and signed so that whatever opens the camera can tell a live ticket from a made-up one. The caller receives something that opens one camera for five minutes and says nothing about how.  A camera whose row points anywhere but its own place, and one with no credential registered, is 404.
@@ -456,7 +457,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolStreamOut",
+            '200': "PatrolPatrolStreamOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -523,7 +524,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolStreamOut",
+            '200': "PatrolPatrolStreamOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -568,7 +569,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -614,7 +616,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolTicketOut:
+    ) -> PatrolPatrolTicketOut:
         """Redeems a minted ticket for what opens the camera.
 
         Redeems a minted ticket for what opens the camera.  The mint is the operation's — staff only — and it hands back the camera's address with the credential stripped out of it. This is where the holder of that address gets what actually dials the camera, and it asks for no credential of its own: whatever opens a camera is a relay, not a member of the operation, and a check only the issuer could perform checks nothing.  The ticket IS the authority. It names one camera, it covers one moment, and it is tagged with a key nobody but this deployment holds, so holding a live one is the right to open that camera until it runs out — which is the whole of what was issued, and the reason issuing one is staff-only and five minutes long.  A tag that does not verify is 404 — the route is no oracle on which tenants or cameras exist, or which tickets were ever issued — and one that verifies but has passed its moment is 410, because that ticket was real and is over.
@@ -658,7 +660,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTicketOut",
+            '200': "PatrolPatrolTicketOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -689,7 +691,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolTicketOut]:
+    ) -> ApiResponse[PatrolPatrolTicketOut]:
         """Redeems a minted ticket for what opens the camera.
 
         Redeems a minted ticket for what opens the camera.  The mint is the operation's — staff only — and it hands back the camera's address with the credential stripped out of it. This is where the holder of that address gets what actually dials the camera, and it asks for no credential of its own: whatever opens a camera is a relay, not a member of the operation, and a check only the issuer could perform checks nothing.  The ticket IS the authority. It names one camera, it covers one moment, and it is tagged with a key nobody but this deployment holds, so holding a live one is the right to open that camera until it runs out — which is the whole of what was issued, and the reason issuing one is staff-only and five minutes long.  A tag that does not verify is 404 — the route is no oracle on which tenants or cameras exist, or which tickets were ever issued — and one that verifies but has passed its moment is 410, because that ticket was real and is over.
@@ -733,7 +735,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTicketOut",
+            '200': "PatrolPatrolTicketOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -808,7 +810,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTicketOut",
+            '200': "PatrolPatrolTicketOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -861,7 +863,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -906,7 +909,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolEventList:
+    ) -> PatrolPatrolEventList:
         """Lists the feed, newest first.
 
         Lists the feed, newest first. It is the same rows the live stream carries, read back for a screen that has just opened — so the window is the newest rows, or a screen that reloads reads a feed that stopped on the day the tenant was installed.
@@ -947,7 +950,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolEventList",
+            '200': "PatrolPatrolEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -977,7 +980,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolEventList]:
+    ) -> ApiResponse[PatrolPatrolEventList]:
         """Lists the feed, newest first.
 
         Lists the feed, newest first. It is the same rows the live stream carries, read back for a screen that has just opened — so the window is the newest rows, or a screen that reloads reads a feed that stopped on the day the tenant was installed.
@@ -1018,7 +1021,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolEventList",
+            '200': "PatrolPatrolEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1089,7 +1092,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolEventList",
+            '200': "PatrolPatrolEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1141,7 +1144,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1422,7 +1426,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolIncidentList:
+    ) -> PatrolPatrolIncidentList:
         """Lists responses.
 
         Lists responses. ?open=1 narrows it to the ones still running.
@@ -1463,7 +1467,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentList",
+            '200': "PatrolPatrolIncidentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1493,7 +1497,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolIncidentList]:
+    ) -> ApiResponse[PatrolPatrolIncidentList]:
         """Lists responses.
 
         Lists responses. ?open=1 narrows it to the ones still running.
@@ -1534,7 +1538,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentList",
+            '200': "PatrolPatrolIncidentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1605,7 +1609,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentList",
+            '200': "PatrolPatrolIncidentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1657,7 +1661,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1701,7 +1706,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolIncidentOut:
+    ) -> PatrolPatrolIncidentOut:
         """Returns one response whole: the incident, every act performed on it, and the SLA clocks those acts settled.
 
         Returns one response whole: the incident, every act performed on it, and the SLA clocks those acts settled. The clocks are derived from the stamps and stored nowhere.
@@ -1739,7 +1744,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1768,7 +1773,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolIncidentOut]:
+    ) -> ApiResponse[PatrolPatrolIncidentOut]:
         """Returns one response whole: the incident, every act performed on it, and the SLA clocks those acts settled.
 
         Returns one response whole: the incident, every act performed on it, and the SLA clocks those acts settled. The clocks are derived from the stamps and stored nowhere.
@@ -1806,7 +1811,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1873,7 +1878,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1918,7 +1923,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1961,7 +1967,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolKeyList:
+    ) -> PatrolPatrolKeyList:
         """Lists the key register.
 
         Lists the key register. Neither the officer nor the client reaches it: patrol.key is its own DocType and its permissions name neither, so there is no key row for either to read.
@@ -1996,7 +2002,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyList",
+            '200': "PatrolPatrolKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2024,7 +2030,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolKeyList]:
+    ) -> ApiResponse[PatrolPatrolKeyList]:
         """Lists the key register.
 
         Lists the key register. Neither the officer nor the client reaches it: patrol.key is its own DocType and its permissions name neither, so there is no key row for either to read.
@@ -2059,7 +2065,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyList",
+            '200': "PatrolPatrolKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2122,7 +2128,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyList",
+            '200': "PatrolPatrolKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2164,7 +2170,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2208,7 +2215,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolKeyOut:
+    ) -> PatrolPatrolKeyOut:
         """Returns one key set from the register.
 
         Returns one key set from the register.
@@ -2246,7 +2253,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2275,7 +2282,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolKeyOut]:
+    ) -> ApiResponse[PatrolPatrolKeyOut]:
         """Returns one key set from the register.
 
         Returns one key set from the register.
@@ -2313,7 +2320,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2380,7 +2387,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2425,7 +2432,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2469,7 +2477,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolNoteList:
+    ) -> PatrolPatrolNoteList:
         """Lists internal remarks.
 
         Lists internal remarks. The client never reaches them: patrol.note is its own DocType and its permissions do not name the client, so there is no note row for a customer to read.
@@ -2507,7 +2515,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNoteList",
+            '200': "PatrolPatrolNoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2536,7 +2544,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolNoteList]:
+    ) -> ApiResponse[PatrolPatrolNoteList]:
         """Lists internal remarks.
 
         Lists internal remarks. The client never reaches them: patrol.note is its own DocType and its permissions do not name the client, so there is no note row for a customer to read.
@@ -2574,7 +2582,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNoteList",
+            '200': "PatrolPatrolNoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2641,7 +2649,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNoteList",
+            '200': "PatrolPatrolNoteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2688,7 +2696,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2984,7 +2993,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolSiteList:
+    ) -> PatrolPatrolSiteList:
         """Lists the estate.
 
         Lists the estate. A client sees only the sites their own customer record owns, filtered from their role rather than from anything they sent.
@@ -3025,7 +3034,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteList",
+            '200': "PatrolPatrolSiteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3055,7 +3064,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolSiteList]:
+    ) -> ApiResponse[PatrolPatrolSiteList]:
         """Lists the estate.
 
         Lists the estate. A client sees only the sites their own customer record owns, filtered from their role rather than from anything they sent.
@@ -3096,7 +3105,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteList",
+            '200': "PatrolPatrolSiteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3167,7 +3176,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteList",
+            '200': "PatrolPatrolSiteList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3219,7 +3228,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3263,7 +3273,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolSiteOut:
+    ) -> PatrolPatrolSiteOut:
         """Returns one site whole: the register row plus the panel's zones and the standing hazards, which ride inside the document.
 
         Returns one site whole: the register row plus the panel's zones and the standing hazards, which ride inside the document. A client asking for a site that is not theirs is 404.
@@ -3301,7 +3311,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3330,7 +3340,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolSiteOut]:
+    ) -> ApiResponse[PatrolPatrolSiteOut]:
         """Returns one site whole: the register row plus the panel's zones and the standing hazards, which ride inside the document.
 
         Returns one site whole: the register row plus the panel's zones and the standing hazards, which ride inside the document. A client asking for a site that is not theirs is 404.
@@ -3368,7 +3378,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3435,7 +3445,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3480,7 +3490,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3524,7 +3535,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolSnapshotOut:
+    ) -> PatrolPatrolSnapshotOut:
         """Returns the whole picture in one read: sites, units with their position trails, today's tours and checkpoints, the key register, the recent feed and the open incident.
 
         Returns the whole picture in one read: sites, units with their position trails, today's tours and checkpoints, the key register, the recent feed and the open incident. It replaces the five separate list calls the screen used to make. A client sees only their own sites, and the key register is empty for anyone whose roles do not reach it.
@@ -3562,7 +3573,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSnapshotOut",
+            '200': "PatrolPatrolSnapshotOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3591,7 +3602,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolSnapshotOut]:
+    ) -> ApiResponse[PatrolPatrolSnapshotOut]:
         """Returns the whole picture in one read: sites, units with their position trails, today's tours and checkpoints, the key register, the recent feed and the open incident.
 
         Returns the whole picture in one read: sites, units with their position trails, today's tours and checkpoints, the key register, the recent feed and the open incident. It replaces the five separate list calls the screen used to make. A client sees only their own sites, and the key register is empty for anyone whose roles do not reach it.
@@ -3629,7 +3640,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSnapshotOut",
+            '200': "PatrolPatrolSnapshotOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3696,7 +3707,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSnapshotOut",
+            '200': "PatrolPatrolSnapshotOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3743,7 +3754,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3787,7 +3799,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolTenantOut:
+    ) -> PatrolPatrolTenantOut:
         """Returns one org's public face — brand, company, operations, features and terminology.
 
         Returns one org's public face — brand, company, operations, features and terminology. It is the one anonymous route here: the front end loads it before anyone signs in. It carries no contact list and nothing operational, and an org with no tenant document is 404.  The org is a name a stranger supplied, so the read asks whether the deployment already holds that tenant before it opens anything. Resolving a store CREATES one, and a caller naming a fresh org on every request would leave a database per name they invented.
@@ -3825,7 +3837,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTenantOut",
+            '200': "PatrolPatrolTenantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3854,7 +3866,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolTenantOut]:
+    ) -> ApiResponse[PatrolPatrolTenantOut]:
         """Returns one org's public face — brand, company, operations, features and terminology.
 
         Returns one org's public face — brand, company, operations, features and terminology. It is the one anonymous route here: the front end loads it before anyone signs in. It carries no contact list and nothing operational, and an org with no tenant document is 404.  The org is a name a stranger supplied, so the read asks whether the deployment already holds that tenant before it opens anything. Resolving a store CREATES one, and a caller naming a fresh org on every request would leave a database per name they invented.
@@ -3892,7 +3904,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTenantOut",
+            '200': "PatrolPatrolTenantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3959,7 +3971,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTenantOut",
+            '200': "PatrolPatrolTenantOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4004,7 +4016,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4048,7 +4061,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolTourList:
+    ) -> PatrolPatrolTourList:
         """Lists patrol rounds with their checkpoints — the proof-of-presence record.
 
         Lists patrol rounds with their checkpoints — the proof-of-presence record. ?date=today narrows it to the current day.
@@ -4086,7 +4099,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTourList",
+            '200': "PatrolPatrolTourList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4115,7 +4128,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolTourList]:
+    ) -> ApiResponse[PatrolPatrolTourList]:
         """Lists patrol rounds with their checkpoints — the proof-of-presence record.
 
         Lists patrol rounds with their checkpoints — the proof-of-presence record. ?date=today narrows it to the current day.
@@ -4153,7 +4166,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTourList",
+            '200': "PatrolPatrolTourList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4220,7 +4233,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolTourList",
+            '200': "PatrolPatrolTourList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4267,7 +4280,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4310,7 +4324,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolUnitList:
+    ) -> PatrolPatrolUnitList:
         """Lists the fleet with each unit's position trail, which is what the map draws.
 
         Lists the fleet with each unit's position trail, which is what the map draws. It is the operation's own: a unit names no site, so a customer reads none of it — the officer crewing one is the company's staff, and the trail is where that person has been all shift.
@@ -4345,7 +4359,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitList",
+            '200': "PatrolPatrolUnitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4373,7 +4387,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolUnitList]:
+    ) -> ApiResponse[PatrolPatrolUnitList]:
         """Lists the fleet with each unit's position trail, which is what the map draws.
 
         Lists the fleet with each unit's position trail, which is what the map draws. It is the operation's own: a unit names no site, so a customer reads none of it — the officer crewing one is the company's staff, and the trail is where that person has been all shift.
@@ -4408,7 +4422,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitList",
+            '200': "PatrolPatrolUnitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4471,7 +4485,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitList",
+            '200': "PatrolPatrolUnitList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4513,7 +4527,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4558,7 +4573,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolNearList:
+    ) -> PatrolPatrolNearList:
         """Answers which units can reach a site soonest.
 
         Answers which units can reach a site soonest. Distance is a great-circle haversine over the units' last reported positions, and an available unit sorts ahead of a busy one at any distance — a controller asking for the nearest unit is asking for the nearest free one.
@@ -4599,7 +4614,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNearList",
+            '200': "PatrolPatrolNearList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4629,7 +4644,7 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolNearList]:
+    ) -> ApiResponse[PatrolPatrolNearList]:
         """Answers which units can reach a site soonest.
 
         Answers which units can reach a site soonest. Distance is a great-circle haversine over the units' last reported positions, and an available unit sorts ahead of a busy one at any distance — a controller asking for the nearest unit is asking for the nearest free one.
@@ -4670,7 +4685,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNearList",
+            '200': "PatrolPatrolNearList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4741,7 +4756,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolNearList",
+            '200': "PatrolPatrolNearList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4793,7 +4808,8 @@ class PatrolApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4824,7 +4840,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_alarm(
         self,
-        patrol_alarm_in: PatrolAlarmIn,
+        patrol_patrol_alarm_in: PatrolPatrolAlarmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4837,13 +4853,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolAlarmOut:
+    ) -> PatrolPatrolAlarmOut:
         """Takes one activation.
 
         Takes one activation. It records the activation whatever happens, then matches a site — the one the caller named, else the one whose account number reported — and on a match opens an incident in state received with that site's tier and SLA, puts the site into alarm, raises a red feed row and tells the controllers. An activation that matches no site is still recorded, raises an amber row, and answers 202: an activation is never dropped.  It admits the receiving centre's own credential and a controller keying one in by hand. The centre holds the `centre` role its tenant granted it, which posts an activation and reads nothing, like every other identity here.  The centre's own reference identifies the activation while the response it opened is still running, so a redelivery is answered with that response rather than dispatching a second unit. Centres recycle references, so once the response has closed the same one is the next activation.
 
-        :param patrol_alarm_in: (required)
-        :type patrol_alarm_in: PatrolAlarmIn
+        :param patrol_patrol_alarm_in: (required)
+        :type patrol_patrol_alarm_in: PatrolPatrolAlarmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4867,7 +4883,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_alarm_serialize(
-            patrol_alarm_in=patrol_alarm_in,
+            patrol_patrol_alarm_in=patrol_patrol_alarm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4875,8 +4891,8 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolAlarmOut",
-            '202': "PatrolAlarmOut",
+            '201': "PatrolPatrolAlarmOut",
+            '202': "PatrolPatrolAlarmOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4892,7 +4908,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_alarm_with_http_info(
         self,
-        patrol_alarm_in: PatrolAlarmIn,
+        patrol_patrol_alarm_in: PatrolPatrolAlarmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4905,13 +4921,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolAlarmOut]:
+    ) -> ApiResponse[PatrolPatrolAlarmOut]:
         """Takes one activation.
 
         Takes one activation. It records the activation whatever happens, then matches a site — the one the caller named, else the one whose account number reported — and on a match opens an incident in state received with that site's tier and SLA, puts the site into alarm, raises a red feed row and tells the controllers. An activation that matches no site is still recorded, raises an amber row, and answers 202: an activation is never dropped.  It admits the receiving centre's own credential and a controller keying one in by hand. The centre holds the `centre` role its tenant granted it, which posts an activation and reads nothing, like every other identity here.  The centre's own reference identifies the activation while the response it opened is still running, so a redelivery is answered with that response rather than dispatching a second unit. Centres recycle references, so once the response has closed the same one is the next activation.
 
-        :param patrol_alarm_in: (required)
-        :type patrol_alarm_in: PatrolAlarmIn
+        :param patrol_patrol_alarm_in: (required)
+        :type patrol_patrol_alarm_in: PatrolPatrolAlarmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4935,7 +4951,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_alarm_serialize(
-            patrol_alarm_in=patrol_alarm_in,
+            patrol_patrol_alarm_in=patrol_patrol_alarm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4943,8 +4959,8 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolAlarmOut",
-            '202': "PatrolAlarmOut",
+            '201': "PatrolPatrolAlarmOut",
+            '202': "PatrolPatrolAlarmOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4960,7 +4976,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_alarm_without_preload_content(
         self,
-        patrol_alarm_in: PatrolAlarmIn,
+        patrol_patrol_alarm_in: PatrolPatrolAlarmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4978,8 +4994,8 @@ class PatrolApi:
 
         Takes one activation. It records the activation whatever happens, then matches a site — the one the caller named, else the one whose account number reported — and on a match opens an incident in state received with that site's tier and SLA, puts the site into alarm, raises a red feed row and tells the controllers. An activation that matches no site is still recorded, raises an amber row, and answers 202: an activation is never dropped.  It admits the receiving centre's own credential and a controller keying one in by hand. The centre holds the `centre` role its tenant granted it, which posts an activation and reads nothing, like every other identity here.  The centre's own reference identifies the activation while the response it opened is still running, so a redelivery is answered with that response rather than dispatching a second unit. Centres recycle references, so once the response has closed the same one is the next activation.
 
-        :param patrol_alarm_in: (required)
-        :type patrol_alarm_in: PatrolAlarmIn
+        :param patrol_patrol_alarm_in: (required)
+        :type patrol_patrol_alarm_in: PatrolPatrolAlarmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5003,7 +5019,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_alarm_serialize(
-            patrol_alarm_in=patrol_alarm_in,
+            patrol_patrol_alarm_in=patrol_patrol_alarm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5011,8 +5027,8 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolAlarmOut",
-            '202': "PatrolAlarmOut",
+            '201': "PatrolPatrolAlarmOut",
+            '202': "PatrolPatrolAlarmOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5023,7 +5039,7 @@ class PatrolApi:
 
     def _post_patrol_alarm_serialize(
         self,
-        patrol_alarm_in,
+        patrol_patrol_alarm_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5049,15 +5065,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_alarm_in is not None:
-            _body_params = patrol_alarm_in
+        if patrol_patrol_alarm_in is not None:
+            _body_params = patrol_patrol_alarm_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5101,7 +5118,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_event(
         self,
-        patrol_event_in: PatrolEventIn,
+        patrol_patrol_event_in: PatrolPatrolEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5114,13 +5131,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolEventOut:
+    ) -> PatrolPatrolEventOut:
         """Writes one feed row by hand and pushes it to every screen watching.
 
         Writes one feed row by hand and pushes it to every screen watching. It is how a controller puts something on the record that no automatic write would have produced.
 
-        :param patrol_event_in: (required)
-        :type patrol_event_in: PatrolEventIn
+        :param patrol_patrol_event_in: (required)
+        :type patrol_patrol_event_in: PatrolPatrolEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5144,7 +5161,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_event_serialize(
-            patrol_event_in=patrol_event_in,
+            patrol_patrol_event_in=patrol_patrol_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5152,7 +5169,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolEventOut",
+            '201': "PatrolPatrolEventOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5168,7 +5185,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_event_with_http_info(
         self,
-        patrol_event_in: PatrolEventIn,
+        patrol_patrol_event_in: PatrolPatrolEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5181,13 +5198,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolEventOut]:
+    ) -> ApiResponse[PatrolPatrolEventOut]:
         """Writes one feed row by hand and pushes it to every screen watching.
 
         Writes one feed row by hand and pushes it to every screen watching. It is how a controller puts something on the record that no automatic write would have produced.
 
-        :param patrol_event_in: (required)
-        :type patrol_event_in: PatrolEventIn
+        :param patrol_patrol_event_in: (required)
+        :type patrol_patrol_event_in: PatrolPatrolEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5211,7 +5228,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_event_serialize(
-            patrol_event_in=patrol_event_in,
+            patrol_patrol_event_in=patrol_patrol_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5219,7 +5236,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolEventOut",
+            '201': "PatrolPatrolEventOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5235,7 +5252,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_event_without_preload_content(
         self,
-        patrol_event_in: PatrolEventIn,
+        patrol_patrol_event_in: PatrolPatrolEventIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5253,8 +5270,8 @@ class PatrolApi:
 
         Writes one feed row by hand and pushes it to every screen watching. It is how a controller puts something on the record that no automatic write would have produced.
 
-        :param patrol_event_in: (required)
-        :type patrol_event_in: PatrolEventIn
+        :param patrol_patrol_event_in: (required)
+        :type patrol_patrol_event_in: PatrolPatrolEventIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5278,7 +5295,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_event_serialize(
-            patrol_event_in=patrol_event_in,
+            patrol_patrol_event_in=patrol_patrol_event_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5286,7 +5303,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolEventOut",
+            '201': "PatrolPatrolEventOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5297,7 +5314,7 @@ class PatrolApi:
 
     def _post_patrol_event_serialize(
         self,
-        patrol_event_in,
+        patrol_patrol_event_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5323,15 +5340,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_event_in is not None:
-            _body_params = patrol_event_in
+        if patrol_patrol_event_in is not None:
+            _body_params = patrol_patrol_event_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5375,7 +5393,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_incident(
         self,
-        patrol_incident_in: PatrolIncidentIn,
+        patrol_patrol_incident_in: PatrolPatrolIncidentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5388,13 +5406,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolIncidentOut:
+    ) -> PatrolPatrolIncidentOut:
         """Records a response by hand, in state received and carrying the site's tier and SLA.
 
         Records a response by hand, in state received and carrying the site's tier and SLA. It is what a controller calls when an activation arrives by phone rather than over the intake.
 
-        :param patrol_incident_in: (required)
-        :type patrol_incident_in: PatrolIncidentIn
+        :param patrol_patrol_incident_in: (required)
+        :type patrol_patrol_incident_in: PatrolPatrolIncidentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5418,7 +5436,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_incident_serialize(
-            patrol_incident_in=patrol_incident_in,
+            patrol_patrol_incident_in=patrol_patrol_incident_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5426,7 +5444,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolIncidentOut",
+            '201': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5442,7 +5460,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_incident_with_http_info(
         self,
-        patrol_incident_in: PatrolIncidentIn,
+        patrol_patrol_incident_in: PatrolPatrolIncidentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5455,13 +5473,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolIncidentOut]:
+    ) -> ApiResponse[PatrolPatrolIncidentOut]:
         """Records a response by hand, in state received and carrying the site's tier and SLA.
 
         Records a response by hand, in state received and carrying the site's tier and SLA. It is what a controller calls when an activation arrives by phone rather than over the intake.
 
-        :param patrol_incident_in: (required)
-        :type patrol_incident_in: PatrolIncidentIn
+        :param patrol_patrol_incident_in: (required)
+        :type patrol_patrol_incident_in: PatrolPatrolIncidentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5485,7 +5503,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_incident_serialize(
-            patrol_incident_in=patrol_incident_in,
+            patrol_patrol_incident_in=patrol_patrol_incident_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5493,7 +5511,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolIncidentOut",
+            '201': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5509,7 +5527,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_incident_without_preload_content(
         self,
-        patrol_incident_in: PatrolIncidentIn,
+        patrol_patrol_incident_in: PatrolPatrolIncidentIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5527,8 +5545,8 @@ class PatrolApi:
 
         Records a response by hand, in state received and carrying the site's tier and SLA. It is what a controller calls when an activation arrives by phone rather than over the intake.
 
-        :param patrol_incident_in: (required)
-        :type patrol_incident_in: PatrolIncidentIn
+        :param patrol_patrol_incident_in: (required)
+        :type patrol_patrol_incident_in: PatrolPatrolIncidentIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5552,7 +5570,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_incident_serialize(
-            patrol_incident_in=patrol_incident_in,
+            patrol_patrol_incident_in=patrol_patrol_incident_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5560,7 +5578,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolIncidentOut",
+            '201': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5571,7 +5589,7 @@ class PatrolApi:
 
     def _post_patrol_incident_serialize(
         self,
-        patrol_incident_in,
+        patrol_patrol_incident_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5597,15 +5615,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_incident_in is not None:
-            _body_params = patrol_incident_in
+        if patrol_patrol_incident_in is not None:
+            _body_params = patrol_patrol_incident_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5650,7 +5669,7 @@ class PatrolApi:
     def post_patrol_incident_by_name_step(
         self,
         name: Annotated[StrictStr, Field(description="Name is the incident's document name, from the path.")],
-        patrol_incident_act: PatrolIncidentAct,
+        patrol_patrol_incident_act: PatrolPatrolIncidentAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5663,15 +5682,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolIncidentOut:
+    ) -> PatrolPatrolIncidentOut:
         """Performs one act on an incident: it stamps the act's time, moves the state, appends the act to the trail, and runs what the act sets in motion — a unit assigned, a site secured, a report filed, a controller told.
 
         Performs one act on an incident: it stamps the act's time, moves the state, appends the act to the trail, and runs what the act sets in motion — a unit assigned, a site secured, a report filed, a controller told.  The states run forward only. An act from a state it does not leave is 409 naming the state the incident is in, and a caller without the act's roles is refused.
 
         :param name: Name is the incident's document name, from the path. (required)
         :type name: str
-        :param patrol_incident_act: (required)
-        :type patrol_incident_act: PatrolIncidentAct
+        :param patrol_patrol_incident_act: (required)
+        :type patrol_patrol_incident_act: PatrolPatrolIncidentAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5696,7 +5715,7 @@ class PatrolApi:
 
         _param = self._post_patrol_incident_by_name_step_serialize(
             name=name,
-            patrol_incident_act=patrol_incident_act,
+            patrol_patrol_incident_act=patrol_patrol_incident_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5704,7 +5723,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5721,7 +5740,7 @@ class PatrolApi:
     def post_patrol_incident_by_name_step_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the incident's document name, from the path.")],
-        patrol_incident_act: PatrolIncidentAct,
+        patrol_patrol_incident_act: PatrolPatrolIncidentAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5734,15 +5753,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolIncidentOut]:
+    ) -> ApiResponse[PatrolPatrolIncidentOut]:
         """Performs one act on an incident: it stamps the act's time, moves the state, appends the act to the trail, and runs what the act sets in motion — a unit assigned, a site secured, a report filed, a controller told.
 
         Performs one act on an incident: it stamps the act's time, moves the state, appends the act to the trail, and runs what the act sets in motion — a unit assigned, a site secured, a report filed, a controller told.  The states run forward only. An act from a state it does not leave is 409 naming the state the incident is in, and a caller without the act's roles is refused.
 
         :param name: Name is the incident's document name, from the path. (required)
         :type name: str
-        :param patrol_incident_act: (required)
-        :type patrol_incident_act: PatrolIncidentAct
+        :param patrol_patrol_incident_act: (required)
+        :type patrol_patrol_incident_act: PatrolPatrolIncidentAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5767,7 +5786,7 @@ class PatrolApi:
 
         _param = self._post_patrol_incident_by_name_step_serialize(
             name=name,
-            patrol_incident_act=patrol_incident_act,
+            patrol_patrol_incident_act=patrol_patrol_incident_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5775,7 +5794,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5792,7 +5811,7 @@ class PatrolApi:
     def post_patrol_incident_by_name_step_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the incident's document name, from the path.")],
-        patrol_incident_act: PatrolIncidentAct,
+        patrol_patrol_incident_act: PatrolPatrolIncidentAct,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5812,8 +5831,8 @@ class PatrolApi:
 
         :param name: Name is the incident's document name, from the path. (required)
         :type name: str
-        :param patrol_incident_act: (required)
-        :type patrol_incident_act: PatrolIncidentAct
+        :param patrol_patrol_incident_act: (required)
+        :type patrol_patrol_incident_act: PatrolPatrolIncidentAct
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5838,7 +5857,7 @@ class PatrolApi:
 
         _param = self._post_patrol_incident_by_name_step_serialize(
             name=name,
-            patrol_incident_act=patrol_incident_act,
+            patrol_patrol_incident_act=patrol_patrol_incident_act,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5846,7 +5865,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolIncidentOut",
+            '200': "PatrolPatrolIncidentOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5858,7 +5877,7 @@ class PatrolApi:
     def _post_patrol_incident_by_name_step_serialize(
         self,
         name,
-        patrol_incident_act,
+        patrol_patrol_incident_act,
         _request_auth,
         _content_type,
         _headers,
@@ -5886,15 +5905,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_incident_act is not None:
-            _body_params = patrol_incident_act
+        if patrol_patrol_incident_act is not None:
+            _body_params = patrol_patrol_incident_act
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5939,7 +5959,7 @@ class PatrolApi:
     def post_patrol_key_by_name_move(
         self,
         name: Annotated[StrictStr, Field(description="Name is the key set's reference, from the path.")],
-        patrol_move_in: PatrolMoveIn,
+        patrol_patrol_move_in: PatrolPatrolMoveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5952,15 +5972,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolKeyOut:
+    ) -> PatrolPatrolKeyOut:
         """Records a key set leaving, returning, or being counted, and moves the register row to match.
 
         Records a key set leaving, returning, or being counted, and moves the register row to match. The register says where a set is now and the movements say how it got there, so a movement is written once and never edited.  Who signed for the move is the caller, stamped from the request. A body that named the signer would make the chain of custody a value the signer chose.
 
         :param name: Name is the key set's reference, from the path. (required)
         :type name: str
-        :param patrol_move_in: (required)
-        :type patrol_move_in: PatrolMoveIn
+        :param patrol_patrol_move_in: (required)
+        :type patrol_patrol_move_in: PatrolPatrolMoveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5985,7 +6005,7 @@ class PatrolApi:
 
         _param = self._post_patrol_key_by_name_move_serialize(
             name=name,
-            patrol_move_in=patrol_move_in,
+            patrol_patrol_move_in=patrol_patrol_move_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5993,7 +6013,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6010,7 +6030,7 @@ class PatrolApi:
     def post_patrol_key_by_name_move_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the key set's reference, from the path.")],
-        patrol_move_in: PatrolMoveIn,
+        patrol_patrol_move_in: PatrolPatrolMoveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6023,15 +6043,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolKeyOut]:
+    ) -> ApiResponse[PatrolPatrolKeyOut]:
         """Records a key set leaving, returning, or being counted, and moves the register row to match.
 
         Records a key set leaving, returning, or being counted, and moves the register row to match. The register says where a set is now and the movements say how it got there, so a movement is written once and never edited.  Who signed for the move is the caller, stamped from the request. A body that named the signer would make the chain of custody a value the signer chose.
 
         :param name: Name is the key set's reference, from the path. (required)
         :type name: str
-        :param patrol_move_in: (required)
-        :type patrol_move_in: PatrolMoveIn
+        :param patrol_patrol_move_in: (required)
+        :type patrol_patrol_move_in: PatrolPatrolMoveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6056,7 +6076,7 @@ class PatrolApi:
 
         _param = self._post_patrol_key_by_name_move_serialize(
             name=name,
-            patrol_move_in=patrol_move_in,
+            patrol_patrol_move_in=patrol_patrol_move_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6064,7 +6084,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6081,7 +6101,7 @@ class PatrolApi:
     def post_patrol_key_by_name_move_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the key set's reference, from the path.")],
-        patrol_move_in: PatrolMoveIn,
+        patrol_patrol_move_in: PatrolPatrolMoveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6101,8 +6121,8 @@ class PatrolApi:
 
         :param name: Name is the key set's reference, from the path. (required)
         :type name: str
-        :param patrol_move_in: (required)
-        :type patrol_move_in: PatrolMoveIn
+        :param patrol_patrol_move_in: (required)
+        :type patrol_patrol_move_in: PatrolPatrolMoveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6127,7 +6147,7 @@ class PatrolApi:
 
         _param = self._post_patrol_key_by_name_move_serialize(
             name=name,
-            patrol_move_in=patrol_move_in,
+            patrol_patrol_move_in=patrol_patrol_move_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6135,7 +6155,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolKeyOut",
+            '200': "PatrolPatrolKeyOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6147,7 +6167,7 @@ class PatrolApi:
     def _post_patrol_key_by_name_move_serialize(
         self,
         name,
-        patrol_move_in,
+        patrol_patrol_move_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6175,15 +6195,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_move_in is not None:
-            _body_params = patrol_move_in
+        if patrol_patrol_move_in is not None:
+            _body_params = patrol_patrol_move_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6227,7 +6248,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_note(
         self,
-        patrol_note_in: PatrolNoteIn,
+        patrol_patrol_note_in: PatrolPatrolNoteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6240,13 +6261,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolNoteOut:
+    ) -> PatrolPatrolNoteOut:
         """Records an internal remark, stamped with who wrote it.
 
         Records an internal remark, stamped with who wrote it.
 
-        :param patrol_note_in: (required)
-        :type patrol_note_in: PatrolNoteIn
+        :param patrol_patrol_note_in: (required)
+        :type patrol_patrol_note_in: PatrolPatrolNoteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6270,7 +6291,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_note_serialize(
-            patrol_note_in=patrol_note_in,
+            patrol_patrol_note_in=patrol_patrol_note_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6278,7 +6299,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolNoteOut",
+            '201': "PatrolPatrolNoteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6294,7 +6315,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_note_with_http_info(
         self,
-        patrol_note_in: PatrolNoteIn,
+        patrol_patrol_note_in: PatrolPatrolNoteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6307,13 +6328,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolNoteOut]:
+    ) -> ApiResponse[PatrolPatrolNoteOut]:
         """Records an internal remark, stamped with who wrote it.
 
         Records an internal remark, stamped with who wrote it.
 
-        :param patrol_note_in: (required)
-        :type patrol_note_in: PatrolNoteIn
+        :param patrol_patrol_note_in: (required)
+        :type patrol_patrol_note_in: PatrolPatrolNoteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6337,7 +6358,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_note_serialize(
-            patrol_note_in=patrol_note_in,
+            patrol_patrol_note_in=patrol_patrol_note_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6345,7 +6366,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolNoteOut",
+            '201': "PatrolPatrolNoteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6361,7 +6382,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_note_without_preload_content(
         self,
-        patrol_note_in: PatrolNoteIn,
+        patrol_patrol_note_in: PatrolPatrolNoteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6379,8 +6400,8 @@ class PatrolApi:
 
         Records an internal remark, stamped with who wrote it.
 
-        :param patrol_note_in: (required)
-        :type patrol_note_in: PatrolNoteIn
+        :param patrol_patrol_note_in: (required)
+        :type patrol_patrol_note_in: PatrolPatrolNoteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6404,7 +6425,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_note_serialize(
-            patrol_note_in=patrol_note_in,
+            patrol_patrol_note_in=patrol_patrol_note_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6412,7 +6433,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolNoteOut",
+            '201': "PatrolPatrolNoteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6423,7 +6444,7 @@ class PatrolApi:
 
     def _post_patrol_note_serialize(
         self,
-        patrol_note_in,
+        patrol_patrol_note_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6449,15 +6470,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_note_in is not None:
-            _body_params = patrol_note_in
+        if patrol_patrol_note_in is not None:
+            _body_params = patrol_patrol_note_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6502,7 +6524,7 @@ class PatrolApi:
     def post_patrol_point_by_name_confirm(
         self,
         name: Annotated[StrictStr, Field(description="Name is the checkpoint's document name, from the path.")],
-        patrol_confirm_in: PatrolConfirmIn,
+        patrol_patrol_confirm_in: PatrolPatrolConfirmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6515,15 +6537,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolCheckpointOut:
+    ) -> PatrolPatrolCheckpointOut:
         """Records presence at a checkpoint: who confirmed it, the method, where they stood, and the photo key if one was taken.
 
         Records presence at a checkpoint: who confirmed it, the method, where they stood, and the photo key if one was taken. A confirmation after the window shuts is recorded late rather than refused — the visit happened, and a report that hides it is worth nothing.  An officer confirms their own round and no other, by the same rule a position report and every incident act are held to: the checkpoint belongs to a tour, the tour names a unit, and the unit names its officer. The record carries the actor, so it says who claimed the visit and not merely that somebody did.
 
         :param name: Name is the checkpoint's document name, from the path. (required)
         :type name: str
-        :param patrol_confirm_in: (required)
-        :type patrol_confirm_in: PatrolConfirmIn
+        :param patrol_patrol_confirm_in: (required)
+        :type patrol_patrol_confirm_in: PatrolPatrolConfirmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6548,7 +6570,7 @@ class PatrolApi:
 
         _param = self._post_patrol_point_by_name_confirm_serialize(
             name=name,
-            patrol_confirm_in=patrol_confirm_in,
+            patrol_patrol_confirm_in=patrol_patrol_confirm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6556,7 +6578,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCheckpointOut",
+            '200': "PatrolPatrolCheckpointOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6573,7 +6595,7 @@ class PatrolApi:
     def post_patrol_point_by_name_confirm_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the checkpoint's document name, from the path.")],
-        patrol_confirm_in: PatrolConfirmIn,
+        patrol_patrol_confirm_in: PatrolPatrolConfirmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6586,15 +6608,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolCheckpointOut]:
+    ) -> ApiResponse[PatrolPatrolCheckpointOut]:
         """Records presence at a checkpoint: who confirmed it, the method, where they stood, and the photo key if one was taken.
 
         Records presence at a checkpoint: who confirmed it, the method, where they stood, and the photo key if one was taken. A confirmation after the window shuts is recorded late rather than refused — the visit happened, and a report that hides it is worth nothing.  An officer confirms their own round and no other, by the same rule a position report and every incident act are held to: the checkpoint belongs to a tour, the tour names a unit, and the unit names its officer. The record carries the actor, so it says who claimed the visit and not merely that somebody did.
 
         :param name: Name is the checkpoint's document name, from the path. (required)
         :type name: str
-        :param patrol_confirm_in: (required)
-        :type patrol_confirm_in: PatrolConfirmIn
+        :param patrol_patrol_confirm_in: (required)
+        :type patrol_patrol_confirm_in: PatrolPatrolConfirmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6619,7 +6641,7 @@ class PatrolApi:
 
         _param = self._post_patrol_point_by_name_confirm_serialize(
             name=name,
-            patrol_confirm_in=patrol_confirm_in,
+            patrol_patrol_confirm_in=patrol_patrol_confirm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6627,7 +6649,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCheckpointOut",
+            '200': "PatrolPatrolCheckpointOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6644,7 +6666,7 @@ class PatrolApi:
     def post_patrol_point_by_name_confirm_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the checkpoint's document name, from the path.")],
-        patrol_confirm_in: PatrolConfirmIn,
+        patrol_patrol_confirm_in: PatrolPatrolConfirmIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6664,8 +6686,8 @@ class PatrolApi:
 
         :param name: Name is the checkpoint's document name, from the path. (required)
         :type name: str
-        :param patrol_confirm_in: (required)
-        :type patrol_confirm_in: PatrolConfirmIn
+        :param patrol_patrol_confirm_in: (required)
+        :type patrol_patrol_confirm_in: PatrolPatrolConfirmIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6690,7 +6712,7 @@ class PatrolApi:
 
         _param = self._post_patrol_point_by_name_confirm_serialize(
             name=name,
-            patrol_confirm_in=patrol_confirm_in,
+            patrol_patrol_confirm_in=patrol_patrol_confirm_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6698,7 +6720,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolCheckpointOut",
+            '200': "PatrolPatrolCheckpointOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6710,7 +6732,7 @@ class PatrolApi:
     def _post_patrol_point_by_name_confirm_serialize(
         self,
         name,
-        patrol_confirm_in,
+        patrol_patrol_confirm_in,
         _request_auth,
         _content_type,
         _headers,
@@ -6738,15 +6760,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_confirm_in is not None:
-            _body_params = patrol_confirm_in
+        if patrol_patrol_confirm_in is not None:
+            _body_params = patrol_patrol_confirm_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6790,7 +6813,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_report(
         self,
-        patrol_report_in: PatrolReportIn,
+        patrol_patrol_report_in: PatrolPatrolReportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6803,13 +6826,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolReportOut:
+    ) -> PatrolPatrolReportOut:
         """Composes and files a report from one estate read, so the same figures read the same a month later.
 
         Composes and files a report from one estate read, so the same figures read the same a month later. The text is stored on the document; the PDF is produced on read at /v1/patrol/report/{name}.  A client report naming a customer is an account of that customer's estate and is theirs to download; naming none covers every customer, which is an account of the operation.
 
-        :param patrol_report_in: (required)
-        :type patrol_report_in: PatrolReportIn
+        :param patrol_patrol_report_in: (required)
+        :type patrol_patrol_report_in: PatrolPatrolReportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6833,7 +6856,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_report_serialize(
-            patrol_report_in=patrol_report_in,
+            patrol_patrol_report_in=patrol_patrol_report_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6841,7 +6864,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolReportOut",
+            '201': "PatrolPatrolReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6857,7 +6880,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_report_with_http_info(
         self,
-        patrol_report_in: PatrolReportIn,
+        patrol_patrol_report_in: PatrolPatrolReportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6870,13 +6893,13 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolReportOut]:
+    ) -> ApiResponse[PatrolPatrolReportOut]:
         """Composes and files a report from one estate read, so the same figures read the same a month later.
 
         Composes and files a report from one estate read, so the same figures read the same a month later. The text is stored on the document; the PDF is produced on read at /v1/patrol/report/{name}.  A client report naming a customer is an account of that customer's estate and is theirs to download; naming none covers every customer, which is an account of the operation.
 
-        :param patrol_report_in: (required)
-        :type patrol_report_in: PatrolReportIn
+        :param patrol_patrol_report_in: (required)
+        :type patrol_patrol_report_in: PatrolPatrolReportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6900,7 +6923,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_report_serialize(
-            patrol_report_in=patrol_report_in,
+            patrol_patrol_report_in=patrol_patrol_report_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6908,7 +6931,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolReportOut",
+            '201': "PatrolPatrolReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6924,7 +6947,7 @@ class PatrolApi:
     @validate_call
     def post_patrol_report_without_preload_content(
         self,
-        patrol_report_in: PatrolReportIn,
+        patrol_patrol_report_in: PatrolPatrolReportIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6942,8 +6965,8 @@ class PatrolApi:
 
         Composes and files a report from one estate read, so the same figures read the same a month later. The text is stored on the document; the PDF is produced on read at /v1/patrol/report/{name}.  A client report naming a customer is an account of that customer's estate and is theirs to download; naming none covers every customer, which is an account of the operation.
 
-        :param patrol_report_in: (required)
-        :type patrol_report_in: PatrolReportIn
+        :param patrol_patrol_report_in: (required)
+        :type patrol_patrol_report_in: PatrolPatrolReportIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6967,7 +6990,7 @@ class PatrolApi:
         """ # noqa: E501
 
         _param = self._post_patrol_report_serialize(
-            patrol_report_in=patrol_report_in,
+            patrol_patrol_report_in=patrol_patrol_report_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6975,7 +6998,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PatrolReportOut",
+            '201': "PatrolPatrolReportOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6986,7 +7009,7 @@ class PatrolApi:
 
     def _post_patrol_report_serialize(
         self,
-        patrol_report_in,
+        patrol_patrol_report_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7012,15 +7035,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_report_in is not None:
-            _body_params = patrol_report_in
+        if patrol_patrol_report_in is not None:
+            _body_params = patrol_patrol_report_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7065,7 +7089,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_fix(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_fix_in: PatrolFixIn,
+        patrol_patrol_fix_in: PatrolPatrolFixIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7078,15 +7102,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolFixOut:
+    ) -> PatrolPatrolFixOut:
         """Records where a unit is.
 
         Records where a unit is. It appends the position to the unit's trail, moves the unit's own coordinates and last-seen stamp, and publishes one frame to every screen watching. An officer may report only their own unit; the control room may report any.
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_fix_in: (required)
-        :type patrol_fix_in: PatrolFixIn
+        :param patrol_patrol_fix_in: (required)
+        :type patrol_patrol_fix_in: PatrolPatrolFixIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7111,7 +7135,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_fix_serialize(
             name=name,
-            patrol_fix_in=patrol_fix_in,
+            patrol_patrol_fix_in=patrol_patrol_fix_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7119,7 +7143,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolFixOut",
+            '200': "PatrolPatrolFixOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7136,7 +7160,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_fix_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_fix_in: PatrolFixIn,
+        patrol_patrol_fix_in: PatrolPatrolFixIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7149,15 +7173,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolFixOut]:
+    ) -> ApiResponse[PatrolPatrolFixOut]:
         """Records where a unit is.
 
         Records where a unit is. It appends the position to the unit's trail, moves the unit's own coordinates and last-seen stamp, and publishes one frame to every screen watching. An officer may report only their own unit; the control room may report any.
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_fix_in: (required)
-        :type patrol_fix_in: PatrolFixIn
+        :param patrol_patrol_fix_in: (required)
+        :type patrol_patrol_fix_in: PatrolPatrolFixIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7182,7 +7206,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_fix_serialize(
             name=name,
-            patrol_fix_in=patrol_fix_in,
+            patrol_patrol_fix_in=patrol_patrol_fix_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7190,7 +7214,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolFixOut",
+            '200': "PatrolPatrolFixOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7207,7 +7231,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_fix_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_fix_in: PatrolFixIn,
+        patrol_patrol_fix_in: PatrolPatrolFixIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7227,8 +7251,8 @@ class PatrolApi:
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_fix_in: (required)
-        :type patrol_fix_in: PatrolFixIn
+        :param patrol_patrol_fix_in: (required)
+        :type patrol_patrol_fix_in: PatrolPatrolFixIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7253,7 +7277,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_fix_serialize(
             name=name,
-            patrol_fix_in=patrol_fix_in,
+            patrol_patrol_fix_in=patrol_patrol_fix_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7261,7 +7285,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolFixOut",
+            '200': "PatrolPatrolFixOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7273,7 +7297,7 @@ class PatrolApi:
     def _post_patrol_unit_by_name_fix_serialize(
         self,
         name,
-        patrol_fix_in,
+        patrol_patrol_fix_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7301,15 +7325,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_fix_in is not None:
-            _body_params = patrol_fix_in
+        if patrol_patrol_fix_in is not None:
+            _body_params = patrol_patrol_fix_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7354,7 +7379,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_state(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_unit_state_in: PatrolUnitStateIn,
+        patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7367,15 +7392,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolUnitOut:
+    ) -> PatrolPatrolUnitOut:
         """Moves a unit between states — on shift, on a break, off, or in trouble.
 
         Moves a unit between states — on shift, on a break, off, or in trouble. An officer may move only their own unit; the control room may move any.
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_unit_state_in: (required)
-        :type patrol_unit_state_in: PatrolUnitStateIn
+        :param patrol_patrol_unit_state_in: (required)
+        :type patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7400,7 +7425,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_state_serialize(
             name=name,
-            patrol_unit_state_in=patrol_unit_state_in,
+            patrol_patrol_unit_state_in=patrol_patrol_unit_state_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7408,7 +7433,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitOut",
+            '200': "PatrolPatrolUnitOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7425,7 +7450,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_state_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_unit_state_in: PatrolUnitStateIn,
+        patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7438,15 +7463,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolUnitOut]:
+    ) -> ApiResponse[PatrolPatrolUnitOut]:
         """Moves a unit between states — on shift, on a break, off, or in trouble.
 
         Moves a unit between states — on shift, on a break, off, or in trouble. An officer may move only their own unit; the control room may move any.
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_unit_state_in: (required)
-        :type patrol_unit_state_in: PatrolUnitStateIn
+        :param patrol_patrol_unit_state_in: (required)
+        :type patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7471,7 +7496,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_state_serialize(
             name=name,
-            patrol_unit_state_in=patrol_unit_state_in,
+            patrol_patrol_unit_state_in=patrol_patrol_unit_state_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7479,7 +7504,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitOut",
+            '200': "PatrolPatrolUnitOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7496,7 +7521,7 @@ class PatrolApi:
     def post_patrol_unit_by_name_state_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the unit's call sign, from the path.")],
-        patrol_unit_state_in: PatrolUnitStateIn,
+        patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7516,8 +7541,8 @@ class PatrolApi:
 
         :param name: Name is the unit's call sign, from the path. (required)
         :type name: str
-        :param patrol_unit_state_in: (required)
-        :type patrol_unit_state_in: PatrolUnitStateIn
+        :param patrol_patrol_unit_state_in: (required)
+        :type patrol_patrol_unit_state_in: PatrolPatrolUnitStateIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7542,7 +7567,7 @@ class PatrolApi:
 
         _param = self._post_patrol_unit_by_name_state_serialize(
             name=name,
-            patrol_unit_state_in=patrol_unit_state_in,
+            patrol_patrol_unit_state_in=patrol_patrol_unit_state_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7550,7 +7575,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolUnitOut",
+            '200': "PatrolPatrolUnitOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7562,7 +7587,7 @@ class PatrolApi:
     def _post_patrol_unit_by_name_state_serialize(
         self,
         name,
-        patrol_unit_state_in,
+        patrol_patrol_unit_state_in,
         _request_auth,
         _content_type,
         _headers,
@@ -7590,15 +7615,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_unit_state_in is not None:
-            _body_params = patrol_unit_state_in
+        if patrol_patrol_unit_state_in is not None:
+            _body_params = patrol_patrol_unit_state_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7643,7 +7669,7 @@ class PatrolApi:
     def put_patrol_site_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the site's document name, from the path.")],
-        patrol_site_edit: PatrolSiteEdit,
+        patrol_patrol_site_edit: PatrolPatrolSiteEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7656,15 +7682,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PatrolSiteOut:
+    ) -> PatrolPatrolSiteOut:
         """Changes a site's contract and brief fields.
 
         Changes a site's contract and brief fields. It leaves absent fields as they stand, and it never moves the account number, the coordinates or the customer — those are register facts, changed through the framework surface.
 
         :param name: Name is the site's document name, from the path. (required)
         :type name: str
-        :param patrol_site_edit: (required)
-        :type patrol_site_edit: PatrolSiteEdit
+        :param patrol_patrol_site_edit: (required)
+        :type patrol_patrol_site_edit: PatrolPatrolSiteEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7689,7 +7715,7 @@ class PatrolApi:
 
         _param = self._put_patrol_site_by_name_serialize(
             name=name,
-            patrol_site_edit=patrol_site_edit,
+            patrol_patrol_site_edit=patrol_patrol_site_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7697,7 +7723,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7714,7 +7740,7 @@ class PatrolApi:
     def put_patrol_site_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the site's document name, from the path.")],
-        patrol_site_edit: PatrolSiteEdit,
+        patrol_patrol_site_edit: PatrolPatrolSiteEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7727,15 +7753,15 @@ class PatrolApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PatrolSiteOut]:
+    ) -> ApiResponse[PatrolPatrolSiteOut]:
         """Changes a site's contract and brief fields.
 
         Changes a site's contract and brief fields. It leaves absent fields as they stand, and it never moves the account number, the coordinates or the customer — those are register facts, changed through the framework surface.
 
         :param name: Name is the site's document name, from the path. (required)
         :type name: str
-        :param patrol_site_edit: (required)
-        :type patrol_site_edit: PatrolSiteEdit
+        :param patrol_patrol_site_edit: (required)
+        :type patrol_patrol_site_edit: PatrolPatrolSiteEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7760,7 +7786,7 @@ class PatrolApi:
 
         _param = self._put_patrol_site_by_name_serialize(
             name=name,
-            patrol_site_edit=patrol_site_edit,
+            patrol_patrol_site_edit=patrol_patrol_site_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7768,7 +7794,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7785,7 +7811,7 @@ class PatrolApi:
     def put_patrol_site_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the site's document name, from the path.")],
-        patrol_site_edit: PatrolSiteEdit,
+        patrol_patrol_site_edit: PatrolPatrolSiteEdit,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7805,8 +7831,8 @@ class PatrolApi:
 
         :param name: Name is the site's document name, from the path. (required)
         :type name: str
-        :param patrol_site_edit: (required)
-        :type patrol_site_edit: PatrolSiteEdit
+        :param patrol_patrol_site_edit: (required)
+        :type patrol_patrol_site_edit: PatrolPatrolSiteEdit
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7831,7 +7857,7 @@ class PatrolApi:
 
         _param = self._put_patrol_site_by_name_serialize(
             name=name,
-            patrol_site_edit=patrol_site_edit,
+            patrol_patrol_site_edit=patrol_patrol_site_edit,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7839,7 +7865,7 @@ class PatrolApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PatrolSiteOut",
+            '200': "PatrolPatrolSiteOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7851,7 +7877,7 @@ class PatrolApi:
     def _put_patrol_site_by_name_serialize(
         self,
         name,
-        patrol_site_edit,
+        patrol_patrol_site_edit,
         _request_auth,
         _content_type,
         _headers,
@@ -7879,15 +7905,16 @@ class PatrolApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patrol_site_edit is not None:
-            _body_params = patrol_site_edit
+        if patrol_patrol_site_edit is not None:
+            _body_params = patrol_patrol_site_edit
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

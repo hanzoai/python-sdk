@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.indexers_out import IndexersOut
-from hanzoai.cloud.models.oracles_out import OraclesOut
+from hanzoai.cloud.models.explorer_indexers_out import ExplorerIndexersOut
+from hanzoai.cloud.models.explorer_oracles_out import ExplorerOraclesOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class ExplorerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexersOut:
+    ) -> ExplorerIndexersOut:
         """Reports the deployment's chain indexer(s) and how far each has indexed.
 
         Reports the deployment's chain indexer(s) and how far each has indexed. Identity and health come from the indexer's /health; the latest indexed block (height + time) from its /v1/explorer/blocks. The row EXISTS if EITHER call reaches the indexer; when the indexer is entirely unreachable the answer degrades to an honest-EMPTY list at 200, not a 502. No chain HEAD is exposed by the indexer REST, so `lag` is honestly omitted rather than fabricated.
@@ -87,7 +87,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexersOut",
+            '200': "ExplorerIndexersOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +115,7 @@ class ExplorerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexersOut]:
+    ) -> ApiResponse[ExplorerIndexersOut]:
         """Reports the deployment's chain indexer(s) and how far each has indexed.
 
         Reports the deployment's chain indexer(s) and how far each has indexed. Identity and health come from the indexer's /health; the latest indexed block (height + time) from its /v1/explorer/blocks. The row EXISTS if EITHER call reaches the indexer; when the indexer is entirely unreachable the answer degrades to an honest-EMPTY list at 200, not a 502. No chain HEAD is exposed by the indexer REST, so `lag` is honestly omitted rather than fabricated.
@@ -150,7 +150,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexersOut",
+            '200': "ExplorerIndexersOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -213,7 +213,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexersOut",
+            '200': "ExplorerIndexersOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -255,7 +255,8 @@ class ExplorerApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -298,7 +299,7 @@ class ExplorerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OraclesOut:
+    ) -> ExplorerOraclesOut:
         """Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry.
 
         Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry. A reachable graph with no feeds answers an honest empty list; an unreachable or erroring graph likewise degrades to an empty list at 200 rather than a 502, so the console never error-toasts. No feed is ever fabricated.
@@ -333,7 +334,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OraclesOut",
+            '200': "ExplorerOraclesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -361,7 +362,7 @@ class ExplorerApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OraclesOut]:
+    ) -> ApiResponse[ExplorerOraclesOut]:
         """Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry.
 
         Reports the on-chain price/data oracles from the graph's O-Chain PriceFeed registry. A reachable graph with no feeds answers an honest empty list; an unreachable or erroring graph likewise degrades to an empty list at 200 rather than a 502, so the console never error-toasts. No feed is ever fabricated.
@@ -396,7 +397,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OraclesOut",
+            '200': "ExplorerOraclesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -459,7 +460,7 @@ class ExplorerApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OraclesOut",
+            '200': "ExplorerOraclesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,8 @@ class ExplorerApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

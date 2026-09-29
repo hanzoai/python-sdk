@@ -16,23 +16,43 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBytes, StrictInt, StrictStr
+from pydantic import Field, StrictBool, StrictBytes, StrictInt, StrictStr
 from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from hanzoai.cloud.models.collab_request import CollabRequest
-from hanzoai.cloud.models.collab_result import CollabResult
 from hanzoai.cloud.models.cookie_ack import CookieAck
-from hanzoai.cloud.models.plan_info import PlanInfo
-from hanzoai.cloud.models.provider_info import ProviderInfo
-from hanzoai.cloud.models.public_rooms import PublicRooms
-from hanzoai.cloud.models.stats_out import StatsOut
-from hanzoai.cloud.models.team_message import TeamMessage
-from hanzoai.cloud.models.team_message_write import TeamMessageWrite
-from hanzoai.cloud.models.team_messages import TeamMessages
-from hanzoai.cloud.models.team_room import TeamRoom
-from hanzoai.cloud.models.team_room_bind import TeamRoomBind
-from hanzoai.cloud.models.team_room_new import TeamRoomNew
-from hanzoai.cloud.models.team_rooms import TeamRooms
+from hanzoai.cloud.models.team_collab_request import TeamCollabRequest
+from hanzoai.cloud.models.team_collab_result import TeamCollabResult
+from hanzoai.cloud.models.team_cookie_ack import TeamCookieAck
+from hanzoai.cloud.models.team_plan_info import TeamPlanInfo
+from hanzoai.cloud.models.team_provider_info import TeamProviderInfo
+from hanzoai.cloud.models.team_public_rooms import TeamPublicRooms
+from hanzoai.cloud.models.team_stats_out import TeamStatsOut
+from hanzoai.cloud.models.team_team_comment_write import TeamTeamCommentWrite
+from hanzoai.cloud.models.team_team_direct import TeamTeamDirect
+from hanzoai.cloud.models.team_team_direct_open import TeamTeamDirectOpen
+from hanzoai.cloud.models.team_team_doc import TeamTeamDoc
+from hanzoai.cloud.models.team_team_doc_edit import TeamTeamDocEdit
+from hanzoai.cloud.models.team_team_doc_new import TeamTeamDocNew
+from hanzoai.cloud.models.team_team_docs import TeamTeamDocs
+from hanzoai.cloud.models.team_team_inbox import TeamTeamInbox
+from hanzoai.cloud.models.team_team_inbox_all import TeamTeamInboxAll
+from hanzoai.cloud.models.team_team_inbox_at import TeamTeamInboxAt
+from hanzoai.cloud.models.team_team_inbox_cleared import TeamTeamInboxCleared
+from hanzoai.cloud.models.team_team_inbox_item import TeamTeamInboxItem
+from hanzoai.cloud.models.team_team_members import TeamTeamMembers
+from hanzoai.cloud.models.team_team_message import TeamTeamMessage
+from hanzoai.cloud.models.team_team_message_edit import TeamTeamMessageEdit
+from hanzoai.cloud.models.team_team_message_write import TeamTeamMessageWrite
+from hanzoai.cloud.models.team_team_messages import TeamTeamMessages
+from hanzoai.cloud.models.team_team_reaction_write import TeamTeamReactionWrite
+from hanzoai.cloud.models.team_team_reply_write import TeamTeamReplyWrite
+from hanzoai.cloud.models.team_team_room import TeamTeamRoom
+from hanzoai.cloud.models.team_team_room_bind import TeamTeamRoomBind
+from hanzoai.cloud.models.team_team_room_edit import TeamTeamRoomEdit
+from hanzoai.cloud.models.team_team_room_join import TeamTeamRoomJoin
+from hanzoai.cloud.models.team_team_room_members import TeamTeamRoomMembers
+from hanzoai.cloud.models.team_team_room_new import TeamTeamRoomNew
+from hanzoai.cloud.models.team_team_rooms import TeamTeamRooms
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -67,7 +87,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CookieAck:
+    ) -> TeamCookieAck:
         """Signs this browser out of team by expiring the HttpOnly account-token cookie the OAuth callback set.
 
         Signs this browser out of team by expiring the HttpOnly account-token cookie the OAuth callback set. It is the counterpart of the cookie PUT, it takes nothing — the cookie it clears is named by this service, never by the caller — and it is unconditional: a caller with no cookie, an expired one or a forged one all get the same acknowledgement, because clearing something that is not there is the same outcome as clearing something that is.  It clears ONLY the team session cookie. The IAM access-token cookie the same callback set is a different credential with a different lifetime and is left alone, so this is a team sign-out, not a platform one.
@@ -102,7 +122,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CookieAck",
+            '200': "TeamCookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -130,7 +150,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CookieAck]:
+    ) -> ApiResponse[TeamCookieAck]:
         """Signs this browser out of team by expiring the HttpOnly account-token cookie the OAuth callback set.
 
         Signs this browser out of team by expiring the HttpOnly account-token cookie the OAuth callback set. It is the counterpart of the cookie PUT, it takes nothing — the cookie it clears is named by this service, never by the caller — and it is unconditional: a caller with no cookie, an expired one or a forged one all get the same acknowledgement, because clearing something that is not there is the same outcome as clearing something that is.  It clears ONLY the team session cookie. The IAM access-token cookie the same callback set is a different credential with a different lifetime and is left alone, so this is a team sign-out, not a platform one.
@@ -165,7 +185,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CookieAck",
+            '200': "TeamCookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -228,7 +248,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CookieAck",
+            '200': "TeamCookieAck",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -270,7 +290,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -283,6 +304,284 @@ class TeamApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/team/account/cookie',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_team_docs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it.
+
+        Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it. Its author, an owner of its teamspace or an admin of the space may delete it. Answers 204.  The document model has no archived state for a page (only a teamspace can be archived), so there is nothing softer to offer here than removal.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_team_docs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it.
+
+        Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it. Its author, an owner of its teamspace or an admin of the space may delete it. Answers 204.  The document model has no archived state for a page (only a teamspace can be archived), so there is nothing softer to offer here than removal.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_team_docs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it.
+
+        Removes a document with everything nested under it and every comment on any of them — the Team client's own delete, which takes the subtree with it. Its author, an owner of its teamspace or an admin of the space may delete it. Answers 204.  The document model has no archived state for a page (only a teamspace can be archived), so there is nothing softer to offer here than removal.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_team_docs_by_id_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/team/docs/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -559,6 +858,13 @@ class TeamApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -569,6 +875,871 @@ class TeamApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/team/files/{space}/{filename}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_team_messages_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Removes a message, with its replies, reactions, files and the inbox notifications that point at it.
+
+        Removes a message, with its replies, reactions, files and the inbox notifications that point at it. Its author may delete it, and so may an owner or admin of the space.  Each removal is a platform remove through the Team client's write path, so the message disappears from every open client live. Answers 204.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_team_messages_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Removes a message, with its replies, reactions, files and the inbox notifications that point at it.
+
+        Removes a message, with its replies, reactions, files and the inbox notifications that point at it. Its author may delete it, and so may an owner or admin of the space.  Each removal is a platform remove through the Team client's write path, so the message disappears from every open client live. Answers 204.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_team_messages_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Removes a message, with its replies, reactions, files and the inbox notifications that point at it.
+
+        Removes a message, with its replies, reactions, files and the inbox notifications that point at it. Its author may delete it, and so may an owner or admin of the space.  Each removal is a platform remove through the Team client's write path, so the message disappears from every open client live. Answers 204.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_team_messages_by_id_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/team/messages/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_team_messages_by_id_reactions_by_emoji(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the message.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessage:
+        """Takes back the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Takes back the caller's reaction to a message and answers the message with its reactions as they now stand. Taking back a reaction the caller never made changes nothing and is not an error.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param space: Space names the space holding the message.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_team_messages_by_id_reactions_by_emoji_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the message.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Takes back the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Takes back the caller's reaction to a message and answers the message with its reactions as they now stand. Taking back a reaction the caller never made changes nothing and is not an error.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param space: Space names the space holding the message.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_team_messages_by_id_reactions_by_emoji_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the message.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes back the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Takes back the caller's reaction to a message and answers the message with its reactions as they now stand. Taking back a reaction the caller never made changes nothing and is not an error.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param space: Space names the space holding the message.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_team_messages_by_id_reactions_by_emoji_serialize(
+        self,
+        id,
+        emoji,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if emoji is not None:
+            _path_params['emoji'] = emoji
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/team/messages/{id}/reactions/{emoji}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_team_rooms_by_id_members_by_account(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        account: Annotated[StrictStr, Field(description="Account is the account uuid to remove, from the path. Your own is leaving.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding the room.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Takes one person out of a room — the caller leaving, when the account is their own.
+
+        Takes one person out of a room — the caller leaving, when the account is their own. Removing somebody else takes owning the room or administering the space. Leaving a room you are not in, or removing somebody who is not there, changes nothing. A direct message cannot be left: its people are what it is. Answers 204.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param account: Account is the account uuid to remove, from the path. Your own is leaving. (required)
+        :type account: str
+        :param space: Space is the space uuid holding the room.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_rooms_by_id_members_by_account_serialize(
+            id=id,
+            account=account,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_team_rooms_by_id_members_by_account_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        account: Annotated[StrictStr, Field(description="Account is the account uuid to remove, from the path. Your own is leaving.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding the room.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Takes one person out of a room — the caller leaving, when the account is their own.
+
+        Takes one person out of a room — the caller leaving, when the account is their own. Removing somebody else takes owning the room or administering the space. Leaving a room you are not in, or removing somebody who is not there, changes nothing. A direct message cannot be left: its people are what it is. Answers 204.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param account: Account is the account uuid to remove, from the path. Your own is leaving. (required)
+        :type account: str
+        :param space: Space is the space uuid holding the room.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_rooms_by_id_members_by_account_serialize(
+            id=id,
+            account=account,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_team_rooms_by_id_members_by_account_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        account: Annotated[StrictStr, Field(description="Account is the account uuid to remove, from the path. Your own is leaving.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding the room.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes one person out of a room — the caller leaving, when the account is their own.
+
+        Takes one person out of a room — the caller leaving, when the account is their own. Removing somebody else takes owning the room or administering the space. Leaving a room you are not in, or removing somebody who is not there, changes nothing. A direct message cannot be left: its people are what it is. Answers 204.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param account: Account is the account uuid to remove, from the path. Your own is leaving. (required)
+        :type account: str
+        :param space: Space is the space uuid holding the room.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_team_rooms_by_id_members_by_account_serialize(
+            id=id,
+            account=account,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_team_rooms_by_id_members_by_account_serialize(
+        self,
+        id,
+        account,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if account is not None:
+            _path_params['account'] = account
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/team/rooms/{id}/members/{account}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1101,7 +2272,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProviderInfo]:
+    ) -> List[TeamProviderInfo]:
         """Returns the identity providers this deployment starts a login with.
 
         Returns the identity providers this deployment starts a login with. It is always exactly one — hanzo.id. Which identities that provider accepts (Google, GitHub, passkey, password) is IAM's question, answered on IAM's own page next to the identity check and the training-data consent that must precede a first session; listing them here would be a second place holding that answer, and the two drift the moment IAM gains or drops one.
@@ -1136,7 +2307,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderInfo]",
+            '200': "List[TeamProviderInfo]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1164,7 +2335,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProviderInfo]]:
+    ) -> ApiResponse[List[TeamProviderInfo]]:
         """Returns the identity providers this deployment starts a login with.
 
         Returns the identity providers this deployment starts a login with. It is always exactly one — hanzo.id. Which identities that provider accepts (Google, GitHub, passkey, password) is IAM's question, answered on IAM's own page next to the identity check and the training-data consent that must precede a first session; listing them here would be a second place holding that answer, and the two drift the moment IAM gains or drops one.
@@ -1199,7 +2370,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderInfo]",
+            '200': "List[TeamProviderInfo]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1262,7 +2433,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProviderInfo]",
+            '200': "List[TeamProviderInfo]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1304,7 +2475,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1347,7 +2519,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanInfo:
+    ) -> TeamPlanInfo:
         """Returns the plan and seat counts for the caller's OWN org, resolved from the VERIFIED team session token — never a client header.
 
         Returns the plan and seat counts for the caller's OWN org, resolved from the VERIFIED team session token — never a client header. Seats and guests are the org's distinct active human members (a bot member is not a seat); the plan comes from the licensing entitlement and is empty when that read is unavailable, so the page shows an honest dash rather than a fabricated tier. A caller with no verified session gets 401, and a real seat-read failure is a 502 rather than a false \"0 members\".
@@ -1382,7 +2554,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanInfo",
+            '200': "TeamPlanInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1410,7 +2582,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanInfo]:
+    ) -> ApiResponse[TeamPlanInfo]:
         """Returns the plan and seat counts for the caller's OWN org, resolved from the VERIFIED team session token — never a client header.
 
         Returns the plan and seat counts for the caller's OWN org, resolved from the VERIFIED team session token — never a client header. Seats and guests are the org's distinct active human members (a bot member is not a seat); the plan comes from the licensing entitlement and is empty when that read is unavailable, so the page shows an honest dash rather than a fabricated tier. A caller with no verified session gets 401, and a real seat-read failure is a 502 rather than a false \"0 members\".
@@ -1445,7 +2617,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanInfo",
+            '200': "TeamPlanInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1508,7 +2680,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanInfo",
+            '200': "TeamPlanInfo",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1550,7 +2722,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2061,6 +3234,1108 @@ class TeamApi:
 
 
     @validate_call
+    def get_team_docs(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        teamspace: Annotated[Optional[StrictStr], Field(description="Teamspace narrows the answer to one teamspace.")] = None,
+        parent: Annotated[Optional[StrictStr], Field(description="Parent narrows the answer to one document's children.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamDocs:
+        """Returns the documents of a space the caller may see, with the teamspaces they are grouped in.
+
+        Returns the documents of a space the caller may see, with the teamspaces they are grouped in.  These are the Team client's own document rows, so a page created there is here with no sync. Each carries the `collaborator` id its body opens with on the /v1/team/collaborator socket. A private teamspace's documents are listed only for its members.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param teamspace: Teamspace narrows the answer to one teamspace.
+        :type teamspace: str
+        :param parent: Parent narrows the answer to one document's children.
+        :type parent: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_serialize(
+            space=space,
+            teamspace=teamspace,
+            parent=parent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDocs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_docs_with_http_info(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        teamspace: Annotated[Optional[StrictStr], Field(description="Teamspace narrows the answer to one teamspace.")] = None,
+        parent: Annotated[Optional[StrictStr], Field(description="Parent narrows the answer to one document's children.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamDocs]:
+        """Returns the documents of a space the caller may see, with the teamspaces they are grouped in.
+
+        Returns the documents of a space the caller may see, with the teamspaces they are grouped in.  These are the Team client's own document rows, so a page created there is here with no sync. Each carries the `collaborator` id its body opens with on the /v1/team/collaborator socket. A private teamspace's documents are listed only for its members.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param teamspace: Teamspace narrows the answer to one teamspace.
+        :type teamspace: str
+        :param parent: Parent narrows the answer to one document's children.
+        :type parent: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_serialize(
+            space=space,
+            teamspace=teamspace,
+            parent=parent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDocs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_docs_without_preload_content(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        teamspace: Annotated[Optional[StrictStr], Field(description="Teamspace narrows the answer to one teamspace.")] = None,
+        parent: Annotated[Optional[StrictStr], Field(description="Parent narrows the answer to one document's children.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the documents of a space the caller may see, with the teamspaces they are grouped in.
+
+        Returns the documents of a space the caller may see, with the teamspaces they are grouped in.  These are the Team client's own document rows, so a page created there is here with no sync. Each carries the `collaborator` id its body opens with on the /v1/team/collaborator socket. A private teamspace's documents are listed only for its members.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param teamspace: Teamspace narrows the answer to one teamspace.
+        :type teamspace: str
+        :param parent: Parent narrows the answer to one document's children.
+        :type parent: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_serialize(
+            space=space,
+            teamspace=teamspace,
+            parent=parent,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDocs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_docs_serialize(
+        self,
+        space,
+        teamspace,
+        parent,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        if teamspace is not None:
+            
+            _query_params.append(('teamspace', teamspace))
+            
+        if parent is not None:
+            
+            _query_params.append(('parent', parent))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/docs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_docs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamDoc:
+        """Returns one document the caller may see.
+
+        Returns one document the caller may see.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_docs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamDoc]:
+        """Returns one document the caller may see.
+
+        Returns one document the caller may see.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_docs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns one document the caller may see.
+
+        Returns one document the caller may see.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_docs_by_id_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/docs/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_docs_by_id_comments(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessages:
+        """Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_comments_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_docs_by_id_comments_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessages]:
+        """Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_comments_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_docs_by_id_comments_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid holding it.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        Returns the comments on a document, oldest first — the same message shape a room's conversation answers.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param space: Space is the space uuid holding it.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_docs_by_id_comments_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_docs_by_id_comments_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/docs/{id}/comments',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_events(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> bytearray:
+        """Stream live changes to what the caller may see, as Server-Sent Events
+
+        Holds one text/event-stream open per caller and pushes each change as it is written — by the Team client, a typed op or an agent — filtered to the rooms, documents and inbox the caller may see under the same rule the ops apply. Authenticate with `Authorization: Bearer` (a fetch-based SSE reader; a browser EventSource cannot set it). `?space=` narrows the stream to one space; without it the stream covers every space the caller is a member of at connect.  Each frame is `event: <name>` and a JSON `data:` line carrying `space` and one of: - `message.created`, `message.updated` — `message`, the message as the message ops answer it (a room message, a thread reply or a document comment; a count or reaction change is an update); - `message.deleted` — `id`, and `room`/`doc`/`thread` where known; - `reaction.changed` — `message`, with its reactions as they now stand; - `room.changed` — `room`, as the room listing answers it, sent to those who can see it after the change (somebody removed from a private room is not told; the room list is the truth); - `doc.changed` — `doc`, as the document ops answer it (`removed: true` and `id` when deleted); body edits happen on the collaborator socket and are not streamed here; - `inbox.created`, `inbox.updated` — `item`, one of the caller's own notifications.  A `: ping` comment is written every 25 seconds. There is no resume: the server keeps no event sequence, so frames carry no `id` and Last-Event-ID is ignored; on reconnect, re-read the ops. A stream that falls too far behind is closed rather than allowed to slow a writer, and so is one whose caller is no longer a member of the space an event is in. 401 without a verified team credential; 404 for a named space the caller is not in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_events_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[bytearray]:
+        """Stream live changes to what the caller may see, as Server-Sent Events
+
+        Holds one text/event-stream open per caller and pushes each change as it is written — by the Team client, a typed op or an agent — filtered to the rooms, documents and inbox the caller may see under the same rule the ops apply. Authenticate with `Authorization: Bearer` (a fetch-based SSE reader; a browser EventSource cannot set it). `?space=` narrows the stream to one space; without it the stream covers every space the caller is a member of at connect.  Each frame is `event: <name>` and a JSON `data:` line carrying `space` and one of: - `message.created`, `message.updated` — `message`, the message as the message ops answer it (a room message, a thread reply or a document comment; a count or reaction change is an update); - `message.deleted` — `id`, and `room`/`doc`/`thread` where known; - `reaction.changed` — `message`, with its reactions as they now stand; - `room.changed` — `room`, as the room listing answers it, sent to those who can see it after the change (somebody removed from a private room is not told; the room list is the truth); - `doc.changed` — `doc`, as the document ops answer it (`removed: true` and `id` when deleted); body edits happen on the collaborator socket and are not streamed here; - `inbox.created`, `inbox.updated` — `item`, one of the caller's own notifications.  A `: ping` comment is written every 25 seconds. There is no resume: the server keeps no event sequence, so frames carry no `id` and Last-Event-ID is ignored; on reconnect, re-read the ops. A stream that falls too far behind is closed rather than allowed to slow a writer, and so is one whose caller is no longer a member of the space an event is in. 401 without a verified team credential; 404 for a named space the caller is not in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_events_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Stream live changes to what the caller may see, as Server-Sent Events
+
+        Holds one text/event-stream open per caller and pushes each change as it is written — by the Team client, a typed op or an agent — filtered to the rooms, documents and inbox the caller may see under the same rule the ops apply. Authenticate with `Authorization: Bearer` (a fetch-based SSE reader; a browser EventSource cannot set it). `?space=` narrows the stream to one space; without it the stream covers every space the caller is a member of at connect.  Each frame is `event: <name>` and a JSON `data:` line carrying `space` and one of: - `message.created`, `message.updated` — `message`, the message as the message ops answer it (a room message, a thread reply or a document comment; a count or reaction change is an update); - `message.deleted` — `id`, and `room`/`doc`/`thread` where known; - `reaction.changed` — `message`, with its reactions as they now stand; - `room.changed` — `room`, as the room listing answers it, sent to those who can see it after the change (somebody removed from a private room is not told; the room list is the truth); - `doc.changed` — `doc`, as the document ops answer it (`removed: true` and `id` when deleted); body edits happen on the collaborator socket and are not streamed here; - `inbox.created`, `inbox.updated` — `item`, one of the caller's own notifications.  A `: ping` comment is written every 25 seconds. There is no resume: the server keeps no event sequence, so frames carry no `id` and Last-Event-ID is ignored; on reconnect, re-read the ops. A stream that falls too far behind is closed rather than allowed to slow a writer, and so is one whose caller is no longer a member of the space an event is in. 401 without a verified team credential; 404 for a named space the caller is not in.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_events_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "bytearray",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_events_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'text/event-stream'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/events',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_team_files_by_space_by_filename(
         self,
         space: StrictStr,
@@ -2337,6 +4612,830 @@ class TeamApi:
 
 
     @validate_call
+    def get_team_inbox(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        archived: Annotated[Optional[StrictBool], Field(description="Archived lists the archived notifications instead of the live ones.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamInbox:
+        """Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.
+
+        Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.  These are the rows the Team client's Inbox reads, so a notification cleared there is cleared here. Only the caller's own notifications are ever listed.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param archived: Archived lists the archived notifications instead of the live ones.
+        :type archived: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_inbox_serialize(
+            space=space,
+            archived=archived,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInbox",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_inbox_with_http_info(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        archived: Annotated[Optional[StrictBool], Field(description="Archived lists the archived notifications instead of the live ones.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamInbox]:
+        """Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.
+
+        Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.  These are the rows the Team client's Inbox reads, so a notification cleared there is cleared here. Only the caller's own notifications are ever listed.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param archived: Archived lists the archived notifications instead of the live ones.
+        :type archived: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_inbox_serialize(
+            space=space,
+            archived=archived,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInbox",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_inbox_without_preload_content(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        archived: Annotated[Optional[StrictBool], Field(description="Archived lists the archived notifications instead of the live ones.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.
+
+        Returns the caller's notifications, newest first, each with the room or document it is about and the message that caused it.  These are the rows the Team client's Inbox reads, so a notification cleared there is cleared here. Only the caller's own notifications are ever listed.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param archived: Archived lists the archived notifications instead of the live ones.
+        :type archived: bool
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_inbox_serialize(
+            space=space,
+            archived=archived,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInbox",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_inbox_serialize(
+        self,
+        space,
+        archived,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        if archived is not None:
+            
+            _query_params.append(('archived', archived))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/inbox',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_members(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMembers:
+        """Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.
+
+        Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.  People come from IAM, the membership authority; agents from the org's agent registry; avatars from the Person documents the Team client edits. An IAM that does not answer is a 502 rather than an empty roster, and an agent registry that does not answer is named in `degraded` beside the people who did load. The caller must be a member of the space.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_members_serialize(
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_members_with_http_info(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMembers]:
+        """Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.
+
+        Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.  People come from IAM, the membership authority; agents from the org's agent registry; avatars from the Person documents the Team client edits. An IAM that does not answer is a 502 rather than an empty roster, and an agent registry that does not answer is named in `degraded` beside the people who did load. The caller must be a member of the space.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_members_serialize(
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_members_without_preload_content(
+        self,
+        space: Annotated[Optional[StrictStr], Field(description="Space is the space uuid. Optional for a caller in exactly one space.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.
+
+        Returns the people and agents in a space, with the name, avatar, role and presence a client draws them with.  People come from IAM, the membership authority; agents from the org's agent registry; avatars from the Person documents the Team client edits. An IAM that does not answer is a 502 rather than an empty roster, and an agent registry that does not answer is named in `degraded` beside the people who did load. The caller must be a member of the space.
+
+        :param space: Space is the space uuid. Optional for a caller in exactly one space.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_members_serialize(
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_members_serialize(
+        self,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/members',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_messages_by_id_replies(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessages:
+        """Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_messages_by_id_replies_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_messages_by_id_replies_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessages]:
+        """Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_messages_by_id_replies_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_messages_by_id_replies_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding it. A message id is unique within a space, not across the org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        Returns a message's thread, oldest first, each reply with its reactions and files.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param space: Space names the space holding it. A message id is unique within a space, not across the org.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_messages_by_id_replies_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessages",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_messages_by_id_replies_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/messages/{id}/replies',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_team_public(
         self,
         q: Annotated[Optional[StrictStr], Field(description="Q matches a room's name or its topic.")] = None,
@@ -2354,7 +5453,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PublicRooms:
+    ) -> TeamPublicRooms:
         """Lists the rooms orgs have published, across every org.
 
         Lists the rooms orgs have published, across every org.  It is NOT part of GET /rooms, and the separation is the point: that address answers the CALLER'S rooms, so folding these in would put strangers' channels in somebody's own sidebar.  It reads the directory and never a tenant's store. Every field it can answer with is one an org published by making a room public, so there is nothing here to scope by org — a directory only its own org can read is not a directory. An authenticated principal is still required, because an anonymous crawler is not who this is for.
@@ -2398,7 +5497,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublicRooms",
+            '200': "TeamPublicRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2429,7 +5528,7 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PublicRooms]:
+    ) -> ApiResponse[TeamPublicRooms]:
         """Lists the rooms orgs have published, across every org.
 
         Lists the rooms orgs have published, across every org.  It is NOT part of GET /rooms, and the separation is the point: that address answers the CALLER'S rooms, so folding these in would put strangers' channels in somebody's own sidebar.  It reads the directory and never a tenant's store. Every field it can answer with is one an org published by making a room public, so there is nothing here to scope by org — a directory only its own org can read is not a directory. An authenticated principal is still required, because an anonymous crawler is not who this is for.
@@ -2473,7 +5572,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublicRooms",
+            '200': "TeamPublicRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2548,7 +5647,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublicRooms",
+            '200': "TeamPublicRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2605,7 +5704,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2648,10 +5748,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TeamRooms:
-        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
+    ) -> TeamTeamRooms:
+        """Returns the rooms the caller may see, with the kind and work facet each carries.
 
-        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns the rooms the caller may see, with the kind and work facet each carries.  A signed-in TEAM MEMBER reads every room of every space they are in that is open to them: public channels, and the private channels and direct messages that name them. An APPLICATION of the org (its own machine credential) reads the public channels of the org's spaces and nothing that belongs to particular people. Anybody else without a team session is 401.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2683,7 +5783,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRooms",
+            '200': "TeamTeamRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2711,10 +5811,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TeamRooms]:
-        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
+    ) -> ApiResponse[TeamTeamRooms]:
+        """Returns the rooms the caller may see, with the kind and work facet each carries.
 
-        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns the rooms the caller may see, with the kind and work facet each carries.  A signed-in TEAM MEMBER reads every room of every space they are in that is open to them: public channels, and the private channels and direct messages that name them. An APPLICATION of the org (its own machine credential) reads the public channels of the org's spaces and nothing that belongs to particular people. Anybody else without a team session is 401.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2746,7 +5846,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRooms",
+            '200': "TeamTeamRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2775,9 +5875,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.
+        """Returns the rooms the caller may see, with the kind and work facet each carries.
 
-        Returns every room of the caller's org, across the spaces it owns, with the work facet each carries.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document. Direct messages are included: a room between two people is a room with no name, not a different kind of thing.
+        Returns the rooms the caller may see, with the kind and work facet each carries.  A signed-in TEAM MEMBER reads every room of every space they are in that is open to them: public channels, and the private channels and direct messages that name them. An APPLICATION of the org (its own machine credential) reads the public channels of the org's spaces and nothing that belongs to particular people. Anybody else without a team session is 401.  It reads the SAME Chunter documents the transactor serves, so a room opened in the Team client appears here with no sync, and a facet written here is read by anything holding the document.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2809,7 +5909,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRooms",
+            '200': "TeamTeamRooms",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2851,7 +5951,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2864,6 +5965,285 @@ class TeamApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/team/rooms',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_team_rooms_by_id_members(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamRoomMembers:
+        """Returns the people and agents in one room, as the roster describes them.
+
+        Returns the people and agents in one room, as the roster describes them. The caller must be able to see the room.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_members_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoomMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_team_rooms_by_id_members_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamRoomMembers]:
+        """Returns the people and agents in one room, as the roster describes them.
+
+        Returns the people and agents in one room, as the roster describes them. The caller must be able to see the room.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_members_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoomMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_team_rooms_by_id_members_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path. The URL is the authority.")],
+        space: Annotated[Optional[StrictStr], Field(description="Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns the people and agents in one room, as the roster describes them.
+
+        Returns the people and agents in one room, as the roster describes them. The caller must be able to see the room.
+
+        :param id: ID is the room, from the path. The URL is the authority. (required)
+        :type id: str
+        :param space: Space names the space holding the room, and is required for the reason the bind op requires it: a room id is unique within a space and not across the org, so searching every space for a match would make the answer depend on iteration order.
+        :type space: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_team_rooms_by_id_members_serialize(
+            id=id,
+            space=space,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoomMembers",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_team_rooms_by_id_members_serialize(
+        self,
+        id,
+        space,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        if space is not None:
+            
+            _query_params.append(('space', space))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/team/rooms/{id}/members',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2896,10 +6276,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TeamMessages:
-        """Returns the tail of one room's conversation, oldest first.
+    ) -> TeamTeamMessages:
+        """Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.
 
-        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+        Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A team member reads any room they may see; an application of the org reads public channels only; anybody else without a team session is 401. A room the caller may not read answers 404 rather than 403, so a probe learns nothing about what exists.
 
         :param id: ID is the room, from the path. The URL is the authority. (required)
         :type id: str
@@ -2937,7 +6317,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamMessages",
+            '200': "TeamTeamMessages",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2967,10 +6347,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TeamMessages]:
-        """Returns the tail of one room's conversation, oldest first.
+    ) -> ApiResponse[TeamTeamMessages]:
+        """Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.
 
-        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+        Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A team member reads any room they may see; an application of the org reads public channels only; anybody else without a team session is 401. A room the caller may not read answers 404 rather than 403, so a probe learns nothing about what exists.
 
         :param id: ID is the room, from the path. The URL is the authority. (required)
         :type id: str
@@ -3008,7 +6388,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamMessages",
+            '200': "TeamTeamMessages",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3039,9 +6419,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the tail of one room's conversation, oldest first.
+        """Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.
 
-        Returns the tail of one room's conversation, oldest first.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A room the caller's org does not own answers 404 rather than 403, so a probe learns nothing about what exists.
+        Returns the tail of one room's conversation, oldest first, each message with its reactions, files and thread count.  It reads the SAME Chunter documents the transactor serves, so a message typed in the Team client is here with no sync. A team member reads any room they may see; an application of the org reads public channels only; anybody else without a team session is 401. A room the caller may not read answers 404 rather than 403, so a probe learns nothing about what exists.
 
         :param id: ID is the room, from the path. The URL is the authority. (required)
         :type id: str
@@ -3079,7 +6459,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamMessages",
+            '200': "TeamTeamMessages",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3129,7 +6509,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3424,10 +6805,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StatsOut:
-        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
+    ) -> TeamStatsOut:
+        """Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
         :param token: Token is the space token minted by selectWorkspace.
         :type token: str
@@ -3462,7 +6843,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatsOut",
+            '200': "TeamStatsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3491,10 +6872,10 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StatsOut]:
-        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
+    ) -> ApiResponse[TeamStatsOut]:
+        """Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
         :param token: Token is the space token minted by selectWorkspace.
         :type token: str
@@ -3529,7 +6910,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatsOut",
+            '200': "TeamStatsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3559,9 +6940,9 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
+        """Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base.
 
-        Statistics returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
+        Returns the transactor's live sessions for the space the caller's credential names — the endpoint the front's space switcher and server panel poll on the transactor base. `token` carries the same two lanes the socket's path segment does: a space UUID names the space and is authorized against the membership rows, an HS256 space token names it in its signed claims. activeSessions carries ONLY that one space, never another tenant's sessions. An unverifiable credential, or one the caller is no member under, is 401.
 
         :param token: Token is the space token minted by selectWorkspace.
         :type token: str
@@ -3596,7 +6977,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StatsOut",
+            '200': "TeamStatsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3643,7 +7024,8 @@ class TeamApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3656,6 +7038,876 @@ class TeamApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/team/transactor/statistics',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_team_docs_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_doc_edit: TeamTeamDocEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamDoc:
+        """Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.
+
+        Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.  Anyone who can write the teamspace may rename or move a page, as in the Team client. A move goes after its new siblings, and a document cannot be moved under itself or under one of its own descendants.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_doc_edit: (required)
+        :type team_team_doc_edit: TeamTeamDocEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_docs_by_id_serialize(
+            id=id,
+            team_team_doc_edit=team_team_doc_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_team_docs_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_doc_edit: TeamTeamDocEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamDoc]:
+        """Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.
+
+        Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.  Anyone who can write the teamspace may rename or move a page, as in the Team client. A move goes after its new siblings, and a document cannot be moved under itself or under one of its own descendants.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_doc_edit: (required)
+        :type team_team_doc_edit: TeamTeamDocEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_docs_by_id_serialize(
+            id=id,
+            team_team_doc_edit=team_team_doc_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_team_docs_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_doc_edit: TeamTeamDocEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.
+
+        Renames a document or moves it — under another document, to the top of its teamspace, or to another teamspace with everything nested under it.  Anyone who can write the teamspace may rename or move a page, as in the Team client. A move goes after its new siblings, and a document cannot be moved under itself or under one of its own descendants.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_doc_edit: (required)
+        :type team_team_doc_edit: TeamTeamDocEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_docs_by_id_serialize(
+            id=id,
+            team_team_doc_edit=team_team_doc_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_team_docs_by_id_serialize(
+        self,
+        id,
+        team_team_doc_edit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_doc_edit is not None:
+            _body_params = team_team_doc_edit
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/team/docs/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_team_messages_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        team_team_message_edit: TeamTeamMessageEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessage:
+        """Rewrites what a message says.
+
+        Rewrites what a message says. Only its author may edit it.  The edit is an ordinary update of the message document through the Team client's own write path, stamped with editedOn, so an open client shows the new text and the \"edited\" mark live. Somebody the new text mentions for the first time is notified.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param team_team_message_edit: (required)
+        :type team_team_message_edit: TeamTeamMessageEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_messages_by_id_serialize(
+            id=id,
+            team_team_message_edit=team_team_message_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_team_messages_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        team_team_message_edit: TeamTeamMessageEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Rewrites what a message says.
+
+        Rewrites what a message says. Only its author may edit it.  The edit is an ordinary update of the message document through the Team client's own write path, stamped with editedOn, so an open client shows the new text and the \"edited\" mark live. Somebody the new text mentions for the first time is notified.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param team_team_message_edit: (required)
+        :type team_team_message_edit: TeamTeamMessageEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_messages_by_id_serialize(
+            id=id,
+            team_team_message_edit=team_team_message_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_team_messages_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        team_team_message_edit: TeamTeamMessageEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rewrites what a message says.
+
+        Rewrites what a message says. Only its author may edit it.  The edit is an ordinary update of the message document through the Team client's own write path, stamped with editedOn, so an open client shows the new text and the \"edited\" mark live. Somebody the new text mentions for the first time is notified.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param team_team_message_edit: (required)
+        :type team_team_message_edit: TeamTeamMessageEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_messages_by_id_serialize(
+            id=id,
+            team_team_message_edit=team_team_message_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_team_messages_by_id_serialize(
+        self,
+        id,
+        team_team_message_edit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_message_edit is not None:
+            _body_params = team_team_message_edit
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/team/messages/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_team_rooms_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_edit: TeamTeamRoomEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamRoom:
+        """Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.
+
+        Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.  Its owners and the space's admins may edit a room; a room nobody owns — one opened by an integration — may be edited by anyone in it, and a direct message by either person in it. Archiving withdraws a public channel from the cross-org directory in the same write; reopening lists it again.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param team_team_room_edit: (required)
+        :type team_team_room_edit: TeamTeamRoomEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_rooms_by_id_serialize(
+            id=id,
+            team_team_room_edit=team_team_room_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_team_rooms_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_edit: TeamTeamRoomEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamRoom]:
+        """Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.
+
+        Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.  Its owners and the space's admins may edit a room; a room nobody owns — one opened by an integration — may be edited by anyone in it, and a direct message by either person in it. Archiving withdraws a public channel from the cross-org directory in the same write; reopening lists it again.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param team_team_room_edit: (required)
+        :type team_team_room_edit: TeamTeamRoomEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_rooms_by_id_serialize(
+            id=id,
+            team_team_room_edit=team_team_room_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_team_rooms_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_edit: TeamTeamRoomEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.
+
+        Renames a channel, sets its topic, or archives or reopens it, and answers the room as it now stands.  Its owners and the space's admins may edit a room; a room nobody owns — one opened by an integration — may be edited by anyone in it, and a direct message by either person in it. Archiving withdraws a public channel from the cross-org directory in the same write; reopening lists it again.
+
+        :param id: ID is the room, from the path. (required)
+        :type id: str
+        :param team_team_room_edit: (required)
+        :type team_team_room_edit: TeamTeamRoomEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_team_rooms_by_id_serialize(
+            id=id,
+            team_team_room_edit=team_team_room_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_team_rooms_by_id_serialize(
+        self,
+        id,
+        team_team_room_edit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_room_edit is not None:
+            _body_params = team_team_room_edit
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/team/rooms/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -3911,7 +8163,7 @@ class TeamApi:
     def post_team_collaborator_rpc_by_documentid(
         self,
         document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
-        collab_request: CollabRequest,
+        team_collab_request: TeamCollabRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3924,15 +8176,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CollabResult:
+    ) -> TeamCollabResult:
         """CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.
 
         CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or space token: the documentId's space must be the token's space when the token names one, and the caller must be a member of it. An unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists.
 
         :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
-        :param collab_request: (required)
-        :type collab_request: CollabRequest
+        :param team_collab_request: (required)
+        :type team_collab_request: TeamCollabRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3957,7 +8209,7 @@ class TeamApi:
 
         _param = self._post_team_collaborator_rpc_by_documentid_serialize(
             document_id=document_id,
-            collab_request=collab_request,
+            team_collab_request=team_collab_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3965,7 +8217,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CollabResult",
+            '200': "TeamCollabResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3982,7 +8234,7 @@ class TeamApi:
     def post_team_collaborator_rpc_by_documentid_with_http_info(
         self,
         document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
-        collab_request: CollabRequest,
+        team_collab_request: TeamCollabRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3995,15 +8247,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CollabResult]:
+    ) -> ApiResponse[TeamCollabResult]:
         """CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.
 
         CollabRPC is the collaborative-markup snapshot plane the Team front's editor speaks: createContent stores a document field's markup at a fresh, immutable blob ref and returns it, updateContent stores a new snapshot and answers nothing, and getContent reads back the exact snapshot a ref names.  createContent ALSO seeds the live-editing update log from the front-supplied Y.js update, so a dialog-authored description is visible in the collaborative editor — which replays that log — and not only in snapshot reads. updateContent never touches that log: peers may be live-editing the document, and their edits are not this call's to overwrite.  Every call is scoped to the caller's VERIFIED session or space token: the documentId's space must be the token's space when the token names one, and the caller must be a member of it. An unknown space, another tenant's space and a space the caller is not in all answer the same 404, so a probe learns nothing about what exists.
 
         :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
-        :param collab_request: (required)
-        :type collab_request: CollabRequest
+        :param team_collab_request: (required)
+        :type team_collab_request: TeamCollabRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4028,7 +8280,7 @@ class TeamApi:
 
         _param = self._post_team_collaborator_rpc_by_documentid_serialize(
             document_id=document_id,
-            collab_request=collab_request,
+            team_collab_request=team_collab_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4036,7 +8288,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CollabResult",
+            '200': "TeamCollabResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4053,7 +8305,7 @@ class TeamApi:
     def post_team_collaborator_rpc_by_documentid_without_preload_content(
         self,
         document_id: Annotated[StrictStr, Field(description="DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path.")],
-        collab_request: CollabRequest,
+        team_collab_request: TeamCollabRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4073,8 +8325,8 @@ class TeamApi:
 
         :param document_id: DocumentID addresses the document field, as \"<spaceUuid>|<objectClass>|<objectId>|<objectAttr>\" — the collaborator-client encodeDocumentId shape, from the path. (required)
         :type document_id: str
-        :param collab_request: (required)
-        :type collab_request: CollabRequest
+        :param team_collab_request: (required)
+        :type team_collab_request: TeamCollabRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4099,7 +8351,7 @@ class TeamApi:
 
         _param = self._post_team_collaborator_rpc_by_documentid_serialize(
             document_id=document_id,
-            collab_request=collab_request,
+            team_collab_request=team_collab_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4107,7 +8359,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CollabResult",
+            '200': "TeamCollabResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4119,7 +8371,7 @@ class TeamApi:
     def _post_team_collaborator_rpc_by_documentid_serialize(
         self,
         document_id,
-        collab_request,
+        team_collab_request,
         _request_auth,
         _content_type,
         _headers,
@@ -4147,15 +8399,16 @@ class TeamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if collab_request is not None:
-            _body_params = collab_request
+        if team_collab_request is not None:
+            _body_params = team_collab_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4181,6 +8434,849 @@ class TeamApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/team/collaborator/rpc/{documentId}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_dms(
+        self,
+        team_team_direct_open: TeamTeamDirectOpen,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamDirect:
+        """Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.
+
+        Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.  Every person named must be a member of the space or one of the org's agents; a direct message with an agent is a conversation it answers every message in, and a guest may not open one. Answers 201 when this call opened it and 200 when it was already there.
+
+        :param team_team_direct_open: (required)
+        :type team_team_direct_open: TeamTeamDirectOpen
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_dms_serialize(
+            team_team_direct_open=team_team_direct_open,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDirect",
+            '201': "TeamTeamDirect",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_dms_with_http_info(
+        self,
+        team_team_direct_open: TeamTeamDirectOpen,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamDirect]:
+        """Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.
+
+        Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.  Every person named must be a member of the space or one of the org's agents; a direct message with an agent is a conversation it answers every message in, and a guest may not open one. Answers 201 when this call opened it and 200 when it was already there.
+
+        :param team_team_direct_open: (required)
+        :type team_team_direct_open: TeamTeamDirectOpen
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_dms_serialize(
+            team_team_direct_open=team_team_direct_open,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDirect",
+            '201': "TeamTeamDirect",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_dms_without_preload_content(
+        self,
+        team_team_direct_open: TeamTeamDirectOpen,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.
+
+        Opens the direct message between the caller and the people named, or answers the one that already exists — there is one conversation per set of people, however many times it is asked for.  Every person named must be a member of the space or one of the org's agents; a direct message with an agent is a conversation it answers every message in, and a guest may not open one. Answers 201 when this call opened it and 200 when it was already there.
+
+        :param team_team_direct_open: (required)
+        :type team_team_direct_open: TeamTeamDirectOpen
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_dms_serialize(
+            team_team_direct_open=team_team_direct_open,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamDirect",
+            '201': "TeamTeamDirect",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_dms_serialize(
+        self,
+        team_team_direct_open,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_direct_open is not None:
+            _body_params = team_team_direct_open
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/dms',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_docs(
+        self,
+        team_team_doc_new: TeamTeamDocNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamDoc:
+        """Creates a document, as the caller, after its siblings.
+
+        Creates a document, as the caller, after its siblings.  It is created through the Team client's own write path, so it appears in an open Documents sidebar live, and its author is subscribed to it: a comment on it lands in their inbox. Its body starts empty — open the returned `collaborator` id on the /v1/team/collaborator socket to write it.  A space whose caller can write no teamspace at all gets one on its first document: a public \"General\" teamspace every current member of the space is in, which is what the Team client would otherwise make somebody create by hand before the first page. Guests and agents are not made members of it.
+
+        :param team_team_doc_new: (required)
+        :type team_team_doc_new: TeamTeamDocNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_serialize(
+            team_team_doc_new=team_team_doc_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_docs_with_http_info(
+        self,
+        team_team_doc_new: TeamTeamDocNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamDoc]:
+        """Creates a document, as the caller, after its siblings.
+
+        Creates a document, as the caller, after its siblings.  It is created through the Team client's own write path, so it appears in an open Documents sidebar live, and its author is subscribed to it: a comment on it lands in their inbox. Its body starts empty — open the returned `collaborator` id on the /v1/team/collaborator socket to write it.  A space whose caller can write no teamspace at all gets one on its first document: a public \"General\" teamspace every current member of the space is in, which is what the Team client would otherwise make somebody create by hand before the first page. Guests and agents are not made members of it.
+
+        :param team_team_doc_new: (required)
+        :type team_team_doc_new: TeamTeamDocNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_serialize(
+            team_team_doc_new=team_team_doc_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_docs_without_preload_content(
+        self,
+        team_team_doc_new: TeamTeamDocNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a document, as the caller, after its siblings.
+
+        Creates a document, as the caller, after its siblings.  It is created through the Team client's own write path, so it appears in an open Documents sidebar live, and its author is subscribed to it: a comment on it lands in their inbox. Its body starts empty — open the returned `collaborator` id on the /v1/team/collaborator socket to write it.  A space whose caller can write no teamspace at all gets one on its first document: a public \"General\" teamspace every current member of the space is in, which is what the Team client would otherwise make somebody create by hand before the first page. Guests and agents are not made members of it.
+
+        :param team_team_doc_new: (required)
+        :type team_team_doc_new: TeamTeamDocNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_serialize(
+            team_team_doc_new=team_team_doc_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamDoc",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_docs_serialize(
+        self,
+        team_team_doc_new,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_doc_new is not None:
+            _body_params = team_team_doc_new
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/docs',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_docs_by_id_comments(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_comment_write: TeamTeamCommentWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessage:
+        """Comments on a document, as the caller.
+
+        Comments on a document, as the caller.  It is a message attached to the document, written through the Team client's own path: the people subscribed to the document and anyone mentioned are notified, and an agent mentioned answers with a comment of its own. It can be replied to, reacted to, edited and deleted with the message ops.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_comment_write: (required)
+        :type team_team_comment_write: TeamTeamCommentWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_by_id_comments_serialize(
+            id=id,
+            team_team_comment_write=team_team_comment_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_docs_by_id_comments_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_comment_write: TeamTeamCommentWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Comments on a document, as the caller.
+
+        Comments on a document, as the caller.  It is a message attached to the document, written through the Team client's own path: the people subscribed to the document and anyone mentioned are notified, and an agent mentioned answers with a comment of its own. It can be replied to, reacted to, edited and deleted with the message ops.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_comment_write: (required)
+        :type team_team_comment_write: TeamTeamCommentWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_by_id_comments_serialize(
+            id=id,
+            team_team_comment_write=team_team_comment_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_docs_by_id_comments_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the document, from the path.")],
+        team_team_comment_write: TeamTeamCommentWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Comments on a document, as the caller.
+
+        Comments on a document, as the caller.  It is a message attached to the document, written through the Team client's own path: the people subscribed to the document and anyone mentioned are notified, and an agent mentioned answers with a comment of its own. It can be replied to, reacted to, edited and deleted with the message ops.
+
+        :param id: ID is the document, from the path. (required)
+        :type id: str
+        :param team_team_comment_write: (required)
+        :type team_team_comment_write: TeamTeamCommentWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_docs_by_id_comments_serialize(
+            id=id,
+            team_team_comment_write=team_team_comment_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_docs_by_id_comments_serialize(
+        self,
+        id,
+        team_team_comment_write,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_comment_write is not None:
+            _body_params = team_team_comment_write
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/docs/{id}/comments',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -4494,9 +9590,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms(
+    def post_team_inbox_by_id_archive(
         self,
-        team_room_new: TeamRoomNew,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4509,13 +9606,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TeamRoom:
-        """Opens a named room and answers it as the store now holds it.
+    ) -> TeamTeamInboxItem:
+        """Archives one of the caller's notifications — read, and out of the live inbox — and answers it.
 
-        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+        Archives one of the caller's notifications — read, and out of the live inbox — and answers it. It is listed again with `archived=true`.
 
-        :param team_room_new: (required)
-        :type team_room_new: TeamRoomNew
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4538,8 +9637,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_serialize(
-            team_room_new=team_room_new,
+        _param = self._post_team_inbox_by_id_archive_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4547,7 +9647,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamRoom",
+            '200': "TeamTeamInboxItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4561,9 +9661,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms_with_http_info(
+    def post_team_inbox_by_id_archive_with_http_info(
         self,
-        team_room_new: TeamRoomNew,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4576,13 +9677,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TeamRoom]:
-        """Opens a named room and answers it as the store now holds it.
+    ) -> ApiResponse[TeamTeamInboxItem]:
+        """Archives one of the caller's notifications — read, and out of the live inbox — and answers it.
 
-        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+        Archives one of the caller's notifications — read, and out of the live inbox — and answers it. It is listed again with `archived=true`.
 
-        :param team_room_new: (required)
-        :type team_room_new: TeamRoomNew
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4605,8 +9708,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_serialize(
-            team_room_new=team_room_new,
+        _param = self._post_team_inbox_by_id_archive_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4614,7 +9718,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamRoom",
+            '200': "TeamTeamInboxItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4628,9 +9732,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms_without_preload_content(
+    def post_team_inbox_by_id_archive_without_preload_content(
         self,
-        team_room_new: TeamRoomNew,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4644,12 +9749,14 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Opens a named room and answers it as the store now holds it.
+        """Archives one of the caller's notifications — read, and out of the live inbox — and answers it.
 
-        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+        Archives one of the caller's notifications — read, and out of the live inbox — and answers it. It is listed again with `archived=true`.
 
-        :param team_room_new: (required)
-        :type team_room_new: TeamRoomNew
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4672,8 +9779,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_serialize(
-            team_room_new=team_room_new,
+        _param = self._post_team_inbox_by_id_archive_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4681,7 +9789,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamRoom",
+            '200': "TeamTeamInboxItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4690,9 +9798,577 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_team_rooms_serialize(
+    def _post_team_inbox_by_id_archive_serialize(
         self,
-        team_room_new,
+        id,
+        team_team_inbox_at,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_inbox_at is not None:
+            _body_params = team_team_inbox_at
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/inbox/{id}/archive',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_inbox_by_id_read(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamInboxItem:
+        """Marks one of the caller's notifications read and answers it.
+
+        Marks one of the caller's notifications read and answers it. Another person's notification is a 404, as one that does not exist is.
+
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_by_id_read_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxItem",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_inbox_by_id_read_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamInboxItem]:
+        """Marks one of the caller's notifications read and answers it.
+
+        Marks one of the caller's notifications read and answers it. Another person's notification is a 404, as one that does not exist is.
+
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_by_id_read_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxItem",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_inbox_by_id_read_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the notification, from the path.")],
+        team_team_inbox_at: TeamTeamInboxAt,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Marks one of the caller's notifications read and answers it.
+
+        Marks one of the caller's notifications read and answers it. Another person's notification is a 404, as one that does not exist is.
+
+        :param id: ID is the notification, from the path. (required)
+        :type id: str
+        :param team_team_inbox_at: (required)
+        :type team_team_inbox_at: TeamTeamInboxAt
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_by_id_read_serialize(
+            id=id,
+            team_team_inbox_at=team_team_inbox_at,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxItem",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_inbox_by_id_read_serialize(
+        self,
+        id,
+        team_team_inbox_at,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_inbox_at is not None:
+            _body_params = team_team_inbox_at
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/inbox/{id}/read',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_inbox_read(
+        self,
+        team_team_inbox_all: TeamTeamInboxAll,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamInboxCleared:
+        """Marks every live notification of the caller's read, and says how many it changed.
+
+        Marks every live notification of the caller's read, and says how many it changed.
+
+        :param team_team_inbox_all: (required)
+        :type team_team_inbox_all: TeamTeamInboxAll
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_read_serialize(
+            team_team_inbox_all=team_team_inbox_all,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxCleared",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_inbox_read_with_http_info(
+        self,
+        team_team_inbox_all: TeamTeamInboxAll,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamInboxCleared]:
+        """Marks every live notification of the caller's read, and says how many it changed.
+
+        Marks every live notification of the caller's read, and says how many it changed.
+
+        :param team_team_inbox_all: (required)
+        :type team_team_inbox_all: TeamTeamInboxAll
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_read_serialize(
+            team_team_inbox_all=team_team_inbox_all,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxCleared",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_inbox_read_without_preload_content(
+        self,
+        team_team_inbox_all: TeamTeamInboxAll,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Marks every live notification of the caller's read, and says how many it changed.
+
+        Marks every live notification of the caller's read, and says how many it changed.
+
+        :param team_team_inbox_all: (required)
+        :type team_team_inbox_all: TeamTeamInboxAll
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_inbox_read_serialize(
+            team_team_inbox_all=team_team_inbox_all,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamInboxCleared",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_inbox_read_serialize(
+        self,
+        team_team_inbox_all,
         _request_auth,
         _content_type,
         _headers,
@@ -4718,15 +10394,581 @@ class TeamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if team_room_new is not None:
-            _body_params = team_room_new
+        if team_team_inbox_all is not None:
+            _body_params = team_team_inbox_all
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/inbox/read',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_messages_by_id_replies(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message being answered, from the path.")],
+        team_team_reply_write: TeamTeamReplyWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessage:
+        """Answers a message in its thread, as the caller.
+
+        Answers a message in its thread, as the caller.  A reply is a thread message attached to the one it answers, written through the Team client's own path: the parent's reply count and last-reply time move with it, the people already in the thread and anyone mentioned are notified, and an agent mentioned in a reply answers in the same thread. A reply cannot itself be replied to — threads are one level deep, as in the Team client.
+
+        :param id: ID is the message being answered, from the path. (required)
+        :type id: str
+        :param team_team_reply_write: (required)
+        :type team_team_reply_write: TeamTeamReplyWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_messages_by_id_replies_serialize(
+            id=id,
+            team_team_reply_write=team_team_reply_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_messages_by_id_replies_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message being answered, from the path.")],
+        team_team_reply_write: TeamTeamReplyWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Answers a message in its thread, as the caller.
+
+        Answers a message in its thread, as the caller.  A reply is a thread message attached to the one it answers, written through the Team client's own path: the parent's reply count and last-reply time move with it, the people already in the thread and anyone mentioned are notified, and an agent mentioned in a reply answers in the same thread. A reply cannot itself be replied to — threads are one level deep, as in the Team client.
+
+        :param id: ID is the message being answered, from the path. (required)
+        :type id: str
+        :param team_team_reply_write: (required)
+        :type team_team_reply_write: TeamTeamReplyWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_messages_by_id_replies_serialize(
+            id=id,
+            team_team_reply_write=team_team_reply_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_messages_by_id_replies_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message being answered, from the path.")],
+        team_team_reply_write: TeamTeamReplyWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers a message in its thread, as the caller.
+
+        Answers a message in its thread, as the caller.  A reply is a thread message attached to the one it answers, written through the Team client's own path: the parent's reply count and last-reply time move with it, the people already in the thread and anyone mentioned are notified, and an agent mentioned in a reply answers in the same thread. A reply cannot itself be replied to — threads are one level deep, as in the Team client.
+
+        :param id: ID is the message being answered, from the path. (required)
+        :type id: str
+        :param team_team_reply_write: (required)
+        :type team_team_reply_write: TeamTeamReplyWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_messages_by_id_replies_serialize(
+            id=id,
+            team_team_reply_write=team_team_reply_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_messages_by_id_replies_serialize(
+        self,
+        id,
+        team_team_reply_write,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_reply_write is not None:
+            _body_params = team_team_reply_write
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/messages/{id}/replies',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_rooms(
+        self,
+        team_team_room_new: TeamTeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamRoom:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  A SIGNED-IN TEAM MEMBER opens it as themselves: they are its first member and its owner, every other member named must be somebody the space knows (a person in it, or one of the org's agents), and a guest may not open rooms at all. An application of the org opens it as the org, with exactly the members it names. Anybody else without a team session is 401.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_team_room_new: (required)
+        :type team_team_room_new: TeamTeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_team_room_new=team_team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_rooms_with_http_info(
+        self,
+        team_team_room_new: TeamTeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamRoom]:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  A SIGNED-IN TEAM MEMBER opens it as themselves: they are its first member and its owner, every other member named must be somebody the space knows (a person in it, or one of the org's agents), and a guest may not open rooms at all. An application of the org opens it as the org, with exactly the members it names. Anybody else without a team session is 401.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_team_room_new: (required)
+        :type team_team_room_new: TeamTeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_team_room_new=team_team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_rooms_without_preload_content(
+        self,
+        team_team_room_new: TeamTeamRoomNew,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Opens a named room and answers it as the store now holds it.
+
+        Opens a named room and answers it as the store now holds it.  It writes through the SAME applyTx path the Team client uses, so a room opened here is broadcast to every live client of the space and appears in an open sidebar without a reload — the same property listRooms rests on, read from the write side.  A SIGNED-IN TEAM MEMBER opens it as themselves: they are its first member and its owner, every other member named must be somebody the space knows (a person in it, or one of the org's agents), and a guest may not open rooms at all. An application of the org opens it as the org, with exactly the members it names. Anybody else without a team session is 401.  TWO TRANSACTIONS, NOT ONE, when the request states a facet. The document and its mixin are separate writes in this model (bindRoom writes only the second), and composing them here rather than inventing a combined tx keeps one write path for each. A create that lands and a facet that does not is visible as a room with default intent, which is the honest partial state.
+
+        :param team_team_room_new: (required)
+        :type team_team_room_new: TeamTeamRoomNew
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_serialize(
+            team_team_room_new=team_team_room_new,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamRoom",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_rooms_serialize(
+        self,
+        team_team_room_new,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_room_new is not None:
+            _body_params = team_team_room_new
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4768,10 +11010,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms_by_id_messages(
+    def post_team_rooms_by_id_members(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
-        team_message_write: TeamMessageWrite,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_join: TeamTeamRoomJoin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4784,15 +11026,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TeamMessage:
-        """Says one thing in a room, as the caller.
+    ) -> TeamTeamRoom:
+        """Adds people to a room and answers the room as it now stands.
 
-        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+        Adds people to a room and answers the room as it now stands.  Anyone in the space except a guest may join a public channel by naming themselves. Adding somebody else takes being in the room already (or administering the space, for a room they can see). A direct message's people are what it is, so none can be added — open another one. Everyone added must be a member of the space or one of the org's agents; an agent added to a room answers when it is @-mentioned there.
 
-        :param id: ID is the room to say it in, from the path. (required)
+        :param id: ID is the room, from the path. (required)
         :type id: str
-        :param team_message_write: (required)
-        :type team_message_write: TeamMessageWrite
+        :param team_team_room_join: (required)
+        :type team_team_room_join: TeamTeamRoomJoin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4815,9 +11057,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_by_id_messages_serialize(
+        _param = self._post_team_rooms_by_id_members_serialize(
             id=id,
-            team_message_write=team_message_write,
+            team_team_room_join=team_team_room_join,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4825,7 +11067,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamMessage",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4839,10 +11081,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms_by_id_messages_with_http_info(
+    def post_team_rooms_by_id_members_with_http_info(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
-        team_message_write: TeamMessageWrite,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_join: TeamTeamRoomJoin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4855,15 +11097,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TeamMessage]:
-        """Says one thing in a room, as the caller.
+    ) -> ApiResponse[TeamTeamRoom]:
+        """Adds people to a room and answers the room as it now stands.
 
-        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+        Adds people to a room and answers the room as it now stands.  Anyone in the space except a guest may join a public channel by naming themselves. Adding somebody else takes being in the room already (or administering the space, for a room they can see). A direct message's people are what it is, so none can be added — open another one. Everyone added must be a member of the space or one of the org's agents; an agent added to a room answers when it is @-mentioned there.
 
-        :param id: ID is the room to say it in, from the path. (required)
+        :param id: ID is the room, from the path. (required)
         :type id: str
-        :param team_message_write: (required)
-        :type team_message_write: TeamMessageWrite
+        :param team_team_room_join: (required)
+        :type team_team_room_join: TeamTeamRoomJoin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4886,9 +11128,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_by_id_messages_serialize(
+        _param = self._post_team_rooms_by_id_members_serialize(
             id=id,
-            team_message_write=team_message_write,
+            team_team_room_join=team_team_room_join,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4896,7 +11138,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamMessage",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4910,10 +11152,10 @@ class TeamApi:
 
 
     @validate_call
-    def post_team_rooms_by_id_messages_without_preload_content(
+    def post_team_rooms_by_id_members_without_preload_content(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
-        team_message_write: TeamMessageWrite,
+        id: Annotated[StrictStr, Field(description="ID is the room, from the path.")],
+        team_team_room_join: TeamTeamRoomJoin,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4927,14 +11169,14 @@ class TeamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Says one thing in a room, as the caller.
+        """Adds people to a room and answers the room as it now stands.
 
-        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.
+        Adds people to a room and answers the room as it now stands.  Anyone in the space except a guest may join a public channel by naming themselves. Adding somebody else takes being in the room already (or administering the space, for a room they can see). A direct message's people are what it is, so none can be added — open another one. Everyone added must be a member of the space or one of the org's agents; an agent added to a room answers when it is @-mentioned there.
 
-        :param id: ID is the room to say it in, from the path. (required)
+        :param id: ID is the room, from the path. (required)
         :type id: str
-        :param team_message_write: (required)
-        :type team_message_write: TeamMessageWrite
+        :param team_team_room_join: (required)
+        :type team_team_room_join: TeamTeamRoomJoin
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4957,9 +11199,9 @@ class TeamApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_team_rooms_by_id_messages_serialize(
+        _param = self._post_team_rooms_by_id_members_serialize(
             id=id,
-            team_message_write=team_message_write,
+            team_team_room_join=team_team_room_join,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4967,7 +11209,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TeamMessage",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4976,10 +11218,10 @@ class TeamApi:
         return response_data.response
 
 
-    def _post_team_rooms_by_id_messages_serialize(
+    def _post_team_rooms_by_id_members_serialize(
         self,
         id,
-        team_message_write,
+        team_team_room_join,
         _request_auth,
         _content_type,
         _headers,
@@ -5007,15 +11249,306 @@ class TeamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if team_message_write is not None:
-            _body_params = team_message_write
+        if team_team_room_join is not None:
+            _body_params = team_team_room_join
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/team/rooms/{id}/members',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_team_message_write: TeamTeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamMessage:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.  `<@account-uuid>` in the text is stored as the platform's mention, so the person is notified in their inbox. Mentioning one of the org's agents — or writing in a direct message with one — wakes it: it runs as itself, on behalf of the caller, and posts its answer into the same room. The caller must be able to see the room, and an archived room refuses new messages (409).
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_team_message_write: (required)
+        :type team_team_message_write: TeamTeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_team_message_write=team_team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_team_message_write: TeamTeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.  `<@account-uuid>` in the text is stored as the platform's mention, so the person is notified in their inbox. Mentioning one of the org's agents — or writing in a direct message with one — wakes it: it runs as itself, on behalf of the caller, and posts its answer into the same room. The caller must be able to see the room, and an archived room refuses new messages (409).
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_team_message_write: (required)
+        :type team_team_message_write: TeamTeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_team_message_write=team_team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_team_rooms_by_id_messages_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to say it in, from the path.")],
+        team_team_message_write: TeamTeamMessageWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Says one thing in a room, as the caller.
+
+        Says one thing in a room, as the caller.  The write goes through the SAME applyTx path the Team client's own messages take and is broadcast to every connected client of the space, so a message sent here appears live in an open room rather than on the next reload. It answers the message as the store now HOLDS it.  `<@account-uuid>` in the text is stored as the platform's mention, so the person is notified in their inbox. Mentioning one of the org's agents — or writing in a direct message with one — wakes it: it runs as itself, on behalf of the caller, and posts its answer into the same room. The caller must be able to see the room, and an archived room refuses new messages (409).
+
+        :param id: ID is the room to say it in, from the path. (required)
+        :type id: str
+        :param team_team_message_write: (required)
+        :type team_team_message_write: TeamTeamMessageWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_team_rooms_by_id_messages_serialize(
+            id=id,
+            team_team_message_write=team_team_message_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_team_rooms_by_id_messages_serialize(
+        self,
+        id,
+        team_team_message_write,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_message_write is not None:
+            _body_params = team_team_message_write
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5303,10 +11836,11 @@ class TeamApi:
 
 
     @validate_call
-    def put_team_rooms_by_id(
+    def put_team_messages_by_id_reactions_by_emoji(
         self,
-        id: Annotated[StrictStr, Field(description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")],
-        team_room_bind: TeamRoomBind,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        team_team_reaction_write: TeamTeamReactionWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5319,15 +11853,319 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TeamRoom:
+    ) -> TeamTeamMessage:
+        """Adds the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Adds the caller's reaction to a message and answers the message with its reactions as they now stand. Reacting twice with one emoji is one reaction: the second call changes nothing.  The emoji is the last path segment, percent-encoded — PUT /v1/team/messages/7a1c/reactions/%F0%9F%91%8D for 👍.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param team_team_reaction_write: (required)
+        :type team_team_reaction_write: TeamTeamReactionWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            team_team_reaction_write=team_team_reaction_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_team_messages_by_id_reactions_by_emoji_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        team_team_reaction_write: TeamTeamReactionWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[TeamTeamMessage]:
+        """Adds the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Adds the caller's reaction to a message and answers the message with its reactions as they now stand. Reacting twice with one emoji is one reaction: the second call changes nothing.  The emoji is the last path segment, percent-encoded — PUT /v1/team/messages/7a1c/reactions/%F0%9F%91%8D for 👍.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param team_team_reaction_write: (required)
+        :type team_team_reaction_write: TeamTeamReactionWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            team_team_reaction_write=team_team_reaction_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_team_messages_by_id_reactions_by_emoji_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the message, from the path.")],
+        emoji: Annotated[StrictStr, Field(description="Emoji is the reaction, from the path (percent-encoded on the wire).")],
+        team_team_reaction_write: TeamTeamReactionWrite,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Adds the caller's reaction to a message and answers the message with its reactions as they now stand.
+
+        Adds the caller's reaction to a message and answers the message with its reactions as they now stand. Reacting twice with one emoji is one reaction: the second call changes nothing.  The emoji is the last path segment, percent-encoded — PUT /v1/team/messages/7a1c/reactions/%F0%9F%91%8D for 👍.
+
+        :param id: ID is the message, from the path. (required)
+        :type id: str
+        :param emoji: Emoji is the reaction, from the path (percent-encoded on the wire). (required)
+        :type emoji: str
+        :param team_team_reaction_write: (required)
+        :type team_team_reaction_write: TeamTeamReactionWrite
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_team_messages_by_id_reactions_by_emoji_serialize(
+            id=id,
+            emoji=emoji,
+            team_team_reaction_write=team_team_reaction_write,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "TeamTeamMessage",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_team_messages_by_id_reactions_by_emoji_serialize(
+        self,
+        id,
+        emoji,
+        team_team_reaction_write,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if emoji is not None:
+            _path_params['emoji'] = emoji
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if team_team_reaction_write is not None:
+            _body_params = team_team_reaction_write
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/team/messages/{id}/reactions/{emoji}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_team_rooms_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")],
+        team_team_room_bind: TeamTeamRoomBind,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> TeamTeamRoom:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload. A team member binds a room they can see; an application of the org binds its public channels only; anybody else without a team session is 401.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str
-        :param team_room_bind: (required)
-        :type team_room_bind: TeamRoomBind
+        :param team_team_room_bind: (required)
+        :type team_team_room_bind: TeamTeamRoomBind
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5352,7 +12190,7 @@ class TeamApi:
 
         _param = self._put_team_rooms_by_id_serialize(
             id=id,
-            team_room_bind=team_room_bind,
+            team_team_room_bind=team_team_room_bind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5360,7 +12198,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRoom",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5377,7 +12215,7 @@ class TeamApi:
     def put_team_rooms_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")],
-        team_room_bind: TeamRoomBind,
+        team_team_room_bind: TeamTeamRoomBind,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5390,15 +12228,15 @@ class TeamApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TeamRoom]:
+    ) -> ApiResponse[TeamTeamRoom]:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload. A team member binds a room they can see; an application of the org binds its public channels only; anybody else without a team session is 401.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str
-        :param team_room_bind: (required)
-        :type team_room_bind: TeamRoomBind
+        :param team_team_room_bind: (required)
+        :type team_team_room_bind: TeamTeamRoomBind
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5423,7 +12261,7 @@ class TeamApi:
 
         _param = self._put_team_rooms_by_id_serialize(
             id=id,
-            team_room_bind=team_room_bind,
+            team_team_room_bind=team_team_room_bind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5431,7 +12269,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRoom",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5448,7 +12286,7 @@ class TeamApi:
     def put_team_rooms_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write.")],
-        team_room_bind: TeamRoomBind,
+        team_team_room_bind: TeamTeamRoomBind,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5464,12 +12302,12 @@ class TeamApi:
     ) -> RESTResponseType:
         """States what a room is for: its lifecycle intent, and what it is about.
 
-        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload.
+        States what a room is for: its lifecycle intent, and what it is about. It answers the room as it now stands.  The write is a platform MIXIN on the room document, applied through the SAME applyTx path the Team client's own writes take and broadcast to every connected client — so a room bound here updates live in an open space rather than on the next reload. A team member binds a room they can see; an application of the org binds its public channels only; anybody else without a team session is 401.
 
         :param id: ID is the room to bind, from the path. The URL is the authority; a body carrying another id cannot redirect the write. (required)
         :type id: str
-        :param team_room_bind: (required)
-        :type team_room_bind: TeamRoomBind
+        :param team_team_room_bind: (required)
+        :type team_team_room_bind: TeamTeamRoomBind
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5494,7 +12332,7 @@ class TeamApi:
 
         _param = self._put_team_rooms_by_id_serialize(
             id=id,
-            team_room_bind=team_room_bind,
+            team_team_room_bind=team_team_room_bind,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5502,7 +12340,7 @@ class TeamApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TeamRoom",
+            '200': "TeamTeamRoom",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5514,7 +12352,7 @@ class TeamApi:
     def _put_team_rooms_by_id_serialize(
         self,
         id,
-        team_room_bind,
+        team_team_room_bind,
         _request_auth,
         _content_type,
         _headers,
@@ -5542,15 +12380,16 @@ class TeamApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if team_room_bind is not None:
-            _body_params = team_room_bind
+        if team_team_room_bind is not None:
+            _body_params = team_team_room_bind
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

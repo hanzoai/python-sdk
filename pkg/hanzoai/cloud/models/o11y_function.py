@@ -26,9 +26,9 @@ class O11yFunction(BaseModel):
     """
     O11yFunction
     """ # noqa: E501
-    args: Optional[List[Dict[str, Any]]] = None
+    args: Optional[List[Any]] = None
     name: Optional[StrictStr] = None
-    named_args: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, alias="namedArgs")
+    named_args: Optional[Dict[str, Any]] = Field(default=None, alias="namedArgs")
     __properties: ClassVar[List[str]] = ["args", "name", "namedArgs"]
 
     model_config = ConfigDict(

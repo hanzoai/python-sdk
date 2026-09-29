@@ -19,7 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.invoice_line_item import InvoiceLineItem
+from hanzoai.cloud.models.billing_invoice_line import BillingInvoiceLine
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,32 +27,19 @@ class BillingInvoice(BaseModel):
     """
     BillingInvoice
     """ # noqa: E501
-    amount_due: Optional[StrictInt] = Field(default=None, alias="amountDue")
-    amount_paid: Optional[StrictInt] = Field(default=None, alias="amountPaid")
-    attempt_count: Optional[StrictInt] = Field(default=None, alias="attemptCount")
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    credit_applied: Optional[StrictInt] = Field(default=None, alias="creditApplied")
-    currency: Optional[StrictStr] = None
-    customer_email: Optional[StrictStr] = Field(default=None, alias="customerEmail")
-    discount: Optional[StrictInt] = None
-    due_date: Optional[StrictStr] = Field(default=None, alias="dueDate")
-    id: Optional[StrictStr] = None
-    line_items: Optional[List[InvoiceLineItem]] = Field(default=None, description="LineItems carries no omitempty and is never allocated empty, because the wire it reproduces sends `null` for an invoice with no lines. An empty array there would be a different answer to \"were there lines\".", alias="lineItems")
-    number: Optional[StrictInt] = None
-    number_str: Optional[StrictStr] = Field(default=None, alias="numberStr")
-    paid_at: Optional[StrictStr] = Field(default=None, alias="paidAt")
-    payment_method: Optional[StrictStr] = Field(default=None, alias="paymentMethod")
-    payment_ref: Optional[StrictStr] = Field(default=None, alias="paymentRef")
-    period_end: Optional[StrictStr] = Field(default=None, alias="periodEnd")
-    period_start: Optional[StrictStr] = Field(default=None, alias="periodStart")
-    status: Optional[StrictStr] = None
-    subscription_id: Optional[StrictStr] = Field(default=None, alias="subscriptionId")
-    subtotal: Optional[StrictInt] = None
-    tax: Optional[StrictInt] = None
-    updated_at: Optional[StrictStr] = Field(default=None, alias="updatedAt")
-    user_id: Optional[StrictStr] = Field(default=None, alias="userId")
-    voided_at: Optional[StrictStr] = Field(default=None, alias="voidedAt")
-    __properties: ClassVar[List[str]] = ["amountDue", "amountPaid", "attemptCount", "createdAt", "creditApplied", "currency", "customerEmail", "discount", "dueDate", "id", "lineItems", "number", "numberStr", "paidAt", "paymentMethod", "paymentRef", "periodEnd", "periodStart", "status", "subscriptionId", "subtotal", "tax", "updatedAt", "userId", "voidedAt"]
+    amount_due_cents: Optional[StrictInt] = Field(default=None, description="AmountDueCents is what remains collectible.", alias="amountDueCents")
+    amount_paid_cents: Optional[StrictInt] = Field(default=None, description="AmountPaidCents is what has been collected so far.", alias="amountPaidCents")
+    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the draft was raised, RFC3339.", alias="createdAt")
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO 4217 code.")
+    customer_email: Optional[StrictStr] = Field(default=None, description="CustomerEmail is where it is sent.", alias="customerEmail")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the invoice id — what the issue, collect and void ops address.")
+    lines: Optional[List[BillingInvoiceLine]] = Field(default=None, description="Lines are the charges on the invoice.")
+    number: Optional[StrictStr] = Field(default=None, description="Number is the human-facing invoice number, e.g. \"INV-0042\". A draft has none; issuing assigns it.")
+    payment_ref: Optional[StrictStr] = Field(default=None, description="PaymentRef is the processor reference for the collection, once paid.", alias="paymentRef")
+    status: Optional[StrictStr] = Field(default=None, description="Status is draft, open, paid, void or uncollectible. A draft is not collectible; issuing moves it to open.")
+    subtotal_cents: Optional[StrictInt] = Field(default=None, description="SubtotalCents is the sum of the lines.", alias="subtotalCents")
+    user_id: Optional[StrictStr] = Field(default=None, description="UserID is the customer billed.", alias="userId")
+    __properties: ClassVar[List[str]] = ["amountDueCents", "amountPaidCents", "createdAt", "currency", "customerEmail", "id", "lines", "number", "paymentRef", "status", "subtotalCents", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,13 +80,13 @@ class BillingInvoice(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in line_items (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in lines (list)
         _items = []
-        if self.line_items:
-            for _item_line_items in self.line_items:
-                if _item_line_items:
-                    _items.append(_item_line_items.to_dict())
-            _dict['lineItems'] = _items
+        if self.lines:
+            for _item_lines in self.lines:
+                if _item_lines:
+                    _items.append(_item_lines.to_dict())
+            _dict['lines'] = _items
         return _dict
 
     @classmethod
@@ -112,31 +99,18 @@ class BillingInvoice(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "amountDue": obj.get("amountDue"),
-            "amountPaid": obj.get("amountPaid"),
-            "attemptCount": obj.get("attemptCount"),
+            "amountDueCents": obj.get("amountDueCents"),
+            "amountPaidCents": obj.get("amountPaidCents"),
             "createdAt": obj.get("createdAt"),
-            "creditApplied": obj.get("creditApplied"),
             "currency": obj.get("currency"),
             "customerEmail": obj.get("customerEmail"),
-            "discount": obj.get("discount"),
-            "dueDate": obj.get("dueDate"),
             "id": obj.get("id"),
-            "lineItems": [InvoiceLineItem.from_dict(_item) for _item in obj["lineItems"]] if obj.get("lineItems") is not None else None,
+            "lines": [BillingInvoiceLine.from_dict(_item) for _item in obj["lines"]] if obj.get("lines") is not None else None,
             "number": obj.get("number"),
-            "numberStr": obj.get("numberStr"),
-            "paidAt": obj.get("paidAt"),
-            "paymentMethod": obj.get("paymentMethod"),
             "paymentRef": obj.get("paymentRef"),
-            "periodEnd": obj.get("periodEnd"),
-            "periodStart": obj.get("periodStart"),
             "status": obj.get("status"),
-            "subscriptionId": obj.get("subscriptionId"),
-            "subtotal": obj.get("subtotal"),
-            "tax": obj.get("tax"),
-            "updatedAt": obj.get("updatedAt"),
-            "userId": obj.get("userId"),
-            "voidedAt": obj.get("voidedAt")
+            "subtotalCents": obj.get("subtotalCents"),
+            "userId": obj.get("userId")
         })
         return _obj
 

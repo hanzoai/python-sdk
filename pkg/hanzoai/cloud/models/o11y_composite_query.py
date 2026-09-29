@@ -17,11 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.o11y_builder_query import O11yBuilderQuery
-from hanzoai.cloud.models.o11y_datastore_query import O11yDatastoreQuery
-from hanzoai.cloud.models.o11y_prom_query import O11yPromQuery
 from hanzoai.cloud.models.o11y_query_envelope import O11yQueryEnvelope
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,15 +27,8 @@ class O11yCompositeQuery(BaseModel):
     """
     O11yCompositeQuery
     """ # noqa: E501
-    builder_queries: Optional[Dict[str, O11yBuilderQuery]] = Field(default=None, alias="builderQueries")
-    ch_queries: Optional[Dict[str, O11yDatastoreQuery]] = Field(default=None, alias="chQueries")
-    fill_gaps: Optional[StrictBool] = Field(default=None, description="FillGaps is used to fill the gaps in the time series data", alias="fillGaps")
-    panel_type: Optional[StrictStr] = Field(default=None, alias="panelType")
-    prom_queries: Optional[Dict[str, O11yPromQuery]] = Field(default=None, alias="promQueries")
-    queries: Optional[List[O11yQueryEnvelope]] = None
-    query_type: Optional[StrictStr] = Field(default=None, alias="queryType")
-    unit: Optional[StrictStr] = Field(default=None, description="Unit for the time series data shown in the graph This is used in alerts to format the value and threshold")
-    __properties: ClassVar[List[str]] = ["builderQueries", "chQueries", "fillGaps", "panelType", "promQueries", "queries", "queryType", "unit"]
+    queries: Optional[List[O11yQueryEnvelope]] = Field(default=None, description="Queries is the queries to use for the request.")
+    __properties: ClassVar[List[str]] = ["queries"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -79,27 +69,6 @@ class O11yCompositeQuery(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in builder_queries (dict)
-        _field_dict = {}
-        if self.builder_queries:
-            for _key_builder_queries in self.builder_queries:
-                if self.builder_queries[_key_builder_queries]:
-                    _field_dict[_key_builder_queries] = self.builder_queries[_key_builder_queries].to_dict()
-            _dict['builderQueries'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of each value in ch_queries (dict)
-        _field_dict = {}
-        if self.ch_queries:
-            for _key_ch_queries in self.ch_queries:
-                if self.ch_queries[_key_ch_queries]:
-                    _field_dict[_key_ch_queries] = self.ch_queries[_key_ch_queries].to_dict()
-            _dict['chQueries'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of each value in prom_queries (dict)
-        _field_dict = {}
-        if self.prom_queries:
-            for _key_prom_queries in self.prom_queries:
-                if self.prom_queries[_key_prom_queries]:
-                    _field_dict[_key_prom_queries] = self.prom_queries[_key_prom_queries].to_dict()
-            _dict['promQueries'] = _field_dict
         # override the default output from pydantic by calling `to_dict()` of each item in queries (list)
         _items = []
         if self.queries:
@@ -119,29 +88,7 @@ class O11yCompositeQuery(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "builderQueries": dict(
-                (_k, O11yBuilderQuery.from_dict(_v))
-                for _k, _v in obj["builderQueries"].items()
-            )
-            if obj.get("builderQueries") is not None
-            else None,
-            "chQueries": dict(
-                (_k, O11yDatastoreQuery.from_dict(_v))
-                for _k, _v in obj["chQueries"].items()
-            )
-            if obj.get("chQueries") is not None
-            else None,
-            "fillGaps": obj.get("fillGaps"),
-            "panelType": obj.get("panelType"),
-            "promQueries": dict(
-                (_k, O11yPromQuery.from_dict(_v))
-                for _k, _v in obj["promQueries"].items()
-            )
-            if obj.get("promQueries") is not None
-            else None,
-            "queries": [O11yQueryEnvelope.from_dict(_item) for _item in obj["queries"]] if obj.get("queries") is not None else None,
-            "queryType": obj.get("queryType"),
-            "unit": obj.get("unit")
+            "queries": [O11yQueryEnvelope.from_dict(_item) for _item in obj["queries"]] if obj.get("queries") is not None else None
         })
         return _obj
 

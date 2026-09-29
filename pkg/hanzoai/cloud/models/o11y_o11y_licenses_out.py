@@ -26,7 +26,7 @@ class O11yO11yLicensesOut(BaseModel):
     """
     O11yO11yLicensesOut
     """ # noqa: E501
-    data: Optional[List[Dict[str, Any]]] = Field(default=None, description="Data are the licenses.")
+    data: Optional[List[Any]] = Field(default=None, description="Data are the licenses.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"success\".")
     __properties: ClassVar[List[str]] = ["data", "status"]
 

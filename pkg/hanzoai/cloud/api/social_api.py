@@ -19,16 +19,16 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.social_account import SocialAccount
-from hanzoai.cloud.models.social_account_body import SocialAccountBody
-from hanzoai.cloud.models.social_account_write import SocialAccountWrite
-from hanzoai.cloud.models.social_accounts import SocialAccounts
-from hanzoai.cloud.models.social_post import SocialPost
-from hanzoai.cloud.models.social_post_body import SocialPostBody
-from hanzoai.cloud.models.social_post_write import SocialPostWrite
-from hanzoai.cloud.models.social_posts import SocialPosts
-from hanzoai.cloud.models.social_providers import SocialProviders
-from hanzoai.cloud.models.social_summary import SocialSummary
+from hanzoai.cloud.models.social_social_account import SocialSocialAccount
+from hanzoai.cloud.models.social_social_account_body import SocialSocialAccountBody
+from hanzoai.cloud.models.social_social_account_write import SocialSocialAccountWrite
+from hanzoai.cloud.models.social_social_accounts import SocialSocialAccounts
+from hanzoai.cloud.models.social_social_post import SocialSocialPost
+from hanzoai.cloud.models.social_social_post_body import SocialSocialPostBody
+from hanzoai.cloud.models.social_social_post_write import SocialSocialPostWrite
+from hanzoai.cloud.models.social_social_posts import SocialSocialPosts
+from hanzoai.cloud.models.social_social_providers import SocialSocialProviders
+from hanzoai.cloud.models.social_social_summary import SocialSocialSummary
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -277,6 +277,13 @@ class SocialApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -531,6 +538,13 @@ class SocialApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -573,7 +587,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialAccounts:
+    ) -> SocialSocialAccounts:
         """Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.
 
         Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.  An account's provider access token is NEVER included in any response on this surface. Only the publisher reads it.
@@ -614,7 +628,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccounts",
+            '200': "SocialSocialAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -644,7 +658,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialAccounts]:
+    ) -> ApiResponse[SocialSocialAccounts]:
         """Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.
 
         Returns the org's connected accounts — each one's id, network, handle, status and timestamps, most-recently-updated first.  An account's provider access token is NEVER included in any response on this surface. Only the publisher reads it.
@@ -685,7 +699,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccounts",
+            '200': "SocialSocialAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -756,7 +770,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccounts",
+            '200': "SocialSocialAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -808,7 +822,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -852,7 +867,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialAccount:
+    ) -> SocialSocialAccount:
         """Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404.
 
         Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404. The provider access token is not part of the response.
@@ -890,7 +905,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -919,7 +934,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialAccount]:
+    ) -> ApiResponse[SocialSocialAccount]:
         """Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404.
 
         Returns one of the org's connected accounts by id — its network, handle, status and timestamps — or 404. The provider access token is not part of the response.
@@ -957,7 +972,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1024,7 +1039,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1069,7 +1084,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1114,7 +1130,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialPosts:
+    ) -> SocialSocialPosts:
         """Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
 
         Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
@@ -1155,7 +1171,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPosts",
+            '200': "SocialSocialPosts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1185,7 +1201,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialPosts]:
+    ) -> ApiResponse[SocialSocialPosts]:
         """Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
 
         Returns the org's posts — content, channel, status, scheduled time, media and timestamps — most-recently-updated first.
@@ -1226,7 +1242,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPosts",
+            '200': "SocialSocialPosts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1297,7 +1313,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPosts",
+            '200': "SocialSocialPosts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1349,7 +1365,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1393,7 +1410,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialPost:
+    ) -> SocialSocialPost:
         """Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under.
 
         Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under. 404 when there is no such post for this org.
@@ -1431,7 +1448,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1460,7 +1477,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialPost]:
+    ) -> ApiResponse[SocialSocialPost]:
         """Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under.
 
         Returns one of the org's posts by id, with its current status, scheduled time, media and — once it has published — the account and external id it published under. 404 when there is no such post for this org.
@@ -1498,7 +1515,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1565,7 +1582,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1610,7 +1627,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1653,7 +1671,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialProviders:
+    ) -> SocialSocialProviders:
         """Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.
 
         Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.  This is a live read of the deployment's own configuration, not a static list of networks — it answers \"can I connect this today\", which is what a connect affordance and a pre-cutover checklist both need. It says nothing about whether the caller has connected an account; that is the accounts listing.
@@ -1688,7 +1706,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialProviders",
+            '200': "SocialSocialProviders",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1716,7 +1734,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialProviders]:
+    ) -> ApiResponse[SocialSocialProviders]:
         """Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.
 
         Reports each supported network's publish-readiness: whether this deployment holds the OAuth application credentials for it and, when it does not, exactly which environment variables are missing.  This is a live read of the deployment's own configuration, not a static list of networks — it answers \"can I connect this today\", which is what a connect affordance and a pre-cutover checklist both need. It says nothing about whether the caller has connected an account; that is the accounts listing.
@@ -1751,7 +1769,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialProviders",
+            '200': "SocialSocialProviders",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1814,7 +1832,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialProviders",
+            '200': "SocialSocialProviders",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1856,7 +1874,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1899,7 +1918,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialSummary:
+    ) -> SocialSocialSummary:
         """Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected.
 
         Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected. It is the dashboard roll-up, computed over the org's own rows in one read.
@@ -1934,7 +1953,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialSummary",
+            '200': "SocialSocialSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1962,7 +1981,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialSummary]:
+    ) -> ApiResponse[SocialSocialSummary]:
         """Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected.
 
         Returns four counts for the caller's org: total posts, how many are scheduled, how many have published, and how many accounts are connected. It is the dashboard roll-up, computed over the org's own rows in one read.
@@ -1997,7 +2016,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialSummary",
+            '200': "SocialSocialSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2060,7 +2079,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialSummary",
+            '200': "SocialSocialSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2102,7 +2121,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2133,7 +2153,7 @@ class SocialApi:
     @validate_call
     def post_social_accounts(
         self,
-        social_account_body: SocialAccountBody,
+        social_social_account_body: SocialSocialAccountBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2146,13 +2166,13 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialAccount:
+    ) -> SocialSocialAccount:
         """Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
 
         Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
 
-        :param social_account_body: (required)
-        :type social_account_body: SocialAccountBody
+        :param social_social_account_body: (required)
+        :type social_social_account_body: SocialSocialAccountBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2176,7 +2196,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_accounts_serialize(
-            social_account_body=social_account_body,
+            social_social_account_body=social_social_account_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2184,7 +2204,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialAccount",
+            '201': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2200,7 +2220,7 @@ class SocialApi:
     @validate_call
     def post_social_accounts_with_http_info(
         self,
-        social_account_body: SocialAccountBody,
+        social_social_account_body: SocialSocialAccountBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2213,13 +2233,13 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialAccount]:
+    ) -> ApiResponse[SocialSocialAccount]:
         """Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
 
         Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
 
-        :param social_account_body: (required)
-        :type social_account_body: SocialAccountBody
+        :param social_social_account_body: (required)
+        :type social_social_account_body: SocialSocialAccountBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2243,7 +2263,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_accounts_serialize(
-            social_account_body=social_account_body,
+            social_social_account_body=social_social_account_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2251,7 +2271,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialAccount",
+            '201': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2267,7 +2287,7 @@ class SocialApi:
     @validate_call
     def post_social_accounts_without_preload_content(
         self,
-        social_account_body: SocialAccountBody,
+        social_social_account_body: SocialSocialAccountBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2285,8 +2305,8 @@ class SocialApi:
 
         Records a social account for the org and answers 201 with the stored row, including the generated id later calls address it by.
 
-        :param social_account_body: (required)
-        :type social_account_body: SocialAccountBody
+        :param social_social_account_body: (required)
+        :type social_social_account_body: SocialSocialAccountBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2310,7 +2330,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_accounts_serialize(
-            social_account_body=social_account_body,
+            social_social_account_body=social_social_account_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2318,7 +2338,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialAccount",
+            '201': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2329,7 +2349,7 @@ class SocialApi:
 
     def _post_social_accounts_serialize(
         self,
-        social_account_body,
+        social_social_account_body,
         _request_auth,
         _content_type,
         _headers,
@@ -2355,15 +2375,16 @@ class SocialApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if social_account_body is not None:
-            _body_params = social_account_body
+        if social_social_account_body is not None:
+            _body_params = social_social_account_body
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2407,7 +2428,7 @@ class SocialApi:
     @validate_call
     def post_social_posts(
         self,
-        social_post_body: SocialPostBody,
+        social_social_post_body: SocialSocialPostBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2420,13 +2441,13 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialPost:
+    ) -> SocialSocialPost:
         """Stores a post for the org and answers 201 with the stored row.
 
         Stores a post for the org and answers 201 with the stored row.  A post created as scheduled for a time that has already passed is published IMMEDIATELY, and the row returned carries that outcome — this is the one behaviour a reader would otherwise miss. A future-scheduled post is left for the scheduler, and a draft is left alone. Publishing never fails the creation: the post is stored either way, and a publish that could not run leaves the row for the scheduler to retry.
 
-        :param social_post_body: (required)
-        :type social_post_body: SocialPostBody
+        :param social_social_post_body: (required)
+        :type social_social_post_body: SocialSocialPostBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2450,7 +2471,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_posts_serialize(
-            social_post_body=social_post_body,
+            social_social_post_body=social_social_post_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2458,7 +2479,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialPost",
+            '201': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2474,7 +2495,7 @@ class SocialApi:
     @validate_call
     def post_social_posts_with_http_info(
         self,
-        social_post_body: SocialPostBody,
+        social_social_post_body: SocialSocialPostBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2487,13 +2508,13 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialPost]:
+    ) -> ApiResponse[SocialSocialPost]:
         """Stores a post for the org and answers 201 with the stored row.
 
         Stores a post for the org and answers 201 with the stored row.  A post created as scheduled for a time that has already passed is published IMMEDIATELY, and the row returned carries that outcome — this is the one behaviour a reader would otherwise miss. A future-scheduled post is left for the scheduler, and a draft is left alone. Publishing never fails the creation: the post is stored either way, and a publish that could not run leaves the row for the scheduler to retry.
 
-        :param social_post_body: (required)
-        :type social_post_body: SocialPostBody
+        :param social_social_post_body: (required)
+        :type social_social_post_body: SocialSocialPostBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2517,7 +2538,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_posts_serialize(
-            social_post_body=social_post_body,
+            social_social_post_body=social_social_post_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2525,7 +2546,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialPost",
+            '201': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2541,7 +2562,7 @@ class SocialApi:
     @validate_call
     def post_social_posts_without_preload_content(
         self,
-        social_post_body: SocialPostBody,
+        social_social_post_body: SocialSocialPostBody,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2559,8 +2580,8 @@ class SocialApi:
 
         Stores a post for the org and answers 201 with the stored row.  A post created as scheduled for a time that has already passed is published IMMEDIATELY, and the row returned carries that outcome — this is the one behaviour a reader would otherwise miss. A future-scheduled post is left for the scheduler, and a draft is left alone. Publishing never fails the creation: the post is stored either way, and a publish that could not run leaves the row for the scheduler to retry.
 
-        :param social_post_body: (required)
-        :type social_post_body: SocialPostBody
+        :param social_social_post_body: (required)
+        :type social_social_post_body: SocialSocialPostBody
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2584,7 +2605,7 @@ class SocialApi:
         """ # noqa: E501
 
         _param = self._post_social_posts_serialize(
-            social_post_body=social_post_body,
+            social_social_post_body=social_social_post_body,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2592,7 +2613,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SocialPost",
+            '201': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2603,7 +2624,7 @@ class SocialApi:
 
     def _post_social_posts_serialize(
         self,
-        social_post_body,
+        social_social_post_body,
         _request_auth,
         _content_type,
         _headers,
@@ -2629,15 +2650,16 @@ class SocialApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if social_post_body is not None:
-            _body_params = social_post_body
+        if social_social_post_body is not None:
+            _body_params = social_social_post_body
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2694,7 +2716,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialPost:
+    ) -> SocialSocialPost:
         """Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.
 
         Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.  It is IDEMPOTENT: a post that has already published, or that another caller is publishing right now, comes back unchanged rather than being posted twice. That claim is taken before any network call, which is what makes a double submit safe.  The two failure shapes differ on purpose. Having no connected account for the channel is the caller's to fix, so it is recorded ON the post as failed with the reason and answers normally. A deployment that lacks the network's own credentials cannot publish for anyone, so that is a 503 naming exactly what is missing.
@@ -2732,7 +2754,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2761,7 +2783,7 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialPost]:
+    ) -> ApiResponse[SocialSocialPost]:
         """Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.
 
         Publishes the post immediately to the connected accounts on its channel and answers with the updated row, carrying the account and external id it published under.  It is IDEMPOTENT: a post that has already published, or that another caller is publishing right now, comes back unchanged rather than being posted twice. That claim is taken before any network call, which is what makes a double submit safe.  The two failure shapes differ on purpose. Having no connected account for the channel is the caller's to fix, so it is recorded ON the post as failed with the reason and answers normally. A deployment that lacks the network's own credentials cannot publish for anyone, so that is a 503 naming exactly what is missing.
@@ -2799,7 +2821,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2866,7 +2888,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2911,7 +2933,8 @@ class SocialApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2943,7 +2966,7 @@ class SocialApi:
     def put_social_accounts_by_id(
         self,
         id: StrictStr,
-        social_account_write: SocialAccountWrite,
+        social_social_account_write: SocialSocialAccountWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2956,15 +2979,15 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialAccount:
+    ) -> SocialSocialAccount:
         """Replaces the account's network, handle and status with what the body carries, and answers with the stored row.
 
         Replaces the account's network, handle and status with what the body carries, and answers with the stored row.  This is a REPLACEMENT, not a merge, which is the rule most easily got wrong: a field the body omits is written as its default, so leaving out the handle blanks it and leaving out the status resets it to connected. Send the whole record. The same vocabularies as create apply, and an unknown network or status is refused rather than coerced.
 
         :param id: (required)
         :type id: str
-        :param social_account_write: (required)
-        :type social_account_write: SocialAccountWrite
+        :param social_social_account_write: (required)
+        :type social_social_account_write: SocialSocialAccountWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2989,7 +3012,7 @@ class SocialApi:
 
         _param = self._put_social_accounts_by_id_serialize(
             id=id,
-            social_account_write=social_account_write,
+            social_social_account_write=social_social_account_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2997,7 +3020,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3014,7 +3037,7 @@ class SocialApi:
     def put_social_accounts_by_id_with_http_info(
         self,
         id: StrictStr,
-        social_account_write: SocialAccountWrite,
+        social_social_account_write: SocialSocialAccountWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3027,15 +3050,15 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialAccount]:
+    ) -> ApiResponse[SocialSocialAccount]:
         """Replaces the account's network, handle and status with what the body carries, and answers with the stored row.
 
         Replaces the account's network, handle and status with what the body carries, and answers with the stored row.  This is a REPLACEMENT, not a merge, which is the rule most easily got wrong: a field the body omits is written as its default, so leaving out the handle blanks it and leaving out the status resets it to connected. Send the whole record. The same vocabularies as create apply, and an unknown network or status is refused rather than coerced.
 
         :param id: (required)
         :type id: str
-        :param social_account_write: (required)
-        :type social_account_write: SocialAccountWrite
+        :param social_social_account_write: (required)
+        :type social_social_account_write: SocialSocialAccountWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3060,7 +3083,7 @@ class SocialApi:
 
         _param = self._put_social_accounts_by_id_serialize(
             id=id,
-            social_account_write=social_account_write,
+            social_social_account_write=social_social_account_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3068,7 +3091,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3085,7 +3108,7 @@ class SocialApi:
     def put_social_accounts_by_id_without_preload_content(
         self,
         id: StrictStr,
-        social_account_write: SocialAccountWrite,
+        social_social_account_write: SocialSocialAccountWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3105,8 +3128,8 @@ class SocialApi:
 
         :param id: (required)
         :type id: str
-        :param social_account_write: (required)
-        :type social_account_write: SocialAccountWrite
+        :param social_social_account_write: (required)
+        :type social_social_account_write: SocialSocialAccountWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3131,7 +3154,7 @@ class SocialApi:
 
         _param = self._put_social_accounts_by_id_serialize(
             id=id,
-            social_account_write=social_account_write,
+            social_social_account_write=social_social_account_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3139,7 +3162,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialAccount",
+            '200': "SocialSocialAccount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3151,7 +3174,7 @@ class SocialApi:
     def _put_social_accounts_by_id_serialize(
         self,
         id,
-        social_account_write,
+        social_social_account_write,
         _request_auth,
         _content_type,
         _headers,
@@ -3179,15 +3202,16 @@ class SocialApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if social_account_write is not None:
-            _body_params = social_account_write
+        if social_social_account_write is not None:
+            _body_params = social_social_account_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3232,7 +3256,7 @@ class SocialApi:
     def put_social_posts_by_id(
         self,
         id: StrictStr,
-        social_post_write: SocialPostWrite,
+        social_social_post_write: SocialSocialPostWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3245,15 +3269,15 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SocialPost:
+    ) -> SocialSocialPost:
         """Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.
 
         Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.  A REPLACEMENT, not a merge: an omitted field is written as its default, so omitting media clears it and omitting the status resets the post to draft. `content` is required on every update. Unlike create, this never triggers a publish — moving a post's scheduled time into the past here leaves it for the scheduler; publish now is its own operation.
 
         :param id: (required)
         :type id: str
-        :param social_post_write: (required)
-        :type social_post_write: SocialPostWrite
+        :param social_social_post_write: (required)
+        :type social_social_post_write: SocialSocialPostWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3278,7 +3302,7 @@ class SocialApi:
 
         _param = self._put_social_posts_by_id_serialize(
             id=id,
-            social_post_write=social_post_write,
+            social_social_post_write=social_social_post_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3286,7 +3310,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3303,7 +3327,7 @@ class SocialApi:
     def put_social_posts_by_id_with_http_info(
         self,
         id: StrictStr,
-        social_post_write: SocialPostWrite,
+        social_social_post_write: SocialSocialPostWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3316,15 +3340,15 @@ class SocialApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SocialPost]:
+    ) -> ApiResponse[SocialSocialPost]:
         """Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.
 
         Replaces the post's content, channel, status, scheduled time and media with what the body carries, and answers with the stored row.  A REPLACEMENT, not a merge: an omitted field is written as its default, so omitting media clears it and omitting the status resets the post to draft. `content` is required on every update. Unlike create, this never triggers a publish — moving a post's scheduled time into the past here leaves it for the scheduler; publish now is its own operation.
 
         :param id: (required)
         :type id: str
-        :param social_post_write: (required)
-        :type social_post_write: SocialPostWrite
+        :param social_social_post_write: (required)
+        :type social_social_post_write: SocialSocialPostWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3349,7 +3373,7 @@ class SocialApi:
 
         _param = self._put_social_posts_by_id_serialize(
             id=id,
-            social_post_write=social_post_write,
+            social_social_post_write=social_social_post_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3357,7 +3381,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3374,7 +3398,7 @@ class SocialApi:
     def put_social_posts_by_id_without_preload_content(
         self,
         id: StrictStr,
-        social_post_write: SocialPostWrite,
+        social_social_post_write: SocialSocialPostWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3394,8 +3418,8 @@ class SocialApi:
 
         :param id: (required)
         :type id: str
-        :param social_post_write: (required)
-        :type social_post_write: SocialPostWrite
+        :param social_social_post_write: (required)
+        :type social_social_post_write: SocialSocialPostWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3420,7 +3444,7 @@ class SocialApi:
 
         _param = self._put_social_posts_by_id_serialize(
             id=id,
-            social_post_write=social_post_write,
+            social_social_post_write=social_social_post_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3428,7 +3452,7 @@ class SocialApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SocialPost",
+            '200': "SocialSocialPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3440,7 +3464,7 @@ class SocialApi:
     def _put_social_posts_by_id_serialize(
         self,
         id,
-        social_post_write,
+        social_social_post_write,
         _request_auth,
         _content_type,
         _headers,
@@ -3468,15 +3492,16 @@ class SocialApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if social_post_write is not None:
-            _body_params = social_post_write
+        if social_social_post_write is not None:
+            _body_params = social_social_post_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

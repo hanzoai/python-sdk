@@ -19,10 +19,11 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.destination_disconnected import DestinationDisconnected
-from hanzoai.cloud.models.destination_list import DestinationList
+from hanzoai.cloud.models.destination_destination_disconnected import DestinationDestinationDisconnected
+from hanzoai.cloud.models.destination_destination_list import DestinationDestinationList
+from hanzoai.cloud.models.destination_destination_status import DestinationDestinationStatus
+from hanzoai.cloud.models.destination_destination_test import DestinationDestinationTest
 from hanzoai.cloud.models.destination_status import DestinationStatus
-from hanzoai.cloud.models.destination_test import DestinationTest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -58,7 +59,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DestinationDisconnected:
+    ) -> DestinationDestinationDisconnected:
         """Forgets a destination for the caller's org: every credential held in KMS, then the stored config.
 
         Forgets a destination for the caller's org: every credential held in KMS, then the stored config. Idempotent, and it requires org admin.
@@ -96,7 +97,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationDisconnected",
+            '200': "DestinationDestinationDisconnected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -125,7 +126,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DestinationDisconnected]:
+    ) -> ApiResponse[DestinationDestinationDisconnected]:
         """Forgets a destination for the caller's org: every credential held in KMS, then the stored config.
 
         Forgets a destination for the caller's org: every credential held in KMS, then the stored config. Idempotent, and it requires org admin.
@@ -163,7 +164,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationDisconnected",
+            '200': "DestinationDestinationDisconnected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -230,7 +231,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationDisconnected",
+            '200': "DestinationDestinationDisconnected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -275,7 +276,8 @@ class DestinationApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -318,7 +320,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DestinationList:
+    ) -> DestinationDestinationList:
         """Reports every destination this deployment can forward to, each with the caller org's connection state: whether it is connected, whether it is enabled, whether a credential resolves right now, and the config fields the console renders for it.
 
         Reports every destination this deployment can forward to, each with the caller org's connection state: whether it is connected, whether it is enabled, whether a credential resolves right now, and the config fields the console renders for it.
@@ -353,7 +355,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationList",
+            '200': "DestinationDestinationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -381,7 +383,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DestinationList]:
+    ) -> ApiResponse[DestinationDestinationList]:
         """Reports every destination this deployment can forward to, each with the caller org's connection state: whether it is connected, whether it is enabled, whether a credential resolves right now, and the config fields the console renders for it.
 
         Reports every destination this deployment can forward to, each with the caller org's connection state: whether it is connected, whether it is enabled, whether a credential resolves right now, and the config fields the console renders for it.
@@ -416,7 +418,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationList",
+            '200': "DestinationDestinationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -479,7 +481,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationList",
+            '200': "DestinationDestinationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -521,7 +523,8 @@ class DestinationApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -565,7 +568,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DestinationStatus:
+    ) -> DestinationDestinationStatus:
         """Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now.
 
         Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now. A platform this deployment does not carry is not found.
@@ -603,7 +606,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationStatus",
+            '200': "DestinationDestinationStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -632,7 +635,7 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DestinationStatus]:
+    ) -> ApiResponse[DestinationDestinationStatus]:
         """Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now.
 
         Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now. A platform this deployment does not carry is not found.
@@ -670,7 +673,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationStatus",
+            '200': "DestinationDestinationStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -737,7 +740,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationStatus",
+            '200': "DestinationDestinationStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -782,7 +785,8 @@ class DestinationApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1115,10 +1119,10 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DestinationTest:
-        """Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said.
+    ) -> DestinationDestinationTest:
+        """Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said.
 
-        Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
+        Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
         :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
         :type platform: str
@@ -1153,7 +1157,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationTest",
+            '200': "DestinationDestinationTest",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1182,10 +1186,10 @@ class DestinationApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DestinationTest]:
-        """Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said.
+    ) -> ApiResponse[DestinationDestinationTest]:
+        """Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said.
 
-        Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
+        Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
         :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
         :type platform: str
@@ -1220,7 +1224,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationTest",
+            '200': "DestinationDestinationTest",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1250,9 +1254,9 @@ class DestinationApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said.
+        """Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said.
 
-        Sends ONE synthetic pageview through the connected destination end to end and reports what the platform said. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
+        Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
         :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
         :type platform: str
@@ -1287,7 +1291,7 @@ class DestinationApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DestinationTest",
+            '200': "DestinationDestinationTest",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1332,7 +1336,8 @@ class DestinationApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

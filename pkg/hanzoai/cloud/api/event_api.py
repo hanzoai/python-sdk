@@ -20,15 +20,18 @@ from pydantic import Field, StrictBytes, StrictInt, StrictStr
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.capture_result import CaptureResult
-from hanzoai.cloud.models.error_list import ErrorList
-from hanzoai.cloud.models.event_list import EventList
-from hanzoai.cloud.models.health_report import HealthReport
-from hanzoai.cloud.models.insights_status import InsightsStatus
-from hanzoai.cloud.models.overview import Overview
+from hanzoai.cloud.models.event_dispute_in import EventDisputeIn
+from hanzoai.cloud.models.event_economic_dispute import EventEconomicDispute
+from hanzoai.cloud.models.event_economics import EventEconomics
+from hanzoai.cloud.models.event_error_list import EventErrorList
+from hanzoai.cloud.models.event_event_list import EventEventList
+from hanzoai.cloud.models.event_health_report import EventHealthReport
+from hanzoai.cloud.models.event_insights_status import EventInsightsStatus
+from hanzoai.cloud.models.event_overview import EventOverview
+from hanzoai.cloud.models.event_timeseries import EventTimeseries
+from hanzoai.cloud.models.event_top import EventTop
 from hanzoai.cloud.models.post_event_request import PostEventRequest
 from hanzoai.cloud.models.replay_body import ReplayBody
-from hanzoai.cloud.models.timeseries import Timeseries
-from hanzoai.cloud.models.top import Top
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -49,6 +52,338 @@ class EventApi:
 
 
     @validate_call
+    def get_event_economic(
+        self,
+        year: Annotated[StrictInt, Field(description="Year is the calendar year to read, UTC.")],
+        counterparty: Annotated[Optional[StrictStr], Field(description="Counterparty keeps only payments with this org on the other side.")] = None,
+        rail: Annotated[Optional[StrictStr], Field(description="Rail keeps only payments that moved on this rail.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the next of the page before; empty starts the year.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many events to answer, default 100 and at most 1000.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EventEconomics:
+        """Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        :param year: Year is the calendar year to read, UTC. (required)
+        :type year: int
+        :param counterparty: Counterparty keeps only payments with this org on the other side.
+        :type counterparty: str
+        :param rail: Rail keeps only payments that moved on this rail.
+        :type rail: str
+        :param cursor: Cursor continues from the next of the page before; empty starts the year.
+        :type cursor: str
+        :param limit: Limit is how many events to answer, default 100 and at most 1000.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_event_economic_serialize(
+            year=year,
+            counterparty=counterparty,
+            rail=rail,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomics",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_event_economic_with_http_info(
+        self,
+        year: Annotated[StrictInt, Field(description="Year is the calendar year to read, UTC.")],
+        counterparty: Annotated[Optional[StrictStr], Field(description="Counterparty keeps only payments with this org on the other side.")] = None,
+        rail: Annotated[Optional[StrictStr], Field(description="Rail keeps only payments that moved on this rail.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the next of the page before; empty starts the year.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many events to answer, default 100 and at most 1000.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EventEconomics]:
+        """Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        :param year: Year is the calendar year to read, UTC. (required)
+        :type year: int
+        :param counterparty: Counterparty keeps only payments with this org on the other side.
+        :type counterparty: str
+        :param rail: Rail keeps only payments that moved on this rail.
+        :type rail: str
+        :param cursor: Cursor continues from the next of the page before; empty starts the year.
+        :type cursor: str
+        :param limit: Limit is how many events to answer, default 100 and at most 1000.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_event_economic_serialize(
+            year=year,
+            counterparty=counterparty,
+            rail=rail,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomics",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_event_economic_without_preload_content(
+        self,
+        year: Annotated[StrictInt, Field(description="Year is the calendar year to read, UTC.")],
+        counterparty: Annotated[Optional[StrictStr], Field(description="Counterparty keeps only payments with this org on the other side.")] = None,
+        rail: Annotated[Optional[StrictStr], Field(description="Rail keeps only payments that moved on this rail.")] = None,
+        cursor: Annotated[Optional[StrictStr], Field(description="Cursor continues from the next of the page before; empty starts the year.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is how many events to answer, default 100 and at most 1000.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        Returns, oldest first and paged, the payments the caller's org made or received in a year, with the ones a correction restates named and what either party disputes — for the org's admins.
+
+        :param year: Year is the calendar year to read, UTC. (required)
+        :type year: int
+        :param counterparty: Counterparty keeps only payments with this org on the other side.
+        :type counterparty: str
+        :param rail: Rail keeps only payments that moved on this rail.
+        :type rail: str
+        :param cursor: Cursor continues from the next of the page before; empty starts the year.
+        :type cursor: str
+        :param limit: Limit is how many events to answer, default 100 and at most 1000.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_event_economic_serialize(
+            year=year,
+            counterparty=counterparty,
+            rail=rail,
+            cursor=cursor,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomics",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_event_economic_serialize(
+        self,
+        year,
+        counterparty,
+        rail,
+        cursor,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if year is not None:
+            
+            _query_params.append(('year', year))
+            
+        if counterparty is not None:
+            
+            _query_params.append(('counterparty', counterparty))
+            
+        if rail is not None:
+            
+            _query_params.append(('rail', rail))
+            
+        if cursor is not None:
+            
+            _query_params.append(('cursor', cursor))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/event/economic',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_event_errors(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
@@ -64,10 +399,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ErrorList:
-        """Errors returns the caller org's most recently captured errors, newest first.
+    ) -> EventErrorList:
+        """Returns the caller org's most recently captured errors, newest first.
 
-        Errors returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -102,7 +437,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ErrorList",
+            '200': "EventErrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -131,10 +466,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ErrorList]:
-        """Errors returns the caller org's most recently captured errors, newest first.
+    ) -> ApiResponse[EventErrorList]:
+        """Returns the caller org's most recently captured errors, newest first.
 
-        Errors returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -169,7 +504,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ErrorList",
+            '200': "EventErrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -199,9 +534,9 @@ class EventApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Errors returns the caller org's most recently captured errors, newest first.
+        """Returns the caller org's most recently captured errors, newest first.
 
-        Errors returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recently captured errors, newest first. The error-tracking read view over event.error — the plane table the write core's error facts land in (errors are DELIBERATELY not on event.event) — each with its captured exception surfaced from the attributes map as a first-class field.  The org is the validated principal's — never a parameter — and this read requires a real bearer, NEVER the write-only publishable key: pk- can attribute a write and can read nothing. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -236,7 +571,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ErrorList",
+            '200': "EventErrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -283,7 +618,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -326,10 +662,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HealthReport:
-        """Health reports whether the event plane can take a write and the warehouse can answer a read.
+    ) -> EventHealthReport:
+        """Reports whether the event plane can take a write and the warehouse can answer a read.
 
-        Health reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
+        Reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -361,8 +697,8 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthReport",
-            '503': "HealthReport",
+            '200': "EventHealthReport",
+            '503': "EventHealthReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -390,10 +726,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HealthReport]:
-        """Health reports whether the event plane can take a write and the warehouse can answer a read.
+    ) -> ApiResponse[EventHealthReport]:
+        """Reports whether the event plane can take a write and the warehouse can answer a read.
 
-        Health reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
+        Reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -425,8 +761,8 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthReport",
-            '503': "HealthReport",
+            '200': "EventHealthReport",
+            '503': "EventHealthReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -455,9 +791,9 @@ class EventApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports whether the event plane can take a write and the warehouse can answer a read.
+        """Reports whether the event plane can take a write and the warehouse can answer a read.
 
-        Health reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
+        Reports whether the event plane can take a write and the warehouse can answer a read.  It reports the analytics subsystem's own liveness in BOTH directions: plane is the event plane it WRITES (the bus and the JetStream stream every accepted event is published to, both named in the report), and datastore is the warehouse it READS, with each read lens's table reported as it is provisioned (the LLM usage ledger and the product-event table).  EITHER ONE DOWN IS A 503, and the report says WHICH — they are probed independently and never collapse into a single bit. This endpoint used to report the read half only, and answered 200/ok while every POST /v1/event failed on a stream that could not bind: a total ingest outage behind a green probe. A readiness gate here now gates on the write path too.  plane.ready IS A REAL PROBE and walks the ingest path itself — the same connection and the same stream a publish uses — so it cannot answer ready while a publish would 503. plane.reason carries the plane's own error text when it is false.  datastore IS NOT PROBED WITH A QUERY. It is the state of the process's own shared client — established, and not since closed — so a warehouse accepting connections and failing reads still reports true. Degraded CARRIES the report (status, the failing half, reason) as its body rather than an error envelope, so a gate reads the cause off the same object it got at 200.  A MISSING LENS TABLE IS NOT A FAILURE and never moves the status: a lens reported available:false answers honest-empty rather than erroring, so a fresh deployment whose collector has not emitted yet is legitimately 200 with the product-event lens unavailable. The lens block is reported whenever the warehouse is REACHABLE — including on a report degraded by the plane, where the tables genuinely were probed — and is absent only when the warehouse is not, having nothing to say about tables it could not reach.  Unauthenticated on purpose — liveness has to be probe-able — and it reads NO tenant data: table existence and stream presence only, never a row and never an event.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -489,8 +825,8 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HealthReport",
-            '503': "HealthReport",
+            '200': "EventHealthReport",
+            '503': "EventHealthReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -532,7 +868,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -576,10 +913,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EventList:
+    ) -> EventEventList:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -614,7 +951,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EventList",
+            '200': "EventEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -643,10 +980,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EventList]:
+    ) -> ApiResponse[EventEventList]:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -681,7 +1018,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EventList",
+            '200': "EventEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -713,7 +1050,7 @@ class EventApi:
     ) -> RESTResponseType:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 403 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
@@ -748,7 +1085,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EventList",
+            '200': "EventEventList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -795,7 +1132,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -838,7 +1176,7 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InsightsStatus:
+    ) -> EventInsightsStatus:
         """Reports that the unified insights surface is serving.
 
         Reports that the unified insights surface is serving. It reads no tenant data and consults no dependency, so it answers 200 unconditionally and needs no principal — liveness must be probe-able. The warehouse-connectivity probe is a different question and lives at GET /v1/event/health.
@@ -873,7 +1211,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InsightsStatus",
+            '200': "EventInsightsStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -901,7 +1239,7 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InsightsStatus]:
+    ) -> ApiResponse[EventInsightsStatus]:
         """Reports that the unified insights surface is serving.
 
         Reports that the unified insights surface is serving. It reads no tenant data and consults no dependency, so it answers 200 unconditionally and needs no principal — liveness must be probe-able. The warehouse-connectivity probe is a different question and lives at GET /v1/event/health.
@@ -936,7 +1274,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InsightsStatus",
+            '200': "EventInsightsStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -999,7 +1337,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InsightsStatus",
+            '200': "EventInsightsStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1041,7 +1379,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1087,10 +1426,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Overview:
-        """Overview returns the caller org's analytics KPIs for one time window.
+    ) -> EventOverview:
+        """Returns the caller org's analytics KPIs for one time window.
 
-        Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1131,7 +1470,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Overview",
+            '200': "EventOverview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1162,10 +1501,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Overview]:
-        """Overview returns the caller org's analytics KPIs for one time window.
+    ) -> ApiResponse[EventOverview]:
+        """Returns the caller org's analytics KPIs for one time window.
 
-        Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1206,7 +1545,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Overview",
+            '200': "EventOverview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1238,9 +1577,9 @@ class EventApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Overview returns the caller org's analytics KPIs for one time window.
+        """Returns the caller org's analytics KPIs for one time window.
 
-        Overview returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1281,7 +1620,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Overview",
+            '200': "EventOverview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1338,7 +1677,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1630,10 +1970,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Timeseries:
-        """Timeseries returns the caller org's LLM usage over time as an evenly-spaced series.
+    ) -> EventTimeseries:
+        """Returns the caller org's LLM usage over time as an evenly-spaced series.
 
-        Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1674,7 +2014,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Timeseries",
+            '200': "EventTimeseries",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1705,10 +2045,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Timeseries]:
-        """Timeseries returns the caller org's LLM usage over time as an evenly-spaced series.
+    ) -> ApiResponse[EventTimeseries]:
+        """Returns the caller org's LLM usage over time as an evenly-spaced series.
 
-        Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1749,7 +2089,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Timeseries",
+            '200': "EventTimeseries",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1781,9 +2121,9 @@ class EventApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Timeseries returns the caller org's LLM usage over time as an evenly-spaced series.
+        """Returns the caller org's LLM usage over time as an evenly-spaced series.
 
-        Timeseries returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's LLM usage over time as an evenly-spaced series. One point per hour or per day — the bucket the window implies, 24h giving hours and 7d/30d giving days — carrying requests, total tokens and spend in cents. Empty buckets are filled with zeros so a client charts a continuous line.  The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1824,7 +2164,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Timeseries",
+            '200': "EventTimeseries",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1881,7 +2221,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1928,10 +2269,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Top:
-        """Top returns the caller org's ranked lenses for one window, five of them at once.
+    ) -> EventTop:
+        """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1975,7 +2316,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Top",
+            '200': "EventTop",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2007,10 +2348,10 @@ class EventApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Top]:
-        """Top returns the caller org's ranked lenses for one window, five of them at once.
+    ) -> ApiResponse[EventTop]:
+        """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -2054,7 +2395,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Top",
+            '200': "EventTop",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2087,9 +2428,9 @@ class EventApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Top returns the caller org's ranked lenses for one window, five of them at once.
+        """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Top returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 403 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -2133,7 +2474,7 @@ class EventApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Top",
+            '200': "EventTop",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2195,7 +2536,8 @@ class EventApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3056,6 +3398,281 @@ class EventApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/event/{project}/store',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_event_economic_dispute(
+        self,
+        event_dispute_in: EventDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> EventEconomicDispute:
+        """Records that the caller's org disputes one payment it is party to — for the org's admins.
+
+        Records that the caller's org disputes one payment it is party to — for the org's admins. A dispute is a record both parties read beside the payment, and it changes nothing about it: the amount, the parties and the tax year stay as the rail stated them, because only the rail that moved the money restates a payment.
+
+        :param event_dispute_in: (required)
+        :type event_dispute_in: EventDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_event_economic_dispute_serialize(
+            event_dispute_in=event_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomicDispute",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_event_economic_dispute_with_http_info(
+        self,
+        event_dispute_in: EventDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[EventEconomicDispute]:
+        """Records that the caller's org disputes one payment it is party to — for the org's admins.
+
+        Records that the caller's org disputes one payment it is party to — for the org's admins. A dispute is a record both parties read beside the payment, and it changes nothing about it: the amount, the parties and the tax year stay as the rail stated them, because only the rail that moved the money restates a payment.
+
+        :param event_dispute_in: (required)
+        :type event_dispute_in: EventDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_event_economic_dispute_serialize(
+            event_dispute_in=event_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomicDispute",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_event_economic_dispute_without_preload_content(
+        self,
+        event_dispute_in: EventDisputeIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Records that the caller's org disputes one payment it is party to — for the org's admins.
+
+        Records that the caller's org disputes one payment it is party to — for the org's admins. A dispute is a record both parties read beside the payment, and it changes nothing about it: the amount, the parties and the tax year stay as the rail stated them, because only the rail that moved the money restates a payment.
+
+        :param event_dispute_in: (required)
+        :type event_dispute_in: EventDisputeIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_event_economic_dispute_serialize(
+            event_dispute_in=event_dispute_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "EventEconomicDispute",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_event_economic_dispute_serialize(
+        self,
+        event_dispute_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if event_dispute_in is not None:
+            _body_params = event_dispute_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/event/economic/dispute',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -27,7 +27,7 @@ class O11yVariableItem(BaseModel):
     O11yVariableItem
     """ # noqa: E501
     type: Optional[Any] = None
-    value: Optional[Dict[str, Any]] = None
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["type", "value"]
 
     model_config = ConfigDict(
@@ -73,6 +73,11 @@ class O11yVariableItem(BaseModel):
         # and model_fields_set contains the field
         if self.type is None and "type" in self.model_fields_set:
             _dict['type'] = None
+
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
 
         return _dict
 

@@ -32,7 +32,7 @@ class O11yJiraConfig(BaseModel):
     notifier_config: Optional[O11yNotifierConfig] = Field(default=None, alias="NotifierConfig")
     api_type: Optional[StrictStr] = None
     api_url: Optional[Any] = None
-    custom_fields: Optional[Dict[str, Dict[str, Any]]] = None
+    custom_fields: Optional[Dict[str, Any]] = None
     description: Optional[O11yJiraFieldConfig] = None
     http_config: Optional[O11yHTTPClientConfig] = None
     issue_type: Optional[StrictStr] = None

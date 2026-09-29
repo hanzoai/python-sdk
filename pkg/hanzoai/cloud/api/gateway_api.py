@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.policy import Policy
-from hanzoai.cloud.models.traffic_view import TrafficView
+from hanzoai.cloud.models.gateway_policy import GatewayPolicy
+from hanzoai.cloud.models.gateway_traffic_view import GatewayTrafficView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,10 +52,10 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrafficView:
+    ) -> GatewayTrafficView:
         """Report who is calling this org's API right now
 
-        Traffic reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
+        Reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -87,7 +87,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrafficView",
+            '200': "GatewayTrafficView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,10 +115,10 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrafficView]:
+    ) -> ApiResponse[GatewayTrafficView]:
         """Report who is calling this org's API right now
 
-        Traffic reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
+        Reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -150,7 +150,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrafficView",
+            '200': "GatewayTrafficView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -181,7 +181,7 @@ class GatewayApi:
     ) -> RESTResponseType:
         """Report who is calling this org's API right now
 
-        Traffic reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
+        Reports who is calling this organization's API right now: the request count for the last minute split by AGENCY LANE — agent, human, bot, unknown — and the busiest callers behind it, each with its request count, its authentication-failure count, how many distinct paths it touched, and any verdict currently held against it.  The lane split is the answer to the question a generic bot filter cannot answer: which of this traffic is the customer's own automation and which is somebody working through a list. It is computed from credentials we issued, not from the client's self-description, so a scraper cannot move itself into the agent lane by editing a header.  A validated caller appears as a FINGERPRINT — a one-way, per-process digest. It is stable enough to recognise the same caller across a minute and cannot be turned back into a key, so this report is safe to read, screenshot and paste.  It also reports what the sensor's own ceilings are doing (strain, tracked, ceiling, refused) and how many screens the scorer did not answer (unscored), so a control that has stopped measuring or a judge that has stopped answering is a number here rather than a quiet day.  Scoped to the caller's own validated organization. A SuperAdmin may inspect a specific tenant with ?org=<slug>, or the lane that has no tenant — every caller the identity boundary could not validate — with an empty ?org=.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -213,7 +213,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrafficView",
+            '200': "GatewayTrafficView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -255,7 +255,8 @@ class GatewayApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -298,10 +299,10 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Policy:
-        """Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
+    ) -> GatewayPolicy:
+        """Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
 
-        Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
+        Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -333,7 +334,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -361,10 +362,10 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Policy]:
-        """Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
+    ) -> ApiResponse[GatewayPolicy]:
+        """Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
 
-        Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
+        Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -396,7 +397,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -425,9 +426,9 @@ class GatewayApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
+        """Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist.
 
-        Read returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
+        Returns the EFFECTIVE edge policy the caller is subject to: the platform CORS allowlist and pre-auth per-IP flood cap in force, plus the caller's own authenticated rate ceiling, edge-cache TTLs and accepted-method allowlist. A SuperAdmin may inspect a specific tenant's effective policy with ?org=<slug>.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -459,7 +460,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,8 @@ class GatewayApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -532,7 +534,7 @@ class GatewayApi:
     @validate_call
     def put_gateway_config(
         self,
-        policy: Policy,
+        gateway_policy: GatewayPolicy,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -545,13 +547,13 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Policy:
-        """Write updates one policy scope and returns the policy in force after the write.
+    ) -> GatewayPolicy:
+        """Updates one policy scope and returns the policy in force after the write.
 
-        Write updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
+        Updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
 
-        :param policy: (required)
-        :type policy: Policy
+        :param gateway_policy: (required)
+        :type gateway_policy: GatewayPolicy
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -575,7 +577,7 @@ class GatewayApi:
         """ # noqa: E501
 
         _param = self._put_gateway_config_serialize(
-            policy=policy,
+            gateway_policy=gateway_policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -583,7 +585,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -599,7 +601,7 @@ class GatewayApi:
     @validate_call
     def put_gateway_config_with_http_info(
         self,
-        policy: Policy,
+        gateway_policy: GatewayPolicy,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -612,13 +614,13 @@ class GatewayApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Policy]:
-        """Write updates one policy scope and returns the policy in force after the write.
+    ) -> ApiResponse[GatewayPolicy]:
+        """Updates one policy scope and returns the policy in force after the write.
 
-        Write updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
+        Updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
 
-        :param policy: (required)
-        :type policy: Policy
+        :param gateway_policy: (required)
+        :type gateway_policy: GatewayPolicy
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -642,7 +644,7 @@ class GatewayApi:
         """ # noqa: E501
 
         _param = self._put_gateway_config_serialize(
-            policy=policy,
+            gateway_policy=gateway_policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -650,7 +652,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -666,7 +668,7 @@ class GatewayApi:
     @validate_call
     def put_gateway_config_without_preload_content(
         self,
-        policy: Policy,
+        gateway_policy: GatewayPolicy,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -680,12 +682,12 @@ class GatewayApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Write updates one policy scope and returns the policy in force after the write.
+        """Updates one policy scope and returns the policy in force after the write.
 
-        Write updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
+        Updates one policy scope and returns the policy in force after the write. A body carrying any PLATFORM field (cors_origins, per_ip_rpm, window_sec) is a platform write and requires SuperAdmin; otherwise it is a per-org write (org_rpm, cache_ttl_sec, cache_paths, methods) scoped to the caller's own org — or, for a SuperAdmin, the tenant named by ?org=<slug>. A body that sets nothing is a 400. The abuse gate's mode is an OPERATOR field: setting it requires SuperAdmin, whichever organization it lands on. updated_at and updated_by are server-stamped; a client-supplied value is ignored.
 
-        :param policy: (required)
-        :type policy: Policy
+        :param gateway_policy: (required)
+        :type gateway_policy: GatewayPolicy
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -709,7 +711,7 @@ class GatewayApi:
         """ # noqa: E501
 
         _param = self._put_gateway_config_serialize(
-            policy=policy,
+            gateway_policy=gateway_policy,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -717,7 +719,7 @@ class GatewayApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Policy",
+            '200': "GatewayPolicy",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -728,7 +730,7 @@ class GatewayApi:
 
     def _put_gateway_config_serialize(
         self,
-        policy,
+        gateway_policy,
         _request_auth,
         _content_type,
         _headers,
@@ -754,15 +756,16 @@ class GatewayApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if policy is not None:
-            _body_params = policy
+        if gateway_policy is not None:
+            _body_params = gateway_policy
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

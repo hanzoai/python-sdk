@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.declare_env import DeclareEnv
+from hanzoai.cloud.models.secret_ref import SecretRef
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,19 +28,22 @@ class Declaration(BaseModel):
     """
     Declaration
     """ # noqa: E501
-    application: Optional[StrictStr] = Field(default=None, description="Application is the CD Application name the generator mints: <org>-<name>. It is the join key against /v1/platform/cd.")
-    automated: Optional[StrictBool] = Field(default=None, description="Automated is cd.automated: false means the Application reports drift and NOTHING moves. It is off by default for a new file on purpose.")
-    digest: Optional[StrictStr] = Field(default=None, description="image.digest — wins over tag")
-    env: Optional[List[DeclareEnv]] = Field(default=None, description="Env is the declared container environment, as the chart's list of {name,value}. It is read back so a re-declare of an identical body is a no-op rather than a refusal — idempotency is what makes a retry safe.")
-    hosts: Optional[List[StrictStr]] = Field(default=None, description="ingress.hosts, both shapes flattened")
-    name: Optional[StrictStr] = Field(default=None, description="the Helm release name — the file's basename")
-    org: Optional[StrictStr] = Field(default=None, description="Org is the owner. It is ALSO the values directory and the destination namespace, because those are one value under one name — see the header.")
-    path: Optional[StrictStr] = Field(default=None, description="Path is the file, relative to the repository root.")
-    project: Optional[StrictStr] = Field(default=None, description="Project is the AppProject the sync is admitted under, derived from the directory exactly as the ApplicationSet derives it. It differs from Org for a reserved directory, which syncs under the platform fence.")
+    application: Optional[StrictStr] = None
+    automated: Optional[StrictBool] = None
+    component: Optional[StrictStr] = None
+    digest: Optional[StrictStr] = None
+    env: Optional[List[DeclareEnv]] = None
+    hosts: Optional[List[StrictStr]] = None
+    name: Optional[StrictStr] = None
+    org: Optional[StrictStr] = None
+    part_of: Optional[StrictStr] = Field(default=None, alias="partOf")
+    path: Optional[StrictStr] = None
+    project: Optional[StrictStr] = None
     replicas: Optional[StrictInt] = None
-    repository: Optional[StrictStr] = Field(default=None, description="image.repository")
-    tag: Optional[StrictStr] = Field(default=None, description="image.tag")
-    __properties: ClassVar[List[str]] = ["application", "automated", "digest", "env", "hosts", "name", "org", "path", "project", "replicas", "repository", "tag"]
+    repository: Optional[StrictStr] = None
+    secrets: Optional[List[SecretRef]] = None
+    tag: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["application", "automated", "component", "digest", "env", "hosts", "name", "org", "partOf", "path", "project", "replicas", "repository", "secrets", "tag"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +91,13 @@ class Declaration(BaseModel):
                 if _item_env:
                     _items.append(_item_env.to_dict())
             _dict['env'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in secrets (list)
+        _items = []
+        if self.secrets:
+            for _item_secrets in self.secrets:
+                if _item_secrets:
+                    _items.append(_item_secrets.to_dict())
+            _dict['secrets'] = _items
         return _dict
 
     @classmethod
@@ -101,15 +112,18 @@ class Declaration(BaseModel):
         _obj = cls.model_validate({
             "application": obj.get("application"),
             "automated": obj.get("automated"),
+            "component": obj.get("component"),
             "digest": obj.get("digest"),
             "env": [DeclareEnv.from_dict(_item) for _item in obj["env"]] if obj.get("env") is not None else None,
             "hosts": obj.get("hosts"),
             "name": obj.get("name"),
             "org": obj.get("org"),
+            "partOf": obj.get("partOf"),
             "path": obj.get("path"),
             "project": obj.get("project"),
             "replicas": obj.get("replicas"),
             "repository": obj.get("repository"),
+            "secrets": [SecretRef.from_dict(_item) for _item in obj["secrets"]] if obj.get("secrets") is not None else None,
             "tag": obj.get("tag")
         })
         return _obj

@@ -26,7 +26,7 @@ class O11yO11yFunnelRow(BaseModel):
     """
     O11yO11yFunnelRow
     """ # noqa: E501
-    data: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Data are the row's columns, keyed by column name.")
+    data: Optional[Dict[str, Any]] = Field(default=None, description="Data are the row's columns, keyed by column name.")
     timestamp: Optional[StrictStr] = Field(default=None, description="Timestamp is the row's time.")
     __properties: ClassVar[List[str]] = ["data", "timestamp"]
 

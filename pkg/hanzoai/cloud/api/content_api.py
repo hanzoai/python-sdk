@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.board_page import BoardPage
-from hanzoai.cloud.models.channel_list import ChannelList
-from hanzoai.cloud.models.generate_input import GenerateInput
-from hanzoai.cloud.models.generate_result import GenerateResult
-from hanzoai.cloud.models.publish_input import PublishInput
-from hanzoai.cloud.models.publish_result import PublishResult
-from hanzoai.cloud.models.state_graph import StateGraph
-from hanzoai.cloud.models.transition_in import TransitionIn
-from hanzoai.cloud.models.transition_result import TransitionResult
+from hanzoai.cloud.models.content_board_page import ContentBoardPage
+from hanzoai.cloud.models.content_channel_list import ContentChannelList
+from hanzoai.cloud.models.content_generate_input import ContentGenerateInput
+from hanzoai.cloud.models.content_generate_result import ContentGenerateResult
+from hanzoai.cloud.models.content_publish_input import ContentPublishInput
+from hanzoai.cloud.models.content_publish_result import ContentPublishResult
+from hanzoai.cloud.models.content_state_graph import ContentStateGraph
+from hanzoai.cloud.models.content_transition_in import ContentTransitionIn
+from hanzoai.cloud.models.content_transition_result import ContentTransitionResult
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +66,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BoardPage:
+    ) -> ContentBoardPage:
         """Aggregates the caller org's marketing content across every publishable content type into ONE queue board — the cross-type read the framework's per-DocType list cannot give.
 
         Aggregates the caller org's marketing content across every publishable content type into ONE queue board — the cross-type read the framework's per-DocType list cannot give. It never fails on a partial outage: a content type the org has not installed, or one whose search errors, is skipped and logged rather than failing the whole board.
@@ -113,7 +113,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardPage",
+            '200': "ContentBoardPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -145,7 +145,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BoardPage]:
+    ) -> ApiResponse[ContentBoardPage]:
         """Aggregates the caller org's marketing content across every publishable content type into ONE queue board — the cross-type read the framework's per-DocType list cannot give.
 
         Aggregates the caller org's marketing content across every publishable content type into ONE queue board — the cross-type read the framework's per-DocType list cannot give. It never fails on a partial outage: a content type the org has not installed, or one whose search errors, is skipped and logged rather than failing the whole board.
@@ -192,7 +192,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardPage",
+            '200': "ContentBoardPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -271,7 +271,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardPage",
+            '200': "ContentBoardPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -333,7 +333,8 @@ class ContentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -376,7 +377,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChannelList:
+    ) -> ContentChannelList:
         """Lists the distribution channels the caller's org has connected — the social integrations a publish can target.
 
         Lists the distribution channels the caller's org has connected — the social integrations a publish can target. A deployment with no distribution edge wired answers 503 rather than an empty list that would read as \"no channels\".
@@ -411,7 +412,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelList",
+            '200': "ContentChannelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -439,7 +440,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChannelList]:
+    ) -> ApiResponse[ContentChannelList]:
         """Lists the distribution channels the caller's org has connected — the social integrations a publish can target.
 
         Lists the distribution channels the caller's org has connected — the social integrations a publish can target. A deployment with no distribution edge wired answers 503 rather than an empty list that would read as \"no channels\".
@@ -474,7 +475,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelList",
+            '200': "ContentChannelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -537,7 +538,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChannelList",
+            '200': "ContentChannelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -579,7 +580,8 @@ class ContentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -622,7 +624,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StateGraph:
+    ) -> ContentStateGraph:
         """Returns the ONE marketing-content state machine: the ordered lifecycle states, which state a fresh document starts in, which one is publicly live, and the legal successors of every state.
 
         Returns the ONE marketing-content state machine: the ordered lifecycle states, which state a fresh document starts in, which one is publicly live, and the legal successors of every state. The console builds its board columns and its per-item action buttons from this single answer, so the UI and the write-time enforcement hook can never disagree about what is legal.
@@ -657,7 +659,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StateGraph",
+            '200': "ContentStateGraph",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -685,7 +687,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StateGraph]:
+    ) -> ApiResponse[ContentStateGraph]:
         """Returns the ONE marketing-content state machine: the ordered lifecycle states, which state a fresh document starts in, which one is publicly live, and the legal successors of every state.
 
         Returns the ONE marketing-content state machine: the ordered lifecycle states, which state a fresh document starts in, which one is publicly live, and the legal successors of every state. The console builds its board columns and its per-item action buttons from this single answer, so the UI and the write-time enforcement hook can never disagree about what is legal.
@@ -720,7 +722,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StateGraph",
+            '200': "ContentStateGraph",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -783,7 +785,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StateGraph",
+            '200': "ContentStateGraph",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -825,7 +827,8 @@ class ContentApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -858,7 +861,7 @@ class ContentApi:
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
-        transition_in: TransitionIn,
+        content_transition_in: ContentTransitionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -871,7 +874,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TransitionResult:
+    ) -> ContentTransitionResult:
         """Moves one content item to a new lifecycle state and, on the move to published, fans it out to the item's channels.
 
         Moves one content item to a new lifecycle state and, on the move to published, fans it out to the item's channels. The edge must be legal for the item's current state — an illegal move is refused with 409 — and the status write re-validates it at the storage boundary. Distribution is best effort: its honest state is reported on the result and a distribution failure never rolls the status change back.
@@ -880,8 +883,8 @@ class ContentApi:
         :type doctype: str
         :param name: Name is the document to act on, from the path. (required)
         :type name: str
-        :param transition_in: (required)
-        :type transition_in: TransitionIn
+        :param content_transition_in: (required)
+        :type content_transition_in: ContentTransitionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -907,7 +910,7 @@ class ContentApi:
         _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
-            transition_in=transition_in,
+            content_transition_in=content_transition_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -915,7 +918,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransitionResult",
+            '200': "ContentTransitionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -933,7 +936,7 @@ class ContentApi:
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
-        transition_in: TransitionIn,
+        content_transition_in: ContentTransitionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -946,7 +949,7 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TransitionResult]:
+    ) -> ApiResponse[ContentTransitionResult]:
         """Moves one content item to a new lifecycle state and, on the move to published, fans it out to the item's channels.
 
         Moves one content item to a new lifecycle state and, on the move to published, fans it out to the item's channels. The edge must be legal for the item's current state — an illegal move is refused with 409 — and the status write re-validates it at the storage boundary. Distribution is best effort: its honest state is reported on the result and a distribution failure never rolls the status change back.
@@ -955,8 +958,8 @@ class ContentApi:
         :type doctype: str
         :param name: Name is the document to act on, from the path. (required)
         :type name: str
-        :param transition_in: (required)
-        :type transition_in: TransitionIn
+        :param content_transition_in: (required)
+        :type content_transition_in: ContentTransitionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -982,7 +985,7 @@ class ContentApi:
         _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
-            transition_in=transition_in,
+            content_transition_in=content_transition_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -990,7 +993,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransitionResult",
+            '200': "ContentTransitionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1008,7 +1011,7 @@ class ContentApi:
         self,
         doctype: Annotated[StrictStr, Field(description="DocType is the content type to act on, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the document to act on, from the path.")],
-        transition_in: TransitionIn,
+        content_transition_in: ContentTransitionIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1030,8 +1033,8 @@ class ContentApi:
         :type doctype: str
         :param name: Name is the document to act on, from the path. (required)
         :type name: str
-        :param transition_in: (required)
-        :type transition_in: TransitionIn
+        :param content_transition_in: (required)
+        :type content_transition_in: ContentTransitionIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1057,7 +1060,7 @@ class ContentApi:
         _param = self._post_content_by_doctype_by_name_transition_serialize(
             doctype=doctype,
             name=name,
-            transition_in=transition_in,
+            content_transition_in=content_transition_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1065,7 +1068,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransitionResult",
+            '200': "ContentTransitionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1078,7 +1081,7 @@ class ContentApi:
         self,
         doctype,
         name,
-        transition_in,
+        content_transition_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1108,15 +1111,16 @@ class ContentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if transition_in is not None:
-            _body_params = transition_in
+        if content_transition_in is not None:
+            _body_params = content_transition_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1160,7 +1164,7 @@ class ContentApi:
     @validate_call
     def post_content_generate(
         self,
-        generate_input: GenerateInput,
+        content_generate_input: ContentGenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1173,13 +1177,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GenerateResult:
-        """Draft a piece of marketing content and file it in the CMS as a draft.
+    ) -> ContentGenerateResult:
+        """Draft a provider of marketing content and file it in the CMS as a draft.
 
-        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a provider of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 401. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
-        :param generate_input: (required)
-        :type generate_input: GenerateInput
+        :param content_generate_input: (required)
+        :type content_generate_input: ContentGenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1203,7 +1207,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_generate_serialize(
-            generate_input=generate_input,
+            content_generate_input=content_generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1211,8 +1215,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GenerateResult",
-            '402': "GenerateResult",
+            '201': "ContentGenerateResult",
+            '402': "ContentGenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1228,7 +1232,7 @@ class ContentApi:
     @validate_call
     def post_content_generate_with_http_info(
         self,
-        generate_input: GenerateInput,
+        content_generate_input: ContentGenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1241,13 +1245,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GenerateResult]:
-        """Draft a piece of marketing content and file it in the CMS as a draft.
+    ) -> ApiResponse[ContentGenerateResult]:
+        """Draft a provider of marketing content and file it in the CMS as a draft.
 
-        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a provider of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 401. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
-        :param generate_input: (required)
-        :type generate_input: GenerateInput
+        :param content_generate_input: (required)
+        :type content_generate_input: ContentGenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1271,7 +1275,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_generate_serialize(
-            generate_input=generate_input,
+            content_generate_input=content_generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1279,8 +1283,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GenerateResult",
-            '402': "GenerateResult",
+            '201': "ContentGenerateResult",
+            '402': "ContentGenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1296,7 +1300,7 @@ class ContentApi:
     @validate_call
     def post_content_generate_without_preload_content(
         self,
-        generate_input: GenerateInput,
+        content_generate_input: ContentGenerateInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1310,12 +1314,12 @@ class ContentApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Draft a piece of marketing content and file it in the CMS as a draft.
+        """Draft a provider of marketing content and file it in the CMS as a draft.
 
-        Draft a piece of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 403. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
+        Draft a provider of marketing content and file it in the CMS as a draft.  Answers 201 with the created draft's identity — {doctype, name, status} — and the document itself lands in the CMS through the SAME validate and lifecycle-hook pipeline an ordinary create runs. This is a WRITE, not a preview: there is no dry-run, and every call that succeeds leaves a document behind.  `doctype` picks which of two generation planes runs, and they are the only two. Campaign and SocialPost are drafted as brand COPY on the platform AI plane (zen5 by default, overridable per request with `model` or per deployment); Asset is a studio image render the AI plane never sees. Everything else about the call is identical.  MONEY, metered in exactly one place per mode and never both. Copy rides the platform's own inference meter — the org's balance is authorised before the model call and debited at the exact token cost after — so content never re-bills it. A studio render is invisible to that meter, so content is the sole meter for it: the org is gated BEFORE the GPU compute and refused 402 when out of funds or over its spend cap, and the debit is recorded only once the render actually returns, because the billable event is the consumed compute and not the CMS row. `project` rides the BODY rather than a server-minted identity claim, so it attributes spend but a project-scoped cap stays soft on it — the org is the value that is enforced.  The org is the caller's own, resolved once from the validated principal and never read from the body; a caller without one is refused 401. Status is not the generator's to choose: a generated item is ALWAYS a draft, and the storage-boundary hook enforces that a second time.  It fails closed rather than inventing anything. An unknown content type is 404 and a deployment whose marketing module is not installed is 409 naming the install call. An AI plane or studio that is unconfigured or unreachable, a graph the studio rejects, and a render that does not return in time all degrade to 503 — never fabricated copy, never a fake render. A `source_media` that fails the SSRF and traversal validator is 400 raised before the billing gate and before the studio is contacted, so a hostile source never costs the caller anything.
 
-        :param generate_input: (required)
-        :type generate_input: GenerateInput
+        :param content_generate_input: (required)
+        :type content_generate_input: ContentGenerateInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1339,7 +1343,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_generate_serialize(
-            generate_input=generate_input,
+            content_generate_input=content_generate_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1347,8 +1351,8 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GenerateResult",
-            '402': "GenerateResult",
+            '201': "ContentGenerateResult",
+            '402': "ContentGenerateResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1359,7 +1363,7 @@ class ContentApi:
 
     def _post_content_generate_serialize(
         self,
-        generate_input,
+        content_generate_input,
         _request_auth,
         _content_type,
         _headers,
@@ -1385,15 +1389,16 @@ class ContentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if generate_input is not None:
-            _body_params = generate_input
+        if content_generate_input is not None:
+            _body_params = content_generate_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1437,7 +1442,7 @@ class ContentApi:
     @validate_call
     def post_content_publish(
         self,
-        publish_input: PublishInput,
+        content_publish_input: ContentPublishInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1450,13 +1455,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PublishResult:
+    ) -> ContentPublishResult:
         """Publish distributes one CMS content item to the channels recorded on it and returns the honest per-channel outcome.
 
         Publish distributes one CMS content item to the channels recorded on it and returns the honest per-channel outcome. The item names itself — its caption, media and channel list are read from the stored document, not from this request. It is idempotent per channel (a channel already posted for this item is skipped), and a publish that loses the per-item lease to a live publisher answers status \"in_progress\" having posted nothing.
 
-        :param publish_input: (required)
-        :type publish_input: PublishInput
+        :param content_publish_input: (required)
+        :type content_publish_input: ContentPublishInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1480,7 +1485,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_publish_serialize(
-            publish_input=publish_input,
+            content_publish_input=content_publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1488,7 +1493,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublishResult",
+            '200': "ContentPublishResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1504,7 +1509,7 @@ class ContentApi:
     @validate_call
     def post_content_publish_with_http_info(
         self,
-        publish_input: PublishInput,
+        content_publish_input: ContentPublishInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1517,13 +1522,13 @@ class ContentApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PublishResult]:
+    ) -> ApiResponse[ContentPublishResult]:
         """Publish distributes one CMS content item to the channels recorded on it and returns the honest per-channel outcome.
 
         Publish distributes one CMS content item to the channels recorded on it and returns the honest per-channel outcome. The item names itself — its caption, media and channel list are read from the stored document, not from this request. It is idempotent per channel (a channel already posted for this item is skipped), and a publish that loses the per-item lease to a live publisher answers status \"in_progress\" having posted nothing.
 
-        :param publish_input: (required)
-        :type publish_input: PublishInput
+        :param content_publish_input: (required)
+        :type content_publish_input: ContentPublishInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1547,7 +1552,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_publish_serialize(
-            publish_input=publish_input,
+            content_publish_input=content_publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1555,7 +1560,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublishResult",
+            '200': "ContentPublishResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1571,7 +1576,7 @@ class ContentApi:
     @validate_call
     def post_content_publish_without_preload_content(
         self,
-        publish_input: PublishInput,
+        content_publish_input: ContentPublishInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1589,8 +1594,8 @@ class ContentApi:
 
         Publish distributes one CMS content item to the channels recorded on it and returns the honest per-channel outcome. The item names itself — its caption, media and channel list are read from the stored document, not from this request. It is idempotent per channel (a channel already posted for this item is skipped), and a publish that loses the per-item lease to a live publisher answers status \"in_progress\" having posted nothing.
 
-        :param publish_input: (required)
-        :type publish_input: PublishInput
+        :param content_publish_input: (required)
+        :type content_publish_input: ContentPublishInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1614,7 +1619,7 @@ class ContentApi:
         """ # noqa: E501
 
         _param = self._post_content_publish_serialize(
-            publish_input=publish_input,
+            content_publish_input=content_publish_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1622,7 +1627,7 @@ class ContentApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PublishResult",
+            '200': "ContentPublishResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1633,7 +1638,7 @@ class ContentApi:
 
     def _post_content_publish_serialize(
         self,
-        publish_input,
+        content_publish_input,
         _request_auth,
         _content_type,
         _headers,
@@ -1659,15 +1664,16 @@ class ContentApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if publish_input is not None:
-            _body_params = publish_input
+        if content_publish_input is not None:
+            _body_params = content_publish_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

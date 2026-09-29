@@ -19,22 +19,23 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.blob import Blob
-from hanzoai.cloud.models.end_in import EndIn
-from hanzoai.cloud.models.exec_request import ExecRequest
-from hanzoai.cloud.models.exec_result import ExecResult
-from hanzoai.cloud.models.lease_in import LeaseIn
-from hanzoai.cloud.models.leased import Leased
-from hanzoai.cloud.models.path_in import PathIn
-from hanzoai.cloud.models.ran import Ran
-from hanzoai.cloud.models.run_in import RunIn
-from hanzoai.cloud.models.sandbox import Sandbox
-from hanzoai.cloud.models.sandbox_list import SandboxList
-from hanzoai.cloud.models.stop_in import StopIn
-from hanzoai.cloud.models.stopped import Stopped
-from hanzoai.cloud.models.ticket_grant import TicketGrant
-from hanzoai.cloud.models.write_in import WriteIn
-from hanzoai.cloud.models.wrote import Wrote
+from hanzoai.cloud.models.sandbox_blob import SandboxBlob
+from hanzoai.cloud.models.sandbox_end_in import SandboxEndIn
+from hanzoai.cloud.models.sandbox_exec_request import SandboxExecRequest
+from hanzoai.cloud.models.sandbox_exec_result import SandboxExecResult
+from hanzoai.cloud.models.sandbox_lease_in import SandboxLeaseIn
+from hanzoai.cloud.models.sandbox_leased import SandboxLeased
+from hanzoai.cloud.models.sandbox_path_in import SandboxPathIn
+from hanzoai.cloud.models.sandbox_ran import SandboxRan
+from hanzoai.cloud.models.sandbox_run_in import SandboxRunIn
+from hanzoai.cloud.models.sandbox_sandbox import SandboxSandbox
+from hanzoai.cloud.models.sandbox_sandbox_in import SandboxSandboxIn
+from hanzoai.cloud.models.sandbox_sandbox_list import SandboxSandboxList
+from hanzoai.cloud.models.sandbox_stop_in import SandboxStopIn
+from hanzoai.cloud.models.sandbox_stopped import SandboxStopped
+from hanzoai.cloud.models.sandbox_ticket_grant import SandboxTicketGrant
+from hanzoai.cloud.models.sandbox_write_in import SandboxWriteIn
+from hanzoai.cloud.models.sandbox_wrote import SandboxWrote
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -300,6 +301,13 @@ class SandboxApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -328,7 +336,7 @@ class SandboxApi:
     @validate_call
     def end_sandbox(
         self,
-        end_in: EndIn,
+        sandbox_end_in: SandboxEndIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -346,8 +354,8 @@ class SandboxApi:
 
         Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
-        :param end_in: (required)
-        :type end_in: EndIn
+        :param sandbox_end_in: (required)
+        :type sandbox_end_in: SandboxEndIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -371,7 +379,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._end_sandbox_serialize(
-            end_in=end_in,
+            sandbox_end_in=sandbox_end_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +403,7 @@ class SandboxApi:
     @validate_call
     def end_sandbox_with_http_info(
         self,
-        end_in: EndIn,
+        sandbox_end_in: SandboxEndIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -413,8 +421,8 @@ class SandboxApi:
 
         Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
-        :param end_in: (required)
-        :type end_in: EndIn
+        :param sandbox_end_in: (required)
+        :type sandbox_end_in: SandboxEndIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -438,7 +446,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._end_sandbox_serialize(
-            end_in=end_in,
+            sandbox_end_in=sandbox_end_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -462,7 +470,7 @@ class SandboxApi:
     @validate_call
     def end_sandbox_without_preload_content(
         self,
-        end_in: EndIn,
+        sandbox_end_in: SandboxEndIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -480,8 +488,8 @@ class SandboxApi:
 
         Ends the caller's sandbox lease: the pod goes, and the volume goes only when the caller asked for that too.
 
-        :param end_in: (required)
-        :type end_in: EndIn
+        :param sandbox_end_in: (required)
+        :type sandbox_end_in: SandboxEndIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -505,7 +513,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._end_sandbox_serialize(
-            end_in=end_in,
+            sandbox_end_in=sandbox_end_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -524,7 +532,7 @@ class SandboxApi:
 
     def _end_sandbox_serialize(
         self,
-        end_in,
+        sandbox_end_in,
         _request_auth,
         _content_type,
         _headers,
@@ -550,10 +558,17 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if end_in is not None:
-            _body_params = end_in
+        if sandbox_end_in is not None:
+            _body_params = sandbox_end_in
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
         # set the HTTP header `Content-Type`
         if _content_type:
@@ -609,10 +624,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SandboxList:
-        """Lists the caller org's sandboxes, newest first.
+    ) -> SandboxSandboxList:
+        """Lists the sandboxes the caller holds, newest first.
 
-        Lists the caller org's sandboxes, newest first.  `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
+        Lists the sandboxes the caller holds, newest first.  A member holds the sandboxes they leased; an admin of the org, or a SuperAdmin, holds every one in it. `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
 
         :param project:
         :type project: str
@@ -650,7 +665,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SandboxList",
+            '200': "SandboxSandboxList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -680,10 +695,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SandboxList]:
-        """Lists the caller org's sandboxes, newest first.
+    ) -> ApiResponse[SandboxSandboxList]:
+        """Lists the sandboxes the caller holds, newest first.
 
-        Lists the caller org's sandboxes, newest first.  `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
+        Lists the sandboxes the caller holds, newest first.  A member holds the sandboxes they leased; an admin of the org, or a SuperAdmin, holds every one in it. `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
 
         :param project:
         :type project: str
@@ -721,7 +736,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SandboxList",
+            '200': "SandboxSandboxList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -752,9 +767,9 @@ class SandboxApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the caller org's sandboxes, newest first.
+        """Lists the sandboxes the caller holds, newest first.
 
-        Lists the caller org's sandboxes, newest first.  `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
+        Lists the sandboxes the caller holds, newest first.  A member holds the sandboxes they leased; an admin of the org, or a SuperAdmin, holds every one in it. `?project=` and `?status=` narrow it. Only the caller's org's: the store is keyed on the validated org, so another tenant's sandbox is not something this operation can return.
 
         :param project:
         :type project: str
@@ -792,7 +807,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SandboxList",
+            '200': "SandboxSandboxList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -844,7 +859,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -888,10 +904,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Sandbox:
+    ) -> SandboxSandbox:
         """Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.
 
-        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  An id the caller's org does not hold is the same 404 an unknown id gives — the store is keyed on the org, so a cross-tenant id simply is not there.
+        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  A sandbox is its lessee's and its org admins'. An id the caller does not hold — another org's, or another member's — is the same 404 an unknown id gives.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -926,7 +942,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -955,10 +971,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Sandbox]:
+    ) -> ApiResponse[SandboxSandbox]:
         """Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.
 
-        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  An id the caller's org does not hold is the same 404 an unknown id gives — the store is keyed on the org, so a cross-tenant id simply is not there.
+        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  A sandbox is its lessee's and its org admins'. An id the caller does not hold — another org's, or another member's — is the same 404 an unknown id gives.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -993,7 +1009,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1025,7 +1041,7 @@ class SandboxApi:
     ) -> RESTResponseType:
         """Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.
 
-        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  An id the caller's org does not hold is the same 404 an unknown id gives — the store is keyed on the org, so a cross-tenant id simply is not there.
+        Returns one sandbox: its class, project, image, the runtime it was given, its status and when its lease ends.  A sandbox is its lessee's and its org admins'. An id the caller does not hold — another org's, or another member's — is the same 404 an unknown id gives.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -1060,7 +1076,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1105,7 +1121,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2391,7 +2408,7 @@ class SandboxApi:
     @validate_call
     def lease_sandbox(
         self,
-        lease_in: LeaseIn,
+        sandbox_lease_in: SandboxLeaseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2404,13 +2421,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Leased:
+    ) -> SandboxLeased:
         """Lease a sandbox — a real computer — or resume one you hold
 
-        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
+        Leases the caller's sandbox, or returns the one it named if that lease is still running, or gives it a pod again if it is parked — with its disk as it was left.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_lease_in: (required)
+        :type sandbox_lease_in: SandboxLeaseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2434,7 +2451,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._lease_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_lease_in=sandbox_lease_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2442,7 +2459,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leased",
+            '200': "SandboxLeased",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2458,7 +2475,7 @@ class SandboxApi:
     @validate_call
     def lease_sandbox_with_http_info(
         self,
-        lease_in: LeaseIn,
+        sandbox_lease_in: SandboxLeaseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2471,13 +2488,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Leased]:
+    ) -> ApiResponse[SandboxLeased]:
         """Lease a sandbox — a real computer — or resume one you hold
 
-        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
+        Leases the caller's sandbox, or returns the one it named if that lease is still running, or gives it a pod again if it is parked — with its disk as it was left.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_lease_in: (required)
+        :type sandbox_lease_in: SandboxLeaseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2501,7 +2518,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._lease_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_lease_in=sandbox_lease_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2509,7 +2526,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leased",
+            '200': "SandboxLeased",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2525,7 +2542,7 @@ class SandboxApi:
     @validate_call
     def lease_sandbox_without_preload_content(
         self,
-        lease_in: LeaseIn,
+        sandbox_lease_in: SandboxLeaseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2541,10 +2558,10 @@ class SandboxApi:
     ) -> RESTResponseType:
         """Lease a sandbox — a real computer — or resume one you hold
 
-        Leases the caller's sandbox, or returns the one it named if that lease is still running.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
+        Leases the caller's sandbox, or returns the one it named if that lease is still running, or gives it a pod again if it is parked — with its disk as it was left.  What comes back is a real computer: a pod under a runtime boundary with a toolchain already in it, its own filesystem, and a lease that ends it. Every other op here acts on the one this returns.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_lease_in: (required)
+        :type sandbox_lease_in: SandboxLeaseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2568,7 +2585,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._lease_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_lease_in=sandbox_lease_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2576,7 +2593,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leased",
+            '200': "SandboxLeased",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2587,7 +2604,7 @@ class SandboxApi:
 
     def _lease_sandbox_serialize(
         self,
-        lease_in,
+        sandbox_lease_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2613,15 +2630,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if lease_in is not None:
-            _body_params = lease_in
+        if sandbox_lease_in is not None:
+            _body_params = sandbox_lease_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2665,7 +2683,7 @@ class SandboxApi:
     @validate_call
     def post_sandbox(
         self,
-        lease_in: LeaseIn,
+        sandbox_sandbox_in: SandboxSandboxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2678,13 +2696,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Sandbox:
+    ) -> SandboxSandbox:
         """Leases a sandbox — a real computer — for the caller's org.
 
         Leases a sandbox — a real computer — for the caller's org.  The class decides what it is for and therefore its image, working directory and isolation. A dev or desktop sandbox is SINGLE-ATTACH per project, so asking twice for one project resumes the one that exists rather than paying for a second; an exec sandbox carries no project and is bounded per org instead, refused 429 past the ceiling because the caller's correct response is to wait.  Answers 201 with the sandbox as leased, which names the runtime it GOT — not the one that was asked for.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_sandbox_in: (required)
+        :type sandbox_sandbox_in: SandboxSandboxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2708,7 +2726,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._post_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_sandbox_in=sandbox_sandbox_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2716,7 +2734,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Sandbox",
+            '201': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2732,7 +2750,7 @@ class SandboxApi:
     @validate_call
     def post_sandbox_with_http_info(
         self,
-        lease_in: LeaseIn,
+        sandbox_sandbox_in: SandboxSandboxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2745,13 +2763,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Sandbox]:
+    ) -> ApiResponse[SandboxSandbox]:
         """Leases a sandbox — a real computer — for the caller's org.
 
         Leases a sandbox — a real computer — for the caller's org.  The class decides what it is for and therefore its image, working directory and isolation. A dev or desktop sandbox is SINGLE-ATTACH per project, so asking twice for one project resumes the one that exists rather than paying for a second; an exec sandbox carries no project and is bounded per org instead, refused 429 past the ceiling because the caller's correct response is to wait.  Answers 201 with the sandbox as leased, which names the runtime it GOT — not the one that was asked for.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_sandbox_in: (required)
+        :type sandbox_sandbox_in: SandboxSandboxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2775,7 +2793,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._post_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_sandbox_in=sandbox_sandbox_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2783,7 +2801,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Sandbox",
+            '201': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2799,7 +2817,7 @@ class SandboxApi:
     @validate_call
     def post_sandbox_without_preload_content(
         self,
-        lease_in: LeaseIn,
+        sandbox_sandbox_in: SandboxSandboxIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2817,8 +2835,8 @@ class SandboxApi:
 
         Leases a sandbox — a real computer — for the caller's org.  The class decides what it is for and therefore its image, working directory and isolation. A dev or desktop sandbox is SINGLE-ATTACH per project, so asking twice for one project resumes the one that exists rather than paying for a second; an exec sandbox carries no project and is bounded per org instead, refused 429 past the ceiling because the caller's correct response is to wait.  Answers 201 with the sandbox as leased, which names the runtime it GOT — not the one that was asked for.
 
-        :param lease_in: (required)
-        :type lease_in: LeaseIn
+        :param sandbox_sandbox_in: (required)
+        :type sandbox_sandbox_in: SandboxSandboxIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2842,7 +2860,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._post_sandbox_serialize(
-            lease_in=lease_in,
+            sandbox_sandbox_in=sandbox_sandbox_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2850,7 +2868,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Sandbox",
+            '201': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2861,7 +2879,7 @@ class SandboxApi:
 
     def _post_sandbox_serialize(
         self,
-        lease_in,
+        sandbox_sandbox_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2887,15 +2905,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if lease_in is not None:
-            _body_params = lease_in
+        if sandbox_sandbox_in is not None:
+            _body_params = sandbox_sandbox_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2940,7 +2959,7 @@ class SandboxApi:
     def post_sandbox_by_id_exec(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sandbox to run in, from the path.")],
-        exec_request: ExecRequest,
+        sandbox_exec_request: SandboxExecRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2953,15 +2972,15 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ExecResult:
+    ) -> SandboxExecResult:
         """Runs one command in a sandbox the caller holds and answers with its exit code, stdout and stderr.
 
         Runs one command in a sandbox the caller holds and answers with its exit code, stdout and stderr.  Send `argv` — an argument vector cannot be word-split by accident — or `command` for a shell line, which is the only input here that ever reaches a shell. A non-zero exit is a SUCCESSFUL call carrying a failed command: the status is 200 and the exit code is in the answer, because \"the command failed\" and \"the call failed\" are different facts.
 
         :param id: ID is the sandbox to run in, from the path. (required)
         :type id: str
-        :param exec_request: (required)
-        :type exec_request: ExecRequest
+        :param sandbox_exec_request: (required)
+        :type sandbox_exec_request: SandboxExecRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2986,7 +3005,7 @@ class SandboxApi:
 
         _param = self._post_sandbox_by_id_exec_serialize(
             id=id,
-            exec_request=exec_request,
+            sandbox_exec_request=sandbox_exec_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2994,7 +3013,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExecResult",
+            '200': "SandboxExecResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3011,7 +3030,7 @@ class SandboxApi:
     def post_sandbox_by_id_exec_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sandbox to run in, from the path.")],
-        exec_request: ExecRequest,
+        sandbox_exec_request: SandboxExecRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3024,15 +3043,15 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ExecResult]:
+    ) -> ApiResponse[SandboxExecResult]:
         """Runs one command in a sandbox the caller holds and answers with its exit code, stdout and stderr.
 
         Runs one command in a sandbox the caller holds and answers with its exit code, stdout and stderr.  Send `argv` — an argument vector cannot be word-split by accident — or `command` for a shell line, which is the only input here that ever reaches a shell. A non-zero exit is a SUCCESSFUL call carrying a failed command: the status is 200 and the exit code is in the answer, because \"the command failed\" and \"the call failed\" are different facts.
 
         :param id: ID is the sandbox to run in, from the path. (required)
         :type id: str
-        :param exec_request: (required)
-        :type exec_request: ExecRequest
+        :param sandbox_exec_request: (required)
+        :type sandbox_exec_request: SandboxExecRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3057,7 +3076,7 @@ class SandboxApi:
 
         _param = self._post_sandbox_by_id_exec_serialize(
             id=id,
-            exec_request=exec_request,
+            sandbox_exec_request=sandbox_exec_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3065,7 +3084,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExecResult",
+            '200': "SandboxExecResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3082,7 +3101,7 @@ class SandboxApi:
     def post_sandbox_by_id_exec_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sandbox to run in, from the path.")],
-        exec_request: ExecRequest,
+        sandbox_exec_request: SandboxExecRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3102,8 +3121,8 @@ class SandboxApi:
 
         :param id: ID is the sandbox to run in, from the path. (required)
         :type id: str
-        :param exec_request: (required)
-        :type exec_request: ExecRequest
+        :param sandbox_exec_request: (required)
+        :type sandbox_exec_request: SandboxExecRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3128,7 +3147,7 @@ class SandboxApi:
 
         _param = self._post_sandbox_by_id_exec_serialize(
             id=id,
-            exec_request=exec_request,
+            sandbox_exec_request=sandbox_exec_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3136,7 +3155,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ExecResult",
+            '200': "SandboxExecResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3148,7 +3167,7 @@ class SandboxApi:
     def _post_sandbox_by_id_exec_serialize(
         self,
         id,
-        exec_request,
+        sandbox_exec_request,
         _request_auth,
         _content_type,
         _headers,
@@ -3176,15 +3195,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if exec_request is not None:
-            _body_params = exec_request
+        if sandbox_exec_request is not None:
+            _body_params = sandbox_exec_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3492,7 +3512,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Sandbox:
+    ) -> SandboxSandbox:
         """Stops the pod, keeps the row and the volume, and settles the tail: POST /v1/sandbox/:id/pause.
 
         Stops the pod, keeps the row and the volume, and settles the tail: POST /v1/sandbox/:id/pause.  The claim, the stop and the ship are ONE settlement for the same reason a retirement is — the snapshot that carries the advanced watermark has to carry the new state, or a successor hydrates a running row for a pod that is gone and bills for it until the reaper notices.
@@ -3530,7 +3550,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3559,7 +3579,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Sandbox]:
+    ) -> ApiResponse[SandboxSandbox]:
         """Stops the pod, keeps the row and the volume, and settles the tail: POST /v1/sandbox/:id/pause.
 
         Stops the pod, keeps the row and the volume, and settles the tail: POST /v1/sandbox/:id/pause.  The claim, the stop and the ship are ONE settlement for the same reason a retirement is — the snapshot that carries the advanced watermark has to carry the new state, or a successor hydrates a running row for a pod that is gone and bills for it until the reaper notices.
@@ -3597,7 +3617,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3664,7 +3684,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3709,7 +3729,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3753,10 +3774,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Sandbox:
+    ) -> SandboxSandbox:
         """Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.
 
-        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW. Its name is minted fresh because a pod name is never reused (store.go), the volume it mounts is the one the row already names, and the credential is the RESUMING caller's rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
+        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW and so is its lease: a fresh pod name, because a pod name is never reused (store.go), the volume the row already names, a lease of the class's own length from now, and the RESUMING caller's credential rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -3791,7 +3812,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3820,10 +3841,10 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Sandbox]:
+    ) -> ApiResponse[SandboxSandbox]:
         """Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.
 
-        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW. Its name is minted fresh because a pod name is never reused (store.go), the volume it mounts is the one the row already names, and the credential is the RESUMING caller's rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
+        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW and so is its lease: a fresh pod name, because a pod name is never reused (store.go), the volume the row already names, a lease of the class's own length from now, and the RESUMING caller's credential rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -3858,7 +3879,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3890,7 +3911,7 @@ class SandboxApi:
     ) -> RESTResponseType:
         """Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.
 
-        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW. Its name is minted fresh because a pod name is never reused (store.go), the volume it mounts is the one the row already names, and the credential is the RESUMING caller's rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
+        Gives a parked sandbox a pod again: POST /v1/sandbox/:id/resume.  The pod is NEW and so is its lease: a fresh pod name, because a pod name is never reused (store.go), the volume the row already names, a lease of the class's own length from now, and the RESUMING caller's credential rather than the one that took the lease — a session is short-lived and the one that parked it is gone.
 
         :param id: ID is the sandbox to address, from the path. (required)
         :type id: str
@@ -3925,7 +3946,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sandbox",
+            '200': "SandboxSandbox",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3970,7 +3991,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4014,7 +4036,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TicketGrant:
+    ) -> SandboxTicketGrant:
         """Mints a short-lived grant to open the screen of a desktop sandbox.
 
         Mints a short-lived grant to open the screen of a desktop sandbox. Same properties as the terminal ticket, for the other endpoint.
@@ -4052,7 +4074,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4081,7 +4103,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TicketGrant]:
+    ) -> ApiResponse[SandboxTicketGrant]:
         """Mints a short-lived grant to open the screen of a desktop sandbox.
 
         Mints a short-lived grant to open the screen of a desktop sandbox. Same properties as the terminal ticket, for the other endpoint.
@@ -4119,7 +4141,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4186,7 +4208,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4231,7 +4253,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4275,7 +4298,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TicketGrant:
+    ) -> SandboxTicketGrant:
         """Mints a short-lived grant to open a terminal on a sandbox.
 
         Mints a short-lived grant to open a terminal on a sandbox.  The ticket travels in the query string of the URL it answers with, because a browser cannot set an Authorization header on a WebSocket handshake. It is single-purpose and short-lived for exactly that reason. A sandbox that is not running is 409 rather than a ticket that cannot be used.
@@ -4313,7 +4336,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4342,7 +4365,7 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TicketGrant]:
+    ) -> ApiResponse[SandboxTicketGrant]:
         """Mints a short-lived grant to open a terminal on a sandbox.
 
         Mints a short-lived grant to open a terminal on a sandbox.  The ticket travels in the query string of the URL it answers with, because a browser cannot set an Authorization header on a WebSocket handshake. It is single-purpose and short-lived for exactly that reason. A sandbox that is not running is 409 rather than a ticket that cannot be used.
@@ -4380,7 +4403,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4447,7 +4470,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "TicketGrant",
+            '201': "SandboxTicketGrant",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4492,7 +4515,8 @@ class SandboxApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4523,7 +4547,7 @@ class SandboxApi:
     @validate_call
     def read_sandbox_file(
         self,
-        path_in: PathIn,
+        sandbox_path_in: SandboxPathIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4536,13 +4560,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Blob:
+    ) -> SandboxBlob:
         """Read a file from a sandbox you hold
 
         Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
-        :param path_in: (required)
-        :type path_in: PathIn
+        :param sandbox_path_in: (required)
+        :type sandbox_path_in: SandboxPathIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4566,7 +4590,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._read_sandbox_file_serialize(
-            path_in=path_in,
+            sandbox_path_in=sandbox_path_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4574,7 +4598,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Blob",
+            '200': "SandboxBlob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4590,7 +4614,7 @@ class SandboxApi:
     @validate_call
     def read_sandbox_file_with_http_info(
         self,
-        path_in: PathIn,
+        sandbox_path_in: SandboxPathIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4603,13 +4627,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Blob]:
+    ) -> ApiResponse[SandboxBlob]:
         """Read a file from a sandbox you hold
 
         Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
-        :param path_in: (required)
-        :type path_in: PathIn
+        :param sandbox_path_in: (required)
+        :type sandbox_path_in: SandboxPathIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4633,7 +4657,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._read_sandbox_file_serialize(
-            path_in=path_in,
+            sandbox_path_in=sandbox_path_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4641,7 +4665,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Blob",
+            '200': "SandboxBlob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4657,7 +4681,7 @@ class SandboxApi:
     @validate_call
     def read_sandbox_file_without_preload_content(
         self,
-        path_in: PathIn,
+        sandbox_path_in: SandboxPathIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4675,8 +4699,8 @@ class SandboxApi:
 
         Reads one path in the caller's sandbox: a file's bytes, or a directory's entries when the path names one.
 
-        :param path_in: (required)
-        :type path_in: PathIn
+        :param sandbox_path_in: (required)
+        :type sandbox_path_in: SandboxPathIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4700,7 +4724,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._read_sandbox_file_serialize(
-            path_in=path_in,
+            sandbox_path_in=sandbox_path_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4708,7 +4732,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Blob",
+            '200': "SandboxBlob",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4719,7 +4743,7 @@ class SandboxApi:
 
     def _read_sandbox_file_serialize(
         self,
-        path_in,
+        sandbox_path_in,
         _request_auth,
         _content_type,
         _headers,
@@ -4745,15 +4769,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if path_in is not None:
-            _body_params = path_in
+        if sandbox_path_in is not None:
+            _body_params = sandbox_path_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4797,7 +4822,7 @@ class SandboxApi:
     @validate_call
     def run_in_sandbox(
         self,
-        run_in: RunIn,
+        sandbox_run_in: SandboxRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4810,13 +4835,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Ran:
+    ) -> SandboxRan:
         """Run a command in a sandbox you hold and read its output
 
         Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agent/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
-        :param run_in: (required)
-        :type run_in: RunIn
+        :param sandbox_run_in: (required)
+        :type sandbox_run_in: SandboxRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4840,7 +4865,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._run_in_sandbox_serialize(
-            run_in=run_in,
+            sandbox_run_in=sandbox_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4848,7 +4873,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Ran",
+            '200': "SandboxRan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4864,7 +4889,7 @@ class SandboxApi:
     @validate_call
     def run_in_sandbox_with_http_info(
         self,
-        run_in: RunIn,
+        sandbox_run_in: SandboxRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4877,13 +4902,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Ran]:
+    ) -> ApiResponse[SandboxRan]:
         """Run a command in a sandbox you hold and read its output
 
         Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agent/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
-        :param run_in: (required)
-        :type run_in: RunIn
+        :param sandbox_run_in: (required)
+        :type sandbox_run_in: SandboxRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4907,7 +4932,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._run_in_sandbox_serialize(
-            run_in=run_in,
+            sandbox_run_in=sandbox_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4915,7 +4940,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Ran",
+            '200': "SandboxRan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4931,7 +4956,7 @@ class SandboxApi:
     @validate_call
     def run_in_sandbox_without_preload_content(
         self,
-        run_in: RunIn,
+        sandbox_run_in: SandboxRunIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4949,8 +4974,8 @@ class SandboxApi:
 
         Runs one command inside the caller's sandbox and answers its exit code, stdout and stderr. A non-zero exit is a successful call carrying a failed program, so it comes back as data and not as an error.  Name a `session` and the command NARRATES INTO IT: its output is appended to that session's live log as the program produces it, so anything watching the session — GET /v1/agent/sessions/stream, scoped to one run with ?root= — watches the work happen rather than waiting for the verdict. Without it the call is what it always was: silent until it returns, which for an agentic run is twenty-five minutes of blank screen.  The session is named; the TENANT is not. It is the org the caller already proved, so a session belonging to somebody else is absent from the org this call acts for and the append is refused there.
 
-        :param run_in: (required)
-        :type run_in: RunIn
+        :param sandbox_run_in: (required)
+        :type sandbox_run_in: SandboxRunIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4974,7 +4999,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._run_in_sandbox_serialize(
-            run_in=run_in,
+            sandbox_run_in=sandbox_run_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4982,7 +5007,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Ran",
+            '200': "SandboxRan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4993,7 +5018,7 @@ class SandboxApi:
 
     def _run_in_sandbox_serialize(
         self,
-        run_in,
+        sandbox_run_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5019,15 +5044,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if run_in is not None:
-            _body_params = run_in
+        if sandbox_run_in is not None:
+            _body_params = sandbox_run_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5071,7 +5097,7 @@ class SandboxApi:
     @validate_call
     def stop_run(
         self,
-        stop_in: StopIn,
+        sandbox_stop_in: SandboxStopIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5084,13 +5110,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Stopped:
+    ) -> SandboxStopped:
         """Stop what a sandbox is running, and keep the sandbox
 
         Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
-        :param stop_in: (required)
-        :type stop_in: StopIn
+        :param sandbox_stop_in: (required)
+        :type sandbox_stop_in: SandboxStopIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5114,7 +5140,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._stop_run_serialize(
-            stop_in=stop_in,
+            sandbox_stop_in=sandbox_stop_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5122,7 +5148,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stopped",
+            '200': "SandboxStopped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5138,7 +5164,7 @@ class SandboxApi:
     @validate_call
     def stop_run_with_http_info(
         self,
-        stop_in: StopIn,
+        sandbox_stop_in: SandboxStopIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5151,13 +5177,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Stopped]:
+    ) -> ApiResponse[SandboxStopped]:
         """Stop what a sandbox is running, and keep the sandbox
 
         Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
-        :param stop_in: (required)
-        :type stop_in: StopIn
+        :param sandbox_stop_in: (required)
+        :type sandbox_stop_in: SandboxStopIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5181,7 +5207,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._stop_run_serialize(
-            stop_in=stop_in,
+            sandbox_stop_in=sandbox_stop_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5189,7 +5215,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stopped",
+            '200': "SandboxStopped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5205,7 +5231,7 @@ class SandboxApi:
     @validate_call
     def stop_run_without_preload_content(
         self,
-        stop_in: StopIn,
+        sandbox_stop_in: SandboxStopIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5223,8 +5249,8 @@ class SandboxApi:
 
         Interrupts whatever the caller's sandbox is running and answers how many commands it ended. The sandbox stays leased — stop ends the WORK, end ends the RESOURCE — so whoever stopped a run can still read what it left behind.
 
-        :param stop_in: (required)
-        :type stop_in: StopIn
+        :param sandbox_stop_in: (required)
+        :type sandbox_stop_in: SandboxStopIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5248,7 +5274,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._stop_run_serialize(
-            stop_in=stop_in,
+            sandbox_stop_in=sandbox_stop_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5256,7 +5282,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stopped",
+            '200': "SandboxStopped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5267,7 +5293,7 @@ class SandboxApi:
 
     def _stop_run_serialize(
         self,
-        stop_in,
+        sandbox_stop_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5293,15 +5319,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if stop_in is not None:
-            _body_params = stop_in
+        if sandbox_stop_in is not None:
+            _body_params = sandbox_stop_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5345,7 +5372,7 @@ class SandboxApi:
     @validate_call
     def write_sandbox_file(
         self,
-        write_in: WriteIn,
+        sandbox_write_in: SandboxWriteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5358,13 +5385,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Wrote:
+    ) -> SandboxWrote:
         """Write a file into a sandbox you hold
 
         Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
-        :param write_in: (required)
-        :type write_in: WriteIn
+        :param sandbox_write_in: (required)
+        :type sandbox_write_in: SandboxWriteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5388,7 +5415,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._write_sandbox_file_serialize(
-            write_in=write_in,
+            sandbox_write_in=sandbox_write_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5396,7 +5423,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wrote",
+            '200': "SandboxWrote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5412,7 +5439,7 @@ class SandboxApi:
     @validate_call
     def write_sandbox_file_with_http_info(
         self,
-        write_in: WriteIn,
+        sandbox_write_in: SandboxWriteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5425,13 +5452,13 @@ class SandboxApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Wrote]:
+    ) -> ApiResponse[SandboxWrote]:
         """Write a file into a sandbox you hold
 
         Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
-        :param write_in: (required)
-        :type write_in: WriteIn
+        :param sandbox_write_in: (required)
+        :type sandbox_write_in: SandboxWriteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5455,7 +5482,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._write_sandbox_file_serialize(
-            write_in=write_in,
+            sandbox_write_in=sandbox_write_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5463,7 +5490,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wrote",
+            '200': "SandboxWrote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5479,7 +5506,7 @@ class SandboxApi:
     @validate_call
     def write_sandbox_file_without_preload_content(
         self,
-        write_in: WriteIn,
+        sandbox_write_in: SandboxWriteIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5497,8 +5524,8 @@ class SandboxApi:
 
         Writes bytes to one path in the caller's sandbox, creating parents, and answers the resolved path.
 
-        :param write_in: (required)
-        :type write_in: WriteIn
+        :param sandbox_write_in: (required)
+        :type sandbox_write_in: SandboxWriteIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5522,7 +5549,7 @@ class SandboxApi:
         """ # noqa: E501
 
         _param = self._write_sandbox_file_serialize(
-            write_in=write_in,
+            sandbox_write_in=sandbox_write_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5530,7 +5557,7 @@ class SandboxApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Wrote",
+            '200': "SandboxWrote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5541,7 +5568,7 @@ class SandboxApi:
 
     def _write_sandbox_file_serialize(
         self,
-        write_in,
+        sandbox_write_in,
         _request_auth,
         _content_type,
         _headers,
@@ -5567,15 +5594,16 @@ class SandboxApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if write_in is not None:
-            _body_params = write_in
+        if sandbox_write_in is not None:
+            _body_params = sandbox_write_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

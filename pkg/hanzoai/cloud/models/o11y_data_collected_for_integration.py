@@ -19,8 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.o11y_integrations_collected_log_attribute import O11yIntegrationsCollectedLogAttribute
-from hanzoai.cloud.models.o11y_integrations_collected_metric import O11yIntegrationsCollectedMetric
+from hanzoai.cloud.models.o11y_collected_log_attribute import O11yCollectedLogAttribute
+from hanzoai.cloud.models.o11y_collected_metric import O11yCollectedMetric
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,8 +28,8 @@ class O11yDataCollectedForIntegration(BaseModel):
     """
     O11yDataCollectedForIntegration
     """ # noqa: E501
-    logs: Optional[List[O11yIntegrationsCollectedLogAttribute]] = None
-    metrics: Optional[List[O11yIntegrationsCollectedMetric]] = None
+    logs: Optional[List[O11yCollectedLogAttribute]] = None
+    metrics: Optional[List[O11yCollectedMetric]] = None
     __properties: ClassVar[List[str]] = ["logs", "metrics"]
 
     model_config = ConfigDict(
@@ -97,8 +97,8 @@ class O11yDataCollectedForIntegration(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "logs": [O11yIntegrationsCollectedLogAttribute.from_dict(_item) for _item in obj["logs"]] if obj.get("logs") is not None else None,
-            "metrics": [O11yIntegrationsCollectedMetric.from_dict(_item) for _item in obj["metrics"]] if obj.get("metrics") is not None else None
+            "logs": [O11yCollectedLogAttribute.from_dict(_item) for _item in obj["logs"]] if obj.get("logs") is not None else None,
+            "metrics": [O11yCollectedMetric.from_dict(_item) for _item in obj["metrics"]] if obj.get("metrics") is not None else None
         })
         return _obj
 

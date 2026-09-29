@@ -19,30 +19,31 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictInt, StrictStr
 from typing import List, Optional, Tuple, Union
 from typing_extensions import Annotated
-from hanzoai.cloud.models.account import Account
-from hanzoai.cloud.models.ask_request import AskRequest
-from hanzoai.cloud.models.ask_response import AskResponse
-from hanzoai.cloud.models.balance_sheet import BalanceSheet
 from hanzoai.cloud.models.bank_tally import BankTally
-from hanzoai.cloud.models.bank_txn_row import BankTxnRow
-from hanzoai.cloud.models.book_request import BookRequest
-from hanzoai.cloud.models.book_response import BookResponse
-from hanzoai.cloud.models.financial_package import FinancialPackage
-from hanzoai.cloud.models.gl_row import GLRow
+from hanzoai.cloud.models.books_account import BooksAccount
+from hanzoai.cloud.models.books_ask_request import BooksAskRequest
+from hanzoai.cloud.models.books_ask_response import BooksAskResponse
+from hanzoai.cloud.models.books_balance_sheet import BooksBalanceSheet
+from hanzoai.cloud.models.books_bank_tally import BooksBankTally
+from hanzoai.cloud.models.books_bank_txn_row import BooksBankTxnRow
+from hanzoai.cloud.models.books_book_request import BooksBookRequest
+from hanzoai.cloud.models.books_book_response import BooksBookResponse
+from hanzoai.cloud.models.books_financial_package import BooksFinancialPackage
+from hanzoai.cloud.models.books_gl_row import BooksGLRow
+from hanzoai.cloud.models.books_inbox_out import BooksInboxOut
+from hanzoai.cloud.models.books_metrics_response import BooksMetricsResponse
+from hanzoai.cloud.models.books_pn_l import BooksPnL
+from hanzoai.cloud.models.books_questions_response import BooksQuestionsResponse
+from hanzoai.cloud.models.books_rule import BooksRule
+from hanzoai.cloud.models.books_rules_out import BooksRulesOut
+from hanzoai.cloud.models.books_sync_tally import BooksSyncTally
+from hanzoai.cloud.models.books_transactions_out import BooksTransactionsOut
+from hanzoai.cloud.models.books_trial_balance import BooksTrialBalance
+from hanzoai.cloud.models.books_unreconciled_out import BooksUnreconciledOut
+from hanzoai.cloud.models.books_vendor_row import BooksVendorRow
+from hanzoai.cloud.models.books_vendors_out import BooksVendorsOut
 from hanzoai.cloud.models.inbox_item import InboxItem
-from hanzoai.cloud.models.inbox_out import InboxOut
-from hanzoai.cloud.models.metrics_response import MetricsResponse
-from hanzoai.cloud.models.pn_l import PnL
-from hanzoai.cloud.models.questions_response import QuestionsResponse
-from hanzoai.cloud.models.rule import Rule
-from hanzoai.cloud.models.rules_out import RulesOut
 from hanzoai.cloud.models.scan_draft import ScanDraft
-from hanzoai.cloud.models.sync_tally import SyncTally
-from hanzoai.cloud.models.transactions_out import TransactionsOut
-from hanzoai.cloud.models.trial_balance import TrialBalance
-from hanzoai.cloud.models.unreconciled_out import UnreconciledOut
-from hanzoai.cloud.models.vendor_row import VendorRow
-from hanzoai.cloud.models.vendors_out import VendorsOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -78,7 +79,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Account]:
+    ) -> List[BooksAccount]:
         """Returns the org's chart of accounts — the seeded fixed chart every posting key in the ledger refers to.
 
         Returns the org's chart of accounts — the seeded fixed chart every posting key in the ledger refers to.
@@ -116,7 +117,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Account]",
+            '200': "List[BooksAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -145,7 +146,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Account]]:
+    ) -> ApiResponse[List[BooksAccount]]:
         """Returns the org's chart of accounts — the seeded fixed chart every posting key in the ledger refers to.
 
         Returns the org's chart of accounts — the seeded fixed chart every posting key in the ledger refers to.
@@ -183,7 +184,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Account]",
+            '200': "List[BooksAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -250,7 +251,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Account]",
+            '200': "List[BooksAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -297,7 +298,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -342,7 +344,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[BankTxnRow]:
+    ) -> List[BooksBankTxnRow]:
         """Returns the org's normalized bank transactions, newest first — every row the import and connector paths have ingested, with its amount in exact cents, its direction, and whether it has been matched to a voucher yet.
 
         Returns the org's normalized bank transactions, newest first — every row the import and connector paths have ingested, with its amount in exact cents, its direction, and whether it has been matched to a voucher yet.
@@ -383,7 +385,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BankTxnRow]",
+            '200': "List[BooksBankTxnRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -413,7 +415,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[BankTxnRow]]:
+    ) -> ApiResponse[List[BooksBankTxnRow]]:
         """Returns the org's normalized bank transactions, newest first — every row the import and connector paths have ingested, with its amount in exact cents, its direction, and whether it has been matched to a voucher yet.
 
         Returns the org's normalized bank transactions, newest first — every row the import and connector paths have ingested, with its amount in exact cents, its direction, and whether it has been matched to a voucher yet.
@@ -454,7 +456,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BankTxnRow]",
+            '200': "List[BooksBankTxnRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -525,7 +527,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BankTxnRow]",
+            '200': "List[BooksBankTxnRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -577,7 +579,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -621,7 +624,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UnreconciledOut:
+    ) -> BooksUnreconciledOut:
         """Returns the org's unmatched bank inflows and their open clarifying questions — the queue a human answers so an unexplained deposit is never guessed into revenue.
 
         Returns the org's unmatched bank inflows and their open clarifying questions — the queue a human answers so an unexplained deposit is never guessed into revenue.
@@ -659,7 +662,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UnreconciledOut",
+            '200': "BooksUnreconciledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -688,7 +691,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UnreconciledOut]:
+    ) -> ApiResponse[BooksUnreconciledOut]:
         """Returns the org's unmatched bank inflows and their open clarifying questions — the queue a human answers so an unexplained deposit is never guessed into revenue.
 
         Returns the org's unmatched bank inflows and their open clarifying questions — the queue a human answers so an unexplained deposit is never guessed into revenue.
@@ -726,7 +729,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UnreconciledOut",
+            '200': "BooksUnreconciledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -793,7 +796,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UnreconciledOut",
+            '200': "BooksUnreconciledOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -840,7 +843,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -888,7 +892,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FinancialPackage:
+    ) -> BooksFinancialPackage:
         """Returns the complete financial package for the caller's org over (from, to]: the trial balance, the P&L, the balance sheet, and the GL detail behind them — the four statements a tax preparer or an investor asks for, assembled from the one ledger in a single read so they cannot disagree with each other.
 
         Returns the complete financial package for the caller's org over (from, to]: the trial balance, the P&L, the balance sheet, and the GL detail behind them — the four statements a tax preparer or an investor asks for, assembled from the one ledger in a single read so they cannot disagree with each other.
@@ -938,7 +942,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FinancialPackage",
+            '200': "BooksFinancialPackage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -971,7 +975,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FinancialPackage]:
+    ) -> ApiResponse[BooksFinancialPackage]:
         """Returns the complete financial package for the caller's org over (from, to]: the trial balance, the P&L, the balance sheet, and the GL detail behind them — the four statements a tax preparer or an investor asks for, assembled from the one ledger in a single read so they cannot disagree with each other.
 
         Returns the complete financial package for the caller's org over (from, to]: the trial balance, the P&L, the balance sheet, and the GL detail behind them — the four statements a tax preparer or an investor asks for, assembled from the one ledger in a single read so they cannot disagree with each other.
@@ -1021,7 +1025,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FinancialPackage",
+            '200': "BooksFinancialPackage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1104,7 +1108,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FinancialPackage",
+            '200': "BooksFinancialPackage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1171,7 +1175,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1216,10 +1221,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[GLRow]:
-        """ListGL returns the org's most recent GL Entry rows, newest first.
+    ) -> List[BooksGLRow]:
+        """Returns the org's most recent GL Entry rows, newest first.
 
-        ListGL returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
+        Returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1257,7 +1262,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[GLRow]",
+            '200': "List[BooksGLRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1287,10 +1292,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[GLRow]]:
-        """ListGL returns the org's most recent GL Entry rows, newest first.
+    ) -> ApiResponse[List[BooksGLRow]]:
+        """Returns the org's most recent GL Entry rows, newest first.
 
-        ListGL returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
+        Returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1328,7 +1333,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[GLRow]",
+            '200': "List[BooksGLRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1359,9 +1364,9 @@ class BooksApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ListGL returns the org's most recent GL Entry rows, newest first.
+        """Returns the org's most recent GL Entry rows, newest first.
 
-        ListGL returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
+        Returns the org's most recent GL Entry rows, newest first. This is the raw double-entry detail behind every statement: one row per leg, with its debit, credit, posting time and the source that booked it.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1399,7 +1404,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[GLRow]",
+            '200': "List[BooksGLRow]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1451,7 +1456,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1495,7 +1501,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InboxOut:
+    ) -> BooksInboxOut:
         """Returns the org's open document queue — everything uploaded but not yet booked, newest first, each with its extracted summary and the confidence the scanner resolved its category at.
 
         Returns the org's open document queue — everything uploaded but not yet booked, newest first, each with its extracted summary and the confidence the scanner resolved its category at. A booked document drops out of the queue.
@@ -1533,7 +1539,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxOut",
+            '200': "BooksInboxOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1562,7 +1568,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InboxOut]:
+    ) -> ApiResponse[BooksInboxOut]:
         """Returns the org's open document queue — everything uploaded but not yet booked, newest first, each with its extracted summary and the confidence the scanner resolved its category at.
 
         Returns the org's open document queue — everything uploaded but not yet booked, newest first, each with its extracted summary and the confidence the scanner resolved its category at. A booked document drops out of the queue.
@@ -1600,7 +1606,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxOut",
+            '200': "BooksInboxOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1667,7 +1673,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InboxOut",
+            '200': "BooksInboxOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1714,7 +1720,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1760,10 +1767,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MetricsResponse:
-        """Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
+    ) -> BooksMetricsResponse:
+        """Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
 
-        Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
+        Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1804,7 +1811,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsResponse",
+            '200': "BooksMetricsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1835,10 +1842,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MetricsResponse]:
-        """Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
+    ) -> ApiResponse[BooksMetricsResponse]:
+        """Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
 
-        Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
+        Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1879,7 +1886,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsResponse",
+            '200': "BooksMetricsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1911,9 +1918,9 @@ class BooksApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
+        """Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted.
 
-        Metrics returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
+        Returns the org's deterministic SaaS-metrics snapshot over an optional (from, to] window — MRR, ARR, revenue, COGS, burn, gross margin, net income, cash, deferred revenue, monthly burn and runway — as raw int64-cent figures AND the same figures already formatted. Every number is the ledger, aggregated the one way the books define it, never a guess; it is the grounded read the unified /v1/ask advisor replays.
 
         :param sandbox: Sandbox reads the org's SANDBOX ledger when it is exactly \"true\".
         :type sandbox: str
@@ -1954,7 +1961,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricsResponse",
+            '200': "BooksMetricsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2011,7 +2018,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2057,7 +2065,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PnL:
+    ) -> BooksPnL:
         """Returns the org's accrual-basis Profit & Loss over an optional (from, to] window of RFC3339 posting times: recognized revenue, matched cost, and the net.
 
         Returns the org's accrual-basis Profit & Loss over an optional (from, to] window of RFC3339 posting times: recognized revenue, matched cost, and the net.
@@ -2101,7 +2109,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PnL",
+            '200': "BooksPnL",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2132,7 +2140,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PnL]:
+    ) -> ApiResponse[BooksPnL]:
         """Returns the org's accrual-basis Profit & Loss over an optional (from, to] window of RFC3339 posting times: recognized revenue, matched cost, and the net.
 
         Returns the org's accrual-basis Profit & Loss over an optional (from, to] window of RFC3339 posting times: recognized revenue, matched cost, and the net.
@@ -2176,7 +2184,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PnL",
+            '200': "BooksPnL",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2251,7 +2259,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PnL",
+            '200': "BooksPnL",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2308,7 +2316,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2353,7 +2362,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BalanceSheet:
+    ) -> BooksBalanceSheet:
         """Returns the org's Balance Sheet as of `to` (empty = all time), with the Assets == Liabilities + Equity equation proof.
 
         Returns the org's Balance Sheet as of `to` (empty = all time), with the Assets == Liabilities + Equity equation proof.
@@ -2394,7 +2403,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BalanceSheet",
+            '200': "BooksBalanceSheet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2424,7 +2433,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BalanceSheet]:
+    ) -> ApiResponse[BooksBalanceSheet]:
         """Returns the org's Balance Sheet as of `to` (empty = all time), with the Assets == Liabilities + Equity equation proof.
 
         Returns the org's Balance Sheet as of `to` (empty = all time), with the Assets == Liabilities + Equity equation proof.
@@ -2465,7 +2474,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BalanceSheet",
+            '200': "BooksBalanceSheet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2536,7 +2545,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BalanceSheet",
+            '200': "BooksBalanceSheet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2588,7 +2597,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2632,7 +2642,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> QuestionsResponse:
+    ) -> BooksQuestionsResponse:
         """Returns the clarifying questions the caller's own recent GL raises — the unusual postings a founder should look at (outliers, reversals, round-offs, uncosted revenue, an overdrawn wallet), sharpest first.
 
         Returns the clarifying questions the caller's own recent GL raises — the unusual postings a founder should look at (outliers, reversals, round-offs, uncosted revenue, an overdrawn wallet), sharpest first. An empty list means the books look clean; the detector is deterministic over the ledger and invents nothing.
@@ -2670,7 +2680,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuestionsResponse",
+            '200': "BooksQuestionsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2699,7 +2709,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[QuestionsResponse]:
+    ) -> ApiResponse[BooksQuestionsResponse]:
         """Returns the clarifying questions the caller's own recent GL raises — the unusual postings a founder should look at (outliers, reversals, round-offs, uncosted revenue, an overdrawn wallet), sharpest first.
 
         Returns the clarifying questions the caller's own recent GL raises — the unusual postings a founder should look at (outliers, reversals, round-offs, uncosted revenue, an overdrawn wallet), sharpest first. An empty list means the books look clean; the detector is deterministic over the ledger and invents nothing.
@@ -2737,7 +2747,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuestionsResponse",
+            '200': "BooksQuestionsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2804,7 +2814,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "QuestionsResponse",
+            '200': "BooksQuestionsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2851,7 +2861,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2895,7 +2906,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RulesOut:
+    ) -> BooksRulesOut:
         """Returns the org's auto-categorization rules, highest priority first.
 
         Returns the org's auto-categorization rules, highest priority first. A rule is a standing instruction — \"anything whose merchant contains X books to category Y\" — and it overrides a vendor's default category, so this is the list that decides how a future bill classifies itself.
@@ -2933,7 +2944,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RulesOut",
+            '200': "BooksRulesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2962,7 +2973,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RulesOut]:
+    ) -> ApiResponse[BooksRulesOut]:
         """Returns the org's auto-categorization rules, highest priority first.
 
         Returns the org's auto-categorization rules, highest priority first. A rule is a standing instruction — \"anything whose merchant contains X books to category Y\" — and it overrides a vendor's default category, so this is the list that decides how a future bill classifies itself.
@@ -3000,7 +3011,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RulesOut",
+            '200': "BooksRulesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3067,7 +3078,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RulesOut",
+            '200': "BooksRulesOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3114,7 +3125,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3163,7 +3175,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TransactionsOut:
+    ) -> BooksTransactionsOut:
         """Returns the org's booked ledger as a single-line register, newest first: one row per voucher, with its date, description, vendor, category, source and amount in exact cents.
 
         Returns the org's booked ledger as a single-line register, newest first: one row per voucher, with its date, description, vendor, category, source and amount in exact cents. It is the double-entry ledger projected to the register a human reads, filterable by posting-time window, category and vendor. Strictly read-only — it restates the books, it never moves them.
@@ -3216,7 +3228,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransactionsOut",
+            '200': "BooksTransactionsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3250,7 +3262,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TransactionsOut]:
+    ) -> ApiResponse[BooksTransactionsOut]:
         """Returns the org's booked ledger as a single-line register, newest first: one row per voucher, with its date, description, vendor, category, source and amount in exact cents.
 
         Returns the org's booked ledger as a single-line register, newest first: one row per voucher, with its date, description, vendor, category, source and amount in exact cents. It is the double-entry ledger projected to the register a human reads, filterable by posting-time window, category and vendor. Strictly read-only — it restates the books, it never moves them.
@@ -3303,7 +3315,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransactionsOut",
+            '200': "BooksTransactionsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3390,7 +3402,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TransactionsOut",
+            '200': "BooksTransactionsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3462,7 +3474,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3508,7 +3521,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrialBalance:
+    ) -> BooksTrialBalance:
         """Returns the org's trial balance over an optional [from, to] window of RFC3339 posting times, including the opening/closing columns and the TotalDebit == TotalCredit proof that the books balance.
 
         Returns the org's trial balance over an optional [from, to] window of RFC3339 posting times, including the opening/closing columns and the TotalDebit == TotalCredit proof that the books balance.
@@ -3552,7 +3565,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrialBalance",
+            '200': "BooksTrialBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3583,7 +3596,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrialBalance]:
+    ) -> ApiResponse[BooksTrialBalance]:
         """Returns the org's trial balance over an optional [from, to] window of RFC3339 posting times, including the opening/closing columns and the TotalDebit == TotalCredit proof that the books balance.
 
         Returns the org's trial balance over an optional [from, to] window of RFC3339 posting times, including the opening/closing columns and the TotalDebit == TotalCredit proof that the books balance.
@@ -3627,7 +3640,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrialBalance",
+            '200': "BooksTrialBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3702,7 +3715,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrialBalance",
+            '200': "BooksTrialBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3759,7 +3772,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3803,7 +3817,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VendorsOut:
+    ) -> BooksVendorsOut:
         """Returns the org's vendor book: each canonical vendor, the alias spellings a receipt may print it under, and the expense account new bills from it default to.
 
         Returns the org's vendor book: each canonical vendor, the alias spellings a receipt may print it under, and the expense account new bills from it default to. A vendor here is what makes a scanned bill self-classify instead of asking again.
@@ -3841,7 +3855,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorsOut",
+            '200': "BooksVendorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3870,7 +3884,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VendorsOut]:
+    ) -> ApiResponse[BooksVendorsOut]:
         """Returns the org's vendor book: each canonical vendor, the alias spellings a receipt may print it under, and the expense account new bills from it default to.
 
         Returns the org's vendor book: each canonical vendor, the alias spellings a receipt may print it under, and the expense account new bills from it default to. A vendor here is what makes a scanned bill self-classify instead of asking again.
@@ -3908,7 +3922,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorsOut",
+            '200': "BooksVendorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3975,7 +3989,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorsOut",
+            '200': "BooksVendorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4022,7 +4036,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4053,7 +4068,7 @@ class BooksApi:
     @validate_call
     def post_books_ask(
         self,
-        ask_request: AskRequest,
+        books_ask_request: BooksAskRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4066,13 +4081,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AskResponse:
+    ) -> BooksAskResponse:
         """Answers a plain-language question about the caller's own books — \"what is my MRR?\", \"how long is my runway?\" — with figures taken from their ledger, never a guessed number.
 
         Answers a plain-language question about the caller's own books — \"what is my MRR?\", \"how long is my runway?\" — with figures taken from their ledger, never a guessed number. A deterministic keyword router picks the intent and reads the real metrics, and those figures, followups and report sources are computed BEFORE any model call and are never altered by one: the optional narration client only rephrases the sentence, and it degrades silently to the templated answer when no AI plane is wired. It is strictly read-only — it restates the books, it never posts to them.
 
-        :param ask_request: (required)
-        :type ask_request: AskRequest
+        :param books_ask_request: (required)
+        :type books_ask_request: BooksAskRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4096,7 +4111,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_ask_serialize(
-            ask_request=ask_request,
+            books_ask_request=books_ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4104,7 +4119,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskResponse",
+            '200': "BooksAskResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4120,7 +4135,7 @@ class BooksApi:
     @validate_call
     def post_books_ask_with_http_info(
         self,
-        ask_request: AskRequest,
+        books_ask_request: BooksAskRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4133,13 +4148,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AskResponse]:
+    ) -> ApiResponse[BooksAskResponse]:
         """Answers a plain-language question about the caller's own books — \"what is my MRR?\", \"how long is my runway?\" — with figures taken from their ledger, never a guessed number.
 
         Answers a plain-language question about the caller's own books — \"what is my MRR?\", \"how long is my runway?\" — with figures taken from their ledger, never a guessed number. A deterministic keyword router picks the intent and reads the real metrics, and those figures, followups and report sources are computed BEFORE any model call and are never altered by one: the optional narration client only rephrases the sentence, and it degrades silently to the templated answer when no AI plane is wired. It is strictly read-only — it restates the books, it never posts to them.
 
-        :param ask_request: (required)
-        :type ask_request: AskRequest
+        :param books_ask_request: (required)
+        :type books_ask_request: BooksAskRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4163,7 +4178,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_ask_serialize(
-            ask_request=ask_request,
+            books_ask_request=books_ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4171,7 +4186,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskResponse",
+            '200': "BooksAskResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4187,7 +4202,7 @@ class BooksApi:
     @validate_call
     def post_books_ask_without_preload_content(
         self,
-        ask_request: AskRequest,
+        books_ask_request: BooksAskRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4205,8 +4220,8 @@ class BooksApi:
 
         Answers a plain-language question about the caller's own books — \"what is my MRR?\", \"how long is my runway?\" — with figures taken from their ledger, never a guessed number. A deterministic keyword router picks the intent and reads the real metrics, and those figures, followups and report sources are computed BEFORE any model call and are never altered by one: the optional narration client only rephrases the sentence, and it degrades silently to the templated answer when no AI plane is wired. It is strictly read-only — it restates the books, it never posts to them.
 
-        :param ask_request: (required)
-        :type ask_request: AskRequest
+        :param books_ask_request: (required)
+        :type books_ask_request: BooksAskRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4230,7 +4245,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_ask_serialize(
-            ask_request=ask_request,
+            books_ask_request=books_ask_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4238,7 +4253,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AskResponse",
+            '200': "BooksAskResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4249,7 +4264,7 @@ class BooksApi:
 
     def _post_books_ask_serialize(
         self,
-        ask_request,
+        books_ask_request,
         _request_auth,
         _content_type,
         _headers,
@@ -4275,15 +4290,16 @@ class BooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ask_request is not None:
-            _body_params = ask_request
+        if books_ask_request is not None:
+            _body_params = books_ask_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4309,242 +4325,6 @@ class BooksApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/books/ask',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_books_bank_exchange(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Finish connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended second hop of the bank-linking handshake — trade the provider's short-lived public token for the durable access credential and seal that credential into KMS — and nothing on the HTTP path reaches an implementation today.  The durable bank credential is the reason this hop exists: it is meant to be sealed server-side and never handed back to the caller. Since the route never succeeds, no credential is stored by it and no bank is connected through it.  Documented as refusing rather than declared with a success body, for the same reason as the first hop: it has never sent one, and stating a shape it has never produced would put a return type in every SDK for a call that always fails. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_exchange_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_books_bank_exchange_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Finish connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended second hop of the bank-linking handshake — trade the provider's short-lived public token for the durable access credential and seal that credential into KMS — and nothing on the HTTP path reaches an implementation today.  The durable bank credential is the reason this hop exists: it is meant to be sealed server-side and never handed back to the caller. Since the route never succeeds, no credential is stored by it and no bank is connected through it.  Documented as refusing rather than declared with a success body, for the same reason as the first hop: it has never sent one, and stating a shape it has never produced would put a return type in every SDK for a call that always fails. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_exchange_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_books_bank_exchange_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Finish connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended second hop of the bank-linking handshake — trade the provider's short-lived public token for the durable access credential and seal that credential into KMS — and nothing on the HTTP path reaches an implementation today.  The durable bank credential is the reason this hop exists: it is meant to be sealed server-side and never handed back to the caller. Since the route never succeeds, no credential is stored by it and no bank is connected through it.  Documented as refusing rather than declared with a success body, for the same reason as the first hop: it has never sent one, and stating a shape it has never produced would put a return type in every SDK for a call that always fails. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_exchange_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_books_bank_exchange_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/books/bank/exchange',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -4857,7 +4637,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BankTally:
+    ) -> BooksBankTally:
         """Pulls every connected bank (Plaid/Teller) for the caller's org, maps each fetched transaction to a posting and books it idempotently, then advances that connector's cursor so the next sync resumes where this one stopped.
 
         Pulls every connected bank (Plaid/Teller) for the caller's org, maps each fetched transaction to a posting and books it idempotently, then advances that connector's cursor so the next sync resumes where this one stopped. One connector's outage is skipped rather than failing the whole sync. It reports the batch: how many transactions were seen, how many vouchers posted, how many inflows reconciled against the processor clearing account, how many raised a question, how many were own-account transfers, and how many were already-processed no-ops. It is READ-ONLY against the bank — it ingests, it never sends money.
@@ -4892,7 +4672,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BankTally",
+            '200': "BooksBankTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4920,7 +4700,7 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BankTally]:
+    ) -> ApiResponse[BooksBankTally]:
         """Pulls every connected bank (Plaid/Teller) for the caller's org, maps each fetched transaction to a posting and books it idempotently, then advances that connector's cursor so the next sync resumes where this one stopped.
 
         Pulls every connected bank (Plaid/Teller) for the caller's org, maps each fetched transaction to a posting and books it idempotently, then advances that connector's cursor so the next sync resumes where this one stopped. One connector's outage is skipped rather than failing the whole sync. It reports the batch: how many transactions were seen, how many vouchers posted, how many inflows reconciled against the processor clearing account, how many raised a question, how many were own-account transfers, and how many were already-processed no-ops. It is READ-ONLY against the bank — it ingests, it never sends money.
@@ -4955,7 +4735,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BankTally",
+            '200': "BooksBankTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5018,7 +4798,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BankTally",
+            '200': "BooksBankTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5060,7 +4840,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5073,242 +4854,6 @@ class BooksApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/books/bank/sync',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_books_bank_token(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Begin connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended first hop of the bank-linking handshake — mint the short-lived session token a browser hands to the provider's link widget — and nothing on the HTTP path reaches an implementation today.  The connectors behind it are written and tested; only the wiring is missing, so an org cannot connect a bank through the API at all. Until that lands, bank data reaches the books by statement import.  It is documented as refusing rather than declared with a success body precisely because it has never sent one. A response schema here would be invention: every generated SDK would carry a return type for a call that has only ever failed. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_token_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_books_bank_token_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Begin connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended first hop of the bank-linking handshake — mint the short-lived session token a browser hands to the provider's link widget — and nothing on the HTTP path reaches an implementation today.  The connectors behind it are written and tested; only the wiring is missing, so an org cannot connect a bank through the API at all. Until that lands, bank data reaches the books by statement import.  It is documented as refusing rather than declared with a success body precisely because it has never sent one. A response schema here would be invention: every generated SDK would carry a return type for a call that has only ever failed. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_token_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_books_bank_token_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Begin connecting a bank account (not yet available)
-
-        ANSWERS 501 UNCONDITIONALLY. It is the intended first hop of the bank-linking handshake — mint the short-lived session token a browser hands to the provider's link widget — and nothing on the HTTP path reaches an implementation today.  The connectors behind it are written and tested; only the wiring is missing, so an org cannot connect a bank through the API at all. Until that lands, bank data reaches the books by statement import.  It is documented as refusing rather than declared with a success body precisely because it has never sent one. A response schema here would be invention: every generated SDK would carry a return type for a call that has only ever failed. A caller with no principal gets 401 before the 501.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_books_bank_token_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_books_bank_token_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/books/bank/token',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -5609,7 +5154,7 @@ class BooksApi:
     @validate_call
     def post_books_rules(
         self,
-        rule: Rule,
+        books_rule: BooksRule,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5622,13 +5167,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Rule:
+    ) -> BooksRule:
         """Creates or updates one auto-categorization rule, keyed by its pattern — writing a pattern that already exists REPLACES that row's category and priority.
 
         Creates or updates one auto-categorization rule, keyed by its pattern — writing a pattern that already exists REPLACES that row's category and priority. The category is normalized to a real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. A rule overrides a vendor's default category, so this is the standing instruction that decides how a future bill classifies.
 
-        :param rule: (required)
-        :type rule: Rule
+        :param books_rule: (required)
+        :type books_rule: BooksRule
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5652,7 +5197,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_rules_serialize(
-            rule=rule,
+            books_rule=books_rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5660,7 +5205,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rule",
+            '200': "BooksRule",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5676,7 +5221,7 @@ class BooksApi:
     @validate_call
     def post_books_rules_with_http_info(
         self,
-        rule: Rule,
+        books_rule: BooksRule,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5689,13 +5234,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Rule]:
+    ) -> ApiResponse[BooksRule]:
         """Creates or updates one auto-categorization rule, keyed by its pattern — writing a pattern that already exists REPLACES that row's category and priority.
 
         Creates or updates one auto-categorization rule, keyed by its pattern — writing a pattern that already exists REPLACES that row's category and priority. The category is normalized to a real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. A rule overrides a vendor's default category, so this is the standing instruction that decides how a future bill classifies.
 
-        :param rule: (required)
-        :type rule: Rule
+        :param books_rule: (required)
+        :type books_rule: BooksRule
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5719,7 +5264,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_rules_serialize(
-            rule=rule,
+            books_rule=books_rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5727,7 +5272,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rule",
+            '200': "BooksRule",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5743,7 +5288,7 @@ class BooksApi:
     @validate_call
     def post_books_rules_without_preload_content(
         self,
-        rule: Rule,
+        books_rule: BooksRule,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5761,8 +5306,8 @@ class BooksApi:
 
         Creates or updates one auto-categorization rule, keyed by its pattern — writing a pattern that already exists REPLACES that row's category and priority. The category is normalized to a real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. A rule overrides a vendor's default category, so this is the standing instruction that decides how a future bill classifies.
 
-        :param rule: (required)
-        :type rule: Rule
+        :param books_rule: (required)
+        :type books_rule: BooksRule
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5786,7 +5331,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_rules_serialize(
-            rule=rule,
+            books_rule=books_rule,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5794,7 +5339,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rule",
+            '200': "BooksRule",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5805,7 +5350,7 @@ class BooksApi:
 
     def _post_books_rules_serialize(
         self,
-        rule,
+        books_rule,
         _request_auth,
         _content_type,
         _headers,
@@ -5831,15 +5376,16 @@ class BooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if rule is not None:
-            _body_params = rule
+        if books_rule is not None:
+            _body_params = books_rule
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6165,7 +5711,7 @@ class BooksApi:
     @validate_call
     def post_books_scan_book(
         self,
-        book_request: BookRequest,
+        books_book_request: BooksBookRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6178,13 +5724,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BookResponse:
+    ) -> BooksBookResponse:
         """Posts a reviewed scanned bill to the ledger.
 
         Posts a reviewed scanned bill to the ledger. It is the scanner's ONLY write: the voucher goes through the same post() choke point every other source uses, so it is checked to balance (Σdebit == Σcredit) and is idempotent by (scan, scanId) — re-booking the same scan answers posted=false and writes nothing. A bill whose economic identity (vendor, total, issue date) already posted under a DIFFERENT scan is refused 409 unless override is set, which is what stops the same receipt re-scanned into a new file hash from double-booking. An unbalanced voucher is refused 400.
 
-        :param book_request: (required)
-        :type book_request: BookRequest
+        :param books_book_request: (required)
+        :type books_book_request: BooksBookRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6208,7 +5754,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_scan_book_serialize(
-            book_request=book_request,
+            books_book_request=books_book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6216,7 +5762,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BookResponse",
+            '200': "BooksBookResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6232,7 +5778,7 @@ class BooksApi:
     @validate_call
     def post_books_scan_book_with_http_info(
         self,
-        book_request: BookRequest,
+        books_book_request: BooksBookRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6245,13 +5791,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BookResponse]:
+    ) -> ApiResponse[BooksBookResponse]:
         """Posts a reviewed scanned bill to the ledger.
 
         Posts a reviewed scanned bill to the ledger. It is the scanner's ONLY write: the voucher goes through the same post() choke point every other source uses, so it is checked to balance (Σdebit == Σcredit) and is idempotent by (scan, scanId) — re-booking the same scan answers posted=false and writes nothing. A bill whose economic identity (vendor, total, issue date) already posted under a DIFFERENT scan is refused 409 unless override is set, which is what stops the same receipt re-scanned into a new file hash from double-booking. An unbalanced voucher is refused 400.
 
-        :param book_request: (required)
-        :type book_request: BookRequest
+        :param books_book_request: (required)
+        :type books_book_request: BooksBookRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6275,7 +5821,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_scan_book_serialize(
-            book_request=book_request,
+            books_book_request=books_book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6283,7 +5829,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BookResponse",
+            '200': "BooksBookResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6299,7 +5845,7 @@ class BooksApi:
     @validate_call
     def post_books_scan_book_without_preload_content(
         self,
-        book_request: BookRequest,
+        books_book_request: BooksBookRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6317,8 +5863,8 @@ class BooksApi:
 
         Posts a reviewed scanned bill to the ledger. It is the scanner's ONLY write: the voucher goes through the same post() choke point every other source uses, so it is checked to balance (Σdebit == Σcredit) and is idempotent by (scan, scanId) — re-booking the same scan answers posted=false and writes nothing. A bill whose economic identity (vendor, total, issue date) already posted under a DIFFERENT scan is refused 409 unless override is set, which is what stops the same receipt re-scanned into a new file hash from double-booking. An unbalanced voucher is refused 400.
 
-        :param book_request: (required)
-        :type book_request: BookRequest
+        :param books_book_request: (required)
+        :type books_book_request: BooksBookRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6342,7 +5888,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_scan_book_serialize(
-            book_request=book_request,
+            books_book_request=books_book_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6350,7 +5896,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BookResponse",
+            '200': "BooksBookResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6361,7 +5907,7 @@ class BooksApi:
 
     def _post_books_scan_book_serialize(
         self,
-        book_request,
+        books_book_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6387,15 +5933,16 @@ class BooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if book_request is not None:
-            _body_params = book_request
+        if books_book_request is not None:
+            _body_params = books_book_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6451,10 +5998,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SyncTally:
-        """Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
+    ) -> BooksSyncTally:
+        """Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
 
-        Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
+        Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6486,7 +6033,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncTally",
+            '200': "BooksSyncTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6514,10 +6061,10 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SyncTally]:
-        """Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
+    ) -> ApiResponse[BooksSyncTally]:
+        """Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
 
-        Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
+        Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6549,7 +6096,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncTally",
+            '200': "BooksSyncTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6578,9 +6125,9 @@ class BooksApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
+        """Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each.
 
-        Sync ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
+        Ingests the caller's OWN org from commerce into BOTH ledgers (live and sandbox) and reports how many new vouchers posted to each. It is idempotent — money that has already been booked posts nothing on a repeat — and it is read-only against commerce: it never mints a deposit, a credit or a payout, only the accounting twin of money that already moved.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6612,7 +6159,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SyncTally",
+            '200': "BooksSyncTally",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6654,7 +6201,8 @@ class BooksApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6685,7 +6233,7 @@ class BooksApi:
     @validate_call
     def post_books_vendors(
         self,
-        vendor_row: VendorRow,
+        books_vendor_row: BooksVendorRow,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6698,13 +6246,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VendorRow:
+    ) -> BooksVendorRow:
         """Creates or updates one vendor in the org's vendor book, keyed by its canonical name — writing a canonical name that already exists REPLACES that row's aliases and default category.
 
         Creates or updates one vendor in the org's vendor book, keyed by its canonical name — writing a canonical name that already exists REPLACES that row's aliases and default category. A category given as a slug (\"software\") is normalized to its real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. Recording a vendor is what makes future bills from it self-classify instead of asking again.
 
-        :param vendor_row: (required)
-        :type vendor_row: VendorRow
+        :param books_vendor_row: (required)
+        :type books_vendor_row: BooksVendorRow
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6728,7 +6276,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_vendors_serialize(
-            vendor_row=vendor_row,
+            books_vendor_row=books_vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6736,7 +6284,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorRow",
+            '200': "BooksVendorRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6752,7 +6300,7 @@ class BooksApi:
     @validate_call
     def post_books_vendors_with_http_info(
         self,
-        vendor_row: VendorRow,
+        books_vendor_row: BooksVendorRow,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6765,13 +6313,13 @@ class BooksApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VendorRow]:
+    ) -> ApiResponse[BooksVendorRow]:
         """Creates or updates one vendor in the org's vendor book, keyed by its canonical name — writing a canonical name that already exists REPLACES that row's aliases and default category.
 
         Creates or updates one vendor in the org's vendor book, keyed by its canonical name — writing a canonical name that already exists REPLACES that row's aliases and default category. A category given as a slug (\"software\") is normalized to its real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. Recording a vendor is what makes future bills from it self-classify instead of asking again.
 
-        :param vendor_row: (required)
-        :type vendor_row: VendorRow
+        :param books_vendor_row: (required)
+        :type books_vendor_row: BooksVendorRow
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6795,7 +6343,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_vendors_serialize(
-            vendor_row=vendor_row,
+            books_vendor_row=books_vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6803,7 +6351,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorRow",
+            '200': "BooksVendorRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6819,7 +6367,7 @@ class BooksApi:
     @validate_call
     def post_books_vendors_without_preload_content(
         self,
-        vendor_row: VendorRow,
+        books_vendor_row: BooksVendorRow,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6837,8 +6385,8 @@ class BooksApi:
 
         Creates or updates one vendor in the org's vendor book, keyed by its canonical name — writing a canonical name that already exists REPLACES that row's aliases and default category. A category given as a slug (\"software\") is normalized to its real COA expense account, and anything unrecognized becomes 5900 Uncategorized rather than a guessed real account. It answers the row exactly as stored, so the caller sees the normalization. Recording a vendor is what makes future bills from it self-classify instead of asking again.
 
-        :param vendor_row: (required)
-        :type vendor_row: VendorRow
+        :param books_vendor_row: (required)
+        :type books_vendor_row: BooksVendorRow
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6862,7 +6410,7 @@ class BooksApi:
         """ # noqa: E501
 
         _param = self._post_books_vendors_serialize(
-            vendor_row=vendor_row,
+            books_vendor_row=books_vendor_row,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6870,7 +6418,7 @@ class BooksApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VendorRow",
+            '200': "BooksVendorRow",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6881,7 +6429,7 @@ class BooksApi:
 
     def _post_books_vendors_serialize(
         self,
-        vendor_row,
+        books_vendor_row,
         _request_auth,
         _content_type,
         _headers,
@@ -6907,15 +6455,16 @@ class BooksApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if vendor_row is not None:
-            _body_params = vendor_row
+        if books_vendor_row is not None:
+            _body_params = books_vendor_row
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

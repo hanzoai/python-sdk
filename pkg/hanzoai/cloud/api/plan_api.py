@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict
 from typing_extensions import Annotated
-from hanzoai.cloud.models.plan_entitlements import PlanEntitlements
-from hanzoai.cloud.models.plan_health import PlanHealth
-from hanzoai.cloud.models.plan_list import PlanList
-from hanzoai.cloud.models.plan_region_list import PlanRegionList
-from hanzoai.cloud.models.plan_resolution import PlanResolution
-from hanzoai.cloud.models.plan_schemas import PlanSchemas
-from hanzoai.cloud.models.plan_tier_list import PlanTierList
-from hanzoai.cloud.models.plan_tool_list import PlanToolList
-from hanzoai.cloud.models.plan_vocab import PlanVocab
+from hanzoai.cloud.models.plan_plan_entitlements import PlanPlanEntitlements
+from hanzoai.cloud.models.plan_plan_health import PlanPlanHealth
+from hanzoai.cloud.models.plan_plan_list import PlanPlanList
+from hanzoai.cloud.models.plan_plan_region_list import PlanPlanRegionList
+from hanzoai.cloud.models.plan_plan_resolution import PlanPlanResolution
+from hanzoai.cloud.models.plan_plan_schemas import PlanPlanSchemas
+from hanzoai.cloud.models.plan_plan_tier_list import PlanPlanTierList
+from hanzoai.cloud.models.plan_plan_tool_list import PlanPlanToolList
+from hanzoai.cloud.models.plan_plan_vocab import PlanPlanVocab
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -62,7 +62,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanList:
+    ) -> PlanPlanList:
         """Returns the Hanzo cloud plan catalog: every cloud tier with its price, included capacity, limits and feature list, scoped to the caller's catalog.
 
         Returns the Hanzo cloud plan catalog: every cloud tier with its price, included capacity, limits and feature list, scoped to the caller's catalog. A reseller org sees its own overrides in place of the canonical records it has replaced, and the canonical record for every tier it has not.
@@ -97,7 +97,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -125,7 +125,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanList]:
+    ) -> ApiResponse[PlanPlanList]:
         """Returns the Hanzo cloud plan catalog: every cloud tier with its price, included capacity, limits and feature list, scoped to the caller's catalog.
 
         Returns the Hanzo cloud plan catalog: every cloud tier with its price, included capacity, limits and feature list, scoped to the caller's catalog. A reseller org sees its own overrides in place of the canonical records it has replaced, and the canonical record for every tier it has not.
@@ -160,7 +160,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -223,7 +223,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -265,7 +265,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -308,7 +309,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanList:
+    ) -> PlanPlanList:
         """Returns the blockchain RPC plan catalog: the tiers metered in monthly compute units, with their prices, limits and overage terms.
 
         Returns the blockchain RPC plan catalog: the tiers metered in monthly compute units, with their prices, limits and overage terms. It is the canonical catalog for every caller — these plans carry no reseller overrides.
@@ -343,7 +344,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -371,7 +372,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanList]:
+    ) -> ApiResponse[PlanPlanList]:
         """Returns the blockchain RPC plan catalog: the tiers metered in monthly compute units, with their prices, limits and overage terms.
 
         Returns the blockchain RPC plan catalog: the tiers metered in monthly compute units, with their prices, limits and overage terms. It is the canonical catalog for every caller — these plans carry no reseller overrides.
@@ -406,7 +407,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -469,7 +470,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -511,7 +512,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -554,7 +556,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanList:
+    ) -> PlanPlanList:
         """ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day.
 
         ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day. It is the canonical catalog for every caller — these plans carry no reseller overrides.
@@ -589,7 +591,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -617,7 +619,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanList]:
+    ) -> ApiResponse[PlanPlanList]:
         """ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day.
 
         ListDNSPlans returns the DNS plan catalog: the tiers priced on zones, records per zone and queries per day. It is the canonical catalog for every caller — these plans carry no reseller overrides.
@@ -652,7 +654,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -715,7 +717,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -757,7 +759,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -801,7 +804,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanEntitlements:
+    ) -> PlanPlanEntitlements:
         """Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
 
         Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same catalog and the same 404 for an id no catalog holds — the read a licensing or quota gate makes.
@@ -839,7 +842,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanEntitlements",
+            '200': "PlanPlanEntitlements",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -868,7 +871,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanEntitlements]:
+    ) -> ApiResponse[PlanPlanEntitlements]:
         """Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it.
 
         Returns what one plan GRANTS and not what it costs: the canonical namespaced entitlement block and the flat license-feature list derived from it. It is the entitlement half of ResolvePlan, over the same catalog and the same 404 for an id no catalog holds — the read a licensing or quota gate makes.
@@ -906,7 +909,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanEntitlements",
+            '200': "PlanPlanEntitlements",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -973,7 +976,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanEntitlements",
+            '200': "PlanPlanEntitlements",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1018,7 +1021,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1061,7 +1065,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanTierList:
+    ) -> PlanPlanTierList:
         """ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPUs, host memory and hourly price.
 
         ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPUs, host memory and hourly price.
@@ -1096,7 +1100,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanTierList",
+            '200': "PlanPlanTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1124,7 +1128,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanTierList]:
+    ) -> ApiResponse[PlanPlanTierList]:
         """ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPUs, host memory and hourly price.
 
         ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPUs, host memory and hourly price.
@@ -1159,7 +1163,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanTierList",
+            '200': "PlanPlanTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1222,7 +1226,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanTierList",
+            '200': "PlanPlanTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1264,7 +1268,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1307,10 +1312,10 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanHealth:
-        """Health reports that the plans subsystem is mounted and serving.
+    ) -> PlanPlanHealth:
+        """Reports that the plans subsystem is mounted and serving.
 
-        Health reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
+        Reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1342,7 +1347,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanHealth",
+            '200': "PlanPlanHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1370,10 +1375,10 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanHealth]:
-        """Health reports that the plans subsystem is mounted and serving.
+    ) -> ApiResponse[PlanPlanHealth]:
+        """Reports that the plans subsystem is mounted and serving.
 
-        Health reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
+        Reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1405,7 +1410,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanHealth",
+            '200': "PlanPlanHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1434,9 +1439,9 @@ class PlanApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports that the plans subsystem is mounted and serving.
+        """Reports that the plans subsystem is mounted and serving.
 
-        Health reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
+        Reports that the plans subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the goja host, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1468,7 +1473,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanHealth",
+            '200': "PlanPlanHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1510,7 +1515,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1756,7 +1762,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1799,7 +1806,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanRegionList:
+    ) -> PlanPlanRegionList:
         """Returns the regions cloud capacity is offered in, each with its display name and physical location.
 
         Returns the regions cloud capacity is offered in, each with its display name and physical location.
@@ -1834,7 +1841,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanRegionList",
+            '200': "PlanPlanRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1862,7 +1869,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanRegionList]:
+    ) -> ApiResponse[PlanPlanRegionList]:
         """Returns the regions cloud capacity is offered in, each with its display name and physical location.
 
         Returns the regions cloud capacity is offered in, each with its display name and physical location.
@@ -1897,7 +1904,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanRegionList",
+            '200': "PlanPlanRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1960,7 +1967,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanRegionList",
+            '200': "PlanPlanRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2002,7 +2009,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2046,7 +2054,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanResolution:
+    ) -> PlanPlanResolution:
         """Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
 
         Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id may be the plan's id or its slug, and it is resolved against the caller's catalog, so a reseller's override wins over the canonical record. An id no catalog holds answers 404.
@@ -2084,7 +2092,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanResolution",
+            '200': "PlanPlanResolution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2113,7 +2121,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanResolution]:
+    ) -> ApiResponse[PlanPlanResolution]:
         """Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from.
 
         Resolves one plan to everything a consumer of the catalog needs at once: its canonical entitlement block, the flat license-feature list a signed license carries, its billing reference, and the catalog it came from. The id may be the plan's id or its slug, and it is resolved against the caller's catalog, so a reseller's override wins over the canonical record. An id no catalog holds answers 404.
@@ -2151,7 +2159,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanResolution",
+            '200': "PlanPlanResolution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2218,7 +2226,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanResolution",
+            '200': "PlanPlanResolution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2263,7 +2271,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2306,7 +2315,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanSchemas:
+    ) -> PlanPlanSchemas:
         """Returns the two JSON Schema documents this surface speaks: entitlements.schema.json, which declares every entitlement key with its type, unit and enum, and plan.schema.json, which a catalog plan record conforms to.
 
         Returns the two JSON Schema documents this surface speaks: entitlements.schema.json, which declares every entitlement key with its type, unit and enum, and plan.schema.json, which a catalog plan record conforms to.
@@ -2341,7 +2350,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanSchemas",
+            '200': "PlanPlanSchemas",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2369,7 +2378,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanSchemas]:
+    ) -> ApiResponse[PlanPlanSchemas]:
         """Returns the two JSON Schema documents this surface speaks: entitlements.schema.json, which declares every entitlement key with its type, unit and enum, and plan.schema.json, which a catalog plan record conforms to.
 
         Returns the two JSON Schema documents this surface speaks: entitlements.schema.json, which declares every entitlement key with its type, unit and enum, and plan.schema.json, which a catalog plan record conforms to.
@@ -2404,7 +2413,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanSchemas",
+            '200': "PlanPlanSchemas",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2467,7 +2476,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanSchemas",
+            '200': "PlanPlanSchemas",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2509,7 +2518,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2755,7 +2765,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2798,7 +2809,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanList:
+    ) -> PlanPlanList:
         """Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference.
 
         Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference. Scoped to the caller's catalog.
@@ -2833,7 +2844,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2861,7 +2872,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanList]:
+    ) -> ApiResponse[PlanPlanList]:
         """Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference.
 
         Returns the subscription ladder — the personal and team tiers a customer buys to use the cloud, each with its monthly and annual price, seat rules, limits and billing reference. Scoped to the caller's catalog.
@@ -2896,7 +2907,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2959,7 +2970,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanList",
+            '200': "PlanPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3001,7 +3012,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3044,7 +3056,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanToolList:
+    ) -> PlanPlanToolList:
         """Returns the per-use price of every metered tool — web search, code interpreter, image generation, speech — each with the unit it is billed in.
 
         Returns the per-use price of every metered tool — web search, code interpreter, image generation, speech — each with the unit it is billed in.
@@ -3079,7 +3091,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanToolList",
+            '200': "PlanPlanToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3107,7 +3119,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanToolList]:
+    ) -> ApiResponse[PlanPlanToolList]:
         """Returns the per-use price of every metered tool — web search, code interpreter, image generation, speech — each with the unit it is billed in.
 
         Returns the per-use price of every metered tool — web search, code interpreter, image generation, speech — each with the unit it is billed in.
@@ -3142,7 +3154,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanToolList",
+            '200': "PlanPlanToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3205,7 +3217,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanToolList",
+            '200': "PlanPlanToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3247,7 +3259,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3290,7 +3303,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PlanVocab:
+    ) -> PlanPlanVocab:
         """Returns the entitlement key vocabulary: every key with its namespace, JSON type, nullability, unit, enum and title, the list of namespaces, and the engine features a license can grant.
 
         Returns the entitlement key vocabulary: every key with its namespace, JSON type, nullability, unit, enum and title, the list of namespaces, and the engine features a license can grant. It is derived from entitlements.schema.json on every call, so it cannot fall behind the schema.
@@ -3325,7 +3338,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanVocab",
+            '200': "PlanPlanVocab",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3353,7 +3366,7 @@ class PlanApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PlanVocab]:
+    ) -> ApiResponse[PlanPlanVocab]:
         """Returns the entitlement key vocabulary: every key with its namespace, JSON type, nullability, unit, enum and title, the list of namespaces, and the engine features a license can grant.
 
         Returns the entitlement key vocabulary: every key with its namespace, JSON type, nullability, unit, enum and title, the list of namespaces, and the engine features a license can grant. It is derived from entitlements.schema.json on every call, so it cannot fall behind the schema.
@@ -3388,7 +3401,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanVocab",
+            '200': "PlanPlanVocab",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3451,7 +3464,7 @@ class PlanApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PlanVocab",
+            '200': "PlanPlanVocab",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3493,7 +3506,8 @@ class PlanApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

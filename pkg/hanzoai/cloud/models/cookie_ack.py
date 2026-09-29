@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool
+from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class CookieAck(BaseModel):
     """
     CookieAck
     """ # noqa: E501
-    result: Optional[StrictBool] = Field(default=None, description="Result is true when the cookie was written or cleared.")
+    result: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["result"]
 
     model_config = ConfigDict(

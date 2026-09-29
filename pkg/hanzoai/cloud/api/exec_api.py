@@ -19,9 +19,9 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List
 from typing_extensions import Annotated
-from hanzoai.cloud.models.code_result import CodeResult
-from hanzoai.cloud.models.code_run import CodeRun
-from hanzoai.cloud.models.listing import Listing
+from hanzoai.cloud.models.exec_code_result import ExecCodeResult
+from hanzoai.cloud.models.exec_code_run import ExecCodeRun
+from hanzoai.cloud.models.exec_listing import ExecListing
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -57,7 +57,7 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Listing]:
+    ) -> List[ExecListing]:
         """Lists the files in an execution session.
 
         Lists the files in an execution session.  Everything the session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from GET /v1/exec/download.  The answer is a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. The obvious typed shape, `{files: […]}`, would have been a silent wire change: the request still succeeds and `response.data.find(...)` finds nothing, which reads as a session holding no files.  The NAME of this handler is what the published summary is cut from, and it used to leak: the comment opened \"Files lists …\", which is not this function's identifier, so zipdoc's exact-match strip left it and every SDK, tool list and CLI help line opened with a Go symbol no caller can see. An openapi.Describe stated a better summary beside the route and was DISCARDED — Fold replaces a structural operation with the typed one — so the declaration read as landed and rendered nowhere. The comment is the one home for this sentence.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
@@ -95,7 +95,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Listing]",
+            '200': "List[ExecListing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -124,7 +124,7 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Listing]]:
+    ) -> ApiResponse[List[ExecListing]]:
         """Lists the files in an execution session.
 
         Lists the files in an execution session.  Everything the session's sandbox holds — the uploads a run can read and the artifacts it produced — each then fetched from GET /v1/exec/download.  The answer is a BARE JSON ARRAY of {name, lastModified}, where `name` is the same {session_id}/{fileId} identifier download takes, because that is what the client matches on. The obvious typed shape, `{files: […]}`, would have been a silent wire change: the request still succeeds and `response.data.find(...)` finds nothing, which reads as a session holding no files.  The NAME of this handler is what the published summary is cut from, and it used to leak: the comment opened \"Files lists …\", which is not this function's identifier, so zipdoc's exact-match strip left it and every SDK, tool list and CLI help line opened with a Go symbol no caller can see. An openapi.Describe stated a better summary beside the route and was DISCARDED — Fold replaces a structural operation with the typed one — so the declaration read as landed and rendered nowhere. The comment is the one home for this sentence.  One recursive `find`, the same traversal the artifact sweep makes. It used to be `ls -1A` — top level only — while the sweep collected with `find`, so a run that wrote a nested artifact reported it in its reply and then omitted it here, and the client's prefix match read the file as expired. Two traversals of one directory is two answers about what a session holds; there is one now.
@@ -162,7 +162,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Listing]",
+            '200': "List[ExecListing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -229,7 +229,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Listing]",
+            '200': "List[ExecListing]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -274,7 +274,8 @@ class ExecApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -305,7 +306,7 @@ class ExecApi:
     @validate_call
     def post_exec(
         self,
-        code_run: CodeRun,
+        exec_code_run: ExecCodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -318,13 +319,13 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CodeResult:
+    ) -> ExecCodeResult:
         """Run a code snippet in a sandboxed interpreter
 
         Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/exec/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/exec/download/{session}/{name}.  The tenant is the caller's, never the body's, at every entry point. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying no validated principal, so those entry points fail closed without a second gate to keep in step.
 
-        :param code_run: (required)
-        :type code_run: CodeRun
+        :param exec_code_run: (required)
+        :type exec_code_run: ExecCodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -348,7 +349,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_exec_serialize(
-            code_run=code_run,
+            exec_code_run=exec_code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -356,7 +357,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CodeResult",
+            '200': "ExecCodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -372,7 +373,7 @@ class ExecApi:
     @validate_call
     def post_exec_with_http_info(
         self,
-        code_run: CodeRun,
+        exec_code_run: ExecCodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -385,13 +386,13 @@ class ExecApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CodeResult]:
+    ) -> ApiResponse[ExecCodeResult]:
         """Run a code snippet in a sandboxed interpreter
 
         Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/exec/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/exec/download/{session}/{name}.  The tenant is the caller's, never the body's, at every entry point. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying no validated principal, so those entry points fail closed without a second gate to keep in step.
 
-        :param code_run: (required)
-        :type code_run: CodeRun
+        :param exec_code_run: (required)
+        :type exec_code_run: ExecCodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -415,7 +416,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_exec_serialize(
-            code_run=code_run,
+            exec_code_run=exec_code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -423,7 +424,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CodeResult",
+            '200': "ExecCodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -439,7 +440,7 @@ class ExecApi:
     @validate_call
     def post_exec_without_preload_content(
         self,
-        code_run: CodeRun,
+        exec_code_run: ExecCodeRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -457,8 +458,8 @@ class ExecApi:
 
         Executes a program in a throwaway sandbox and answers with what it printed and what it left behind.  `lang` names one of the thirteen the sandbox image carries — py, js, ts, bash, r, php, go, rs, c, cpp, java, d, f90 — and `code` is the whole program, not a fragment: a compiled language is compiled and then run, an interpreted one is interpreted, and `args` becomes the program's own argv either way. Nothing is installed for you; the image is the environment.  A PROGRAM THAT FAILS IS A SUCCESSFUL CALL. A non-zero exit answers 200 with the diagnostics on `stderr`, because \"the code threw\" and \"the interpreter is down\" are different facts a caller renders differently. Only the second is an error status.  Runs are stateful through `session_id`. Omit it and the run gets a fresh sandbox whose id comes back on the answer; pass that id again and the next run sees the same filesystem, so a program can write a file one call and read it the next. `files` names bytes already uploaded to a session (POST /v1/exec/upload), copied in before the program starts. `files` on the ANSWER is what the program created or changed, by comparison against a marker taken at start — so it is the run's real output, not a listing of the directory — and each is fetched from GET /v1/exec/download/{session}/{name}.  The tenant is the caller's, never the body's, at every entry point. A typed op is also an MCP tool and an op-plane op; MCP's tools/call invokes it directly, with no route and therefore no middleware, so nothing there could have checked a credential. tenantOf refuses a context carrying no validated principal, so those entry points fail closed without a second gate to keep in step.
 
-        :param code_run: (required)
-        :type code_run: CodeRun
+        :param exec_code_run: (required)
+        :type exec_code_run: ExecCodeRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -482,7 +483,7 @@ class ExecApi:
         """ # noqa: E501
 
         _param = self._post_exec_serialize(
-            code_run=code_run,
+            exec_code_run=exec_code_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -490,7 +491,7 @@ class ExecApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CodeResult",
+            '200': "ExecCodeResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,7 @@ class ExecApi:
 
     def _post_exec_serialize(
         self,
-        code_run,
+        exec_code_run,
         _request_auth,
         _content_type,
         _headers,
@@ -527,15 +528,16 @@ class ExecApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if code_run is not None:
-            _body_params = code_run
+        if exec_code_run is not None:
+            _body_params = exec_code_run
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -561,245 +563,6 @@ class ExecApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/exec',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_exec_programmatic(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Answers 501 — this deployment does not serve programmatic tool calling.
-
-        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_exec_programmatic_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '501': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_exec_programmatic_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Answers 501 — this deployment does not serve programmatic tool calling.
-
-        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_exec_programmatic_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '501': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_exec_programmatic_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Answers 501 — this deployment does not serve programmatic tool calling.
-
-        Answers 501 — this deployment does not serve programmatic tool calling.  That sentence is the SUMMARY every projection shows, so it says what a caller gets rather than what the code does; the rest names what it would take to stop refusing.  /exec/programmatic is NOT this contract's sibling — it is a different protocol on an adjacent path: a multi-round-trip loop where the server suspends a Python program on a tool call, returns the pending calls with a continuation_token, and resumes when the client posts the results back (@hanzochat/agents ProgrammaticToolCalling). Implementing it means implementing suspension and resumption, which is a program, not an endpoint.  So it answers 501 with that fact rather than being routed into `run`, which would hand the caller a CodeResult its parser cannot read — a wrong answer, where this is a refusal a client can act on.  IT IS A TYPED OP, and the refusal for keeping it raw did not survive reading. It binds no body, opens no stream, relays no other process and sits on no wildcard, so none of the four wire facts that keep a route raw applies to it; what was cited instead was that a permanent stub should declare nothing. That argues for silence in the DOCUMENT and buys the silence everywhere else too — no MCP tool, no CLI command, no SDK method — so a caller could read this address and reach it by no projection but REST, and learn only by calling it that the protocol is not served. Declaring `zip.WithStatus(501)` is what makes typing honest: the document publishes the ONE status this route sends, over an Out with no schema, rather than the 204 a void op would otherwise have invented.  ONE delta, pinned by TestProgrammaticRefusesEveryBody: a body that is not JSON now answers 400 rather than 501, because op.invoke decodes before the handler is entered. Both are refusals of a protocol this deployment does not serve, no real caller sends one, and 400 is what the rest of the fleet answers to bytes it cannot parse.  It asks tenantOf for the reason every other operation here does, and the answer is the same on the wire it was: over HTTP the credential middleware has already run, so an admitted caller still reads 501. What the call closes is the entry point a route table cannot see — typing an operation makes it an MCP tool, which zip dispatches straight into the handler with no route and therefore no middleware. Uniformity is the whole property: every path into this subsystem reads the admission marker, so there is no operation anybody has to remember is the exception.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_exec_programmatic_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '501': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_exec_programmatic_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/exec/programmatic',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

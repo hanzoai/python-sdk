@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.executions import Executions
-from hanzoai.cloud.models.pipelines import Pipelines
+from hanzoai.cloud.models.ci_executions import CiExecutions
+from hanzoai.cloud.models.ci_pipelines import CiPipelines
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class CiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Pipelines:
+    ) -> CiPipelines:
         """Compares what was written with what is running, one row per service along a single causal line: head, the commit on the branch; built, the image that commit produced; declared, the tag pinned in the universe repository; running, what the cluster serves.
 
         Compares what was written with what is running, one row per service along a single causal line: head, the commit on the branch; built, the image that commit produced; declared, the tag pinned in the universe repository; running, what the cluster serves. A service whose four values disagree names the step that broke.
@@ -87,7 +87,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pipelines",
+            '200': "CiPipelines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,7 +115,7 @@ class CiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Pipelines]:
+    ) -> ApiResponse[CiPipelines]:
         """Compares what was written with what is running, one row per service along a single causal line: head, the commit on the branch; built, the image that commit produced; declared, the tag pinned in the universe repository; running, what the cluster serves.
 
         Compares what was written with what is running, one row per service along a single causal line: head, the commit on the branch; built, the image that commit produced; declared, the tag pinned in the universe repository; running, what the cluster serves. A service whose four values disagree names the step that broke.
@@ -150,7 +150,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pipelines",
+            '200': "CiPipelines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -213,7 +213,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pipelines",
+            '200': "CiPipelines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -255,7 +255,8 @@ class CiApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -298,7 +299,7 @@ class CiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Executions:
+    ) -> CiExecutions:
         """Lists recent builds: the repo, the branch, the commit and how each run ended, newest first.
 
         Lists recent builds: the repo, the branch, the commit and how each run ended, newest first. A run names a repo, a branch and an actor, so the list is never wider than the caller — a SuperAdmin sees the fleet, an org member sees only its own org.
@@ -333,7 +334,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Executions",
+            '200': "CiExecutions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -361,7 +362,7 @@ class CiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Executions]:
+    ) -> ApiResponse[CiExecutions]:
         """Lists recent builds: the repo, the branch, the commit and how each run ended, newest first.
 
         Lists recent builds: the repo, the branch, the commit and how each run ended, newest first. A run names a repo, a branch and an actor, so the list is never wider than the caller — a SuperAdmin sees the fleet, an org member sees only its own org.
@@ -396,7 +397,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Executions",
+            '200': "CiExecutions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -459,7 +460,7 @@ class CiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Executions",
+            '200': "CiExecutions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,8 @@ class CiApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

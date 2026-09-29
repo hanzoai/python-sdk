@@ -28,8 +28,8 @@ class O11yWaterfallSpan(BaseModel):
     """
     O11yWaterfallSpan
     """ # noqa: E501
-    attributes: Optional[Dict[str, Dict[str, Any]]] = None
-    db_name: Optional[StrictStr] = Field(default=None, description="Calculated fields https://o11y.io/docs/traces-management/guides/derived-fields-spans")
+    attributes: Optional[Dict[str, Any]] = None
+    db_name: Optional[StrictStr] = Field(default=None, description="Calculated fields, derived from the span's attributes.")
     db_operation: Optional[StrictStr] = None
     duration_nano: Optional[StrictInt] = None
     events: Optional[List[O11yEvent]] = None

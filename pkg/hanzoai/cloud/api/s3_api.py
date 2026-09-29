@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.bucket_in import BucketIn
-from hanzoai.cloud.models.bucket_item import BucketItem
-from hanzoai.cloud.models.bucket_list import BucketList
-from hanzoai.cloud.models.object_list import ObjectList
-from hanzoai.cloud.models.presign_response import PresignResponse
-from hanzoai.cloud.models.s3_health import S3Health
-from hanzoai.cloud.models.upload_in import UploadIn
+from hanzoai.cloud.models.s3_bucket_in import S3BucketIn
+from hanzoai.cloud.models.s3_bucket_item import S3BucketItem
+from hanzoai.cloud.models.s3_bucket_list import S3BucketList
+from hanzoai.cloud.models.s3_object_list import S3ObjectList
+from hanzoai.cloud.models.s3_presign_response import S3PresignResponse
+from hanzoai.cloud.models.s3_s3_health import S3S3Health
+from hanzoai.cloud.models.s3_upload_in import S3UploadIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -274,6 +274,13 @@ class S3Api:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -314,7 +321,7 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BucketList:
+    ) -> S3BucketList:
         """Lists the caller org's own buckets.
 
         Lists the caller org's own buckets.  Only the caller's: every bucket is physically named under a per-org prefix and the listing strips that prefix, so a tenant sees friendly names and another tenant's buckets are not in the answer at all. Another org's bucket is not refused but INVISIBLE, so this cannot be used to learn that a name is taken elsewhere.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing done, and the debit lands only once the work has succeeded.
@@ -349,7 +356,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BucketList",
+            '200': "S3BucketList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -377,7 +384,7 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BucketList]:
+    ) -> ApiResponse[S3BucketList]:
         """Lists the caller org's own buckets.
 
         Lists the caller org's own buckets.  Only the caller's: every bucket is physically named under a per-org prefix and the listing strips that prefix, so a tenant sees friendly names and another tenant's buckets are not in the answer at all. Another org's bucket is not refused but INVISIBLE, so this cannot be used to learn that a name is taken elsewhere.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing done, and the debit lands only once the work has succeeded.
@@ -412,7 +419,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BucketList",
+            '200': "S3BucketList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -475,7 +482,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BucketList",
+            '200': "S3BucketList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -517,7 +524,8 @@ class S3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -563,7 +571,7 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ObjectList:
+    ) -> S3ObjectList:
         """Lists one folder level of a bucket.
 
         Lists one folder level of a bucket.  Folder-style by default: sub-prefixes come back as directory entries, which is the file-manager view. `?recursive=true` lists every key flat under the prefix instead. Keys are RELATIVE to `?prefix=`, and the listing is bounded so a huge bucket cannot exhaust memory — Total is what came back, not what the bucket holds.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -607,7 +615,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ObjectList",
+            '200': "S3ObjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -638,7 +646,7 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ObjectList]:
+    ) -> ApiResponse[S3ObjectList]:
         """Lists one folder level of a bucket.
 
         Lists one folder level of a bucket.  Folder-style by default: sub-prefixes come back as directory entries, which is the file-manager view. `?recursive=true` lists every key flat under the prefix instead. Keys are RELATIVE to `?prefix=`, and the listing is bounded so a huge bucket cannot exhaust memory — Total is what came back, not what the bucket holds.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing read, and the debit lands only once the listing has succeeded.
@@ -682,7 +690,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ObjectList",
+            '200': "S3ObjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -757,7 +765,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ObjectList",
+            '200': "S3ObjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -812,7 +820,8 @@ class S3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -855,10 +864,10 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> S3Health:
-        """Health reports whether this deployment can serve object storage.
+    ) -> S3S3Health:
+        """Reports whether this deployment can serve object storage.
 
-        Health reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
+        Reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -890,8 +899,8 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "S3Health",
-            '503': "S3Health",
+            '200': "S3S3Health",
+            '503': "S3S3Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -919,10 +928,10 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[S3Health]:
-        """Health reports whether this deployment can serve object storage.
+    ) -> ApiResponse[S3S3Health]:
+        """Reports whether this deployment can serve object storage.
 
-        Health reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
+        Reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -954,8 +963,8 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "S3Health",
-            '503': "S3Health",
+            '200': "S3S3Health",
+            '503': "S3S3Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -984,9 +993,9 @@ class S3Api:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports whether this deployment can serve object storage.
+        """Reports whether this deployment can serve object storage.
 
-        Health reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
+        Reports whether this deployment can serve object storage.  It is a REAL probe rather than a constant: 200 when admin credentials are present, so the store is reachable in principle, and 503 with the reason when they are not. It is deliberately NOT gated — liveness has to be probe-able without a token — so it is the one operation here that names no bucket and bills nothing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1018,8 +1027,8 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "S3Health",
-            '503': "S3Health",
+            '200': "S3S3Health",
+            '503': "S3S3Health",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1061,7 +1070,8 @@ class S3Api:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1092,7 +1102,7 @@ class S3Api:
     @validate_call
     def post_s3_buckets(
         self,
-        bucket_in: BucketIn,
+        s3_bucket_in: S3BucketIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1105,13 +1115,13 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BucketItem:
+    ) -> S3BucketItem:
         """Makes a new bucket for the caller's org and answers 201 with it.
 
         Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
-        :param bucket_in: (required)
-        :type bucket_in: BucketIn
+        :param s3_bucket_in: (required)
+        :type s3_bucket_in: S3BucketIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1135,7 +1145,7 @@ class S3Api:
         """ # noqa: E501
 
         _param = self._post_s3_buckets_serialize(
-            bucket_in=bucket_in,
+            s3_bucket_in=s3_bucket_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1143,7 +1153,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketItem",
+            '201': "S3BucketItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1159,7 +1169,7 @@ class S3Api:
     @validate_call
     def post_s3_buckets_with_http_info(
         self,
-        bucket_in: BucketIn,
+        s3_bucket_in: S3BucketIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1172,13 +1182,13 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BucketItem]:
+    ) -> ApiResponse[S3BucketItem]:
         """Makes a new bucket for the caller's org and answers 201 with it.
 
         Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
-        :param bucket_in: (required)
-        :type bucket_in: BucketIn
+        :param s3_bucket_in: (required)
+        :type s3_bucket_in: S3BucketIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1202,7 +1212,7 @@ class S3Api:
         """ # noqa: E501
 
         _param = self._post_s3_buckets_serialize(
-            bucket_in=bucket_in,
+            s3_bucket_in=s3_bucket_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1210,7 +1220,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketItem",
+            '201': "S3BucketItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1226,7 +1236,7 @@ class S3Api:
     @validate_call
     def post_s3_buckets_without_preload_content(
         self,
-        bucket_in: BucketIn,
+        s3_bucket_in: S3BucketIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1244,8 +1254,8 @@ class S3Api:
 
         Makes a new bucket for the caller's org and answers 201 with it.  The physical name is derived from the caller's validated org, so a tenant can only ever create inside its own namespace and no request field can redirect that. A name already taken in the org is 409.  Billed per call: the balance is checked BEFORE anything is touched, so an unfunded org is refused with nothing created, and the debit lands only once the bucket exists.
 
-        :param bucket_in: (required)
-        :type bucket_in: BucketIn
+        :param s3_bucket_in: (required)
+        :type s3_bucket_in: S3BucketIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1269,7 +1279,7 @@ class S3Api:
         """ # noqa: E501
 
         _param = self._post_s3_buckets_serialize(
-            bucket_in=bucket_in,
+            s3_bucket_in=s3_bucket_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1277,7 +1287,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "BucketItem",
+            '201': "S3BucketItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1288,7 +1298,7 @@ class S3Api:
 
     def _post_s3_buckets_serialize(
         self,
-        bucket_in,
+        s3_bucket_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1314,15 +1324,16 @@ class S3Api:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bucket_in is not None:
-            _body_params = bucket_in
+        if s3_bucket_in is not None:
+            _body_params = s3_bucket_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1367,7 +1378,7 @@ class S3Api:
     def post_s3_buckets_by_bucket_objects(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
-        upload_in: UploadIn,
+        s3_upload_in: S3UploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1380,15 +1391,15 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PresignResponse:
+    ) -> S3PresignResponse:
         """Mints a presigned PUT URL the caller uploads to DIRECTLY.
 
         Mints a presigned PUT URL the caller uploads to DIRECTLY.  The bytes never pass through this binary and the admin credential never leaves the server: the URL is signed against the PUBLIC host, scoped to exactly this bucket and key, and expires. A deployment with no public endpoint configured cannot mint one and answers 503 rather than a URL that will not work.  Billed per call — for MINTING the URL, which is the work this operation does; the upload that follows it goes straight to the store and is not seen here. The balance is checked BEFORE anything is touched, so an unfunded org is refused with no URL issued.
 
         :param bucket: Bucket is the bucket to upload into, from the path. (required)
         :type bucket: str
-        :param upload_in: (required)
-        :type upload_in: UploadIn
+        :param s3_upload_in: (required)
+        :type s3_upload_in: S3UploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1413,7 +1424,7 @@ class S3Api:
 
         _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
-            upload_in=upload_in,
+            s3_upload_in=s3_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1421,7 +1432,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresignResponse",
+            '200': "S3PresignResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1438,7 +1449,7 @@ class S3Api:
     def post_s3_buckets_by_bucket_objects_with_http_info(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
-        upload_in: UploadIn,
+        s3_upload_in: S3UploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1451,15 +1462,15 @@ class S3Api:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PresignResponse]:
+    ) -> ApiResponse[S3PresignResponse]:
         """Mints a presigned PUT URL the caller uploads to DIRECTLY.
 
         Mints a presigned PUT URL the caller uploads to DIRECTLY.  The bytes never pass through this binary and the admin credential never leaves the server: the URL is signed against the PUBLIC host, scoped to exactly this bucket and key, and expires. A deployment with no public endpoint configured cannot mint one and answers 503 rather than a URL that will not work.  Billed per call — for MINTING the URL, which is the work this operation does; the upload that follows it goes straight to the store and is not seen here. The balance is checked BEFORE anything is touched, so an unfunded org is refused with no URL issued.
 
         :param bucket: Bucket is the bucket to upload into, from the path. (required)
         :type bucket: str
-        :param upload_in: (required)
-        :type upload_in: UploadIn
+        :param s3_upload_in: (required)
+        :type s3_upload_in: S3UploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1484,7 +1495,7 @@ class S3Api:
 
         _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
-            upload_in=upload_in,
+            s3_upload_in=s3_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1492,7 +1503,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresignResponse",
+            '200': "S3PresignResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1509,7 +1520,7 @@ class S3Api:
     def post_s3_buckets_by_bucket_objects_without_preload_content(
         self,
         bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
-        upload_in: UploadIn,
+        s3_upload_in: S3UploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1529,8 +1540,8 @@ class S3Api:
 
         :param bucket: Bucket is the bucket to upload into, from the path. (required)
         :type bucket: str
-        :param upload_in: (required)
-        :type upload_in: UploadIn
+        :param s3_upload_in: (required)
+        :type s3_upload_in: S3UploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1555,7 +1566,7 @@ class S3Api:
 
         _param = self._post_s3_buckets_by_bucket_objects_serialize(
             bucket=bucket,
-            upload_in=upload_in,
+            s3_upload_in=s3_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1563,7 +1574,7 @@ class S3Api:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresignResponse",
+            '200': "S3PresignResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1575,7 +1586,7 @@ class S3Api:
     def _post_s3_buckets_by_bucket_objects_serialize(
         self,
         bucket,
-        upload_in,
+        s3_upload_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1603,15 +1614,16 @@ class S3Api:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if upload_in is not None:
-            _body_params = upload_in
+        if s3_upload_in is not None:
+            _body_params = s3_upload_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

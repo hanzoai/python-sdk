@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,10 +26,10 @@ class DestinationField(BaseModel):
     """
     DestinationField
     """ # noqa: E501
-    example: Optional[StrictStr] = Field(default=None, description="a sample value of the right shape (\"G-XXXXXXX\"), when one helps")
-    key: Optional[StrictStr] = Field(default=None, description="the camelCase key on both the connect body and the stored config")
-    label: Optional[StrictStr] = Field(default=None, description="human label for the console card's input")
-    required: Optional[StrictBool] = Field(default=None, description="when true, a connect that leaves it empty is refused 400")
+    example: Optional[StrictStr] = None
+    key: Optional[StrictStr] = None
+    label: Optional[StrictStr] = None
+    required: Optional[StrictBool] = None
     __properties: ClassVar[List[str]] = ["example", "key", "label", "required"]
 
     model_config = ConfigDict(

@@ -27,14 +27,14 @@ class InboxItem(BaseModel):
     """
     InboxItem
     """ # noqa: E501
-    category: Optional[StrictStr] = Field(default=None, description="Category is the expense account the scanner proposed, as a chart number — a PROPOSAL, not a posting: nothing is booked until it is accepted.")
-    confidence: Optional[StrictStr] = Field(default=None, description="Confidence is how sure the scanner is of that reading, and is the signal for whether a person needs to check it before it is booked.")
-    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the document was uploaded.", alias="createdAt")
-    extracted: Optional[Extracted] = Field(default=None, description="Extracted is what the scanner read off the document. Absent until it has been scanned, so its absence is \"not read yet\", never \"nothing on it\".")
-    filename: Optional[StrictStr] = Field(default=None, description="Filename is the name the document was uploaded under, for a person to recognise it by. It is not part of the item's identity.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the CONTENT HASH of the uploaded bytes, which is what makes the queue idempotent: re-uploading the same document returns this item rather than adding a second one. It is also the id the scan of this document carries.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is where the document is in the queue — unsorted until the scanner has read it, and thereafter whether it is waiting on a person or has been booked.")
-    vendor: Optional[StrictStr] = Field(default=None, description="Vendor is the supplier the scanner identified, surfaced beside the item so a queue renders without opening each document.")
+    category: Optional[StrictStr] = None
+    confidence: Optional[StrictStr] = None
+    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
+    extracted: Optional[Extracted] = None
+    filename: Optional[StrictStr] = None
+    id: Optional[StrictStr] = None
+    status: Optional[StrictStr] = None
+    vendor: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["category", "confidence", "createdAt", "extracted", "filename", "id", "status", "vendor"]
 
     model_config = ConfigDict(

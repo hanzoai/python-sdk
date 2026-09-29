@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.campaign_page import CampaignPage
-from hanzoai.cloud.models.campaign_record import CampaignRecord
-from hanzoai.cloud.models.campaign_results import CampaignResults
-from hanzoai.cloud.models.campaign_summary import CampaignSummary
-from hanzoai.cloud.models.campaign_update import CampaignUpdate
-from hanzoai.cloud.models.campaign_write import CampaignWrite
-from hanzoai.cloud.models.channel_add import ChannelAdd
+from hanzoai.cloud.models.campaign_campaign_page import CampaignCampaignPage
+from hanzoai.cloud.models.campaign_campaign_record import CampaignCampaignRecord
+from hanzoai.cloud.models.campaign_campaign_results import CampaignCampaignResults
+from hanzoai.cloud.models.campaign_campaign_summary import CampaignCampaignSummary
+from hanzoai.cloud.models.campaign_campaign_update import CampaignCampaignUpdate
+from hanzoai.cloud.models.campaign_campaign_write import CampaignCampaignWrite
+from hanzoai.cloud.models.campaign_channel_add import CampaignChannelAdd
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -274,6 +274,13 @@ class CampaignApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -316,7 +323,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
+    ) -> CampaignCampaignRecord:
         """Drops one channel from a campaign and returns the updated campaign.
 
         Drops one channel from a campaign and returns the updated campaign. 404 when the campaign carries no channel of that kind.  It removes the channel from the PLAN. A channel that is live at its provider should be paused first — dropping the row here leaves nothing to pause it with afterwards.
@@ -357,7 +364,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -387,7 +394,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
+    ) -> ApiResponse[CampaignCampaignRecord]:
         """Drops one channel from a campaign and returns the updated campaign.
 
         Drops one channel from a campaign and returns the updated campaign. 404 when the campaign carries no channel of that kind.  It removes the channel from the PLAN. A channel that is live at its provider should be paused first — dropping the row here leaves nothing to pause it with afterwards.
@@ -428,7 +435,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -499,7 +506,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -547,7 +554,8 @@ class CampaignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -592,7 +600,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignPage:
+    ) -> CampaignCampaignPage:
         """Returns the org's campaigns, newest first, optionally narrowed to one status.
 
         Returns the org's campaigns, newest first, optionally narrowed to one status.  A campaign is the top-level go-to-market object: a value that SPANS channels (paid, organic, email) and fans out to the executor for each. The listing is org-scoped server-side, so one org can never see another's campaigns.
@@ -633,7 +641,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignPage",
+            '200': "CampaignCampaignPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -663,7 +671,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignPage]:
+    ) -> ApiResponse[CampaignCampaignPage]:
         """Returns the org's campaigns, newest first, optionally narrowed to one status.
 
         Returns the org's campaigns, newest first, optionally narrowed to one status.  A campaign is the top-level go-to-market object: a value that SPANS channels (paid, organic, email) and fans out to the executor for each. The listing is org-scoped server-side, so one org can never see another's campaigns.
@@ -704,7 +712,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignPage",
+            '200': "CampaignCampaignPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -775,7 +783,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignPage",
+            '200': "CampaignCampaignPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -827,7 +835,8 @@ class CampaignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -871,7 +880,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
+    ) -> CampaignCampaignRecord:
         """Returns one campaign of the caller's org — its name, audience, creatives, channels with their per-channel launch state, schedule, budget and status.
 
         Returns one campaign of the caller's org — its name, audience, creatives, channels with their per-channel launch state, schedule, budget and status. 404 when the org has no campaign with that id.
@@ -909,7 +918,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -938,7 +947,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
+    ) -> ApiResponse[CampaignCampaignRecord]:
         """Returns one campaign of the caller's org — its name, audience, creatives, channels with their per-channel launch state, schedule, budget and status.
 
         Returns one campaign of the caller's org — its name, audience, creatives, channels with their per-channel launch state, schedule, budget and status. 404 when the org has no campaign with that id.
@@ -976,7 +985,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1043,7 +1052,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1088,7 +1097,8 @@ class CampaignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1135,7 +1145,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignResults:
+    ) -> CampaignCampaignResults:
         """Returns a campaign's results over a window: the analytics funnel (impressions, clicks, conversions, revenue, visitors), the spend each channel's connector reports, and the derived growth KPIs — CTR, CVR, CAC and ROAS.
 
         Returns a campaign's results over a window: the analytics funnel (impressions, clicks, conversions, revenue, visitors), the spend each channel's connector reports, and the derived growth KPIs — CTR, CVR, CAC and ROAS.  There is exactly ONE metrics plane and nothing is stored here: the funnel is an analytics query over the campaign's utm_campaign-tagged events, and the spend is each provider's own number read through the org's connector. A warehouse that is not emitting yet degrades to available:false with zeroes — honest-empty, never a 500 and never a fabricated number. When the campaign runs more than one creative and an experiment is wired, abTest carries the A/B analysis.
@@ -1182,7 +1192,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignResults",
+            '200': "CampaignCampaignResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1214,7 +1224,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignResults]:
+    ) -> ApiResponse[CampaignCampaignResults]:
         """Returns a campaign's results over a window: the analytics funnel (impressions, clicks, conversions, revenue, visitors), the spend each channel's connector reports, and the derived growth KPIs — CTR, CVR, CAC and ROAS.
 
         Returns a campaign's results over a window: the analytics funnel (impressions, clicks, conversions, revenue, visitors), the spend each channel's connector reports, and the derived growth KPIs — CTR, CVR, CAC and ROAS.  There is exactly ONE metrics plane and nothing is stored here: the funnel is an analytics query over the campaign's utm_campaign-tagged events, and the spend is each provider's own number read through the org's connector. A warehouse that is not emitting yet degrades to available:false with zeroes — honest-empty, never a 500 and never a fabricated number. When the campaign runs more than one creative and an experiment is wired, abTest carries the A/B analysis.
@@ -1261,7 +1271,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignResults",
+            '200': "CampaignCampaignResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1340,7 +1350,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignResults",
+            '200': "CampaignCampaignResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1400,7 +1410,8 @@ class CampaignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1443,7 +1454,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignSummary:
+    ) -> CampaignCampaignSummary:
         """Returns the org's go-to-market roll-up: how many campaigns exist, how many are live, their total budget in cents, and which channel executors this deployment can actually reach.
 
         Returns the org's go-to-market roll-up: how many campaigns exist, how many are live, their total budget in cents, and which channel executors this deployment can actually reach.  The channel list is the deployment's honest capability, not a wish: a kind missing from it is one a launch will record as \"unavailable\" rather than fail on.
@@ -1478,7 +1489,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignSummary",
+            '200': "CampaignCampaignSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1506,7 +1517,7 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignSummary]:
+    ) -> ApiResponse[CampaignCampaignSummary]:
         """Returns the org's go-to-market roll-up: how many campaigns exist, how many are live, their total budget in cents, and which channel executors this deployment can actually reach.
 
         Returns the org's go-to-market roll-up: how many campaigns exist, how many are live, their total budget in cents, and which channel executors this deployment can actually reach.  The channel list is the deployment's honest capability, not a wish: a kind missing from it is one a launch will record as \"unavailable\" rather than fail on.
@@ -1541,7 +1552,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignSummary",
+            '200': "CampaignCampaignSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1604,7 +1615,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignSummary",
+            '200': "CampaignCampaignSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1646,7 +1657,8 @@ class CampaignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1677,7 +1689,7 @@ class CampaignApi:
     @validate_call
     def post_campaign(
         self,
-        campaign_write: CampaignWrite,
+        campaign_campaign_write: CampaignCampaignWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1690,13 +1702,13 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
+    ) -> CampaignCampaignRecord:
         """Creates a campaign as a DRAFT and returns it.
 
         Creates a campaign as a DRAFT and returns it.  A draft is inert: nothing is sent, no connector is touched and no budget is committed until the campaign is launched. The channels named here are validated and de-duplicated by kind (one executor per kind), and every channel starts \"pending\" whatever the caller claims — a client can never assert a launched state.
 
-        :param campaign_write: (required)
-        :type campaign_write: CampaignWrite
+        :param campaign_campaign_write: (required)
+        :type campaign_campaign_write: CampaignCampaignWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1720,7 +1732,7 @@ class CampaignApi:
         """ # noqa: E501
 
         _param = self._post_campaign_serialize(
-            campaign_write=campaign_write,
+            campaign_campaign_write=campaign_campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1728,7 +1740,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CampaignRecord",
+            '201': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1744,7 +1756,7 @@ class CampaignApi:
     @validate_call
     def post_campaign_with_http_info(
         self,
-        campaign_write: CampaignWrite,
+        campaign_campaign_write: CampaignCampaignWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1757,13 +1769,13 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
+    ) -> ApiResponse[CampaignCampaignRecord]:
         """Creates a campaign as a DRAFT and returns it.
 
         Creates a campaign as a DRAFT and returns it.  A draft is inert: nothing is sent, no connector is touched and no budget is committed until the campaign is launched. The channels named here are validated and de-duplicated by kind (one executor per kind), and every channel starts \"pending\" whatever the caller claims — a client can never assert a launched state.
 
-        :param campaign_write: (required)
-        :type campaign_write: CampaignWrite
+        :param campaign_campaign_write: (required)
+        :type campaign_campaign_write: CampaignCampaignWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1787,7 +1799,7 @@ class CampaignApi:
         """ # noqa: E501
 
         _param = self._post_campaign_serialize(
-            campaign_write=campaign_write,
+            campaign_campaign_write=campaign_campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1795,7 +1807,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CampaignRecord",
+            '201': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1811,7 +1823,7 @@ class CampaignApi:
     @validate_call
     def post_campaign_without_preload_content(
         self,
-        campaign_write: CampaignWrite,
+        campaign_campaign_write: CampaignCampaignWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1829,8 +1841,8 @@ class CampaignApi:
 
         Creates a campaign as a DRAFT and returns it.  A draft is inert: nothing is sent, no connector is touched and no budget is committed until the campaign is launched. The channels named here are validated and de-duplicated by kind (one executor per kind), and every channel starts \"pending\" whatever the caller claims — a client can never assert a launched state.
 
-        :param campaign_write: (required)
-        :type campaign_write: CampaignWrite
+        :param campaign_campaign_write: (required)
+        :type campaign_campaign_write: CampaignCampaignWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1854,7 +1866,7 @@ class CampaignApi:
         """ # noqa: E501
 
         _param = self._post_campaign_serialize(
-            campaign_write=campaign_write,
+            campaign_campaign_write=campaign_campaign_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1862,7 +1874,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "CampaignRecord",
+            '201': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1873,7 +1885,7 @@ class CampaignApi:
 
     def _post_campaign_serialize(
         self,
-        campaign_write,
+        campaign_campaign_write,
         _request_auth,
         _content_type,
         _headers,
@@ -1899,15 +1911,16 @@ class CampaignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if campaign_write is not None:
-            _body_params = campaign_write
+        if campaign_campaign_write is not None:
+            _body_params = campaign_campaign_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1952,7 +1965,7 @@ class CampaignApi:
     def post_campaign_by_id_channels(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
+        campaign_channel_add: CampaignChannelAdd,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1965,15 +1978,15 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
+    ) -> CampaignCampaignRecord:
         """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
 
         Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
 
         :param id: ID is the campaign to add the channel to, from the path. (required)
         :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
+        :param campaign_channel_add: (required)
+        :type campaign_channel_add: CampaignChannelAdd
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1998,7 +2011,7 @@ class CampaignApi:
 
         _param = self._post_campaign_by_id_channels_serialize(
             id=id,
-            channel_add=channel_add,
+            campaign_channel_add=campaign_channel_add,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2006,7 +2019,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2023,7 +2036,7 @@ class CampaignApi:
     def post_campaign_by_id_channels_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
+        campaign_channel_add: CampaignChannelAdd,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2036,15 +2049,15 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
+    ) -> ApiResponse[CampaignCampaignRecord]:
         """Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.
 
         Adds a channel to a campaign, or REPLACES the one it already has of that kind, and returns the updated campaign.  A campaign carries at most one channel per kind, because the kind IS the executor: adding a second \"paid\" channel would mean two ad accounts running one campaign with no way to tell their results apart. The new channel starts \"pending\" — adding it does not launch it.
 
         :param id: ID is the campaign to add the channel to, from the path. (required)
         :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
+        :param campaign_channel_add: (required)
+        :type campaign_channel_add: CampaignChannelAdd
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2069,7 +2082,7 @@ class CampaignApi:
 
         _param = self._post_campaign_by_id_channels_serialize(
             id=id,
-            channel_add=channel_add,
+            campaign_channel_add=campaign_channel_add,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2077,7 +2090,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2094,7 +2107,7 @@ class CampaignApi:
     def post_campaign_by_id_channels_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to add the channel to, from the path.")],
-        channel_add: ChannelAdd,
+        campaign_channel_add: CampaignChannelAdd,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2114,8 +2127,8 @@ class CampaignApi:
 
         :param id: ID is the campaign to add the channel to, from the path. (required)
         :type id: str
-        :param channel_add: (required)
-        :type channel_add: ChannelAdd
+        :param campaign_channel_add: (required)
+        :type campaign_channel_add: CampaignChannelAdd
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2140,7 +2153,7 @@ class CampaignApi:
 
         _param = self._post_campaign_by_id_channels_serialize(
             id=id,
-            channel_add=channel_add,
+            campaign_channel_add=campaign_channel_add,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2148,7 +2161,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2160,7 +2173,7 @@ class CampaignApi:
     def _post_campaign_by_id_channels_serialize(
         self,
         id,
-        channel_add,
+        campaign_channel_add,
         _request_auth,
         _content_type,
         _headers,
@@ -2188,15 +2201,16 @@ class CampaignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if channel_add is not None:
-            _body_params = channel_add
+        if campaign_channel_add is not None:
+            _body_params = campaign_channel_add
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2256,7 +2270,7 @@ class CampaignApi:
     ) -> None:
         """Launch a campaign across every channel it declares
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (401 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2322,7 +2336,7 @@ class CampaignApi:
     ) -> ApiResponse[None]:
         """Launch a campaign across every channel it declares
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (401 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2388,7 +2402,7 @@ class CampaignApi:
     ) -> RESTResponseType:
         """Launch a campaign across every channel it declares
 
-        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (403 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
+        Pushes the campaign live on each of its channels through that channel's executor and answers the whole campaign with the per-channel outcome written back onto it.  The fan-out is BEST-EFFORT PER CHANNEL, and the honest reading of the result is the rule most callers get wrong: one channel failing never aborts the others, so each channel row carries its own `live`, `failed` or `unavailable` status and detail, and a paid launch can be live while an email launch failed. The campaign itself is `live` when AT LEAST ONE channel launched and `failed` only when none did — `live` is not a claim that every channel launched. Repeating the call is safe: a channel already live is skipped, never re-launched. A campaign carrying more than one creative has its variant assigned here by the experiment client and tagged as `utm_content`.  Org-scoped and fails closed: a valid bearer is required (401 without one), the campaign is read under the caller's OWN org so another tenant's id is a 404, and a campaign with no channels is a 400 — there is nothing to launch. Each executor resolves its own org's connector token from the org passed to it, so a launch can never spend through another tenant's connector.
 
         :param id: (required)
         :type id: str
@@ -2507,7 +2521,7 @@ class CampaignApi:
     ) -> None:
         """Pause every live channel on a campaign at its provider
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (401 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2573,7 +2587,7 @@ class CampaignApi:
     ) -> ApiResponse[None]:
         """Pause every live channel on a campaign at its provider
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (401 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2639,7 +2653,7 @@ class CampaignApi:
     ) -> RESTResponseType:
         """Pause every live channel on a campaign at its provider
 
-        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (403 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
+        Pauses each live channel on its provider and answers the whole campaign, moved to `paused`, with the per-channel outcome written back onto it.  Only channels that are live and carry a provider reference are touched; a channel whose executor is no longer wired is marked `unavailable` and one whose pause errored is marked `failed`, with the reason on the row. The campaign still reports `paused` in both cases, and that is deliberate rather than sloppy: no live channel remains that this process will meter, and the rows say exactly which provider was not reached so it can be settled by hand.  Org-scoped and fails closed: a valid bearer is required (401 without one) and the campaign is read under the caller's OWN org, so another tenant's id is a 404.
 
         :param id: (required)
         :type id: str
@@ -2743,7 +2757,7 @@ class CampaignApi:
     def put_campaign_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
-        campaign_update: CampaignUpdate,
+        campaign_campaign_update: CampaignCampaignUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2756,15 +2770,15 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignRecord:
+    ) -> CampaignCampaignRecord:
         """Rewrites a campaign's core fields — name, audience, creatives, schedule and budget — and returns the updated campaign.
 
         Rewrites a campaign's core fields — name, audience, creatives, schedule and budget — and returns the updated campaign.  Channels are replaced ONLY while the campaign is still a draft. Once it is launched its channels carry provider state (an external id, a live status), so they are added and removed explicitly through the channels sub-resource instead; a whole-object write would silently orphan a running execution.
 
         :param id: ID is the campaign to update, from the path. (required)
         :type id: str
-        :param campaign_update: (required)
-        :type campaign_update: CampaignUpdate
+        :param campaign_campaign_update: (required)
+        :type campaign_campaign_update: CampaignCampaignUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2789,7 +2803,7 @@ class CampaignApi:
 
         _param = self._put_campaign_by_id_serialize(
             id=id,
-            campaign_update=campaign_update,
+            campaign_campaign_update=campaign_campaign_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2797,7 +2811,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2814,7 +2828,7 @@ class CampaignApi:
     def put_campaign_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
-        campaign_update: CampaignUpdate,
+        campaign_campaign_update: CampaignCampaignUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2827,15 +2841,15 @@ class CampaignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignRecord]:
+    ) -> ApiResponse[CampaignCampaignRecord]:
         """Rewrites a campaign's core fields — name, audience, creatives, schedule and budget — and returns the updated campaign.
 
         Rewrites a campaign's core fields — name, audience, creatives, schedule and budget — and returns the updated campaign.  Channels are replaced ONLY while the campaign is still a draft. Once it is launched its channels carry provider state (an external id, a live status), so they are added and removed explicitly through the channels sub-resource instead; a whole-object write would silently orphan a running execution.
 
         :param id: ID is the campaign to update, from the path. (required)
         :type id: str
-        :param campaign_update: (required)
-        :type campaign_update: CampaignUpdate
+        :param campaign_campaign_update: (required)
+        :type campaign_campaign_update: CampaignCampaignUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2860,7 +2874,7 @@ class CampaignApi:
 
         _param = self._put_campaign_by_id_serialize(
             id=id,
-            campaign_update=campaign_update,
+            campaign_campaign_update=campaign_campaign_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2868,7 +2882,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2885,7 +2899,7 @@ class CampaignApi:
     def put_campaign_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign to update, from the path.")],
-        campaign_update: CampaignUpdate,
+        campaign_campaign_update: CampaignCampaignUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2905,8 +2919,8 @@ class CampaignApi:
 
         :param id: ID is the campaign to update, from the path. (required)
         :type id: str
-        :param campaign_update: (required)
-        :type campaign_update: CampaignUpdate
+        :param campaign_campaign_update: (required)
+        :type campaign_campaign_update: CampaignCampaignUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2931,7 +2945,7 @@ class CampaignApi:
 
         _param = self._put_campaign_by_id_serialize(
             id=id,
-            campaign_update=campaign_update,
+            campaign_campaign_update=campaign_campaign_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2939,7 +2953,7 @@ class CampaignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignRecord",
+            '200': "CampaignCampaignRecord",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2951,7 +2965,7 @@ class CampaignApi:
     def _put_campaign_by_id_serialize(
         self,
         id,
-        campaign_update,
+        campaign_campaign_update,
         _request_auth,
         _content_type,
         _headers,
@@ -2979,15 +2993,16 @@ class CampaignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if campaign_update is not None:
-            _body_params = campaign_update
+        if campaign_campaign_update is not None:
+            _body_params = campaign_campaign_update
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

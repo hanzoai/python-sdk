@@ -27,7 +27,7 @@ class O11yInstalledIntegration(BaseModel):
     """
     O11yInstalledIntegration
     """ # noqa: E501
-    config: Optional[Dict[str, Dict[str, Any]]] = None
+    config: Optional[Dict[str, Any]] = None
     id: Optional[Any] = None
     installed_at: Optional[datetime] = None
     org_id: Optional[StrictStr] = None

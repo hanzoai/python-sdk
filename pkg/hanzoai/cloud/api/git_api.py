@@ -19,35 +19,43 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBytes, StrictInt, StrictStr
 from typing import Optional, Tuple, Union
 from typing_extensions import Annotated
-from hanzoai.cloud.models.blob_json import BlobJSON
-from hanzoai.cloud.models.commits_json import CommitsJSON
-from hanzoai.cloud.models.create_req import CreateReq
-from hanzoai.cloud.models.files_json import FilesJSON
-from hanzoai.cloud.models.gc_out import GcOut
-from hanzoai.cloud.models.key_list import KeyList
-from hanzoai.cloud.models.key_view import KeyView
-from hanzoai.cloud.models.mirror_list import MirrorList
-from hanzoai.cloud.models.mirror_req import MirrorReq
-from hanzoai.cloud.models.mirror_target_req import MirrorTargetReq
-from hanzoai.cloud.models.mirror_target_view import MirrorTargetView
-from hanzoai.cloud.models.open_req import OpenReq
-from hanzoai.cloud.models.patch_in import PatchIn
-from hanzoai.cloud.models.pool_declare import PoolDeclare
-from hanzoai.cloud.models.pool_declared import PoolDeclared
-from hanzoai.cloud.models.pool_list import PoolList
-from hanzoai.cloud.models.pull_list import PullList
-from hanzoai.cloud.models.pull_view import PullView
-from hanzoai.cloud.models.push_req import PushReq
-from hanzoai.cloud.models.push_resp import PushResp
-from hanzoai.cloud.models.readme_json import ReadmeJSON
-from hanzoai.cloud.models.refs_json import RefsJSON
-from hanzoai.cloud.models.register_key_req import RegisterKeyReq
-from hanzoai.cloud.models.repo_list import RepoList
-from hanzoai.cloud.models.repo_view import RepoView
-from hanzoai.cloud.models.run_start import RunStart
+from hanzoai.cloud.models.git_blob_json import GitBlobJSON
+from hanzoai.cloud.models.git_commits_json import GitCommitsJSON
+from hanzoai.cloud.models.git_create_req import GitCreateReq
+from hanzoai.cloud.models.git_files_json import GitFilesJSON
+from hanzoai.cloud.models.git_gc_out import GitGcOut
+from hanzoai.cloud.models.git_key_list import GitKeyList
+from hanzoai.cloud.models.git_key_view import GitKeyView
+from hanzoai.cloud.models.git_mirror_list import GitMirrorList
+from hanzoai.cloud.models.git_mirror_req import GitMirrorReq
+from hanzoai.cloud.models.git_mirror_target_req import GitMirrorTargetReq
+from hanzoai.cloud.models.git_mirror_target_view import GitMirrorTargetView
+from hanzoai.cloud.models.git_open_req import GitOpenReq
+from hanzoai.cloud.models.git_patch_in import GitPatchIn
+from hanzoai.cloud.models.git_pool_declare import GitPoolDeclare
+from hanzoai.cloud.models.git_pool_declared import GitPoolDeclared
+from hanzoai.cloud.models.git_pool_list import GitPoolList
+from hanzoai.cloud.models.git_pull_list import GitPullList
+from hanzoai.cloud.models.git_pull_view import GitPullView
+from hanzoai.cloud.models.git_push_req import GitPushReq
+from hanzoai.cloud.models.git_push_resp import GitPushResp
+from hanzoai.cloud.models.git_readme_json import GitReadmeJSON
+from hanzoai.cloud.models.git_refs_json import GitRefsJSON
+from hanzoai.cloud.models.git_register_key_req import GitRegisterKeyReq
+from hanzoai.cloud.models.git_repo_list import GitRepoList
+from hanzoai.cloud.models.git_repo_view import GitRepoView
+from hanzoai.cloud.models.git_run_start import GitRunStart
+from hanzoai.cloud.models.git_runner_list import GitRunnerList
+from hanzoai.cloud.models.git_subscribe_req import GitSubscribeReq
+from hanzoai.cloud.models.git_subscription_list import GitSubscriptionList
+from hanzoai.cloud.models.git_subscription_view import GitSubscriptionView
+from hanzoai.cloud.models.git_tree_json import GitTreeJSON
+from hanzoai.cloud.models.git_usage_view import GitUsageView
+from hanzoai.cloud.models.git_workflow_list import GitWorkflowList
+from hanzoai.cloud.models.git_workflow_run import GitWorkflowRun
+from hanzoai.cloud.models.git_workflow_runs import GitWorkflowRuns
 from hanzoai.cloud.models.runner_declare_in import RunnerDeclareIn
 from hanzoai.cloud.models.runner_declare_out import RunnerDeclareOut
-from hanzoai.cloud.models.runner_list import RunnerList
 from hanzoai.cloud.models.runner_log_in import RunnerLogIn
 from hanzoai.cloud.models.runner_log_out import RunnerLogOut
 from hanzoai.cloud.models.runner_register_in import RunnerRegisterIn
@@ -56,14 +64,6 @@ from hanzoai.cloud.models.runner_state_in import RunnerStateIn
 from hanzoai.cloud.models.runner_state_out import RunnerStateOut
 from hanzoai.cloud.models.runner_task_in import RunnerTaskIn
 from hanzoai.cloud.models.runner_task_out import RunnerTaskOut
-from hanzoai.cloud.models.subscribe_req import SubscribeReq
-from hanzoai.cloud.models.subscription_list import SubscriptionList
-from hanzoai.cloud.models.subscription_view import SubscriptionView
-from hanzoai.cloud.models.tree_json import TreeJSON
-from hanzoai.cloud.models.usage_view import UsageView
-from hanzoai.cloud.models.workflow_list import WorkflowList
-from hanzoai.cloud.models.workflow_run import WorkflowRun
-from hanzoai.cloud.models.workflow_runs import WorkflowRuns
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -312,6 +312,13 @@ class GitApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -566,6 +573,13 @@ class GitApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -835,6 +849,13 @@ class GitApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1104,6 +1125,13 @@ class GitApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -2695,7 +2723,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KeyList:
+    ) -> GitKeyList:
         """Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`.
 
         Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`. Keys are org-scoped on read even though the fingerprint index is global, so one org never sees another's.
@@ -2730,7 +2758,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KeyList",
+            '200': "GitKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2758,7 +2786,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KeyList]:
+    ) -> ApiResponse[GitKeyList]:
         """Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`.
 
         Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`. Keys are org-scoped on read even though the fingerprint index is global, so one org never sees another's.
@@ -2793,7 +2821,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KeyList",
+            '200': "GitKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2856,7 +2884,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KeyList",
+            '200': "GitKeyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2898,7 +2926,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2941,7 +2970,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PoolList:
+    ) -> GitPoolList:
         """Returns the capacity this org has declared and how many daemons have entered each pool.
 
         Returns the capacity this org has declared and how many daemons have entered each pool.
@@ -2976,7 +3005,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PoolList",
+            '200': "GitPoolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3004,7 +3033,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PoolList]:
+    ) -> ApiResponse[GitPoolList]:
         """Returns the capacity this org has declared and how many daemons have entered each pool.
 
         Returns the capacity this org has declared and how many daemons have entered each pool.
@@ -3039,7 +3068,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PoolList",
+            '200': "GitPoolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3102,7 +3131,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PoolList",
+            '200': "GitPoolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3144,7 +3173,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3187,7 +3217,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoList:
+    ) -> GitRepoList:
         """Returns the repos in the caller's scope, most recently updated first.
 
         Returns the repos in the caller's scope, most recently updated first. The scope is the request principal's — the gateway-minted org and its optional project — never anything off the wire, so a caller only ever sees its own. Rows carry no branches or HEAD; read one repo for those.
@@ -3222,7 +3252,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoList",
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3250,7 +3280,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoList]:
+    ) -> ApiResponse[GitRepoList]:
         """Returns the repos in the caller's scope, most recently updated first.
 
         Returns the repos in the caller's scope, most recently updated first. The scope is the request principal's — the gateway-minted org and its optional project — never anything off the wire, so a caller only ever sees its own. Rows carry no branches or HEAD; read one repo for those.
@@ -3285,7 +3315,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoList",
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3348,7 +3378,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoList",
+            '200': "GitRepoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3390,7 +3420,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3434,7 +3465,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoView:
+    ) -> GitRepoView:
         """Returns one repo with its live ref state: every branch name and the resolved HEAD commit.
 
         Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.
@@ -3472,7 +3503,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3501,7 +3532,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoView]:
+    ) -> ApiResponse[GitRepoView]:
         """Returns one repo with its live ref state: every branch name and the resolved HEAD commit.
 
         Returns one repo with its live ref state: every branch name and the resolved HEAD commit. Both are read from the object store on each call, so an empty repo reports no branches and an empty head rather than failing. A repo outside the caller's scope is not found.
@@ -3539,7 +3570,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3606,7 +3637,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3651,7 +3682,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3697,7 +3729,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BlobJSON:
+    ) -> GitBlobJSON:
         """Returns one file's bytes at one revision.
 
         Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead.
@@ -3741,7 +3773,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlobJSON",
+            '200': "GitBlobJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3772,7 +3804,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BlobJSON]:
+    ) -> ApiResponse[GitBlobJSON]:
         """Returns one file's bytes at one revision.
 
         Returns one file's bytes at one revision. Text comes back verbatim, binary comes back base64, and a file past the 1 MiB view cap comes back marked truncated with NO content — the client is expected to clone instead.
@@ -3816,7 +3848,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlobJSON",
+            '200': "GitBlobJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3891,7 +3923,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlobJSON",
+            '200': "GitBlobJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3946,7 +3978,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3993,7 +4026,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CommitsJSON:
+    ) -> GitCommitsJSON:
         """Walks a ref's history newest first, or one path's history when a path is given.
 
         Walks a ref's history newest first, or one path's history when a path is given. There is no cursor: the page is the newest `limit` commits.
@@ -4040,7 +4073,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CommitsJSON",
+            '200': "GitCommitsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4072,7 +4105,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CommitsJSON]:
+    ) -> ApiResponse[GitCommitsJSON]:
         """Walks a ref's history newest first, or one path's history when a path is given.
 
         Walks a ref's history newest first, or one path's history when a path is given. There is no cursor: the page is the newest `limit` commits.
@@ -4119,7 +4152,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CommitsJSON",
+            '200': "GitCommitsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4198,7 +4231,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CommitsJSON",
+            '200': "GitCommitsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4258,7 +4291,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4304,7 +4338,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FilesJSON:
+    ) -> GitFilesJSON:
         """Returns every file a glob selects at one revision, WITH its bytes and the revision they came from.
 
         Returns every file a glob selects at one revision, WITH its bytes and the revision they came from. It is the read a delivery generator makes: one call answers \"what is the inventory at this commit, and what does it say\", where listing and then fetching would be a request per file.  Returning the resolved revision matters as much as the bytes. A generator that lists at `main` and then reads at `main` can straddle a push and assemble half its inventory from one commit and half from the next; resolving once makes the whole read consistent by construction.  A file past the read cap comes back Truncated with no content rather than being dropped. A caller building a desired set has to know the difference between \"this file is empty\" and \"this file was not read\" — silently omitting it is how a pruning reconcile deletes what the missing file declared.
@@ -4348,7 +4382,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilesJSON",
+            '200': "GitFilesJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4379,7 +4413,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FilesJSON]:
+    ) -> ApiResponse[GitFilesJSON]:
         """Returns every file a glob selects at one revision, WITH its bytes and the revision they came from.
 
         Returns every file a glob selects at one revision, WITH its bytes and the revision they came from. It is the read a delivery generator makes: one call answers \"what is the inventory at this commit, and what does it say\", where listing and then fetching would be a request per file.  Returning the resolved revision matters as much as the bytes. A generator that lists at `main` and then reads at `main` can straddle a push and assemble half its inventory from one commit and half from the next; resolving once makes the whole read consistent by construction.  A file past the read cap comes back Truncated with no content rather than being dropped. A caller building a desired set has to know the difference between \"this file is empty\" and \"this file was not read\" — silently omitting it is how a pruning reconcile deletes what the missing file declared.
@@ -4423,7 +4457,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilesJSON",
+            '200': "GitFilesJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4498,7 +4532,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilesJSON",
+            '200': "GitFilesJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4553,7 +4587,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4598,7 +4633,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PullList:
+    ) -> GitPullList:
         """Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
 
         Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed. Narrow it with ?state=open or ?state=merged; omit state for every proposal.
@@ -4639,7 +4674,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullList",
+            '200': "GitPullList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4669,7 +4704,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PullList]:
+    ) -> ApiResponse[GitPullList]:
         """Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed.
 
         Returns a repo's pull requests, newest number first — what is waiting to be reviewed, and what has already landed. Narrow it with ?state=open or ?state=merged; omit state for every proposal.
@@ -4710,7 +4745,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullList",
+            '200': "GitPullList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4781,7 +4816,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullList",
+            '200': "GitPullList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4831,7 +4866,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4876,7 +4912,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PullView:
+    ) -> GitPullView:
         """Returns one pull request by its per-repo number.
 
         Returns one pull request by its per-repo number. A number belonging to another tenant's repo is not found, exactly as the repo itself is not.
@@ -4917,7 +4953,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4947,7 +4983,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PullView]:
+    ) -> ApiResponse[GitPullView]:
         """Returns one pull request by its per-repo number.
 
         Returns one pull request by its per-repo number. A number belonging to another tenant's repo is not found, exactly as the repo itself is not.
@@ -4988,7 +5024,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5059,7 +5095,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5107,7 +5143,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5152,7 +5189,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReadmeJSON:
+    ) -> GitReadmeJSON:
         """Returns the README at the tree root as plain text — unrendered, so the caller decides how to present it.
 
         Returns the README at the tree root as plain text — unrendered, so the caller decides how to present it. A repo with no README is not found.
@@ -5193,7 +5230,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadmeJSON",
+            '200': "GitReadmeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5223,7 +5260,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReadmeJSON]:
+    ) -> ApiResponse[GitReadmeJSON]:
         """Returns the README at the tree root as plain text — unrendered, so the caller decides how to present it.
 
         Returns the README at the tree root as plain text — unrendered, so the caller decides how to present it. A repo with no README is not found.
@@ -5264,7 +5301,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadmeJSON",
+            '200': "GitReadmeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5335,7 +5372,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadmeJSON",
+            '200': "GitReadmeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5385,7 +5422,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5429,7 +5467,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RefsJSON:
+    ) -> GitRefsJSON:
         """Lists a repo's branches, tags and default branch — what a branch picker needs in one call.
 
         Lists a repo's branches, tags and default branch — what a branch picker needs in one call. Unlike the other read ops it tolerates a repo with no commits: the ref sets come back empty and the default branch is still named.
@@ -5467,7 +5505,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefsJSON",
+            '200': "GitRefsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5496,7 +5534,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RefsJSON]:
+    ) -> ApiResponse[GitRefsJSON]:
         """Lists a repo's branches, tags and default branch — what a branch picker needs in one call.
 
         Lists a repo's branches, tags and default branch — what a branch picker needs in one call. Unlike the other read ops it tolerates a repo with no commits: the ref sets come back empty and the default branch is still named.
@@ -5534,7 +5572,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefsJSON",
+            '200': "GitRefsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5601,7 +5639,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RefsJSON",
+            '200': "GitRefsJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5646,7 +5684,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5690,7 +5729,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SubscriptionList:
+    ) -> GitSubscriptionList:
         """Returns a repo's Slack subscriptions — which channels the lifecycle notifier posts this repo's push and deploy events to.
 
         Returns a repo's Slack subscriptions — which channels the lifecycle notifier posts this repo's push and deploy events to.
@@ -5728,7 +5767,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubscriptionList",
+            '200': "GitSubscriptionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5757,7 +5796,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SubscriptionList]:
+    ) -> ApiResponse[GitSubscriptionList]:
         """Returns a repo's Slack subscriptions — which channels the lifecycle notifier posts this repo's push and deploy events to.
 
         Returns a repo's Slack subscriptions — which channels the lifecycle notifier posts this repo's push and deploy events to.
@@ -5795,7 +5834,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubscriptionList",
+            '200': "GitSubscriptionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5862,7 +5901,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubscriptionList",
+            '200': "GitSubscriptionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5907,7 +5946,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5951,7 +5991,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MirrorList:
+    ) -> GitMirrorList:
         """Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
 
         Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
@@ -5989,7 +6029,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MirrorList",
+            '200': "GitMirrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6018,7 +6058,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MirrorList]:
+    ) -> ApiResponse[GitMirrorList]:
         """Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
 
         Returns a repo's outbound mirror targets — the downstream remotes the mirror reactor pushes to whenever a push lands here.
@@ -6056,7 +6096,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MirrorList",
+            '200': "GitMirrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6123,7 +6163,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MirrorList",
+            '200': "GitMirrorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6168,7 +6208,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6214,7 +6255,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TreeJSON:
+    ) -> GitTreeJSON:
         """Lists the immediate children of one directory at one revision, directories before files.
 
         Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time.
@@ -6258,7 +6299,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeJSON",
+            '200': "GitTreeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6289,7 +6330,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TreeJSON]:
+    ) -> ApiResponse[GitTreeJSON]:
         """Lists the immediate children of one directory at one revision, directories before files.
 
         Lists the immediate children of one directory at one revision, directories before files. It does not recurse — walk down a level at a time.
@@ -6333,7 +6374,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeJSON",
+            '200': "GitTreeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6408,7 +6449,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreeJSON",
+            '200': "GitTreeJSON",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6463,7 +6504,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6506,7 +6548,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunnerList:
+    ) -> GitRunnerList:
         """Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
 
         Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
@@ -6541,7 +6583,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunnerList",
+            '200': "GitRunnerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6569,7 +6611,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunnerList]:
+    ) -> ApiResponse[GitRunnerList]:
         """Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
 
         Returns the daemons registered into this org's pools, newest first, with when each was last heard from.
@@ -6604,7 +6646,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunnerList",
+            '200': "GitRunnerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6667,7 +6709,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RunnerList",
+            '200': "GitRunnerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6709,7 +6751,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6754,7 +6797,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorkflowRuns:
+    ) -> GitWorkflowRuns:
         """Returns this org's runs, newest first.
 
         Returns this org's runs, newest first.
@@ -6795,7 +6838,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRuns",
+            '200': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6825,7 +6868,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorkflowRuns]:
+    ) -> ApiResponse[GitWorkflowRuns]:
         """Returns this org's runs, newest first.
 
         Returns this org's runs, newest first.
@@ -6866,7 +6909,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRuns",
+            '200': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6937,7 +6980,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRuns",
+            '200': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6989,7 +7032,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7033,7 +7077,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorkflowRun:
+    ) -> GitWorkflowRun:
         """Returns one run.
 
         Returns one run.
@@ -7071,7 +7115,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRun",
+            '200': "GitWorkflowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7100,7 +7144,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorkflowRun]:
+    ) -> ApiResponse[GitWorkflowRun]:
         """Returns one run.
 
         Returns one run.
@@ -7138,7 +7182,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRun",
+            '200': "GitWorkflowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7205,7 +7249,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowRun",
+            '200': "GitWorkflowRun",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7250,7 +7294,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7293,7 +7338,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UsageView:
+    ) -> GitUsageView:
         """Returns per-repo and total storage bytes for the caller's org — the queryable, per-tenant number commerce and o11y meter on.
 
         Returns per-repo and total storage bytes for the caller's org — the queryable, per-tenant number commerce and o11y meter on. It spans EVERY project sub-scope, unlike the repo list, so a billing consumer sees the whole tenant footprint in one call. Sizes are last-measured values (create, push, mirror and gc each re-measure), not a live walk of the disk.
@@ -7328,7 +7373,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageView",
+            '200': "GitUsageView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7356,7 +7401,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UsageView]:
+    ) -> ApiResponse[GitUsageView]:
         """Returns per-repo and total storage bytes for the caller's org — the queryable, per-tenant number commerce and o11y meter on.
 
         Returns per-repo and total storage bytes for the caller's org — the queryable, per-tenant number commerce and o11y meter on. It spans EVERY project sub-scope, unlike the repo list, so a billing consumer sees the whole tenant footprint in one call. Sizes are last-measured values (create, push, mirror and gc each re-measure), not a live walk of the disk.
@@ -7391,7 +7436,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageView",
+            '200': "GitUsageView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7454,7 +7499,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UsageView",
+            '200': "GitUsageView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7496,7 +7541,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7541,7 +7587,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorkflowList:
+    ) -> GitWorkflowList:
         """Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
 
         Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
@@ -7582,7 +7628,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowList",
+            '200': "GitWorkflowList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7612,7 +7658,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorkflowList]:
+    ) -> ApiResponse[GitWorkflowList]:
         """Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
 
         Reports the workflows a repository declares at a ref and which declared pool would execute each job — the answer to \"would a push here run, and where\".
@@ -7653,7 +7699,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowList",
+            '200': "GitWorkflowList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7724,7 +7770,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkflowList",
+            '200': "GitWorkflowList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7776,7 +7822,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7808,7 +7855,7 @@ class GitApi:
     def patch_git_repos_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
-        patch_in: PatchIn,
+        git_patch_in: GitPatchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7821,15 +7868,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoView:
+    ) -> GitRepoView:
         """Flips a repo's public bit, the one mutable repo setting today.
 
         Flips a repo's public bit, the one mutable repo setting today. Public grants ANONYMOUS fetch only; push and the whole control plane stay org-authed. Returns the updated repo.
 
         :param name: Name is the repo to update, from the :name path segment. (required)
         :type name: str
-        :param patch_in: (required)
-        :type patch_in: PatchIn
+        :param git_patch_in: (required)
+        :type git_patch_in: GitPatchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7854,7 +7901,7 @@ class GitApi:
 
         _param = self._patch_git_repos_by_name_serialize(
             name=name,
-            patch_in=patch_in,
+            git_patch_in=git_patch_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7862,7 +7909,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7879,7 +7926,7 @@ class GitApi:
     def patch_git_repos_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
-        patch_in: PatchIn,
+        git_patch_in: GitPatchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7892,15 +7939,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoView]:
+    ) -> ApiResponse[GitRepoView]:
         """Flips a repo's public bit, the one mutable repo setting today.
 
         Flips a repo's public bit, the one mutable repo setting today. Public grants ANONYMOUS fetch only; push and the whole control plane stay org-authed. Returns the updated repo.
 
         :param name: Name is the repo to update, from the :name path segment. (required)
         :type name: str
-        :param patch_in: (required)
-        :type patch_in: PatchIn
+        :param git_patch_in: (required)
+        :type git_patch_in: GitPatchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7925,7 +7972,7 @@ class GitApi:
 
         _param = self._patch_git_repos_by_name_serialize(
             name=name,
-            patch_in=patch_in,
+            git_patch_in=git_patch_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7933,7 +7980,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7950,7 +7997,7 @@ class GitApi:
     def patch_git_repos_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to update, from the :name path segment.")],
-        patch_in: PatchIn,
+        git_patch_in: GitPatchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7970,8 +8017,8 @@ class GitApi:
 
         :param name: Name is the repo to update, from the :name path segment. (required)
         :type name: str
-        :param patch_in: (required)
-        :type patch_in: PatchIn
+        :param git_patch_in: (required)
+        :type git_patch_in: GitPatchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7996,7 +8043,7 @@ class GitApi:
 
         _param = self._patch_git_repos_by_name_serialize(
             name=name,
-            patch_in=patch_in,
+            git_patch_in=git_patch_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8004,7 +8051,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8016,7 +8063,7 @@ class GitApi:
     def _patch_git_repos_by_name_serialize(
         self,
         name,
-        patch_in,
+        git_patch_in,
         _request_auth,
         _content_type,
         _headers,
@@ -8044,15 +8091,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if patch_in is not None:
-            _body_params = patch_in
+        if git_patch_in is not None:
+            _body_params = git_patch_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9334,7 +9382,7 @@ class GitApi:
     @validate_call
     def post_git_keys(
         self,
-        register_key_req: RegisterKeyReq,
+        git_register_key_req: GitRegisterKeyReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9347,13 +9395,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KeyView:
+    ) -> GitKeyView:
         """Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org.
 
         Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
 
-        :param register_key_req: (required)
-        :type register_key_req: RegisterKeyReq
+        :param git_register_key_req: (required)
+        :type git_register_key_req: GitRegisterKeyReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9377,7 +9425,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_keys_serialize(
-            register_key_req=register_key_req,
+            git_register_key_req=git_register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9385,7 +9433,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "KeyView",
+            '201': "GitKeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9401,7 +9449,7 @@ class GitApi:
     @validate_call
     def post_git_keys_with_http_info(
         self,
-        register_key_req: RegisterKeyReq,
+        git_register_key_req: GitRegisterKeyReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9414,13 +9462,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KeyView]:
+    ) -> ApiResponse[GitKeyView]:
         """Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org.
 
         Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
 
-        :param register_key_req: (required)
-        :type register_key_req: RegisterKeyReq
+        :param git_register_key_req: (required)
+        :type git_register_key_req: GitRegisterKeyReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9444,7 +9492,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_keys_serialize(
-            register_key_req=register_key_req,
+            git_register_key_req=git_register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9452,7 +9500,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "KeyView",
+            '201': "GitKeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9468,7 +9516,7 @@ class GitApi:
     @validate_call
     def post_git_keys_without_preload_content(
         self,
-        register_key_req: RegisterKeyReq,
+        git_register_key_req: GitRegisterKeyReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9486,8 +9534,8 @@ class GitApi:
 
         Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
 
-        :param register_key_req: (required)
-        :type register_key_req: RegisterKeyReq
+        :param git_register_key_req: (required)
+        :type git_register_key_req: GitRegisterKeyReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9511,7 +9559,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_keys_serialize(
-            register_key_req=register_key_req,
+            git_register_key_req=git_register_key_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9519,7 +9567,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "KeyView",
+            '201': "GitKeyView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9530,7 +9578,7 @@ class GitApi:
 
     def _post_git_keys_serialize(
         self,
-        register_key_req,
+        git_register_key_req,
         _request_auth,
         _content_type,
         _headers,
@@ -9556,15 +9604,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if register_key_req is not None:
-            _body_params = register_key_req
+        if git_register_key_req is not None:
+            _body_params = git_register_key_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9608,7 +9657,7 @@ class GitApi:
     @validate_call
     def post_git_pools(
         self,
-        pool_declare: PoolDeclare,
+        git_pool_declare: GitPoolDeclare,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9621,13 +9670,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PoolDeclared:
+    ) -> GitPoolDeclared:
         """Records the capacity an org has, and answers with the secret a runner daemon presents to enter it.
 
         Records the capacity an org has, and answers with the secret a runner daemon presents to enter it.  Declaring is the ONLY way capacity comes to exist: a daemon cannot register against a pool nobody declared, because the secret it would have to present does not exist until this runs. Re-declaring an existing pool replaces its labels and mints a fresh secret; runners already inside it keep working.
 
-        :param pool_declare: (required)
-        :type pool_declare: PoolDeclare
+        :param git_pool_declare: (required)
+        :type git_pool_declare: GitPoolDeclare
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9651,7 +9700,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_pools_serialize(
-            pool_declare=pool_declare,
+            git_pool_declare=git_pool_declare,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9659,7 +9708,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PoolDeclared",
+            '201': "GitPoolDeclared",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9675,7 +9724,7 @@ class GitApi:
     @validate_call
     def post_git_pools_with_http_info(
         self,
-        pool_declare: PoolDeclare,
+        git_pool_declare: GitPoolDeclare,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9688,13 +9737,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PoolDeclared]:
+    ) -> ApiResponse[GitPoolDeclared]:
         """Records the capacity an org has, and answers with the secret a runner daemon presents to enter it.
 
         Records the capacity an org has, and answers with the secret a runner daemon presents to enter it.  Declaring is the ONLY way capacity comes to exist: a daemon cannot register against a pool nobody declared, because the secret it would have to present does not exist until this runs. Re-declaring an existing pool replaces its labels and mints a fresh secret; runners already inside it keep working.
 
-        :param pool_declare: (required)
-        :type pool_declare: PoolDeclare
+        :param git_pool_declare: (required)
+        :type git_pool_declare: GitPoolDeclare
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9718,7 +9767,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_pools_serialize(
-            pool_declare=pool_declare,
+            git_pool_declare=git_pool_declare,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9726,7 +9775,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PoolDeclared",
+            '201': "GitPoolDeclared",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9742,7 +9791,7 @@ class GitApi:
     @validate_call
     def post_git_pools_without_preload_content(
         self,
-        pool_declare: PoolDeclare,
+        git_pool_declare: GitPoolDeclare,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9760,8 +9809,8 @@ class GitApi:
 
         Records the capacity an org has, and answers with the secret a runner daemon presents to enter it.  Declaring is the ONLY way capacity comes to exist: a daemon cannot register against a pool nobody declared, because the secret it would have to present does not exist until this runs. Re-declaring an existing pool replaces its labels and mints a fresh secret; runners already inside it keep working.
 
-        :param pool_declare: (required)
-        :type pool_declare: PoolDeclare
+        :param git_pool_declare: (required)
+        :type git_pool_declare: GitPoolDeclare
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9785,7 +9834,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_pools_serialize(
-            pool_declare=pool_declare,
+            git_pool_declare=git_pool_declare,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9793,7 +9842,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PoolDeclared",
+            '201': "GitPoolDeclared",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9804,7 +9853,7 @@ class GitApi:
 
     def _post_git_pools_serialize(
         self,
-        pool_declare,
+        git_pool_declare,
         _request_auth,
         _content_type,
         _headers,
@@ -9830,15 +9879,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if pool_declare is not None:
-            _body_params = pool_declare
+        if git_pool_declare is not None:
+            _body_params = git_pool_declare
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9882,7 +9932,7 @@ class GitApi:
     @validate_call
     def post_git_repos(
         self,
-        create_req: CreateReq,
+        git_create_req: GitCreateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9895,13 +9945,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoView:
+    ) -> GitRepoView:
         """Provisions an empty bare repository in the caller's scope and returns it with its clone URLs.
 
         Provisions an empty bare repository in the caller's scope and returns it with its clone URLs. Answers 201. The name must be unique within the scope — a repeat is a 409, never a silent overwrite of an existing repo. The org comes from the validated principal, so a repo is always born owned by the caller's own tenant.
 
-        :param create_req: (required)
-        :type create_req: CreateReq
+        :param git_create_req: (required)
+        :type git_create_req: GitCreateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9925,7 +9975,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_repos_serialize(
-            create_req=create_req,
+            git_create_req=git_create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9933,7 +9983,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RepoView",
+            '201': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9949,7 +9999,7 @@ class GitApi:
     @validate_call
     def post_git_repos_with_http_info(
         self,
-        create_req: CreateReq,
+        git_create_req: GitCreateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9962,13 +10012,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoView]:
+    ) -> ApiResponse[GitRepoView]:
         """Provisions an empty bare repository in the caller's scope and returns it with its clone URLs.
 
         Provisions an empty bare repository in the caller's scope and returns it with its clone URLs. Answers 201. The name must be unique within the scope — a repeat is a 409, never a silent overwrite of an existing repo. The org comes from the validated principal, so a repo is always born owned by the caller's own tenant.
 
-        :param create_req: (required)
-        :type create_req: CreateReq
+        :param git_create_req: (required)
+        :type git_create_req: GitCreateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9992,7 +10042,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_repos_serialize(
-            create_req=create_req,
+            git_create_req=git_create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10000,7 +10050,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RepoView",
+            '201': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10016,7 +10066,7 @@ class GitApi:
     @validate_call
     def post_git_repos_without_preload_content(
         self,
-        create_req: CreateReq,
+        git_create_req: GitCreateReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10034,8 +10084,8 @@ class GitApi:
 
         Provisions an empty bare repository in the caller's scope and returns it with its clone URLs. Answers 201. The name must be unique within the scope — a repeat is a 409, never a silent overwrite of an existing repo. The org comes from the validated principal, so a repo is always born owned by the caller's own tenant.
 
-        :param create_req: (required)
-        :type create_req: CreateReq
+        :param git_create_req: (required)
+        :type git_create_req: GitCreateReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10059,7 +10109,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_repos_serialize(
-            create_req=create_req,
+            git_create_req=git_create_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10067,7 +10117,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "RepoView",
+            '201': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10078,7 +10128,7 @@ class GitApi:
 
     def _post_git_repos_serialize(
         self,
-        create_req,
+        git_create_req,
         _request_auth,
         _content_type,
         _headers,
@@ -10104,15 +10154,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_req is not None:
-            _body_params = create_req
+        if git_create_req is not None:
+            _body_params = git_create_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10169,7 +10220,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GcOut:
+    ) -> GitGcOut:
         """Repacks a repo into one bitmapped pack and rewrites its commit-graph, so the next clone reuses the bitmap instead of walking the whole object graph.
 
         Repacks a repo into one bitmapped pack and rewrites its commit-graph, so the next clone reuses the bitmap instead of walking the whole object graph. Idempotent, and safe to interrupt — git swaps both artifacts atomically. It runs under one pack slot with the same memory bounds as a clone, so it can block behind heavy pack traffic rather than compete with it. Storage usage is re-measured afterwards, since a repack reclaims space.
@@ -10207,7 +10258,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GcOut",
+            '200': "GitGcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10236,7 +10287,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GcOut]:
+    ) -> ApiResponse[GitGcOut]:
         """Repacks a repo into one bitmapped pack and rewrites its commit-graph, so the next clone reuses the bitmap instead of walking the whole object graph.
 
         Repacks a repo into one bitmapped pack and rewrites its commit-graph, so the next clone reuses the bitmap instead of walking the whole object graph. Idempotent, and safe to interrupt — git swaps both artifacts atomically. It runs under one pack slot with the same memory bounds as a clone, so it can block behind heavy pack traffic rather than compete with it. Storage usage is re-measured afterwards, since a repack reclaims space.
@@ -10274,7 +10325,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GcOut",
+            '200': "GitGcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10341,7 +10392,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GcOut",
+            '200': "GitGcOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10386,7 +10437,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10418,7 +10470,7 @@ class GitApi:
     def post_git_repos_by_name_mirror(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        mirror_req: MirrorReq,
+        git_mirror_req: GitMirrorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10431,15 +10483,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RepoView:
+    ) -> GitRepoView:
         """Imports an external git repository into the caller's repo, provisioning it on first use.
 
         Imports an external git repository into the caller's repo, provisioning it on first use. Fetch is FORCED and covers every ref, so a first call clones the source and a repeat call re-syncs it — the endpoint is idempotent by mirror semantics. Mirrored bytes are metered exactly like a push, and a push.landed event is emitted for the default branch so the code index picks the repo up.
 
         :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
         :type name: str
-        :param mirror_req: (required)
-        :type mirror_req: MirrorReq
+        :param git_mirror_req: (required)
+        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10464,7 +10516,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
-            mirror_req=mirror_req,
+            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10472,7 +10524,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10489,7 +10541,7 @@ class GitApi:
     def post_git_repos_by_name_mirror_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        mirror_req: MirrorReq,
+        git_mirror_req: GitMirrorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10502,15 +10554,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RepoView]:
+    ) -> ApiResponse[GitRepoView]:
         """Imports an external git repository into the caller's repo, provisioning it on first use.
 
         Imports an external git repository into the caller's repo, provisioning it on first use. Fetch is FORCED and covers every ref, so a first call clones the source and a repeat call re-syncs it — the endpoint is idempotent by mirror semantics. Mirrored bytes are metered exactly like a push, and a push.landed event is emitted for the default branch so the code index picks the repo up.
 
         :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
         :type name: str
-        :param mirror_req: (required)
-        :type mirror_req: MirrorReq
+        :param git_mirror_req: (required)
+        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10535,7 +10587,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
-            mirror_req=mirror_req,
+            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10543,7 +10595,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10560,7 +10612,7 @@ class GitApi:
     def post_git_repos_by_name_mirror_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        mirror_req: MirrorReq,
+        git_mirror_req: GitMirrorReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10580,8 +10632,8 @@ class GitApi:
 
         :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
         :type name: str
-        :param mirror_req: (required)
-        :type mirror_req: MirrorReq
+        :param git_mirror_req: (required)
+        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10606,7 +10658,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_mirror_serialize(
             name=name,
-            mirror_req=mirror_req,
+            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10614,7 +10666,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RepoView",
+            '200': "GitRepoView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10626,7 +10678,7 @@ class GitApi:
     def _post_git_repos_by_name_mirror_serialize(
         self,
         name,
-        mirror_req,
+        git_mirror_req,
         _request_auth,
         _content_type,
         _headers,
@@ -10654,15 +10706,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if mirror_req is not None:
-            _body_params = mirror_req
+        if git_mirror_req is not None:
+            _body_params = git_mirror_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10707,7 +10760,7 @@ class GitApi:
     def post_git_repos_by_name_pulls(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
-        open_req: OpenReq,
+        git_open_req: GitOpenReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10720,15 +10773,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PullView:
+    ) -> GitPullView:
         """Proposes a branch for merging and returns it with its number.
 
         Proposes a branch for merging and returns it with its number. Answers 201. Both branches must already exist — a proposal naming a branch nobody pushed is a typo, not a plan — and base defaults to the repo's default branch.  Proposing the same head into the same base twice is a 409 while the first proposal is still open, so a retried agent run leaves ONE thing to review rather than a pile of identical ones. A repo outside the caller's scope is a 404, exactly as reading it is.
 
         :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
         :type name: str
-        :param open_req: (required)
-        :type open_req: OpenReq
+        :param git_open_req: (required)
+        :type git_open_req: GitOpenReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10753,7 +10806,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
-            open_req=open_req,
+            git_open_req=git_open_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10761,7 +10814,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PullView",
+            '201': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10778,7 +10831,7 @@ class GitApi:
     def post_git_repos_by_name_pulls_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
-        open_req: OpenReq,
+        git_open_req: GitOpenReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10791,15 +10844,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PullView]:
+    ) -> ApiResponse[GitPullView]:
         """Proposes a branch for merging and returns it with its number.
 
         Proposes a branch for merging and returns it with its number. Answers 201. Both branches must already exist — a proposal naming a branch nobody pushed is a typo, not a plan — and base defaults to the repo's default branch.  Proposing the same head into the same base twice is a 409 while the first proposal is still open, so a retried agent run leaves ONE thing to review rather than a pile of identical ones. A repo outside the caller's scope is a 404, exactly as reading it is.
 
         :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
         :type name: str
-        :param open_req: (required)
-        :type open_req: OpenReq
+        :param git_open_req: (required)
+        :type git_open_req: GitOpenReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10824,7 +10877,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
-            open_req=open_req,
+            git_open_req=git_open_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10832,7 +10885,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PullView",
+            '201': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10849,7 +10902,7 @@ class GitApi:
     def post_git_repos_by_name_pulls_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo the proposal belongs to, from the :name path segment.")],
-        open_req: OpenReq,
+        git_open_req: GitOpenReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10869,8 +10922,8 @@ class GitApi:
 
         :param name: Name is the repo the proposal belongs to, from the :name path segment. (required)
         :type name: str
-        :param open_req: (required)
-        :type open_req: OpenReq
+        :param git_open_req: (required)
+        :type git_open_req: GitOpenReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10895,7 +10948,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_pulls_serialize(
             name=name,
-            open_req=open_req,
+            git_open_req=git_open_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10903,7 +10956,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PullView",
+            '201': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10915,7 +10968,7 @@ class GitApi:
     def _post_git_repos_by_name_pulls_serialize(
         self,
         name,
-        open_req,
+        git_open_req,
         _request_auth,
         _content_type,
         _headers,
@@ -10943,15 +10996,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if open_req is not None:
-            _body_params = open_req
+        if git_open_req is not None:
+            _body_params = git_open_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11009,7 +11063,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PullView:
+    ) -> GitPullView:
         """Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.
 
         Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.  It merges only when base is already an ancestor of head — the case where head contains every commit base has, so moving the branch loses nothing and invents nothing. When base has moved on independently, this REFUSES with 409 and says so: a real three-way merge is not implemented here, and reporting one would claim a result these bytes do not produce. Rebase head onto base and merge again.  The move is judged by the same ref policy a `git push` of it would face, and fires the same build and notify reactions, so merging is not a way around either. Merging an already-merged proposal is a 409.
@@ -11050,7 +11104,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11080,7 +11134,7 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PullView]:
+    ) -> ApiResponse[GitPullView]:
         """Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.
 
         Merges an open pull request by FAST-FORWARDING base to head, and answers the proposal in its merged state with the revision base now points at.  It merges only when base is already an ancestor of head — the case where head contains every commit base has, so moving the branch loses nothing and invents nothing. When base has moved on independently, this REFUSES with 409 and says so: a real three-way merge is not implemented here, and reporting one would claim a result these bytes do not produce. Rebase head onto base and merge again.  The move is judged by the same ref policy a `git push` of it would face, and fires the same build and notify reactions, so merging is not a way around either. Merging an already-merged proposal is a 409.
@@ -11121,7 +11175,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11192,7 +11246,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PullView",
+            '200': "GitPullView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11240,7 +11294,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11272,7 +11327,7 @@ class GitApi:
     def post_git_repos_by_name_push(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
-        push_req: PushReq,
+        git_push_req: GitPushReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11285,15 +11340,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PushResp:
+    ) -> GitPushResp:
         """Lands a set of files as one commit without a git client — the hanzo.app builder's push.
 
-        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.
+        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.  It is for generated content. Changing CI through it needs an org admin (403 otherwise), and a workflow whose newest change came in through it is not run automatically; CI written through git runs as usual.
 
         :param name: Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist. (required)
         :type name: str
-        :param push_req: (required)
-        :type push_req: PushReq
+        :param git_push_req: (required)
+        :type git_push_req: GitPushReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11318,7 +11373,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_push_serialize(
             name=name,
-            push_req=push_req,
+            git_push_req=git_push_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11326,7 +11381,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PushResp",
+            '200': "GitPushResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11343,7 +11398,7 @@ class GitApi:
     def post_git_repos_by_name_push_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
-        push_req: PushReq,
+        git_push_req: GitPushReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11356,15 +11411,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PushResp]:
+    ) -> ApiResponse[GitPushResp]:
         """Lands a set of files as one commit without a git client — the hanzo.app builder's push.
 
-        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.
+        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.  It is for generated content. Changing CI through it needs an org admin (403 otherwise), and a workflow whose newest change came in through it is not run automatically; CI written through git runs as usual.
 
         :param name: Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist. (required)
         :type name: str
-        :param push_req: (required)
-        :type push_req: PushReq
+        :param git_push_req: (required)
+        :type git_push_req: GitPushReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11389,7 +11444,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_push_serialize(
             name=name,
-            push_req=push_req,
+            git_push_req=git_push_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11397,7 +11452,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PushResp",
+            '200': "GitPushResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11414,7 +11469,7 @@ class GitApi:
     def post_git_repos_by_name_push_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist.")],
-        push_req: PushReq,
+        git_push_req: GitPushReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11430,12 +11485,12 @@ class GitApi:
     ) -> RESTResponseType:
         """Lands a set of files as one commit without a git client — the hanzo.app builder's push.
 
-        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.
+        Lands a set of files as one commit without a git client — the hanzo.app builder's push. The repo is CREATED on first push, the files are merged onto the branch tip (unlisted files survive), and the same push-to-deploy hook a real receive-pack fires is fired, so downstream this is indistinguishable from a `git push`.  It is for generated content. Changing CI through it needs an org admin (403 otherwise), and a workflow whose newest change came in through it is not run automatically; CI written through git runs as usual.
 
         :param name: Name is the repo to push into, from the :name path segment. It is CREATED on first push if it does not exist. (required)
         :type name: str
-        :param push_req: (required)
-        :type push_req: PushReq
+        :param git_push_req: (required)
+        :type git_push_req: GitPushReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11460,7 +11515,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_push_serialize(
             name=name,
-            push_req=push_req,
+            git_push_req=git_push_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11468,7 +11523,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PushResp",
+            '200': "GitPushResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11480,7 +11535,7 @@ class GitApi:
     def _post_git_repos_by_name_push_serialize(
         self,
         name,
-        push_req,
+        git_push_req,
         _request_auth,
         _content_type,
         _headers,
@@ -11508,15 +11563,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if push_req is not None:
-            _body_params = push_req
+        if git_push_req is not None:
+            _body_params = git_push_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11561,7 +11617,7 @@ class GitApi:
     def post_git_repos_by_name_subscriptions(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
-        subscribe_req: SubscribeReq,
+        git_subscribe_req: GitSubscribeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11574,15 +11630,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SubscriptionView:
+    ) -> GitSubscriptionView:
         """Binds a Slack channel to a repo, so the lifecycle notifier posts that repo's push and deploy events there.
 
         Binds a Slack channel to a repo, so the lifecycle notifier posts that repo's push and deploy events there. Answers 201. The same channel twice on one repo is a 409; a repo outside the caller's scope is a 404, exactly as reading it is.
 
         :param name: Name is the repo to subscribe, from the :name path segment. (required)
         :type name: str
-        :param subscribe_req: (required)
-        :type subscribe_req: SubscribeReq
+        :param git_subscribe_req: (required)
+        :type git_subscribe_req: GitSubscribeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11607,7 +11663,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
-            subscribe_req=subscribe_req,
+            git_subscribe_req=git_subscribe_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11615,7 +11671,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SubscriptionView",
+            '201': "GitSubscriptionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11632,7 +11688,7 @@ class GitApi:
     def post_git_repos_by_name_subscriptions_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
-        subscribe_req: SubscribeReq,
+        git_subscribe_req: GitSubscribeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11645,15 +11701,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SubscriptionView]:
+    ) -> ApiResponse[GitSubscriptionView]:
         """Binds a Slack channel to a repo, so the lifecycle notifier posts that repo's push and deploy events there.
 
         Binds a Slack channel to a repo, so the lifecycle notifier posts that repo's push and deploy events there. Answers 201. The same channel twice on one repo is a 409; a repo outside the caller's scope is a 404, exactly as reading it is.
 
         :param name: Name is the repo to subscribe, from the :name path segment. (required)
         :type name: str
-        :param subscribe_req: (required)
-        :type subscribe_req: SubscribeReq
+        :param git_subscribe_req: (required)
+        :type git_subscribe_req: GitSubscribeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11678,7 +11734,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
-            subscribe_req=subscribe_req,
+            git_subscribe_req=git_subscribe_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11686,7 +11742,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SubscriptionView",
+            '201': "GitSubscriptionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11703,7 +11759,7 @@ class GitApi:
     def post_git_repos_by_name_subscriptions_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo to subscribe, from the :name path segment.")],
-        subscribe_req: SubscribeReq,
+        git_subscribe_req: GitSubscribeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11723,8 +11779,8 @@ class GitApi:
 
         :param name: Name is the repo to subscribe, from the :name path segment. (required)
         :type name: str
-        :param subscribe_req: (required)
-        :type subscribe_req: SubscribeReq
+        :param git_subscribe_req: (required)
+        :type git_subscribe_req: GitSubscribeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11749,7 +11805,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_subscriptions_serialize(
             name=name,
-            subscribe_req=subscribe_req,
+            git_subscribe_req=git_subscribe_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11757,7 +11813,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SubscriptionView",
+            '201': "GitSubscriptionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11769,7 +11825,7 @@ class GitApi:
     def _post_git_repos_by_name_subscriptions_serialize(
         self,
         name,
-        subscribe_req,
+        git_subscribe_req,
         _request_auth,
         _content_type,
         _headers,
@@ -11797,15 +11853,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if subscribe_req is not None:
-            _body_params = subscribe_req
+        if git_subscribe_req is not None:
+            _body_params = git_subscribe_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11850,7 +11907,7 @@ class GitApi:
     def post_git_repos_by_name_targets(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
-        mirror_target_req: MirrorTargetReq,
+        git_mirror_target_req: GitMirrorTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11863,15 +11920,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MirrorTargetView:
+    ) -> GitMirrorTargetView:
         """Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
 
         Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here. Answers 201. The URL must be https to a host on the mirror allowlist (github.com / gitlab.com): the same set the mirror credential may be sent to, so a target can never capture the shared token or point the push at an internal service. Any embedded userinfo is stripped — credentials ride env-only at push time and never enter the stored URL. One mirror per host per repo; a second is a 409.
 
         :param name: Name is the repo whose advanced refs are pushed downstream, from the :name path segment. (required)
         :type name: str
-        :param mirror_target_req: (required)
-        :type mirror_target_req: MirrorTargetReq
+        :param git_mirror_target_req: (required)
+        :type git_mirror_target_req: GitMirrorTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11896,7 +11953,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_targets_serialize(
             name=name,
-            mirror_target_req=mirror_target_req,
+            git_mirror_target_req=git_mirror_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11904,7 +11961,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MirrorTargetView",
+            '201': "GitMirrorTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11921,7 +11978,7 @@ class GitApi:
     def post_git_repos_by_name_targets_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
-        mirror_target_req: MirrorTargetReq,
+        git_mirror_target_req: GitMirrorTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11934,15 +11991,15 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MirrorTargetView]:
+    ) -> ApiResponse[GitMirrorTargetView]:
         """Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here.
 
         Registers a downstream remote the repo's advanced refs are pushed to whenever a push lands here. Answers 201. The URL must be https to a host on the mirror allowlist (github.com / gitlab.com): the same set the mirror credential may be sent to, so a target can never capture the shared token or point the push at an internal service. Any embedded userinfo is stripped — credentials ride env-only at push time and never enter the stored URL. One mirror per host per repo; a second is a 409.
 
         :param name: Name is the repo whose advanced refs are pushed downstream, from the :name path segment. (required)
         :type name: str
-        :param mirror_target_req: (required)
-        :type mirror_target_req: MirrorTargetReq
+        :param git_mirror_target_req: (required)
+        :type git_mirror_target_req: GitMirrorTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11967,7 +12024,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_targets_serialize(
             name=name,
-            mirror_target_req=mirror_target_req,
+            git_mirror_target_req=git_mirror_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11975,7 +12032,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MirrorTargetView",
+            '201': "GitMirrorTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11992,7 +12049,7 @@ class GitApi:
     def post_git_repos_by_name_targets_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the repo whose advanced refs are pushed downstream, from the :name path segment.")],
-        mirror_target_req: MirrorTargetReq,
+        git_mirror_target_req: GitMirrorTargetReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12012,8 +12069,8 @@ class GitApi:
 
         :param name: Name is the repo whose advanced refs are pushed downstream, from the :name path segment. (required)
         :type name: str
-        :param mirror_target_req: (required)
-        :type mirror_target_req: MirrorTargetReq
+        :param git_mirror_target_req: (required)
+        :type git_mirror_target_req: GitMirrorTargetReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12038,7 +12095,7 @@ class GitApi:
 
         _param = self._post_git_repos_by_name_targets_serialize(
             name=name,
-            mirror_target_req=mirror_target_req,
+            git_mirror_target_req=git_mirror_target_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12046,7 +12103,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "MirrorTargetView",
+            '201': "GitMirrorTargetView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12058,7 +12115,7 @@ class GitApi:
     def _post_git_repos_by_name_targets_serialize(
         self,
         name,
-        mirror_target_req,
+        git_mirror_target_req,
         _request_auth,
         _content_type,
         _headers,
@@ -12086,15 +12143,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if mirror_target_req is not None:
-            _body_params = mirror_target_req
+        if git_mirror_target_req is not None:
+            _body_params = git_mirror_target_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12138,7 +12196,7 @@ class GitApi:
     @validate_call
     def post_git_runs(
         self,
-        run_start: RunStart,
+        git_run_start: GitRunStart,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12151,13 +12209,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorkflowRuns:
+    ) -> GitWorkflowRuns:
         """Runs a repository's workflows at a ref, on demand.
 
         Runs a repository's workflows at a ref, on demand.  It takes the SAME path a push takes: the request is recorded in the journal and delivered from there, so an explicit run and a pushed one are one mechanism with one idempotency rule and not two that can disagree. Asking twice for the same commit yields the same run.
 
-        :param run_start: (required)
-        :type run_start: RunStart
+        :param git_run_start: (required)
+        :type git_run_start: GitRunStart
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12181,7 +12239,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_runs_serialize(
-            run_start=run_start,
+            git_run_start=git_run_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12189,7 +12247,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "WorkflowRuns",
+            '201': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12205,7 +12263,7 @@ class GitApi:
     @validate_call
     def post_git_runs_with_http_info(
         self,
-        run_start: RunStart,
+        git_run_start: GitRunStart,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12218,13 +12276,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorkflowRuns]:
+    ) -> ApiResponse[GitWorkflowRuns]:
         """Runs a repository's workflows at a ref, on demand.
 
         Runs a repository's workflows at a ref, on demand.  It takes the SAME path a push takes: the request is recorded in the journal and delivered from there, so an explicit run and a pushed one are one mechanism with one idempotency rule and not two that can disagree. Asking twice for the same commit yields the same run.
 
-        :param run_start: (required)
-        :type run_start: RunStart
+        :param git_run_start: (required)
+        :type git_run_start: GitRunStart
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12248,7 +12306,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_runs_serialize(
-            run_start=run_start,
+            git_run_start=git_run_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12256,7 +12314,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "WorkflowRuns",
+            '201': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12272,7 +12330,7 @@ class GitApi:
     @validate_call
     def post_git_runs_without_preload_content(
         self,
-        run_start: RunStart,
+        git_run_start: GitRunStart,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12290,8 +12348,8 @@ class GitApi:
 
         Runs a repository's workflows at a ref, on demand.  It takes the SAME path a push takes: the request is recorded in the journal and delivered from there, so an explicit run and a pushed one are one mechanism with one idempotency rule and not two that can disagree. Asking twice for the same commit yields the same run.
 
-        :param run_start: (required)
-        :type run_start: RunStart
+        :param git_run_start: (required)
+        :type git_run_start: GitRunStart
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12315,7 +12373,7 @@ class GitApi:
         """ # noqa: E501
 
         _param = self._post_git_runs_serialize(
-            run_start=run_start,
+            git_run_start=git_run_start,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12323,7 +12381,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "WorkflowRuns",
+            '201': "GitWorkflowRuns",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12334,7 +12392,7 @@ class GitApi:
 
     def _post_git_runs_serialize(
         self,
-        run_start,
+        git_run_start,
         _request_auth,
         _content_type,
         _headers,
@@ -12360,15 +12418,16 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if run_start is not None:
-            _body_params = run_start
+        if git_run_start is not None:
+            _body_params = git_run_start
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12908,7 +12967,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13212,7 +13272,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13486,7 +13547,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13790,7 +13852,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14094,7 +14157,8 @@ class GitApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

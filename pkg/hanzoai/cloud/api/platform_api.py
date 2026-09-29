@@ -19,35 +19,45 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.add_domain_req import AddDomainReq
-from hanzoai.cloud.models.app_view import AppView
-from hanzoai.cloud.models.build_board import BuildBoard
-from hanzoai.cloud.models.cd_app import CDApp
-from hanzoai.cloud.models.cd_resp import CdResp
-from hanzoai.cloud.models.create_app_req import CreateAppReq
-from hanzoai.cloud.models.declaration import Declaration
-from hanzoai.cloud.models.declared_resp import DeclaredResp
-from hanzoai.cloud.models.deploy_logs import DeployLogs
-from hanzoai.cloud.models.deploy_req import DeployReq
-from hanzoai.cloud.models.deployment_view import DeploymentView
-from hanzoai.cloud.models.domain_view import DomainView
-from hanzoai.cloud.models.drift_board import DriftBoard
-from hanzoai.cloud.models.environment_board import EnvironmentBoard
-from hanzoai.cloud.models.pipeline_board import PipelineBoard
-from hanzoai.cloud.models.preview_req import PreviewReq
-from hanzoai.cloud.models.preview_view import PreviewView
-from hanzoai.cloud.models.project_view import ProjectView
-from hanzoai.cloud.models.promote_req import PromoteReq
-from hanzoai.cloud.models.readiness import Readiness
-from hanzoai.cloud.models.release_board import ReleaseBoard
-from hanzoai.cloud.models.restart_ref import RestartRef
-from hanzoai.cloud.models.restarted import Restarted
-from hanzoai.cloud.models.rollback_req import RollbackReq
-from hanzoai.cloud.models.run_req import RunReq
-from hanzoai.cloud.models.run_view import RunView
-from hanzoai.cloud.models.runner_build_req import RunnerBuildReq
-from hanzoai.cloud.models.runner_build_resp import RunnerBuildResp
-from hanzoai.cloud.models.set_env_req import SetEnvReq
+from hanzoai.cloud.models.declare_req import DeclareReq
+from hanzoai.cloud.models.declare_resp import DeclareResp
+from hanzoai.cloud.models.platform_add_domain_req import PlatformAddDomainReq
+from hanzoai.cloud.models.platform_app_cd import PlatformAppCD
+from hanzoai.cloud.models.platform_app_move import PlatformAppMove
+from hanzoai.cloud.models.platform_app_out import PlatformAppOut
+from hanzoai.cloud.models.platform_app_view import PlatformAppView
+from hanzoai.cloud.models.platform_build_board import PlatformBuildBoard
+from hanzoai.cloud.models.platform_cd_app import PlatformCDApp
+from hanzoai.cloud.models.platform_cd_diff import PlatformCdDiff
+from hanzoai.cloud.models.platform_cd_resp import PlatformCdResp
+from hanzoai.cloud.models.platform_create_app_req import PlatformCreateAppReq
+from hanzoai.cloud.models.platform_declaration import PlatformDeclaration
+from hanzoai.cloud.models.platform_declared_resp import PlatformDeclaredResp
+from hanzoai.cloud.models.platform_deploy_logs import PlatformDeployLogs
+from hanzoai.cloud.models.platform_deploy_req import PlatformDeployReq
+from hanzoai.cloud.models.platform_deployment_view import PlatformDeploymentView
+from hanzoai.cloud.models.platform_domain_view import PlatformDomainView
+from hanzoai.cloud.models.platform_drift_board import PlatformDriftBoard
+from hanzoai.cloud.models.platform_environment_board import PlatformEnvironmentBoard
+from hanzoai.cloud.models.platform_pipeline_board import PlatformPipelineBoard
+from hanzoai.cloud.models.platform_preview_req import PlatformPreviewReq
+from hanzoai.cloud.models.platform_preview_view import PlatformPreviewView
+from hanzoai.cloud.models.platform_project_board import PlatformProjectBoard
+from hanzoai.cloud.models.platform_project_create import PlatformProjectCreate
+from hanzoai.cloud.models.platform_project_rename import PlatformProjectRename
+from hanzoai.cloud.models.platform_project_view import PlatformProjectView
+from hanzoai.cloud.models.platform_project_write import PlatformProjectWrite
+from hanzoai.cloud.models.platform_promote_req import PlatformPromoteReq
+from hanzoai.cloud.models.platform_readiness import PlatformReadiness
+from hanzoai.cloud.models.platform_release_board import PlatformReleaseBoard
+from hanzoai.cloud.models.platform_restart_ref import PlatformRestartRef
+from hanzoai.cloud.models.platform_restarted import PlatformRestarted
+from hanzoai.cloud.models.platform_rollback_req import PlatformRollbackReq
+from hanzoai.cloud.models.platform_run_req import PlatformRunReq
+from hanzoai.cloud.models.platform_run_view import PlatformRunView
+from hanzoai.cloud.models.platform_runner_build_req import PlatformRunnerBuildReq
+from hanzoai.cloud.models.platform_runner_build_resp import PlatformRunnerBuildResp
+from hanzoai.cloud.models.platform_set_env_req import PlatformSetEnvReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -65,6 +75,319 @@ class PlatformApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def delete_platform_projects_by_project(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to delete, from the path.")],
+        into: Annotated[Optional[StrictStr], Field(description="Into is the existing project its apps move into. Required: an app always belongs to exactly one project.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the projects' owner, defaulting to the caller's own scope.")] = None,
+        mode: Annotated[Optional[StrictStr], Field(description="Mode is `branch` (the default) or `commit`.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformProjectWrite:
+        """Folds a project into another.
+
+        Folds a project into another.  An app always belongs to exactly one project, so a project ends by moving its apps: `into` names the existing project they move to, and the project is gone once no file names it. One commit to `hanzoai/universe`; `mode` as for create. 404 when `into` is not a project.
+
+        :param project: Project is the project to delete, from the path. (required)
+        :type project: str
+        :param into: Into is the existing project its apps move into. Required: an app always belongs to exactly one project.
+        :type into: str
+        :param org: Org names the projects' owner, defaulting to the caller's own scope.
+        :type org: str
+        :param mode: Mode is `branch` (the default) or `commit`.
+        :type mode: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_platform_projects_by_project_serialize(
+            project=project,
+            into=into,
+            org=org,
+            mode=mode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_platform_projects_by_project_with_http_info(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to delete, from the path.")],
+        into: Annotated[Optional[StrictStr], Field(description="Into is the existing project its apps move into. Required: an app always belongs to exactly one project.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the projects' owner, defaulting to the caller's own scope.")] = None,
+        mode: Annotated[Optional[StrictStr], Field(description="Mode is `branch` (the default) or `commit`.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformProjectWrite]:
+        """Folds a project into another.
+
+        Folds a project into another.  An app always belongs to exactly one project, so a project ends by moving its apps: `into` names the existing project they move to, and the project is gone once no file names it. One commit to `hanzoai/universe`; `mode` as for create. 404 when `into` is not a project.
+
+        :param project: Project is the project to delete, from the path. (required)
+        :type project: str
+        :param into: Into is the existing project its apps move into. Required: an app always belongs to exactly one project.
+        :type into: str
+        :param org: Org names the projects' owner, defaulting to the caller's own scope.
+        :type org: str
+        :param mode: Mode is `branch` (the default) or `commit`.
+        :type mode: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_platform_projects_by_project_serialize(
+            project=project,
+            into=into,
+            org=org,
+            mode=mode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_platform_projects_by_project_without_preload_content(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to delete, from the path.")],
+        into: Annotated[Optional[StrictStr], Field(description="Into is the existing project its apps move into. Required: an app always belongs to exactly one project.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org names the projects' owner, defaulting to the caller's own scope.")] = None,
+        mode: Annotated[Optional[StrictStr], Field(description="Mode is `branch` (the default) or `commit`.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Folds a project into another.
+
+        Folds a project into another.  An app always belongs to exactly one project, so a project ends by moving its apps: `into` names the existing project they move to, and the project is gone once no file names it. One commit to `hanzoai/universe`; `mode` as for create. 404 when `into` is not a project.
+
+        :param project: Project is the project to delete, from the path. (required)
+        :type project: str
+        :param into: Into is the existing project its apps move into. Required: an app always belongs to exactly one project.
+        :type into: str
+        :param org: Org names the projects' owner, defaulting to the caller's own scope.
+        :type org: str
+        :param mode: Mode is `branch` (the default) or `commit`.
+        :type mode: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_platform_projects_by_project_serialize(
+            project=project,
+            into=into,
+            org=org,
+            mode=mode,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_platform_projects_by_project_serialize(
+        self,
+        project,
+        into,
+        org,
+        mode,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if project is not None:
+            _path_params['project'] = project
+        # process the query parameters
+        if into is not None:
+            
+            _query_params.append(('into', into))
+            
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
+        if mode is not None:
+            
+            _query_params.append(('mode', mode))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/platform/projects/{project}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -87,7 +410,7 @@ class PlatformApi:
     ) -> None:
         """Deletes an application and tears down what it runs.
 
-        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 403 without one.
+        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -158,7 +481,7 @@ class PlatformApi:
     ) -> ApiResponse[None]:
         """Deletes an application and tears down what it runs.
 
-        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 403 without one.
+        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -229,7 +552,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Deletes an application and tears down what it runs.
 
-        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 403 without one.
+        Deletes an application and tears down what it runs.  It removes the application record and tears down what it owns in the org's tenant namespace — its operator Service CR and its KMSSecret — then answers 204. An app this org and project do not have is 404, never a silent success.  Teardown is best-effort by design: a cluster that refuses or is unreachable does not block the delete, so the record cannot be left orphaned behind a broken cluster; the failure is logged for operators and the orphan reaper reconciles it. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -311,6 +634,13 @@ class PlatformApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -357,7 +687,7 @@ class PlatformApi:
     ) -> None:
         """Detaches a hostname and releases the claim.
 
-        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 403 without one.
+        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -432,7 +762,7 @@ class PlatformApi:
     ) -> ApiResponse[None]:
         """Detaches a hostname and releases the claim.
 
-        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 403 without one.
+        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -507,7 +837,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Detaches a hostname and releases the claim.
 
-        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 403 without one.
+        Detaches a hostname and releases the claim.  It drops the host from the app's ingress and releases any custom claim on it, so the name becomes claimable again — by this org or any other. Answers 204.  The default host is permanent and cannot be removed: that is 400, not 404. A host that is neither attached nor claimed here is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -595,6 +925,13 @@ class PlatformApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -636,10 +973,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeclaredResp:
+    ) -> PlatformDeclaredResp:
         """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation, and a values file that does not parse is listed in `unreadable`, never dropped.
 
         :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
         :type org: str
@@ -674,7 +1011,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeclaredResp",
+            '200': "PlatformDeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -703,10 +1040,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeclaredResp]:
+    ) -> ApiResponse[PlatformDeclaredResp]:
         """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation, and a values file that does not parse is listed in `unreadable`, never dropped.
 
         :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
         :type org: str
@@ -741,7 +1078,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeclaredResp",
+            '200': "PlatformDeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -773,7 +1110,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Answers what this organisation has declared, joined with what the delivery plane has done about it.
 
-        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation.
+        Answers what this organisation has declared, joined with what the delivery plane has done about it.  The join is best-effort BY DESIGN and says so when it is missing: the declarations ARE the answer to \"what have I deployed\", so refusing the whole board because the cluster is unreadable would lose the half that is readable. What must never happen is a silent null — an unreadable plane is reported as `cd.unavailable` carrying the reason, never as an app with no reconciliation, and a values file that does not parse is listed in `unreadable`, never dropped.
 
         :param org: Org names the organisation whose declarations to read, defaulting to the caller's own. Only a SuperAdmin may name one that is not theirs; anyone else naming a foreign org is refused, so this widens nothing by itself.
         :type org: str
@@ -808,7 +1145,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeclaredResp",
+            '200': "PlatformDeclaredResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -855,7 +1192,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -900,7 +1238,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Declaration:
+    ) -> PlatformDeclaration:
         """Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
         Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
@@ -941,7 +1279,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Declaration",
+            '200': "PlatformDeclaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -971,7 +1309,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Declaration]:
+    ) -> ApiResponse[PlatformDeclaration]:
         """Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
 
         Answers ONE declaration — what git says this app is, before the delivery plane has had any say in it.
@@ -1012,7 +1350,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Declaration",
+            '200': "PlatformDeclaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1083,7 +1421,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Declaration",
+            '200': "PlatformDeclaration",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1133,7 +1471,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1178,7 +1517,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CDApp:
+    ) -> PlatformCDApp:
         """Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
         Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
@@ -1219,7 +1558,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CDApp",
+            '200': "PlatformCDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1249,7 +1588,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CDApp]:
+    ) -> ApiResponse[PlatformCDApp]:
         """Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
 
         Answers ONE app's reconciliation alone — the poll a deploy console makes while it waits, without re-reading the whole inventory each time.
@@ -1290,7 +1629,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CDApp",
+            '200': "PlatformCDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1361,7 +1700,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CDApp",
+            '200': "PlatformCDApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1411,7 +1750,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1424,6 +1764,285 @@ class PlatformApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/platform/apps/{app}/cd',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_platform_apps_by_app_diff(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org is the values directory the declaration lives in, defaulting to the caller's own org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformCdDiff:
+        """Answers what syncing one app would change.
+
+        Answers what syncing one app would change.  It reads the CD Application the declaration renders as: the commit CD compared the cluster against, the commit it last applied, and every object it manages with CD's verdict on each — the ones that differ from git are what a sync applies. Object-level, as CD reports it; the field-level diff stays on cd.hanzo.ai. SuperAdmin only, the same predicate CD's own RBAC applies to viewing an Application. 404 when CD holds no Application for the declaration.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param org: Org is the values directory the declaration lives in, defaulting to the caller's own org.
+        :type org: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_platform_apps_by_app_diff_serialize(
+            app=app,
+            org=org,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformCdDiff",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_platform_apps_by_app_diff_with_http_info(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org is the values directory the declaration lives in, defaulting to the caller's own org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformCdDiff]:
+        """Answers what syncing one app would change.
+
+        Answers what syncing one app would change.  It reads the CD Application the declaration renders as: the commit CD compared the cluster against, the commit it last applied, and every object it manages with CD's verdict on each — the ones that differ from git are what a sync applies. Object-level, as CD reports it; the field-level diff stays on cd.hanzo.ai. SuperAdmin only, the same predicate CD's own RBAC applies to viewing an Application. 404 when CD holds no Application for the declaration.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param org: Org is the values directory the declaration lives in, defaulting to the caller's own org.
+        :type org: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_platform_apps_by_app_diff_serialize(
+            app=app,
+            org=org,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformCdDiff",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_platform_apps_by_app_diff_without_preload_content(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org is the values directory the declaration lives in, defaulting to the caller's own org.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers what syncing one app would change.
+
+        Answers what syncing one app would change.  It reads the CD Application the declaration renders as: the commit CD compared the cluster against, the commit it last applied, and every object it manages with CD's verdict on each — the ones that differ from git are what a sync applies. Object-level, as CD reports it; the field-level diff stays on cd.hanzo.ai. SuperAdmin only, the same predicate CD's own RBAC applies to viewing an Application. 404 when CD holds no Application for the declaration.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param org: Org is the values directory the declaration lives in, defaulting to the caller's own org.
+        :type org: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_platform_apps_by_app_diff_serialize(
+            app=app,
+            org=org,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformCdDiff",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_platform_apps_by_app_diff_serialize(
+        self,
+        app,
+        org,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if app is not None:
+            _path_params['app'] = app
+        # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/platform/apps/{app}/diff',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1454,10 +2073,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BuildBoard:
+    ) -> PlatformBuildBoard:
         """Returns real build records for your org.
 
-        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 403 without one.
+        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1489,7 +2108,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildBoard",
+            '200': "PlatformBuildBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1517,10 +2136,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BuildBoard]:
+    ) -> ApiResponse[PlatformBuildBoard]:
         """Returns real build records for your org.
 
-        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 403 without one.
+        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1552,7 +2171,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildBoard",
+            '200': "PlatformBuildBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1583,7 +2202,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns real build records for your org.
 
-        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 403 without one.
+        Returns real build records for your org.  It lists the org's BuildKit build records — the git build step behind a deploy — each with the repo it built, the short commit, its status, when it started and how long it took. These are real records or an honest empty list; a build appears here because one ran, never because a page needed a row. Builds are created only by /deploy and the push-to-deploy hook. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1615,7 +2234,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BuildBoard",
+            '200': "PlatformBuildBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1657,7 +2276,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1700,7 +2320,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CdResp:
+    ) -> PlatformCdResp:
         """Answers every Application the delivery plane holds.
 
         Answers every Application the delivery plane holds.  Scoped to the namespaces the caller's own validated org owns: the ROLE admits the caller and the tenant boundary is applied inside, so an admin of one org never observes another's.
@@ -1735,7 +2355,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CdResp",
+            '200': "PlatformCdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1763,7 +2383,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CdResp]:
+    ) -> ApiResponse[PlatformCdResp]:
         """Answers every Application the delivery plane holds.
 
         Answers every Application the delivery plane holds.  Scoped to the namespaces the caller's own validated org owns: the ROLE admits the caller and the tenant boundary is applied inside, so an admin of one org never observes another's.
@@ -1798,7 +2418,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CdResp",
+            '200': "PlatformCdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1861,7 +2481,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CdResp",
+            '200': "PlatformCdResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1903,7 +2523,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1916,242 +2537,6 @@ class PlatformApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/platform/cd',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_platform_ci(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Continuous integration (not wired)
-
-        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_platform_ci_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_platform_ci_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Continuous integration (not wired)
-
-        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_platform_ci_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_platform_ci_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Continuous integration (not wired)
-
-        Answers 501. The forge's Actions runs need a Forgejo API client and this deployment has none; an empty run list would be indistinguishable from a forge with no runs.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_platform_ci_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_platform_ci_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/platform/ci',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2182,10 +2567,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EnvironmentBoard:
+    ) -> PlatformEnvironmentBoard:
         """Returns your deploy targets, and what is running on each.
 
-        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 403 without one.
+        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2217,7 +2602,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnvironmentBoard",
+            '200': "PlatformEnvironmentBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2245,10 +2630,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EnvironmentBoard]:
+    ) -> ApiResponse[PlatformEnvironmentBoard]:
         """Returns your deploy targets, and what is running on each.
 
-        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 403 without one.
+        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2280,7 +2665,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnvironmentBoard",
+            '200': "PlatformEnvironmentBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2311,7 +2696,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns your deploy targets, and what is running on each.
 
-        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 403 without one.
+        Returns your deploy targets, and what is running on each.  It returns the org's environments — the distinct deploy targets its applications name, `production` for anything that names none — each aggregating the apps that target it, a rolled-up status and when it last changed.  An environment is DERIVED, not stored: there is nothing to create or delete here, and an environment exists exactly as long as an app points at it. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2343,7 +2728,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnvironmentBoard",
+            '200': "PlatformEnvironmentBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2385,7 +2770,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2432,7 +2818,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DriftBoard:
+    ) -> PlatformDriftBoard:
         """Returns the platform's own service tier, and where it has drifted.
 
         Returns the platform's own service tier, and where it has drifted.  It returns the board for the services the PLATFORM itself runs — iam, kms, gateway and the rest — as `{apps, summary}`: per service its environment, health, phase, the image tag its CR DECLARES, the tag actually running, and the drift between them, plus a summary counting the board green, yellow and red.  This is not a customer surface. `/v1/platform/projects/:project/apps` is a tenant's apps; this is the tier those tenants run ON, which is why the two are named differently rather than sharing a prefix.  Admission is scoped at the SCAN, before any CR is read: a platform SuperAdmin observes the whole fleet, an org admin observes only their own org's namespaces, and an org that owns none gets an empty board — a non-super caller never even lists another org's services. Narrow further with `env`, `health`, `org`, or `drift=1` for only what has drifted.  It degrades honestly rather than failing whole: a namespace that does not exist is skipped, and a running-state read the caller cannot make leaves the running tag empty — an unknown, never a guess — while the declared, health and phase columns still render.
@@ -2479,7 +2865,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriftBoard",
+            '200': "PlatformDriftBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2511,7 +2897,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DriftBoard]:
+    ) -> ApiResponse[PlatformDriftBoard]:
         """Returns the platform's own service tier, and where it has drifted.
 
         Returns the platform's own service tier, and where it has drifted.  It returns the board for the services the PLATFORM itself runs — iam, kms, gateway and the rest — as `{apps, summary}`: per service its environment, health, phase, the image tag its CR DECLARES, the tag actually running, and the drift between them, plus a summary counting the board green, yellow and red.  This is not a customer surface. `/v1/platform/projects/:project/apps` is a tenant's apps; this is the tier those tenants run ON, which is why the two are named differently rather than sharing a prefix.  Admission is scoped at the SCAN, before any CR is read: a platform SuperAdmin observes the whole fleet, an org admin observes only their own org's namespaces, and an org that owns none gets an empty board — a non-super caller never even lists another org's services. Narrow further with `env`, `health`, `org`, or `drift=1` for only what has drifted.  It degrades honestly rather than failing whole: a namespace that does not exist is skipped, and a running-state read the caller cannot make leaves the running tag empty — an unknown, never a guess — while the declared, health and phase columns still render.
@@ -2558,7 +2944,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriftBoard",
+            '200': "PlatformDriftBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2637,7 +3023,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DriftBoard",
+            '200': "PlatformDriftBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2699,7 +3085,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2744,7 +3131,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformAppView:
         """Returns one platform service, resolved to production by default.
 
         Returns one platform service, resolved to production by default.  It returns a single platform service by its CR name, with the same declared-versus-running and drift facts the board carries. The name must be a DNS-1123 label; anything else is 400.  Namespaces are scanned in lifecycle order — main, then test, then dev — and the first match wins, so a bare name resolves to PRODUCTION. The scan covers only the namespaces the caller is authorized for, so an org admin can never read a service outside their own org, and a name found in none of them is 404 rather than a leak.
@@ -2785,7 +3172,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2815,7 +3202,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppView]:
         """Returns one platform service, resolved to production by default.
 
         Returns one platform service, resolved to production by default.  It returns a single platform service by its CR name, with the same declared-versus-running and drift facts the board carries. The name must be a DNS-1123 label; anything else is 400.  Namespaces are scanned in lifecycle order — main, then test, then dev — and the first match wins, so a bare name resolves to PRODUCTION. The scan covers only the namespaces the caller is authorized for, so an org admin can never read a service outside their own org, and a name found in none of them is 404 rather than a leak.
@@ -2856,7 +3243,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2927,7 +3314,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2977,7 +3364,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3020,7 +3408,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Readiness:
+    ) -> PlatformReadiness:
         """Reports whether this control plane can actually deploy anything.
 
         Reports whether this control plane can actually deploy anything.  A real probe, not a status page. It answers 200 only when the metadata store is open AND the cluster is genuinely reachable — proved by LISTING the operator App CRD, which settles reachability and CRD presence in one bounded call, and which is the exact question every deploy depends on. Anything else is 503 carrying the real reason and whether the CRD was found.  A constructed cluster client proves nothing — it is built from a kubeconfig, not from a reachable apiserver — so this deliberately spends a round trip rather than reporting `ok` while every deploy fails. Not admin-gated: liveness has to be probe-able without a credential.
@@ -3055,8 +3443,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Readiness",
-            '503': "Readiness",
+            '200': "PlatformReadiness",
+            '503': "PlatformReadiness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3084,7 +3472,7 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Readiness]:
+    ) -> ApiResponse[PlatformReadiness]:
         """Reports whether this control plane can actually deploy anything.
 
         Reports whether this control plane can actually deploy anything.  A real probe, not a status page. It answers 200 only when the metadata store is open AND the cluster is genuinely reachable — proved by LISTING the operator App CRD, which settles reachability and CRD presence in one bounded call, and which is the exact question every deploy depends on. Anything else is 503 carrying the real reason and whether the CRD was found.  A constructed cluster client proves nothing — it is built from a kubeconfig, not from a reachable apiserver — so this deliberately spends a round trip rather than reporting `ok` while every deploy fails. Not admin-gated: liveness has to be probe-able without a credential.
@@ -3119,8 +3507,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Readiness",
-            '503': "Readiness",
+            '200': "PlatformReadiness",
+            '503': "PlatformReadiness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3183,8 +3571,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Readiness",
-            '503': "Readiness",
+            '200': "PlatformReadiness",
+            '503': "PlatformReadiness",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3226,7 +3614,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3269,10 +3658,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PipelineBoard:
+    ) -> PlatformPipelineBoard:
         """Returns one build-and-deploy pipeline per app, with its latest run.
 
-        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 403 without one.
+        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3304,7 +3693,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineBoard",
+            '200': "PlatformPipelineBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3332,10 +3721,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PipelineBoard]:
+    ) -> ApiResponse[PlatformPipelineBoard]:
         """Returns one build-and-deploy pipeline per app, with its latest run.
 
-        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 403 without one.
+        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3367,7 +3756,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineBoard",
+            '200': "PlatformPipelineBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3398,7 +3787,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns one build-and-deploy pipeline per app, with its latest run.
 
-        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 403 without one.
+        Returns one build-and-deploy pipeline per app, with its latest run.  It returns one pipeline per application in the caller's org — its repo or image source, its current status, and when its most recent deployment ran and how long it took. A pipeline is a PROJECTION of an app plus its newest deployment, not a separate record: it comes into existence with the app and is triggered only through /deploy, never here. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3430,7 +3819,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineBoard",
+            '200': "PlatformPipelineBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3472,7 +3861,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3503,6 +3893,7 @@ class PlatformApi:
     @validate_call
     def get_platform_projects(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3515,11 +3906,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProjectView]:
-        """Returns your org's projects, each with how many apps live under it.
+    ) -> PlatformProjectBoard:
+        """Answers every project the caller may see, with how its apps stand.
 
-        Returns your org's projects, each with how many apps live under it.  It lists the caller org's projects with the number of platform applications in each. A project is IAM's resource — it is created and deleted at /v1/iam/projects, never here — so this is the ONE projection IAM cannot serve: the project plus what the platform has put under it.  Requires a validated principal; 403 without one, and the org comes from that validated identity rather than a request header. This is the console's first authenticated read, so a project store that is not yet initialised degrades to an EMPTY list rather than a 500 — a new org genuinely has zero projects — and the real cause is surfaced to operators instead of to the caller.
+        Answers every project the caller may see, with how its apps stand.  A project is the `partOf` its apps' values files name, so this is the declaration inventory grouped by that key, joined per app with CD's reconciliation, the pods the cluster runs and the newest release the registry publishes, and folded into counts: apps, namespaces, sync, health and drift. Declarations that name no project are listed separately, because each one is drift in git.  A SuperAdmin sees every owner's projects, the platform's own among them; an org admin sees only its own org's. `org` narrows a SuperAdmin to one owner. A plane that cannot be read leaves its counts at unknown and says why in cdUnavailable or clusterUnavailable; it never empties the board. A values file that does not parse is listed in unreadable and costs only its own row.
 
+        :param org: Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3543,6 +3936,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_projects_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3550,7 +3944,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProjectView]",
+            '200': "PlatformProjectBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3566,6 +3960,7 @@ class PlatformApi:
     @validate_call
     def get_platform_projects_with_http_info(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3578,11 +3973,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProjectView]]:
-        """Returns your org's projects, each with how many apps live under it.
+    ) -> ApiResponse[PlatformProjectBoard]:
+        """Answers every project the caller may see, with how its apps stand.
 
-        Returns your org's projects, each with how many apps live under it.  It lists the caller org's projects with the number of platform applications in each. A project is IAM's resource — it is created and deleted at /v1/iam/projects, never here — so this is the ONE projection IAM cannot serve: the project plus what the platform has put under it.  Requires a validated principal; 403 without one, and the org comes from that validated identity rather than a request header. This is the console's first authenticated read, so a project store that is not yet initialised degrades to an EMPTY list rather than a 500 — a new org genuinely has zero projects — and the real cause is surfaced to operators instead of to the caller.
+        Answers every project the caller may see, with how its apps stand.  A project is the `partOf` its apps' values files name, so this is the declaration inventory grouped by that key, joined per app with CD's reconciliation, the pods the cluster runs and the newest release the registry publishes, and folded into counts: apps, namespaces, sync, health and drift. Declarations that name no project are listed separately, because each one is drift in git.  A SuperAdmin sees every owner's projects, the platform's own among them; an org admin sees only its own org's. `org` narrows a SuperAdmin to one owner. A plane that cannot be read leaves its counts at unknown and says why in cdUnavailable or clusterUnavailable; it never empties the board. A values file that does not parse is listed in unreadable and costs only its own row.
 
+        :param org: Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3606,6 +4003,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_projects_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3613,7 +4011,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProjectView]",
+            '200': "PlatformProjectBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3629,6 +4027,7 @@ class PlatformApi:
     @validate_call
     def get_platform_projects_without_preload_content(
         self,
+        org: Annotated[Optional[StrictStr], Field(description="Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3642,10 +4041,12 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns your org's projects, each with how many apps live under it.
+        """Answers every project the caller may see, with how its apps stand.
 
-        Returns your org's projects, each with how many apps live under it.  It lists the caller org's projects with the number of platform applications in each. A project is IAM's resource — it is created and deleted at /v1/iam/projects, never here — so this is the ONE projection IAM cannot serve: the project plus what the platform has put under it.  Requires a validated principal; 403 without one, and the org comes from that validated identity rather than a request header. This is the console's first authenticated read, so a project store that is not yet initialised degrades to an EMPTY list rather than a 500 — a new org genuinely has zero projects — and the real cause is surfaced to operators instead of to the caller.
+        Answers every project the caller may see, with how its apps stand.  A project is the `partOf` its apps' values files name, so this is the declaration inventory grouped by that key, joined per app with CD's reconciliation, the pods the cluster runs and the newest release the registry publishes, and folded into counts: apps, namespaces, sync, health and drift. Declarations that name no project are listed separately, because each one is drift in git.  A SuperAdmin sees every owner's projects, the platform's own among them; an org admin sees only its own org's. `org` narrows a SuperAdmin to one owner. A plane that cannot be read leaves its counts at unknown and says why in cdUnavailable or clusterUnavailable; it never empties the board. A values file that does not parse is listed in unreadable and costs only its own row.
 
+        :param org: Org names whose projects to read. Omitted, a SuperAdmin reads every owner's and anyone else reads their own; naming another org is an act-as only a SuperAdmin has, and naming a platform directory reads the platform's own.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3669,6 +4070,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._get_platform_projects_serialize(
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3676,7 +4078,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProjectView]",
+            '200': "PlatformProjectBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3687,6 +4089,7 @@ class PlatformApi:
 
     def _get_platform_projects_serialize(
         self,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -3709,6 +4112,10 @@ class PlatformApi:
 
         # process the path parameters
         # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -3718,7 +4125,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3750,6 +4158,7 @@ class PlatformApi:
     def get_platform_projects_by_project(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3762,13 +4171,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProjectView:
-        """Returns one project and its app count.
+    ) -> PlatformProjectView:
+        """Answers one project and every app in it.
 
-        Returns one project and its app count.  It returns a single project of the caller's org with the number of platform applications under it. A project this org does not have is 404, which is also what another tenant's project looks like from here. Requires a validated principal; 403 without one.
+        Answers one project and every app in it.  Each app carries its declaration — image, hosts, replicas, the KMS paths it reads (never a value) — together with the CD Application reconciling it, what its pods run, the newest release its registry publishes, and the drift between those four. 404 when no declaration in the caller's scope names the project.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
+        :param org: Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3793,6 +4204,7 @@ class PlatformApi:
 
         _param = self._get_platform_projects_by_project_serialize(
             project=project,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3800,7 +4212,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectView",
+            '200': "PlatformProjectView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3817,6 +4229,7 @@ class PlatformApi:
     def get_platform_projects_by_project_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3829,13 +4242,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProjectView]:
-        """Returns one project and its app count.
+    ) -> ApiResponse[PlatformProjectView]:
+        """Answers one project and every app in it.
 
-        Returns one project and its app count.  It returns a single project of the caller's org with the number of platform applications under it. A project this org does not have is 404, which is also what another tenant's project looks like from here. Requires a validated principal; 403 without one.
+        Answers one project and every app in it.  Each app carries its declaration — image, hosts, replicas, the KMS paths it reads (never a value) — together with the CD Application reconciling it, what its pods run, the newest release its registry publishes, and the drift between those four. 404 when no declaration in the caller's scope names the project.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
+        :param org: Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3860,6 +4275,7 @@ class PlatformApi:
 
         _param = self._get_platform_projects_by_project_serialize(
             project=project,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3867,7 +4283,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectView",
+            '200': "PlatformProjectView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3884,6 +4300,7 @@ class PlatformApi:
     def get_platform_projects_by_project_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project's name, from the path.")],
+        org: Annotated[Optional[StrictStr], Field(description="Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3897,12 +4314,14 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one project and its app count.
+        """Answers one project and every app in it.
 
-        Returns one project and its app count.  It returns a single project of the caller's org with the number of platform applications under it. A project this org does not have is 404, which is also what another tenant's project looks like from here. Requires a validated principal; 403 without one.
+        Answers one project and every app in it.  Each app carries its declaration — image, hosts, replicas, the KMS paths it reads (never a value) — together with the CD Application reconciling it, what its pods run, the newest release its registry publishes, and the drift between those four. 404 when no declaration in the caller's scope names the project.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
+        :param org: Org names the project's owner, defaulting to the caller's own scope — which for a SuperAdmin whose home is a brand org is the platform's.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3927,6 +4346,7 @@ class PlatformApi:
 
         _param = self._get_platform_projects_by_project_serialize(
             project=project,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3934,7 +4354,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProjectView",
+            '200': "PlatformProjectView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3946,6 +4366,7 @@ class PlatformApi:
     def _get_platform_projects_by_project_serialize(
         self,
         project,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -3970,6 +4391,10 @@ class PlatformApi:
         if project is not None:
             _path_params['project'] = project
         # process the query parameters
+        if org is not None:
+            
+            _query_params.append(('org', org))
+            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -3979,7 +4404,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4023,10 +4449,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[AppView]:
+    ) -> List[PlatformAppOut]:
         """Returns the applications in one project, with what the cluster says about them.
 
-        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 403 without one.
+        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 401 without one.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
@@ -4061,7 +4487,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[AppView]",
+            '200': "List[PlatformAppOut]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4090,10 +4516,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[AppView]]:
+    ) -> ApiResponse[List[PlatformAppOut]]:
         """Returns the applications in one project, with what the cluster says about them.
 
-        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 403 without one.
+        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 401 without one.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
@@ -4128,7 +4554,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[AppView]",
+            '200': "List[PlatformAppOut]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4160,7 +4586,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns the applications in one project, with what the cluster says about them.
 
-        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 403 without one.
+        Returns the applications in one project, with what the cluster says about them.  It lists the caller org's applications under one project. Each row carries the stored record and, for an app that is live or deploying, the LIVE phase and health read from its operator Service CR; an app with sealed env also carries its secret-sync state. Those cluster reads are best-effort — an unreachable cluster leaves those fields empty and never blocks the listing.  The project must exist in IAM for this org, or the answer is 404; the `default` project is implicit and always accepted, because it is part of what an org IS. Requires a validated principal; 401 without one.
 
         :param project: Project is the project's name, from the path. (required)
         :type project: str
@@ -4195,7 +4621,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[AppView]",
+            '200': "List[PlatformAppOut]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4240,7 +4666,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4285,10 +4712,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformAppOut:
         """Returns one application, with its live phase, health and secret sync.
 
-        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 403 without one.
+        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4326,7 +4753,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4356,10 +4783,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppOut]:
         """Returns one application, with its live phase, health and secret sync.
 
-        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 403 without one.
+        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4397,7 +4824,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4430,7 +4857,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns one application, with its live phase, health and secret sync.
 
-        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 403 without one.
+        Returns one application, with its live phase, health and secret sync.  It returns a single application of the caller's org together with what the cluster currently reports for it: the operator Service CR's phase and health, and whether its sealed env has synced. An app this org and project do not have is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4468,7 +4895,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4516,7 +4943,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4561,10 +4989,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[DeploymentView]:
+    ) -> List[PlatformDeploymentView]:
         """Returns an app's deployment history.
 
-        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 403 without one.
+        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4602,7 +5030,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeploymentView]",
+            '200': "List[PlatformDeploymentView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4632,10 +5060,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[DeploymentView]]:
+    ) -> ApiResponse[List[PlatformDeploymentView]]:
         """Returns an app's deployment history.
 
-        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 403 without one.
+        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4673,7 +5101,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeploymentView]",
+            '200': "List[PlatformDeploymentView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4706,7 +5134,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns an app's deployment history.
 
-        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 403 without one.
+        Returns an app's deployment history.  It lists every deployment recorded for one of the caller org's applications, newest version first, each with its version, status, source, commit and image. Failed and superseded attempts are included — that is the point of a history. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4744,7 +5172,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DeploymentView]",
+            '200': "List[PlatformDeploymentView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4792,7 +5220,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4838,10 +5267,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeploymentView:
+    ) -> PlatformDeploymentView:
         """Returns one deployment of one app.
 
-        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 403 without one.
+        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4882,7 +5311,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeploymentView",
+            '200': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4913,10 +5342,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeploymentView]:
+    ) -> ApiResponse[PlatformDeploymentView]:
         """Returns one deployment of one app.
 
-        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 403 without one.
+        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -4957,7 +5386,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeploymentView",
+            '200': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4991,7 +5420,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns one deployment of one app.
 
-        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 403 without one.
+        Returns one deployment of one app.  It returns a single deployment by id, scoped to the named application of the caller's org — so an id belonging to another app or another tenant is 404, not a read. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5032,7 +5461,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeploymentView",
+            '200': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5083,7 +5512,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5129,10 +5559,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeployLogs:
+    ) -> PlatformDeployLogs:
         """Returns real logs for a deployment — the build's, then the app's.
 
-        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 403 without one.
+        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5173,7 +5603,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployLogs",
+            '200': "PlatformDeployLogs",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5204,10 +5634,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeployLogs]:
+    ) -> ApiResponse[PlatformDeployLogs]:
         """Returns real logs for a deployment — the build's, then the app's.
 
-        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 403 without one.
+        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5248,7 +5678,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployLogs",
+            '200': "PlatformDeployLogs",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5282,7 +5712,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns real logs for a deployment — the build's, then the app's.
 
-        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 403 without one.
+        Returns real logs for a deployment — the build's, then the app's.  It returns the deployment's recorded status timeline together with LIVE pod logs pulled from the cluster: the build pod's output while a git build is running, and the running app's output once it is deployed. The `source` field says which of the two the body is — `build`, `app` or `none` — so a console can label the pane honestly.  It never fabricates log content. When no pod exists yet, or the cluster is unreachable, it degrades to the recorded timeline and says so. Every cluster read is confined to the caller org's own namespaces and time-boxed. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5323,7 +5753,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployLogs",
+            '200': "PlatformDeployLogs",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5374,7 +5804,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5419,10 +5850,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[DomainView]:
+    ) -> List[PlatformDomainView]:
         """Returns every hostname this app answers on.
 
-        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 403 without one.
+        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5460,7 +5891,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DomainView]",
+            '200': "List[PlatformDomainView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5490,10 +5921,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[DomainView]]:
+    ) -> ApiResponse[List[PlatformDomainView]]:
         """Returns every hostname this app answers on.
 
-        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 403 without one.
+        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5531,7 +5962,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DomainView]",
+            '200': "List[PlatformDomainView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5564,7 +5995,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns every hostname this app answers on.
 
-        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 403 without one.
+        Returns every hostname this app answers on.  It lists the app's hosts: the permanent default host it was born with, any org-subtree hosts attached to it, and every custom host claimed for it with its verification state and, while pending, the DNS challenge records to publish. Live endpoint status for each host is observed from the cluster. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -5602,7 +6033,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[DomainView]",
+            '200': "List[PlatformDomainView]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5650,7 +6081,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5693,10 +6125,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReleaseBoard:
+    ) -> PlatformReleaseBoard:
         """Returns the versions that actually reached the cluster.
 
-        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 403 without one.
+        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5728,7 +6160,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseBoard",
+            '200': "PlatformReleaseBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5756,10 +6188,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReleaseBoard]:
+    ) -> ApiResponse[PlatformReleaseBoard]:
         """Returns the versions that actually reached the cluster.
 
-        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 403 without one.
+        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5791,7 +6223,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseBoard",
+            '200': "PlatformReleaseBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5822,7 +6254,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Returns the versions that actually reached the cluster.
 
-        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 403 without one.
+        Returns the versions that actually reached the cluster.  It lists the org's releases: the deployments that were genuinely applied to the cluster, with the app they belong to, their version, environment, status and when they were released. A deployment that failed or is still building is NOT a release and is excluded — reaching the cluster is what makes one. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5854,7 +6286,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReleaseBoard",
+            '200': "PlatformReleaseBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5896,7 +6328,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5927,7 +6360,7 @@ class PlatformApi:
     @validate_call
     def post_build(
         self,
-        runner_build_req: RunnerBuildReq,
+        platform_runner_build_req: PlatformRunnerBuildReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5940,13 +6373,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunnerBuildResp:
+    ) -> PlatformRunnerBuildResp:
         """Triggers a native build — an image, or the binaries a repo declares.
 
         Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
 
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
+        :param platform_runner_build_req: (required)
+        :type platform_runner_build_req: PlatformRunnerBuildReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5970,7 +6403,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_build_serialize(
-            runner_build_req=runner_build_req,
+            platform_runner_build_req=platform_runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5978,7 +6411,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
+            '202': "PlatformRunnerBuildResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5994,7 +6427,7 @@ class PlatformApi:
     @validate_call
     def post_build_with_http_info(
         self,
-        runner_build_req: RunnerBuildReq,
+        platform_runner_build_req: PlatformRunnerBuildReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6007,13 +6440,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunnerBuildResp]:
+    ) -> ApiResponse[PlatformRunnerBuildResp]:
         """Triggers a native build — an image, or the binaries a repo declares.
 
         Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
 
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
+        :param platform_runner_build_req: (required)
+        :type platform_runner_build_req: PlatformRunnerBuildReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6037,7 +6470,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_build_serialize(
-            runner_build_req=runner_build_req,
+            platform_runner_build_req=platform_runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6045,7 +6478,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
+            '202': "PlatformRunnerBuildResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6061,7 +6494,7 @@ class PlatformApi:
     @validate_call
     def post_build_without_preload_content(
         self,
-        runner_build_req: RunnerBuildReq,
+        platform_runner_build_req: PlatformRunnerBuildReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6079,8 +6512,8 @@ class PlatformApi:
 
         Triggers a native build — an image, or the binaries a repo declares.  The fabric's own build trigger, and what `hanzo build` and git-push-to-deploy call. It answers 202 with the build job id: a queued build, not a pushed artifact.  Two lanes, and a build is exactly one of them. The IMAGE lane takes `repo` and the output `image` and launches a BuildKit Job that pushes it. The ARTIFACT lane takes `binaries` — the same recipe the repo's hanzo.yml declares — and publishes to object storage instead; it must carry no `image`, because a build produces binaries or an image, never both.  PRIVILEGED, and A BUILD BELONGS TO THE ORGANIZATION ITS CREDENTIAL NAMES. Two credentials, never a third:    - one that NAMES an organization — a person who administers it (the `hanzo     build` path, so one IAM login authorizes a build with no separate build     token), or that organization's own machine identity (the pipeline path). The     build is attributed to that org and confined to what it owns.   - the shared build-callback token, compared in constant time. It names NO     organization, which is both why the fabric's own release can publish across     brands with it and why anything that CAN name one is read first.  Both are bounded by the owned-registry allowlist. The org path is bounded again, by the org: the image's registry namespace must be one that organization owns, so it publishes into its own brand and can never overwrite another's through the shared push credential. The same confinement applies to the artifact lane's repo owner. There is no request field naming an organization — the attribution is read off the credential, so there is nothing for a caller to write it with.  The output image is parsed and validated as a single well-formed OCI ref before any authorization decision reads it, so a crafted ref cannot smuggle a build-exporter attribute past the check.
 
-        :param runner_build_req: (required)
-        :type runner_build_req: RunnerBuildReq
+        :param platform_runner_build_req: (required)
+        :type platform_runner_build_req: PlatformRunnerBuildReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6104,7 +6537,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_build_serialize(
-            runner_build_req=runner_build_req,
+            platform_runner_build_req=platform_runner_build_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6112,7 +6545,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunnerBuildResp",
+            '202': "PlatformRunnerBuildResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6123,7 +6556,7 @@ class PlatformApi:
 
     def _post_build_serialize(
         self,
-        runner_build_req,
+        platform_runner_build_req,
         _request_auth,
         _content_type,
         _headers,
@@ -6149,15 +6582,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if runner_build_req is not None:
-            _body_params = runner_build_req
+        if platform_runner_build_req is not None:
+            _body_params = platform_runner_build_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6201,6 +6635,7 @@ class PlatformApi:
     @validate_call
     def post_platform_apps(
         self,
+        declare_req: Optional[DeclareReq] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6213,11 +6648,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
+    ) -> DeclareResp:
         """Deploy an app through cd.hanzo.ai
 
-        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `repo` is a GitHub repository — `owner/name` or `https://github.com/owner/name` — or another https clone URL. A GitHub repository must be one the caller may see: their own connected GitHub, or the installations their org holds for an org admin (the same set `GET /v1/provider/github/repos` lists); anything else is 404. It is built at the name GitHub gives it now, from `ref`, which defaults to its default branch. Any other URL is an org admin's to build.  `partOf` names the project the app belongs to, and defaults to the app's own name.  Every member of the org may deploy; WHERE it lands is the difference. An org admin commits to universe main and CD applies it — in one call, naming the tag its own build will push, which CD pulls once the build lands. Anyone else opens a review: the declaration is pushed to `deploy/<namespace>/<name>/<tag>`, `declaration.review` is the link that opens the pull request, and nothing deploys until it is merged. `mode` may say `branch` to make an admin's deploy a review too; a non-admin naming `commit` is refused, never downgraded.  A member's deploy is bounded by who asked: one build at a time and never the org's last build slot, which is kept for its admins; ten deploys an hour; five open review branches. Past a bound it answers 429. A review branch is deleted once main declares its tag, or after seven days unmerged; `notice` says so, and that the public `env` values the branch carries are cleartext in universe, where deleting the branch does not unpublish them.  A release of an image an earlier call built (`tag` given) is proven pullable before main is pointed at it — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it. That release is an org admin's: a member's deploy always builds, and carries public `env` only — a sealed value would write the running app's secrets before the review is merged, so a member naming one is refused.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
 
+        :param declare_req:
+        :type declare_req: DeclareReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6241,6 +6678,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_apps_serialize(
+            declare_req=declare_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6248,6 +6686,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "DeclareResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6263,6 +6702,7 @@ class PlatformApi:
     @validate_call
     def post_platform_apps_with_http_info(
         self,
+        declare_req: Optional[DeclareReq] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6275,11 +6715,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
+    ) -> ApiResponse[DeclareResp]:
         """Deploy an app through cd.hanzo.ai
 
-        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `repo` is a GitHub repository — `owner/name` or `https://github.com/owner/name` — or another https clone URL. A GitHub repository must be one the caller may see: their own connected GitHub, or the installations their org holds for an org admin (the same set `GET /v1/provider/github/repos` lists); anything else is 404. It is built at the name GitHub gives it now, from `ref`, which defaults to its default branch. Any other URL is an org admin's to build.  `partOf` names the project the app belongs to, and defaults to the app's own name.  Every member of the org may deploy; WHERE it lands is the difference. An org admin commits to universe main and CD applies it — in one call, naming the tag its own build will push, which CD pulls once the build lands. Anyone else opens a review: the declaration is pushed to `deploy/<namespace>/<name>/<tag>`, `declaration.review` is the link that opens the pull request, and nothing deploys until it is merged. `mode` may say `branch` to make an admin's deploy a review too; a non-admin naming `commit` is refused, never downgraded.  A member's deploy is bounded by who asked: one build at a time and never the org's last build slot, which is kept for its admins; ten deploys an hour; five open review branches. Past a bound it answers 429. A review branch is deleted once main declares its tag, or after seven days unmerged; `notice` says so, and that the public `env` values the branch carries are cleartext in universe, where deleting the branch does not unpublish them.  A release of an image an earlier call built (`tag` given) is proven pullable before main is pointed at it — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it. That release is an org admin's: a member's deploy always builds, and carries public `env` only — a sealed value would write the running app's secrets before the review is merged, so a member naming one is refused.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
 
+        :param declare_req:
+        :type declare_req: DeclareReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6303,6 +6745,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_apps_serialize(
+            declare_req=declare_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6310,6 +6753,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "DeclareResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6325,6 +6769,7 @@ class PlatformApi:
     @validate_call
     def post_platform_apps_without_preload_content(
         self,
+        declare_req: Optional[DeclareReq] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6340,8 +6785,10 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Deploy an app through cd.hanzo.ai
 
-        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `mode` decides whether anything can go live. The default, `branch`, pushes to `deploy/<namespace>/<name>/<tag>` and returns a review URL; the generator reads main, so a branch declaration deploys NOTHING and merging the review is the deliberate act. `commit` writes main, and proves the image is pullable first — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
+        Builds a git repository into an image and writes the declaration that names it — a values file in `hanzoai/universe` under `charts/app/values/<namespace>/<name>.yaml`, which the `fleet` ApplicationSet renders as one Application. That file IS the deployment: nothing else has to be applied.  `repo` is a GitHub repository — `owner/name` or `https://github.com/owner/name` — or another https clone URL. A GitHub repository must be one the caller may see: their own connected GitHub, or the installations their org holds for an org admin (the same set `GET /v1/provider/github/repos` lists); anything else is 404. It is built at the name GitHub gives it now, from `ref`, which defaults to its default branch. Any other URL is an org admin's to build.  `partOf` names the project the app belongs to, and defaults to the app's own name.  Every member of the org may deploy; WHERE it lands is the difference. An org admin commits to universe main and CD applies it — in one call, naming the tag its own build will push, which CD pulls once the build lands. Anyone else opens a review: the declaration is pushed to `deploy/<namespace>/<name>/<tag>`, `declaration.review` is the link that opens the pull request, and nothing deploys until it is merged. `mode` may say `branch` to make an admin's deploy a review too; a non-admin naming `commit` is refused, never downgraded.  A member's deploy is bounded by who asked: one build at a time and never the org's last build slot, which is kept for its admins; ten deploys an hour; five open review branches. Past a bound it answers 429. A review branch is deleted once main declares its tag, or after seven days unmerged; `notice` says so, and that the public `env` values the branch carries are cleartext in universe, where deleting the branch does not unpublish them.  A release of an image an earlier call built (`tag` given) is proven pullable before main is pointed at it — a declaration naming an image the registry cannot serve is an ImagePullBackOff with no rollback path.  Omit `tag` to build; give it to declare an image an earlier call already built, which is how a green build is released without rebuilding it. That release is an org admin's: a member's deploy always builds, and carries public `env` only — a sealed value would write the running app's secrets before the review is merged, so a member naming one is refused.  An org is its name: the values DIRECTORY, the destination NAMESPACE and the AppProject FENCE are all `<org>`, and the image is `<registry>/<org>/<app>`. None of them is a request field — the directory decides what CD admits the sync under and the repository decides what the cluster pulls, so a caller who could name either could reach outside its own org.  `org` is an ACT-AS, not a placement field: it defaults to the caller's own, and naming another requires SuperAdmin. So does naming a RESERVED org — the platform's own namespace family (the brands and their environments, the control and delivery planes, `admin`) — even when it is the caller's own, because an IAM org named `kube-system` does not own Kubernetes. Both refuse rather than downgrade, so an escape attempt is never indistinguishable from a normal request.  A host outside the caller's org subtree is refused: claim and verify a custom domain first.
 
+        :param declare_req:
+        :type declare_req: DeclareReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6365,6 +6812,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_apps_serialize(
+            declare_req=declare_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6372,6 +6820,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
+            '2XX': "DeclareResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6382,6 +6831,7 @@ class PlatformApi:
 
     def _post_platform_apps_serialize(
         self,
+        declare_req,
         _request_auth,
         _content_type,
         _headers,
@@ -6407,9 +6857,31 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if declare_req is not None:
+            _body_params = declare_req
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json'
+                ]
+            )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -6435,10 +6907,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_platform_fleet_by_app_deploy(
+    def post_platform_apps_by_app_sync(
         self,
-        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
-        restart_ref: RestartRef,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_cd: PlatformAppCD,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6451,15 +6923,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Restarted:
-        """Rolls a platform service's pods, in a named environment.
+    ) -> PlatformCdDiff:
+        """Syncs one app now: CD applies the commit it compared, to this one Application.
 
-        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+        Syncs one app now: CD applies the commit it compared, to this one Application.  Every Application is manual — its AppProject admits only a manual sync — so this is the deploy step, requested the way cd.hanzo.ai requests one: an operation on the Application, initiated by the caller, applying the compared commit with the Application's own sync options and no pruning. It answers the Application with the operation queued; poll the app's cd read for how it ends. SuperAdmin only, the predicate CD's own RBAC holds sync to, and recorded in the audit trail like every mutation. 409 while another operation is queued, running or terminating, before CD has compared the Application with git, and when the Application changes between the read and the request.
 
-        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :param app: App is the declaration's name, from the path. (required)
         :type app: str
-        :param restart_ref: (required)
-        :type restart_ref: RestartRef
+        :param platform_app_cd: (required)
+        :type platform_app_cd: PlatformAppCD
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6482,9 +6954,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_apps_by_app_sync_serialize(
             app=app,
-            restart_ref=restart_ref,
+            platform_app_cd=platform_app_cd,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6492,7 +6964,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Restarted",
+            '202': "PlatformCdDiff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6506,10 +6978,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_platform_fleet_by_app_deploy_with_http_info(
+    def post_platform_apps_by_app_sync_with_http_info(
         self,
-        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
-        restart_ref: RestartRef,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_cd: PlatformAppCD,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6522,15 +6994,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Restarted]:
-        """Rolls a platform service's pods, in a named environment.
+    ) -> ApiResponse[PlatformCdDiff]:
+        """Syncs one app now: CD applies the commit it compared, to this one Application.
 
-        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+        Syncs one app now: CD applies the commit it compared, to this one Application.  Every Application is manual — its AppProject admits only a manual sync — so this is the deploy step, requested the way cd.hanzo.ai requests one: an operation on the Application, initiated by the caller, applying the compared commit with the Application's own sync options and no pruning. It answers the Application with the operation queued; poll the app's cd read for how it ends. SuperAdmin only, the predicate CD's own RBAC holds sync to, and recorded in the audit trail like every mutation. 409 while another operation is queued, running or terminating, before CD has compared the Application with git, and when the Application changes between the read and the request.
 
-        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :param app: App is the declaration's name, from the path. (required)
         :type app: str
-        :param restart_ref: (required)
-        :type restart_ref: RestartRef
+        :param platform_app_cd: (required)
+        :type platform_app_cd: PlatformAppCD
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6553,9 +7025,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_apps_by_app_sync_serialize(
             app=app,
-            restart_ref=restart_ref,
+            platform_app_cd=platform_app_cd,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6563,7 +7035,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Restarted",
+            '202': "PlatformCdDiff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6577,10 +7049,10 @@ class PlatformApi:
 
 
     @validate_call
-    def post_platform_fleet_by_app_deploy_without_preload_content(
+    def post_platform_apps_by_app_sync_without_preload_content(
         self,
-        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
-        restart_ref: RestartRef,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_cd: PlatformAppCD,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6594,14 +7066,14 @@ class PlatformApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Rolls a platform service's pods, in a named environment.
+        """Syncs one app now: CD applies the commit it compared, to this one Application.
 
-        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+        Syncs one app now: CD applies the commit it compared, to this one Application.  Every Application is manual — its AppProject admits only a manual sync — so this is the deploy step, requested the way cd.hanzo.ai requests one: an operation on the Application, initiated by the caller, applying the compared commit with the Application's own sync options and no pruning. It answers the Application with the operation queued; poll the app's cd read for how it ends. SuperAdmin only, the predicate CD's own RBAC holds sync to, and recorded in the audit trail like every mutation. 409 while another operation is queued, running or terminating, before CD has compared the Application with git, and when the Application changes between the read and the request.
 
-        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :param app: App is the declaration's name, from the path. (required)
         :type app: str
-        :param restart_ref: (required)
-        :type restart_ref: RestartRef
+        :param platform_app_cd: (required)
+        :type platform_app_cd: PlatformAppCD
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6624,9 +7096,9 @@ class PlatformApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_platform_fleet_by_app_deploy_serialize(
+        _param = self._post_platform_apps_by_app_sync_serialize(
             app=app,
-            restart_ref=restart_ref,
+            platform_app_cd=platform_app_cd,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6634,7 +7106,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Restarted",
+            '202': "PlatformCdDiff",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6643,10 +7115,10 @@ class PlatformApi:
         return response_data.response
 
 
-    def _post_platform_fleet_by_app_deploy_serialize(
+    def _post_platform_apps_by_app_sync_serialize(
         self,
         app,
-        restart_ref,
+        platform_app_cd,
         _request_auth,
         _content_type,
         _headers,
@@ -6674,15 +7146,306 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if restart_ref is not None:
-            _body_params = restart_ref
+        if platform_app_cd is not None:
+            _body_params = platform_app_cd
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/platform/apps/{app}/sync',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_platform_fleet_by_app_deploy(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
+        platform_restart_ref: PlatformRestartRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformRestarted:
+        """Rolls a platform service's pods, in a named environment.
+
+        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+
+        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :type app: str
+        :param platform_restart_ref: (required)
+        :type platform_restart_ref: PlatformRestartRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
+            app=app,
+            platform_restart_ref=platform_restart_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PlatformRestarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_platform_fleet_by_app_deploy_with_http_info(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
+        platform_restart_ref: PlatformRestartRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformRestarted]:
+        """Rolls a platform service's pods, in a named environment.
+
+        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+
+        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :type app: str
+        :param platform_restart_ref: (required)
+        :type platform_restart_ref: PlatformRestartRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
+            app=app,
+            platform_restart_ref=platform_restart_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PlatformRestarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_platform_fleet_by_app_deploy_without_preload_content(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the service's CR name, from the path. It must be a DNS-1123 label.")],
+        platform_restart_ref: PlatformRestartRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Rolls a platform service's pods, in a named environment.
+
+        Rolls a platform service's pods, in a named environment.  It triggers a rolling restart of one platform service's Deployment by stamping a fresh restart annotation, and answers 202 with the app, the namespace, the environment and the timestamp. It restarts pods; it does NOT change the image — a version change is the release path, not this.  SuperAdmin ONLY, and deliberately narrower than the read gate beside it. The only namespaces this board touches are the platform's own tier, so a restart here recycles a SHARED service every tenant depends on. A brand-org admin is a customer-org admin, not a platform operator: observing the board is bounded and audited, and restarting production identity is not.  `?env=main|test|dev` is REQUIRED — a bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard — and any other value is 400. A service with no Deployment to restart in that environment is 404.
+
+        :param app: App is the service's CR name, from the path. It must be a DNS-1123 label. (required)
+        :type app: str
+        :param platform_restart_ref: (required)
+        :type platform_restart_ref: PlatformRestartRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_fleet_by_app_deploy_serialize(
+            app=app,
+            platform_restart_ref=platform_restart_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '202': "PlatformRestarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_platform_fleet_by_app_deploy_serialize(
+        self,
+        app,
+        platform_restart_ref,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if app is not None:
+            _path_params['app'] = app
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if platform_restart_ref is not None:
+            _body_params = platform_restart_ref
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6724,10 +7487,9 @@ class PlatformApi:
 
 
     @validate_call
-    def post_platform_projects_by_project_apps(
+    def post_platform_projects(
         self,
-        project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
-        create_app_req: CreateAppReq,
+        platform_project_create: PlatformProjectCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6740,15 +7502,291 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformProjectWrite:
+        """Creates a project from the apps it starts with.
+
+        Creates a project from the apps it starts with.  A project is the `partOf` its apps' values files name, so creating one names it on the listed apps: one commit to `hanzoai/universe` that moves each file's `partOf` scalar and touches nothing else. There is no empty project; to start one with a new app, create the app with `partOf` (POST /v1/platform/apps).  `mode` is `branch` (the default: a review branch, nothing deploys) or `commit` (main). A `partOf` change relabels the app's pods, so the sync that applies it rolls them. 409 when the name already names apps — move apps into an existing project with PUT /v1/platform/apps/{app}/project. An org admin changes its own org's projects; the platform's own, and another org's, are SuperAdmin.
+
+        :param platform_project_create: (required)
+        :type platform_project_create: PlatformProjectCreate
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_projects_serialize(
+            platform_project_create=platform_project_create,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_platform_projects_with_http_info(
+        self,
+        platform_project_create: PlatformProjectCreate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformProjectWrite]:
+        """Creates a project from the apps it starts with.
+
+        Creates a project from the apps it starts with.  A project is the `partOf` its apps' values files name, so creating one names it on the listed apps: one commit to `hanzoai/universe` that moves each file's `partOf` scalar and touches nothing else. There is no empty project; to start one with a new app, create the app with `partOf` (POST /v1/platform/apps).  `mode` is `branch` (the default: a review branch, nothing deploys) or `commit` (main). A `partOf` change relabels the app's pods, so the sync that applies it rolls them. 409 when the name already names apps — move apps into an existing project with PUT /v1/platform/apps/{app}/project. An org admin changes its own org's projects; the platform's own, and another org's, are SuperAdmin.
+
+        :param platform_project_create: (required)
+        :type platform_project_create: PlatformProjectCreate
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_projects_serialize(
+            platform_project_create=platform_project_create,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_platform_projects_without_preload_content(
+        self,
+        platform_project_create: PlatformProjectCreate,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Creates a project from the apps it starts with.
+
+        Creates a project from the apps it starts with.  A project is the `partOf` its apps' values files name, so creating one names it on the listed apps: one commit to `hanzoai/universe` that moves each file's `partOf` scalar and touches nothing else. There is no empty project; to start one with a new app, create the app with `partOf` (POST /v1/platform/apps).  `mode` is `branch` (the default: a review branch, nothing deploys) or `commit` (main). A `partOf` change relabels the app's pods, so the sync that applies it rolls them. 409 when the name already names apps — move apps into an existing project with PUT /v1/platform/apps/{app}/project. An org admin changes its own org's projects; the platform's own, and another org's, are SuperAdmin.
+
+        :param platform_project_create: (required)
+        :type platform_project_create: PlatformProjectCreate
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_platform_projects_serialize(
+            platform_project_create=platform_project_create,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_platform_projects_serialize(
+        self,
+        platform_project_create,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if platform_project_create is not None:
+            _body_params = platform_project_create
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/platform/projects',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_platform_projects_by_project_apps(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
+        platform_create_app_req: PlatformCreateAppReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformAppOut:
         """Creates an application from a git repo or a container image.
 
-        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 403 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
+        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 401 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project to create the application under, from the path. (required)
         :type project: str
-        :param create_app_req: (required)
-        :type create_app_req: CreateAppReq
+        :param platform_create_app_req: (required)
+        :type platform_create_app_req: PlatformCreateAppReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6773,7 +7811,7 @@ class PlatformApi:
 
         _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
-            create_app_req=create_app_req,
+            platform_create_app_req=platform_create_app_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6781,7 +7819,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AppView",
+            '201': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6798,7 +7836,7 @@ class PlatformApi:
     def post_platform_projects_by_project_apps_with_http_info(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
-        create_app_req: CreateAppReq,
+        platform_create_app_req: PlatformCreateAppReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6811,15 +7849,15 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppOut]:
         """Creates an application from a git repo or a container image.
 
-        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 403 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
+        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 401 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project to create the application under, from the path. (required)
         :type project: str
-        :param create_app_req: (required)
-        :type create_app_req: CreateAppReq
+        :param platform_create_app_req: (required)
+        :type platform_create_app_req: PlatformCreateAppReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6844,7 +7882,7 @@ class PlatformApi:
 
         _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
-            create_app_req=create_app_req,
+            platform_create_app_req=platform_create_app_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6852,7 +7890,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AppView",
+            '201': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6869,7 +7907,7 @@ class PlatformApi:
     def post_platform_projects_by_project_apps_without_preload_content(
         self,
         project: Annotated[StrictStr, Field(description="Project is the project to create the application under, from the path.")],
-        create_app_req: CreateAppReq,
+        platform_create_app_req: PlatformCreateAppReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6885,12 +7923,12 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Creates an application from a git repo or a container image.
 
-        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 403 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
+        Creates an application from a git repo or a container image.  It registers a new application under one of the caller org's projects and answers 201 with it. Creating does NOT deploy: the app lands in `draft` and nothing reaches the cluster until /deploy.  `source` is `git` — which requires `repo.url` — or `image`, which requires `image.repository`; anything else is 400. A git app builds with zero-config `pack` by default and may opt into `dockerfile`; an image app never builds. The repo URL and Dockerfile path are validated here against the SAME allowlist the privileged build enforces, so an unsafe source is refused before it is ever persisted.  The `slug` is the app's identity in the cluster: given or derived from `name`, it must match `^[a-z0-9]([a-z0-9-]{0,38}[a-z0-9])?$`, and a slug already used in this project is 409. `replicas` and `storageGb` are clamped to the deployment's limits rather than refused.  Env keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A variable marked `secret: true` is SEALED into KMS and its plaintext is never written to the database — and if KMS is unavailable the create fails 503 rather than falling back to storing a secret in the clear.  The app is seeded with its canonical default host, so it has a working HTTPS URL the moment it deploys. A bare custom domain cannot be attached here — it has to go through add-domain and DNS verification first. Requires a validated principal; 401 without one, and every cluster object it will later create lands in that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project to create the application under, from the path. (required)
         :type project: str
-        :param create_app_req: (required)
-        :type create_app_req: CreateAppReq
+        :param platform_create_app_req: (required)
+        :type platform_create_app_req: PlatformCreateAppReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6915,7 +7953,7 @@ class PlatformApi:
 
         _param = self._post_platform_projects_by_project_apps_serialize(
             project=project,
-            create_app_req=create_app_req,
+            platform_create_app_req=platform_create_app_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6923,7 +7961,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "AppView",
+            '201': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6935,7 +7973,7 @@ class PlatformApi:
     def _post_platform_projects_by_project_apps_serialize(
         self,
         project,
-        create_app_req,
+        platform_create_app_req,
         _request_auth,
         _content_type,
         _headers,
@@ -6963,15 +8001,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_app_req is not None:
-            _body_params = create_app_req
+        if platform_create_app_req is not None:
+            _body_params = platform_create_app_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7017,7 +8056,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        deploy_req: DeployReq,
+        platform_deploy_req: PlatformDeployReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7030,17 +8069,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeploymentView:
+    ) -> PlatformDeploymentView:
         """Deploys the app — building it first if it comes from git.
 
-        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 403 without one, and everything is written into that org's own `tenant-<org>` namespace.
+        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 401 without one, and everything is written into that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param deploy_req: (required)
-        :type deploy_req: DeployReq
+        :param platform_deploy_req: (required)
+        :type platform_deploy_req: PlatformDeployReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7066,7 +8105,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
-            deploy_req=deploy_req,
+            platform_deploy_req=platform_deploy_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7074,7 +8113,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7092,7 +8131,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        deploy_req: DeployReq,
+        platform_deploy_req: PlatformDeployReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7105,17 +8144,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeploymentView]:
+    ) -> ApiResponse[PlatformDeploymentView]:
         """Deploys the app — building it first if it comes from git.
 
-        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 403 without one, and everything is written into that org's own `tenant-<org>` namespace.
+        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 401 without one, and everything is written into that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param deploy_req: (required)
-        :type deploy_req: DeployReq
+        :param platform_deploy_req: (required)
+        :type platform_deploy_req: PlatformDeployReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7141,7 +8180,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
-            deploy_req=deploy_req,
+            platform_deploy_req=platform_deploy_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7149,7 +8188,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7167,7 +8206,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        deploy_req: DeployReq,
+        platform_deploy_req: PlatformDeployReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7183,14 +8222,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Deploys the app — building it first if it comes from git.
 
-        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 403 without one, and everything is written into that org's own `tenant-<org>` namespace.
+        Deploys the app — building it first if it comes from git.  It starts a new, monotonically versioned deployment of the app and answers 202 with the deployment record. A 202 is an ACCEPTED deployment, not a live one.  An IMAGE app deploys the tag you name (falling back to the app's tag, then `latest`) by writing its operator Service CR; the operator reconciles it to running. A GIT app launches an in-cluster BuildKit Job at `commit` — or the app's branch — and comes back in `building`; the Service CR is applied later, by the reconciler, once the Job succeeds. The reconciler is restart-safe, so a build in flight survives a cloud restart.  Deploys are bounded per org: over the concurrent-deploy cap is 429 and NOTHING is recorded, so a rejected deploy leaves no phantom in the history. An unreachable cluster is 503 but still records an honest `error` deployment, because a deploy that was attempted and failed must not be indistinguishable from one never made. Every other failure is likewise recorded in its real terminal state.  This is metered work: a git build is billed to the org's ledger in wall-clock build minutes once the Job finishes, and the running deployment is billed for its compute per tick for as long as it stays live. Requires a validated principal; 401 without one, and everything is written into that org's own `tenant-<org>` namespace.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param deploy_req: (required)
-        :type deploy_req: DeployReq
+        :param platform_deploy_req: (required)
+        :type platform_deploy_req: PlatformDeployReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7216,7 +8255,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_deploy_serialize(
             project=project,
             app=app,
-            deploy_req=deploy_req,
+            platform_deploy_req=platform_deploy_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7224,7 +8263,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7237,7 +8276,7 @@ class PlatformApi:
         self,
         project,
         app,
-        deploy_req,
+        platform_deploy_req,
         _request_auth,
         _content_type,
         _headers,
@@ -7267,15 +8306,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if deploy_req is not None:
-            _body_params = deploy_req
+        if platform_deploy_req is not None:
+            _body_params = platform_deploy_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7321,7 +8361,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        add_domain_req: AddDomainReq,
+        platform_add_domain_req: PlatformAddDomainReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7334,17 +8374,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DomainView:
+    ) -> PlatformDomainView:
         """Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.
 
-        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 403 without one.
+        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param add_domain_req: (required)
-        :type add_domain_req: AddDomainReq
+        :param platform_add_domain_req: (required)
+        :type platform_add_domain_req: PlatformAddDomainReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7370,7 +8410,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
-            add_domain_req=add_domain_req,
+            platform_add_domain_req=platform_add_domain_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7378,8 +8418,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
-            '201': "DomainView",
+            '200': "PlatformDomainView",
+            '201': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7397,7 +8437,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        add_domain_req: AddDomainReq,
+        platform_add_domain_req: PlatformAddDomainReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7410,17 +8450,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DomainView]:
+    ) -> ApiResponse[PlatformDomainView]:
         """Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.
 
-        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 403 without one.
+        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param add_domain_req: (required)
-        :type add_domain_req: AddDomainReq
+        :param platform_add_domain_req: (required)
+        :type platform_add_domain_req: PlatformAddDomainReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7446,7 +8486,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
-            add_domain_req=add_domain_req,
+            platform_add_domain_req=platform_add_domain_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7454,8 +8494,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
-            '201': "DomainView",
+            '200': "PlatformDomainView",
+            '201': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7473,7 +8513,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        add_domain_req: AddDomainReq,
+        platform_add_domain_req: PlatformAddDomainReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7489,14 +8529,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.
 
-        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 403 without one.
+        Attaches a hostname — instantly if you already own it, otherwise with a DNS challenge.  It attaches `host` to the app, and which of two things happens depends on who owns the name. A host inside the caller org's own subtree is structurally owned, so it goes ACTIVE immediately and answers 201. A bring-your-own host is claimed as PENDING and answers the DNS challenge records to publish; it is NOT rendered into the app's ingress until /verify passes.  Claims are globally unique. A host already claimed by another organization is 409, and so is one claimed by a different app in your own; re-adding this app's OWN claim is idempotent and answers its current state at 200. The default host is always attached and re-adding it is 409. A host under the platform's shared apex that is not the caller's own subtree is 403 — it belongs to whoever owns that subtree and can never be grabbed through the custom path.  `host` must be a valid DNS hostname; anything else is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param add_domain_req: (required)
-        :type add_domain_req: AddDomainReq
+        :param platform_add_domain_req: (required)
+        :type platform_add_domain_req: PlatformAddDomainReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7522,7 +8562,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_domains_serialize(
             project=project,
             app=app,
-            add_domain_req=add_domain_req,
+            platform_add_domain_req=platform_add_domain_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7530,8 +8570,8 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
-            '201': "DomainView",
+            '200': "PlatformDomainView",
+            '201': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7544,7 +8584,7 @@ class PlatformApi:
         self,
         project,
         app,
-        add_domain_req,
+        platform_add_domain_req,
         _request_auth,
         _content_type,
         _headers,
@@ -7574,15 +8614,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if add_domain_req is not None:
-            _body_params = add_domain_req
+        if platform_add_domain_req is not None:
+            _body_params = platform_add_domain_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7641,10 +8682,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DomainView:
+    ) -> PlatformDomainView:
         """Checks a custom domain's DNS and turns it on if it passes.
 
-        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 403 without one.
+        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -7685,7 +8726,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
+            '200': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7716,10 +8757,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DomainView]:
+    ) -> ApiResponse[PlatformDomainView]:
         """Checks a custom domain's DNS and turns it on if it passes.
 
-        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 403 without one.
+        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -7760,7 +8801,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
+            '200': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7794,7 +8835,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Checks a custom domain's DNS and turns it on if it passes.
 
-        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 403 without one.
+        Checks a custom domain's DNS and turns it on if it passes.  It runs the DNS challenge check for a pending custom host and, when it passes, marks the host verified and renders it into the app's ingress so it starts serving.  A check that RAN and did not pass is not an error: it answers 200 with the host still pending and the reason in `detail`, so a console can show the operator what DNS is actually returning. An already-verified host answers as-is without re-checking. A host not claimed by this app is 404. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -7835,7 +8876,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DomainView",
+            '200': "PlatformDomainView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7886,7 +8927,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7919,7 +8961,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
-        preview_req: PreviewReq,
+        platform_preview_req: PlatformPreviewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7932,17 +8974,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PreviewView:
+    ) -> PlatformPreviewView:
         """Puts a branch on its own URL.
 
-        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 403 without one.
+        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the parent application lives under, from the path. (required)
         :type project: str
         :param app: App is the parent application's slug, from the path. (required)
         :type app: str
-        :param preview_req: (required)
-        :type preview_req: PreviewReq
+        :param platform_preview_req: (required)
+        :type platform_preview_req: PlatformPreviewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7968,7 +9010,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
-            preview_req=preview_req,
+            platform_preview_req=platform_preview_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7976,7 +9018,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PreviewView",
+            '202': "PlatformPreviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7994,7 +9036,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
-        preview_req: PreviewReq,
+        platform_preview_req: PlatformPreviewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8007,17 +9049,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PreviewView]:
+    ) -> ApiResponse[PlatformPreviewView]:
         """Puts a branch on its own URL.
 
-        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 403 without one.
+        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the parent application lives under, from the path. (required)
         :type project: str
         :param app: App is the parent application's slug, from the path. (required)
         :type app: str
-        :param preview_req: (required)
-        :type preview_req: PreviewReq
+        :param platform_preview_req: (required)
+        :type platform_preview_req: PlatformPreviewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8043,7 +9085,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
-            preview_req=preview_req,
+            platform_preview_req=platform_preview_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8051,7 +9093,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PreviewView",
+            '202': "PlatformPreviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8069,7 +9111,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the parent application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the parent application's slug, from the path.")],
-        preview_req: PreviewReq,
+        platform_preview_req: PlatformPreviewReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8085,14 +9127,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Puts a branch on its own URL.
 
-        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 403 without one.
+        Puts a branch on its own URL.  It deploys an already-built `image` to a per-branch preview and answers its URL, the branch, the preview's slug and the deployment. The preview is a FIRST-CLASS application named `<app>-<branch>` in the same project and tenant namespace, with its own default host — so it is completely isolated from production while reusing the same deploy mechanic. Re-previewing a branch converges that same target in place rather than stacking another one.  It carries NO environment variables, deliberately: a preview never inherits production's secrets. It also does not build — `image` is required and must already exist, and `branch` defaults to the parent app's. A branch that does not resolve to a valid slug distinct from the parent's is 400. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the parent application lives under, from the path. (required)
         :type project: str
         :param app: App is the parent application's slug, from the path. (required)
         :type app: str
-        :param preview_req: (required)
-        :type preview_req: PreviewReq
+        :param platform_preview_req: (required)
+        :type platform_preview_req: PlatformPreviewReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8118,7 +9160,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_preview_serialize(
             project=project,
             app=app,
-            preview_req=preview_req,
+            platform_preview_req=platform_preview_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8126,7 +9168,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PreviewView",
+            '202': "PlatformPreviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8139,7 +9181,7 @@ class PlatformApi:
         self,
         project,
         app,
-        preview_req,
+        platform_preview_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8169,15 +9211,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if preview_req is not None:
-            _body_params = preview_req
+        if platform_preview_req is not None:
+            _body_params = platform_preview_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8223,7 +9266,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        promote_req: PromoteReq,
+        platform_promote_req: PlatformPromoteReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8236,17 +9279,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeploymentView:
+    ) -> PlatformDeploymentView:
         """Promotes an already-built release to the app.
 
-        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 403 without one.
+        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param promote_req: (required)
-        :type promote_req: PromoteReq
+        :param platform_promote_req: (required)
+        :type platform_promote_req: PlatformPromoteReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8272,7 +9315,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
-            promote_req=promote_req,
+            platform_promote_req=platform_promote_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8280,7 +9323,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8298,7 +9341,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        promote_req: PromoteReq,
+        platform_promote_req: PlatformPromoteReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8311,17 +9354,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeploymentView]:
+    ) -> ApiResponse[PlatformDeploymentView]:
         """Promotes an already-built release to the app.
 
-        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 403 without one.
+        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param promote_req: (required)
-        :type promote_req: PromoteReq
+        :param platform_promote_req: (required)
+        :type platform_promote_req: PlatformPromoteReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8347,7 +9390,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
-            promote_req=promote_req,
+            platform_promote_req=platform_promote_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8355,7 +9398,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8373,7 +9416,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        promote_req: PromoteReq,
+        platform_promote_req: PlatformPromoteReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8389,14 +9432,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Promotes an already-built release to the app.
 
-        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 403 without one.
+        Promotes an already-built release to the app.  It redeploys an image that already exists — named either by `deploymentId`, which promotes that deployment's exact built image, or by `tag`, resolved the same way a deploy resolves one. One of the two is required; neither is 400.  Promotion never builds. A deployment that carries no built image cannot be promoted and is 400, and a deployment id outside this app is 404. It runs through the same deploy core as everything else, so it takes a NEW version number and is subject to the same per-org concurrency cap. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param promote_req: (required)
-        :type promote_req: PromoteReq
+        :param platform_promote_req: (required)
+        :type platform_promote_req: PlatformPromoteReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8422,7 +9465,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_promote_serialize(
             project=project,
             app=app,
-            promote_req=promote_req,
+            platform_promote_req=platform_promote_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8430,7 +9473,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8443,7 +9486,7 @@ class PlatformApi:
         self,
         project,
         app,
-        promote_req,
+        platform_promote_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8473,15 +9516,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if promote_req is not None:
-            _body_params = promote_req
+        if platform_promote_req is not None:
+            _body_params = platform_promote_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8527,7 +9571,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        rollback_req: RollbackReq,
+        platform_rollback_req: PlatformRollbackReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8540,17 +9584,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeploymentView:
+    ) -> PlatformDeploymentView:
         """Goes back to the previous release.
 
-        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 403 without one.
+        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param rollback_req: (required)
-        :type rollback_req: RollbackReq
+        :param platform_rollback_req: (required)
+        :type platform_rollback_req: PlatformRollbackReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8576,7 +9620,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
-            rollback_req=rollback_req,
+            platform_rollback_req=platform_rollback_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8584,7 +9628,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8602,7 +9646,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        rollback_req: RollbackReq,
+        platform_rollback_req: PlatformRollbackReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8615,17 +9659,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeploymentView]:
+    ) -> ApiResponse[PlatformDeploymentView]:
         """Goes back to the previous release.
 
-        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 403 without one.
+        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param rollback_req: (required)
-        :type rollback_req: RollbackReq
+        :param platform_rollback_req: (required)
+        :type platform_rollback_req: PlatformRollbackReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8651,7 +9695,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
-            rollback_req=rollback_req,
+            platform_rollback_req=platform_rollback_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8659,7 +9703,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8677,7 +9721,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        rollback_req: RollbackReq,
+        platform_rollback_req: PlatformRollbackReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8693,14 +9737,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Goes back to the previous release.
 
-        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 403 without one.
+        Goes back to the previous release.  It redeploys a prior image: the one named by `deploymentId`, or — with no body — the newest earlier deployment that carries a real built image and did not error, skipping the release currently live. An app with nothing earlier to return to is 400.  A rollback is a deploy of an old image, not a rewind: it takes a NEW version number and appends to the history rather than erasing what came after. Both lookups are scoped to this app and org, so another tenant's image can never be rolled in. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param rollback_req: (required)
-        :type rollback_req: RollbackReq
+        :param platform_rollback_req: (required)
+        :type platform_rollback_req: PlatformRollbackReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8726,7 +9770,7 @@ class PlatformApi:
         _param = self._post_platform_projects_by_project_apps_by_app_rollback_serialize(
             project=project,
             app=app,
-            rollback_req=rollback_req,
+            platform_rollback_req=platform_rollback_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8734,7 +9778,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "DeploymentView",
+            '202': "PlatformDeploymentView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8747,7 +9791,7 @@ class PlatformApi:
         self,
         project,
         app,
-        rollback_req,
+        platform_rollback_req,
         _request_auth,
         _content_type,
         _headers,
@@ -8777,15 +9821,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if rollback_req is not None:
-            _body_params = rollback_req
+        if platform_rollback_req is not None:
+            _body_params = platform_rollback_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8843,10 +9888,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformAppOut:
         """Starts a stopped app back up.
 
-        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 403 without one.
+        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -8884,7 +9929,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8914,10 +9959,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppOut]:
         """Starts a stopped app back up.
 
-        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 403 without one.
+        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -8955,7 +10000,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8988,7 +10033,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Starts a stopped app back up.
 
-        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 403 without one.
+        Starts a stopped app back up.  It scales the app's Service back to its configured replica count and marks it live, answering the updated application. It does not redeploy: the image already on the Service CR is what comes back.  The billing watermark is reset to now as part of starting, so the org is charged for THIS live span and never for the gap the app spent stopped. An app with no Service CR is 404, an unreachable cluster is 503, and a cluster that refuses the scale is 502. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -9026,7 +10071,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9074,7 +10119,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9119,10 +10165,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformAppOut:
         """Stops an app without deleting it.
 
-        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 403 without one.
+        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -9160,7 +10206,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9190,10 +10236,10 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppOut]:
         """Stops an app without deleting it.
 
-        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 403 without one.
+        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -9231,7 +10277,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9264,7 +10310,7 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Stops an app without deleting it.
 
-        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 403 without one.
+        Stops an app without deleting it.  It scales the app's Service to zero replicas and marks it stopped, answering the updated application. Nothing else is removed — the record, its env, its domains and its deployment history all survive, and /start brings it back at the same replica count.  An app that is not deployed has no Service CR to scale and is 404. An unreachable cluster is 503 and a cluster that refuses the scale is 502. Because the pods stop, so does the compute metering. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
@@ -9302,7 +10348,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9350,7 +10396,8 @@ class PlatformApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9381,7 +10428,7 @@ class PlatformApi:
     @validate_call
     def post_platform_run(
         self,
-        run_req: RunReq,
+        platform_run_req: PlatformRunReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9394,13 +10441,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RunView:
+    ) -> PlatformRunView:
         """Runs a container image and gives back a URL.
 
-        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 403 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
+        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 401 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
 
-        :param run_req: (required)
-        :type run_req: RunReq
+        :param platform_run_req: (required)
+        :type platform_run_req: PlatformRunReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9424,7 +10471,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_run_serialize(
-            run_req=run_req,
+            platform_run_req=platform_run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9432,7 +10479,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunView",
+            '202': "PlatformRunView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9448,7 +10495,7 @@ class PlatformApi:
     @validate_call
     def post_platform_run_with_http_info(
         self,
-        run_req: RunReq,
+        platform_run_req: PlatformRunReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9461,13 +10508,13 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RunView]:
+    ) -> ApiResponse[PlatformRunView]:
         """Runs a container image and gives back a URL.
 
-        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 403 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
+        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 401 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
 
-        :param run_req: (required)
-        :type run_req: RunReq
+        :param platform_run_req: (required)
+        :type platform_run_req: PlatformRunReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9491,7 +10538,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_run_serialize(
-            run_req=run_req,
+            platform_run_req=platform_run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9499,7 +10546,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunView",
+            '202': "PlatformRunView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9515,7 +10562,7 @@ class PlatformApi:
     @validate_call
     def post_platform_run_without_preload_content(
         self,
-        run_req: RunReq,
+        platform_run_req: PlatformRunReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9531,10 +10578,10 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Runs a container image and gives back a URL.
 
-        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 403 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
+        Runs a container image and gives back a URL.  The one-call shortcut over project → app → deploy: give it a `name` and an `image` and it creates or updates an image-source application in your org's DEFAULT project, deploys it through the same operator Service-CR writer everything else uses, and answers its id, name, live URL, status and shape. Re-running the same name UPDATES it in place, so the call is idempotent by name.  What it produces is a first-class application, not a special object: it is listable, stoppable and redeployable through the /v1/platform routes like any other app.  `minScale` is the replica floor. `maxScale` above it declares an autoscaling ceiling; `maxScale: 0` means no autoscaler at all — a fixed run at the floor. Both are clamped to the deployment's limits. `runtime` and `shape` are accepted for the client contract and echoed back: the image is the runtime unit and sizing is the operator's default.  It is BILLING-GATED before it touches the cluster: a flat per-run fee is authorized against the org's own prepaid balance first, so an org that cannot pay is refused without anything being created. An unreachable cluster is 503 — a run never reports a URL it did not create. Secret env is sealed into KMS and fails closed without it.  Requires a validated principal; 401 without one. The org is resolved from that validated identity and is what both pays and owns the namespace — it is never read from the body.
 
-        :param run_req: (required)
-        :type run_req: RunReq
+        :param platform_run_req: (required)
+        :type platform_run_req: PlatformRunReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9558,7 +10605,7 @@ class PlatformApi:
         """ # noqa: E501
 
         _param = self._post_platform_run_serialize(
-            run_req=run_req,
+            platform_run_req=platform_run_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9566,7 +10613,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "RunView",
+            '202': "PlatformRunView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9577,7 +10624,7 @@ class PlatformApi:
 
     def _post_platform_run_serialize(
         self,
-        run_req,
+        platform_run_req,
         _request_auth,
         _content_type,
         _headers,
@@ -9603,15 +10650,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if run_req is not None:
-            _body_params = run_req
+        if platform_run_req is not None:
+            _body_params = platform_run_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9653,11 +10701,10 @@ class PlatformApi:
 
 
     @validate_call
-    def put_platform_projects_by_project_apps_by_app_env(
+    def put_platform_apps_by_app_project(
         self,
-        project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
-        app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        set_env_req: SetEnvReq,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_move: PlatformAppMove,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9670,17 +10717,598 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AppView:
+    ) -> PlatformProjectWrite:
+        """Moves an app to a project.
+
+        Moves an app to a project.  It sets the declaration's `partOf` — in its cluster overlay when the overlay sets the key, else in its values file — and nothing else. Naming a project nothing names yet creates it. `org` is the values directory the app lives in; `mode` as for create.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param platform_app_move: (required)
+        :type platform_app_move: PlatformAppMove
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_apps_by_app_project_serialize(
+            app=app,
+            platform_app_move=platform_app_move,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_platform_apps_by_app_project_with_http_info(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_move: PlatformAppMove,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformProjectWrite]:
+        """Moves an app to a project.
+
+        Moves an app to a project.  It sets the declaration's `partOf` — in its cluster overlay when the overlay sets the key, else in its values file — and nothing else. Naming a project nothing names yet creates it. `org` is the values directory the app lives in; `mode` as for create.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param platform_app_move: (required)
+        :type platform_app_move: PlatformAppMove
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_apps_by_app_project_serialize(
+            app=app,
+            platform_app_move=platform_app_move,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_platform_apps_by_app_project_without_preload_content(
+        self,
+        app: Annotated[StrictStr, Field(description="App is the declaration's name, from the path.")],
+        platform_app_move: PlatformAppMove,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Moves an app to a project.
+
+        Moves an app to a project.  It sets the declaration's `partOf` — in its cluster overlay when the overlay sets the key, else in its values file — and nothing else. Naming a project nothing names yet creates it. `org` is the values directory the app lives in; `mode` as for create.
+
+        :param app: App is the declaration's name, from the path. (required)
+        :type app: str
+        :param platform_app_move: (required)
+        :type platform_app_move: PlatformAppMove
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_apps_by_app_project_serialize(
+            app=app,
+            platform_app_move=platform_app_move,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_platform_apps_by_app_project_serialize(
+        self,
+        app,
+        platform_app_move,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if app is not None:
+            _path_params['app'] = app
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if platform_app_move is not None:
+            _body_params = platform_app_move
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/platform/apps/{app}/project',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_platform_projects_by_project(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to rename, from the path.")],
+        platform_project_rename: PlatformProjectRename,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformProjectWrite:
+        """Renames a project.
+
+        Renames a project.  It rewrites `partOf` on every declaration that names the project, in one commit to `hanzoai/universe`. 409 when the new name is already a project: fold into it with DELETE /v1/platform/projects/{project}?into=. `mode` as for create.
+
+        :param project: Project is the project to rename, from the path. (required)
+        :type project: str
+        :param platform_project_rename: (required)
+        :type platform_project_rename: PlatformProjectRename
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_projects_by_project_serialize(
+            project=project,
+            platform_project_rename=platform_project_rename,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_platform_projects_by_project_with_http_info(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to rename, from the path.")],
+        platform_project_rename: PlatformProjectRename,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[PlatformProjectWrite]:
+        """Renames a project.
+
+        Renames a project.  It rewrites `partOf` on every declaration that names the project, in one commit to `hanzoai/universe`. 409 when the new name is already a project: fold into it with DELETE /v1/platform/projects/{project}?into=. `mode` as for create.
+
+        :param project: Project is the project to rename, from the path. (required)
+        :type project: str
+        :param platform_project_rename: (required)
+        :type platform_project_rename: PlatformProjectRename
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_projects_by_project_serialize(
+            project=project,
+            platform_project_rename=platform_project_rename,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_platform_projects_by_project_without_preload_content(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project to rename, from the path.")],
+        platform_project_rename: PlatformProjectRename,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Renames a project.
+
+        Renames a project.  It rewrites `partOf` on every declaration that names the project, in one commit to `hanzoai/universe`. 409 when the new name is already a project: fold into it with DELETE /v1/platform/projects/{project}?into=. `mode` as for create.
+
+        :param project: Project is the project to rename, from the path. (required)
+        :type project: str
+        :param platform_project_rename: (required)
+        :type platform_project_rename: PlatformProjectRename
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_platform_projects_by_project_serialize(
+            project=project,
+            platform_project_rename=platform_project_rename,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "PlatformProjectWrite",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_platform_projects_by_project_serialize(
+        self,
+        project,
+        platform_project_rename,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if project is not None:
+            _path_params['project'] = project
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if platform_project_rename is not None:
+            _body_params = platform_project_rename
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PUT',
+            resource_path='/v1/platform/projects/{project}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_platform_projects_by_project_apps_by_app_env(
+        self,
+        project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
+        app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
+        platform_set_env_req: PlatformSetEnvReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> PlatformAppOut:
         """Replaces an app's environment variables.
 
-        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 403 without one.
+        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param set_env_req: (required)
-        :type set_env_req: SetEnvReq
+        :param platform_set_env_req: (required)
+        :type platform_set_env_req: PlatformSetEnvReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9706,7 +11334,7 @@ class PlatformApi:
         _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
-            set_env_req=set_env_req,
+            platform_set_env_req=platform_set_env_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9714,7 +11342,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9732,7 +11360,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        set_env_req: SetEnvReq,
+        platform_set_env_req: PlatformSetEnvReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9745,17 +11373,17 @@ class PlatformApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AppView]:
+    ) -> ApiResponse[PlatformAppOut]:
         """Replaces an app's environment variables.
 
-        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 403 without one.
+        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param set_env_req: (required)
-        :type set_env_req: SetEnvReq
+        :param platform_set_env_req: (required)
+        :type platform_set_env_req: PlatformSetEnvReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9781,7 +11409,7 @@ class PlatformApi:
         _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
-            set_env_req=set_env_req,
+            platform_set_env_req=platform_set_env_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9789,7 +11417,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9807,7 +11435,7 @@ class PlatformApi:
         self,
         project: Annotated[StrictStr, Field(description="Project is the project the application lives under, from the path.")],
         app: Annotated[StrictStr, Field(description="App is the application's slug, from the path.")],
-        set_env_req: SetEnvReq,
+        platform_set_env_req: PlatformSetEnvReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9823,14 +11451,14 @@ class PlatformApi:
     ) -> RESTResponseType:
         """Replaces an app's environment variables.
 
-        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 403 without one.
+        Replaces an app's environment variables.  It writes the app's whole environment set and answers the updated application. This is the one post-create write path for env, and it REPLACES rather than merges: a variable absent from the body is gone, and a secret dropped from the set leaves the app's Secret on its next deploy.  Keys must match `^[A-Za-z_][A-Za-z0-9_]*$`. A value marked `secret: true` is sealed into KMS and blanked in the database, so plaintext is never persisted — and the write fails 503 if KMS is unavailable rather than storing one in the clear.  The rule worth knowing: this does not restart anything. Once the app has been deployed the secret sync is re-declared immediately so the operator re-materialises the Secret, but RUNNING pods keep the environment they started with until their next deploy or restart. Requires a validated principal; 401 without one.
 
         :param project: Project is the project the application lives under, from the path. (required)
         :type project: str
         :param app: App is the application's slug, from the path. (required)
         :type app: str
-        :param set_env_req: (required)
-        :type set_env_req: SetEnvReq
+        :param platform_set_env_req: (required)
+        :type platform_set_env_req: PlatformSetEnvReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9856,7 +11484,7 @@ class PlatformApi:
         _param = self._put_platform_projects_by_project_apps_by_app_env_serialize(
             project=project,
             app=app,
-            set_env_req=set_env_req,
+            platform_set_env_req=platform_set_env_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9864,7 +11492,7 @@ class PlatformApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AppView",
+            '200': "PlatformAppOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9877,7 +11505,7 @@ class PlatformApi:
         self,
         project,
         app,
-        set_env_req,
+        platform_set_env_req,
         _request_auth,
         _content_type,
         _headers,
@@ -9907,15 +11535,16 @@ class PlatformApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if set_env_req is not None:
-            _body_params = set_env_req
+        if platform_set_env_req is not None:
+            _body_params = platform_set_env_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,18 +19,18 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.document_page import DocumentPage
-from hanzoai.cloud.models.document_reply import DocumentReply
-from hanzoai.cloud.models.filing_page import FilingPage
-from hanzoai.cloud.models.filing_reply import FilingReply
-from hanzoai.cloud.models.filing_request import FilingRequest
-from hanzoai.cloud.models.generate_request import GenerateRequest
-from hanzoai.cloud.models.legal_health import LegalHealth
-from hanzoai.cloud.models.sign_reply import SignReply
-from hanzoai.cloud.models.sign_request import SignRequest
-from hanzoai.cloud.models.template_catalog import TemplateCatalog
-from hanzoai.cloud.models.template_override import TemplateOverride
-from hanzoai.cloud.models.template_reply import TemplateReply
+from hanzoai.cloud.models.legal_document_page import LegalDocumentPage
+from hanzoai.cloud.models.legal_document_reply import LegalDocumentReply
+from hanzoai.cloud.models.legal_filing_page import LegalFilingPage
+from hanzoai.cloud.models.legal_filing_reply import LegalFilingReply
+from hanzoai.cloud.models.legal_filing_request import LegalFilingRequest
+from hanzoai.cloud.models.legal_generate_request import LegalGenerateRequest
+from hanzoai.cloud.models.legal_legal_health import LegalLegalHealth
+from hanzoai.cloud.models.legal_sign_reply import LegalSignReply
+from hanzoai.cloud.models.legal_sign_request import LegalSignRequest
+from hanzoai.cloud.models.legal_template_catalog import LegalTemplateCatalog
+from hanzoai.cloud.models.legal_template_override import LegalTemplateOverride
+from hanzoai.cloud.models.legal_template_reply import LegalTemplateReply
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +66,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocumentPage:
+    ) -> LegalDocumentPage:
         """Returns the org's generated documents, newest first, WITHOUT their rendered content — fetch one document to read its body.
 
         Returns the org's generated documents, newest first, WITHOUT their rendered content — fetch one document to read its body.  The response is marked no-store: these records name the counterparties an org is contracting with, and must not sit in a shared cache.
@@ -104,7 +104,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentPage",
+            '200': "LegalDocumentPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -133,7 +133,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocumentPage]:
+    ) -> ApiResponse[LegalDocumentPage]:
         """Returns the org's generated documents, newest first, WITHOUT their rendered content — fetch one document to read its body.
 
         Returns the org's generated documents, newest first, WITHOUT their rendered content — fetch one document to read its body.  The response is marked no-store: these records name the counterparties an org is contracting with, and must not sit in a shared cache.
@@ -171,7 +171,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentPage",
+            '200': "LegalDocumentPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -238,7 +238,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentPage",
+            '200': "LegalDocumentPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -285,7 +285,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -329,7 +330,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocumentReply:
+    ) -> LegalDocumentReply:
         """Returns one of the org's documents WITH its rendered body.
 
         Returns one of the org's documents WITH its rendered body. 404 when the org has no document with that id — a document is never readable across orgs.  The response is marked no-store: the body is contract text, sealed at rest and returned only to the owning org, and must not sit in a shared cache.
@@ -367,7 +368,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentReply",
+            '200': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -396,7 +397,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocumentReply]:
+    ) -> ApiResponse[LegalDocumentReply]:
         """Returns one of the org's documents WITH its rendered body.
 
         Returns one of the org's documents WITH its rendered body. 404 when the org has no document with that id — a document is never readable across orgs.  The response is marked no-store: the body is contract text, sealed at rest and returned only to the owning org, and must not sit in a shared cache.
@@ -434,7 +435,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentReply",
+            '200': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -501,7 +502,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DocumentReply",
+            '200': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -546,7 +547,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -590,7 +592,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FilingPage:
+    ) -> LegalFilingPage:
         """Returns the org's filing records, newest first — which documents were filed where, through which provider, and what the filing's honest status is.
 
         Returns the org's filing records, newest first — which documents were filed where, through which provider, and what the filing's honest status is.
@@ -628,7 +630,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilingPage",
+            '200': "LegalFilingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -657,7 +659,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FilingPage]:
+    ) -> ApiResponse[LegalFilingPage]:
         """Returns the org's filing records, newest first — which documents were filed where, through which provider, and what the filing's honest status is.
 
         Returns the org's filing records, newest first — which documents were filed where, through which provider, and what the filing's honest status is.
@@ -695,7 +697,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilingPage",
+            '200': "LegalFilingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -762,7 +764,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FilingPage",
+            '200': "LegalFilingPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -809,7 +811,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -852,7 +855,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LegalHealth:
+    ) -> LegalLegalHealth:
         """Reports that the legal subsystem is serving and how many built-in templates its catalog carries.
 
         Reports that the legal subsystem is serving and how many built-in templates its catalog carries. It reads no tenant, so a liveness prober that sends no principal is answered rather than refused.
@@ -887,7 +890,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LegalHealth",
+            '200': "LegalLegalHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -915,7 +918,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LegalHealth]:
+    ) -> ApiResponse[LegalLegalHealth]:
         """Reports that the legal subsystem is serving and how many built-in templates its catalog carries.
 
         Reports that the legal subsystem is serving and how many built-in templates its catalog carries. It reads no tenant, so a liveness prober that sends no principal is answered rather than refused.
@@ -950,7 +953,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LegalHealth",
+            '200': "LegalLegalHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1013,7 +1016,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LegalHealth",
+            '200': "LegalLegalHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1055,7 +1058,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1098,7 +1102,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TemplateCatalog:
+    ) -> LegalTemplateCatalog:
         """Returns the org's effective template catalog: every built-in template, with any the org has overridden replaced by its own latest version.
 
         Returns the org's effective template catalog: every built-in template, with any the org has overridden replaced by its own latest version.  The listing carries each template's metadata and its declared MERGE FIELDS — the keys a document generation must supply — but never the template bodies; fetch one template to get its body. Templates in the formation and equity categories are marked counselReview: every document rendered from them carries a counsel notice, and that posture cannot be dropped by an override.
@@ -1133,7 +1137,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateCatalog",
+            '200': "LegalTemplateCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1161,7 +1165,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TemplateCatalog]:
+    ) -> ApiResponse[LegalTemplateCatalog]:
         """Returns the org's effective template catalog: every built-in template, with any the org has overridden replaced by its own latest version.
 
         Returns the org's effective template catalog: every built-in template, with any the org has overridden replaced by its own latest version.  The listing carries each template's metadata and its declared MERGE FIELDS — the keys a document generation must supply — but never the template bodies; fetch one template to get its body. Templates in the formation and equity categories are marked counselReview: every document rendered from them carries a counsel notice, and that posture cannot be dropped by an override.
@@ -1196,7 +1200,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateCatalog",
+            '200': "LegalTemplateCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1259,7 +1263,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateCatalog",
+            '200': "LegalTemplateCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1301,7 +1305,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1345,7 +1350,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TemplateReply:
+    ) -> LegalTemplateReply:
         """Returns one template resolved for the caller's org — the org's own override if it has saved one, else the built-in — with its full text/template body and its declared merge fields.
 
         Returns one template resolved for the caller's org — the org's own override if it has saved one, else the built-in — with its full text/template body and its declared merge fields. 404 when neither exists.
@@ -1383,7 +1388,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1412,7 +1417,7 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TemplateReply]:
+    ) -> ApiResponse[LegalTemplateReply]:
         """Returns one template resolved for the caller's org — the org's own override if it has saved one, else the built-in — with its full text/template body and its declared merge fields.
 
         Returns one template resolved for the caller's org — the org's own override if it has saved one, else the built-in — with its full text/template body and its declared merge fields. 404 when neither exists.
@@ -1450,7 +1455,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1517,7 +1522,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1562,7 +1567,8 @@ class LegalApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1593,7 +1599,7 @@ class LegalApi:
     @validate_call
     def post_legal_documents(
         self,
-        generate_request: GenerateRequest,
+        legal_generate_request: LegalGenerateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1606,13 +1612,13 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DocumentReply:
+    ) -> LegalDocumentReply:
         """Renders a document from a template and the caller's own merge data, seals it in the org's store, and returns it with its rendered body.
 
         Renders a document from a template and the caller's own merge data, seals it in the org's store, and returns it with its rendered body.  The render is PURE and deterministic — no clock, no I/O — so the same template version and the same data always produce identical bytes, which is what makes a generated contract reproducible. It fails CLOSED on a missing merge field: there is no blank-filled contract, only a 400 naming the fields that were absent. When the template is counsel-review the rendered body opens with the counsel notice, which no caller can suppress.  The document is a DRAFT. Hanzo Legal manages documents; it does not give legal advice and does not determine that a document is valid or sufficient.
 
-        :param generate_request: (required)
-        :type generate_request: GenerateRequest
+        :param legal_generate_request: (required)
+        :type legal_generate_request: LegalGenerateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1636,7 +1642,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_documents_serialize(
-            generate_request=generate_request,
+            legal_generate_request=legal_generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1644,7 +1650,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocumentReply",
+            '201': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1660,7 +1666,7 @@ class LegalApi:
     @validate_call
     def post_legal_documents_with_http_info(
         self,
-        generate_request: GenerateRequest,
+        legal_generate_request: LegalGenerateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1673,13 +1679,13 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DocumentReply]:
+    ) -> ApiResponse[LegalDocumentReply]:
         """Renders a document from a template and the caller's own merge data, seals it in the org's store, and returns it with its rendered body.
 
         Renders a document from a template and the caller's own merge data, seals it in the org's store, and returns it with its rendered body.  The render is PURE and deterministic — no clock, no I/O — so the same template version and the same data always produce identical bytes, which is what makes a generated contract reproducible. It fails CLOSED on a missing merge field: there is no blank-filled contract, only a 400 naming the fields that were absent. When the template is counsel-review the rendered body opens with the counsel notice, which no caller can suppress.  The document is a DRAFT. Hanzo Legal manages documents; it does not give legal advice and does not determine that a document is valid or sufficient.
 
-        :param generate_request: (required)
-        :type generate_request: GenerateRequest
+        :param legal_generate_request: (required)
+        :type legal_generate_request: LegalGenerateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1703,7 +1709,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_documents_serialize(
-            generate_request=generate_request,
+            legal_generate_request=legal_generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1711,7 +1717,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocumentReply",
+            '201': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1727,7 +1733,7 @@ class LegalApi:
     @validate_call
     def post_legal_documents_without_preload_content(
         self,
-        generate_request: GenerateRequest,
+        legal_generate_request: LegalGenerateRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1745,8 +1751,8 @@ class LegalApi:
 
         Renders a document from a template and the caller's own merge data, seals it in the org's store, and returns it with its rendered body.  The render is PURE and deterministic — no clock, no I/O — so the same template version and the same data always produce identical bytes, which is what makes a generated contract reproducible. It fails CLOSED on a missing merge field: there is no blank-filled contract, only a 400 naming the fields that were absent. When the template is counsel-review the rendered body opens with the counsel notice, which no caller can suppress.  The document is a DRAFT. Hanzo Legal manages documents; it does not give legal advice and does not determine that a document is valid or sufficient.
 
-        :param generate_request: (required)
-        :type generate_request: GenerateRequest
+        :param legal_generate_request: (required)
+        :type legal_generate_request: LegalGenerateRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1770,7 +1776,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_documents_serialize(
-            generate_request=generate_request,
+            legal_generate_request=legal_generate_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1778,7 +1784,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "DocumentReply",
+            '201': "LegalDocumentReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1789,7 +1795,7 @@ class LegalApi:
 
     def _post_legal_documents_serialize(
         self,
-        generate_request,
+        legal_generate_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1815,15 +1821,16 @@ class LegalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if generate_request is not None:
-            _body_params = generate_request
+        if legal_generate_request is not None:
+            _body_params = legal_generate_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1868,7 +1875,7 @@ class LegalApi:
     def post_legal_documents_by_id_sign(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
-        sign_request: SignRequest,
+        legal_sign_request: LegalSignRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1881,15 +1888,15 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SignReply:
+    ) -> LegalSignReply:
         """Opens an e-signature request over one document and moves it to out_for_signature, returning the provider's reference for the request.
 
         Opens an e-signature request over one document and moves it to out_for_signature, returning the provider's reference for the request.  The provider is whatever this deployment has wired. The honest default is \"manual\": the request is recorded and the org fulfils it out of band — nothing here fabricates a signature, and the stub never reports itself complete.
 
         :param id: ID is the document to send for signature, from the path. (required)
         :type id: str
-        :param sign_request: (required)
-        :type sign_request: SignRequest
+        :param legal_sign_request: (required)
+        :type legal_sign_request: LegalSignRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1914,7 +1921,7 @@ class LegalApi:
 
         _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
-            sign_request=sign_request,
+            legal_sign_request=legal_sign_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1922,7 +1929,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SignReply",
+            '200': "LegalSignReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1939,7 +1946,7 @@ class LegalApi:
     def post_legal_documents_by_id_sign_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
-        sign_request: SignRequest,
+        legal_sign_request: LegalSignRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1952,15 +1959,15 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SignReply]:
+    ) -> ApiResponse[LegalSignReply]:
         """Opens an e-signature request over one document and moves it to out_for_signature, returning the provider's reference for the request.
 
         Opens an e-signature request over one document and moves it to out_for_signature, returning the provider's reference for the request.  The provider is whatever this deployment has wired. The honest default is \"manual\": the request is recorded and the org fulfils it out of band — nothing here fabricates a signature, and the stub never reports itself complete.
 
         :param id: ID is the document to send for signature, from the path. (required)
         :type id: str
-        :param sign_request: (required)
-        :type sign_request: SignRequest
+        :param legal_sign_request: (required)
+        :type legal_sign_request: LegalSignRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1985,7 +1992,7 @@ class LegalApi:
 
         _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
-            sign_request=sign_request,
+            legal_sign_request=legal_sign_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1993,7 +2000,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SignReply",
+            '200': "LegalSignReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2010,7 +2017,7 @@ class LegalApi:
     def post_legal_documents_by_id_sign_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the document to send for signature, from the path.")],
-        sign_request: SignRequest,
+        legal_sign_request: LegalSignRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2030,8 +2037,8 @@ class LegalApi:
 
         :param id: ID is the document to send for signature, from the path. (required)
         :type id: str
-        :param sign_request: (required)
-        :type sign_request: SignRequest
+        :param legal_sign_request: (required)
+        :type legal_sign_request: LegalSignRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2056,7 +2063,7 @@ class LegalApi:
 
         _param = self._post_legal_documents_by_id_sign_serialize(
             id=id,
-            sign_request=sign_request,
+            legal_sign_request=legal_sign_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2064,7 +2071,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SignReply",
+            '200': "LegalSignReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2076,7 +2083,7 @@ class LegalApi:
     def _post_legal_documents_by_id_sign_serialize(
         self,
         id,
-        sign_request,
+        legal_sign_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2104,15 +2111,16 @@ class LegalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sign_request is not None:
-            _body_params = sign_request
+        if legal_sign_request is not None:
+            _body_params = legal_sign_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2172,7 +2180,7 @@ class LegalApi:
     ) -> None:
         """Record that a generated document's signature request completed
 
-        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (403 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
+        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (401 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
 
         :param id: (required)
         :type id: str
@@ -2238,7 +2246,7 @@ class LegalApi:
     ) -> ApiResponse[None]:
         """Record that a generated document's signature request completed
 
-        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (403 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
+        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (401 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
 
         :param id: (required)
         :type id: str
@@ -2304,7 +2312,7 @@ class LegalApi:
     ) -> RESTResponseType:
         """Record that a generated document's signature request completed
 
-        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (403 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
+        Records completion of the signature request opened over a generated document and answers the document with a `signed` flag.  The e-sign provider's own status is consulted FIRST and is the default answer; an explicit `signed` field in the body overrides it. That override is the whole point: the default `manual` provider never self-completes, so a reviewer (or a real provider's webhook) is what moves the document. A completion flips the document to `signed`, stamps `signedAt`, and writes a `legal.document.signed` audit event; a provider still reporting incomplete answers 200 with the document unchanged, so the call is safe to repeat and never fabricates a signature.  Org-scoped and fails closed: a validated principal is required (401 without one), the document is read under the caller's OWN org so another tenant's id is a 404, a document with no open signature request is a 400, and a provider whose status call errors is a 502.
 
         :param id: (required)
         :type id: str
@@ -2407,7 +2415,7 @@ class LegalApi:
     @validate_call
     def post_legal_filings(
         self,
-        filing_request: FilingRequest,
+        legal_filing_request: LegalFilingRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2420,13 +2428,13 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FilingReply:
+    ) -> LegalFilingReply:
         """Records a filing of one or more of the org's documents with a state or agency, and returns the tracking record.
 
         Records a filing of one or more of the org's documents with a state or agency, and returns the tracking record.  It is a TRACKING record, not an autonomous filing. With no filing partner wired the honest status is \"manual\" and the note says so: the documents were generated for signature, and the org files them through its registered agent. Nothing here invents a filing id it does not have.  Every document id must belong to the caller's org; one that does not is a 404 naming it, so a filing can never reach across tenants.
 
-        :param filing_request: (required)
-        :type filing_request: FilingRequest
+        :param legal_filing_request: (required)
+        :type legal_filing_request: LegalFilingRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2450,7 +2458,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_filings_serialize(
-            filing_request=filing_request,
+            legal_filing_request=legal_filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2458,7 +2466,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FilingReply",
+            '201': "LegalFilingReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2474,7 +2482,7 @@ class LegalApi:
     @validate_call
     def post_legal_filings_with_http_info(
         self,
-        filing_request: FilingRequest,
+        legal_filing_request: LegalFilingRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2487,13 +2495,13 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FilingReply]:
+    ) -> ApiResponse[LegalFilingReply]:
         """Records a filing of one or more of the org's documents with a state or agency, and returns the tracking record.
 
         Records a filing of one or more of the org's documents with a state or agency, and returns the tracking record.  It is a TRACKING record, not an autonomous filing. With no filing partner wired the honest status is \"manual\" and the note says so: the documents were generated for signature, and the org files them through its registered agent. Nothing here invents a filing id it does not have.  Every document id must belong to the caller's org; one that does not is a 404 naming it, so a filing can never reach across tenants.
 
-        :param filing_request: (required)
-        :type filing_request: FilingRequest
+        :param legal_filing_request: (required)
+        :type legal_filing_request: LegalFilingRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2517,7 +2525,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_filings_serialize(
-            filing_request=filing_request,
+            legal_filing_request=legal_filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2525,7 +2533,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FilingReply",
+            '201': "LegalFilingReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2541,7 +2549,7 @@ class LegalApi:
     @validate_call
     def post_legal_filings_without_preload_content(
         self,
-        filing_request: FilingRequest,
+        legal_filing_request: LegalFilingRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2559,8 +2567,8 @@ class LegalApi:
 
         Records a filing of one or more of the org's documents with a state or agency, and returns the tracking record.  It is a TRACKING record, not an autonomous filing. With no filing partner wired the honest status is \"manual\" and the note says so: the documents were generated for signature, and the org files them through its registered agent. Nothing here invents a filing id it does not have.  Every document id must belong to the caller's org; one that does not is a 404 naming it, so a filing can never reach across tenants.
 
-        :param filing_request: (required)
-        :type filing_request: FilingRequest
+        :param legal_filing_request: (required)
+        :type legal_filing_request: LegalFilingRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2584,7 +2592,7 @@ class LegalApi:
         """ # noqa: E501
 
         _param = self._post_legal_filings_serialize(
-            filing_request=filing_request,
+            legal_filing_request=legal_filing_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2592,7 +2600,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FilingReply",
+            '201': "LegalFilingReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2603,7 +2611,7 @@ class LegalApi:
 
     def _post_legal_filings_serialize(
         self,
-        filing_request,
+        legal_filing_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2629,15 +2637,16 @@ class LegalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if filing_request is not None:
-            _body_params = filing_request
+        if legal_filing_request is not None:
+            _body_params = legal_filing_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2682,7 +2691,7 @@ class LegalApi:
     def put_legal_templates_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
-        template_override: TemplateOverride,
+        legal_template_override: LegalTemplateOverride,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2695,15 +2704,15 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TemplateReply:
+    ) -> LegalTemplateReply:
         """Saves the org's own version of a template — a custom NDA, a house MSA — and returns it with its new version number.
 
         Saves the org's own version of a template — a custom NDA, a house MSA — and returns it with its new version number. It takes effect for that org only; other orgs keep the built-in.  Two boundaries cannot be crossed here. Overriding a built-in INHERITS its category and its counsel-review posture, which can be raised but never dropped; and a formation or equity template is counsel-review whatever the caller sends, so no org can generate a securities-class document without the notice.  The body is validated on save, not at generation: a template that references an UNDECLARED merge field is refused with 400 rather than stored and rendered blank into a contract months later.
 
         :param id: ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture. (required)
         :type id: str
-        :param template_override: (required)
-        :type template_override: TemplateOverride
+        :param legal_template_override: (required)
+        :type legal_template_override: LegalTemplateOverride
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2728,7 +2737,7 @@ class LegalApi:
 
         _param = self._put_legal_templates_by_id_serialize(
             id=id,
-            template_override=template_override,
+            legal_template_override=legal_template_override,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2736,7 +2745,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2753,7 +2762,7 @@ class LegalApi:
     def put_legal_templates_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
-        template_override: TemplateOverride,
+        legal_template_override: LegalTemplateOverride,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2766,15 +2775,15 @@ class LegalApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TemplateReply]:
+    ) -> ApiResponse[LegalTemplateReply]:
         """Saves the org's own version of a template — a custom NDA, a house MSA — and returns it with its new version number.
 
         Saves the org's own version of a template — a custom NDA, a house MSA — and returns it with its new version number. It takes effect for that org only; other orgs keep the built-in.  Two boundaries cannot be crossed here. Overriding a built-in INHERITS its category and its counsel-review posture, which can be raised but never dropped; and a formation or equity template is counsel-review whatever the caller sends, so no org can generate a securities-class document without the notice.  The body is validated on save, not at generation: a template that references an UNDECLARED merge field is refused with 400 rather than stored and rendered blank into a contract months later.
 
         :param id: ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture. (required)
         :type id: str
-        :param template_override: (required)
-        :type template_override: TemplateOverride
+        :param legal_template_override: (required)
+        :type legal_template_override: LegalTemplateOverride
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2799,7 +2808,7 @@ class LegalApi:
 
         _param = self._put_legal_templates_by_id_serialize(
             id=id,
-            template_override=template_override,
+            legal_template_override=legal_template_override,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2807,7 +2816,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2824,7 +2833,7 @@ class LegalApi:
     def put_legal_templates_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture.")],
-        template_override: TemplateOverride,
+        legal_template_override: LegalTemplateOverride,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2844,8 +2853,8 @@ class LegalApi:
 
         :param id: ID is the template to override, from the path. Overriding a built-in id inherits that built-in's category, title and counsel-review posture. (required)
         :type id: str
-        :param template_override: (required)
-        :type template_override: TemplateOverride
+        :param legal_template_override: (required)
+        :type legal_template_override: LegalTemplateOverride
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2870,7 +2879,7 @@ class LegalApi:
 
         _param = self._put_legal_templates_by_id_serialize(
             id=id,
-            template_override=template_override,
+            legal_template_override=legal_template_override,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2878,7 +2887,7 @@ class LegalApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TemplateReply",
+            '200': "LegalTemplateReply",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2890,7 +2899,7 @@ class LegalApi:
     def _put_legal_templates_by_id_serialize(
         self,
         id,
-        template_override,
+        legal_template_override,
         _request_auth,
         _content_type,
         _headers,
@@ -2918,15 +2927,16 @@ class LegalApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if template_override is not None:
-            _body_params = template_override
+        if legal_template_override is not None:
+            _body_params = legal_template_override
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

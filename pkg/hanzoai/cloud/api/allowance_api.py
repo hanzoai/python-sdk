@@ -16,7 +16,7 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.allowance import Allowance
+from hanzoai.cloud.models.allowance_allowance import AllowanceAllowance
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -51,10 +51,10 @@ class AllowanceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Allowance:
+    ) -> AllowanceAllowance:
         """Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.
 
-        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  A bounded caller is POOLED: the Free plan is limited usage from one pool every free user shares — the platform's vendor accounts for free models — so the answer says so (pooled) and carries that pool's standing: available, busy or exhausted, and when it refills. The pool is read from the process that spends it and is absent when that process does not answer, never guessed. A paid plan is not pooled and carries no pool: its usage is metered in money.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -86,7 +86,7 @@ class AllowanceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Allowance",
+            '200': "AllowanceAllowance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -114,10 +114,10 @@ class AllowanceApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Allowance]:
+    ) -> ApiResponse[AllowanceAllowance]:
         """Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.
 
-        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  A bounded caller is POOLED: the Free plan is limited usage from one pool every free user shares — the platform's vendor accounts for free models — so the answer says so (pooled) and carries that pool's standing: available, busy or exhausted, and when it refills. The pool is read from the process that spends it and is absent when that process does not answer, never guessed. A paid plan is not pooled and carries no pool: its usage is metered in money.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -149,7 +149,7 @@ class AllowanceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Allowance",
+            '200': "AllowanceAllowance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -180,7 +180,7 @@ class AllowanceApi:
     ) -> RESTResponseType:
         """Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.
 
-        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Answers what the CALLER has left of their plan's free-call allowance this period, and the instant the count starts again.  This is the number a product shows beside the composer — \"17 of 20 left today\" — and the moment to offer a plan is when it reaches zero. It READS: asking does not spend, so a page that polls it costs the caller nothing.  A bounded caller is POOLED: the Free plan is limited usage from one pool every free user shares — the platform's vendor accounts for free models — so the answer says so (pooled) and carries that pool's standing: available, busy or exhausted, and when it refills. The pool is read from the process that spends it and is absent when that process does not answer, never guessed. A paid plan is not pooled and carries no pool: its usage is metered in money.  The subject is the caller's own, resolved from the verified credential, and can never be named in the request — so this is a mirror, not a lookup of someone else. An unauthenticated caller is refused: there is no allowance without someone to hold it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -212,7 +212,7 @@ class AllowanceApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Allowance",
+            '200': "AllowanceAllowance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -254,7 +254,8 @@ class AllowanceApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,18 +19,18 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.config import Config
-from hanzoai.cloud.models.consumer import Consumer
-from hanzoai.cloud.models.health import Health
-from hanzoai.cloud.models.info_out import InfoOut
-from hanzoai.cloud.models.make_in import MakeIn
-from hanzoai.cloud.models.next_in import NextIn
-from hanzoai.cloud.models.pick_out import PickOut
-from hanzoai.cloud.models.purge import Purge
-from hanzoai.cloud.models.purge_out import PurgeOut
-from hanzoai.cloud.models.read_out import ReadOut
-from hanzoai.cloud.models.stream import Stream
-from hanzoai.cloud.models.streams import Streams
+from hanzoai.cloud.models.mq_config import MqConfig
+from hanzoai.cloud.models.mq_consumer import MqConsumer
+from hanzoai.cloud.models.mq_health import MqHealth
+from hanzoai.cloud.models.mq_info_out import MqInfoOut
+from hanzoai.cloud.models.mq_make_in import MqMakeIn
+from hanzoai.cloud.models.mq_next_in import MqNextIn
+from hanzoai.cloud.models.mq_pick_out import MqPickOut
+from hanzoai.cloud.models.mq_purge import MqPurge
+from hanzoai.cloud.models.mq_purge_out import MqPurgeOut
+from hanzoai.cloud.models.mq_read_out import MqReadOut
+from hanzoai.cloud.models.mq_stream import MqStream
+from hanzoai.cloud.models.mq_streams import MqStreams
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -279,6 +279,13 @@ class MqApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -548,6 +555,13 @@ class MqApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -817,6 +831,13 @@ class MqApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -857,7 +878,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Health:
+    ) -> MqHealth:
         """Reports whether the message plane behind this surface answers.
 
         Reports whether the message plane behind this surface answers.
@@ -892,7 +913,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Health",
+            '200': "MqHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -920,7 +941,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Health]:
+    ) -> ApiResponse[MqHealth]:
         """Reports whether the message plane behind this surface answers.
 
         Reports whether the message plane behind this surface answers.
@@ -955,7 +976,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Health",
+            '200': "MqHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1018,7 +1039,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Health",
+            '200': "MqHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1060,7 +1081,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1103,7 +1125,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InfoOut:
+    ) -> MqInfoOut:
         """Returns the broker's identity and the org's stream count.
 
         Returns the broker's identity and the org's stream count.
@@ -1138,7 +1160,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InfoOut",
+            '200': "MqInfoOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1166,7 +1188,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InfoOut]:
+    ) -> ApiResponse[MqInfoOut]:
         """Returns the broker's identity and the org's stream count.
 
         Returns the broker's identity and the org's stream count.
@@ -1201,7 +1223,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InfoOut",
+            '200': "MqInfoOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1264,7 +1286,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InfoOut",
+            '200': "MqInfoOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1306,7 +1328,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1351,7 +1374,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Streams:
+    ) -> MqStreams:
         """Returns the org's streams, name-ordered, with their live state.
 
         Returns the org's streams, name-ordered, with their live state.
@@ -1392,7 +1415,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Streams",
+            '200': "MqStreams",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1422,7 +1445,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Streams]:
+    ) -> ApiResponse[MqStreams]:
         """Returns the org's streams, name-ordered, with their live state.
 
         Returns the org's streams, name-ordered, with their live state.
@@ -1463,7 +1486,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Streams",
+            '200': "MqStreams",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1534,7 +1557,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Streams",
+            '200': "MqStreams",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1586,7 +1609,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1630,7 +1654,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Stream:
+    ) -> MqStream:
         """Returns one stream's configuration and live state.
 
         Returns one stream's configuration and live state.
@@ -1668,7 +1692,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1697,7 +1721,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Stream]:
+    ) -> ApiResponse[MqStream]:
         """Returns one stream's configuration and live state.
 
         Returns one stream's configuration and live state.
@@ -1735,7 +1759,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1802,7 +1826,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1847,7 +1871,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1895,7 +1920,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReadOut:
+    ) -> MqReadOut:
         """Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
 
         Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
@@ -1945,7 +1970,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1978,7 +2003,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReadOut]:
+    ) -> ApiResponse[MqReadOut]:
         """Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
 
         Reads stored messages without a consumer: by sequence, by newest on a subject, or walking a subject forward from a sequence.
@@ -2028,7 +2053,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2111,7 +2136,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2176,7 +2201,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2222,7 +2248,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PickOut:
+    ) -> MqPickOut:
         """Returns a stream's consumers, name-ordered, with delivery state.
 
         Returns a stream's consumers, name-ordered, with delivery state.
@@ -2266,7 +2292,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PickOut",
+            '200': "MqPickOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2297,7 +2323,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PickOut]:
+    ) -> ApiResponse[MqPickOut]:
         """Returns a stream's consumers, name-ordered, with delivery state.
 
         Returns a stream's consumers, name-ordered, with delivery state.
@@ -2341,7 +2367,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PickOut",
+            '200': "MqPickOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2416,7 +2442,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PickOut",
+            '200': "MqPickOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2471,7 +2497,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2516,7 +2543,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Consumer:
+    ) -> MqConsumer:
         """Returns one consumer's configuration and delivery state.
 
         Returns one consumer's configuration and delivery state.
@@ -2557,7 +2584,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Consumer",
+            '200': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2587,7 +2614,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Consumer]:
+    ) -> ApiResponse[MqConsumer]:
         """Returns one consumer's configuration and delivery state.
 
         Returns one consumer's configuration and delivery state.
@@ -2628,7 +2655,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Consumer",
+            '200': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2699,7 +2726,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Consumer",
+            '200': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2747,7 +2774,8 @@ class MqApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2778,7 +2806,7 @@ class MqApi:
     @validate_call
     def post_mq_stream(
         self,
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2791,13 +2819,13 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Stream:
+    ) -> MqStream:
         """Creates a durable stream in the org's namespace and returns it.
 
         Creates a durable stream in the org's namespace and returns it.
 
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2821,7 +2849,7 @@ class MqApi:
         """ # noqa: E501
 
         _param = self._post_mq_stream_serialize(
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2829,7 +2857,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Stream",
+            '201': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2845,7 +2873,7 @@ class MqApi:
     @validate_call
     def post_mq_stream_with_http_info(
         self,
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2858,13 +2886,13 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Stream]:
+    ) -> ApiResponse[MqStream]:
         """Creates a durable stream in the org's namespace and returns it.
 
         Creates a durable stream in the org's namespace and returns it.
 
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2888,7 +2916,7 @@ class MqApi:
         """ # noqa: E501
 
         _param = self._post_mq_stream_serialize(
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2896,7 +2924,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Stream",
+            '201': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2912,7 +2940,7 @@ class MqApi:
     @validate_call
     def post_mq_stream_without_preload_content(
         self,
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2930,8 +2958,8 @@ class MqApi:
 
         Creates a durable stream in the org's namespace and returns it.
 
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2955,7 +2983,7 @@ class MqApi:
         """ # noqa: E501
 
         _param = self._post_mq_stream_serialize(
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2963,7 +2991,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Stream",
+            '201': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2974,7 +3002,7 @@ class MqApi:
 
     def _post_mq_stream_serialize(
         self,
-        config,
+        mq_config,
         _request_auth,
         _content_type,
         _headers,
@@ -3000,15 +3028,16 @@ class MqApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if config is not None:
-            _body_params = config
+        if mq_config is not None:
+            _body_params = mq_config
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3053,7 +3082,7 @@ class MqApi:
     def post_mq_stream_by_name_purge(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
-        purge: Purge,
+        mq_purge: MqPurge,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3066,15 +3095,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PurgeOut:
+    ) -> MqPurgeOut:
         """Removes messages from a stream, leaving its consumers in place.
 
         Removes messages from a stream, leaving its consumers in place.
 
         :param name: Name is the stream name, from the path. (required)
         :type name: str
-        :param purge: (required)
-        :type purge: Purge
+        :param mq_purge: (required)
+        :type mq_purge: MqPurge
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3099,7 +3128,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_name_purge_serialize(
             name=name,
-            purge=purge,
+            mq_purge=mq_purge,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3107,7 +3136,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PurgeOut",
+            '200': "MqPurgeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3124,7 +3153,7 @@ class MqApi:
     def post_mq_stream_by_name_purge_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
-        purge: Purge,
+        mq_purge: MqPurge,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3137,15 +3166,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PurgeOut]:
+    ) -> ApiResponse[MqPurgeOut]:
         """Removes messages from a stream, leaving its consumers in place.
 
         Removes messages from a stream, leaving its consumers in place.
 
         :param name: Name is the stream name, from the path. (required)
         :type name: str
-        :param purge: (required)
-        :type purge: Purge
+        :param mq_purge: (required)
+        :type mq_purge: MqPurge
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3170,7 +3199,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_name_purge_serialize(
             name=name,
-            purge=purge,
+            mq_purge=mq_purge,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3178,7 +3207,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PurgeOut",
+            '200': "MqPurgeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3195,7 +3224,7 @@ class MqApi:
     def post_mq_stream_by_name_purge_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, from the path.")],
-        purge: Purge,
+        mq_purge: MqPurge,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3215,8 +3244,8 @@ class MqApi:
 
         :param name: Name is the stream name, from the path. (required)
         :type name: str
-        :param purge: (required)
-        :type purge: Purge
+        :param mq_purge: (required)
+        :type mq_purge: MqPurge
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3241,7 +3270,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_name_purge_serialize(
             name=name,
-            purge=purge,
+            mq_purge=mq_purge,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3249,7 +3278,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PurgeOut",
+            '200': "MqPurgeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3261,7 +3290,7 @@ class MqApi:
     def _post_mq_stream_by_name_purge_serialize(
         self,
         name,
-        purge,
+        mq_purge,
         _request_auth,
         _content_type,
         _headers,
@@ -3289,15 +3318,16 @@ class MqApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if purge is not None:
-            _body_params = purge
+        if mq_purge is not None:
+            _body_params = mq_purge
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3342,7 +3372,7 @@ class MqApi:
     def post_mq_stream_by_stream_consumer(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
-        make_in: MakeIn,
+        mq_make_in: MqMakeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3355,15 +3385,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Consumer:
+    ) -> MqConsumer:
         """Creates a durable pull consumer on a stream and returns it.
 
         Creates a durable pull consumer on a stream and returns it.
 
         :param stream: Stream is the stream name, from the path. (required)
         :type stream: str
-        :param make_in: (required)
-        :type make_in: MakeIn
+        :param mq_make_in: (required)
+        :type mq_make_in: MqMakeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3388,7 +3418,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_stream_consumer_serialize(
             stream=stream,
-            make_in=make_in,
+            mq_make_in=mq_make_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3396,7 +3426,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Consumer",
+            '201': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3413,7 +3443,7 @@ class MqApi:
     def post_mq_stream_by_stream_consumer_with_http_info(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
-        make_in: MakeIn,
+        mq_make_in: MqMakeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3426,15 +3456,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Consumer]:
+    ) -> ApiResponse[MqConsumer]:
         """Creates a durable pull consumer on a stream and returns it.
 
         Creates a durable pull consumer on a stream and returns it.
 
         :param stream: Stream is the stream name, from the path. (required)
         :type stream: str
-        :param make_in: (required)
-        :type make_in: MakeIn
+        :param mq_make_in: (required)
+        :type mq_make_in: MqMakeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3459,7 +3489,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_stream_consumer_serialize(
             stream=stream,
-            make_in=make_in,
+            mq_make_in=mq_make_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3467,7 +3497,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Consumer",
+            '201': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3484,7 +3514,7 @@ class MqApi:
     def post_mq_stream_by_stream_consumer_without_preload_content(
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
-        make_in: MakeIn,
+        mq_make_in: MqMakeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3504,8 +3534,8 @@ class MqApi:
 
         :param stream: Stream is the stream name, from the path. (required)
         :type stream: str
-        :param make_in: (required)
-        :type make_in: MakeIn
+        :param mq_make_in: (required)
+        :type mq_make_in: MqMakeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3530,7 +3560,7 @@ class MqApi:
 
         _param = self._post_mq_stream_by_stream_consumer_serialize(
             stream=stream,
-            make_in=make_in,
+            mq_make_in=mq_make_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3538,7 +3568,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Consumer",
+            '201': "MqConsumer",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3550,7 +3580,7 @@ class MqApi:
     def _post_mq_stream_by_stream_consumer_serialize(
         self,
         stream,
-        make_in,
+        mq_make_in,
         _request_auth,
         _content_type,
         _headers,
@@ -3578,15 +3608,16 @@ class MqApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if make_in is not None:
-            _body_params = make_in
+        if mq_make_in is not None:
+            _body_params = mq_make_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3632,7 +3663,7 @@ class MqApi:
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
-        next_in: NextIn,
+        mq_next_in: MqNextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3645,7 +3676,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReadOut:
+    ) -> MqReadOut:
         """Pulls the consumer's next batch.
 
         Pulls the consumer's next batch. Delivered messages are acknowledged on delivery — the broker will not redeliver what this call returns; an empty wait answers 408.
@@ -3654,8 +3685,8 @@ class MqApi:
         :type stream: str
         :param name: Name is the consumer name, from the path. (required)
         :type name: str
-        :param next_in: (required)
-        :type next_in: NextIn
+        :param mq_next_in: (required)
+        :type mq_next_in: MqNextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3681,7 +3712,7 @@ class MqApi:
         _param = self._post_mq_stream_by_stream_consumer_by_name_next_serialize(
             stream=stream,
             name=name,
-            next_in=next_in,
+            mq_next_in=mq_next_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3689,7 +3720,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3707,7 +3738,7 @@ class MqApi:
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
-        next_in: NextIn,
+        mq_next_in: MqNextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3720,7 +3751,7 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReadOut]:
+    ) -> ApiResponse[MqReadOut]:
         """Pulls the consumer's next batch.
 
         Pulls the consumer's next batch. Delivered messages are acknowledged on delivery — the broker will not redeliver what this call returns; an empty wait answers 408.
@@ -3729,8 +3760,8 @@ class MqApi:
         :type stream: str
         :param name: Name is the consumer name, from the path. (required)
         :type name: str
-        :param next_in: (required)
-        :type next_in: NextIn
+        :param mq_next_in: (required)
+        :type mq_next_in: MqNextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3756,7 +3787,7 @@ class MqApi:
         _param = self._post_mq_stream_by_stream_consumer_by_name_next_serialize(
             stream=stream,
             name=name,
-            next_in=next_in,
+            mq_next_in=mq_next_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3764,7 +3795,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3782,7 +3813,7 @@ class MqApi:
         self,
         stream: Annotated[StrictStr, Field(description="Stream is the stream name, from the path.")],
         name: Annotated[StrictStr, Field(description="Name is the consumer name, from the path.")],
-        next_in: NextIn,
+        mq_next_in: MqNextIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3804,8 +3835,8 @@ class MqApi:
         :type stream: str
         :param name: Name is the consumer name, from the path. (required)
         :type name: str
-        :param next_in: (required)
-        :type next_in: NextIn
+        :param mq_next_in: (required)
+        :type mq_next_in: MqNextIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3831,7 +3862,7 @@ class MqApi:
         _param = self._post_mq_stream_by_stream_consumer_by_name_next_serialize(
             stream=stream,
             name=name,
-            next_in=next_in,
+            mq_next_in=mq_next_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3839,7 +3870,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReadOut",
+            '200': "MqReadOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3852,7 +3883,7 @@ class MqApi:
         self,
         stream,
         name,
-        next_in,
+        mq_next_in,
         _request_auth,
         _content_type,
         _headers,
@@ -3882,15 +3913,16 @@ class MqApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if next_in is not None:
-            _body_params = next_in
+        if mq_next_in is not None:
+            _body_params = mq_next_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3935,7 +3967,7 @@ class MqApi:
     def put_mq_stream_by_name(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3948,15 +3980,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Stream:
+    ) -> MqStream:
         """Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
 
         Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
 
         :param name: Name is the stream name, unique within the org (alphanumeric, hyphens, underscores). (required)
         :type name: str
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3981,7 +4013,7 @@ class MqApi:
 
         _param = self._put_mq_stream_by_name_serialize(
             name=name,
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3989,7 +4021,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4006,7 +4038,7 @@ class MqApi:
     def put_mq_stream_by_name_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4019,15 +4051,15 @@ class MqApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Stream]:
+    ) -> ApiResponse[MqStream]:
         """Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
 
         Reconfigures an existing stream; the path names the stream, and the immutable fields (storage, retention) must restate what they are.
 
         :param name: Name is the stream name, unique within the org (alphanumeric, hyphens, underscores). (required)
         :type name: str
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4052,7 +4084,7 @@ class MqApi:
 
         _param = self._put_mq_stream_by_name_serialize(
             name=name,
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4060,7 +4092,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4077,7 +4109,7 @@ class MqApi:
     def put_mq_stream_by_name_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Name is the stream name, unique within the org (alphanumeric, hyphens, underscores).")],
-        config: Config,
+        mq_config: MqConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4097,8 +4129,8 @@ class MqApi:
 
         :param name: Name is the stream name, unique within the org (alphanumeric, hyphens, underscores). (required)
         :type name: str
-        :param config: (required)
-        :type config: Config
+        :param mq_config: (required)
+        :type mq_config: MqConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4123,7 +4155,7 @@ class MqApi:
 
         _param = self._put_mq_stream_by_name_serialize(
             name=name,
-            config=config,
+            mq_config=mq_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4131,7 +4163,7 @@ class MqApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Stream",
+            '200': "MqStream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4143,7 +4175,7 @@ class MqApi:
     def _put_mq_stream_by_name_serialize(
         self,
         name,
-        config,
+        mq_config,
         _request_auth,
         _content_type,
         _headers,
@@ -4171,15 +4203,16 @@ class MqApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if config is not None:
-            _body_params = config
+        if mq_config is not None:
+            _body_params = mq_config
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

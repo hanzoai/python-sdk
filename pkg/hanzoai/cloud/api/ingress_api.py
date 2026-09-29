@@ -18,15 +18,15 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ingress_middlewares import IngressMiddlewares
-from hanzoai.cloud.models.ingress_routes import IngressRoutes
-from hanzoai.cloud.models.ingress_services import IngressServices
-from hanzoai.cloud.models.ingress_status import IngressStatus
-from hanzoai.cloud.models.ingress_tls import IngressTLS
-from hanzoai.cloud.models.middleware import Middleware
-from hanzoai.cloud.models.route import Route
-from hanzoai.cloud.models.tls_config import TLSConfig
-from hanzoai.cloud.models.upstream import Upstream
+from hanzoai.cloud.models.ingress_ingress_middlewares import IngressIngressMiddlewares
+from hanzoai.cloud.models.ingress_ingress_routes import IngressIngressRoutes
+from hanzoai.cloud.models.ingress_ingress_services import IngressIngressServices
+from hanzoai.cloud.models.ingress_ingress_status import IngressIngressStatus
+from hanzoai.cloud.models.ingress_ingress_tls import IngressIngressTLS
+from hanzoai.cloud.models.ingress_middleware import IngressMiddleware
+from hanzoai.cloud.models.ingress_route import IngressRoute
+from hanzoai.cloud.models.ingress_tls_config import IngressTLSConfig
+from hanzoai.cloud.models.ingress_upstream import IngressUpstream
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -275,6 +275,13 @@ class IngressApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -529,6 +536,13 @@ class IngressApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -783,6 +797,13 @@ class IngressApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -823,7 +844,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngressMiddlewares:
+    ) -> IngressIngressMiddlewares:
         """Returns every edge transform the caller's org has configured, ordered by id.
 
         Returns every edge transform the caller's org has configured, ordered by id. A route names the ones it wants, in order.
@@ -858,7 +879,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressMiddlewares",
+            '200': "IngressIngressMiddlewares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -886,7 +907,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngressMiddlewares]:
+    ) -> ApiResponse[IngressIngressMiddlewares]:
         """Returns every edge transform the caller's org has configured, ordered by id.
 
         Returns every edge transform the caller's org has configured, ordered by id. A route names the ones it wants, in order.
@@ -921,7 +942,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressMiddlewares",
+            '200': "IngressIngressMiddlewares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -984,7 +1005,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressMiddlewares",
+            '200': "IngressIngressMiddlewares",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1026,7 +1047,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1070,7 +1092,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Middleware:
+    ) -> IngressMiddleware:
         """Returns one of the caller org's edge transforms by id.
 
         Returns one of the caller org's edge transforms by id.
@@ -1108,7 +1130,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1137,7 +1159,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Middleware]:
+    ) -> ApiResponse[IngressMiddleware]:
         """Returns one of the caller org's edge transforms by id.
 
         Returns one of the caller org's edge transforms by id.
@@ -1175,7 +1197,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1242,7 +1264,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1287,7 +1309,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1330,7 +1353,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngressRoutes:
+    ) -> IngressIngressRoutes:
         """Returns every routing rule the caller's org has configured, ordered by id.
 
         Returns every routing rule the caller's org has configured, ordered by id. A route maps an exact Host (and optional path prefix) to a service.
@@ -1365,7 +1388,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressRoutes",
+            '200': "IngressIngressRoutes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1393,7 +1416,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngressRoutes]:
+    ) -> ApiResponse[IngressIngressRoutes]:
         """Returns every routing rule the caller's org has configured, ordered by id.
 
         Returns every routing rule the caller's org has configured, ordered by id. A route maps an exact Host (and optional path prefix) to a service.
@@ -1428,7 +1451,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressRoutes",
+            '200': "IngressIngressRoutes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1491,7 +1514,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressRoutes",
+            '200': "IngressIngressRoutes",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1533,7 +1556,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1577,7 +1601,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Route:
+    ) -> IngressRoute:
         """Returns one of the caller org's routing rules by id.
 
         Returns one of the caller org's routing rules by id.
@@ -1615,7 +1639,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1644,7 +1668,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Route]:
+    ) -> ApiResponse[IngressRoute]:
         """Returns one of the caller org's routing rules by id.
 
         Returns one of the caller org's routing rules by id.
@@ -1682,7 +1706,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1749,7 +1773,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1794,7 +1818,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1837,7 +1862,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngressServices:
+    ) -> IngressIngressServices:
         """Returns every backend pool the caller's org has configured, ordered by id.
 
         Returns every backend pool the caller's org has configured, ordered by id. A service is the weighted round-robin target a route dispatches to.
@@ -1872,7 +1897,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressServices",
+            '200': "IngressIngressServices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1900,7 +1925,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngressServices]:
+    ) -> ApiResponse[IngressIngressServices]:
         """Returns every backend pool the caller's org has configured, ordered by id.
 
         Returns every backend pool the caller's org has configured, ordered by id. A service is the weighted round-robin target a route dispatches to.
@@ -1935,7 +1960,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressServices",
+            '200': "IngressIngressServices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1998,7 +2023,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressServices",
+            '200': "IngressIngressServices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2040,7 +2065,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2084,7 +2110,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Upstream:
+    ) -> IngressUpstream:
         """Returns one of the caller org's backend pools by id.
 
         Returns one of the caller org's backend pools by id.
@@ -2122,7 +2148,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2151,7 +2177,7 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Upstream]:
+    ) -> ApiResponse[IngressUpstream]:
         """Returns one of the caller org's backend pools by id.
 
         Returns one of the caller org's backend pools by id.
@@ -2189,7 +2215,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2256,7 +2282,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2301,7 +2327,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2344,10 +2371,10 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngressStatus:
-        """Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+    ) -> IngressIngressStatus:
+        """Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
-        Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+        Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2379,7 +2406,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressStatus",
+            '200': "IngressIngressStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2407,10 +2434,10 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngressStatus]:
-        """Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+    ) -> ApiResponse[IngressIngressStatus]:
+        """Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
-        Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+        Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2442,7 +2469,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressStatus",
+            '200': "IngressIngressStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2471,9 +2498,9 @@ class IngressApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+        """Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
-        Status reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
+        Reports the ingress edge's live posture: the role this instance runs in (app or edge), whether its listeners are bound and on which addresses, the ACME posture (staging flag and certificate cache directory), how many hosts the compiled route table currently serves, and how many the ACME HostPolicy will issue a certificate for.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2505,7 +2532,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressStatus",
+            '200': "IngressIngressStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2547,7 +2574,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2590,10 +2618,10 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngressTLS:
-        """GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+    ) -> IngressIngressTLS:
+        """Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
-        GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+        Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2625,7 +2653,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressTLS",
+            '200': "IngressIngressTLS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2653,10 +2681,10 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngressTLS]:
-        """GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+    ) -> ApiResponse[IngressIngressTLS]:
+        """Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
-        GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+        Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2688,7 +2716,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressTLS",
+            '200': "IngressIngressTLS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2717,9 +2745,9 @@ class IngressApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+        """Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
-        GetTLS returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
+        Returns the caller org's ACME intent together with the edge-wide TLS facts it lands in: which role this instance runs in, whether its listeners are bound, every host the ACME HostPolicy will issue a certificate for (the union across ALL orgs of TLS-marked routes and configured extraHosts, because one process holds one certificate cache), and the ACME directory and account email the process was started with.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2751,7 +2779,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IngressTLS",
+            '200': "IngressIngressTLS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2793,7 +2821,8 @@ class IngressApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2824,7 +2853,7 @@ class IngressApi:
     @validate_call
     def post_ingress_middlewares(
         self,
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2837,13 +2866,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Middleware:
+    ) -> IngressMiddleware:
         """Creates or replaces one edge transform and hot-applies it.
 
         Creates or replaces one edge transform and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. type must be one of redirectScheme, stripPrefix, addPrefix or headers, and stripPrefix/addPrefix each require their config key.
 
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2867,7 +2896,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_middlewares_serialize(
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2875,7 +2904,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2891,7 +2920,7 @@ class IngressApi:
     @validate_call
     def post_ingress_middlewares_with_http_info(
         self,
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2904,13 +2933,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Middleware]:
+    ) -> ApiResponse[IngressMiddleware]:
         """Creates or replaces one edge transform and hot-applies it.
 
         Creates or replaces one edge transform and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. type must be one of redirectScheme, stripPrefix, addPrefix or headers, and stripPrefix/addPrefix each require their config key.
 
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2934,7 +2963,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_middlewares_serialize(
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2942,7 +2971,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2958,7 +2987,7 @@ class IngressApi:
     @validate_call
     def post_ingress_middlewares_without_preload_content(
         self,
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2976,8 +3005,8 @@ class IngressApi:
 
         Creates or replaces one edge transform and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. type must be one of redirectScheme, stripPrefix, addPrefix or headers, and stripPrefix/addPrefix each require their config key.
 
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3001,7 +3030,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_middlewares_serialize(
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3009,7 +3038,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3020,7 +3049,7 @@ class IngressApi:
 
     def _post_ingress_middlewares_serialize(
         self,
-        middleware,
+        ingress_middleware,
         _request_auth,
         _content_type,
         _headers,
@@ -3046,15 +3075,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if middleware is not None:
-            _body_params = middleware
+        if ingress_middleware is not None:
+            _body_params = ingress_middleware
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3098,7 +3128,7 @@ class IngressApi:
     @validate_call
     def post_ingress_routes(
         self,
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3111,13 +3141,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Route:
+    ) -> IngressRoute:
         """Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart.
 
         Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A route's host is a GLOBALLY unique DNS claim: a host another org's route already holds is refused 409, so no tenant can hijack another's hostname.
 
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3141,7 +3171,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_routes_serialize(
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3149,7 +3179,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3165,7 +3195,7 @@ class IngressApi:
     @validate_call
     def post_ingress_routes_with_http_info(
         self,
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3178,13 +3208,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Route]:
+    ) -> ApiResponse[IngressRoute]:
         """Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart.
 
         Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A route's host is a GLOBALLY unique DNS claim: a host another org's route already holds is refused 409, so no tenant can hijack another's hostname.
 
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3208,7 +3238,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_routes_serialize(
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3216,7 +3246,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3232,7 +3262,7 @@ class IngressApi:
     @validate_call
     def post_ingress_routes_without_preload_content(
         self,
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3250,8 +3280,8 @@ class IngressApi:
 
         Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A route's host is a GLOBALLY unique DNS claim: a host another org's route already holds is refused 409, so no tenant can hijack another's hostname.
 
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3275,7 +3305,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_routes_serialize(
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3283,7 +3313,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3294,7 +3324,7 @@ class IngressApi:
 
     def _post_ingress_routes_serialize(
         self,
-        route,
+        ingress_route,
         _request_auth,
         _content_type,
         _headers,
@@ -3320,15 +3350,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if route is not None:
-            _body_params = route
+        if ingress_route is not None:
+            _body_params = ingress_route
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3372,7 +3403,7 @@ class IngressApi:
     @validate_call
     def post_ingress_services(
         self,
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3385,13 +3416,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Upstream:
+    ) -> IngressUpstream:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3415,7 +3446,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_services_serialize(
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3423,7 +3454,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3439,7 +3470,7 @@ class IngressApi:
     @validate_call
     def post_ingress_services_with_http_info(
         self,
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3452,13 +3483,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Upstream]:
+    ) -> ApiResponse[IngressUpstream]:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3482,7 +3513,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_services_serialize(
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3490,7 +3521,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3506,7 +3537,7 @@ class IngressApi:
     @validate_call
     def post_ingress_services_without_preload_content(
         self,
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3524,8 +3555,8 @@ class IngressApi:
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3549,7 +3580,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._post_ingress_services_serialize(
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3557,7 +3588,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3568,7 +3599,7 @@ class IngressApi:
 
     def _post_ingress_services_serialize(
         self,
-        upstream,
+        ingress_upstream,
         _request_auth,
         _content_type,
         _headers,
@@ -3594,15 +3625,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if upstream is not None:
-            _body_params = upstream
+        if ingress_upstream is not None:
+            _body_params = ingress_upstream
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3647,7 +3679,7 @@ class IngressApi:
     def put_ingress_middlewares_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3660,15 +3692,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Middleware:
+    ) -> IngressMiddleware:
         """Creates or replaces one edge transform and hot-applies it.
 
         Creates or replaces one edge transform and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. type must be one of redirectScheme, stripPrefix, addPrefix or headers, and stripPrefix/addPrefix each require their config key.
 
         :param id: ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3693,7 +3725,7 @@ class IngressApi:
 
         _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3701,7 +3733,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3718,7 +3750,7 @@ class IngressApi:
     def put_ingress_middlewares_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3731,15 +3763,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Middleware]:
+    ) -> ApiResponse[IngressMiddleware]:
         """Creates or replaces one edge transform and hot-applies it.
 
         Creates or replaces one edge transform and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. type must be one of redirectScheme, stripPrefix, addPrefix or headers, and stripPrefix/addPrefix each require their config key.
 
         :param id: ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3764,7 +3796,7 @@ class IngressApi:
 
         _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3772,7 +3804,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3789,7 +3821,7 @@ class IngressApi:
     def put_ingress_middlewares_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        middleware: Middleware,
+        ingress_middleware: IngressMiddleware,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3809,8 +3841,8 @@ class IngressApi:
 
         :param id: ID identifies the transform within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param middleware: (required)
-        :type middleware: Middleware
+        :param ingress_middleware: (required)
+        :type ingress_middleware: IngressMiddleware
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3835,7 +3867,7 @@ class IngressApi:
 
         _param = self._put_ingress_middlewares_by_id_serialize(
             id=id,
-            middleware=middleware,
+            ingress_middleware=ingress_middleware,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3843,7 +3875,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Middleware",
+            '200': "IngressMiddleware",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3855,7 +3887,7 @@ class IngressApi:
     def _put_ingress_middlewares_by_id_serialize(
         self,
         id,
-        middleware,
+        ingress_middleware,
         _request_auth,
         _content_type,
         _headers,
@@ -3883,15 +3915,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if middleware is not None:
-            _body_params = middleware
+        if ingress_middleware is not None:
+            _body_params = ingress_middleware
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3936,7 +3969,7 @@ class IngressApi:
     def put_ingress_routes_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3949,15 +3982,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Route:
+    ) -> IngressRoute:
         """Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart.
 
         Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A route's host is a GLOBALLY unique DNS claim: a host another org's route already holds is refused 409, so no tenant can hijack another's hostname.
 
         :param id: ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. (required)
         :type id: str
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3982,7 +4015,7 @@ class IngressApi:
 
         _param = self._put_ingress_routes_by_id_serialize(
             id=id,
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3990,7 +4023,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4007,7 +4040,7 @@ class IngressApi:
     def put_ingress_routes_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4020,15 +4053,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Route]:
+    ) -> ApiResponse[IngressRoute]:
         """Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart.
 
         Creates or replaces one routing rule and hot-applies the new table — there is no config file and no restart. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A route's host is a GLOBALLY unique DNS claim: a host another org's route already holds is refused 409, so no tenant can hijack another's hostname.
 
         :param id: ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. (required)
         :type id: str
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4053,7 +4086,7 @@ class IngressApi:
 
         _param = self._put_ingress_routes_by_id_serialize(
             id=id,
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4061,7 +4094,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4078,7 +4111,7 @@ class IngressApi:
     def put_ingress_routes_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one.")],
-        route: Route,
+        ingress_route: IngressRoute,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4098,8 +4131,8 @@ class IngressApi:
 
         :param id: ID identifies the route within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. (required)
         :type id: str
-        :param route: (required)
-        :type route: Route
+        :param ingress_route: (required)
+        :type ingress_route: IngressRoute
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4124,7 +4157,7 @@ class IngressApi:
 
         _param = self._put_ingress_routes_by_id_serialize(
             id=id,
-            route=route,
+            ingress_route=ingress_route,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4132,7 +4165,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Route",
+            '200': "IngressRoute",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4144,7 +4177,7 @@ class IngressApi:
     def _put_ingress_routes_by_id_serialize(
         self,
         id,
-        route,
+        ingress_route,
         _request_auth,
         _content_type,
         _headers,
@@ -4172,15 +4205,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if route is not None:
-            _body_params = route
+        if ingress_route is not None:
+            _body_params = ingress_route
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4225,7 +4259,7 @@ class IngressApi:
     def put_ingress_services_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4238,15 +4272,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Upstream:
+    ) -> IngressUpstream:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4271,7 +4305,7 @@ class IngressApi:
 
         _param = self._put_ingress_services_by_id_serialize(
             id=id,
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4279,7 +4313,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4296,7 +4330,7 @@ class IngressApi:
     def put_ingress_services_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4309,15 +4343,15 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Upstream]:
+    ) -> ApiResponse[IngressUpstream]:
         """Creates or replaces one backend pool and hot-applies it.
 
         Creates or replaces one backend pool and hot-applies it. POST mints an id when the body omits one; PUT takes the id from the URL, which wins over any id in the body. A pool needs at least one backend and every backend URL must be http(s)://host[:port].
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4342,7 +4376,7 @@ class IngressApi:
 
         _param = self._put_ingress_services_by_id_serialize(
             id=id,
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4350,7 +4384,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4367,7 +4401,7 @@ class IngressApi:
     def put_ingress_services_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id.")],
-        upstream: Upstream,
+        ingress_upstream: IngressUpstream,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4387,8 +4421,8 @@ class IngressApi:
 
         :param id: ID identifies the pool within the org: [A-Za-z0-9-_.], at most 128 chars. A create that omits it gets a generated one. Routes reference it by this id. (required)
         :type id: str
-        :param upstream: (required)
-        :type upstream: Upstream
+        :param ingress_upstream: (required)
+        :type ingress_upstream: IngressUpstream
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4413,7 +4447,7 @@ class IngressApi:
 
         _param = self._put_ingress_services_by_id_serialize(
             id=id,
-            upstream=upstream,
+            ingress_upstream=ingress_upstream,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4421,7 +4455,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Upstream",
+            '200': "IngressUpstream",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4433,7 +4467,7 @@ class IngressApi:
     def _put_ingress_services_by_id_serialize(
         self,
         id,
-        upstream,
+        ingress_upstream,
         _request_auth,
         _content_type,
         _headers,
@@ -4461,15 +4495,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if upstream is not None:
-            _body_params = upstream
+        if ingress_upstream is not None:
+            _body_params = ingress_upstream
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4513,7 +4548,7 @@ class IngressApi:
     @validate_call
     def put_ingress_tls(
         self,
-        tls_config: TLSConfig,
+        ingress_tls_config: IngressTLSConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4526,13 +4561,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TLSConfig:
-        """PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied.
+    ) -> IngressTLSConfig:
+        """Replaces the caller org's ACME intent and hot-applies what can be hot-applied.
 
-        PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
+        Replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
 
-        :param tls_config: (required)
-        :type tls_config: TLSConfig
+        :param ingress_tls_config: (required)
+        :type ingress_tls_config: IngressTLSConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4556,7 +4591,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._put_ingress_tls_serialize(
-            tls_config=tls_config,
+            ingress_tls_config=ingress_tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4564,7 +4599,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TLSConfig",
+            '200': "IngressTLSConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4580,7 +4615,7 @@ class IngressApi:
     @validate_call
     def put_ingress_tls_with_http_info(
         self,
-        tls_config: TLSConfig,
+        ingress_tls_config: IngressTLSConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4593,13 +4628,13 @@ class IngressApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TLSConfig]:
-        """PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied.
+    ) -> ApiResponse[IngressTLSConfig]:
+        """Replaces the caller org's ACME intent and hot-applies what can be hot-applied.
 
-        PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
+        Replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
 
-        :param tls_config: (required)
-        :type tls_config: TLSConfig
+        :param ingress_tls_config: (required)
+        :type ingress_tls_config: IngressTLSConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4623,7 +4658,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._put_ingress_tls_serialize(
-            tls_config=tls_config,
+            ingress_tls_config=ingress_tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4631,7 +4666,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TLSConfig",
+            '200': "IngressTLSConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4647,7 +4682,7 @@ class IngressApi:
     @validate_call
     def put_ingress_tls_without_preload_content(
         self,
-        tls_config: TLSConfig,
+        ingress_tls_config: IngressTLSConfig,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4661,12 +4696,12 @@ class IngressApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied.
+        """Replaces the caller org's ACME intent and hot-applies what can be hot-applied.
 
-        PutTLS replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
+        Replaces the caller org's ACME intent and hot-applies what can be hot-applied. extraHosts are normalized and validated, then feed the ACME HostPolicy on the reload this op performs, alongside the per-route tls flags. acmeEmail and staging bind an ACME account for the lifetime of an edge process, so they only take effect when the edge (re)starts — the returned note says so.
 
-        :param tls_config: (required)
-        :type tls_config: TLSConfig
+        :param ingress_tls_config: (required)
+        :type ingress_tls_config: IngressTLSConfig
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4690,7 +4725,7 @@ class IngressApi:
         """ # noqa: E501
 
         _param = self._put_ingress_tls_serialize(
-            tls_config=tls_config,
+            ingress_tls_config=ingress_tls_config,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4698,7 +4733,7 @@ class IngressApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TLSConfig",
+            '200': "IngressTLSConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4709,7 +4744,7 @@ class IngressApi:
 
     def _put_ingress_tls_serialize(
         self,
-        tls_config,
+        ingress_tls_config,
         _request_auth,
         _content_type,
         _headers,
@@ -4735,15 +4770,16 @@ class IngressApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if tls_config is not None:
-            _body_params = tls_config
+        if ingress_tls_config is not None:
+            _body_params = ingress_tls_config
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

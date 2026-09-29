@@ -18,23 +18,23 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.esign_completion import EsignCompletion
-from hanzoai.cloud.models.esign_document import EsignDocument
-from hanzoai.cloud.models.esign_documents import EsignDocuments
-from hanzoai.cloud.models.esign_field_in import EsignFieldIn
-from hanzoai.cloud.models.esign_health import EsignHealth
-from hanzoai.cloud.models.esign_insertion import EsignInsertion
-from hanzoai.cloud.models.esign_invite import EsignInvite
-from hanzoai.cloud.models.esign_links import EsignLinks
-from hanzoai.cloud.models.esign_pdf import EsignPDF
-from hanzoai.cloud.models.esign_placement import EsignPlacement
-from hanzoai.cloud.models.esign_recipient_in import EsignRecipientIn
-from hanzoai.cloud.models.esign_reject_in import EsignRejectIn
-from hanzoai.cloud.models.esign_rejection import EsignRejection
-from hanzoai.cloud.models.esign_session import EsignSession
-from hanzoai.cloud.models.esign_trail import EsignTrail
-from hanzoai.cloud.models.esign_upload_in import EsignUploadIn
-from hanzoai.cloud.models.esign_value_in import EsignValueIn
+from hanzoai.cloud.models.esign_esign_completion import EsignEsignCompletion
+from hanzoai.cloud.models.esign_esign_document import EsignEsignDocument
+from hanzoai.cloud.models.esign_esign_documents import EsignEsignDocuments
+from hanzoai.cloud.models.esign_esign_field_in import EsignEsignFieldIn
+from hanzoai.cloud.models.esign_esign_health import EsignEsignHealth
+from hanzoai.cloud.models.esign_esign_insertion import EsignEsignInsertion
+from hanzoai.cloud.models.esign_esign_invite import EsignEsignInvite
+from hanzoai.cloud.models.esign_esign_links import EsignEsignLinks
+from hanzoai.cloud.models.esign_esign_pdf import EsignEsignPDF
+from hanzoai.cloud.models.esign_esign_placement import EsignEsignPlacement
+from hanzoai.cloud.models.esign_esign_recipient_in import EsignEsignRecipientIn
+from hanzoai.cloud.models.esign_esign_reject_in import EsignEsignRejectIn
+from hanzoai.cloud.models.esign_esign_rejection import EsignEsignRejection
+from hanzoai.cloud.models.esign_esign_session import EsignEsignSession
+from hanzoai.cloud.models.esign_esign_trail import EsignEsignTrail
+from hanzoai.cloud.models.esign_esign_upload_in import EsignEsignUploadIn
+from hanzoai.cloud.models.esign_esign_value_in import EsignEsignValueIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -69,7 +69,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignDocuments:
+    ) -> EsignEsignDocuments:
         """Returns your org's documents, newest first.
 
         Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
@@ -104,7 +104,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocuments",
+            '200': "EsignEsignDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -132,7 +132,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignDocuments]:
+    ) -> ApiResponse[EsignEsignDocuments]:
         """Returns your org's documents, newest first.
 
         Returns your org's documents, newest first.  Each carries its status, recipients and field layout. The listing is capped at 200 and there is no paging, so treat it as the recent window rather than a complete export. It reads the caller's own tenant store, so no other org's documents can appear in it.
@@ -167,7 +167,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocuments",
+            '200': "EsignEsignDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -230,7 +230,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocuments",
+            '200': "EsignEsignDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -272,7 +272,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -316,7 +317,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignDocument:
+    ) -> EsignEsignDocument:
         """Returns one document with its recipients and field layout.
 
         Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
@@ -354,7 +355,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocument",
+            '200': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -383,7 +384,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignDocument]:
+    ) -> ApiResponse[EsignEsignDocument]:
         """Returns one document with its recipients and field layout.
 
         Returns one document with its recipients and field layout.  It answers the document, its recipients with each one's read and signing status, and every field with its type, page and position — the view a sender's UI renders, and where the field ids come from. The id is resolved in the caller's OWN tenant store, so another org's document id is a 404 rather than a refusal that would confirm it exists.
@@ -421,7 +422,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocument",
+            '200': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -488,7 +489,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignDocument",
+            '200': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -533,7 +534,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -577,7 +579,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignTrail:
+    ) -> EsignEsignTrail:
         """Returns the document's full audit trail, oldest first.
 
         Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
@@ -615,7 +617,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignTrail",
+            '200': "EsignEsignTrail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -644,7 +646,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignTrail]:
+    ) -> ApiResponse[EsignEsignTrail]:
         """Returns the document's full audit trail, oldest first.
 
         Returns the document's full audit trail, oldest first.  It answers every recorded event for the document in order — created, recipient added, field created, sent, opened, each field inserted, each recipient completed or rejected, and completion — with the actor and timestamp on each. This is the evidence record behind a signature, so it is append-only and nothing in the surface edits it.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
@@ -682,7 +684,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignTrail",
+            '200': "EsignEsignTrail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -749,7 +751,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignTrail",
+            '200': "EsignEsignTrail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -794,7 +796,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -838,7 +841,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignPDF:
+    ) -> EsignEsignPDF:
         """Returns the document — the sealed PDF once it is complete.
 
         Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
@@ -876,7 +879,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignPDF",
+            '200': "EsignEsignPDF",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -905,7 +908,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignPDF]:
+    ) -> ApiResponse[EsignEsignPDF]:
         """Returns the document — the sealed PDF once it is complete.
 
         Returns the document — the sealed PDF once it is complete.  It answers the document's current PDF as base64 with a sealed flag and a filename. Before completion that is the original upload; once every signer has finished it is the SEALED artifact, with the field values rendered onto the page and a real x509 PKCS#7 digital signature applied. There is one pdfBase64 field either way, so sealed is what tells you which you are holding.  The id is resolved in the caller's OWN tenant store, so another org's document id is a 404.
@@ -943,7 +946,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignPDF",
+            '200': "EsignEsignPDF",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1010,7 +1013,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignPDF",
+            '200': "EsignEsignPDF",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1055,7 +1058,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1098,7 +1102,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignHealth:
+    ) -> EsignEsignHealth:
         """Reports whether the e-signature surface is mounted.
 
         Reports whether the e-signature surface is mounted.  It answers ok whenever the subsystem is mounted, takes no tenant and needs no principal. It is deliberately shallow: it is registered before the document host is built, so it still answers on a deployment that came up WITHOUT object storage and therefore serves nothing else. Read it as reachability, never as a promise that documents can be stored.
@@ -1133,7 +1137,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignHealth",
+            '200': "EsignEsignHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1161,7 +1165,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignHealth]:
+    ) -> ApiResponse[EsignEsignHealth]:
         """Reports whether the e-signature surface is mounted.
 
         Reports whether the e-signature surface is mounted.  It answers ok whenever the subsystem is mounted, takes no tenant and needs no principal. It is deliberately shallow: it is registered before the document host is built, so it still answers on a deployment that came up WITHOUT object storage and therefore serves nothing else. Read it as reachability, never as a promise that documents can be stored.
@@ -1196,7 +1200,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignHealth",
+            '200': "EsignEsignHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1259,7 +1263,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignHealth",
+            '200': "EsignEsignHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1301,7 +1305,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1346,7 +1351,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignSession:
+    ) -> EsignEsignSession:
         """Opens a document you were asked to sign, using your signing link.
 
         Opens a document you were asked to sign, using your signing link.  It answers the document, the recipient the link identifies, the fields THAT recipient must fill, and the PDF to display. The first open also marks the recipient as having opened it and records that on the audit trail, so this read has a side effect by design.  This surface takes NO account: the signing token is the entire credential, and it names the recipient, so a signer sees only their own fields and never the other recipients' tokens. The token resolves to its owning tenant FIRST, before any per-tenant store is opened, and the org segment is only checked against that answer. An unknown or wrong-org token is one and the same 404, never a hint that some other document exists.
@@ -1387,7 +1392,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignSession",
+            '200': "EsignEsignSession",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1417,7 +1422,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignSession]:
+    ) -> ApiResponse[EsignEsignSession]:
         """Opens a document you were asked to sign, using your signing link.
 
         Opens a document you were asked to sign, using your signing link.  It answers the document, the recipient the link identifies, the fields THAT recipient must fill, and the PDF to display. The first open also marks the recipient as having opened it and records that on the audit trail, so this read has a side effect by design.  This surface takes NO account: the signing token is the entire credential, and it names the recipient, so a signer sees only their own fields and never the other recipients' tokens. The token resolves to its owning tenant FIRST, before any per-tenant store is opened, and the org segment is only checked against that answer. An unknown or wrong-org token is one and the same 404, never a hint that some other document exists.
@@ -1458,7 +1463,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignSession",
+            '200': "EsignEsignSession",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1529,7 +1534,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignSession",
+            '200': "EsignEsignSession",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1577,7 +1582,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1608,7 +1614,7 @@ class EsignApi:
     @validate_call
     def post_esign_documents(
         self,
-        esign_upload_in: EsignUploadIn,
+        esign_esign_upload_in: EsignEsignUploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1621,13 +1627,13 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignDocument:
+    ) -> EsignEsignDocument:
         """Uploads a PDF and opens a draft ready for recipients and fields.
 
         Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
 
-        :param esign_upload_in: (required)
-        :type esign_upload_in: EsignUploadIn
+        :param esign_esign_upload_in: (required)
+        :type esign_esign_upload_in: EsignEsignUploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1651,7 +1657,7 @@ class EsignApi:
         """ # noqa: E501
 
         _param = self._post_esign_documents_serialize(
-            esign_upload_in=esign_upload_in,
+            esign_esign_upload_in=esign_esign_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1659,7 +1665,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignDocument",
+            '201': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1675,7 +1681,7 @@ class EsignApi:
     @validate_call
     def post_esign_documents_with_http_info(
         self,
-        esign_upload_in: EsignUploadIn,
+        esign_esign_upload_in: EsignEsignUploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1688,13 +1694,13 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignDocument]:
+    ) -> ApiResponse[EsignEsignDocument]:
         """Uploads a PDF and opens a draft ready for recipients and fields.
 
         Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
 
-        :param esign_upload_in: (required)
-        :type esign_upload_in: EsignUploadIn
+        :param esign_esign_upload_in: (required)
+        :type esign_esign_upload_in: EsignEsignUploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1718,7 +1724,7 @@ class EsignApi:
         """ # noqa: E501
 
         _param = self._post_esign_documents_serialize(
-            esign_upload_in=esign_upload_in,
+            esign_esign_upload_in=esign_esign_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1726,7 +1732,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignDocument",
+            '201': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1742,7 +1748,7 @@ class EsignApi:
     @validate_call
     def post_esign_documents_without_preload_content(
         self,
-        esign_upload_in: EsignUploadIn,
+        esign_esign_upload_in: EsignEsignUploadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1760,8 +1766,8 @@ class EsignApi:
 
         Uploads a PDF and opens a draft ready for recipients and fields.  It answers 201 with the document in DRAFT — the state where recipients and fields may still be added, and the only state they may. The bytes go to object storage rather than into the tenant database, and the original is kept under its own key so it survives sealing untouched: a completed document can always be compared against what was uploaded. Creation is recorded on the audit trail.  This is the sender's surface: a validated principal is required, and the document lands in that principal's OWN org. Isolation is physical rather than a filter — each tenant has its own store — so another org's document id is simply not there. A body over 32 MiB is refused with 413.
 
-        :param esign_upload_in: (required)
-        :type esign_upload_in: EsignUploadIn
+        :param esign_esign_upload_in: (required)
+        :type esign_esign_upload_in: EsignEsignUploadIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1785,7 +1791,7 @@ class EsignApi:
         """ # noqa: E501
 
         _param = self._post_esign_documents_serialize(
-            esign_upload_in=esign_upload_in,
+            esign_esign_upload_in=esign_esign_upload_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1793,7 +1799,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignDocument",
+            '201': "EsignEsignDocument",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1804,7 +1810,7 @@ class EsignApi:
 
     def _post_esign_documents_serialize(
         self,
-        esign_upload_in,
+        esign_esign_upload_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1830,15 +1836,16 @@ class EsignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_upload_in is not None:
-            _body_params = esign_upload_in
+        if esign_esign_upload_in is not None:
+            _body_params = esign_esign_upload_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1883,7 +1890,7 @@ class EsignApi:
     def post_esign_documents_by_id_fields(
         self,
         id: StrictStr,
-        esign_field_in: EsignFieldIn,
+        esign_esign_field_in: EsignEsignFieldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1896,15 +1903,15 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignPlacement:
+    ) -> EsignEsignPlacement:
         """Places a field on the page for one recipient to fill.
 
         Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
 
         :param id: (required)
         :type id: str
-        :param esign_field_in: (required)
-        :type esign_field_in: EsignFieldIn
+        :param esign_esign_field_in: (required)
+        :type esign_esign_field_in: EsignEsignFieldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1929,7 +1936,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
-            esign_field_in=esign_field_in,
+            esign_esign_field_in=esign_esign_field_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1937,7 +1944,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignPlacement",
+            '201': "EsignEsignPlacement",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1954,7 +1961,7 @@ class EsignApi:
     def post_esign_documents_by_id_fields_with_http_info(
         self,
         id: StrictStr,
-        esign_field_in: EsignFieldIn,
+        esign_esign_field_in: EsignEsignFieldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1967,15 +1974,15 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignPlacement]:
+    ) -> ApiResponse[EsignEsignPlacement]:
         """Places a field on the page for one recipient to fill.
 
         Places a field on the page for one recipient to fill.  It adds a signature, date, name, email or text box at a page and position for ONE named recipient, and answers 201 with its id. The recipient must belong to this document; one from elsewhere is refused.  Fields are what make a recipient signable: a document cannot be sent while any signing recipient has none. Only while DRAFT — adding a field to a sent document is a 409 — and an unknown document is a 404. The addition is recorded on the audit trail.
 
         :param id: (required)
         :type id: str
-        :param esign_field_in: (required)
-        :type esign_field_in: EsignFieldIn
+        :param esign_esign_field_in: (required)
+        :type esign_esign_field_in: EsignEsignFieldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2000,7 +2007,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
-            esign_field_in=esign_field_in,
+            esign_esign_field_in=esign_esign_field_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2008,7 +2015,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignPlacement",
+            '201': "EsignEsignPlacement",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2025,7 +2032,7 @@ class EsignApi:
     def post_esign_documents_by_id_fields_without_preload_content(
         self,
         id: StrictStr,
-        esign_field_in: EsignFieldIn,
+        esign_esign_field_in: EsignEsignFieldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2045,8 +2052,8 @@ class EsignApi:
 
         :param id: (required)
         :type id: str
-        :param esign_field_in: (required)
-        :type esign_field_in: EsignFieldIn
+        :param esign_esign_field_in: (required)
+        :type esign_esign_field_in: EsignEsignFieldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2071,7 +2078,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_fields_serialize(
             id=id,
-            esign_field_in=esign_field_in,
+            esign_esign_field_in=esign_esign_field_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2079,7 +2086,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignPlacement",
+            '201': "EsignEsignPlacement",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2091,7 +2098,7 @@ class EsignApi:
     def _post_esign_documents_by_id_fields_serialize(
         self,
         id,
-        esign_field_in,
+        esign_esign_field_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2119,15 +2126,16 @@ class EsignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_field_in is not None:
-            _body_params = esign_field_in
+        if esign_esign_field_in is not None:
+            _body_params = esign_esign_field_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2172,7 +2180,7 @@ class EsignApi:
     def post_esign_documents_by_id_recipients(
         self,
         id: StrictStr,
-        esign_recipient_in: EsignRecipientIn,
+        esign_esign_recipient_in: EsignEsignRecipientIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2185,15 +2193,15 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignInvite:
+    ) -> EsignEsignInvite:
         """Adds someone to a draft and mints their signing token.
 
         Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
 
         :param id: (required)
         :type id: str
-        :param esign_recipient_in: (required)
-        :type esign_recipient_in: EsignRecipientIn
+        :param esign_esign_recipient_in: (required)
+        :type esign_esign_recipient_in: EsignEsignRecipientIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2218,7 +2226,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
-            esign_recipient_in=esign_recipient_in,
+            esign_esign_recipient_in=esign_esign_recipient_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2226,7 +2234,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignInvite",
+            '201': "EsignEsignInvite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2243,7 +2251,7 @@ class EsignApi:
     def post_esign_documents_by_id_recipients_with_http_info(
         self,
         id: StrictStr,
-        esign_recipient_in: EsignRecipientIn,
+        esign_esign_recipient_in: EsignEsignRecipientIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2256,15 +2264,15 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignInvite]:
+    ) -> ApiResponse[EsignEsignInvite]:
         """Adds someone to a draft and mints their signing token.
 
         Adds someone to a draft and mints their signing token.  It answers 201 with the recipient's id and their signing TOKEN — the crypto-random capability that is the only credential the signer's surface accepts — so this response is where the signing link is built from. A CC recipient is recorded as already complete, because they are never asked to sign.  Only while DRAFT: adding a recipient to a document already sent is a 409, because the field layout and the turn order were fixed when it went out. An unknown document is a 404. The addition is recorded on the audit trail.
 
         :param id: (required)
         :type id: str
-        :param esign_recipient_in: (required)
-        :type esign_recipient_in: EsignRecipientIn
+        :param esign_esign_recipient_in: (required)
+        :type esign_esign_recipient_in: EsignEsignRecipientIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2289,7 +2297,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
-            esign_recipient_in=esign_recipient_in,
+            esign_esign_recipient_in=esign_esign_recipient_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2297,7 +2305,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignInvite",
+            '201': "EsignEsignInvite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2314,7 +2322,7 @@ class EsignApi:
     def post_esign_documents_by_id_recipients_without_preload_content(
         self,
         id: StrictStr,
-        esign_recipient_in: EsignRecipientIn,
+        esign_esign_recipient_in: EsignEsignRecipientIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2334,8 +2342,8 @@ class EsignApi:
 
         :param id: (required)
         :type id: str
-        :param esign_recipient_in: (required)
-        :type esign_recipient_in: EsignRecipientIn
+        :param esign_esign_recipient_in: (required)
+        :type esign_esign_recipient_in: EsignEsignRecipientIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2360,7 +2368,7 @@ class EsignApi:
 
         _param = self._post_esign_documents_by_id_recipients_serialize(
             id=id,
-            esign_recipient_in=esign_recipient_in,
+            esign_esign_recipient_in=esign_esign_recipient_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2368,7 +2376,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "EsignInvite",
+            '201': "EsignEsignInvite",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2380,7 +2388,7 @@ class EsignApi:
     def _post_esign_documents_by_id_recipients_serialize(
         self,
         id,
-        esign_recipient_in,
+        esign_esign_recipient_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2408,15 +2416,16 @@ class EsignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_recipient_in is not None:
-            _body_params = esign_recipient_in
+        if esign_esign_recipient_in is not None:
+            _body_params = esign_esign_recipient_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2473,7 +2482,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignLinks:
+    ) -> EsignEsignLinks:
         """Sends the document out and answers each signer's link.
 
         Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
@@ -2511,7 +2520,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignLinks",
+            '200': "EsignEsignLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2540,7 +2549,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignLinks]:
+    ) -> ApiResponse[EsignEsignLinks]:
         """Sends the document out and answers each signer's link.
 
         Sends the document out and answers each signer's link.  It moves the document from DRAFT to PENDING and answers the signing tokens — one per signing recipient, with the path to hand them — which is how the links reach the people who must sign. Nothing is emailed by this call; delivering the links is the caller's.  It refuses to send an unsignable document: no recipients at all is a 400, and so is any signing recipient with no fields to fill, named in the error. Re-sending an already-pending document is allowed and re-issues the same links rather than restarting anything; a completed document is a 409, and an unknown one a 404. The send is recorded on the audit trail.
@@ -2578,7 +2587,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignLinks",
+            '200': "EsignEsignLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2645,7 +2654,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignLinks",
+            '200': "EsignEsignLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2690,7 +2699,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2735,7 +2745,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignCompletion:
+    ) -> EsignEsignCompletion:
         """Finishes your signing — and seals the document if you were the last.
 
         Finishes your signing — and seals the document if you were the last.  It marks this recipient as done and answers whether the DOCUMENT sealed with it. When every signing recipient has completed, sealing happens right here in the same call: the collected values are rendered onto the PDF, a real x509 PKCS#7 signature is applied, the sealed bytes are stored beside the untouched original, and the document moves to COMPLETED. Until then the answer is the recipient's own completion with the document still pending.  It refuses to complete a half-filled signature: a recipient with any unfilled field is a 400 naming how many remain. A document not out for signature is a 409, as is a recipient who has already completed, and under SEQUENTIAL order a signer out of turn is a 403. The token is the whole credential — no account, and a token that does not resolve under the org segment is a 404. Sealing and completion are one transaction, so a failure anywhere leaves the document exactly as it was.
@@ -2776,7 +2786,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignCompletion",
+            '200': "EsignEsignCompletion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2806,7 +2816,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignCompletion]:
+    ) -> ApiResponse[EsignEsignCompletion]:
         """Finishes your signing — and seals the document if you were the last.
 
         Finishes your signing — and seals the document if you were the last.  It marks this recipient as done and answers whether the DOCUMENT sealed with it. When every signing recipient has completed, sealing happens right here in the same call: the collected values are rendered onto the PDF, a real x509 PKCS#7 signature is applied, the sealed bytes are stored beside the untouched original, and the document moves to COMPLETED. Until then the answer is the recipient's own completion with the document still pending.  It refuses to complete a half-filled signature: a recipient with any unfilled field is a 400 naming how many remain. A document not out for signature is a 409, as is a recipient who has already completed, and under SEQUENTIAL order a signer out of turn is a 403. The token is the whole credential — no account, and a token that does not resolve under the org segment is a 404. Sealing and completion are one transaction, so a failure anywhere leaves the document exactly as it was.
@@ -2847,7 +2857,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignCompletion",
+            '200': "EsignEsignCompletion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2918,7 +2928,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignCompletion",
+            '200': "EsignEsignCompletion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2966,7 +2976,8 @@ class EsignApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3000,7 +3011,7 @@ class EsignApi:
         org: StrictStr,
         token: StrictStr,
         field_id: StrictStr,
-        esign_value_in: EsignValueIn,
+        esign_esign_value_in: EsignEsignValueIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3013,7 +3024,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignInsertion:
+    ) -> EsignEsignInsertion:
         """Fills in one of your fields.
 
         Fills in one of your fields.  It records a value for one field and marks it inserted. A signature field takes a value with isBase64 true for drawn image bytes, or false for a typed signature; a date, name or email field falls back to today, the recipient's name or their email when the value is omitted; any other type requires one.  Nothing is sealed here — filling every field still leaves the document pending until the completion call. The token is the whole credential and it bounds what can be written: a field belonging to another recipient is refused with 401 even under a valid token, an unknown field is a 404, and a field already filled is a 409. A document not out for signature is a 409, as is a recipient who has already completed or rejected. Under SEQUENTIAL order a signer whose turn has not come is refused 403 until every earlier signer has signed. Each insertion is recorded on the audit trail.
@@ -3024,8 +3035,8 @@ class EsignApi:
         :type token: str
         :param field_id: (required)
         :type field_id: str
-        :param esign_value_in: (required)
-        :type esign_value_in: EsignValueIn
+        :param esign_esign_value_in: (required)
+        :type esign_esign_value_in: EsignEsignValueIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3052,7 +3063,7 @@ class EsignApi:
             org=org,
             token=token,
             field_id=field_id,
-            esign_value_in=esign_value_in,
+            esign_esign_value_in=esign_esign_value_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3060,7 +3071,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignInsertion",
+            '200': "EsignEsignInsertion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3079,7 +3090,7 @@ class EsignApi:
         org: StrictStr,
         token: StrictStr,
         field_id: StrictStr,
-        esign_value_in: EsignValueIn,
+        esign_esign_value_in: EsignEsignValueIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3092,7 +3103,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignInsertion]:
+    ) -> ApiResponse[EsignEsignInsertion]:
         """Fills in one of your fields.
 
         Fills in one of your fields.  It records a value for one field and marks it inserted. A signature field takes a value with isBase64 true for drawn image bytes, or false for a typed signature; a date, name or email field falls back to today, the recipient's name or their email when the value is omitted; any other type requires one.  Nothing is sealed here — filling every field still leaves the document pending until the completion call. The token is the whole credential and it bounds what can be written: a field belonging to another recipient is refused with 401 even under a valid token, an unknown field is a 404, and a field already filled is a 409. A document not out for signature is a 409, as is a recipient who has already completed or rejected. Under SEQUENTIAL order a signer whose turn has not come is refused 403 until every earlier signer has signed. Each insertion is recorded on the audit trail.
@@ -3103,8 +3114,8 @@ class EsignApi:
         :type token: str
         :param field_id: (required)
         :type field_id: str
-        :param esign_value_in: (required)
-        :type esign_value_in: EsignValueIn
+        :param esign_esign_value_in: (required)
+        :type esign_esign_value_in: EsignEsignValueIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3131,7 +3142,7 @@ class EsignApi:
             org=org,
             token=token,
             field_id=field_id,
-            esign_value_in=esign_value_in,
+            esign_esign_value_in=esign_esign_value_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3139,7 +3150,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignInsertion",
+            '200': "EsignEsignInsertion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3158,7 +3169,7 @@ class EsignApi:
         org: StrictStr,
         token: StrictStr,
         field_id: StrictStr,
-        esign_value_in: EsignValueIn,
+        esign_esign_value_in: EsignEsignValueIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3182,8 +3193,8 @@ class EsignApi:
         :type token: str
         :param field_id: (required)
         :type field_id: str
-        :param esign_value_in: (required)
-        :type esign_value_in: EsignValueIn
+        :param esign_esign_value_in: (required)
+        :type esign_esign_value_in: EsignEsignValueIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3210,7 +3221,7 @@ class EsignApi:
             org=org,
             token=token,
             field_id=field_id,
-            esign_value_in=esign_value_in,
+            esign_esign_value_in=esign_esign_value_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3218,7 +3229,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignInsertion",
+            '200': "EsignEsignInsertion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3232,7 +3243,7 @@ class EsignApi:
         org,
         token,
         field_id,
-        esign_value_in,
+        esign_esign_value_in,
         _request_auth,
         _content_type,
         _headers,
@@ -3264,15 +3275,16 @@ class EsignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_value_in is not None:
-            _body_params = esign_value_in
+        if esign_esign_value_in is not None:
+            _body_params = esign_esign_value_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3318,7 +3330,7 @@ class EsignApi:
         self,
         org: StrictStr,
         token: StrictStr,
-        esign_reject_in: EsignRejectIn,
+        esign_esign_reject_in: EsignEsignRejectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3331,7 +3343,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EsignRejection:
+    ) -> EsignEsignRejection:
         """Declines to sign, with an optional reason.
 
         Declines to sign, with an optional reason.  It records this recipient's refusal and moves the WHOLE DOCUMENT to REJECTED — one declining signer ends it for everyone, and there is no route back: the document cannot then be signed or completed. An optional reason is stored and written onto the audit trail with the rejection, which is what the sender sees.  A document not out for signature is a 409, and so is a recipient who has already signed or already rejected — a refusal cannot be taken back or repeated. The token is the whole credential; one that does not resolve under the org segment is a 404.
@@ -3340,8 +3352,8 @@ class EsignApi:
         :type org: str
         :param token: (required)
         :type token: str
-        :param esign_reject_in: (required)
-        :type esign_reject_in: EsignRejectIn
+        :param esign_esign_reject_in: (required)
+        :type esign_esign_reject_in: EsignEsignRejectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3367,7 +3379,7 @@ class EsignApi:
         _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
-            esign_reject_in=esign_reject_in,
+            esign_esign_reject_in=esign_esign_reject_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3375,7 +3387,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignRejection",
+            '200': "EsignEsignRejection",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3393,7 +3405,7 @@ class EsignApi:
         self,
         org: StrictStr,
         token: StrictStr,
-        esign_reject_in: EsignRejectIn,
+        esign_esign_reject_in: EsignEsignRejectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3406,7 +3418,7 @@ class EsignApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EsignRejection]:
+    ) -> ApiResponse[EsignEsignRejection]:
         """Declines to sign, with an optional reason.
 
         Declines to sign, with an optional reason.  It records this recipient's refusal and moves the WHOLE DOCUMENT to REJECTED — one declining signer ends it for everyone, and there is no route back: the document cannot then be signed or completed. An optional reason is stored and written onto the audit trail with the rejection, which is what the sender sees.  A document not out for signature is a 409, and so is a recipient who has already signed or already rejected — a refusal cannot be taken back or repeated. The token is the whole credential; one that does not resolve under the org segment is a 404.
@@ -3415,8 +3427,8 @@ class EsignApi:
         :type org: str
         :param token: (required)
         :type token: str
-        :param esign_reject_in: (required)
-        :type esign_reject_in: EsignRejectIn
+        :param esign_esign_reject_in: (required)
+        :type esign_esign_reject_in: EsignEsignRejectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3442,7 +3454,7 @@ class EsignApi:
         _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
-            esign_reject_in=esign_reject_in,
+            esign_esign_reject_in=esign_esign_reject_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3450,7 +3462,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignRejection",
+            '200': "EsignEsignRejection",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3468,7 +3480,7 @@ class EsignApi:
         self,
         org: StrictStr,
         token: StrictStr,
-        esign_reject_in: EsignRejectIn,
+        esign_esign_reject_in: EsignEsignRejectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3490,8 +3502,8 @@ class EsignApi:
         :type org: str
         :param token: (required)
         :type token: str
-        :param esign_reject_in: (required)
-        :type esign_reject_in: EsignRejectIn
+        :param esign_esign_reject_in: (required)
+        :type esign_esign_reject_in: EsignEsignRejectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3517,7 +3529,7 @@ class EsignApi:
         _param = self._post_esign_oby_org_sign_by_token_reject_serialize(
             org=org,
             token=token,
-            esign_reject_in=esign_reject_in,
+            esign_esign_reject_in=esign_esign_reject_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3525,7 +3537,7 @@ class EsignApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EsignRejection",
+            '200': "EsignEsignRejection",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3538,7 +3550,7 @@ class EsignApi:
         self,
         org,
         token,
-        esign_reject_in,
+        esign_esign_reject_in,
         _request_auth,
         _content_type,
         _headers,
@@ -3568,15 +3580,16 @@ class EsignApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if esign_reject_in is not None:
-            _body_params = esign_reject_in
+        if esign_esign_reject_in is not None:
+            _body_params = esign_esign_reject_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

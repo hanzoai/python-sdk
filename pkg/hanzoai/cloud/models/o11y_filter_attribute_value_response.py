@@ -27,7 +27,7 @@ class O11yFilterAttributeValueResponse(BaseModel):
     O11yFilterAttributeValueResponse
     """ # noqa: E501
     bool_attribute_values: Optional[List[StrictBool]] = Field(default=None, alias="boolAttributeValues")
-    number_attribute_values: Optional[List[Dict[str, Any]]] = Field(default=None, alias="numberAttributeValues")
+    number_attribute_values: Optional[List[Any]] = Field(default=None, alias="numberAttributeValues")
     related_values: Optional[O11yFilterAttributeValueResponse] = Field(default=None, alias="relatedValues")
     string_attribute_values: Optional[List[StrictStr]] = Field(default=None, alias="stringAttributeValues")
     __properties: ClassVar[List[str]] = ["boolAttributeValues", "numberAttributeValues", "relatedValues", "stringAttributeValues"]

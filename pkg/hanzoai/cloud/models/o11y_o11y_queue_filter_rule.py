@@ -29,7 +29,7 @@ class O11yO11yQueueFilterRule(BaseModel):
     """ # noqa: E501
     key: Optional[O11yO11yQueueFilterKey] = Field(default=None, description="Key names the attribute the predicate tests.")
     op: Optional[StrictStr] = Field(default=None, description="Op is the comparison, e.g. =, !=, in, contains.")
-    value: Optional[Dict[str, Any]] = Field(default=None, description="Value is the operand; its JSON type follows the attribute's dataType.")
+    value: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["key", "op", "value"]
 
     model_config = ConfigDict(
@@ -74,6 +74,11 @@ class O11yO11yQueueFilterRule(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of key
         if self.key:
             _dict['key'] = self.key.to_dict()
+        # set to None if value (nullable) is None
+        # and model_fields_set contains the field
+        if self.value is None and "value" in self.model_fields_set:
+            _dict['value'] = None
+
         return _dict
 
     @classmethod

@@ -39,6 +39,7 @@ from hanzoai.cloud.api.dns_api import DnsApi
 from hanzoai.cloud.api.domain_api import DomainApi
 from hanzoai.cloud.api.engine_api import EngineApi
 from hanzoai.cloud.api.entitlement_api import EntitlementApi
+from hanzoai.cloud.api.environment_api import EnvironmentApi
 from hanzoai.cloud.api.esign_api import EsignApi
 from hanzoai.cloud.api.eval_api import EvalApi
 from hanzoai.cloud.api.event_api import EventApi
@@ -83,6 +84,7 @@ from hanzoai.cloud.api.plan_api import PlanApi
 from hanzoai.cloud.api.platform_api import PlatformApi
 from hanzoai.cloud.api.pref_api import PrefApi
 from hanzoai.cloud.api.pricing_api import PricingApi
+from hanzoai.cloud.api.principal_api import PrincipalApi
 from hanzoai.cloud.api.project_api import ProjectApi
 from hanzoai.cloud.api.prompt_api import PromptApi
 from hanzoai.cloud.api.provider_api import ProviderApi
@@ -104,12 +106,12 @@ from hanzoai.cloud.api.social_api import SocialApi
 from hanzoai.cloud.api.space_api import SpaceApi
 from hanzoai.cloud.api.standing_api import StandingApi
 from hanzoai.cloud.api.sync_api import SyncApi
-from hanzoai.cloud.api.tasks_api import TasksApi
+from hanzoai.cloud.api.task_api import TaskApi
+from hanzoai.cloud.api.tax_api import TaxApi
 from hanzoai.cloud.api.taxonomy_api import TaxonomyApi
 from hanzoai.cloud.api.team_api import TeamApi
 from hanzoai.cloud.api.tel_api import TelApi
 from hanzoai.cloud.api.template_api import TemplateApi
-from hanzoai.cloud.api.todo_api import TodoApi
 from hanzoai.cloud.api.tool_api import ToolApi
 from hanzoai.cloud.api.translate_api import TranslateApi
 from hanzoai.cloud.api.treasury_api import TreasuryApi
@@ -120,6 +122,7 @@ from hanzoai.cloud.api.wallet_api import WalletApi
 from hanzoai.cloud.api.web3_api import Web3Api
 from hanzoai.cloud.api.webhook_api import WebhookApi
 from hanzoai.cloud.api.websearch_api import WebsearchApi
+from hanzoai.cloud.api.workflow_api import WorkflowApi
 from hanzoai.cloud.api.world_api import WorldApi
 from hanzoai.cloud.api.x402_api import X402Api
 

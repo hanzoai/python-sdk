@@ -19,8 +19,8 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.o11y_composite_query import O11yCompositeQuery
 from hanzoai.cloud.models.o11y_format_options import O11yFormatOptions
-from hanzoai.cloud.models.o11y_querybuildertypesv5_composite_query import O11yQuerybuildertypesv5CompositeQuery
 from hanzoai.cloud.models.o11y_variable_item import O11yVariableItem
 from typing import Optional, Set
 from typing_extensions import Self
@@ -29,7 +29,7 @@ class O11yQueryRangeRequest(BaseModel):
     """
     O11yQueryRangeRequest
     """ # noqa: E501
-    composite_query: Optional[O11yQuerybuildertypesv5CompositeQuery] = Field(default=None, description="CompositeQuery is the composite query to use for the request.", alias="compositeQuery")
+    composite_query: Optional[O11yCompositeQuery] = Field(default=None, description="CompositeQuery is the composite query to use for the request.", alias="compositeQuery")
     end: Optional[StrictInt] = Field(default=None, description="End is the end time of the query in epoch milliseconds.")
     format_options: Optional[O11yFormatOptions] = Field(default=None, alias="formatOptions")
     no_cache: Optional[StrictBool] = Field(default=None, description="NoCache is a flag to disable caching for the request.", alias="noCache")
@@ -108,7 +108,7 @@ class O11yQueryRangeRequest(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "compositeQuery": O11yQuerybuildertypesv5CompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
+            "compositeQuery": O11yCompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
             "end": obj.get("end"),
             "formatOptions": O11yFormatOptions.from_dict(obj["formatOptions"]) if obj.get("formatOptions") is not None else None,
             "noCache": obj.get("noCache"),

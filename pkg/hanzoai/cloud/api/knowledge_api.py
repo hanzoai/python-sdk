@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.catalog_out import CatalogOut
-from hanzoai.cloud.models.connection_out import ConnectionOut
-from hanzoai.cloud.models.graph_out import GraphOut
-from hanzoai.cloud.models.kb_authorize_out import KbAuthorizeOut
-from hanzoai.cloud.models.kb_connectors_out import KbConnectorsOut
-from hanzoai.cloud.models.kb_sync_out import KbSyncOut
-from hanzoai.cloud.models.reindex_out import ReindexOut
-from hanzoai.cloud.models.search_in import SearchIn
-from hanzoai.cloud.models.search_out import SearchOut
+from hanzoai.cloud.models.knowledge_catalog_out import KnowledgeCatalogOut
+from hanzoai.cloud.models.knowledge_connection_out import KnowledgeConnectionOut
+from hanzoai.cloud.models.knowledge_graph_out import KnowledgeGraphOut
+from hanzoai.cloud.models.knowledge_kb_authorize_out import KnowledgeKbAuthorizeOut
+from hanzoai.cloud.models.knowledge_kb_connectors_out import KnowledgeKbConnectorsOut
+from hanzoai.cloud.models.knowledge_kb_sync_out import KnowledgeKbSyncOut
+from hanzoai.cloud.models.knowledge_reindex_out import KnowledgeReindexOut
+from hanzoai.cloud.models.knowledge_search_in import KnowledgeSearchIn
+from hanzoai.cloud.models.knowledge_search_out import KnowledgeSearchOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -63,10 +63,10 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConnectionOut:
-        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected.
+    ) -> KnowledgeConnectionOut:
+        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected.
 
-        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
+        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
 
         :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
         :type provider: str
@@ -101,7 +101,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -130,10 +130,10 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConnectionOut]:
-        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected.
+    ) -> ApiResponse[KnowledgeConnectionOut]:
+        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected.
 
-        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
+        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
 
         :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
         :type provider: str
@@ -168,7 +168,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -198,9 +198,9 @@ class KnowledgeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected.
+        """Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected.
 
-        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, purges this provider's points from the org's vector namespace, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
+        Revokes a connection: it tombstones the stored credential so a later sync cannot reuse it, removes this provider's passages from the org's store, and marks the connector disconnected. The documents already ingested stay in the org's store — they are the org's own data — but stop being retrievable by search; a caller deletes them through the document surface.
 
         :param provider: Provider is the connector to act on: github, slack, google or notion. (required)
         :type provider: str
@@ -235,7 +235,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -280,7 +280,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -323,7 +324,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KbConnectorsOut:
+    ) -> KnowledgeKbConnectorsOut:
         """Returns every supported knowledge connector with THIS org's connection state and the REAL number of documents each has ingested into the org's store.
 
         Returns every supported knowledge connector with THIS org's connection state and the REAL number of documents each has ingested into the org's store. A provider that is configured for the deployment but not yet connected appears as disconnected, so the console can offer a Connect button. No secret is ever returned.
@@ -358,7 +359,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbConnectorsOut",
+            '200': "KnowledgeKbConnectorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -386,7 +387,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KbConnectorsOut]:
+    ) -> ApiResponse[KnowledgeKbConnectorsOut]:
         """Returns every supported knowledge connector with THIS org's connection state and the REAL number of documents each has ingested into the org's store.
 
         Returns every supported knowledge connector with THIS org's connection state and the REAL number of documents each has ingested into the org's store. A provider that is configured for the deployment but not yet connected appears as disconnected, so the console can offer a Connect button. No secret is ever returned.
@@ -421,7 +422,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbConnectorsOut",
+            '200': "KnowledgeKbConnectorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -484,7 +485,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbConnectorsOut",
+            '200': "KnowledgeKbConnectorsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -526,7 +527,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -573,7 +575,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConnectionOut:
+    ) -> KnowledgeConnectionOut:
         """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
 
         CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
@@ -620,7 +622,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -652,7 +654,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConnectionOut]:
+    ) -> ApiResponse[KnowledgeConnectionOut]:
         """CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection.
 
         CompleteConnectorOAuth finishes an OAuth connection: it exchanges the provider's code for a token, seals that token in KMS, and records the connection. THE ORG COMES FROM THE SIGNED STATE, not from a header and not from the provider, so an attacker cannot bind their own account to someone else's org — a tampered, expired or foreign-provider state is refused outright. The token itself is never returned, never written into the document, and never logged; the document holds only its KMS path.
@@ -699,7 +701,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -778,7 +780,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConnectionOut",
+            '200': "KnowledgeConnectionOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -838,7 +840,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -882,7 +885,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KbAuthorizeOut:
+    ) -> KnowledgeKbAuthorizeOut:
         """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
 
         StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
@@ -920,7 +923,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
+            '200': "KnowledgeKbAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -949,7 +952,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KbAuthorizeOut]:
+    ) -> ApiResponse[KnowledgeKbAuthorizeOut]:
         """StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account.
 
         StartConnectorOAuth returns the provider authorize URL the console opens to connect this org's account. There is no server-side redirect — the console stays in control of the navigation. The URL carries a state this server SIGNED over the caller's validated org, so the connection the callback completes can only ever land in that org.
@@ -987,7 +990,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
+            '200': "KnowledgeKbAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1054,7 +1057,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbAuthorizeOut",
+            '200': "KnowledgeKbAuthorizeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1099,7 +1102,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1142,7 +1146,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CatalogOut:
+    ) -> KnowledgeCatalogOut:
         """Returns the ONE catalog of everything a caller can connect: every first-party connector and every long-tail one, in a single list sorted by provider.
 
         Returns the ONE catalog of everything a caller can connect: every first-party connector and every long-tail one, in a single list sorted by provider. `configured` reports whether this deployment holds OAuth credentials for a source, so the console can show Connect rather than a dead button, and `kind` is a badge only — the connect and sync lifecycle is identical for both. The catalog itself is org-independent; a validated principal is still required. It is metadata only: no secret is ever returned.
@@ -1177,7 +1181,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogOut",
+            '200': "KnowledgeCatalogOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1205,7 +1209,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CatalogOut]:
+    ) -> ApiResponse[KnowledgeCatalogOut]:
         """Returns the ONE catalog of everything a caller can connect: every first-party connector and every long-tail one, in a single list sorted by provider.
 
         Returns the ONE catalog of everything a caller can connect: every first-party connector and every long-tail one, in a single list sorted by provider. `configured` reports whether this deployment holds OAuth credentials for a source, so the console can show Connect rather than a dead button, and `kind` is a badge only — the connect and sync lifecycle is identical for both. The catalog itself is org-independent; a validated principal is still required. It is metadata only: no secret is ever returned.
@@ -1240,7 +1244,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogOut",
+            '200': "KnowledgeCatalogOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1303,7 +1307,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogOut",
+            '200': "KnowledgeCatalogOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1345,7 +1349,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1389,7 +1394,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GraphOut:
+    ) -> KnowledgeGraphOut:
         """Returns the caller org's knowledge as a node/edge graph shaped for a force-directed renderer: pages, memories and synced sources as nodes; the page parent tree, the wikilinks between pages, and each source's connector provenance as edges.
 
         Returns the caller org's knowledge as a node/edge graph shaped for a force-directed renderer: pages, memories and synced sources as nodes; the page parent tree, the wikilinks between pages, and each source's connector provenance as edges. Wikilink targets are resolved HERE by title or slug, so a rename never needs an edge rewrite and a link that matches no page renders as its own \"unresolved\" node instead of vanishing. ?project= narrows it. A store outage degrades to an honest empty graph, never a 5xx.
@@ -1427,7 +1432,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphOut",
+            '200': "KnowledgeGraphOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1456,7 +1461,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GraphOut]:
+    ) -> ApiResponse[KnowledgeGraphOut]:
         """Returns the caller org's knowledge as a node/edge graph shaped for a force-directed renderer: pages, memories and synced sources as nodes; the page parent tree, the wikilinks between pages, and each source's connector provenance as edges.
 
         Returns the caller org's knowledge as a node/edge graph shaped for a force-directed renderer: pages, memories and synced sources as nodes; the page parent tree, the wikilinks between pages, and each source's connector provenance as edges. Wikilink targets are resolved HERE by title or slug, so a rename never needs an edge rewrite and a link that matches no page renders as its own \"unresolved\" node instead of vanishing. ?project= narrows it. A store outage degrades to an honest empty graph, never a 5xx.
@@ -1494,7 +1499,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphOut",
+            '200': "KnowledgeGraphOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1561,7 +1566,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GraphOut",
+            '200': "KnowledgeGraphOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1608,7 +1613,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1652,7 +1658,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> KbSyncOut:
+    ) -> KnowledgeKbSyncOut:
         """Pulls the provider's documents for the caller's org and files them as knowledge sources, which the store's own hook then indexes — so a synced document is retrievable exactly like a hand-written page.
 
         Pulls the provider's documents for the caller's org and files them as knowledge sources, which the store's own hook then indexes — so a synced document is retrievable exactly like a hand-written page. The org is the validated tenant and the credential is read from KMS, so an org can only ever sync its own connection. A provider failure is reported honestly (502) and recorded on the connector rather than silently swallowed.
@@ -1690,7 +1696,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbSyncOut",
+            '200': "KnowledgeKbSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1719,7 +1725,7 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[KbSyncOut]:
+    ) -> ApiResponse[KnowledgeKbSyncOut]:
         """Pulls the provider's documents for the caller's org and files them as knowledge sources, which the store's own hook then indexes — so a synced document is retrievable exactly like a hand-written page.
 
         Pulls the provider's documents for the caller's org and files them as knowledge sources, which the store's own hook then indexes — so a synced document is retrievable exactly like a hand-written page. The org is the validated tenant and the credential is read from KMS, so an org can only ever sync its own connection. A provider failure is reported honestly (502) and recorded on the connector rather than silently swallowed.
@@ -1757,7 +1763,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbSyncOut",
+            '200': "KnowledgeKbSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1824,7 +1830,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "KbSyncOut",
+            '200': "KnowledgeKbSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1869,7 +1875,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2148,10 +2155,10 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReindexOut:
-        """Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set.
+    ) -> KnowledgeReindexOut:
+        """Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents.
 
-        Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set. It is what an operator runs after the embedding model or its dimension changes, and what puts an org's retrieval right after a vector outage. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
+        Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents. It is what an operator runs after the embedding model changes — passages of another model are never compared with the query, so until then they are unread — and what puts an org's retrieval right after an outage of the ai plane. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2183,7 +2190,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReindexOut",
+            '200': "KnowledgeReindexOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2211,10 +2218,10 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReindexOut]:
-        """Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set.
+    ) -> ApiResponse[KnowledgeReindexOut]:
+        """Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents.
 
-        Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set. It is what an operator runs after the embedding model or its dimension changes, and what puts an org's retrieval right after a vector outage. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
+        Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents. It is what an operator runs after the embedding model changes — passages of another model are never compared with the query, so until then they are unread — and what puts an org's retrieval right after an outage of the ai plane. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2246,7 +2253,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReindexOut",
+            '200': "KnowledgeReindexOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2275,9 +2282,9 @@ class KnowledgeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set.
+        """Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents.
 
-        Rebuilds the caller org's retrieval from its documents: the vector collection is dropped and created again at the configured embedding size and every page, memory and source is embedded into it; the lexical index is reconciled to the same set. It is what an operator runs after the embedding model or its dimension changes, and what puts an org's retrieval right after a vector outage. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
+        Rebuilds the caller org's retrieval from its documents: every passage is removed, and every page, memory and source is cut into passages and embedded again with the configured model; the lexical index is reconciled to the same documents. It is what an operator runs after the embedding model changes — passages of another model are never compared with the query, so until then they are unread — and what puts an org's retrieval right after an outage of the ai plane. It requires ORG ADMIN and runs inline: an org's knowledge is a few thousand documents, and the answer is the count.  The request has no body. Response: {\"vectors\": 412, \"lexical\": 412, \"removed\": 3, \"failed\": 0}
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2309,7 +2316,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReindexOut",
+            '200': "KnowledgeReindexOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2351,7 +2358,8 @@ class KnowledgeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2382,7 +2390,7 @@ class KnowledgeApi:
     @validate_call
     def post_knowledge_search(
         self,
-        search_in: SearchIn,
+        knowledge_search_in: KnowledgeSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2395,13 +2403,13 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SearchOut:
-        """Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages.
+    ) -> KnowledgeSearchOut:
+        """Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced.
 
-        Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN vector namespace answers. The org comes from the validated principal, and both the collection and the payload filter are pinned to it, so cross-tenant retrieval is impossible. An unreachable index returns an honest empty result set with degraded=true, never a 5xx.
+        Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN knowledge answers. Two legs run and are fused by reciprocal rank: a semantic leg that embeds the query and compares it with every passage of every document in reach (a document is cut into passages of about 2000 bytes, so a fact deep in a long page is found), and a keyword leg over the org's knowledge index. The org comes from the validated principal and its passages live in its own database, so cross-tenant retrieval is impossible. A failed leg answers 200 with what the other leg found and degraded=true, never a 5xx.
 
-        :param search_in: (required)
-        :type search_in: SearchIn
+        :param knowledge_search_in: (required)
+        :type knowledge_search_in: KnowledgeSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2425,7 +2433,7 @@ class KnowledgeApi:
         """ # noqa: E501
 
         _param = self._post_knowledge_search_serialize(
-            search_in=search_in,
+            knowledge_search_in=knowledge_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2433,7 +2441,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchOut",
+            '200': "KnowledgeSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2449,7 +2457,7 @@ class KnowledgeApi:
     @validate_call
     def post_knowledge_search_with_http_info(
         self,
-        search_in: SearchIn,
+        knowledge_search_in: KnowledgeSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2462,13 +2470,13 @@ class KnowledgeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SearchOut]:
-        """Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages.
+    ) -> ApiResponse[KnowledgeSearchOut]:
+        """Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced.
 
-        Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN vector namespace answers. The org comes from the validated principal, and both the collection and the payload filter are pinned to it, so cross-tenant retrieval is impossible. An unreachable index returns an honest empty result set with degraded=true, never a 5xx.
+        Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN knowledge answers. Two legs run and are fused by reciprocal rank: a semantic leg that embeds the query and compares it with every passage of every document in reach (a document is cut into passages of about 2000 bytes, so a fact deep in a long page is found), and a keyword leg over the org's knowledge index. The org comes from the validated principal and its passages live in its own database, so cross-tenant retrieval is impossible. A failed leg answers 200 with what the other leg found and degraded=true, never a 5xx.
 
-        :param search_in: (required)
-        :type search_in: SearchIn
+        :param knowledge_search_in: (required)
+        :type knowledge_search_in: KnowledgeSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2492,7 +2500,7 @@ class KnowledgeApi:
         """ # noqa: E501
 
         _param = self._post_knowledge_search_serialize(
-            search_in=search_in,
+            knowledge_search_in=knowledge_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2500,7 +2508,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchOut",
+            '200': "KnowledgeSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2516,7 +2524,7 @@ class KnowledgeApi:
     @validate_call
     def post_knowledge_search_without_preload_content(
         self,
-        search_in: SearchIn,
+        knowledge_search_in: KnowledgeSearchIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2530,12 +2538,12 @@ class KnowledgeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages.
+        """Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced.
 
-        Runs a semantic search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced — and returns the matching passages. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN vector namespace answers. The org comes from the validated principal, and both the collection and the payload filter are pinned to it, so cross-tenant retrieval is impossible. An unreachable index returns an honest empty result set with degraded=true, never a 5xx.
+        Runs a hybrid search over the caller org's own knowledge — its wiki pages, its agent memories and everything its connectors have synced. This is the RAG entry point: an agent asks \"what does this org know about X\" and the org's OWN knowledge answers. Two legs run and are fused by reciprocal rank: a semantic leg that embeds the query and compares it with every passage of every document in reach (a document is cut into passages of about 2000 bytes, so a fact deep in a long page is found), and a keyword leg over the org's knowledge index. The org comes from the validated principal and its passages live in its own database, so cross-tenant retrieval is impossible. A failed leg answers 200 with what the other leg found and degraded=true, never a 5xx.
 
-        :param search_in: (required)
-        :type search_in: SearchIn
+        :param knowledge_search_in: (required)
+        :type knowledge_search_in: KnowledgeSearchIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2559,7 +2567,7 @@ class KnowledgeApi:
         """ # noqa: E501
 
         _param = self._post_knowledge_search_serialize(
-            search_in=search_in,
+            knowledge_search_in=knowledge_search_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2567,7 +2575,7 @@ class KnowledgeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SearchOut",
+            '200': "KnowledgeSearchOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2578,7 +2586,7 @@ class KnowledgeApi:
 
     def _post_knowledge_search_serialize(
         self,
-        search_in,
+        knowledge_search_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2604,15 +2612,16 @@ class KnowledgeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if search_in is not None:
-            _body_params = search_in
+        if knowledge_search_in is not None:
+            _body_params = knowledge_search_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

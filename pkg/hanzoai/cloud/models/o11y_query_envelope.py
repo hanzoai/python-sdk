@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class O11yQueryEnvelope(BaseModel):
     """
     O11yQueryEnvelope
     """ # noqa: E501
-    spec: Optional[Dict[str, Any]] = Field(default=None, description="Spec is the deferred decoding of the query if any.")
+    spec: Optional[Any] = None
     type: Optional[Any] = None
     __properties: ClassVar[List[str]] = ["spec", "type"]
 
@@ -69,6 +69,11 @@ class O11yQueryEnvelope(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if spec (nullable) is None
+        # and model_fields_set contains the field
+        if self.spec is None and "spec" in self.model_fields_set:
+            _dict['spec'] = None
+
         # set to None if type (nullable) is None
         # and model_fields_set contains the field
         if self.type is None and "type" in self.model_fields_set:

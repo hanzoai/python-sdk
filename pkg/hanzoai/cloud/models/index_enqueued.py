@@ -26,11 +26,11 @@ class IndexEnqueued(BaseModel):
     """
     IndexEnqueued
     """ # noqa: E501
-    enqueued_at: Optional[StrictStr] = Field(default=None, description="EnqueuedAt is when the task was recorded, RFC 3339 — which is also when it completed.", alias="enqueuedAt")
-    index_uid: Optional[StrictStr] = Field(default=None, description="IndexUID names the index the write landed in.", alias="indexUid")
-    status: Optional[StrictStr] = Field(default=None, description="Status is always `enqueued`, for dialect compatibility. The work is already done.")
-    task_uid: Optional[StrictInt] = Field(default=None, description="TaskUID identifies the task for a client that polls it. Polling resolves immediately.", alias="taskUid")
-    type: Optional[StrictStr] = Field(default=None, description="Type is the dialect's name for the kind of write: indexCreation, indexDeletion, settingsUpdate, documentAdditionOrUpdate, documentDeletion.")
+    enqueued_at: Optional[StrictStr] = Field(default=None, alias="enqueuedAt")
+    index_uid: Optional[StrictStr] = Field(default=None, alias="indexUid")
+    status: Optional[StrictStr] = None
+    task_uid: Optional[StrictInt] = Field(default=None, alias="taskUid")
+    type: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["enqueuedAt", "indexUid", "status", "taskUid", "type"]
 
     model_config = ConfigDict(

@@ -19,6 +19,7 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictBool, StrictInt, StrictStr
 from typing import Any, Dict, List, Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.approval import Approval
 from hanzoai.cloud.models.o11y_add_items_in import O11yAddItemsIn
 from hanzoai.cloud.models.o11y_alertmanagertypes_receiver import O11yAlertmanagertypesReceiver
 from hanzoai.cloud.models.o11y_ann_item_list import O11yAnnItemList
@@ -28,7 +29,6 @@ from hanzoai.cloud.models.o11y_ann_queue_deleted import O11yAnnQueueDeleted
 from hanzoai.cloud.models.o11y_ann_queue_detail_view import O11yAnnQueueDetailView
 from hanzoai.cloud.models.o11y_ann_queue_list import O11yAnnQueueList
 from hanzoai.cloud.models.o11y_ann_queue_view import O11yAnnQueueView
-from hanzoai.cloud.models.o11y_approval import O11yApproval
 from hanzoai.cloud.models.o11y_availability_response import O11yAvailabilityResponse
 from hanzoai.cloud.models.o11y_cluster_list_request import O11yClusterListRequest
 from hanzoai.cloud.models.o11y_create_queue_req import O11yCreateQueueReq
@@ -47,7 +47,6 @@ from hanzoai.cloud.models.o11y_o11y_api_key_update_in import O11yO11yAPIKeyUpdat
 from hanzoai.cloud.models.o11y_o11y_api_keys_out import O11yO11yAPIKeysOut
 from hanzoai.cloud.models.o11y_o11y_account_out import O11yO11yAccountOut
 from hanzoai.cloud.models.o11y_o11y_accounts_out import O11yO11yAccountsOut
-from hanzoai.cloud.models.o11y_o11y_ack import O11yO11yAck
 from hanzoai.cloud.models.o11y_o11y_agent_check_in_in import O11yO11yAgentCheckInIn
 from hanzoai.cloud.models.o11y_o11y_agent_check_in_out import O11yO11yAgentCheckInOut
 from hanzoai.cloud.models.o11y_o11y_aggregate_attributes_out import O11yO11yAggregateAttributesOut
@@ -59,10 +58,6 @@ from hanzoai.cloud.models.o11y_o11y_apdex_set_in import O11yO11yApdexSetIn
 from hanzoai.cloud.models.o11y_o11y_apdex_set_out import O11yO11yApdexSetOut
 from hanzoai.cloud.models.o11y_o11y_attribute_keys_out import O11yO11yAttributeKeysOut
 from hanzoai.cloud.models.o11y_o11y_attribute_values_out import O11yO11yAttributeValuesOut
-from hanzoai.cloud.models.o11y_o11y_auth_domain_out import O11yO11yAuthDomainOut
-from hanzoai.cloud.models.o11y_o11y_auth_domains_out import O11yO11yAuthDomainsOut
-from hanzoai.cloud.models.o11y_o11y_bulk_invite_in import O11yO11yBulkInviteIn
-from hanzoai.cloud.models.o11y_o11y_change_password_in import O11yO11yChangePasswordIn
 from hanzoai.cloud.models.o11y_o11y_channel_out import O11yO11yChannelOut
 from hanzoai.cloud.models.o11y_o11y_channel_update_in import O11yO11yChannelUpdateIn
 from hanzoai.cloud.models.o11y_o11y_channels_out import O11yO11yChannelsOut
@@ -74,7 +69,6 @@ from hanzoai.cloud.models.o11y_o11y_create_account_out import O11yO11yCreateAcco
 from hanzoai.cloud.models.o11y_o11y_create_limit_in import O11yO11yCreateLimitIn
 from hanzoai.cloud.models.o11y_o11y_created_ingestion_key_out import O11yO11yCreatedIngestionKeyOut
 from hanzoai.cloud.models.o11y_o11y_created_limit_out import O11yO11yCreatedLimitOut
-from hanzoai.cloud.models.o11y_o11y_created_out import O11yO11yCreatedOut
 from hanzoai.cloud.models.o11y_o11y_credentials_out import O11yO11yCredentialsOut
 from hanzoai.cloud.models.o11y_o11y_daemon_set_list_out import O11yO11yDaemonSetListOut
 from hanzoai.cloud.models.o11y_o11y_dashboard_list_for_user_out import O11yO11yDashboardListForUserOut
@@ -92,9 +86,6 @@ from hanzoai.cloud.models.o11y_o11y_dashboard_view_update_in import O11yO11yDash
 from hanzoai.cloud.models.o11y_o11y_dependency import O11yO11yDependency
 from hanzoai.cloud.models.o11y_o11y_dependency_graph_in import O11yO11yDependencyGraphIn
 from hanzoai.cloud.models.o11y_o11y_deployment_list_out import O11yO11yDeploymentListOut
-from hanzoai.cloud.models.o11y_o11y_deprecated_user_out import O11yO11yDeprecatedUserOut
-from hanzoai.cloud.models.o11y_o11y_deprecated_user_update import O11yO11yDeprecatedUserUpdate
-from hanzoai.cloud.models.o11y_o11y_deprecated_users_out import O11yO11yDeprecatedUsersOut
 from hanzoai.cloud.models.o11y_o11y_discover_in import O11yO11yDiscoverIn
 from hanzoai.cloud.models.o11y_o11y_discover_out import O11yO11yDiscoverOut
 from hanzoai.cloud.models.o11y_o11y_disk import O11yO11yDisk
@@ -104,7 +95,6 @@ from hanzoai.cloud.models.o11y_o11y_downtime_schedule_out import O11yO11yDowntim
 from hanzoai.cloud.models.o11y_o11y_downtime_schedules_out import O11yO11yDowntimeSchedulesOut
 from hanzoai.cloud.models.o11y_o11y_downtime_update_in import O11yO11yDowntimeUpdateIn
 from hanzoai.cloud.models.o11y_o11y_draft_funnel_in import O11yO11yDraftFunnelIn
-from hanzoai.cloud.models.o11y_o11y_email_password_session_in import O11yO11yEmailPasswordSessionIn
 from hanzoai.cloud.models.o11y_o11y_error_gettable_issue_out import O11yO11yErrorGettableIssueOut
 from hanzoai.cloud.models.o11y_o11y_error_issue_out import O11yO11yErrorIssueOut
 from hanzoai.cloud.models.o11y_o11y_error_issues_out import O11yO11yErrorIssuesOut
@@ -119,7 +109,6 @@ from hanzoai.cloud.models.o11y_o11y_field_keys_out import O11yO11yFieldKeysOut
 from hanzoai.cloud.models.o11y_o11y_field_setting import O11yO11yFieldSetting
 from hanzoai.cloud.models.o11y_o11y_field_values_out import O11yO11yFieldValuesOut
 from hanzoai.cloud.models.o11y_o11y_filter_suggestions_out import O11yO11yFilterSuggestionsOut
-from hanzoai.cloud.models.o11y_o11y_forgot_password_in import O11yO11yForgotPasswordIn
 from hanzoai.cloud.models.o11y_o11y_funnel_create_in import O11yO11yFunnelCreateIn
 from hanzoai.cloud.models.o11y_o11y_funnel_delete_out import O11yO11yFunnelDeleteOut
 from hanzoai.cloud.models.o11y_o11y_funnel_out import O11yO11yFunnelOut
@@ -152,8 +141,6 @@ from hanzoai.cloud.models.o11y_o11y_install_out import O11yO11yInstallOut
 from hanzoai.cloud.models.o11y_o11y_integration_ack import O11yO11yIntegrationAck
 from hanzoai.cloud.models.o11y_o11y_integration_out import O11yO11yIntegrationOut
 from hanzoai.cloud.models.o11y_o11y_integrations_list_out import O11yO11yIntegrationsListOut
-from hanzoai.cloud.models.o11y_o11y_invite_in import O11yO11yInviteIn
-from hanzoai.cloud.models.o11y_o11y_invite_out import O11yO11yInviteOut
 from hanzoai.cloud.models.o11y_o11y_job_list_out import O11yO11yJobListOut
 from hanzoai.cloud.models.o11y_o11y_llm_annotation_out import O11yO11yLLMAnnotationOut
 from hanzoai.cloud.models.o11y_o11y_llm_annotations_out import O11yO11yLLMAnnotationsOut
@@ -210,8 +197,6 @@ from hanzoai.cloud.models.o11y_o11y_organization import O11yO11yOrganization
 from hanzoai.cloud.models.o11y_o11y_organization_out import O11yO11yOrganizationOut
 from hanzoai.cloud.models.o11y_o11y_overall_state_transitions_out import O11yO11yOverallStateTransitionsOut
 from hanzoai.cloud.models.o11y_o11y_pod_list_out import O11yO11yPodListOut
-from hanzoai.cloud.models.o11y_o11y_postable_auth_domain import O11yO11yPostableAuthDomain
-from hanzoai.cloud.models.o11y_o11y_postable_user import O11yO11yPostableUser
 from hanzoai.cloud.models.o11y_o11y_preference_out import O11yO11yPreferenceOut
 from hanzoai.cloud.models.o11y_o11y_preferences_out import O11yO11yPreferencesOut
 from hanzoai.cloud.models.o11y_o11y_process_list_out import O11yO11yProcessListOut
@@ -237,11 +222,6 @@ from hanzoai.cloud.models.o11y_o11y_reduction_rule_preview_out import O11yO11yRe
 from hanzoai.cloud.models.o11y_o11y_reduction_rule_save_in import O11yO11yReductionRuleSaveIn
 from hanzoai.cloud.models.o11y_o11y_reduction_series_out import O11yO11yReductionSeriesOut
 from hanzoai.cloud.models.o11y_o11y_reduction_stats_out import O11yO11yReductionStatsOut
-from hanzoai.cloud.models.o11y_o11y_register_in import O11yO11yRegisterIn
-from hanzoai.cloud.models.o11y_o11y_register_out import O11yO11yRegisterOut
-from hanzoai.cloud.models.o11y_o11y_reset_password_in import O11yO11yResetPasswordIn
-from hanzoai.cloud.models.o11y_o11y_reset_token_out import O11yO11yResetTokenOut
-from hanzoai.cloud.models.o11y_o11y_reset_token_ref import O11yO11yResetTokenRef
 from hanzoai.cloud.models.o11y_o11y_retention_out import O11yO11yRetentionOut
 from hanzoai.cloud.models.o11y_o11y_retention_set_in import O11yO11yRetentionSetIn
 from hanzoai.cloud.models.o11y_o11y_retention_set_out import O11yO11yRetentionSetOut
@@ -250,7 +230,6 @@ from hanzoai.cloud.models.o11y_o11y_role_create_out import O11yO11yRoleCreateOut
 from hanzoai.cloud.models.o11y_o11y_role_out import O11yO11yRoleOut
 from hanzoai.cloud.models.o11y_o11y_role_update_in import O11yO11yRoleUpdateIn
 from hanzoai.cloud.models.o11y_o11y_roles_out import O11yO11yRolesOut
-from hanzoai.cloud.models.o11y_o11y_rotate_session_in import O11yO11yRotateSessionIn
 from hanzoai.cloud.models.o11y_o11y_route_policies_out import O11yO11yRoutePoliciesOut
 from hanzoai.cloud.models.o11y_o11y_route_policy_out import O11yO11yRoutePolicyOut
 from hanzoai.cloud.models.o11y_o11y_route_policy_update_in import O11yO11yRoutePolicyUpdateIn
@@ -288,8 +267,6 @@ from hanzoai.cloud.models.o11y_o11y_service_out import O11yO11yServiceOut
 from hanzoai.cloud.models.o11y_o11y_services_in import O11yO11yServicesIn
 from hanzoai.cloud.models.o11y_o11y_services_metadata_out import O11yO11yServicesMetadataOut
 from hanzoai.cloud.models.o11y_o11y_services_out import O11yO11yServicesOut
-from hanzoai.cloud.models.o11y_o11y_session_context_out import O11yO11ySessionContextOut
-from hanzoai.cloud.models.o11y_o11y_set_role_in import O11yO11ySetRoleIn
 from hanzoai.cloud.models.o11y_o11y_signal_filters_out import O11yO11ySignalFiltersOut
 from hanzoai.cloud.models.o11y_o11y_span_mapper_create_in import O11yO11ySpanMapperCreateIn
 from hanzoai.cloud.models.o11y_o11y_span_mapper_group_out import O11yO11ySpanMapperGroupOut
@@ -305,7 +282,6 @@ from hanzoai.cloud.models.o11y_o11y_stats_out import O11yO11yStatsOut
 from hanzoai.cloud.models.o11y_o11y_substitute_vars_out import O11yO11ySubstituteVarsOut
 from hanzoai.cloud.models.o11y_o11y_test_notification_out import O11yO11yTestNotificationOut
 from hanzoai.cloud.models.o11y_o11y_test_rule_out import O11yO11yTestRuleOut
-from hanzoai.cloud.models.o11y_o11y_token_out import O11yO11yTokenOut
 from hanzoai.cloud.models.o11y_o11y_top_level_ops_in import O11yO11yTopLevelOpsIn
 from hanzoai.cloud.models.o11y_o11y_trace_aggregations_in import O11yO11yTraceAggregationsIn
 from hanzoai.cloud.models.o11y_o11y_trace_aggregations_out import O11yO11yTraceAggregationsOut
@@ -317,18 +293,14 @@ from hanzoai.cloud.models.o11y_o11y_trace_waterfall_in import O11yO11yTraceWater
 from hanzoai.cloud.models.o11y_o11y_trace_waterfall_out import O11yO11yTraceWaterfallOut
 from hanzoai.cloud.models.o11y_o11y_traces_out import O11yO11yTracesOut
 from hanzoai.cloud.models.o11y_o11y_transaction import O11yO11yTransaction
-from hanzoai.cloud.models.o11y_o11y_updatable_auth_domain import O11yO11yUpdatableAuthDomain
 from hanzoai.cloud.models.o11y_o11y_updatable_preference import O11yO11yUpdatablePreference
 from hanzoai.cloud.models.o11y_o11y_updatable_quick_filters import O11yO11yUpdatableQuickFilters
-from hanzoai.cloud.models.o11y_o11y_updatable_user import O11yO11yUpdatableUser
 from hanzoai.cloud.models.o11y_o11y_update_account_in import O11yO11yUpdateAccountIn
 from hanzoai.cloud.models.o11y_o11y_update_ingestion_key_in import O11yO11yUpdateIngestionKeyIn
 from hanzoai.cloud.models.o11y_o11y_update_limit_in import O11yO11yUpdateLimitIn
 from hanzoai.cloud.models.o11y_o11y_update_service_in import O11yO11yUpdateServiceIn
 from hanzoai.cloud.models.o11y_o11y_usage_item import O11yO11yUsageItem
-from hanzoai.cloud.models.o11y_o11y_user_update import O11yO11yUserUpdate
-from hanzoai.cloud.models.o11y_o11y_user_with_roles_out import O11yO11yUserWithRolesOut
-from hanzoai.cloud.models.o11y_o11y_users_out import O11yO11yUsersOut
+from hanzoai.cloud.models.o11y_o11y_user_out import O11yO11yUserOut
 from hanzoai.cloud.models.o11y_o11y_version_out import O11yO11yVersionOut
 from hanzoai.cloud.models.o11y_o11y_widget_query_range_out import O11yO11yWidgetQueryRangeOut
 from hanzoai.cloud.models.o11y_pod_list_request import O11yPodListRequest
@@ -439,7 +411,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -511,7 +483,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -583,7 +555,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -631,7 +603,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -731,7 +704,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -803,7 +776,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -875,7 +848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAgentCheckInOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -923,7 +896,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1019,7 +993,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1087,7 +1061,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1155,7 +1129,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCheckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1201,7 +1175,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1297,7 +1272,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1365,7 +1340,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1433,7 +1408,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1478,7 +1453,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1565,7 +1541,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1637,7 +1613,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1709,7 +1685,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreateAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1757,7 +1733,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1783,560 +1760,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/cloud_integrations/{cloud_provider}/accounts',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def create_auth_domain(
-        self,
-        o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yCreatedOut:
-        """Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id.
-
-        Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id. Admin gate.
-
-        :param o11y_o11y_postable_auth_domain: (required)
-        :type o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_auth_domain_serialize(
-            o11y_o11y_postable_auth_domain=o11y_o11y_postable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_auth_domain_with_http_info(
-        self,
-        o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yCreatedOut]:
-        """Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id.
-
-        Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id. Admin gate.
-
-        :param o11y_o11y_postable_auth_domain: (required)
-        :type o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_auth_domain_serialize(
-            o11y_o11y_postable_auth_domain=o11y_o11y_postable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_auth_domain_without_preload_content(
-        self,
-        o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id.
-
-        Claims an email domain for the org and configures how its users sign in; the answer is the new domain's id. Admin gate.
-
-        :param o11y_o11y_postable_auth_domain: (required)
-        :type o11y_o11y_postable_auth_domain: O11yO11yPostableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_auth_domain_serialize(
-            o11y_o11y_postable_auth_domain=o11y_o11y_postable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_auth_domain_serialize(
-        self,
-        o11y_o11y_postable_auth_domain,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_postable_auth_domain is not None:
-            _body_params = o11y_o11y_postable_auth_domain
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/domains',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def create_bulk_invite(
-        self,
-        o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yAck:
-        """Invites several people to the caller's org in one call, refusing the whole batch when any email repeats.
-
-        Invites several people to the caller's org in one call, refusing the whole batch when any email repeats. Deprecated alongside createInvite. Admin gate.
-
-        :param o11y_o11y_bulk_invite_in: (required)
-        :type o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_bulk_invite_serialize(
-            o11y_o11y_bulk_invite_in=o11y_o11y_bulk_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_bulk_invite_with_http_info(
-        self,
-        o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yAck]:
-        """Invites several people to the caller's org in one call, refusing the whole batch when any email repeats.
-
-        Invites several people to the caller's org in one call, refusing the whole batch when any email repeats. Deprecated alongside createInvite. Admin gate.
-
-        :param o11y_o11y_bulk_invite_in: (required)
-        :type o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_bulk_invite_serialize(
-            o11y_o11y_bulk_invite_in=o11y_o11y_bulk_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_bulk_invite_without_preload_content(
-        self,
-        o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Invites several people to the caller's org in one call, refusing the whole batch when any email repeats.
-
-        Invites several people to the caller's org in one call, refusing the whole batch when any email repeats. Deprecated alongside createInvite. Admin gate.
-
-        :param o11y_o11y_bulk_invite_in: (required)
-        :type o11y_o11y_bulk_invite_in: O11yO11yBulkInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_bulk_invite_serialize(
-            o11y_o11y_bulk_invite_in=o11y_o11y_bulk_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_bulk_invite_serialize(
-        self,
-        o11y_o11y_bulk_invite_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_bulk_invite_in is not None:
-            _body_params = o11y_o11y_bulk_invite_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/invite/bulk',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2407,7 +1830,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2475,7 +1898,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2543,7 +1966,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2588,7 +2011,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2684,7 +2108,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2752,7 +2176,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2820,7 +2244,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2865,7 +2289,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2961,7 +2386,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3029,7 +2454,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3097,7 +2522,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3142,7 +2567,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3238,7 +2664,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3306,7 +2732,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3374,7 +2800,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3419,7 +2845,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3515,7 +2942,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3583,7 +3010,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3651,7 +3078,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedIngestionKeyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3696,7 +3123,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3796,7 +3224,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3868,7 +3296,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3940,7 +3368,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yCreatedLimitOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3988,7 +3416,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4014,283 +3443,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/gateway/ingestion_keys/{keyId}/limits',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def create_invite(
-        self,
-        o11y_o11y_invite_in: O11yO11yInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yInviteOut:
-        """Invites one person to the caller's org by email, with the role they will hold when they accept.
-
-        Invites one person to the caller's org by email, with the role they will hold when they accept. Deprecated in favor of creating users directly; kept because callers still hold it. Admin gate, enforced by the runtime this op relays to.
-
-        :param o11y_o11y_invite_in: (required)
-        :type o11y_o11y_invite_in: O11yO11yInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_invite_serialize(
-            o11y_o11y_invite_in=o11y_o11y_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yInviteOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_invite_with_http_info(
-        self,
-        o11y_o11y_invite_in: O11yO11yInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yInviteOut]:
-        """Invites one person to the caller's org by email, with the role they will hold when they accept.
-
-        Invites one person to the caller's org by email, with the role they will hold when they accept. Deprecated in favor of creating users directly; kept because callers still hold it. Admin gate, enforced by the runtime this op relays to.
-
-        :param o11y_o11y_invite_in: (required)
-        :type o11y_o11y_invite_in: O11yO11yInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_invite_serialize(
-            o11y_o11y_invite_in=o11y_o11y_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yInviteOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_invite_without_preload_content(
-        self,
-        o11y_o11y_invite_in: O11yO11yInviteIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Invites one person to the caller's org by email, with the role they will hold when they accept.
-
-        Invites one person to the caller's org by email, with the role they will hold when they accept. Deprecated in favor of creating users directly; kept because callers still hold it. Admin gate, enforced by the runtime this op relays to.
-
-        :param o11y_o11y_invite_in: (required)
-        :type o11y_o11y_invite_in: O11yO11yInviteIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_invite_serialize(
-            o11y_o11y_invite_in=o11y_o11y_invite_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yInviteOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_invite_serialize(
-        self,
-        o11y_o11y_invite_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_invite_in is not None:
-            _body_params = o11y_o11y_invite_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/invite',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -4361,7 +3513,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4429,7 +3581,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4497,7 +3649,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMAnnotationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4542,7 +3694,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4638,7 +3791,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4706,7 +3859,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4774,7 +3927,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4819,7 +3972,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4915,7 +4069,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4983,7 +4137,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5051,7 +4205,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5096,7 +4250,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5153,7 +4308,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job.
 
         Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job. Per-rule match is by id, then sourceId, then insert; an override row is fully preserved when the request omits isOverride, only its synced_at stamped.  Callers need the admin role; the runtime's own gate enforces it.
@@ -5191,7 +4346,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5221,7 +4376,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job.
 
         Writes the pricing-rule batch — the single write endpoint used by both the user and the Zeus sync job. Per-rule match is by id, then sourceId, then insert; an override row is fully preserved when the request omits isOverride, only its synced_at stamped.  Callers need the admin role; the runtime's own gate enforces it.
@@ -5259,7 +4414,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5327,7 +4482,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -5373,7 +4528,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5473,7 +4629,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5545,7 +4701,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5617,7 +4773,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yIdentifiableOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5665,7 +4821,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5691,270 +4848,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/dashboards/{id}/public',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def create_reset_password_token(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yResetTokenOut:
-        """Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced.
-
-        Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_reset_password_token_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yResetTokenOut]:
-        """Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced.
-
-        Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_reset_password_token_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced.
-
-        Creates or regenerates a user's reset-password token: a live token is returned as it is, an expired one is replaced. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_reset_password_token_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/users/{id}/reset_password_tokens',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -6025,7 +4918,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6093,7 +4986,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6161,7 +5054,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoleCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6206,7 +5099,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6302,7 +5196,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6370,7 +5264,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6438,7 +5332,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6483,7 +5377,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6579,7 +5474,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6647,7 +5542,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6715,7 +5610,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6760,7 +5655,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6856,7 +5752,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6924,7 +5820,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6992,7 +5888,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yServiceAccountCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7037,7 +5933,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7137,7 +6034,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7209,7 +6106,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7281,7 +6178,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yAPIKeyCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7329,7 +6226,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7387,7 +6285,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Assigns a role, named by its id, to a service account.
 
         Assigns a role, named by its id, to a service account.
@@ -7428,7 +6326,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7459,7 +6357,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Assigns a role, named by its id, to a service account.
 
         Assigns a role, named by its id, to a service account.
@@ -7500,7 +6398,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7572,7 +6470,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -7621,7 +6519,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7647,283 +6546,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/service_accounts/{id}/roles',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def create_session_by_email_password(
-        self,
-        o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yTokenOut:
-        """Signs a user in with email and password and answers with the session's token pair.
-
-        Signs a user in with email and password and answers with the session's token pair. Unauthenticated: this call is how authentication begins.
-
-        :param o11y_o11y_email_password_session_in: (required)
-        :type o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_session_by_email_password_serialize(
-            o11y_o11y_email_password_session_in=o11y_o11y_email_password_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_session_by_email_password_with_http_info(
-        self,
-        o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yTokenOut]:
-        """Signs a user in with email and password and answers with the session's token pair.
-
-        Signs a user in with email and password and answers with the session's token pair. Unauthenticated: this call is how authentication begins.
-
-        :param o11y_o11y_email_password_session_in: (required)
-        :type o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_session_by_email_password_serialize(
-            o11y_o11y_email_password_session_in=o11y_o11y_email_password_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_session_by_email_password_without_preload_content(
-        self,
-        o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Signs a user in with email and password and answers with the session's token pair.
-
-        Signs a user in with email and password and answers with the session's token pair. Unauthenticated: this call is how authentication begins.
-
-        :param o11y_o11y_email_password_session_in: (required)
-        :type o11y_o11y_email_password_session_in: O11yO11yEmailPasswordSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_session_by_email_password_serialize(
-            o11y_o11y_email_password_session_in=o11y_o11y_email_password_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_session_by_email_password_serialize(
-        self,
-        o11y_o11y_email_password_session_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_email_password_session_in is not None:
-            _body_params = o11y_o11y_email_password_session_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/sessions/email_password',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -7998,7 +6620,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8070,7 +6692,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8142,7 +6764,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8190,7 +6812,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8286,7 +6909,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8354,7 +6977,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8422,7 +7045,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11ySpanMapperGroupOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8467,7 +7090,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8563,7 +7187,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8631,7 +7255,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8699,7 +7323,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8744,7 +7368,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8786,547 +7411,6 @@ class O11yApi:
 
 
     @validate_call
-    def create_user(
-        self,
-        o11y_o11y_postable_user: O11yO11yPostableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yCreatedOut:
-        """Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id.
-
-        Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id. Admin gate.
-
-        :param o11y_o11y_postable_user: (required)
-        :type o11y_o11y_postable_user: O11yO11yPostableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_user_serialize(
-            o11y_o11y_postable_user=o11y_o11y_postable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def create_user_with_http_info(
-        self,
-        o11y_o11y_postable_user: O11yO11yPostableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yCreatedOut]:
-        """Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id.
-
-        Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id. Admin gate.
-
-        :param o11y_o11y_postable_user: (required)
-        :type o11y_o11y_postable_user: O11yO11yPostableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_user_serialize(
-            o11y_o11y_postable_user=o11y_o11y_postable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def create_user_without_preload_content(
-        self,
-        o11y_o11y_postable_user: O11yO11yPostableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id.
-
-        Creates a member of the caller's org in the pending-invite state and mails them their invitation; the answer is the new user's id. Admin gate.
-
-        :param o11y_o11y_postable_user: (required)
-        :type o11y_o11y_postable_user: O11yO11yPostableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._create_user_serialize(
-            o11y_o11y_postable_user=o11y_o11y_postable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "O11yO11yCreatedOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _create_user_serialize(
-        self,
-        o11y_o11y_postable_user,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_postable_user is not None:
-            _body_params = o11y_o11y_postable_user
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/users',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def delete_auth_domain(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Releases an email domain and discards its SSO configuration, by id.
-
-        Releases an email domain and discards its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_auth_domain_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Releases an email domain and discards its SSO configuration, by id.
-
-        Releases an email domain and discards its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_auth_domain_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Releases an email domain and discards its SSO configuration, by id.
-
-        Releases an email domain and discards its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_auth_domain_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/o11y/domains/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def delete_channel_by_id(
         self,
         id: StrictStr,
@@ -9342,7 +7426,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes a notification channel, by id.
 
         Removes a notification channel, by id. Admin gate.
@@ -9380,7 +7464,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9410,7 +7494,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes a notification channel, by id.
 
         Removes a notification channel, by id. Admin gate.
@@ -9448,7 +7532,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9516,7 +7600,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9562,7 +7646,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9606,7 +7691,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes a v2-shape dashboard along with its tag relations.
 
         Deletes a v2-shape dashboard along with its tag relations. Locked dashboards are rejected.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9644,7 +7729,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9674,7 +7759,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes a v2-shape dashboard along with its tag relations.
 
         Deletes a v2-shape dashboard along with its tag relations. Locked dashboards are rejected.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9712,7 +7797,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9780,7 +7865,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9826,7 +7911,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9870,7 +7956,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes a saved view.
 
         Removes a saved view. Saved views are shared org-wide. Deleting a non-existent view refuses with the runtime's not-found.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9908,7 +7994,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -9938,7 +8024,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes a saved view.
 
         Removes a saved view. Saved views are shared org-wide. Deleting a non-existent view refuses with the runtime's not-found.  Callers need the editor role; the runtime's own gate enforces it.
@@ -9976,7 +8062,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10044,7 +8130,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10090,7 +8176,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10134,7 +8221,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes a planned maintenance window, by id.
 
         Removes a planned maintenance window, by id. Editor gate.
@@ -10172,7 +8259,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10202,7 +8289,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes a planned maintenance window, by id.
 
         Removes a planned maintenance window, by id. Editor gate.
@@ -10240,7 +8327,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10308,7 +8395,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10354,7 +8441,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10398,7 +8486,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes an ingestion key, by id.
 
         Removes an ingestion key, by id. Editor gate.
@@ -10436,7 +8524,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10466,7 +8554,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes an ingestion key, by id.
 
         Removes an ingestion key, by id. Editor gate.
@@ -10504,7 +8592,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10572,7 +8660,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10618,7 +8706,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10662,7 +8751,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes an ingestion key limit, by limit id.
 
         Removes an ingestion key limit, by limit id. Editor gate.
@@ -10700,7 +8789,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10730,7 +8819,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes an ingestion key limit, by limit id.
 
         Removes an ingestion key limit, by limit id. Editor gate.
@@ -10768,7 +8857,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10836,7 +8925,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10882,7 +8971,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10926,7 +9016,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Hard-deletes a pricing rule by id.
 
         Hard-deletes a pricing rule by id. If the rule was auto-synced, the next sync cycle recreates it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -10964,7 +9054,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -10994,7 +9084,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Hard-deletes a pricing rule by id.
 
         Hard-deletes a pricing rule by id. If the rule was auto-synced, the next sync cycle recreates it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -11032,7 +9122,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11100,7 +9190,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11146,7 +9236,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11190,7 +9281,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Hard-deletes a score by id.
 
         Hard-deletes a score by id.  Callers need the editor role; the runtime's own gate enforces it.
@@ -11228,7 +9319,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11258,7 +9349,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Hard-deletes a score by id.
 
         Hard-deletes a score by id.  Callers need the editor role; the runtime's own gate enforces it.
@@ -11296,7 +9387,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11364,7 +9455,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11410,7 +9501,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11454,7 +9546,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes a volume-control rule by its id.
 
         Deletes a volume-control rule by its id.
@@ -11492,7 +9584,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11522,7 +9614,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes a volume-control rule by its id.
 
         Deletes a volume-control rule by its id.
@@ -11560,7 +9652,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11628,7 +9720,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -11674,7 +9766,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11757,7 +9850,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11825,7 +9918,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11893,7 +9986,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11938,7 +10031,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12021,7 +10115,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12089,7 +10183,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12157,7 +10251,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDeleted",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12202,7 +10296,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12246,7 +10341,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes one Sentry project of the caller's org.
 
         Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
@@ -12284,7 +10379,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12314,7 +10409,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes one Sentry project of the caller's org.
 
         Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
@@ -12352,7 +10447,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12420,7 +10515,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12466,7 +10561,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12510,7 +10606,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes the public-sharing config and disables public sharing of a dashboard.
 
         Deletes the public-sharing config and disables public sharing of a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -12548,7 +10644,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12578,7 +10674,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes the public-sharing config and disables public sharing of a dashboard.
 
         Deletes the public-sharing config and disables public sharing of a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -12616,7 +10712,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12684,7 +10780,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12730,7 +10826,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12774,7 +10871,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes a custom role.
 
         Deletes a custom role. A role that still has user or service-account assignees, or an auth-domain mapping, is refused; managed roles cannot be deleted.
@@ -12812,7 +10909,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12842,7 +10939,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes a custom role.
 
         Deletes a custom role. A role that still has user or service-account assignees, or an auth-domain mapping, is refused; managed roles cannot be deleted.
@@ -12880,7 +10977,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12948,7 +11045,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -12994,7 +11091,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13038,7 +11136,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes a route policy, by id.
 
         Removes a route policy, by id. Admin gate.
@@ -13076,7 +11174,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13106,7 +11204,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes a route policy, by id.
 
         Removes a route policy, by id. Admin gate.
@@ -13144,7 +11242,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13212,7 +11310,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13258,7 +11356,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13302,7 +11401,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes an alert rule, by id.
 
         Removes an alert rule, by id. Editor gate.
@@ -13340,7 +11439,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13370,7 +11469,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes an alert rule, by id.
 
         Removes an alert rule, by id. Editor gate.
@@ -13408,7 +11507,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13476,7 +11575,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13522,7 +11621,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13566,7 +11666,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes a service account and revokes every key it holds.
 
         Deletes a service account and revokes every key it holds.
@@ -13604,7 +11704,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13634,7 +11734,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes a service account and revokes every key it holds.
 
         Deletes a service account and revokes every key it holds.
@@ -13672,7 +11772,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13740,7 +11840,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13786,7 +11886,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -13831,7 +11932,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes a role from a service account.
 
         Removes a role from a service account.
@@ -13872,7 +11973,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -13903,7 +12004,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes a role from a service account.
 
         Removes a role from a service account.
@@ -13944,7 +12045,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14016,7 +12117,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14065,7 +12166,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14078,255 +12180,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/o11y/service_accounts/{id}/roles/{rid}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def delete_session(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Signs the calling session out, invalidating its tokens.
-
-        Signs the calling session out, invalidating its tokens. The access token on the call names the session to end.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_session_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_session_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Signs the calling session out, invalidating its tokens.
-
-        Signs the calling session out, invalidating its tokens. The access token on the call names the session to end.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_session_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_session_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Signs the calling session out, invalidating its tokens.
-
-        Signs the calling session out, invalidating its tokens. The access token on the call names the session to end.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_session_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_session_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/o11y/sessions',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -14359,7 +12212,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes one mapper from a group.
 
         Deletes one mapper from a group.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14400,7 +12253,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14431,7 +12284,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes one mapper from a group.
 
         Deletes one mapper from a group.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14472,7 +12325,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14544,7 +12397,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14593,7 +12446,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14637,7 +12491,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Deletes a mapping group and every mapper under it.
 
         Deletes a mapping group and every mapper under it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14675,7 +12529,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14705,7 +12559,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Deletes a mapping group and every mapper under it.
 
         Deletes a mapping group and every mapper under it.  Callers need the admin role; the runtime's own gate enforces it.
@@ -14743,7 +12597,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14811,7 +12665,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -14857,7 +12711,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -14940,7 +12795,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15008,7 +12863,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15076,7 +12931,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelDeleteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -15121,7 +12976,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15134,534 +12990,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/o11y/trace-funnels/{funnel_id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def delete_user(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_user_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_user_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_user_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/o11y/users/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def delete_user_deprecated(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. The same operation as deleteUser on the legacy singular path. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_user_deprecated_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. The same operation as deleteUser on the legacy singular path. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_user_deprecated_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Removes one org member, by user id.
-
-        Removes one org member, by user id. The same operation as deleteUser on the legacy singular path. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_user_deprecated_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/o11y/user/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -15694,7 +13022,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Tears down a connected account for the given provider, by id.
 
         Tears down a connected account for the given provider, by id. Admin gate.
@@ -15735,7 +13063,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15766,7 +13094,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Tears down a connected account for the given provider, by id.
 
         Tears down a connected account for the given provider, by id. Admin gate.
@@ -15807,7 +13135,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15879,7 +13207,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -15928,7 +13256,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -15941,283 +13270,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/o11y/cloud_integrations/{cloud_provider}/accounts/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def forgot_password(
-        self,
-        o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Starts the forgotten-password flow: the named user is mailed a reset link.
-
-        Starts the forgotten-password flow: the named user is mailed a reset link. Unauthenticated by design, and deliberately quiet about whether the address exists.
-
-        :param o11y_o11y_forgot_password_in: (required)
-        :type o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._forgot_password_serialize(
-            o11y_o11y_forgot_password_in=o11y_o11y_forgot_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def forgot_password_with_http_info(
-        self,
-        o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Starts the forgotten-password flow: the named user is mailed a reset link.
-
-        Starts the forgotten-password flow: the named user is mailed a reset link. Unauthenticated by design, and deliberately quiet about whether the address exists.
-
-        :param o11y_o11y_forgot_password_in: (required)
-        :type o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._forgot_password_serialize(
-            o11y_o11y_forgot_password_in=o11y_o11y_forgot_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def forgot_password_without_preload_content(
-        self,
-        o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Starts the forgotten-password flow: the named user is mailed a reset link.
-
-        Starts the forgotten-password flow: the named user is mailed a reset link. Unauthenticated by design, and deliberately quiet about whether the address exists.
-
-        :param o11y_o11y_forgot_password_in: (required)
-        :type o11y_o11y_forgot_password_in: O11yO11yForgotPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._forgot_password_serialize(
-            o11y_o11y_forgot_password_in=o11y_o11y_forgot_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _forgot_password_serialize(
-        self,
-        o11y_o11y_forgot_password_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_forgot_password_in is not None:
-            _body_params = o11y_o11y_forgot_password_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/factor_password/forgot',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -16292,7 +13344,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16364,7 +13416,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16436,7 +13488,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16484,7 +13536,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -16575,7 +13628,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16651,7 +13704,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16727,7 +13780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16778,7 +13831,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -16857,7 +13911,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16921,7 +13975,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -16985,7 +14039,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17027,7 +14081,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17106,7 +14161,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17170,7 +14225,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17234,7 +14289,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePoliciesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17276,7 +14331,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17289,270 +14345,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/route_policies',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_auth_domain(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yAuthDomainOut:
-        """Returns one auth domain with its SSO configuration, by id.
-
-        Returns one auth domain with its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_auth_domain_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yAuthDomainOut]:
-        """Returns one auth domain with its SSO configuration, by id.
-
-        Returns one auth domain with its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_auth_domain_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns one auth domain with its SSO configuration, by id.
-
-        Returns one auth domain with its SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_auth_domain_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_auth_domain_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/domains/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -17623,7 +14415,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17691,7 +14483,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17759,7 +14551,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17804,7 +14596,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -17887,7 +14680,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -17955,7 +14748,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18023,7 +14816,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yCredentialsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18068,7 +14861,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -18151,7 +14945,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18219,7 +15013,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18287,7 +15081,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18332,7 +15126,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -18415,7 +15210,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18483,7 +15278,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18551,7 +15346,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeScheduleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18596,7 +15391,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -18679,7 +15475,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18747,7 +15543,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18815,7 +15611,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -18860,7 +15656,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -18956,7 +15753,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19024,7 +15821,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19092,7 +15889,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19137,7 +15934,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -19233,7 +16031,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19301,7 +16099,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19369,7 +16167,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19414,7 +16212,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -19510,7 +16309,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19578,7 +16377,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19646,7 +16445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19691,7 +16490,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -19787,7 +16587,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19855,7 +16655,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19923,7 +16723,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -19968,7 +16768,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20068,7 +16869,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20140,7 +16941,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20212,7 +17013,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceFlamegraphOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20260,7 +17061,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20352,7 +17154,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20416,7 +17218,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20480,7 +17282,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGettableHostOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20522,7 +17324,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20609,7 +17412,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20681,7 +17484,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20753,7 +17556,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20805,7 +17608,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -20888,7 +17692,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -20956,7 +17760,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21024,7 +17828,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21069,7 +17873,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21156,7 +17961,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21228,7 +18033,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21300,7 +18105,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yConnectionStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21350,7 +18155,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21433,7 +18239,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21501,7 +18307,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21569,7 +18375,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21614,7 +18420,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21697,7 +18504,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21765,7 +18572,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21833,7 +18640,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoreOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -21878,7 +18685,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -21961,7 +18769,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22029,7 +18837,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22097,7 +18905,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAlertsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22144,7 +18952,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22235,7 +19044,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22311,7 +19120,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22387,7 +19196,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22444,7 +19253,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22527,7 +19337,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22595,7 +19405,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22663,7 +19473,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricDashboardsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22710,7 +19520,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -22793,7 +19604,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22861,7 +19672,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22929,7 +19740,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricHighlightsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -22976,7 +19787,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -23059,7 +19871,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23127,7 +19939,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23195,7 +20007,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23242,7 +20054,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -23325,7 +20138,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23393,7 +20206,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23461,7 +20274,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23506,7 +20319,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -23585,7 +20399,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23649,7 +20463,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23713,7 +20527,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23755,7 +20569,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -23834,7 +20649,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23898,7 +20713,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -23962,7 +20777,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionSeriesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24004,7 +20819,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24083,7 +20899,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24147,7 +20963,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24211,7 +21027,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24253,7 +21069,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24336,7 +21153,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24404,7 +21221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24472,7 +21289,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24517,7 +21334,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24613,7 +21431,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24681,7 +21499,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24749,7 +21567,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricTreemapOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24794,7 +21612,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -24886,7 +21705,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -24950,7 +21769,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25014,7 +21833,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrganizationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25056,7 +21875,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -25135,7 +21955,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25199,7 +22019,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25263,7 +22083,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25305,7 +22125,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -25348,7 +22169,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yUserWithRolesOut:
+    ) -> O11yO11yUserOut:
         """Returns the calling user together with every role they hold.
 
         Returns the calling user together with every role they hold. Open to any authenticated caller.
@@ -25383,8 +22204,8 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
+            '200': "O11yO11yUserOut",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25412,7 +22233,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yUserWithRolesOut]:
+    ) -> ApiResponse[O11yO11yUserOut]:
         """Returns the calling user together with every role they hold.
 
         Returns the calling user together with every role they hold. Open to any authenticated caller.
@@ -25447,8 +22268,8 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
+            '200': "O11yO11yUserOut",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25511,8 +22332,8 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
+            '200': "O11yO11yUserOut",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -25554,7 +22375,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -25567,255 +22389,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/users/me',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_my_user_deprecated(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yDeprecatedUserOut:
-        """Returns the calling user with their single legacy role.
-
-        Returns the calling user with their single legacy role. Deprecated in favor of getMyUser. Open to any authenticated caller.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_my_user_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_my_user_deprecated_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yDeprecatedUserOut]:
-        """Returns the calling user with their single legacy role.
-
-        Returns the calling user with their single legacy role. Deprecated in favor of getMyUser. Open to any authenticated caller.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_my_user_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_my_user_deprecated_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns the calling user with their single legacy role.
-
-        Returns the calling user with their single legacy role. Deprecated in favor of getMyUser. Open to any authenticated caller.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_my_user_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_my_user_deprecated_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/user/me',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -26134,7 +22707,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26214,7 +22787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26294,7 +22867,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAggregateAttributesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26356,7 +22929,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -26459,7 +23033,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26547,7 +23121,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26635,7 +23209,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26707,7 +23281,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -26818,7 +23393,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -26914,7 +23489,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27010,7 +23585,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27092,7 +23667,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -27179,7 +23755,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27251,7 +23827,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27323,7 +23899,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAvailabilityResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27375,7 +23951,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -27478,7 +24055,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27566,7 +24143,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27654,7 +24231,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27726,7 +24303,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -27837,7 +24415,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -27933,7 +24511,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28029,7 +24607,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28111,7 +24689,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -28124,478 +24703,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/clusters/attribute_values',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_o11y_complete_google(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Complete a Google sign-in
-
-        The callback Google redirects a user back to after they approve the sign-in. It exchanges the authorization code, establishes the session and answers 303 to the console.  The answer is a Location header and no body, which is why it is not a typed operation — declaring a JSON response for a redirect would publish a shape that does not exist and hide the header that is the entire point.  UNAUTHENTICATED by necessity: it is how a caller GETS a principal, so requiring one would be circular. It is not an open endpoint — the code it carries is single-use and verified against the provider.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_google_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_o11y_complete_google_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Complete a Google sign-in
-
-        The callback Google redirects a user back to after they approve the sign-in. It exchanges the authorization code, establishes the session and answers 303 to the console.  The answer is a Location header and no body, which is why it is not a typed operation — declaring a JSON response for a redirect would publish a shape that does not exist and hide the header that is the entire point.  UNAUTHENTICATED by necessity: it is how a caller GETS a principal, so requiring one would be circular. It is not an open endpoint — the code it carries is single-use and verified against the provider.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_google_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_o11y_complete_google_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Complete a Google sign-in
-
-        The callback Google redirects a user back to after they approve the sign-in. It exchanges the authorization code, establishes the session and answers 303 to the console.  The answer is a Location header and no body, which is why it is not a typed operation — declaring a JSON response for a redirect would publish a shape that does not exist and hide the header that is the entire point.  UNAUTHENTICATED by necessity: it is how a caller GETS a principal, so requiring one would be circular. It is not an open endpoint — the code it carries is single-use and verified against the provider.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_google_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_o11y_complete_google_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/complete/google',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_o11y_complete_oidc(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Complete a generic OIDC sign-in
-
-        The callback any configured OIDC provider redirects back to. Same shape and same reasoning as the Google callback: the code is exchanged, the session is established, and the answer is a 303 to the console rather than a body.  UNAUTHENTICATED by necessity — this is the act of obtaining a principal, and the provider's own code is what authenticates it.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_oidc_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_o11y_complete_oidc_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Complete a generic OIDC sign-in
-
-        The callback any configured OIDC provider redirects back to. Same shape and same reasoning as the Google callback: the code is exchanged, the session is established, and the answer is a 303 to the console rather than a body.  UNAUTHENTICATED by necessity — this is the act of obtaining a principal, and the provider's own code is what authenticates it.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_oidc_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_o11y_complete_oidc_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Complete a generic OIDC sign-in
-
-        The callback any configured OIDC provider redirects back to. Same shape and same reasoning as the Google callback: the code is exchanged, the session is established, and the answer is a 303 to the console rather than a body.  UNAUTHENTICATED by necessity — this is the act of obtaining a principal, and the provider's own code is what authenticates it.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_complete_oidc_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_o11y_complete_oidc_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/complete/oidc',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -28686,7 +24793,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28774,7 +24881,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28862,7 +24969,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -28934,7 +25041,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -29045,7 +25153,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29141,7 +25249,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29237,7 +25345,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29319,7 +25427,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -29422,7 +25531,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29510,7 +25619,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29598,7 +25707,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29670,7 +25779,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -29781,7 +25891,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29877,7 +25987,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -29973,7 +26083,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30055,7 +26165,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30134,7 +26245,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30198,7 +26309,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30262,7 +26373,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDisk]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30304,7 +26415,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30395,7 +26507,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30471,7 +26583,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30547,7 +26659,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30604,7 +26716,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -30695,7 +26808,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30771,7 +26884,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30847,7 +26960,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorWithSpan",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -30904,7 +27017,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -31015,7 +27129,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31111,7 +27225,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31207,7 +27321,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31289,7 +27403,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -31372,7 +27487,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31440,7 +27555,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31508,7 +27623,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31553,7 +27668,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -31644,7 +27760,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31720,7 +27836,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31796,7 +27912,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -31853,7 +27969,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -31936,7 +28053,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32004,7 +28121,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32072,7 +28189,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32117,7 +28234,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -32196,7 +28314,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32260,7 +28378,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32324,7 +28442,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFeaturesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32366,7 +28484,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -32485,7 +28604,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32589,7 +28708,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32693,7 +28812,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -32785,7 +28904,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -32912,7 +29032,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33024,7 +29144,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33136,7 +29256,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33238,7 +29358,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -33337,7 +29458,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33421,7 +29542,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33505,7 +29626,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFilterSuggestionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33572,7 +29693,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -33651,7 +29773,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33715,7 +29837,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33779,7 +29901,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yGlobalConfigOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33821,7 +29943,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -33904,7 +30027,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -33972,7 +30095,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34040,7 +30163,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHealthOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34087,7 +30210,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -34426,7 +30550,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34514,7 +30638,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34602,7 +30726,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34674,7 +30798,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -34785,7 +30910,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34881,7 +31006,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -34977,7 +31102,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35059,7 +31184,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35142,7 +31268,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35210,7 +31336,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35278,7 +31404,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35325,7 +31451,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35404,7 +31531,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35468,7 +31595,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35532,7 +31659,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOnboardingOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35574,7 +31701,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -35677,7 +31805,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35765,7 +31893,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35853,7 +31981,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -35925,7 +32053,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -36036,7 +32165,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36132,7 +32261,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36228,7 +32357,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36310,7 +32439,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -36389,7 +32519,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36453,7 +32583,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36517,7 +32647,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicensesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36559,7 +32689,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -36638,7 +32769,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36702,7 +32833,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36766,7 +32897,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLicenseActiveOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -36808,7 +32939,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37371,7 +33503,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37447,7 +33579,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37523,7 +33655,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogRecordsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37580,7 +33712,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37659,7 +33792,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37723,7 +33856,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37787,7 +33920,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogAggregateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37829,7 +33962,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -37908,7 +34042,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -37972,7 +34106,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38036,7 +34170,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38078,7 +34212,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -38397,7 +34532,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38465,7 +34600,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38533,7 +34668,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38578,7 +34713,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -38657,7 +34793,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38721,7 +34857,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38785,7 +34921,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPromotedOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38827,7 +34963,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -38914,7 +35051,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -38986,7 +35123,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39058,7 +35195,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39110,7 +35247,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39213,7 +35351,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39301,7 +35439,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39389,7 +35527,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39461,7 +35599,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39572,7 +35711,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39668,7 +35807,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39764,7 +35903,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -39846,7 +35985,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -39937,7 +36077,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40013,7 +36153,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40089,7 +36229,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNextPrevErrorIDs",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40146,7 +36286,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40249,7 +36390,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40337,7 +36478,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40425,7 +36566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40497,7 +36638,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40608,7 +36750,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40704,7 +36846,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40800,7 +36942,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -40882,7 +37024,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -40985,7 +37128,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41073,7 +37216,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41161,7 +37304,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41233,7 +37376,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -41344,7 +37488,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41440,7 +37584,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41536,7 +37680,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41618,7 +37762,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -41721,7 +37866,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41809,7 +37954,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41897,7 +38042,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -41969,7 +38114,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -42080,7 +38226,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42176,7 +38322,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42272,7 +38418,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42354,7 +38500,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -42445,7 +38592,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42521,7 +38668,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42597,7 +38744,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yMetricsResponse",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42654,7 +38801,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -42757,7 +38905,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42845,7 +38993,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -42933,7 +39081,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43005,7 +39153,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -43116,7 +39265,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43212,7 +39361,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43308,7 +39457,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43390,7 +39539,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -43485,7 +39635,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43565,7 +39715,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43645,7 +39795,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPromQueryOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -43707,7 +39857,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -44046,7 +40197,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44134,7 +40285,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44222,7 +40373,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricsQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44294,7 +40445,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -44617,7 +40769,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44689,7 +40841,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44761,7 +40913,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44813,7 +40965,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -44896,7 +41049,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -44964,7 +41117,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45032,7 +41185,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueDetailView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45077,7 +41230,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -45172,7 +41326,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45252,7 +41406,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45332,7 +41486,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemList",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45392,7 +41546,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -45479,7 +41634,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45551,7 +41706,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45623,7 +41778,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryEventOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45673,7 +41828,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -45792,7 +41948,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -45896,7 +42052,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46000,7 +42156,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46092,7 +42248,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -46175,7 +42332,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46243,7 +42400,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46311,7 +42468,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorGettableIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46356,7 +42513,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -46447,7 +42605,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46523,7 +42681,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46599,7 +42757,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryIssueEventsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46654,7 +42812,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -46749,7 +42908,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46829,7 +42988,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46909,7 +43068,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -46971,7 +43130,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -47050,7 +43210,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47114,7 +43274,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47178,7 +43338,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47220,7 +43380,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -47303,7 +43464,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47371,7 +43532,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47439,7 +43600,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47484,7 +43645,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -47575,7 +43737,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47651,7 +43813,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47727,7 +43889,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47784,7 +43946,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -47875,7 +44038,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -47951,7 +44114,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48027,7 +44190,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48084,7 +44247,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -48171,7 +44335,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48243,7 +44407,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48315,7 +44479,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48365,7 +44529,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -48444,7 +44609,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48508,7 +44673,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48572,7 +44737,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[str]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -48614,7 +44779,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -48933,7 +45099,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49001,7 +45167,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49069,7 +45235,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49116,7 +45282,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -49195,7 +45362,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49259,7 +45426,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49323,7 +45490,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49365,7 +45532,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -49468,7 +45636,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49556,7 +45724,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49644,7 +45812,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49716,7 +45884,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -49827,7 +45996,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -49923,7 +46092,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50019,7 +46188,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50101,7 +46270,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -50180,7 +46350,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50244,7 +46414,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50308,7 +46478,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOrgStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50350,7 +46520,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -50433,7 +46604,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50501,7 +46672,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50569,7 +46740,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusResult",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50616,7 +46787,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -50695,7 +46867,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50759,7 +46931,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50823,7 +46995,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yStatusSummary",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -50865,7 +47037,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -50956,7 +47129,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51032,7 +47205,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51108,7 +47281,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51165,7 +47338,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -51260,7 +47434,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51340,7 +47514,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51420,7 +47594,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yUsageItem]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51482,7 +47656,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -51561,7 +47736,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51625,7 +47800,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51689,7 +47864,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yVersionOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51731,7 +47906,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -51814,7 +47990,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51882,7 +48058,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51950,7 +48126,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -51995,7 +48171,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -52082,7 +48259,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52154,7 +48331,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52226,7 +48403,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOverallStateTransitionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52274,7 +48451,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -52370,7 +48548,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52438,7 +48616,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52506,7 +48684,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52551,7 +48729,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -52634,7 +48813,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52702,7 +48881,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52770,7 +48949,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPublicDashboardDataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52815,7 +48994,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -52910,7 +49090,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -52990,7 +49170,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53070,7 +49250,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yWidgetQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53128,7 +49308,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -53207,7 +49388,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53271,7 +49452,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53335,7 +49516,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQuickFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -53377,7 +49558,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -53390,534 +49572,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/orgs/me/filters',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_reset_password_token(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yResetTokenOut:
-        """Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token.
-
-        Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_reset_password_token_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yResetTokenOut]:
-        """Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token.
-
-        Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_reset_password_token_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token.
-
-        Returns the reset-password token a user already has; absent one, the answer is a not-found rather than a fresh token. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_reset_password_token_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/users/{id}/reset_password_tokens',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_reset_password_token_deprecated(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yResetTokenOut:
-        """Returns a user's password-reset token, creating one if none is live.
-
-        Returns a user's password-reset token, creating one if none is live. Deprecated in favor of the reset_password_tokens pair, which separates reading from minting. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_reset_password_token_deprecated_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yResetTokenOut]:
-        """Returns a user's password-reset token, creating one if none is live.
-
-        Returns a user's password-reset token, creating one if none is live. Deprecated in favor of the reset_password_tokens pair, which separates reading from minting. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_reset_password_token_deprecated_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns a user's password-reset token, creating one if none is live.
-
-        Returns a user's password-reset token, creating one if none is live. Deprecated in favor of the reset_password_tokens pair, which separates reading from minting. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_reset_password_token_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yResetTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_reset_password_token_deprecated_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/getResetPasswordToken/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -53988,7 +49642,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54056,7 +49710,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54124,7 +49778,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54169,7 +49823,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -54182,270 +49837,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/roles/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_roles_by_user_id(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yRolesOut:
-        """Returns every role one org member holds, by user id.
-
-        Returns every role one org member holds, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_roles_by_user_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_roles_by_user_id_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yRolesOut]:
-        """Returns every role one org member holds, by user id.
-
-        Returns every role one org member holds, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_roles_by_user_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_roles_by_user_id_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns every role one org member holds, by user id.
-
-        Returns every role one org member holds, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_roles_by_user_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_roles_by_user_id_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/users/{id}/roles',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -54516,7 +49907,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54584,7 +49975,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54652,7 +50043,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54697,7 +50088,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -54780,7 +50172,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54848,7 +50240,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54916,7 +50308,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -54961,7 +50353,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -55060,7 +50453,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55144,7 +50537,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55228,7 +50621,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55293,7 +50686,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -55400,7 +50794,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55492,7 +50886,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55584,7 +50978,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryFilterValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55659,7 +51053,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -55750,7 +51145,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55826,7 +51221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55902,7 +51297,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryOverallStatusOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -55957,7 +51352,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -56048,7 +51444,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56124,7 +51520,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56200,7 +51596,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56255,7 +51651,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -56366,7 +51763,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56462,7 +51859,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56558,7 +51955,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56638,7 +52035,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -56729,7 +52127,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56805,7 +52203,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56881,7 +52279,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleHistoryContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -56936,7 +52334,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -57023,7 +52422,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57095,7 +52494,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57167,7 +52566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateTimelineOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57215,7 +52614,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -57315,7 +52715,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57387,7 +52787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57459,7 +52859,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStateContributorsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57507,7 +52907,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -57607,7 +53008,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57679,7 +53080,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57751,7 +53152,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleStatsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57799,7 +53200,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -57903,7 +53305,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -57979,7 +53381,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58055,7 +53457,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58108,7 +53510,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -58191,7 +53594,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58259,7 +53662,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58327,7 +53730,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58372,7 +53775,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -58455,7 +53859,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58523,7 +53927,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58591,7 +53995,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -58636,7 +54040,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -58649,289 +54054,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/service_accounts/{id}/roles',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_session_context(
-        self,
-        email: Annotated[Optional[StrictStr], Field(description="Email is the address about to sign in. Required.")] = None,
-        ref: Annotated[Optional[StrictStr], Field(description="Ref is the page the sign-in started from, carried into SSO redirects.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11ySessionContextOut:
-        """Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it.
-
-        Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it. Unauthenticated: it runs before any session exists.
-
-        :param email: Email is the address about to sign in. Required.
-        :type email: str
-        :param ref: Ref is the page the sign-in started from, carried into SSO redirects.
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_session_context_serialize(
-            email=email,
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySessionContextOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_session_context_with_http_info(
-        self,
-        email: Annotated[Optional[StrictStr], Field(description="Email is the address about to sign in. Required.")] = None,
-        ref: Annotated[Optional[StrictStr], Field(description="Ref is the page the sign-in started from, carried into SSO redirects.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11ySessionContextOut]:
-        """Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it.
-
-        Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it. Unauthenticated: it runs before any session exists.
-
-        :param email: Email is the address about to sign in. Required.
-        :type email: str
-        :param ref: Ref is the page the sign-in started from, carried into SSO redirects.
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_session_context_serialize(
-            email=email,
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySessionContextOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_session_context_without_preload_content(
-        self,
-        email: Annotated[Optional[StrictStr], Field(description="Email is the address about to sign in. Required.")] = None,
-        ref: Annotated[Optional[StrictStr], Field(description="Ref is the page the sign-in started from, carried into SSO redirects.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it.
-
-        Tells a sign-in page what an email address can do: which orgs the address belongs to and, per org, which password and SSO routes are open to it. Unauthenticated: it runs before any session exists.
-
-        :param email: Email is the address about to sign in. Required.
-        :type email: str
-        :param ref: Ref is the page the sign-in started from, carried into SSO redirects.
-        :type ref: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_session_context_serialize(
-            email=email,
-            ref=ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySessionContextOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_session_context_serialize(
-        self,
-        email,
-        ref,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        if email is not None:
-            
-            _query_params.append(('email', email))
-            
-        if ref is not None:
-            
-            _query_params.append(('ref', ref))
-            
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/sessions/context',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -59002,7 +54124,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59070,7 +54192,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59138,7 +54260,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySignalFiltersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59183,7 +54305,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -59270,7 +54393,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59342,7 +54465,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59414,7 +54537,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceAggregationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59462,7 +54585,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -59554,7 +54678,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59618,7 +54742,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59682,7 +54806,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldCatalogOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59724,7 +54848,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -59807,7 +54932,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59875,7 +55000,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59943,7 +55068,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -59988,7 +55113,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -60075,7 +55201,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60147,7 +55273,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60219,7 +55345,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60267,7 +55393,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -60367,7 +55494,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60439,7 +55566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60511,7 +55638,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60559,7 +55686,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -60659,7 +55787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60731,7 +55859,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60803,7 +55931,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -60851,7 +55979,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -60951,7 +56080,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61023,7 +56152,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61095,7 +56224,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61143,7 +56272,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -61243,7 +56373,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61315,7 +56445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61387,7 +56517,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -61435,7 +56565,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -61461,534 +56592,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/trace-funnels/{funnel_id}/analytics/steps/overview',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_user(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yUserWithRolesOut:
-        """Returns one org member together with every role they hold, by user id.
-
-        Returns one org member together with every role they hold, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_user_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yUserWithRolesOut]:
-        """Returns one org member together with every role they hold, by user id.
-
-        Returns one org member together with every role they hold, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_user_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns one org member together with every role they hold, by user id.
-
-        Returns one org member together with every role they hold, by user id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUserWithRolesOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_user_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/users/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_user_deprecated(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yDeprecatedUserOut:
-        """Returns one org member with their single legacy role, by user id.
-
-        Returns one org member with their single legacy role, by user id. Admins may read anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_user_deprecated_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yDeprecatedUserOut]:
-        """Returns one org member with their single legacy role, by user id.
-
-        Returns one org member with their single legacy role, by user id. Admins may read anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_user_deprecated_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns one org member with their single legacy role, by user id.
-
-        Returns one org member with their single legacy role, by user id. Admins may read anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_user_deprecated_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_user_deprecated_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/user/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -62059,7 +56662,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62127,7 +56730,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62195,7 +56798,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferenceOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62240,7 +56843,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -62253,270 +56857,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/user/preferences/{name}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_users_by_role_id(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yUsersOut:
-        """Returns every org member holding a role, by role id.
-
-        Returns every org member holding a role, by role id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_users_by_role_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_users_by_role_id_with_http_info(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yUsersOut]:
-        """Returns every org member holding a role, by role id.
-
-        Returns every org member holding a role, by role id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_users_by_role_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_users_by_role_id_without_preload_content(
-        self,
-        id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns every org member holding a role, by role id.
-
-        Returns every org member holding a role, by role id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_users_by_role_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_users_by_role_id_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/roles/{id}/users',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -62591,7 +56931,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62663,7 +57003,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62735,7 +57075,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTraceWaterfallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62783,7 +57123,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -62879,7 +57220,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -62947,7 +57288,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63015,7 +57356,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricInspectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63060,7 +57401,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -63156,7 +57498,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63224,7 +57566,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63292,7 +57634,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInstallOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63337,7 +57679,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -63437,7 +57780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63509,7 +57852,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63581,7 +57924,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63629,7 +57972,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -63712,7 +58056,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63780,7 +58124,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63848,7 +58192,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -63893,7 +58237,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -63906,255 +58251,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/cloud_integrations/{cloud_provider}/accounts',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def list_auth_domains(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yAuthDomainsOut:
-        """Lists the org's auth domains — the email domains whose SSO configuration this org owns.
-
-        Lists the org's auth domains — the email domains whose SSO configuration this org owns. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_auth_domains_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainsOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def list_auth_domains_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yAuthDomainsOut]:
-        """Lists the org's auth domains — the email domains whose SSO configuration this org owns.
-
-        Lists the org's auth domains — the email domains whose SSO configuration this org owns. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_auth_domains_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainsOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def list_auth_domains_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Lists the org's auth domains — the email domains whose SSO configuration this org owns.
-
-        Lists the org's auth domains — the email domains whose SSO configuration this org owns. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_auth_domains_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAuthDomainsOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _list_auth_domains_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/domains',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -64221,7 +58317,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64285,7 +58381,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64349,7 +58445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yChannelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64391,7 +58487,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -64470,7 +58567,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64534,7 +58631,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64598,7 +58695,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64640,7 +58737,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -64739,7 +58837,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64823,7 +58921,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64907,7 +59005,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListForUserOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -64974,7 +59072,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -65073,7 +59172,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65157,7 +59256,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65241,7 +59340,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65308,7 +59407,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -65395,7 +59495,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65467,7 +59567,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65539,7 +59639,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDowntimeSchedulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65591,7 +59691,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -65674,7 +59775,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65742,7 +59843,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65810,7 +59911,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationsListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -65857,7 +59958,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -65956,7 +60058,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66040,7 +60142,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66124,7 +60226,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMAnnotationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66191,7 +60293,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -66306,7 +60409,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66406,7 +60509,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66506,7 +60609,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMObservationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66593,7 +60696,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -66688,7 +60792,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66768,7 +60872,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66848,7 +60952,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMPricingRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -66910,7 +61014,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -67013,7 +61118,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67101,7 +61206,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67189,7 +61294,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMScoresOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67261,7 +61366,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -67376,7 +61482,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67476,7 +61582,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67576,7 +61682,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMSessionsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67663,7 +61769,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -67778,7 +61885,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67878,7 +61985,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -67978,7 +62085,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMTracesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68065,7 +62172,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -68180,7 +62288,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68280,7 +62388,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68380,7 +62488,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLLMUsersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68467,7 +62575,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -68570,7 +62679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68658,7 +62767,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68746,7 +62855,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -68818,7 +62927,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -68917,7 +63027,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69001,7 +63111,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69085,7 +63195,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69152,7 +63262,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -69231,7 +63342,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69295,7 +63406,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69359,7 +63470,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69401,7 +63512,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -69480,7 +63592,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69544,7 +63656,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69608,7 +63720,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRolesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69650,7 +63762,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -69729,7 +63842,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69793,7 +63906,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69857,7 +63970,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRulesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -69899,7 +64012,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -69982,7 +64096,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70050,7 +64164,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70118,7 +64232,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAPIKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70163,7 +64277,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -70242,7 +64357,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70306,7 +64421,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70370,7 +64485,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServiceAccountsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70412,7 +64527,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -70499,7 +64615,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70571,7 +64687,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70643,7 +64759,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesMetadataOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70693,7 +64809,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -70776,7 +64893,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70844,7 +64961,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70912,7 +65029,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMapperGroupsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -70959,7 +65076,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -71042,7 +65160,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71110,7 +65228,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71178,7 +65296,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanMappersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71223,7 +65341,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -71302,7 +65421,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71366,7 +65485,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71430,7 +65549,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71472,7 +65591,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -71551,7 +65671,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71615,7 +65735,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71679,7 +65799,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPreferencesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -71721,7 +65841,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -71734,504 +65855,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/user/preferences',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def list_users(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yUsersOut:
-        """Lists the caller's org members.
-
-        Lists the caller's org members. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def list_users_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yUsersOut]:
-        """Lists the caller's org members.
-
-        Lists the caller's org members. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def list_users_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Lists the caller's org members.
-
-        Lists the caller's org members. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _list_users_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/users',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def list_users_deprecated(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yDeprecatedUsersOut:
-        """Lists the org's members with their single legacy role.
-
-        Lists the org's members with their single legacy role. Deprecated in favor of listUsers, which answers without the role. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def list_users_deprecated_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yDeprecatedUsersOut]:
-        """Lists the org's members with their single legacy role.
-
-        Lists the org's members with their single legacy role. Deprecated in favor of listUsers, which answers without the role. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def list_users_deprecated_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Lists the org's members with their single legacy role.
-
-        Lists the org's members with their single legacy role. Deprecated in favor of listUsers, which answers without the role. Admin gate.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._list_users_deprecated_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUsersOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _list_users_deprecated_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/user',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -72263,7 +65886,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Locks a v2-shape dashboard.
 
         Locks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -72301,7 +65924,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72331,7 +65954,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Locks a v2-shape dashboard.
 
         Locks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -72369,7 +65992,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72437,7 +66060,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -72483,7 +66106,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -72570,7 +66194,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72642,7 +66266,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72714,7 +66338,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72762,7 +66386,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -72862,7 +66487,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -72934,7 +66559,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73006,7 +66631,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73054,7 +66679,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -73158,7 +66784,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73234,7 +66860,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73310,7 +66936,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yAnnItemView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73361,7 +66987,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -73461,7 +67088,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73533,7 +67160,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73605,7 +67232,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -73653,7 +67280,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -73710,7 +67338,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Pins a dashboard for the calling user.
 
         Pins a dashboard for the calling user. A user can pin at most ten dashboards; pinning at the limit refuses with the runtime's conflict. Re-pinning an already-pinned dashboard is a no-op success. Pinning mutates only the caller's pin list, not the dashboard, so a viewer may pin what a viewer may read.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -73748,7 +67376,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -73778,7 +67406,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Pins a dashboard for the calling user.
 
         Pins a dashboard for the calling user. A user can pin at most ten dashboards; pinning at the limit refuses with the runtime's conflict. Re-pinning an already-pinned dashboard is a no-op success. Pinning mutates only the caller's pin list, not the dashboard, so a viewer may pin what a viewer may read.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -73816,7 +67444,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -73884,7 +67512,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -73930,7 +67558,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -73977,7 +67606,7 @@ class O11yApi:
     ) -> None:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), falling back to a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
@@ -74043,7 +67672,7 @@ class O11yApi:
     ) -> ApiResponse[None]:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), falling back to a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
@@ -74109,7 +67738,7 @@ class O11yApi:
     ) -> RESTResponseType:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), falling back to a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
@@ -74444,7 +68073,7 @@ class O11yApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/o11y/api/{project_id}/envelope/',
+            resource_path='/v1/o11y/api/{project_id}/envelope',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -74695,7 +68324,7 @@ class O11yApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/o11y/api/{project_id}/store/',
+            resource_path='/v1/o11y/api/{project_id}/store',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -74766,7 +68395,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74834,7 +68463,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74902,7 +68531,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAttributeValuesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -74947,7 +68576,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -75043,7 +68673,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75111,7 +68741,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75179,7 +68809,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yClusterListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75224,7 +68854,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -75250,242 +68881,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/clusters/list',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_o11y_complete_saml(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Complete a SAML sign-in
-
-        The assertion consumer service: the identity provider POSTs its signed assertion here, and a valid one establishes the session and answers 303 to the console.  A redirect, not a value, so it is not a typed operation. UNAUTHENTICATED by necessity and authenticated in fact by the assertion's signature, which is checked against the configured provider before any session exists.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_complete_saml_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_o11y_complete_saml_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Complete a SAML sign-in
-
-        The assertion consumer service: the identity provider POSTs its signed assertion here, and a valid one establishes the session and answers 303 to the console.  A redirect, not a value, so it is not a typed operation. UNAUTHENTICATED by necessity and authenticated in fact by the assertion's signature, which is checked against the configured provider before any session exists.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_complete_saml_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_o11y_complete_saml_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Complete a SAML sign-in
-
-        The assertion consumer service: the identity provider POSTs its signed assertion here, and a valid one establishes the session and answers 303 to the console.  A redirect, not a value, so it is not a typed operation. UNAUTHENTICATED by necessity and authenticated in fact by the assertion's signature, which is checked against the configured provider before any session exists.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_complete_saml_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_o11y_complete_saml_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/complete/saml',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -75556,7 +68951,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75624,7 +69019,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75692,7 +69087,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "int",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75737,7 +69132,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -75833,7 +69229,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75901,7 +69297,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -75969,7 +69365,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDaemonSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76014,7 +69410,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -76110,7 +69507,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76178,7 +69575,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76246,7 +69643,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yDependency]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76291,7 +69688,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -76387,7 +69785,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76455,7 +69853,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76523,7 +69921,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDeploymentListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76568,7 +69966,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -76668,7 +70067,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76740,7 +70139,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76812,7 +70211,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -76860,7 +70259,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -76956,7 +70356,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77024,7 +70424,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77092,7 +70492,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMessage",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77137,7 +70537,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -77233,7 +70634,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77301,7 +70702,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77369,7 +70770,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewCreateOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77414,7 +70815,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -77746,7 +71148,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77814,7 +71216,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77882,7 +71284,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yHostListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -77927,7 +71329,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -78023,7 +71426,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78091,7 +71494,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78159,7 +71562,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraClustersOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78204,7 +71607,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -78300,7 +71704,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78368,7 +71772,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78436,7 +71840,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDaemonSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78481,7 +71885,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -78577,7 +71982,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78645,7 +72050,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78713,7 +72118,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraDeploymentsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78758,7 +72163,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -78854,7 +72260,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78922,7 +72328,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -78990,7 +72396,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraHostsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79035,7 +72441,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -79131,7 +72538,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79199,7 +72606,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79267,7 +72674,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraJobsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79312,7 +72719,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -79408,7 +72816,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79476,7 +72884,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79544,7 +72952,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNamespacesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79589,7 +72997,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -79685,7 +73094,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79753,7 +73162,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79821,7 +73230,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraNodesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -79866,7 +73275,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -79962,7 +73372,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80030,7 +73440,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80098,7 +73508,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraPodsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80143,7 +73553,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -80239,7 +73650,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80307,7 +73718,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80375,7 +73786,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraVolumesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80420,7 +73831,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -80516,7 +73928,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80584,7 +73996,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80652,7 +74064,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yInfraStatefulSetsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80697,7 +74109,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -80793,7 +74206,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80861,7 +74274,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80929,7 +74342,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yJobListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -80974,7 +74387,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -81070,7 +74484,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81138,7 +74552,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81206,7 +74620,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yListError]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81251,7 +74665,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -81347,7 +74762,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81415,7 +74830,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81483,7 +74898,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81528,7 +74943,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -81624,7 +75040,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81692,7 +75108,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81760,7 +75176,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81805,7 +75221,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -81901,7 +75318,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -81969,7 +75386,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82037,7 +75454,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yLogPipelinePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82082,7 +75499,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -82178,7 +75596,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82246,7 +75664,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82314,7 +75732,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yO11yLogPromoteOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82360,7 +75778,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -82456,7 +75875,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82524,7 +75943,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82592,7 +76011,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82637,7 +76056,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -82733,7 +76153,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82801,7 +76221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82869,7 +76289,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -82914,7 +76334,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -83010,7 +76431,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83078,7 +76499,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83146,7 +76567,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83191,7 +76612,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -83287,7 +76709,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83355,7 +76777,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83423,7 +76845,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83468,7 +76890,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -83564,7 +76987,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83632,7 +77055,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83700,7 +77123,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83745,7 +77168,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -83841,7 +77265,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83909,7 +77333,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -83977,7 +77401,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueChecksOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84022,7 +77446,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -84118,7 +77543,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84186,7 +77611,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84254,7 +77679,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84299,7 +77724,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -84395,7 +77821,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84463,7 +77889,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84531,7 +77957,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84576,7 +78002,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -84672,7 +78099,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84740,7 +78167,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84808,7 +78235,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -84853,7 +78280,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -84949,7 +78377,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85017,7 +78445,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85085,7 +78513,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85130,7 +78558,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -85226,7 +78655,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85294,7 +78723,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85362,7 +78791,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85407,7 +78836,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -85503,7 +78933,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85571,7 +79001,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85639,7 +79069,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85684,7 +79114,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -85780,7 +79211,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85848,7 +79279,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85916,7 +79347,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -85961,7 +79392,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -86057,7 +79489,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86125,7 +79557,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86193,7 +79625,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueueRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86238,7 +79670,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -86334,7 +79767,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86402,7 +79835,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86470,7 +79903,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNamespaceListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86515,7 +79948,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -86611,7 +80045,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86679,7 +80113,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86747,7 +80181,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yNodeListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86792,7 +80226,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -86888,7 +80323,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -86956,7 +80391,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87024,7 +80459,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPodListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87069,7 +80504,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -87165,7 +80601,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87233,7 +80669,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87301,7 +80737,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yProcessListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87346,7 +80782,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -87442,7 +80879,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87510,7 +80947,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87578,7 +81015,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yPvcListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87623,7 +81060,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -87719,7 +81157,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87787,7 +81225,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87855,7 +81293,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yAnalyzeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -87900,7 +81338,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -87996,7 +81435,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88064,7 +81503,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88132,7 +81571,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88177,7 +81616,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -88273,7 +81713,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88341,7 +81781,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88409,7 +81849,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangeFormatOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88454,7 +81894,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -88550,7 +81991,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88618,7 +82059,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88686,7 +82127,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yQueryRangePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -88731,7 +82172,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -88757,283 +82199,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/query_range/preview',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_o11y_register(
-        self,
-        o11y_o11y_register_in: O11yO11yRegisterIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yRegisterOut:
-        """Creates the FIRST organization and its admin user.
-
-        Creates the FIRST organization and its admin user. It is open by design — there is nobody to be signed in as yet — and refuses once setup has completed, after which new users arrive by invitation only.  Open by design; the runtime's own gate is OpenAccess.
-
-        :param o11y_o11y_register_in: (required)
-        :type o11y_o11y_register_in: O11yO11yRegisterIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_register_serialize(
-            o11y_o11y_register_in=o11y_o11y_register_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRegisterOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_o11y_register_with_http_info(
-        self,
-        o11y_o11y_register_in: O11yO11yRegisterIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yRegisterOut]:
-        """Creates the FIRST organization and its admin user.
-
-        Creates the FIRST organization and its admin user. It is open by design — there is nobody to be signed in as yet — and refuses once setup has completed, after which new users arrive by invitation only.  Open by design; the runtime's own gate is OpenAccess.
-
-        :param o11y_o11y_register_in: (required)
-        :type o11y_o11y_register_in: O11yO11yRegisterIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_register_serialize(
-            o11y_o11y_register_in=o11y_o11y_register_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRegisterOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_o11y_register_without_preload_content(
-        self,
-        o11y_o11y_register_in: O11yO11yRegisterIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Creates the FIRST organization and its admin user.
-
-        Creates the FIRST organization and its admin user. It is open by design — there is nobody to be signed in as yet — and refuses once setup has completed, after which new users arrive by invitation only.  Open by design; the runtime's own gate is OpenAccess.
-
-        :param o11y_o11y_register_in: (required)
-        :type o11y_o11y_register_in: O11yO11yRegisterIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_register_serialize(
-            o11y_o11y_register_in=o11y_o11y_register_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yRegisterOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_o11y_register_serialize(
-        self,
-        o11y_o11y_register_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_register_in is not None:
-            _body_params = o11y_o11y_register_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/register',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -89104,7 +82269,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89172,7 +82337,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89240,7 +82405,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnQueueView",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89285,7 +82450,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -89385,7 +82551,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89457,7 +82623,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89529,7 +82695,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '201': "O11yAnnItemsCreated",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89577,7 +82743,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -89673,7 +82840,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89741,7 +82908,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89809,7 +82976,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDiscoverOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -89854,7 +83021,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -89950,7 +83118,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90018,7 +83186,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90086,7 +83254,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90131,7 +83299,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -90227,7 +83396,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90295,7 +83464,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90363,7 +83532,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySentryProjectOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90408,7 +83577,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -90491,7 +83661,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90559,7 +83729,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90627,7 +83797,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90672,7 +83842,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -90768,7 +83939,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90836,7 +84007,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90904,7 +84075,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "Dict[str, List[str]]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -90949,7 +84120,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -91045,7 +84217,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91113,7 +84285,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91181,7 +84353,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yOperationsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91226,7 +84398,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -91322,7 +84495,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91390,7 +84563,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91458,7 +84631,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yServicesOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91503,7 +84676,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -91599,7 +84773,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91667,7 +84841,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91735,7 +84909,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yApdexSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91780,7 +84954,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -91876,7 +85051,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -91944,7 +85119,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92012,7 +85187,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRetentionSetOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92057,7 +85232,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -92153,7 +85329,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92221,7 +85397,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92289,7 +85465,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySpanPercentileOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92334,7 +85510,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -92430,7 +85607,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92498,7 +85675,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92566,7 +85743,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yStatefulSetListOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92611,7 +85788,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -92707,7 +85885,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92775,7 +85953,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92843,7 +86021,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySubstituteVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -92888,7 +86066,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -92984,7 +86163,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93052,7 +86231,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93120,7 +86299,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93165,7 +86344,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -93261,7 +86441,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93329,7 +86509,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93397,7 +86577,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDomainsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93442,7 +86622,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -93538,7 +86719,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93606,7 +86787,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93674,7 +86855,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardVarsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93719,7 +86900,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -93815,7 +86997,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93883,7 +87065,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93951,7 +87133,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRulePreviewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -93996,7 +87178,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -94053,7 +87236,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Records the deployment's host in Zeus, overwriting any prior one.
 
         Records the deployment's host in Zeus, overwriting any prior one. Admin gate.
@@ -94091,7 +87274,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94121,7 +87304,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Records the deployment's host in Zeus, overwriting any prior one.
 
         Records the deployment's host in Zeus, overwriting any prior one. Admin gate.
@@ -94159,7 +87342,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94227,7 +87410,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94273,7 +87456,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -94373,7 +87557,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94445,7 +87629,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94517,7 +87701,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11ySavedViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94565,7 +87749,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -94665,7 +87850,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94737,7 +87922,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94809,7 +87994,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yErrorIssueOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -94857,7 +88042,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -94914,7 +88100,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one.
 
         Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one. Admin gate.
@@ -94952,7 +88138,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -94982,7 +88168,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one.
 
         Records the deployment's profile in Zeus — how the team uses observability today and what they plan — overwriting any prior one. Admin gate.
@@ -95020,7 +88206,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -95088,7 +88274,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -95134,7 +88320,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -95176,562 +88363,6 @@ class O11yApi:
 
 
     @validate_call
-    def remove_user_role_by_user_id_and_role_id(
-        self,
-        id: StrictStr,
-        role_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Takes a role away from one org member, by user id and role id — someone else, never the caller.
-
-        Takes a role away from one org member, by user id and role id — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param role_id: (required)
-        :type role_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._remove_user_role_by_user_id_and_role_id_serialize(
-            id=id,
-            role_id=role_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def remove_user_role_by_user_id_and_role_id_with_http_info(
-        self,
-        id: StrictStr,
-        role_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Takes a role away from one org member, by user id and role id — someone else, never the caller.
-
-        Takes a role away from one org member, by user id and role id — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param role_id: (required)
-        :type role_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._remove_user_role_by_user_id_and_role_id_serialize(
-            id=id,
-            role_id=role_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def remove_user_role_by_user_id_and_role_id_without_preload_content(
-        self,
-        id: StrictStr,
-        role_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Takes a role away from one org member, by user id and role id — someone else, never the caller.
-
-        Takes a role away from one org member, by user id and role id — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param role_id: (required)
-        :type role_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._remove_user_role_by_user_id_and_role_id_serialize(
-            id=id,
-            role_id=role_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _remove_user_role_by_user_id_and_role_id_serialize(
-        self,
-        id,
-        role_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        if role_id is not None:
-            _path_params['roleId'] = role_id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/o11y/users/{id}/roles/{roleId}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def reset_password(
-        self,
-        o11y_o11y_reset_password_in: O11yO11yResetPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Sets a new password for whoever the reset token was minted for, consuming the token.
-
-        Sets a new password for whoever the reset token was minted for, consuming the token. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_password_in: (required)
-        :type o11y_o11y_reset_password_in: O11yO11yResetPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._reset_password_serialize(
-            o11y_o11y_reset_password_in=o11y_o11y_reset_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def reset_password_with_http_info(
-        self,
-        o11y_o11y_reset_password_in: O11yO11yResetPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Sets a new password for whoever the reset token was minted for, consuming the token.
-
-        Sets a new password for whoever the reset token was minted for, consuming the token. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_password_in: (required)
-        :type o11y_o11y_reset_password_in: O11yO11yResetPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._reset_password_serialize(
-            o11y_o11y_reset_password_in=o11y_o11y_reset_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def reset_password_without_preload_content(
-        self,
-        o11y_o11y_reset_password_in: O11yO11yResetPasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Sets a new password for whoever the reset token was minted for, consuming the token.
-
-        Sets a new password for whoever the reset token was minted for, consuming the token. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_password_in: (required)
-        :type o11y_o11y_reset_password_in: O11yO11yResetPasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._reset_password_serialize(
-            o11y_o11y_reset_password_in=o11y_o11y_reset_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _reset_password_serialize(
-        self,
-        o11y_o11y_reset_password_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_reset_password_in is not None:
-            _body_params = o11y_o11y_reset_password_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/resetPassword',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def revoke_service_account_key(
         self,
         id: StrictStr,
@@ -95748,7 +88379,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Revokes an API key.
 
         Revokes an API key. Revocation is immediate and permanent.
@@ -95789,7 +88420,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -95820,7 +88451,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Revokes an API key.
 
         Revokes an API key. Revocation is immediate and permanent.
@@ -95861,7 +88492,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -95933,7 +88564,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -95982,7 +88613,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -95995,283 +88627,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/o11y/service_accounts/{id}/keys/{fid}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def rotate_session(
-        self,
-        o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yTokenOut:
-        """Exchanges a refresh token for a fresh token pair, retiring the old pair.
-
-        Exchanges a refresh token for a fresh token pair, retiring the old pair. The access token being rotated identifies the session.
-
-        :param o11y_o11y_rotate_session_in: (required)
-        :type o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rotate_session_serialize(
-            o11y_o11y_rotate_session_in=o11y_o11y_rotate_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def rotate_session_with_http_info(
-        self,
-        o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yTokenOut]:
-        """Exchanges a refresh token for a fresh token pair, retiring the old pair.
-
-        Exchanges a refresh token for a fresh token pair, retiring the old pair. The access token being rotated identifies the session.
-
-        :param o11y_o11y_rotate_session_in: (required)
-        :type o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rotate_session_serialize(
-            o11y_o11y_rotate_session_in=o11y_o11y_rotate_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def rotate_session_without_preload_content(
-        self,
-        o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Exchanges a refresh token for a fresh token pair, retiring the old pair.
-
-        Exchanges a refresh token for a fresh token pair, retiring the old pair. The access token being rotated identifies the session.
-
-        :param o11y_o11y_rotate_session_in: (required)
-        :type o11y_o11y_rotate_session_in: O11yO11yRotateSessionIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._rotate_session_serialize(
-            o11y_o11y_rotate_session_in=o11y_o11y_rotate_session_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yTokenOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _rotate_session_serialize(
-        self,
-        o11y_o11y_rotate_session_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_rotate_session_in is not None:
-            _body_params = o11y_o11y_rotate_session_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/sessions/rotate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -96350,7 +88705,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96426,7 +88781,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96502,7 +88857,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIngestionKeysOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96559,7 +88914,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -96658,7 +89014,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96742,7 +89098,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96826,7 +89182,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "List[O11yO11yTraceSpanWindow]",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -96891,7 +89247,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -96904,298 +89261,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/traces/{traceId}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def set_role_by_user_id(
-        self,
-        id: StrictStr,
-        o11y_o11y_set_role_in: O11yO11ySetRoleIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yAck:
-        """Assigns a role, by role name, to one org member — someone else, never the caller.
-
-        Assigns a role, by role name, to one org member — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_set_role_in: (required)
-        :type o11y_o11y_set_role_in: O11yO11ySetRoleIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._set_role_by_user_id_serialize(
-            id=id,
-            o11y_o11y_set_role_in=o11y_o11y_set_role_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def set_role_by_user_id_with_http_info(
-        self,
-        id: StrictStr,
-        o11y_o11y_set_role_in: O11yO11ySetRoleIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yAck]:
-        """Assigns a role, by role name, to one org member — someone else, never the caller.
-
-        Assigns a role, by role name, to one org member — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_set_role_in: (required)
-        :type o11y_o11y_set_role_in: O11yO11ySetRoleIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._set_role_by_user_id_serialize(
-            id=id,
-            o11y_o11y_set_role_in=o11y_o11y_set_role_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def set_role_by_user_id_without_preload_content(
-        self,
-        id: StrictStr,
-        o11y_o11y_set_role_in: O11yO11ySetRoleIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Assigns a role, by role name, to one org member — someone else, never the caller.
-
-        Assigns a role, by role name, to one org member — someone else, never the caller. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_set_role_in: (required)
-        :type o11y_o11y_set_role_in: O11yO11ySetRoleIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._set_role_by_user_id_serialize(
-            id=id,
-            o11y_o11y_set_role_in=o11y_o11y_set_role_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yAck",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _set_role_by_user_id_serialize(
-        self,
-        id,
-        o11y_o11y_set_role_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_set_role_in is not None:
-            _body_params = o11y_o11y_set_role_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/users/{id}/roles',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -97227,7 +89292,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. Editor gate.
@@ -97265,7 +89330,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97295,7 +89360,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. Editor gate.
@@ -97333,7 +89398,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97401,7 +89466,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97447,7 +89512,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -97504,7 +89570,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. The legacy path; prefer /channels/test. Editor gate.
@@ -97542,7 +89608,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97572,7 +89638,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Sends a test notification to the posted receiver.
 
         Sends a test notification to the posted receiver. The legacy path; prefer /channels/test. Editor gate.
@@ -97610,7 +89676,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97678,7 +89744,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -97724,7 +89790,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -97820,7 +89887,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97888,7 +89955,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -97956,7 +90023,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98001,7 +90068,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -98097,7 +90165,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98165,7 +90233,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98233,7 +90301,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yTestNotificationOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98278,7 +90346,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -98374,7 +90443,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98442,7 +90511,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98510,7 +90579,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yIntegrationAck",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -98555,7 +90624,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -98612,7 +90682,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Unlocks a v2-shape dashboard.
 
         Unlocks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -98650,7 +90720,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98680,7 +90750,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Unlocks a v2-shape dashboard.
 
         Unlocks a v2-shape dashboard. Only the dashboard's creator or an org admin may lock or unlock.  Callers need the editor role; the runtime's own gate enforces it.
@@ -98718,7 +90788,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98786,7 +90856,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98832,7 +90902,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -98876,7 +90947,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Removes the caller's pin for a dashboard.
 
         Removes the caller's pin for a dashboard. Idempotent — unpinning a dashboard that was not pinned still succeeds.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -98914,7 +90985,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -98944,7 +91015,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Removes the caller's pin for a dashboard.
 
         Removes the caller's pin for a dashboard. Idempotent — unpinning a dashboard that was not pinned still succeeds.  Callers need the viewer role; the runtime's own gate enforces it.
@@ -98982,7 +91053,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99050,7 +91121,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99096,7 +91167,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -99142,7 +91214,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes a connected account's configuration for the given provider, by id.
 
         Changes a connected account's configuration for the given provider, by id. Admin gate.
@@ -99186,7 +91258,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99218,7 +91290,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes a connected account's configuration for the given provider, by id.
 
         Changes a connected account's configuration for the given provider, by id. Admin gate.
@@ -99262,7 +91334,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99338,7 +91410,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99390,7 +91462,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -99432,298 +91505,6 @@ class O11yApi:
 
 
     @validate_call
-    def update_auth_domain(
-        self,
-        id: StrictStr,
-        o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Replaces one auth domain's SSO configuration, by id.
-
-        Replaces one auth domain's SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_updatable_auth_domain: (required)
-        :type o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_auth_domain_serialize(
-            id=id,
-            o11y_o11y_updatable_auth_domain=o11y_o11y_updatable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def update_auth_domain_with_http_info(
-        self,
-        id: StrictStr,
-        o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Replaces one auth domain's SSO configuration, by id.
-
-        Replaces one auth domain's SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_updatable_auth_domain: (required)
-        :type o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_auth_domain_serialize(
-            id=id,
-            o11y_o11y_updatable_auth_domain=o11y_o11y_updatable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def update_auth_domain_without_preload_content(
-        self,
-        id: StrictStr,
-        o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Replaces one auth domain's SSO configuration, by id.
-
-        Replaces one auth domain's SSO configuration, by id. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_updatable_auth_domain: (required)
-        :type o11y_o11y_updatable_auth_domain: O11yO11yUpdatableAuthDomain
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_auth_domain_serialize(
-            id=id,
-            o11y_o11y_updatable_auth_domain=o11y_o11y_updatable_auth_domain,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _update_auth_domain_serialize(
-        self,
-        id,
-        o11y_o11y_updatable_auth_domain,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_updatable_auth_domain is not None:
-            _body_params = o11y_o11y_updatable_auth_domain
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/domains/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def update_channel_by_id(
         self,
         id: StrictStr,
@@ -99740,7 +91521,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Replaces a notification channel's receiver, by id.
 
         Replaces a notification channel's receiver, by id. Admin gate.
@@ -99781,7 +91562,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99812,7 +91593,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Replaces a notification channel's receiver, by id.
 
         Replaces a notification channel's receiver, by id. Admin gate.
@@ -99853,7 +91634,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99925,7 +91706,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -99974,7 +91755,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -100074,7 +91856,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100146,7 +91928,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100218,7 +92000,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100266,7 +92048,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -100366,7 +92149,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100438,7 +92221,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100510,7 +92293,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yDashboardViewOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -100558,7 +92341,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -100616,7 +92400,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Replaces a planned maintenance window, by id.
 
         Replaces a planned maintenance window, by id. Editor gate.
@@ -100657,7 +92441,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100688,7 +92472,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Replaces a planned maintenance window, by id.
 
         Replaces a planned maintenance window, by id. Editor gate.
@@ -100729,7 +92513,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100801,7 +92585,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100850,7 +92634,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -100908,7 +92693,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes an ingestion key, by id.
 
         Changes an ingestion key, by id. Editor gate.
@@ -100949,7 +92734,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -100980,7 +92765,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes an ingestion key, by id.
 
         Changes an ingestion key, by id. Editor gate.
@@ -101021,7 +92806,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101093,7 +92878,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101142,7 +92927,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -101200,7 +92986,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes an ingestion key limit, by limit id.
 
         Changes an ingestion key limit, by limit id. Editor gate.
@@ -101241,7 +93027,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101272,7 +93058,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes an ingestion key limit, by limit id.
 
         Changes an ingestion key limit, by limit id. Editor gate.
@@ -101313,7 +93099,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101385,7 +93171,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -101434,7 +93220,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -101530,7 +93317,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101598,7 +93385,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101666,7 +93453,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yMetricAckOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101711,7 +93498,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -101811,7 +93599,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101883,7 +93671,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -101955,7 +93743,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yReductionRuleOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -102003,7 +93791,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -102060,7 +93849,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id.
 
         Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id. Admin gate.
@@ -102098,7 +93887,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102128,7 +93917,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id.
 
         Rewrites the caller's own organization record — display name, name, alias — always addressed as \"me\", never by id. Admin gate.
@@ -102166,7 +93955,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102234,7 +94023,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102280,7 +94069,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -102322,283 +94112,6 @@ class O11yApi:
 
 
     @validate_call
-    def update_my_password(
-        self,
-        o11y_o11y_change_password_in: O11yO11yChangePasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Replaces the calling user's password, refusing when the old one does not match.
-
-        Replaces the calling user's password, refusing when the old one does not match. Open to any authenticated caller.
-
-        :param o11y_o11y_change_password_in: (required)
-        :type o11y_o11y_change_password_in: O11yO11yChangePasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_password_serialize(
-            o11y_o11y_change_password_in=o11y_o11y_change_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def update_my_password_with_http_info(
-        self,
-        o11y_o11y_change_password_in: O11yO11yChangePasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Replaces the calling user's password, refusing when the old one does not match.
-
-        Replaces the calling user's password, refusing when the old one does not match. Open to any authenticated caller.
-
-        :param o11y_o11y_change_password_in: (required)
-        :type o11y_o11y_change_password_in: O11yO11yChangePasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_password_serialize(
-            o11y_o11y_change_password_in=o11y_o11y_change_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def update_my_password_without_preload_content(
-        self,
-        o11y_o11y_change_password_in: O11yO11yChangePasswordIn,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Replaces the calling user's password, refusing when the old one does not match.
-
-        Replaces the calling user's password, refusing when the old one does not match. Open to any authenticated caller.
-
-        :param o11y_o11y_change_password_in: (required)
-        :type o11y_o11y_change_password_in: O11yO11yChangePasswordIn
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_password_serialize(
-            o11y_o11y_change_password_in=o11y_o11y_change_password_in,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _update_my_password_serialize(
-        self,
-        o11y_o11y_change_password_in,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_change_password_in is not None:
-            _body_params = o11y_o11y_change_password_in
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/users/me/factor_password',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def update_my_service_account(
         self,
         o11y_o11y_my_service_account_update_in: O11yO11yMyServiceAccountUpdateIn,
@@ -102614,7 +94127,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Renames the calling service account.
 
         Renames the calling service account.
@@ -102652,7 +94165,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102682,7 +94195,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Renames the calling service account.
 
         Renames the calling service account.
@@ -102720,7 +94233,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102788,7 +94301,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -102834,7 +94347,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -102876,283 +94390,6 @@ class O11yApi:
 
 
     @validate_call
-    def update_my_user_v2(
-        self,
-        o11y_o11y_updatable_user: O11yO11yUpdatableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Renames the calling user.
-
-        Renames the calling user. Open to any authenticated caller.
-
-        :param o11y_o11y_updatable_user: (required)
-        :type o11y_o11y_updatable_user: O11yO11yUpdatableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_user_v2_serialize(
-            o11y_o11y_updatable_user=o11y_o11y_updatable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def update_my_user_v2_with_http_info(
-        self,
-        o11y_o11y_updatable_user: O11yO11yUpdatableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Renames the calling user.
-
-        Renames the calling user. Open to any authenticated caller.
-
-        :param o11y_o11y_updatable_user: (required)
-        :type o11y_o11y_updatable_user: O11yO11yUpdatableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_user_v2_serialize(
-            o11y_o11y_updatable_user=o11y_o11y_updatable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def update_my_user_v2_without_preload_content(
-        self,
-        o11y_o11y_updatable_user: O11yO11yUpdatableUser,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Renames the calling user.
-
-        Renames the calling user. Open to any authenticated caller.
-
-        :param o11y_o11y_updatable_user: (required)
-        :type o11y_o11y_updatable_user: O11yO11yUpdatableUser
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_my_user_v2_serialize(
-            o11y_o11y_updatable_user=o11y_o11y_updatable_user,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _update_my_user_v2_serialize(
-        self,
-        o11y_o11y_updatable_user,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_updatable_user is not None:
-            _body_params = o11y_o11y_updatable_user
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/users/me',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def update_org_preference(
         self,
         name: StrictStr,
@@ -103169,7 +94406,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Sets one org-scoped preference, by name.
 
         Sets one org-scoped preference, by name. Admin gate.
@@ -103210,7 +94447,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103241,7 +94478,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Sets one org-scoped preference, by name.
 
         Sets one org-scoped preference, by name. Admin gate.
@@ -103282,7 +94519,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103354,7 +94591,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103403,7 +94640,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -103461,7 +94699,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Updates the public-sharing config for a dashboard.
 
         Updates the public-sharing config for a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -103502,7 +94740,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103533,7 +94771,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Updates the public-sharing config for a dashboard.
 
         Updates the public-sharing config for a dashboard.  Callers need the admin role; the runtime's own gate enforces it.
@@ -103574,7 +94812,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103646,7 +94884,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103695,7 +94933,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -103752,7 +94991,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Replaces the org's quick filters for one signal with the attribute list given.
 
         Replaces the org's quick filters for one signal with the attribute list given. Admin gate.
@@ -103790,7 +95029,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103820,7 +95059,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Replaces the org's quick filters for one signal with the attribute list given.
 
         Replaces the org's quick filters for one signal with the attribute list given. Admin gate.
@@ -103858,7 +95097,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103926,7 +95165,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -103972,7 +95211,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -104030,7 +95270,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Replaces a custom role's description and transaction groups.
 
         Replaces a custom role's description and transaction groups. Both fields are mandatory — send an empty string or an empty array to clear one — and managed roles cannot be edited.
@@ -104071,7 +95311,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104102,7 +95342,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Replaces a custom role's description and transaction groups.
 
         Replaces a custom role's description and transaction groups. Both fields are mandatory — send an empty string or an empty array to clear one — and managed roles cannot be edited.
@@ -104143,7 +95383,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104215,7 +95455,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104264,7 +95504,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -104364,7 +95605,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -104436,7 +95677,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -104508,7 +95749,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yRoutePolicyOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -104556,7 +95797,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -104614,7 +95856,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Replaces an alert rule's definition, by id.
 
         Replaces an alert rule's definition, by id. Editor gate.
@@ -104655,7 +95897,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104686,7 +95928,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Replaces an alert rule's definition, by id.
 
         Replaces an alert rule's definition, by id. Editor gate.
@@ -104727,7 +95969,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104799,7 +96041,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104848,7 +96090,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -104908,7 +96151,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes a service's configuration for one connected account of the given provider, by account id and service id.
 
         Changes a service's configuration for one connected account of the given provider, by account id and service id. Admin gate.
@@ -104955,7 +96198,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -104988,7 +96231,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes a service's configuration for one connected account of the given provider, by account id and service id.
 
         Changes a service's configuration for one connected account of the given provider, by account id and service id. Admin gate.
@@ -105035,7 +96278,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105115,7 +96358,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105170,7 +96413,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -105228,7 +96472,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Renames a service account.
 
         Renames a service account.
@@ -105269,7 +96513,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105300,7 +96544,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Renames a service account.
 
         Renames a service account.
@@ -105341,7 +96585,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105413,7 +96657,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105462,7 +96706,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -105521,7 +96766,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Renames an API key or moves its expiry.
 
         Renames an API key or moves its expiry.
@@ -105565,7 +96810,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105597,7 +96842,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Renames an API key or moves its expiry.
 
         Renames an API key or moves its expiry.
@@ -105641,7 +96886,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105717,7 +96962,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105769,7 +97014,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -105828,7 +97074,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes a mapper's field context, config or enabled state.
 
         Changes a mapper's field context, config or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -105872,7 +97118,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -105904,7 +97150,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes a mapper's field context, config or enabled state.
 
         Changes a mapper's field context, config or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -105948,7 +97194,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106024,7 +97270,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106076,7 +97322,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -106134,7 +97381,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Changes a group's name, condition or enabled state.
 
         Changes a group's name, condition or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -106175,7 +97422,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106206,7 +97453,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Changes a group's name, condition or enabled state.
 
         Changes a group's name, condition or enabled state. Every field is optional and only the ones sent are applied.  Callers need the admin role; the runtime's own gate enforces it.
@@ -106247,7 +97494,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106319,7 +97566,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -106368,7 +97615,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -106464,7 +97712,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106532,7 +97780,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106600,7 +97848,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFieldSetting",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106645,7 +97893,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -106745,7 +97994,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106817,7 +98066,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106889,7 +98138,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -106937,7 +98186,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -107033,7 +98283,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107101,7 +98351,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107169,7 +98419,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107214,7 +98464,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -107256,590 +98507,6 @@ class O11yApi:
 
 
     @validate_call
-    def update_user(
-        self,
-        id: StrictStr,
-        o11y_o11y_user_update: O11yO11yUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser.
-
-        Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_user_update: (required)
-        :type o11y_o11y_user_update: O11yO11yUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_serialize(
-            id=id,
-            o11y_o11y_user_update=o11y_o11y_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def update_user_with_http_info(
-        self,
-        id: StrictStr,
-        o11y_o11y_user_update: O11yO11yUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser.
-
-        Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_user_update: (required)
-        :type o11y_o11y_user_update: O11yO11yUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_serialize(
-            id=id,
-            o11y_o11y_user_update=o11y_o11y_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def update_user_without_preload_content(
-        self,
-        id: StrictStr,
-        o11y_o11y_user_update: O11yO11yUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser.
-
-        Renames one org member, by user id — someone else, never the caller, who renames themselves through updateMyUser. Admin gate.
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_user_update: (required)
-        :type o11y_o11y_user_update: O11yO11yUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_serialize(
-            id=id,
-            o11y_o11y_user_update=o11y_o11y_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _update_user_serialize(
-        self,
-        id,
-        o11y_o11y_user_update,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_user_update is not None:
-            _body_params = o11y_o11y_user_update
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/users/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def update_user_deprecated(
-        self,
-        id: StrictStr,
-        o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11yDeprecatedUserOut:
-        """Renames one org member and may move their legacy role, answering with the updated record.
-
-        Renames one org member and may move their legacy role, answering with the updated record. Admins may update anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_deprecated_user_update: (required)
-        :type o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_deprecated_serialize(
-            id=id,
-            o11y_o11y_deprecated_user_update=o11y_o11y_deprecated_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def update_user_deprecated_with_http_info(
-        self,
-        id: StrictStr,
-        o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11yDeprecatedUserOut]:
-        """Renames one org member and may move their legacy role, answering with the updated record.
-
-        Renames one org member and may move their legacy role, answering with the updated record. Admins may update anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_deprecated_user_update: (required)
-        :type o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_deprecated_serialize(
-            id=id,
-            o11y_o11y_deprecated_user_update=o11y_o11y_deprecated_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def update_user_deprecated_without_preload_content(
-        self,
-        id: StrictStr,
-        o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Renames one org member and may move their legacy role, answering with the updated record.
-
-        Renames one org member and may move their legacy role, answering with the updated record. Admins may update anyone; a non-admin only themselves (the runtime's self-access gate).
-
-        :param id: (required)
-        :type id: str
-        :param o11y_o11y_deprecated_user_update: (required)
-        :type o11y_o11y_deprecated_user_update: O11yO11yDeprecatedUserUpdate
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._update_user_deprecated_serialize(
-            id=id,
-            o11y_o11y_deprecated_user_update=o11y_o11y_deprecated_user_update,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11yDeprecatedUserOut",
-            '202': "O11yApproval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _update_user_deprecated_serialize(
-        self,
-        id,
-        o11y_o11y_deprecated_user_update,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_deprecated_user_update is not None:
-            _body_params = o11y_o11y_deprecated_user_update
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='PUT',
-            resource_path='/v1/o11y/user/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def update_user_preference(
         self,
         name: StrictStr,
@@ -107856,7 +98523,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
+    ) -> Approval:
         """Sets one preference of the calling user, by name.
 
         Sets one preference of the calling user, by name. Viewer gate.
@@ -107897,7 +98564,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -107928,7 +98595,7 @@ class O11yApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
+    ) -> ApiResponse[Approval]:
         """Sets one preference of the calling user, by name.
 
         Sets one preference of the calling user, by name. Viewer gate.
@@ -107969,7 +98636,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -108041,7 +98708,7 @@ class O11yApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
+            '202': "Approval",
             '204': None,
         }
         response_data = self.api_client.call_api(
@@ -108090,7 +98757,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -108186,7 +98854,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108254,7 +98922,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108322,7 +98990,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108367,7 +99035,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -108467,7 +99136,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108539,7 +99208,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108611,7 +99280,7 @@ class O11yApi:
 
         _response_types_map: Dict[str, Optional[str]] = {
             '200': "O11yO11yFunnelRowsOut",
-            '202': "O11yApproval",
+            '202': "Approval",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -108659,7 +99328,8 @@ class O11yApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -108685,283 +99355,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/trace-funnels/{funnel_id}/analytics/validate',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def verify_reset_password_token(
-        self,
-        o11y_o11y_reset_token_ref: O11yO11yResetTokenRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yApproval:
-        """Checks that a reset-password token exists and has not expired, without consuming it.
-
-        Checks that a reset-password token exists and has not expired, without consuming it. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_token_ref: (required)
-        :type o11y_o11y_reset_token_ref: O11yO11yResetTokenRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._verify_reset_password_token_serialize(
-            o11y_o11y_reset_token_ref=o11y_o11y_reset_token_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def verify_reset_password_token_with_http_info(
-        self,
-        o11y_o11y_reset_token_ref: O11yO11yResetTokenRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yApproval]:
-        """Checks that a reset-password token exists and has not expired, without consuming it.
-
-        Checks that a reset-password token exists and has not expired, without consuming it. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_token_ref: (required)
-        :type o11y_o11y_reset_token_ref: O11yO11yResetTokenRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._verify_reset_password_token_serialize(
-            o11y_o11y_reset_token_ref=o11y_o11y_reset_token_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def verify_reset_password_token_without_preload_content(
-        self,
-        o11y_o11y_reset_token_ref: O11yO11yResetTokenRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Checks that a reset-password token exists and has not expired, without consuming it.
-
-        Checks that a reset-password token exists and has not expired, without consuming it. Unauthenticated: the token is the proof.
-
-        :param o11y_o11y_reset_token_ref: (required)
-        :type o11y_o11y_reset_token_ref: O11yO11yResetTokenRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._verify_reset_password_token_serialize(
-            o11y_o11y_reset_token_ref=o11y_o11y_reset_token_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '202': "O11yApproval",
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _verify_reset_password_token_serialize(
-        self,
-        o11y_o11y_reset_token_ref,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if o11y_o11y_reset_token_ref is not None:
-            _body_params = o11y_o11y_reset_token_ref
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/reset_password_tokens/verify',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

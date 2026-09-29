@@ -18,16 +18,16 @@ from typing_extensions import Annotated
 
 from pydantic import StrictInt, StrictStr
 from typing import Optional
-from hanzoai.cloud.models.buy_input import BuyInput
-from hanzoai.cloud.models.call import Call
-from hanzoai.cloud.models.call_input import CallInput
-from hanzoai.cloud.models.call_list import CallList
-from hanzoai.cloud.models.message_input import MessageInput
-from hanzoai.cloud.models.message_list import MessageList
-from hanzoai.cloud.models.number import Number
-from hanzoai.cloud.models.number_list import NumberList
-from hanzoai.cloud.models.sms import SMS
-from hanzoai.cloud.models.summary import Summary
+from hanzoai.cloud.models.tel_buy_input import TelBuyInput
+from hanzoai.cloud.models.tel_call import TelCall
+from hanzoai.cloud.models.tel_call_input import TelCallInput
+from hanzoai.cloud.models.tel_call_list import TelCallList
+from hanzoai.cloud.models.tel_message_input import TelMessageInput
+from hanzoai.cloud.models.tel_message_list import TelMessageList
+from hanzoai.cloud.models.tel_number import TelNumber
+from hanzoai.cloud.models.tel_number_list import TelNumberList
+from hanzoai.cloud.models.tel_sms import TelSMS
+from hanzoai.cloud.models.tel_summary import TelSummary
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -276,6 +276,13 @@ class TelApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -530,6 +537,13 @@ class TelApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -570,7 +584,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CallList:
+    ) -> TelCallList:
         """Lists the calls this org has placed or received, newest first.
 
         Lists the calls this org has placed or received, newest first. Like the message list beside it, these are our own records rather than the carrier's.
@@ -605,7 +619,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CallList",
+            '200': "TelCallList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -633,7 +647,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CallList]:
+    ) -> ApiResponse[TelCallList]:
         """Lists the calls this org has placed or received, newest first.
 
         Lists the calls this org has placed or received, newest first. Like the message list beside it, these are our own records rather than the carrier's.
@@ -668,7 +682,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CallList",
+            '200': "TelCallList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -731,7 +745,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CallList",
+            '200': "TelCallList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -773,7 +787,8 @@ class TelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -816,7 +831,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MessageList:
+    ) -> TelMessageList:
         """Lists the messages this org has sent or received, newest first.
 
         Lists the messages this org has sent or received, newest first. Records from our own store, not the carrier's — so it is what this platform did on the org's behalf, which is the set an audit or a bill has to agree with.
@@ -851,7 +866,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MessageList",
+            '200': "TelMessageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -879,7 +894,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MessageList]:
+    ) -> ApiResponse[TelMessageList]:
         """Lists the messages this org has sent or received, newest first.
 
         Lists the messages this org has sent or received, newest first. Records from our own store, not the carrier's — so it is what this platform did on the org's behalf, which is the set an audit or a bill has to agree with.
@@ -914,7 +929,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MessageList",
+            '200': "TelMessageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -977,7 +992,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MessageList",
+            '200': "TelMessageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1019,7 +1034,8 @@ class TelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1062,7 +1078,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NumberList:
+    ) -> TelNumberList:
         """Lists the phone numbers this org HOLDS — the ones it has bought and not released.
 
         Lists the phone numbers this org HOLDS — the ones it has bought and not released. Distinct from the availability search one path down (`/numbers/available`), which asks the carrier what could be bought: this answers only from our own store, so it is what an org owns rather than what it could own.
@@ -1097,7 +1113,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1125,7 +1141,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NumberList]:
+    ) -> ApiResponse[TelNumberList]:
         """Lists the phone numbers this org HOLDS — the ones it has bought and not released.
 
         Lists the phone numbers this org HOLDS — the ones it has bought and not released. Distinct from the availability search one path down (`/numbers/available`), which asks the carrier what could be bought: this answers only from our own store, so it is what an org owns rather than what it could own.
@@ -1160,7 +1176,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1223,7 +1239,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1265,7 +1281,8 @@ class TelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1312,7 +1329,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NumberList:
+    ) -> TelNumberList:
         """Asks the carrier what is available to buy.
 
         Asks the carrier what is available to buy. Nothing is recorded — a search is not a holding, and treating it as one is how inventory leaks.
@@ -1359,7 +1376,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1391,7 +1408,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NumberList]:
+    ) -> ApiResponse[TelNumberList]:
         """Asks the carrier what is available to buy.
 
         Asks the carrier what is available to buy. Nothing is recorded — a search is not a holding, and treating it as one is how inventory leaks.
@@ -1438,7 +1455,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1517,7 +1534,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NumberList",
+            '200': "TelNumberList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1579,7 +1596,8 @@ class TelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1622,7 +1640,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Summary:
+    ) -> TelSummary:
         """Counts what this org holds on the telephony plane: its numbers, its calls and its messages.
 
         Counts what this org holds on the telephony plane: its numbers, its calls and its messages. The one read a dashboard makes before it asks for any list, so it answers three totals and no rows.
@@ -1657,7 +1675,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "TelSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1685,7 +1703,7 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Summary]:
+    ) -> ApiResponse[TelSummary]:
         """Counts what this org holds on the telephony plane: its numbers, its calls and its messages.
 
         Counts what this org holds on the telephony plane: its numbers, its calls and its messages. The one read a dashboard makes before it asks for any list, so it answers three totals and no rows.
@@ -1720,7 +1738,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "TelSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1783,7 +1801,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "TelSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1825,7 +1843,8 @@ class TelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1856,7 +1875,7 @@ class TelApi:
     @validate_call
     def post_tel_calls(
         self,
-        call_input: CallInput,
+        tel_call_input: TelCallInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1869,13 +1888,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Call:
+    ) -> TelCall:
         """Dials.
 
         Dials. An `agent` names a Hanzo assistant to answer it; the call is refused up front when no assistant plane is configured, because a call that connects to silence has already cost the person who answered it.
 
-        :param call_input: (required)
-        :type call_input: CallInput
+        :param tel_call_input: (required)
+        :type tel_call_input: TelCallInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1899,7 +1918,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_calls_serialize(
-            call_input=call_input,
+            tel_call_input=tel_call_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1907,7 +1926,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Call",
+            '201': "TelCall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1923,7 +1942,7 @@ class TelApi:
     @validate_call
     def post_tel_calls_with_http_info(
         self,
-        call_input: CallInput,
+        tel_call_input: TelCallInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1936,13 +1955,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Call]:
+    ) -> ApiResponse[TelCall]:
         """Dials.
 
         Dials. An `agent` names a Hanzo assistant to answer it; the call is refused up front when no assistant plane is configured, because a call that connects to silence has already cost the person who answered it.
 
-        :param call_input: (required)
-        :type call_input: CallInput
+        :param tel_call_input: (required)
+        :type tel_call_input: TelCallInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1966,7 +1985,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_calls_serialize(
-            call_input=call_input,
+            tel_call_input=tel_call_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1974,7 +1993,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Call",
+            '201': "TelCall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1990,7 +2009,7 @@ class TelApi:
     @validate_call
     def post_tel_calls_without_preload_content(
         self,
-        call_input: CallInput,
+        tel_call_input: TelCallInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2008,8 +2027,8 @@ class TelApi:
 
         Dials. An `agent` names a Hanzo assistant to answer it; the call is refused up front when no assistant plane is configured, because a call that connects to silence has already cost the person who answered it.
 
-        :param call_input: (required)
-        :type call_input: CallInput
+        :param tel_call_input: (required)
+        :type tel_call_input: TelCallInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2033,7 +2052,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_calls_serialize(
-            call_input=call_input,
+            tel_call_input=tel_call_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2041,7 +2060,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Call",
+            '201': "TelCall",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2052,7 +2071,7 @@ class TelApi:
 
     def _post_tel_calls_serialize(
         self,
-        call_input,
+        tel_call_input,
         _request_auth,
         _content_type,
         _headers,
@@ -2078,15 +2097,16 @@ class TelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if call_input is not None:
-            _body_params = call_input
+        if tel_call_input is not None:
+            _body_params = tel_call_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2130,7 +2150,7 @@ class TelApi:
     @validate_call
     def post_tel_messages(
         self,
-        message_input: MessageInput,
+        tel_message_input: TelMessageInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2143,13 +2163,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SMS:
+    ) -> TelSMS:
         """Sends a message from one of this org's own numbers.
 
         Sends a message from one of this org's own numbers.  `from` must be a number the org HOLDS, checked against the store rather than taken on trust — a caller that could send from any number could impersonate one, and the carrier would deliver it. `to` is required, and the body needs text or media, because a message with neither is delivered as nothing and billed as something.
 
-        :param message_input: (required)
-        :type message_input: MessageInput
+        :param tel_message_input: (required)
+        :type tel_message_input: TelMessageInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2173,7 +2193,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_messages_serialize(
-            message_input=message_input,
+            tel_message_input=tel_message_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2181,7 +2201,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SMS",
+            '201': "TelSMS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2197,7 +2217,7 @@ class TelApi:
     @validate_call
     def post_tel_messages_with_http_info(
         self,
-        message_input: MessageInput,
+        tel_message_input: TelMessageInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2210,13 +2230,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SMS]:
+    ) -> ApiResponse[TelSMS]:
         """Sends a message from one of this org's own numbers.
 
         Sends a message from one of this org's own numbers.  `from` must be a number the org HOLDS, checked against the store rather than taken on trust — a caller that could send from any number could impersonate one, and the carrier would deliver it. `to` is required, and the body needs text or media, because a message with neither is delivered as nothing and billed as something.
 
-        :param message_input: (required)
-        :type message_input: MessageInput
+        :param tel_message_input: (required)
+        :type tel_message_input: TelMessageInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2240,7 +2260,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_messages_serialize(
-            message_input=message_input,
+            tel_message_input=tel_message_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2248,7 +2268,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SMS",
+            '201': "TelSMS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2264,7 +2284,7 @@ class TelApi:
     @validate_call
     def post_tel_messages_without_preload_content(
         self,
-        message_input: MessageInput,
+        tel_message_input: TelMessageInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2282,8 +2302,8 @@ class TelApi:
 
         Sends a message from one of this org's own numbers.  `from` must be a number the org HOLDS, checked against the store rather than taken on trust — a caller that could send from any number could impersonate one, and the carrier would deliver it. `to` is required, and the body needs text or media, because a message with neither is delivered as nothing and billed as something.
 
-        :param message_input: (required)
-        :type message_input: MessageInput
+        :param tel_message_input: (required)
+        :type tel_message_input: TelMessageInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2307,7 +2327,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_messages_serialize(
-            message_input=message_input,
+            tel_message_input=tel_message_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2315,7 +2335,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "SMS",
+            '201': "TelSMS",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2326,7 +2346,7 @@ class TelApi:
 
     def _post_tel_messages_serialize(
         self,
-        message_input,
+        tel_message_input,
         _request_auth,
         _content_type,
         _headers,
@@ -2352,15 +2372,16 @@ class TelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if message_input is not None:
-            _body_params = message_input
+        if tel_message_input is not None:
+            _body_params = tel_message_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2404,7 +2425,7 @@ class TelApi:
     @validate_call
     def post_tel_numbers(
         self,
-        buy_input: BuyInput,
+        tel_buy_input: TelBuyInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2417,13 +2438,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Number:
+    ) -> TelNumber:
         """Provisions with the carrier FIRST and records second.
 
         Provisions with the carrier FIRST and records second. The other order records a holding that may not exist, and a number the platform believes it owns but cannot use is worse than one it failed to buy.
 
-        :param buy_input: (required)
-        :type buy_input: BuyInput
+        :param tel_buy_input: (required)
+        :type tel_buy_input: TelBuyInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2447,7 +2468,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_numbers_serialize(
-            buy_input=buy_input,
+            tel_buy_input=tel_buy_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2455,7 +2476,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Number",
+            '201': "TelNumber",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2471,7 +2492,7 @@ class TelApi:
     @validate_call
     def post_tel_numbers_with_http_info(
         self,
-        buy_input: BuyInput,
+        tel_buy_input: TelBuyInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2484,13 +2505,13 @@ class TelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Number]:
+    ) -> ApiResponse[TelNumber]:
         """Provisions with the carrier FIRST and records second.
 
         Provisions with the carrier FIRST and records second. The other order records a holding that may not exist, and a number the platform believes it owns but cannot use is worse than one it failed to buy.
 
-        :param buy_input: (required)
-        :type buy_input: BuyInput
+        :param tel_buy_input: (required)
+        :type tel_buy_input: TelBuyInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2514,7 +2535,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_numbers_serialize(
-            buy_input=buy_input,
+            tel_buy_input=tel_buy_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2522,7 +2543,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Number",
+            '201': "TelNumber",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2538,7 +2559,7 @@ class TelApi:
     @validate_call
     def post_tel_numbers_without_preload_content(
         self,
-        buy_input: BuyInput,
+        tel_buy_input: TelBuyInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2556,8 +2577,8 @@ class TelApi:
 
         Provisions with the carrier FIRST and records second. The other order records a holding that may not exist, and a number the platform believes it owns but cannot use is worse than one it failed to buy.
 
-        :param buy_input: (required)
-        :type buy_input: BuyInput
+        :param tel_buy_input: (required)
+        :type tel_buy_input: TelBuyInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2581,7 +2602,7 @@ class TelApi:
         """ # noqa: E501
 
         _param = self._post_tel_numbers_serialize(
-            buy_input=buy_input,
+            tel_buy_input=tel_buy_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2589,7 +2610,7 @@ class TelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Number",
+            '201': "TelNumber",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2600,7 +2621,7 @@ class TelApi:
 
     def _post_tel_numbers_serialize(
         self,
-        buy_input,
+        tel_buy_input,
         _request_auth,
         _content_type,
         _headers,
@@ -2626,15 +2647,16 @@ class TelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if buy_input is not None:
-            _body_params = buy_input
+        if tel_buy_input is not None:
+            _body_params = tel_buy_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

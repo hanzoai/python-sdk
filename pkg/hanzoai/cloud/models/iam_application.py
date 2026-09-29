@@ -99,6 +99,7 @@ class IamApplication(BaseModel):
     organization_obj: Optional[IamOrganization] = Field(default=None, alias="organizationObj")
     other_domains: Optional[List[StrictStr]] = Field(default=None, alias="otherDomains")
     owner: Optional[StrictStr] = None
+    platform: Optional[StrictBool] = Field(default=None, description="Platform marks an application the platform itself declares (init_data.json): its own consoles and apps, never one a tenant registered. The seed stamps it on every declared application at boot, and only a SuperAdmin may change it over the API. It is what lets a signed-in person act through IAM with a bearer on the platform's behalf — sending an invitation from the platform's own email account, joining an org — which a tenant's application may not do with the tokens its users hand it.")
     project: Optional[StrictStr] = None
     providers: Optional[List[IamProviderItem]] = None
     redirect_uris: Optional[List[StrictStr]] = Field(default=None, alias="redirectUris")
@@ -128,7 +129,7 @@ class IamApplication(BaseModel):
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     upstream_host: Optional[StrictStr] = Field(default=None, alias="upstreamHost")
     use_email_as_saml_name_id: Optional[StrictBool] = Field(default=None, alias="useEmailAsSamlNameId")
-    __properties: ClassVar[List[str]] = ["affiliationUrl", "category", "cert", "certObj", "certPublicKey", "clientCert", "clientId", "clientSecret", "codeResendTimeout", "cookieExpireInHours", "createdAt", "createdTime", "customScopes", "defaultGroup", "deleted", "description", "disableSamlAttributes", "disableSignin", "displayName", "domain", "enableAutoSignin", "enableCodeSignin", "enableExclusiveSignin", "enableLinkWithEmail", "enablePassword", "enableSamlAssertionSignature", "enableSamlC14n10", "enableSamlCompress", "enableSamlPostBinding", "enableSignUp", "enableSigninSession", "enableWebAuthn", "environment", "expireInHours", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "footerHtml", "forcedRedirectOrigin", "forgetUrl", "formBackgroundUrl", "formBackgroundUrlMobile", "formCss", "formCssMobile", "formOffset", "formSideHtml", "grantTypes", "headerHtml", "homepageUrl", "id", "ipRestriction", "ipWhitelist", "isShared", "logo", "name", "order", "orgChoiceMode", "organization", "organizationObj", "otherDomains", "owner", "project", "providers", "redirectUris", "refreshExpireInHours", "samlAttributes", "samlHashAlgorithm", "samlReplyUrl", "scopes", "signinHtml", "signinItems", "signinMethods", "signinUrl", "signupHtml", "signupItems", "signupUrl", "sslCert", "sslMode", "tags", "termsOfUse", "themeData", "title", "tokenAttributes", "tokenFields", "tokenFormat", "tokenSigningMethod", "type", "updatedAt", "upstreamHost", "useEmailAsSamlNameId"]
+    __properties: ClassVar[List[str]] = ["affiliationUrl", "category", "cert", "certObj", "certPublicKey", "clientCert", "clientId", "clientSecret", "codeResendTimeout", "cookieExpireInHours", "createdAt", "createdTime", "customScopes", "defaultGroup", "deleted", "description", "disableSamlAttributes", "disableSignin", "displayName", "domain", "enableAutoSignin", "enableCodeSignin", "enableExclusiveSignin", "enableLinkWithEmail", "enablePassword", "enableSamlAssertionSignature", "enableSamlC14n10", "enableSamlCompress", "enableSamlPostBinding", "enableSignUp", "enableSigninSession", "enableWebAuthn", "environment", "expireInHours", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "footerHtml", "forcedRedirectOrigin", "forgetUrl", "formBackgroundUrl", "formBackgroundUrlMobile", "formCss", "formCssMobile", "formOffset", "formSideHtml", "grantTypes", "headerHtml", "homepageUrl", "id", "ipRestriction", "ipWhitelist", "isShared", "logo", "name", "order", "orgChoiceMode", "organization", "organizationObj", "otherDomains", "owner", "platform", "project", "providers", "redirectUris", "refreshExpireInHours", "samlAttributes", "samlHashAlgorithm", "samlReplyUrl", "scopes", "signinHtml", "signinItems", "signinMethods", "signinUrl", "signupHtml", "signupItems", "signupUrl", "sslCert", "sslMode", "tags", "termsOfUse", "themeData", "title", "tokenAttributes", "tokenFields", "tokenFormat", "tokenSigningMethod", "type", "updatedAt", "upstreamHost", "useEmailAsSamlNameId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -307,6 +308,7 @@ class IamApplication(BaseModel):
             "organizationObj": IamOrganization.from_dict(obj["organizationObj"]) if obj.get("organizationObj") is not None else None,
             "otherDomains": obj.get("otherDomains"),
             "owner": obj.get("owner"),
+            "platform": obj.get("platform"),
             "project": obj.get("project"),
             "providers": [IamProviderItem.from_dict(_item) for _item in obj["providers"]] if obj.get("providers") is not None else None,
             "redirectUris": obj.get("redirectUris"),

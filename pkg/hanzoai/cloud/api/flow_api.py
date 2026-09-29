@@ -19,10 +19,10 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.flow_create import FlowCreate
-from hanzoai.cloud.models.flow_run import FlowRun
-from hanzoai.cloud.models.flow_status import FlowStatus
-from hanzoai.cloud.models.flow_update import FlowUpdate
+from hanzoai.cloud.models.flow_flow_create import FlowFlowCreate
+from hanzoai.cloud.models.flow_flow_run import FlowFlowRun
+from hanzoai.cloud.models.flow_flow_status import FlowFlowStatus
+from hanzoai.cloud.models.flow_flow_update import FlowFlowUpdate
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -275,7 +275,8 @@ class FlowApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -320,9 +321,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Runs reads one workflow's recorded runs: every component build with its result, keyed by component.
+        """Reads one workflow's recorded runs: every component build with its result, keyed by component.
 
-        Runs reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
+        Reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
 
         :param workflow: Workflow is the UUID of the workflow whose run records to read. It rides the query string.
         :type workflow: str
@@ -387,9 +388,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Runs reads one workflow's recorded runs: every component build with its result, keyed by component.
+        """Reads one workflow's recorded runs: every component build with its result, keyed by component.
 
-        Runs reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
+        Reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
 
         :param workflow: Workflow is the UUID of the workflow whose run records to read. It rides the query string.
         :type workflow: str
@@ -454,9 +455,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Runs reads one workflow's recorded runs: every component build with its result, keyed by component.
+        """Reads one workflow's recorded runs: every component build with its result, keyed by component.
 
-        Runs reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
+        Reads one workflow's recorded runs: every component build with its result, keyed by component. Ownership is verified first — run records never cross the org boundary.
 
         :param workflow: Workflow is the UUID of the workflow whose run records to read. It rides the query string.
         :type workflow: str
@@ -538,7 +539,8 @@ class FlowApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -581,10 +583,10 @@ class FlowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FlowStatus:
-        """Status reports whether the flow service is reachable and which version it runs.
+    ) -> FlowFlowStatus:
+        """Reports whether the flow service is reachable and which version it runs.
 
-        Status reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
+        Reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -616,7 +618,7 @@ class FlowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowStatus",
+            '200': "FlowFlowStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -644,10 +646,10 @@ class FlowApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FlowStatus]:
-        """Status reports whether the flow service is reachable and which version it runs.
+    ) -> ApiResponse[FlowFlowStatus]:
+        """Reports whether the flow service is reachable and which version it runs.
 
-        Status reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
+        Reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -679,7 +681,7 @@ class FlowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowStatus",
+            '200': "FlowFlowStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -708,9 +710,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Status reports whether the flow service is reachable and which version it runs.
+        """Reports whether the flow service is reachable and which version it runs.
 
-        Status reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
+        Reports whether the flow service is reachable and which version it runs. It is the product's own /health and /v1/version composed — an honest lens for \"is the workflow plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -742,7 +744,7 @@ class FlowApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FlowStatus",
+            '200': "FlowFlowStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -784,7 +786,8 @@ class FlowApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -830,9 +833,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Workflows lists the caller's workflows, paged.
+        """Lists the caller's workflows, paged.
 
-        Workflows lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
+        Lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
 
         :param page: Page is the 1-based page of workflows to return.
         :type page: str
@@ -901,9 +904,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Workflows lists the caller's workflows, paged.
+        """Lists the caller's workflows, paged.
 
-        Workflows lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
+        Lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
 
         :param page: Page is the 1-based page of workflows to return.
         :type page: str
@@ -972,9 +975,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Workflows lists the caller's workflows, paged.
+        """Lists the caller's workflows, paged.
 
-        Workflows lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
+        Lists the caller's workflows, paged. The list is scoped server-side to the org's project — the page can only ever hold the caller's own workflows.
 
         :param page: Page is the 1-based page of workflows to return.
         :type page: str
@@ -1064,7 +1067,8 @@ class FlowApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1109,9 +1113,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Workflow reads one of the caller's workflows — the full record, graph included.
+        """Reads one of the caller's workflows — the full record, graph included.
 
-        Workflow reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
+        Reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
@@ -1176,9 +1180,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Workflow reads one of the caller's workflows — the full record, graph included.
+        """Reads one of the caller's workflows — the full record, graph included.
 
-        Workflow reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
+        Reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
@@ -1243,9 +1247,9 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Workflow reads one of the caller's workflows — the full record, graph included.
+        """Reads one of the caller's workflows — the full record, graph included.
 
-        Workflow reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
+        Reads one of the caller's workflows — the full record, graph included. A workflow outside the caller's org answers 404, indistinguishable from one that does not exist.
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
@@ -1325,7 +1329,8 @@ class FlowApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1357,7 +1362,7 @@ class FlowApi:
     def patch_flow_workflows_by_workflow(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
-        flow_update: FlowUpdate,
+        flow_flow_update: FlowFlowUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1377,8 +1382,8 @@ class FlowApi:
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
-        :param flow_update: (required)
-        :type flow_update: FlowUpdate
+        :param flow_flow_update: (required)
+        :type flow_flow_update: FlowFlowUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1403,7 +1408,7 @@ class FlowApi:
 
         _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
-            flow_update=flow_update,
+            flow_flow_update=flow_flow_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1428,7 +1433,7 @@ class FlowApi:
     def patch_flow_workflows_by_workflow_with_http_info(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
-        flow_update: FlowUpdate,
+        flow_flow_update: FlowFlowUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1448,8 +1453,8 @@ class FlowApi:
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
-        :param flow_update: (required)
-        :type flow_update: FlowUpdate
+        :param flow_flow_update: (required)
+        :type flow_flow_update: FlowFlowUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1474,7 +1479,7 @@ class FlowApi:
 
         _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
-            flow_update=flow_update,
+            flow_flow_update=flow_flow_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1499,7 +1504,7 @@ class FlowApi:
     def patch_flow_workflows_by_workflow_without_preload_content(
         self,
         workflow: Annotated[StrictStr, Field(description="Workflow is the workflow's UUID, taken from the path.")],
-        flow_update: FlowUpdate,
+        flow_flow_update: FlowFlowUpdate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1519,8 +1524,8 @@ class FlowApi:
 
         :param workflow: Workflow is the workflow's UUID, taken from the path. (required)
         :type workflow: str
-        :param flow_update: (required)
-        :type flow_update: FlowUpdate
+        :param flow_flow_update: (required)
+        :type flow_flow_update: FlowFlowUpdate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1545,7 +1550,7 @@ class FlowApi:
 
         _param = self._patch_flow_workflows_by_workflow_serialize(
             workflow=workflow,
-            flow_update=flow_update,
+            flow_flow_update=flow_flow_update,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1565,7 +1570,7 @@ class FlowApi:
     def _patch_flow_workflows_by_workflow_serialize(
         self,
         workflow,
-        flow_update,
+        flow_flow_update,
         _request_auth,
         _content_type,
         _headers,
@@ -1593,15 +1598,16 @@ class FlowApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if flow_update is not None:
-            _body_params = flow_update
+        if flow_flow_update is not None:
+            _body_params = flow_flow_update
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1645,7 +1651,7 @@ class FlowApi:
     @validate_call
     def post_flow_runs(
         self,
-        flow_run: FlowRun,
+        flow_flow_run: FlowFlowRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1659,12 +1665,12 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
+        """Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
 
-        Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
+        Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
 
-        :param flow_run: (required)
-        :type flow_run: FlowRun
+        :param flow_flow_run: (required)
+        :type flow_flow_run: FlowFlowRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1688,7 +1694,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_runs_serialize(
-            flow_run=flow_run,
+            flow_flow_run=flow_flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1712,7 +1718,7 @@ class FlowApi:
     @validate_call
     def post_flow_runs_with_http_info(
         self,
-        flow_run: FlowRun,
+        flow_flow_run: FlowFlowRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1726,12 +1732,12 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
+        """Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
 
-        Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
+        Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
 
-        :param flow_run: (required)
-        :type flow_run: FlowRun
+        :param flow_flow_run: (required)
+        :type flow_flow_run: FlowFlowRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1755,7 +1761,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_runs_serialize(
-            flow_run=flow_run,
+            flow_flow_run=flow_flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1779,7 +1785,7 @@ class FlowApi:
     @validate_call
     def post_flow_runs_without_preload_content(
         self,
-        flow_run: FlowRun,
+        flow_flow_run: FlowFlowRun,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1793,12 +1799,12 @@ class FlowApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
+        """Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs.
 
-        Run executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
+        Executes one of the caller's workflows synchronously: the graph runs in the flow service and the response carries the run's session and outputs. A graph whose components fail reports the product's own error. Runs are bounded by the product's five-minute sync ceiling.
 
-        :param flow_run: (required)
-        :type flow_run: FlowRun
+        :param flow_flow_run: (required)
+        :type flow_flow_run: FlowFlowRun
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1822,7 +1828,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_runs_serialize(
-            flow_run=flow_run,
+            flow_flow_run=flow_flow_run,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1841,7 +1847,7 @@ class FlowApi:
 
     def _post_flow_runs_serialize(
         self,
-        flow_run,
+        flow_flow_run,
         _request_auth,
         _content_type,
         _headers,
@@ -1867,15 +1873,16 @@ class FlowApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if flow_run is not None:
-            _body_params = flow_run
+        if flow_flow_run is not None:
+            _body_params = flow_flow_run
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1919,7 +1926,7 @@ class FlowApi:
     @validate_call
     def post_flow_workflows(
         self,
-        flow_create: FlowCreate,
+        flow_flow_create: FlowFlowCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1937,8 +1944,8 @@ class FlowApi:
 
         Creates a workflow in the caller's org. The org's project id is pinned server-side from the validated principal — there is no field by which a caller could place a workflow in another org.
 
-        :param flow_create: (required)
-        :type flow_create: FlowCreate
+        :param flow_flow_create: (required)
+        :type flow_flow_create: FlowFlowCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1962,7 +1969,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_workflows_serialize(
-            flow_create=flow_create,
+            flow_flow_create=flow_flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1986,7 +1993,7 @@ class FlowApi:
     @validate_call
     def post_flow_workflows_with_http_info(
         self,
-        flow_create: FlowCreate,
+        flow_flow_create: FlowFlowCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2004,8 +2011,8 @@ class FlowApi:
 
         Creates a workflow in the caller's org. The org's project id is pinned server-side from the validated principal — there is no field by which a caller could place a workflow in another org.
 
-        :param flow_create: (required)
-        :type flow_create: FlowCreate
+        :param flow_flow_create: (required)
+        :type flow_flow_create: FlowFlowCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2029,7 +2036,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_workflows_serialize(
-            flow_create=flow_create,
+            flow_flow_create=flow_flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2053,7 +2060,7 @@ class FlowApi:
     @validate_call
     def post_flow_workflows_without_preload_content(
         self,
-        flow_create: FlowCreate,
+        flow_flow_create: FlowFlowCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2071,8 +2078,8 @@ class FlowApi:
 
         Creates a workflow in the caller's org. The org's project id is pinned server-side from the validated principal — there is no field by which a caller could place a workflow in another org.
 
-        :param flow_create: (required)
-        :type flow_create: FlowCreate
+        :param flow_flow_create: (required)
+        :type flow_flow_create: FlowFlowCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2096,7 +2103,7 @@ class FlowApi:
         """ # noqa: E501
 
         _param = self._post_flow_workflows_serialize(
-            flow_create=flow_create,
+            flow_flow_create=flow_flow_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2115,7 +2122,7 @@ class FlowApi:
 
     def _post_flow_workflows_serialize(
         self,
-        flow_create,
+        flow_flow_create,
         _request_auth,
         _content_type,
         _headers,
@@ -2141,15 +2148,16 @@ class FlowApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if flow_create is not None:
-            _body_params = flow_create
+        if flow_flow_create is not None:
+            _body_params = flow_flow_create
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

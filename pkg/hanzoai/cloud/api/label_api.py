@@ -19,17 +19,17 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.risk_dispose_in import RiskDisposeIn
-from hanzoai.cloud.models.risk_dispose_out import RiskDisposeOut
-from hanzoai.cloud.models.risk_hold_in import RiskHoldIn
-from hanzoai.cloud.models.risk_hold_out import RiskHoldOut
-from hanzoai.cloud.models.risk_label_coverage import RiskLabelCoverage
-from hanzoai.cloud.models.risk_label_in import RiskLabelIn
-from hanzoai.cloud.models.risk_label_out import RiskLabelOut
-from hanzoai.cloud.models.risk_label_vocabulary import RiskLabelVocabulary
-from hanzoai.cloud.models.risk_labels_out import RiskLabelsOut
-from hanzoai.cloud.models.risk_resolve_in import RiskResolveIn
-from hanzoai.cloud.models.risk_resolve_out import RiskResolveOut
+from hanzoai.cloud.models.label_risk_dispose_in import LabelRiskDisposeIn
+from hanzoai.cloud.models.label_risk_dispose_out import LabelRiskDisposeOut
+from hanzoai.cloud.models.label_risk_hold_in import LabelRiskHoldIn
+from hanzoai.cloud.models.label_risk_hold_out import LabelRiskHoldOut
+from hanzoai.cloud.models.label_risk_label_coverage import LabelRiskLabelCoverage
+from hanzoai.cloud.models.label_risk_label_in import LabelRiskLabelIn
+from hanzoai.cloud.models.label_risk_label_out import LabelRiskLabelOut
+from hanzoai.cloud.models.label_risk_label_vocabulary import LabelRiskLabelVocabulary
+from hanzoai.cloud.models.label_risk_labels_out import LabelRiskLabelsOut
+from hanzoai.cloud.models.label_risk_resolve_in import LabelRiskResolveIn
+from hanzoai.cloud.models.label_risk_resolve_out import LabelRiskResolveOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -52,7 +52,7 @@ class LabelApi:
     @validate_call
     def risk_dispose_labels(
         self,
-        risk_dispose_in: RiskDisposeIn,
+        label_risk_dispose_in: LabelRiskDisposeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -65,13 +65,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskDisposeOut:
+    ) -> LabelRiskDisposeOut:
         """Dispose of this tenant's expired assertions, whole records only
 
         Applies this tenant's retention, and only this tenant's.  It is bounded three ways, each a compliance property rather than a convenience. It refuses a boundary younger than the platform floor, because a label can be the input to an adverse action and five years is what the retention ledger holds such a record for. It never touches a record under litigation hold. And it disposes of whole records rather than redacting fields.  It removes the derived columnar copy BEFORE the record, and refuses the whole disposal if the warehouse cannot be reached. The other order would leave rows in the warehouse that nothing can identify any more, which is a disposal that did not happen and says it did.
 
-        :param risk_dispose_in: (required)
-        :type risk_dispose_in: RiskDisposeIn
+        :param label_risk_dispose_in: (required)
+        :type label_risk_dispose_in: LabelRiskDisposeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -95,7 +95,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_dispose_labels_serialize(
-            risk_dispose_in=risk_dispose_in,
+            label_risk_dispose_in=label_risk_dispose_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -103,7 +103,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDisposeOut",
+            '200': "LabelRiskDisposeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -119,7 +119,7 @@ class LabelApi:
     @validate_call
     def risk_dispose_labels_with_http_info(
         self,
-        risk_dispose_in: RiskDisposeIn,
+        label_risk_dispose_in: LabelRiskDisposeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -132,13 +132,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskDisposeOut]:
+    ) -> ApiResponse[LabelRiskDisposeOut]:
         """Dispose of this tenant's expired assertions, whole records only
 
         Applies this tenant's retention, and only this tenant's.  It is bounded three ways, each a compliance property rather than a convenience. It refuses a boundary younger than the platform floor, because a label can be the input to an adverse action and five years is what the retention ledger holds such a record for. It never touches a record under litigation hold. And it disposes of whole records rather than redacting fields.  It removes the derived columnar copy BEFORE the record, and refuses the whole disposal if the warehouse cannot be reached. The other order would leave rows in the warehouse that nothing can identify any more, which is a disposal that did not happen and says it did.
 
-        :param risk_dispose_in: (required)
-        :type risk_dispose_in: RiskDisposeIn
+        :param label_risk_dispose_in: (required)
+        :type label_risk_dispose_in: LabelRiskDisposeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -162,7 +162,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_dispose_labels_serialize(
-            risk_dispose_in=risk_dispose_in,
+            label_risk_dispose_in=label_risk_dispose_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -170,7 +170,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDisposeOut",
+            '200': "LabelRiskDisposeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -186,7 +186,7 @@ class LabelApi:
     @validate_call
     def risk_dispose_labels_without_preload_content(
         self,
-        risk_dispose_in: RiskDisposeIn,
+        label_risk_dispose_in: LabelRiskDisposeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -204,8 +204,8 @@ class LabelApi:
 
         Applies this tenant's retention, and only this tenant's.  It is bounded three ways, each a compliance property rather than a convenience. It refuses a boundary younger than the platform floor, because a label can be the input to an adverse action and five years is what the retention ledger holds such a record for. It never touches a record under litigation hold. And it disposes of whole records rather than redacting fields.  It removes the derived columnar copy BEFORE the record, and refuses the whole disposal if the warehouse cannot be reached. The other order would leave rows in the warehouse that nothing can identify any more, which is a disposal that did not happen and says it did.
 
-        :param risk_dispose_in: (required)
-        :type risk_dispose_in: RiskDisposeIn
+        :param label_risk_dispose_in: (required)
+        :type label_risk_dispose_in: LabelRiskDisposeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -229,7 +229,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_dispose_labels_serialize(
-            risk_dispose_in=risk_dispose_in,
+            label_risk_dispose_in=label_risk_dispose_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -237,7 +237,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskDisposeOut",
+            '200': "LabelRiskDisposeOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -248,7 +248,7 @@ class LabelApi:
 
     def _risk_dispose_labels_serialize(
         self,
-        risk_dispose_in,
+        label_risk_dispose_in,
         _request_auth,
         _content_type,
         _headers,
@@ -274,15 +274,16 @@ class LabelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if risk_dispose_in is not None:
-            _body_params = risk_dispose_in
+        if label_risk_dispose_in is not None:
+            _body_params = label_risk_dispose_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -326,7 +327,7 @@ class LabelApi:
     @validate_call
     def risk_hold_labels(
         self,
-        risk_hold_in: RiskHoldIn,
+        label_risk_hold_in: LabelRiskHoldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -339,13 +340,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskHoldOut:
+    ) -> LabelRiskHoldOut:
         """Place or release a litigation hold on named records
 
         Places or releases a litigation hold on named records.  A hold is a fact about the RECORD, not about the world: it says retention may not dispose of this row, and it asserts nothing about what happened. So it is not a field on an assertion and it is not folded into the content digest — carried there it was silently a no-op on any record that already existed, since re-filing the same assertion with a hold flag produced the same digest, the insert was ignored, and the caller was answered `duplicate` while the hold it asked for was never placed. This op is the one way a hold moves, in either direction, and the move is written to the audit log.  Every named id is this tenant's or is nothing. The statement runs against the tenant's own file, which holds no other tenant's rows and has no column that could name one.
 
-        :param risk_hold_in: (required)
-        :type risk_hold_in: RiskHoldIn
+        :param label_risk_hold_in: (required)
+        :type label_risk_hold_in: LabelRiskHoldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -369,7 +370,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_hold_labels_serialize(
-            risk_hold_in=risk_hold_in,
+            label_risk_hold_in=label_risk_hold_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -377,7 +378,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskHoldOut",
+            '200': "LabelRiskHoldOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -393,7 +394,7 @@ class LabelApi:
     @validate_call
     def risk_hold_labels_with_http_info(
         self,
-        risk_hold_in: RiskHoldIn,
+        label_risk_hold_in: LabelRiskHoldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -406,13 +407,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskHoldOut]:
+    ) -> ApiResponse[LabelRiskHoldOut]:
         """Place or release a litigation hold on named records
 
         Places or releases a litigation hold on named records.  A hold is a fact about the RECORD, not about the world: it says retention may not dispose of this row, and it asserts nothing about what happened. So it is not a field on an assertion and it is not folded into the content digest — carried there it was silently a no-op on any record that already existed, since re-filing the same assertion with a hold flag produced the same digest, the insert was ignored, and the caller was answered `duplicate` while the hold it asked for was never placed. This op is the one way a hold moves, in either direction, and the move is written to the audit log.  Every named id is this tenant's or is nothing. The statement runs against the tenant's own file, which holds no other tenant's rows and has no column that could name one.
 
-        :param risk_hold_in: (required)
-        :type risk_hold_in: RiskHoldIn
+        :param label_risk_hold_in: (required)
+        :type label_risk_hold_in: LabelRiskHoldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -436,7 +437,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_hold_labels_serialize(
-            risk_hold_in=risk_hold_in,
+            label_risk_hold_in=label_risk_hold_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -444,7 +445,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskHoldOut",
+            '200': "LabelRiskHoldOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -460,7 +461,7 @@ class LabelApi:
     @validate_call
     def risk_hold_labels_without_preload_content(
         self,
-        risk_hold_in: RiskHoldIn,
+        label_risk_hold_in: LabelRiskHoldIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -478,8 +479,8 @@ class LabelApi:
 
         Places or releases a litigation hold on named records.  A hold is a fact about the RECORD, not about the world: it says retention may not dispose of this row, and it asserts nothing about what happened. So it is not a field on an assertion and it is not folded into the content digest — carried there it was silently a no-op on any record that already existed, since re-filing the same assertion with a hold flag produced the same digest, the insert was ignored, and the caller was answered `duplicate` while the hold it asked for was never placed. This op is the one way a hold moves, in either direction, and the move is written to the audit log.  Every named id is this tenant's or is nothing. The statement runs against the tenant's own file, which holds no other tenant's rows and has no column that could name one.
 
-        :param risk_hold_in: (required)
-        :type risk_hold_in: RiskHoldIn
+        :param label_risk_hold_in: (required)
+        :type label_risk_hold_in: LabelRiskHoldIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -503,7 +504,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_hold_labels_serialize(
-            risk_hold_in=risk_hold_in,
+            label_risk_hold_in=label_risk_hold_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -511,7 +512,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskHoldOut",
+            '200': "LabelRiskHoldOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -522,7 +523,7 @@ class LabelApi:
 
     def _risk_hold_labels_serialize(
         self,
-        risk_hold_in,
+        label_risk_hold_in,
         _request_auth,
         _content_type,
         _headers,
@@ -548,15 +549,16 @@ class LabelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if risk_hold_in is not None:
-            _body_params = risk_hold_in
+        if label_risk_hold_in is not None:
+            _body_params = label_risk_hold_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -600,7 +602,7 @@ class LabelApi:
     @validate_call
     def risk_label(
         self,
-        risk_label_in: RiskLabelIn,
+        label_risk_label_in: LabelRiskLabelIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -613,13 +615,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskLabelOut:
+    ) -> LabelRiskLabelOut:
         """Assert ground truth about events
 
         Records a batch of ground truth against the entities it judges.  Each assertion carries TWO times — when the judged event happened, and when the assertion became knowable — and both are required. The second is what keeps a chargeback that landed in June out of a model that had to decide in February.  It is idempotent on the CONTENT of an assertion, so a webhook that redelivers is safe. It never overwrites: a source that corrects itself later files a NEW assertion, which wins from the moment it became knowable and leaves every earlier observation instant seeing exactly what it saw.  The asserter is stamped from the validated credential and is not a body field.
 
-        :param risk_label_in: (required)
-        :type risk_label_in: RiskLabelIn
+        :param label_risk_label_in: (required)
+        :type label_risk_label_in: LabelRiskLabelIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -643,7 +645,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_label_serialize(
-            risk_label_in=risk_label_in,
+            label_risk_label_in=label_risk_label_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -651,7 +653,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelOut",
+            '200': "LabelRiskLabelOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -667,7 +669,7 @@ class LabelApi:
     @validate_call
     def risk_label_with_http_info(
         self,
-        risk_label_in: RiskLabelIn,
+        label_risk_label_in: LabelRiskLabelIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -680,13 +682,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskLabelOut]:
+    ) -> ApiResponse[LabelRiskLabelOut]:
         """Assert ground truth about events
 
         Records a batch of ground truth against the entities it judges.  Each assertion carries TWO times — when the judged event happened, and when the assertion became knowable — and both are required. The second is what keeps a chargeback that landed in June out of a model that had to decide in February.  It is idempotent on the CONTENT of an assertion, so a webhook that redelivers is safe. It never overwrites: a source that corrects itself later files a NEW assertion, which wins from the moment it became knowable and leaves every earlier observation instant seeing exactly what it saw.  The asserter is stamped from the validated credential and is not a body field.
 
-        :param risk_label_in: (required)
-        :type risk_label_in: RiskLabelIn
+        :param label_risk_label_in: (required)
+        :type label_risk_label_in: LabelRiskLabelIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -710,7 +712,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_label_serialize(
-            risk_label_in=risk_label_in,
+            label_risk_label_in=label_risk_label_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -718,7 +720,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelOut",
+            '200': "LabelRiskLabelOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -734,7 +736,7 @@ class LabelApi:
     @validate_call
     def risk_label_without_preload_content(
         self,
-        risk_label_in: RiskLabelIn,
+        label_risk_label_in: LabelRiskLabelIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -752,8 +754,8 @@ class LabelApi:
 
         Records a batch of ground truth against the entities it judges.  Each assertion carries TWO times — when the judged event happened, and when the assertion became knowable — and both are required. The second is what keeps a chargeback that landed in June out of a model that had to decide in February.  It is idempotent on the CONTENT of an assertion, so a webhook that redelivers is safe. It never overwrites: a source that corrects itself later files a NEW assertion, which wins from the moment it became knowable and leaves every earlier observation instant seeing exactly what it saw.  The asserter is stamped from the validated credential and is not a body field.
 
-        :param risk_label_in: (required)
-        :type risk_label_in: RiskLabelIn
+        :param label_risk_label_in: (required)
+        :type label_risk_label_in: LabelRiskLabelIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -777,7 +779,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_label_serialize(
-            risk_label_in=risk_label_in,
+            label_risk_label_in=label_risk_label_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -785,7 +787,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelOut",
+            '200': "LabelRiskLabelOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -796,7 +798,7 @@ class LabelApi:
 
     def _risk_label_serialize(
         self,
-        risk_label_in,
+        label_risk_label_in,
         _request_auth,
         _content_type,
         _headers,
@@ -822,15 +824,16 @@ class LabelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if risk_label_in is not None:
-            _body_params = risk_label_in
+        if label_risk_label_in is not None:
+            _body_params = label_risk_label_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -889,7 +892,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskLabelCoverage:
+    ) -> LabelRiskLabelCoverage:
         """How much of the window has matured, and how much of that is judged
 
         Reports how much of a window has matured and how much of that is judged, per source.  It is the gate on training. A supervised fit over a window whose judged count is near zero produces a number, and the number is meaningless; this op is what lets that be stated before the fit rather than discovered after it.  It reads the RECORD plane and folds every assertion at that event's OWN as-of, so the counts obey exactly the leakage rule a materialisation would. It counts only what was ASSERTED: what share of the whole event STREAM carries a label is a question about the feature plane's denominator and is not answerable here.
@@ -933,7 +936,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelCoverage",
+            '200': "LabelRiskLabelCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -964,7 +967,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskLabelCoverage]:
+    ) -> ApiResponse[LabelRiskLabelCoverage]:
         """How much of the window has matured, and how much of that is judged
 
         Reports how much of a window has matured and how much of that is judged, per source.  It is the gate on training. A supervised fit over a window whose judged count is near zero produces a number, and the number is meaningless; this op is what lets that be stated before the fit rather than discovered after it.  It reads the RECORD plane and folds every assertion at that event's OWN as-of, so the counts obey exactly the leakage rule a materialisation would. It counts only what was ASSERTED: what share of the whole event STREAM carries a label is a question about the feature plane's denominator and is not answerable here.
@@ -1008,7 +1011,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelCoverage",
+            '200': "LabelRiskLabelCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1083,7 +1086,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelCoverage",
+            '200': "LabelRiskLabelCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1140,7 +1143,8 @@ class LabelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1183,7 +1187,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskLabelVocabulary:
+    ) -> LabelRiskLabelVocabulary:
         """The closed vocabularies and the precedence rule that resolves a conflict
 
         Publishes the closed vocabularies and the precedence rule that resolves a conflict between two sources.  A precedence rule nobody can read is a rule nobody can audit or dispute, and the whole defensibility of a contested label rests on being able to say why one assertion beat another. The order returned here is derived from the same declaration the resolver reads — it is not a description of it.
@@ -1218,7 +1222,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelVocabulary",
+            '200': "LabelRiskLabelVocabulary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1246,7 +1250,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskLabelVocabulary]:
+    ) -> ApiResponse[LabelRiskLabelVocabulary]:
         """The closed vocabularies and the precedence rule that resolves a conflict
 
         Publishes the closed vocabularies and the precedence rule that resolves a conflict between two sources.  A precedence rule nobody can read is a rule nobody can audit or dispute, and the whole defensibility of a contested label rests on being able to say why one assertion beat another. The order returned here is derived from the same declaration the resolver reads — it is not a description of it.
@@ -1281,7 +1285,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelVocabulary",
+            '200': "LabelRiskLabelVocabulary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1344,7 +1348,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelVocabulary",
+            '200': "LabelRiskLabelVocabulary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1386,7 +1390,8 @@ class LabelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1435,7 +1440,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskLabelsOut:
+    ) -> LabelRiskLabelsOut:
         """Read the assertions this tenant has recorded
 
         Reads the assertions this tenant has recorded, newest event first.  It reads the RECORD — the tenant's own store — and not the columnar copy, so what it returns is what would be produced in an audit. Narrow it by entity, by asserter, or by event window.
@@ -1488,7 +1493,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelsOut",
+            '200': "LabelRiskLabelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1522,7 +1527,7 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskLabelsOut]:
+    ) -> ApiResponse[LabelRiskLabelsOut]:
         """Read the assertions this tenant has recorded
 
         Reads the assertions this tenant has recorded, newest event first.  It reads the RECORD — the tenant's own store — and not the columnar copy, so what it returns is what would be produced in an audit. Narrow it by entity, by asserter, or by event window.
@@ -1575,7 +1580,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelsOut",
+            '200': "LabelRiskLabelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1662,7 +1667,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskLabelsOut",
+            '200': "LabelRiskLabelsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1734,7 +1739,8 @@ class LabelApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1765,7 +1771,7 @@ class LabelApi:
     @validate_call
     def risk_resolve_labels(
         self,
-        risk_resolve_in: RiskResolveIn,
+        label_risk_resolve_in: LabelRiskResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1778,13 +1784,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RiskResolveOut:
+    ) -> LabelRiskResolveOut:
         """Resolve the label in force for named events, as of each event's own horizon
 
         Answers, for each named event, which assertion was in force AS OF that event's own horizon — and what disagreed with it.  This is the join surface: the dataset materialiser calls it to attach ground truth to training rows, and the evaluator calls it to score a past decision against what was knowable when the decision had to be made. One mechanism for both, so a model can never be trained under one leakage rule and scored under another.  Three answers are distinct and all three are honest: a resolved label, an event that has not matured, and a matured event nobody has judged. The last is never reported as unproductive.
 
-        :param risk_resolve_in: (required)
-        :type risk_resolve_in: RiskResolveIn
+        :param label_risk_resolve_in: (required)
+        :type label_risk_resolve_in: LabelRiskResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1808,7 +1814,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_labels_serialize(
-            risk_resolve_in=risk_resolve_in,
+            label_risk_resolve_in=label_risk_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1816,7 +1822,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskResolveOut",
+            '200': "LabelRiskResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1832,7 +1838,7 @@ class LabelApi:
     @validate_call
     def risk_resolve_labels_with_http_info(
         self,
-        risk_resolve_in: RiskResolveIn,
+        label_risk_resolve_in: LabelRiskResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1845,13 +1851,13 @@ class LabelApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RiskResolveOut]:
+    ) -> ApiResponse[LabelRiskResolveOut]:
         """Resolve the label in force for named events, as of each event's own horizon
 
         Answers, for each named event, which assertion was in force AS OF that event's own horizon — and what disagreed with it.  This is the join surface: the dataset materialiser calls it to attach ground truth to training rows, and the evaluator calls it to score a past decision against what was knowable when the decision had to be made. One mechanism for both, so a model can never be trained under one leakage rule and scored under another.  Three answers are distinct and all three are honest: a resolved label, an event that has not matured, and a matured event nobody has judged. The last is never reported as unproductive.
 
-        :param risk_resolve_in: (required)
-        :type risk_resolve_in: RiskResolveIn
+        :param label_risk_resolve_in: (required)
+        :type label_risk_resolve_in: LabelRiskResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1875,7 +1881,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_labels_serialize(
-            risk_resolve_in=risk_resolve_in,
+            label_risk_resolve_in=label_risk_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1883,7 +1889,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskResolveOut",
+            '200': "LabelRiskResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1899,7 +1905,7 @@ class LabelApi:
     @validate_call
     def risk_resolve_labels_without_preload_content(
         self,
-        risk_resolve_in: RiskResolveIn,
+        label_risk_resolve_in: LabelRiskResolveIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1917,8 +1923,8 @@ class LabelApi:
 
         Answers, for each named event, which assertion was in force AS OF that event's own horizon — and what disagreed with it.  This is the join surface: the dataset materialiser calls it to attach ground truth to training rows, and the evaluator calls it to score a past decision against what was knowable when the decision had to be made. One mechanism for both, so a model can never be trained under one leakage rule and scored under another.  Three answers are distinct and all three are honest: a resolved label, an event that has not matured, and a matured event nobody has judged. The last is never reported as unproductive.
 
-        :param risk_resolve_in: (required)
-        :type risk_resolve_in: RiskResolveIn
+        :param label_risk_resolve_in: (required)
+        :type label_risk_resolve_in: LabelRiskResolveIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1942,7 +1948,7 @@ class LabelApi:
         """ # noqa: E501
 
         _param = self._risk_resolve_labels_serialize(
-            risk_resolve_in=risk_resolve_in,
+            label_risk_resolve_in=label_risk_resolve_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1950,7 +1956,7 @@ class LabelApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RiskResolveOut",
+            '200': "LabelRiskResolveOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1961,7 +1967,7 @@ class LabelApi:
 
     def _risk_resolve_labels_serialize(
         self,
-        risk_resolve_in,
+        label_risk_resolve_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1987,15 +1993,16 @@ class LabelApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if risk_resolve_in is not None:
-            _body_params = risk_resolve_in
+        if label_risk_resolve_in is not None:
+            _body_params = label_risk_resolve_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

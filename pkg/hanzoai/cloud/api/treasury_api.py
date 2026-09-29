@@ -19,8 +19,8 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.accounts_out import AccountsOut
-from hanzoai.cloud.models.treasury_report import TreasuryReport
+from hanzoai.cloud.models.treasury_accounts_out import TreasuryAccountsOut
+from hanzoai.cloud.models.treasury_treasury_report import TreasuryTreasuryReport
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -55,7 +55,7 @@ class TreasuryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TreasuryReport:
+    ) -> TreasuryTreasuryReport:
         """Returns the reserve fund's health and the current revenue-share policy for any validated caller.
 
         Returns the reserve fund's health and the current revenue-share policy for any validated caller. It is a TRANSPARENCY view — a partner or author can see that the pool backing their payouts is solvent — and NOT per-org money, which is the customer's own commerce balance at /v1/billing/balance. The policy is read-only here; only a SuperAdmin sets it.
@@ -90,7 +90,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreasuryReport",
+            '200': "TreasuryTreasuryReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -118,7 +118,7 @@ class TreasuryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TreasuryReport]:
+    ) -> ApiResponse[TreasuryTreasuryReport]:
         """Returns the reserve fund's health and the current revenue-share policy for any validated caller.
 
         Returns the reserve fund's health and the current revenue-share policy for any validated caller. It is a TRANSPARENCY view — a partner or author can see that the pool backing their payouts is solvent — and NOT per-org money, which is the customer's own commerce balance at /v1/billing/balance. The policy is read-only here; only a SuperAdmin sets it.
@@ -153,7 +153,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreasuryReport",
+            '200': "TreasuryTreasuryReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -216,7 +216,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TreasuryReport",
+            '200': "TreasuryTreasuryReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -258,7 +258,8 @@ class TreasuryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -303,7 +304,7 @@ class TreasuryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccountsOut:
+    ) -> TreasuryAccountsOut:
         """Returns the ledger accounts the caller may see, with their balances.
 
         Returns the ledger accounts the caller may see, with their balances. It is tenant-isolated SERVER-SIDE: an ordinary caller sees ONLY accounts under its own \"org:<tenant>:\" prefix, never house accounts and never another tenant's. A SuperAdmin may widen with ?scope=house (the reserve, revenue and payout house accounts) or ?org=<tenant> — the only way to cross the tenant boundary, and only for platform sudo. The answer is honestly empty until a tenant has ledger postings.
@@ -344,7 +345,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsOut",
+            '200': "TreasuryAccountsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,7 +375,7 @@ class TreasuryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccountsOut]:
+    ) -> ApiResponse[TreasuryAccountsOut]:
         """Returns the ledger accounts the caller may see, with their balances.
 
         Returns the ledger accounts the caller may see, with their balances. It is tenant-isolated SERVER-SIDE: an ordinary caller sees ONLY accounts under its own \"org:<tenant>:\" prefix, never house accounts and never another tenant's. A SuperAdmin may widen with ?scope=house (the reserve, revenue and payout house accounts) or ?org=<tenant> — the only way to cross the tenant boundary, and only for platform sudo. The answer is honestly empty until a tenant has ledger postings.
@@ -415,7 +416,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsOut",
+            '200': "TreasuryAccountsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -486,7 +487,7 @@ class TreasuryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsOut",
+            '200': "TreasuryAccountsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -538,7 +539,8 @@ class TreasuryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

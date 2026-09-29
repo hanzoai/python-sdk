@@ -18,11 +18,11 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.catalog_list import CatalogList
-from hanzoai.cloud.models.metric_list import MetricList
-from hanzoai.cloud.models.prompt_detail import PromptDetail
-from hanzoai.cloud.models.prompt_list import PromptList
-from hanzoai.cloud.models.prompt_req import PromptReq
+from hanzoai.cloud.models.prompt_catalog_list import PromptCatalogList
+from hanzoai.cloud.models.prompt_metric_list import PromptMetricList
+from hanzoai.cloud.models.prompt_prompt_detail import PromptPromptDetail
+from hanzoai.cloud.models.prompt_prompt_list import PromptPromptList
+from hanzoai.cloud.models.prompt_prompt_req import PromptPromptReq
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -271,6 +271,13 @@ class PromptApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -311,10 +318,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PromptList:
-        """List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
+    ) -> PromptPromptList:
+        """Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
 
-        List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
+        Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -346,7 +353,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptList",
+            '200': "PromptPromptList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,10 +381,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PromptList]:
-        """List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
+    ) -> ApiResponse[PromptPromptList]:
+        """Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
 
-        List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
+        Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -409,7 +416,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptList",
+            '200': "PromptPromptList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -438,9 +445,9 @@ class PromptApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
+        """Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed.
 
-        List returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
+        Returns the caller org's prompt library as one row per prompt: its name, type, every version number it has, its taxonomy and when it last changed. The template bodies are deliberately absent — fetch one prompt to read its text.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -472,7 +479,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptList",
+            '200': "PromptPromptList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -514,7 +521,8 @@ class PromptApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -558,10 +566,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PromptDetail:
-        """Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
+    ) -> PromptPromptDetail:
+        """Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
 
-        Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
+        Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
 
         :param name: Name is the prompt to act on, from the path. (required)
         :type name: str
@@ -596,7 +604,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptDetail",
+            '200': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -625,10 +633,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PromptDetail]:
-        """Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
+    ) -> ApiResponse[PromptPromptDetail]:
+        """Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
 
-        Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
+        Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
 
         :param name: Name is the prompt to act on, from the path. (required)
         :type name: str
@@ -663,7 +671,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptDetail",
+            '200': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -693,9 +701,9 @@ class PromptApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
+        """Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had.
 
-        Get returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
+        Returns one of the caller org's prompts: its CURRENT template text plus the metadata of every version it has had. The history carries version numbers, types and timestamps only — not each version's body — so a long history cannot inflate this response. A name the caller's org does not own is 404, whoever owns it.
 
         :param name: Name is the prompt to act on, from the path. (required)
         :type name: str
@@ -730,7 +738,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromptDetail",
+            '200': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -775,7 +783,8 @@ class PromptApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -818,10 +827,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CatalogList:
-        """Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
+    ) -> PromptCatalogList:
+        """Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
 
-        Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
+        Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -853,7 +862,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogList",
+            '200': "PromptCatalogList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -881,10 +890,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CatalogList]:
-        """Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
+    ) -> ApiResponse[PromptCatalogList]:
+        """Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
 
-        Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
+        Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -916,7 +925,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogList",
+            '200': "PromptCatalogList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -945,9 +954,9 @@ class PromptApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
+        """Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them.
 
-        Catalog returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
+        Returns the read-only starter prompt library shipped with the binary — reference content every tenant sees the same, NOT the caller's own prompts and never mixed into them. An org's library stays honestly empty until someone explicitly imports a starter, which is an ordinary POST /v1/prompt. Entries that would fail the create guards are dropped, so everything offered here can actually be imported.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -979,7 +988,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CatalogList",
+            '200': "PromptCatalogList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1021,7 +1030,8 @@ class PromptApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1064,10 +1074,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MetricList:
-        """Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
+    ) -> PromptMetricList:
+        """Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
 
-        Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
+        Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1099,7 +1109,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricList",
+            '200': "PromptMetricList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1127,10 +1137,10 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MetricList]:
-        """Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
+    ) -> ApiResponse[PromptMetricList]:
+        """Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
 
-        Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
+        Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1162,7 +1172,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricList",
+            '200': "PromptMetricList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1191,9 +1201,9 @@ class PromptApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
+        """Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed.
 
-        Metrics returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
+        Returns real per-prompt statistics for the caller's org: how many versions each prompt has, which one is current, and when it was created and last changed. Every number is counted from the store — nothing here is estimated or fabricated.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1225,7 +1235,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MetricList",
+            '200': "PromptMetricList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1267,7 +1277,8 @@ class PromptApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1298,7 +1309,7 @@ class PromptApi:
     @validate_call
     def post_prompt(
         self,
-        prompt_req: PromptReq,
+        prompt_prompt_req: PromptPromptReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1311,13 +1322,13 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PromptDetail:
-        """Create records a prompt for the caller's org and answers 201 with it.
+    ) -> PromptPromptDetail:
+        """Records a prompt for the caller's org and answers 201 with it.
 
-        Create records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
+        Records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
 
-        :param prompt_req: (required)
-        :type prompt_req: PromptReq
+        :param prompt_prompt_req: (required)
+        :type prompt_prompt_req: PromptPromptReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1341,7 +1352,7 @@ class PromptApi:
         """ # noqa: E501
 
         _param = self._post_prompt_serialize(
-            prompt_req=prompt_req,
+            prompt_prompt_req=prompt_prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1349,7 +1360,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PromptDetail",
+            '201': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1365,7 +1376,7 @@ class PromptApi:
     @validate_call
     def post_prompt_with_http_info(
         self,
-        prompt_req: PromptReq,
+        prompt_prompt_req: PromptPromptReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1378,13 +1389,13 @@ class PromptApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PromptDetail]:
-        """Create records a prompt for the caller's org and answers 201 with it.
+    ) -> ApiResponse[PromptPromptDetail]:
+        """Records a prompt for the caller's org and answers 201 with it.
 
-        Create records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
+        Records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
 
-        :param prompt_req: (required)
-        :type prompt_req: PromptReq
+        :param prompt_prompt_req: (required)
+        :type prompt_prompt_req: PromptPromptReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1408,7 +1419,7 @@ class PromptApi:
         """ # noqa: E501
 
         _param = self._post_prompt_serialize(
-            prompt_req=prompt_req,
+            prompt_prompt_req=prompt_prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1416,7 +1427,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PromptDetail",
+            '201': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1432,7 +1443,7 @@ class PromptApi:
     @validate_call
     def post_prompt_without_preload_content(
         self,
-        prompt_req: PromptReq,
+        prompt_prompt_req: PromptPromptReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1446,12 +1457,12 @@ class PromptApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Create records a prompt for the caller's org and answers 201 with it.
+        """Records a prompt for the caller's org and answers 201 with it.
 
-        Create records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
+        Records a prompt for the caller's org and answers 201 with it. A name the org already uses is NOT an error and NOT an overwrite: it appends a new version, so the library keeps real, inspectable history and the response carries the whole version list. The name is also the URL segment the prompt is fetched by, which is why its shape is constrained and a handful of names are reserved.
 
-        :param prompt_req: (required)
-        :type prompt_req: PromptReq
+        :param prompt_prompt_req: (required)
+        :type prompt_prompt_req: PromptPromptReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1475,7 +1486,7 @@ class PromptApi:
         """ # noqa: E501
 
         _param = self._post_prompt_serialize(
-            prompt_req=prompt_req,
+            prompt_prompt_req=prompt_prompt_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1483,7 +1494,7 @@ class PromptApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PromptDetail",
+            '201': "PromptPromptDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1494,7 +1505,7 @@ class PromptApi:
 
     def _post_prompt_serialize(
         self,
-        prompt_req,
+        prompt_prompt_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1520,15 +1531,16 @@ class PromptApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if prompt_req is not None:
-            _body_params = prompt_req
+        if prompt_prompt_req is not None:
+            _body_params = prompt_prompt_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

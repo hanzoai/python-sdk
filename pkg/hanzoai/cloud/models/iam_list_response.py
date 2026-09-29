@@ -26,7 +26,7 @@ class IamListResponse(BaseModel):
     """
     IamListResponse
     """ # noqa: E501
-    resources: Optional[List[Dict[str, Any]]] = Field(default=None, alias="Resources")
+    resources: Optional[List[Any]] = Field(default=None, alias="Resources")
     items_per_page: Optional[StrictInt] = Field(default=None, alias="itemsPerPage")
     schemas: Optional[List[StrictStr]] = None
     start_index: Optional[StrictInt] = Field(default=None, alias="startIndex")

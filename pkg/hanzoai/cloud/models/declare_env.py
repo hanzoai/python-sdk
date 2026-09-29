@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,7 +27,7 @@ class DeclareEnv(BaseModel):
     DeclareEnv
     """ # noqa: E501
     name: Optional[StrictStr] = None
-    public: Optional[StrictBool] = Field(default=None, description="Public marks a value that may be WRITTEN INTO GIT. Absent, it is false, and the value is sealed into KMS and referenced.  ★ THE DEFAULT IS SECRET, AND THE POLARITY IS THE WHOLE DESIGN. This lane's output is a commit in a repository replicated to every clone, so a misclassification is not a bug to fix later — it is a credential published forever. A heuristic classifier fails in both directions; what decides is which direction it fails IN. Seal-by-default makes the failure mode \"an operator cannot read back a config value\", which is a support ticket. Classify-by-shape made it \"a password is in git history\", which is an incident with no rollback.  It is also the only rule that needs no list. PGPASSWORD, *_PW, a symbol-rich password, a KUBECONFIG, a base32 MFA seed — every one of them slipped a shape classifier, and each miss was a different reason. There is no reason left when the default is to seal.")
+    public: Optional[StrictBool] = None
     value: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["name", "public", "value"]
 

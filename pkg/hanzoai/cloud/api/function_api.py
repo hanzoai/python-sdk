@@ -19,17 +19,17 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.definition import Definition
-from hanzoai.cloud.models.fn_list import FnList
-from hanzoai.cloud.models.function_detail import FunctionDetail
-from hanzoai.cloud.models.function_view import FunctionView
-from hanzoai.cloud.models.invocation_list import InvocationList
-from hanzoai.cloud.models.invocation_view import InvocationView
-from hanzoai.cloud.models.invoke_req import InvokeReq
-from hanzoai.cloud.models.log_lines import LogLines
-from hanzoai.cloud.models.secret_list import SecretList
-from hanzoai.cloud.models.trigger_list import TriggerList
-from hanzoai.cloud.models.usage import Usage
+from hanzoai.cloud.models.function_definition import FunctionDefinition
+from hanzoai.cloud.models.function_fn_list import FunctionFnList
+from hanzoai.cloud.models.function_function_detail import FunctionFunctionDetail
+from hanzoai.cloud.models.function_function_view import FunctionFunctionView
+from hanzoai.cloud.models.function_invocation_list import FunctionInvocationList
+from hanzoai.cloud.models.function_invocation_view import FunctionInvocationView
+from hanzoai.cloud.models.function_invoke_req import FunctionInvokeReq
+from hanzoai.cloud.models.function_log_lines import FunctionLogLines
+from hanzoai.cloud.models.function_secret_list import FunctionSecretList
+from hanzoai.cloud.models.function_trigger_list import FunctionTriggerList
+from hanzoai.cloud.models.function_usage import FunctionUsage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -278,6 +278,13 @@ class FunctionApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -318,7 +325,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FnList:
+    ) -> FunctionFnList:
         """Is every serverless function the caller's org has published, each with its real 7-day rollup.
 
         Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
@@ -353,7 +360,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -381,7 +388,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FnList]:
+    ) -> ApiResponse[FunctionFnList]:
         """Is every serverless function the caller's org has published, each with its real 7-day rollup.
 
         Is every serverless function the caller's org has published, each with its real 7-day rollup.  A row carries the function's runtime, resource limits, deployment target and its invoke endpoint, plus envCount — how many secrets it mounts. The rollup fields are ABSENT rather than zero when the function has not run in the window, so a console renders \"—\" instead of a fabricated 0.  Requires a validated principal; the listing is scoped to its org.
@@ -416,7 +423,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -479,7 +486,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -521,7 +528,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -565,7 +573,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FunctionDetail:
+    ) -> FunctionFunctionDetail:
         """Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
 
         Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
@@ -603,7 +611,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FunctionDetail",
+            '200': "FunctionFunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -632,7 +640,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FunctionDetail]:
+    ) -> ApiResponse[FunctionFunctionDetail]:
         """Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.
 
         Is one function with everything a detail page needs in one round-trip: its definition, its 7-day rollup, its trigger, its twenty most recent invocations and the NAMES of the secrets it mounts.  Secret values are never read or returned. A name the caller's org does not hold is 404, which is also what another tenant's function looks like from here.
@@ -670,7 +678,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FunctionDetail",
+            '200': "FunctionFunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -737,7 +745,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FunctionDetail",
+            '200': "FunctionFunctionDetail",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -782,7 +790,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -827,7 +836,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InvocationList:
+    ) -> FunctionInvocationList:
         """Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
 
         Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
@@ -868,7 +877,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationList",
+            '200': "FunctionInvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -898,7 +907,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InvocationList]:
+    ) -> ApiResponse[FunctionInvocationList]:
         """Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.
 
         Is one function's past runs, newest first — each with its status, HTTP code, method, time and duration.  These are real recorded rows, not a projection: an invocation appears here only once it actually ran. Requires a validated principal; the read is scoped to its org.
@@ -939,7 +948,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationList",
+            '200': "FunctionInvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1010,7 +1019,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationList",
+            '200': "FunctionInvocationList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1060,7 +1069,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1104,7 +1114,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LogLines:
+    ) -> FunctionLogLines:
         """Is the output of a function's most recent run — its error text when that run failed, else what it printed.
 
         Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
@@ -1142,7 +1152,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LogLines",
+            '200': "FunctionLogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1171,7 +1181,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LogLines]:
+    ) -> ApiResponse[FunctionLogLines]:
         """Is the output of a function's most recent run — its error text when that run failed, else what it printed.
 
         Is the output of a function's most recent run — its error text when that run failed, else what it printed.  It is the LAST run only, and it is empty when the function has never run. There is no log retention behind this beyond the recorded invocation itself.
@@ -1209,7 +1219,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LogLines",
+            '200': "FunctionLogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1276,7 +1286,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LogLines",
+            '200': "FunctionLogLines",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1321,7 +1331,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1364,7 +1375,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FnList:
+    ) -> FunctionFnList:
         """Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
 
         Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
@@ -1399,7 +1410,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1427,7 +1438,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FnList]:
+    ) -> ApiResponse[FunctionFnList]:
         """Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.
 
         Is what is live right now — each function's current record IS its live deployment, so this is the deployment inventory.  There is no deployment history behind it: a function has one record, and publishing replaces it. The 7-day rollup is deliberately absent here, because this read is about what is deployed rather than about how it has performed.
@@ -1462,7 +1473,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1525,7 +1536,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FnList",
+            '200': "FunctionFnList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1567,7 +1578,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1611,7 +1623,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Usage:
+    ) -> FunctionUsage:
         """Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
 
         Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
@@ -1649,7 +1661,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Usage",
+            '200': "FunctionUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1678,7 +1690,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Usage]:
+    ) -> ApiResponse[FunctionUsage]:
         """Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.
 
         Is the org's serverless dashboard over a window: a per-function invocation costLine and how those invocations ended.  Every point is a REAL count of rows that fell in that bucket — nothing is interpolated or invented, so an empty window draws a flat line rather than a fabricated one.  costCents is null and stays null: there is no per-invocation cost source to read, and reporting a number computed some other way would be a guess presented as a measurement. Requires a validated principal; the read is scoped to its org.
@@ -1716,7 +1728,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Usage",
+            '200': "FunctionUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1783,7 +1795,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Usage",
+            '200': "FunctionUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1830,7 +1842,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1873,7 +1886,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SecretList:
+    ) -> FunctionSecretList:
         """Is the NAMES of the secrets the caller org's functions mount.
 
         Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
@@ -1908,7 +1921,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SecretList",
+            '200': "FunctionSecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1936,7 +1949,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SecretList]:
+    ) -> ApiResponse[FunctionSecretList]:
         """Is the NAMES of the secrets the caller org's functions mount.
 
         Is the NAMES of the secrets the caller org's functions mount.  Values are NEVER read or returned — this surface knows which names a function asks for and nothing about what is behind them, which is what makes it safe to list at all. One row per distinct (namespace, name).
@@ -1971,7 +1984,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SecretList",
+            '200': "FunctionSecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2034,7 +2047,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SecretList",
+            '200': "FunctionSecretList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2076,7 +2089,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2119,7 +2133,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TriggerList:
+    ) -> FunctionTriggerList:
         """Is what calls the caller org's functions — one row per function.
 
         Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
@@ -2154,7 +2168,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TriggerList",
+            '200': "FunctionTriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2182,7 +2196,7 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TriggerList]:
+    ) -> ApiResponse[FunctionTriggerList]:
         """Is what calls the caller org's functions — one row per function.
 
         Is what calls the caller org's functions — one row per function.  Every function has exactly one trigger today, its HTTP invoke endpoint, so this is the function list read as \"how is each of these reached\".
@@ -2217,7 +2231,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TriggerList",
+            '200': "FunctionTriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2280,7 +2294,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TriggerList",
+            '200': "FunctionTriggerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2322,7 +2336,8 @@ class FunctionApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2353,7 +2368,7 @@ class FunctionApi:
     @validate_call
     def post_function(
         self,
-        definition: Definition,
+        function_definition: FunctionDefinition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2366,13 +2381,13 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FunctionView:
+    ) -> FunctionFunctionView:
         """Publishes a serverless function under the caller's org and answers 201 with it.
 
         Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
-        :param definition: (required)
-        :type definition: Definition
+        :param function_definition: (required)
+        :type function_definition: FunctionDefinition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2396,7 +2411,7 @@ class FunctionApi:
         """ # noqa: E501
 
         _param = self._post_function_serialize(
-            definition=definition,
+            function_definition=function_definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2404,7 +2419,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FunctionView",
+            '201': "FunctionFunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2420,7 +2435,7 @@ class FunctionApi:
     @validate_call
     def post_function_with_http_info(
         self,
-        definition: Definition,
+        function_definition: FunctionDefinition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2433,13 +2448,13 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FunctionView]:
+    ) -> ApiResponse[FunctionFunctionView]:
         """Publishes a serverless function under the caller's org and answers 201 with it.
 
         Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
-        :param definition: (required)
-        :type definition: Definition
+        :param function_definition: (required)
+        :type function_definition: FunctionDefinition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2463,7 +2478,7 @@ class FunctionApi:
         """ # noqa: E501
 
         _param = self._post_function_serialize(
-            definition=definition,
+            function_definition=function_definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2471,7 +2486,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FunctionView",
+            '201': "FunctionFunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2487,7 +2502,7 @@ class FunctionApi:
     @validate_call
     def post_function_without_preload_content(
         self,
-        definition: Definition,
+        function_definition: FunctionDefinition,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2505,8 +2520,8 @@ class FunctionApi:
 
         Publishes a serverless function under the caller's org and answers 201 with it.  The name is the key and is claimed once; the names that would shadow a collection route are reserved. runtime and environment are the same field — either spelling is accepted — and default to node.  Bounds are clamped rather than refused where a clamp is honest: a timeout above the 900-second ceiling becomes the ceiling instead of silently reverting to the 30-second default, and an omitted memory limit becomes 256Mi. target=fleet runs on the org's own GPU fleet and supports runtime=python only.  Requires a validated principal; the function is owned by that principal's org.
 
-        :param definition: (required)
-        :type definition: Definition
+        :param function_definition: (required)
+        :type function_definition: FunctionDefinition
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2530,7 +2545,7 @@ class FunctionApi:
         """ # noqa: E501
 
         _param = self._post_function_serialize(
-            definition=definition,
+            function_definition=function_definition,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2538,7 +2553,7 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "FunctionView",
+            '201': "FunctionFunctionView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2549,7 +2564,7 @@ class FunctionApi:
 
     def _post_function_serialize(
         self,
-        definition,
+        function_definition,
         _request_auth,
         _content_type,
         _headers,
@@ -2575,15 +2590,16 @@ class FunctionApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if definition is not None:
-            _body_params = definition
+        if function_definition is not None:
+            _body_params = function_definition
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2628,7 +2644,7 @@ class FunctionApi:
     def post_function_by_name_invoke(
         self,
         name: StrictStr,
-        invoke_req: InvokeReq,
+        function_invoke_req: FunctionInvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2641,15 +2657,15 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> InvocationView:
+    ) -> FunctionInvocationView:
         """Runs a function and records a REAL invocation.
 
         Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
 
         :param name: (required)
         :type name: str
-        :param invoke_req: (required)
-        :type invoke_req: InvokeReq
+        :param function_invoke_req: (required)
+        :type function_invoke_req: FunctionInvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2674,7 +2690,7 @@ class FunctionApi:
 
         _param = self._post_function_by_name_invoke_serialize(
             name=name,
-            invoke_req=invoke_req,
+            function_invoke_req=function_invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2682,9 +2698,9 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationView",
-            '502': "InvocationView",
-            '503': "InvocationView",
+            '200': "FunctionInvocationView",
+            '502': "FunctionInvocationView",
+            '503': "FunctionInvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2701,7 +2717,7 @@ class FunctionApi:
     def post_function_by_name_invoke_with_http_info(
         self,
         name: StrictStr,
-        invoke_req: InvokeReq,
+        function_invoke_req: FunctionInvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2714,15 +2730,15 @@ class FunctionApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[InvocationView]:
+    ) -> ApiResponse[FunctionInvocationView]:
         """Runs a function and records a REAL invocation.
 
         Runs a function and records a REAL invocation.  The answer is the invocation record whatever happened to it: 200 when the org's code ran clean, 502 when it ran and failed, 503 when this deployment has no sandbox to run code in. The record IS the evidence, so it rides the failure rather than being replaced by an error envelope.  Billing is two-part and both parts are prepaid-then-metered on the one shared meter: a flat per-invocation request fee, gated BEFORE any sandbox compute runs so an unfunded org gets 402 and nothing executes, and a usage-native GB-seconds compute debit taken after the run. Either is independently free when its fee is zero, so an operator can bill by request alone, by compute alone, or by both — and a zero request fee removes the balance gate with it.  A TRANSPORT failure is not charged: the sandbox being unreachable ran no billable compute. Code that ran and exited non-zero IS charged — that is a successful invocation of a failing program, not a billing failure.  When the sandbox is not configured on this deployment, a non-fleet function fails closed before anything is recorded — no execution and no fabricated output. Scoped to the caller's org; requires a validated principal.
 
         :param name: (required)
         :type name: str
-        :param invoke_req: (required)
-        :type invoke_req: InvokeReq
+        :param function_invoke_req: (required)
+        :type function_invoke_req: FunctionInvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2747,7 +2763,7 @@ class FunctionApi:
 
         _param = self._post_function_by_name_invoke_serialize(
             name=name,
-            invoke_req=invoke_req,
+            function_invoke_req=function_invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2755,9 +2771,9 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationView",
-            '502': "InvocationView",
-            '503': "InvocationView",
+            '200': "FunctionInvocationView",
+            '502': "FunctionInvocationView",
+            '503': "FunctionInvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2774,7 +2790,7 @@ class FunctionApi:
     def post_function_by_name_invoke_without_preload_content(
         self,
         name: StrictStr,
-        invoke_req: InvokeReq,
+        function_invoke_req: FunctionInvokeReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2794,8 +2810,8 @@ class FunctionApi:
 
         :param name: (required)
         :type name: str
-        :param invoke_req: (required)
-        :type invoke_req: InvokeReq
+        :param function_invoke_req: (required)
+        :type function_invoke_req: FunctionInvokeReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2820,7 +2836,7 @@ class FunctionApi:
 
         _param = self._post_function_by_name_invoke_serialize(
             name=name,
-            invoke_req=invoke_req,
+            function_invoke_req=function_invoke_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2828,9 +2844,9 @@ class FunctionApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "InvocationView",
-            '502': "InvocationView",
-            '503': "InvocationView",
+            '200': "FunctionInvocationView",
+            '502': "FunctionInvocationView",
+            '503': "FunctionInvocationView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2842,7 +2858,7 @@ class FunctionApi:
     def _post_function_by_name_invoke_serialize(
         self,
         name,
-        invoke_req,
+        function_invoke_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2870,15 +2886,16 @@ class FunctionApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if invoke_req is not None:
-            _body_params = invoke_req
+        if function_invoke_req is not None:
+            _body_params = function_invoke_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,11 +19,11 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.help_article import HelpArticle
-from hanzoai.cloud.models.help_article_list import HelpArticleList
-from hanzoai.cloud.models.help_category_list import HelpCategoryList
-from hanzoai.cloud.models.help_ticket_filed import HelpTicketFiled
-from hanzoai.cloud.models.help_ticket_intake import HelpTicketIntake
+from hanzoai.cloud.models.help_help_article import HelpHelpArticle
+from hanzoai.cloud.models.help_help_article_list import HelpHelpArticleList
+from hanzoai.cloud.models.help_help_category_list import HelpHelpCategoryList
+from hanzoai.cloud.models.help_help_ticket_filed import HelpHelpTicketFiled
+from hanzoai.cloud.models.help_help_ticket_intake import HelpHelpTicketIntake
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,7 +60,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HelpArticleList:
+    ) -> HelpHelpArticleList:
         """Returns the public knowledge base: the help center's Published, publicly-visible articles as cards.
 
         Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404.
@@ -101,7 +101,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticleList",
+            '200': "HelpHelpArticleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -131,7 +131,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HelpArticleList]:
+    ) -> ApiResponse[HelpHelpArticleList]:
         """Returns the public knowledge base: the help center's Published, publicly-visible articles as cards.
 
         Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404.
@@ -172,7 +172,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticleList",
+            '200': "HelpHelpArticleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -243,7 +243,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticleList",
+            '200': "HelpHelpArticleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -295,7 +295,8 @@ class HelpApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -339,7 +340,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HelpArticle:
+    ) -> HelpHelpArticle:
         """Returns one public article by slug, with its body.
 
         Returns one public article by slug, with its body. A missing, Draft, or internal (non-public) article is 404 — fail-closed, so this route is no existence oracle for anything beyond \"published and public\".
@@ -377,7 +378,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticle",
+            '200': "HelpHelpArticle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -406,7 +407,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HelpArticle]:
+    ) -> ApiResponse[HelpHelpArticle]:
         """Returns one public article by slug, with its body.
 
         Returns one public article by slug, with its body. A missing, Draft, or internal (non-public) article is 404 — fail-closed, so this route is no existence oracle for anything beyond \"published and public\".
@@ -444,7 +445,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticle",
+            '200': "HelpHelpArticle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -511,7 +512,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpArticle",
+            '200': "HelpHelpArticle",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -556,7 +557,8 @@ class HelpApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -599,7 +601,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HelpCategoryList:
+    ) -> HelpHelpCategoryList:
         """Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks.
 
         Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error.
@@ -634,7 +636,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpCategoryList",
+            '200': "HelpHelpCategoryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -662,7 +664,7 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HelpCategoryList]:
+    ) -> ApiResponse[HelpHelpCategoryList]:
         """Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks.
 
         Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error.
@@ -697,7 +699,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpCategoryList",
+            '200': "HelpHelpCategoryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -760,7 +762,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HelpCategoryList",
+            '200': "HelpHelpCategoryList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -802,7 +804,8 @@ class HelpApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -833,7 +836,7 @@ class HelpApi:
     @validate_call
     def post_help_tickets(
         self,
-        help_ticket_intake: HelpTicketIntake,
+        help_help_ticket_intake: HelpHelpTicketIntake,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -846,13 +849,13 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HelpTicketFiled:
+    ) -> HelpHelpTicketFiled:
         """Files a customer support ticket into the public help center.
 
         Files a customer support ticket into the public help center. It creates the ticket (status Open, source portal) with the customer's message on the description, then records that same message as the opening entry of the ticket's conversation thread; the description carries it regardless, so failing to write that entry loses nothing. Answers 201 with an opaque reference.  A deployment with no help center answers 404, one whose center has not installed the Help model answers 503, and a body over 64 KiB answers 413 — in that order, which is the order the route has always decided them in.
 
-        :param help_ticket_intake: (required)
-        :type help_ticket_intake: HelpTicketIntake
+        :param help_help_ticket_intake: (required)
+        :type help_help_ticket_intake: HelpHelpTicketIntake
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -876,7 +879,7 @@ class HelpApi:
         """ # noqa: E501
 
         _param = self._post_help_tickets_serialize(
-            help_ticket_intake=help_ticket_intake,
+            help_help_ticket_intake=help_help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -884,7 +887,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "HelpTicketFiled",
+            '201': "HelpHelpTicketFiled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -900,7 +903,7 @@ class HelpApi:
     @validate_call
     def post_help_tickets_with_http_info(
         self,
-        help_ticket_intake: HelpTicketIntake,
+        help_help_ticket_intake: HelpHelpTicketIntake,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -913,13 +916,13 @@ class HelpApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HelpTicketFiled]:
+    ) -> ApiResponse[HelpHelpTicketFiled]:
         """Files a customer support ticket into the public help center.
 
         Files a customer support ticket into the public help center. It creates the ticket (status Open, source portal) with the customer's message on the description, then records that same message as the opening entry of the ticket's conversation thread; the description carries it regardless, so failing to write that entry loses nothing. Answers 201 with an opaque reference.  A deployment with no help center answers 404, one whose center has not installed the Help model answers 503, and a body over 64 KiB answers 413 — in that order, which is the order the route has always decided them in.
 
-        :param help_ticket_intake: (required)
-        :type help_ticket_intake: HelpTicketIntake
+        :param help_help_ticket_intake: (required)
+        :type help_help_ticket_intake: HelpHelpTicketIntake
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -943,7 +946,7 @@ class HelpApi:
         """ # noqa: E501
 
         _param = self._post_help_tickets_serialize(
-            help_ticket_intake=help_ticket_intake,
+            help_help_ticket_intake=help_help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -951,7 +954,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "HelpTicketFiled",
+            '201': "HelpHelpTicketFiled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -967,7 +970,7 @@ class HelpApi:
     @validate_call
     def post_help_tickets_without_preload_content(
         self,
-        help_ticket_intake: HelpTicketIntake,
+        help_help_ticket_intake: HelpHelpTicketIntake,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -985,8 +988,8 @@ class HelpApi:
 
         Files a customer support ticket into the public help center. It creates the ticket (status Open, source portal) with the customer's message on the description, then records that same message as the opening entry of the ticket's conversation thread; the description carries it regardless, so failing to write that entry loses nothing. Answers 201 with an opaque reference.  A deployment with no help center answers 404, one whose center has not installed the Help model answers 503, and a body over 64 KiB answers 413 — in that order, which is the order the route has always decided them in.
 
-        :param help_ticket_intake: (required)
-        :type help_ticket_intake: HelpTicketIntake
+        :param help_help_ticket_intake: (required)
+        :type help_help_ticket_intake: HelpHelpTicketIntake
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1010,7 +1013,7 @@ class HelpApi:
         """ # noqa: E501
 
         _param = self._post_help_tickets_serialize(
-            help_ticket_intake=help_ticket_intake,
+            help_help_ticket_intake=help_help_ticket_intake,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1018,7 +1021,7 @@ class HelpApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "HelpTicketFiled",
+            '201': "HelpHelpTicketFiled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1029,7 +1032,7 @@ class HelpApi:
 
     def _post_help_tickets_serialize(
         self,
-        help_ticket_intake,
+        help_help_ticket_intake,
         _request_auth,
         _content_type,
         _headers,
@@ -1055,15 +1058,16 @@ class HelpApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if help_ticket_intake is not None:
-            _body_params = help_ticket_intake
+        if help_help_ticket_intake is not None:
+            _body_params = help_help_ticket_intake
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

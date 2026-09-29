@@ -18,15 +18,15 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.identity_in import IdentityIn
-from hanzoai.cloud.models.identity_list import IdentityList
-from hanzoai.cloud.models.identity_view import IdentityView
-from hanzoai.cloud.models.mesh_service_list import MeshServiceList
-from hanzoai.cloud.models.network_list import NetworkList
-from hanzoai.cloud.models.network_view import NetworkView
-from hanzoai.cloud.models.published_view import PublishedView
-from hanzoai.cloud.models.router_list import RouterList
-from hanzoai.cloud.models.service_in import ServiceIn
+from hanzoai.cloud.models.network_identity_in import NetworkIdentityIn
+from hanzoai.cloud.models.network_identity_list import NetworkIdentityList
+from hanzoai.cloud.models.network_identity_view import NetworkIdentityView
+from hanzoai.cloud.models.network_mesh_service_list import NetworkMeshServiceList
+from hanzoai.cloud.models.network_network_list import NetworkNetworkList
+from hanzoai.cloud.models.network_network_view import NetworkNetworkView
+from hanzoai.cloud.models.network_published_view import NetworkPublishedView
+from hanzoai.cloud.models.network_router_list import NetworkRouterList
+from hanzoai.cloud.models.network_service_in import NetworkServiceIn
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -63,9 +63,9 @@ class NetworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """Removes one of the org's fabric identities.
+        """Takes one of the org's fabric identities out of the org.
 
-        Removes one of the org's fabric identities. The device's credential stops authenticating and its enrollment, if unspent, stops enrolling.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list.
+        Takes one of the org's fabric identities out of the org.  The identity's \"org-<org>\" role and every role scoped to the org are removed and the rest is left alone, so an identity another org shares keeps working there. The identity itself is deleted when no org role is left on it, or when the caller IS its IAM subject — a person may always remove themselves.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list, which for a plain member is its own identity. A fabric administrator is the controller's own and is refused.
 
         :param id: ID is the identity id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
         :type id: str
@@ -130,9 +130,9 @@ class NetworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """Removes one of the org's fabric identities.
+        """Takes one of the org's fabric identities out of the org.
 
-        Removes one of the org's fabric identities. The device's credential stops authenticating and its enrollment, if unspent, stops enrolling.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list.
+        Takes one of the org's fabric identities out of the org.  The identity's \"org-<org>\" role and every role scoped to the org are removed and the rest is left alone, so an identity another org shares keeps working there. The identity itself is deleted when no org role is left on it, or when the caller IS its IAM subject — a person may always remove themselves.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list, which for a plain member is its own identity. A fabric administrator is the controller's own and is refused.
 
         :param id: ID is the identity id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
         :type id: str
@@ -197,9 +197,9 @@ class NetworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Removes one of the org's fabric identities.
+        """Takes one of the org's fabric identities out of the org.
 
-        Removes one of the org's fabric identities. The device's credential stops authenticating and its enrollment, if unspent, stops enrolling.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list.
+        Takes one of the org's fabric identities out of the org.  The identity's \"org-<org>\" role and every role scoped to the org are removed and the rest is left alone, so an identity another org shares keeps working there. The identity itself is deleted when no org role is left on it, or when the caller IS its IAM subject — a person may always remove themselves.  An id belonging to another org — or to nothing — is 404 before any write reaches the controller: whether an identity exists is itself a cross-tenant fact, and a delete may only ever act on what the caller could list, which for a plain member is its own identity. A fabric administrator is the controller's own and is refused.
 
         :param id: ID is the identity id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
         :type id: str
@@ -275,6 +275,13 @@ class NetworkApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -285,6 +292,267 @@ class NetworkApi:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/network/identities/{id}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_network_services_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.
+
+        Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.  Only objects carrying this service's own names are deleted, so a policy that selects the service by attribute is left alone. An id belonging to another org — or to nothing — is 404 before any write, as for an identity. Like publishing it is a steward's act, and a plain member is 403 before the controller is read.
+
+        :param id: ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_network_services_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_network_services_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.
+
+        Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.  Only objects carrying this service's own names are deleted, so a policy that selects the service by attribute is left alone. An id belonging to another org — or to nothing — is 404 before any write, as for an identity. Like publishing it is a steward's act, and a plain member is 403 before the controller is read.
+
+        :param id: ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_network_services_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_network_services_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries.")],
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.
+
+        Takes a name off the org's overlay: the two policies, the service and its two configs that publishing made, in that order, and the \"<name>-host\" role from each of the org's identities — that role exists only for the bind policy to select, and a role naming no service is one the identities endpoint refuses to write.  Only objects carrying this service's own names are deleted, so a policy that selects the service by attribute is left alone. An id belonging to another org — or to nothing — is 404 before any write, as for an identity. Like publishing it is a steward's act, and a plain member is 403 before the controller is read.
+
+        :param id: ID is the service id from the path. The URL is the addressing authority, so it binds from there whatever else the request carries. (required)
+        :type id: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_network_services_by_id_serialize(
+            id=id,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '204': None,
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_network_services_by_id_serialize(
+        self,
+        id,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/network/services/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -315,7 +583,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NetworkList:
+    ) -> NetworkNetworkList:
         """Returns the caller's org overlay network on the Zero Trust fabric.
 
         Returns the caller's org overlay network on the Zero Trust fabric.  The org has at most ONE overlay, projected from the edge-routers tagged with its \"org-<org>\" role attribute: nodes is the real router count and status is \"connected\" once at least one router has dialed home, \"provisioning\" while none has. An org with no routers gets an empty list, never a fabricated network.  The read degrades rather than erroring: a deployment with no ZT credential, and a controller that cannot be reached, both answer 200 with an empty list so the console's Networks page renders a clean empty state instead of an error.
@@ -350,7 +618,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkList",
+            '200': "NetworkNetworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -378,7 +646,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NetworkList]:
+    ) -> ApiResponse[NetworkNetworkList]:
         """Returns the caller's org overlay network on the Zero Trust fabric.
 
         Returns the caller's org overlay network on the Zero Trust fabric.  The org has at most ONE overlay, projected from the edge-routers tagged with its \"org-<org>\" role attribute: nodes is the real router count and status is \"connected\" once at least one router has dialed home, \"provisioning\" while none has. An org with no routers gets an empty list, never a fabricated network.  The read degrades rather than erroring: a deployment with no ZT credential, and a controller that cannot be reached, both answer 200 with an empty list so the console's Networks page renders a clean empty state instead of an error.
@@ -413,7 +681,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkList",
+            '200': "NetworkNetworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -476,7 +744,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkList",
+            '200': "NetworkNetworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -518,7 +786,8 @@ class NetworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -562,7 +831,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NetworkView:
+    ) -> NetworkNetworkView:
         """Returns one overlay network by id, scoped to the caller's org.
 
         Returns one overlay network by id, scoped to the caller's org.  The org has exactly one overlay network and its id is derived from the org, so any other id — another tenant's, or one that does not exist — is 404 rather than a peek across the tenant boundary. An org whose network exists but has no edge-routers is 404 too, for the same reason the list is empty: there is no overlay until something is on it.
@@ -600,7 +869,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkView",
+            '200': "NetworkNetworkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -629,7 +898,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NetworkView]:
+    ) -> ApiResponse[NetworkNetworkView]:
         """Returns one overlay network by id, scoped to the caller's org.
 
         Returns one overlay network by id, scoped to the caller's org.  The org has exactly one overlay network and its id is derived from the org, so any other id — another tenant's, or one that does not exist — is 404 rather than a peek across the tenant boundary. An org whose network exists but has no edge-routers is 404 too, for the same reason the list is empty: there is no overlay until something is on it.
@@ -667,7 +936,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkView",
+            '200': "NetworkNetworkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -734,7 +1003,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NetworkView",
+            '200': "NetworkNetworkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -779,7 +1048,8 @@ class NetworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -822,10 +1092,10 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IdentityList:
+    ) -> NetworkIdentityList:
         """Returns the fabric identities the caller's org owns.
 
-        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute — a device minted here, enrolled or not. An identity that has not yet enrolled still carries its one-time enrollment, so a mislaid JWT is read again here rather than re-minted.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
+        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute, each naming the IAM subject it logs in as. A steward sees every one; a plain member sees only its own, since who else is on the org's network is not a member's to read, and a plain member's API key, which holds no identity, is refused.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -857,7 +1127,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdentityList",
+            '200': "NetworkIdentityList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -885,10 +1155,10 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IdentityList]:
+    ) -> ApiResponse[NetworkIdentityList]:
         """Returns the fabric identities the caller's org owns.
 
-        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute — a device minted here, enrolled or not. An identity that has not yet enrolled still carries its one-time enrollment, so a mislaid JWT is read again here rather than re-minted.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
+        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute, each naming the IAM subject it logs in as. A steward sees every one; a plain member sees only its own, since who else is on the org's network is not a member's to read, and a plain member's API key, which holds no identity, is refused.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -920,7 +1190,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdentityList",
+            '200': "NetworkIdentityList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -951,7 +1221,7 @@ class NetworkApi:
     ) -> RESTResponseType:
         """Returns the fabric identities the caller's org owns.
 
-        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute — a device minted here, enrolled or not. An identity that has not yet enrolled still carries its one-time enrollment, so a mislaid JWT is read again here rather than re-minted.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
+        Returns the fabric identities the caller's org owns.  One row per identity tagged with the org's \"org-<org>\" role attribute, each naming the IAM subject it logs in as. A steward sees every one; a plain member sees only its own, since who else is on the org's network is not a member's to read, and a plain member's API key, which holds no identity, is refused.  A tenancy read over the full inventory, so like the mesh list it does NOT degrade: an unconfigured deployment answers 503.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -983,7 +1253,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IdentityList",
+            '200': "NetworkIdentityList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1025,7 +1295,8 @@ class NetworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1068,7 +1339,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RouterList:
+    ) -> NetworkRouterList:
         """Returns the Zero Trust routers the caller's org owns.
 
         Returns the Zero Trust routers the caller's org owns.  One row per real ZT edge-router tagged with the org's \"org-<org>\" role attribute, carrying the controller's own health signal: \"online\" when connected, \"disabled\" when administratively disabled, \"offline\" otherwise. region is filled only from a \"region-<slug>\" role attribute and omitted when the router carries none, so the column renders \"—\" rather than a guess.  The read degrades rather than erroring: a deployment with no ZT credential, and a controller that cannot be reached, both answer 200 with an empty list.
@@ -1103,7 +1374,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RouterList",
+            '200': "NetworkRouterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1131,7 +1402,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RouterList]:
+    ) -> ApiResponse[NetworkRouterList]:
         """Returns the Zero Trust routers the caller's org owns.
 
         Returns the Zero Trust routers the caller's org owns.  One row per real ZT edge-router tagged with the org's \"org-<org>\" role attribute, carrying the controller's own health signal: \"online\" when connected, \"disabled\" when administratively disabled, \"offline\" otherwise. region is filled only from a \"region-<slug>\" role attribute and omitted when the router carries none, so the column renders \"—\" rather than a guess.  The read degrades rather than erroring: a deployment with no ZT credential, and a controller that cannot be reached, both answer 200 with an empty list.
@@ -1166,7 +1437,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RouterList",
+            '200': "NetworkRouterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1229,7 +1500,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RouterList",
+            '200': "NetworkRouterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1271,7 +1542,8 @@ class NetworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1314,7 +1586,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MeshServiceList:
+    ) -> NetworkMeshServiceList:
         """Returns the Zero Trust edge services the caller's org owns.
 
         Returns the Zero Trust edge services the caller's org owns.  One row per real ZT edge service tagged with the org's \"org-<org>\" role attribute: mtls is \"required\" when the service mandates end-to-end encryption and \"enabled\" otherwise (the fabric always mutually authenticates every link), and status is \"active\" because a listed service is a configured, dialable entry. A service tagged for another org, or tagged for none, is invisible here.  Unlike the network and router reads this does NOT degrade: an unconfigured deployment answers 503 and an unreachable controller surfaces the upstream's status, so a mesh page never renders \"no services\" for a fabric it simply could not read.
@@ -1349,7 +1621,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MeshServiceList",
+            '200': "NetworkMeshServiceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1377,7 +1649,7 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MeshServiceList]:
+    ) -> ApiResponse[NetworkMeshServiceList]:
         """Returns the Zero Trust edge services the caller's org owns.
 
         Returns the Zero Trust edge services the caller's org owns.  One row per real ZT edge service tagged with the org's \"org-<org>\" role attribute: mtls is \"required\" when the service mandates end-to-end encryption and \"enabled\" otherwise (the fabric always mutually authenticates every link), and status is \"active\" because a listed service is a configured, dialable entry. A service tagged for another org, or tagged for none, is invisible here.  Unlike the network and router reads this does NOT degrade: an unconfigured deployment answers 503 and an unreachable controller surfaces the upstream's status, so a mesh page never renders \"no services\" for a fabric it simply could not read.
@@ -1412,7 +1684,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MeshServiceList",
+            '200': "NetworkMeshServiceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1475,7 +1747,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MeshServiceList",
+            '200': "NetworkMeshServiceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1517,7 +1789,8 @@ class NetworkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1548,7 +1821,7 @@ class NetworkApi:
     @validate_call
     def post_network_identities(
         self,
-        identity_in: IdentityIn,
+        network_identity_in: NetworkIdentityIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1561,13 +1834,13 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IdentityView:
-        """Mints a fabric identity for a device the caller's org brings.
+    ) -> NetworkIdentityView:
+        """Puts the caller on the org's overlay as its own IAM subject.
 
-        Mints a fabric identity for a device the caller's org brings.  The identity is created of type Device, tagged with the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. The answer carries the controller's one-time enrollment JWT: the device presents it once to join the fabric, and until it does the same token can be read back off GET /v1/network/identities.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts the caller on the org's overlay as its own IAM subject.  The identity is the one whose externalId is the caller's `sub`, admitted by the controller's \"iam\" auth policy: the caller logs in to the fabric with its own IAM access token, and nothing is enrolled. It is named by the subject unless a name is given, and carries the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. Roles are a steward's to take: a plain member joins with the org role alone, and asking for more is 403 before the controller is written.  An API key is refused 403: the fabric admits an IAM access token, a person's or an application's, and a key has none to log in with.  IDEMPOTENT: a caller who already has an identity gets the same one back, with any of these roles it lacked added — which is how one person's identity comes to serve every org they act in.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param identity_in: (required)
-        :type identity_in: IdentityIn
+        :param network_identity_in: (required)
+        :type network_identity_in: NetworkIdentityIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1591,7 +1864,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_identities_serialize(
-            identity_in=identity_in,
+            network_identity_in=network_identity_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1599,7 +1872,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "IdentityView",
+            '201': "NetworkIdentityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1615,7 +1888,7 @@ class NetworkApi:
     @validate_call
     def post_network_identities_with_http_info(
         self,
-        identity_in: IdentityIn,
+        network_identity_in: NetworkIdentityIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1628,13 +1901,13 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IdentityView]:
-        """Mints a fabric identity for a device the caller's org brings.
+    ) -> ApiResponse[NetworkIdentityView]:
+        """Puts the caller on the org's overlay as its own IAM subject.
 
-        Mints a fabric identity for a device the caller's org brings.  The identity is created of type Device, tagged with the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. The answer carries the controller's one-time enrollment JWT: the device presents it once to join the fabric, and until it does the same token can be read back off GET /v1/network/identities.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts the caller on the org's overlay as its own IAM subject.  The identity is the one whose externalId is the caller's `sub`, admitted by the controller's \"iam\" auth policy: the caller logs in to the fabric with its own IAM access token, and nothing is enrolled. It is named by the subject unless a name is given, and carries the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. Roles are a steward's to take: a plain member joins with the org role alone, and asking for more is 403 before the controller is written.  An API key is refused 403: the fabric admits an IAM access token, a person's or an application's, and a key has none to log in with.  IDEMPOTENT: a caller who already has an identity gets the same one back, with any of these roles it lacked added — which is how one person's identity comes to serve every org they act in.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param identity_in: (required)
-        :type identity_in: IdentityIn
+        :param network_identity_in: (required)
+        :type network_identity_in: NetworkIdentityIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1658,7 +1931,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_identities_serialize(
-            identity_in=identity_in,
+            network_identity_in=network_identity_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1666,7 +1939,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "IdentityView",
+            '201': "NetworkIdentityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1682,7 +1955,7 @@ class NetworkApi:
     @validate_call
     def post_network_identities_without_preload_content(
         self,
-        identity_in: IdentityIn,
+        network_identity_in: NetworkIdentityIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1696,12 +1969,12 @@ class NetworkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Mints a fabric identity for a device the caller's org brings.
+        """Puts the caller on the org's overlay as its own IAM subject.
 
-        Mints a fabric identity for a device the caller's org brings.  The identity is created of type Device, tagged with the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. The answer carries the controller's one-time enrollment JWT: the device presents it once to join the fabric, and until it does the same token can be read back off GET /v1/network/identities.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts the caller on the org's overlay as its own IAM subject.  The identity is the one whose externalId is the caller's `sub`, admitted by the controller's \"iam\" auth policy: the caller logs in to the fabric with its own IAM access token, and nothing is enrolled. It is named by the subject unless a name is given, and carries the org's \"org-<org>\" role attribute plus any supplied roles — each scoped to the org, and a \"<service>-host\" role refused unless the org has published that service. Roles are a steward's to take: a plain member joins with the org role alone, and asking for more is 403 before the controller is written.  An API key is refused 403: the fabric admits an IAM access token, a person's or an application's, and a key has none to log in with.  IDEMPOTENT: a caller who already has an identity gets the same one back, with any of these roles it lacked added — which is how one person's identity comes to serve every org they act in.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param identity_in: (required)
-        :type identity_in: IdentityIn
+        :param network_identity_in: (required)
+        :type network_identity_in: NetworkIdentityIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1725,7 +1998,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_identities_serialize(
-            identity_in=identity_in,
+            network_identity_in=network_identity_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1733,7 +2006,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "IdentityView",
+            '201': "NetworkIdentityView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1744,7 +2017,7 @@ class NetworkApi:
 
     def _post_network_identities_serialize(
         self,
-        identity_in,
+        network_identity_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1770,15 +2043,16 @@ class NetworkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if identity_in is not None:
-            _body_params = identity_in
+        if network_identity_in is not None:
+            _body_params = network_identity_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1822,7 +2096,7 @@ class NetworkApi:
     @validate_call
     def post_network_services(
         self,
-        service_in: ServiceIn,
+        network_service_in: NetworkServiceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1835,13 +2109,13 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PublishedView:
+    ) -> NetworkPublishedView:
         """Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.
 
-        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric. Publishing is a steward's act — an admin of the org or its own machine client — and a plain member is 403.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param service_in: (required)
-        :type service_in: ServiceIn
+        :param network_service_in: (required)
+        :type network_service_in: NetworkServiceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1865,7 +2139,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_services_serialize(
-            service_in=service_in,
+            network_service_in=network_service_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1873,7 +2147,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PublishedView",
+            '201': "NetworkPublishedView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1889,7 +2163,7 @@ class NetworkApi:
     @validate_call
     def post_network_services_with_http_info(
         self,
-        service_in: ServiceIn,
+        network_service_in: NetworkServiceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1902,13 +2176,13 @@ class NetworkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PublishedView]:
+    ) -> ApiResponse[NetworkPublishedView]:
         """Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.
 
-        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric. Publishing is a steward's act — an admin of the org or its own machine client — and a plain member is 403.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param service_in: (required)
-        :type service_in: ServiceIn
+        :param network_service_in: (required)
+        :type network_service_in: NetworkServiceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1932,7 +2206,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_services_serialize(
-            service_in=service_in,
+            network_service_in=network_service_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1940,7 +2214,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PublishedView",
+            '201': "NetworkPublishedView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1956,7 +2230,7 @@ class NetworkApi:
     @validate_call
     def post_network_services_without_preload_content(
         self,
-        service_in: ServiceIn,
+        network_service_in: NetworkServiceIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1972,10 +2246,10 @@ class NetworkApi:
     ) -> RESTResponseType:
         """Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.
 
-        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric.  A write, so it does not degrade: an unconfigured deployment answers 503.
+        Puts a name on the org's overlay: a fabric service forwarding to host:port on whichever of the org's devices carries the \"<name>-host\" role, dialable at \"<name>.<org>.zt\" by any of the org's identities — and by the cloud's own, which is what lets a BYO cluster's apiserver be attached to the fleet with a \".zt\" kubeconfig.  Answers 201 with the service and its DNS name. The objects behind it are created in dependency order and unwound on failure, so a half-published service never lingers on the fabric. Publishing is a steward's act — an admin of the org or its own machine client — and a plain member is 403.  A write, so it does not degrade: an unconfigured deployment answers 503.
 
-        :param service_in: (required)
-        :type service_in: ServiceIn
+        :param network_service_in: (required)
+        :type network_service_in: NetworkServiceIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1999,7 +2273,7 @@ class NetworkApi:
         """ # noqa: E501
 
         _param = self._post_network_services_serialize(
-            service_in=service_in,
+            network_service_in=network_service_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2007,7 +2281,7 @@ class NetworkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "PublishedView",
+            '201': "NetworkPublishedView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2018,7 +2292,7 @@ class NetworkApi:
 
     def _post_network_services_serialize(
         self,
-        service_in,
+        network_service_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2044,15 +2318,16 @@ class NetworkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if service_in is not None:
-            _body_params = service_in
+        if network_service_in is not None:
+            _body_params = network_service_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

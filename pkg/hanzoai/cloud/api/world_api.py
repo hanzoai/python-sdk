@@ -19,11 +19,11 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.limits_view import LimitsView
-from hanzoai.cloud.models.news_response import NewsResponse
-from hanzoai.cloud.models.pipeline_req import PipelineReq
-from hanzoai.cloud.models.pipeline_view import PipelineView
-from hanzoai.cloud.models.world_index import WorldIndex
+from hanzoai.cloud.models.world_limits_view import WorldLimitsView
+from hanzoai.cloud.models.world_news_response import WorldNewsResponse
+from hanzoai.cloud.models.world_pipeline_req import WorldPipelineReq
+from hanzoai.cloud.models.world_pipeline_view import WorldPipelineView
+from hanzoai.cloud.models.world_world_index import WorldWorldIndex
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -58,7 +58,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorldIndex:
+    ) -> WorldWorldIndex:
         """Answers GET /v1/world — the product's public endpoint, naming every wire this surface answers on.
 
         Answers GET /v1/world — the product's public endpoint, naming every wire this surface answers on.  It exists because two of those wires are INVISIBLE to the generated document. /v1/world/mcp and /v1/world/zap are carved off the cloud catch-all by the ingress and answered by world-gw, so the cloud router never serves them — and openapi.Describe renders prose only for a route the router actually serves, which is the very property that keeps the document from being able to claim an operation nothing answers. Both addresses are real and public, so without this op the only way to learn they exist is to read the ingress config. This is where that fact lives, in the product's own surface.  Public on purpose: discovery precedes credentials. It reports addresses and protocols only — never feed data, and never the caller's plan, which GET /v1/world/limits owns — so there is nothing here to leak.
@@ -93,7 +93,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorldIndex",
+            '200': "WorldWorldIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -121,7 +121,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorldIndex]:
+    ) -> ApiResponse[WorldWorldIndex]:
         """Answers GET /v1/world — the product's public endpoint, naming every wire this surface answers on.
 
         Answers GET /v1/world — the product's public endpoint, naming every wire this surface answers on.  It exists because two of those wires are INVISIBLE to the generated document. /v1/world/mcp and /v1/world/zap are carved off the cloud catch-all by the ingress and answered by world-gw, so the cloud router never serves them — and openapi.Describe renders prose only for a route the router actually serves, which is the very property that keeps the document from being able to claim an operation nothing answers. Both addresses are real and public, so without this op the only way to learn they exist is to read the ingress config. This is where that fact lives, in the product's own surface.  Public on purpose: discovery precedes credentials. It reports addresses and protocols only — never feed data, and never the caller's plan, which GET /v1/world/limits owns — so there is nothing here to leak.
@@ -156,7 +156,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorldIndex",
+            '200': "WorldWorldIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -219,7 +219,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorldIndex",
+            '200': "WorldWorldIndex",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -261,7 +261,8 @@ class WorldApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -305,7 +306,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LimitsView:
+    ) -> WorldLimitsView:
         """Echoes a World plan's rate limits, alert quota and model-API grant, read straight from the live @hanzo/plans catalog, so agents and dashboards configure themselves against the catalog instead of hardcoding tier numbers.
 
         Echoes a World plan's rate limits, alert quota and model-API grant, read straight from the live @hanzo/plans catalog, so agents and dashboards configure themselves against the catalog instead of hardcoding tier numbers.  An empty or unknown plan resolves world-free, and a catalog failure serves that same free floor rather than erroring — so this always answers 200, and it can only ever under-grant. It reports the contract; it does not enforce it.
@@ -343,7 +344,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LimitsView",
+            '200': "WorldLimitsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -372,7 +373,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LimitsView]:
+    ) -> ApiResponse[WorldLimitsView]:
         """Echoes a World plan's rate limits, alert quota and model-API grant, read straight from the live @hanzo/plans catalog, so agents and dashboards configure themselves against the catalog instead of hardcoding tier numbers.
 
         Echoes a World plan's rate limits, alert quota and model-API grant, read straight from the live @hanzo/plans catalog, so agents and dashboards configure themselves against the catalog instead of hardcoding tier numbers.  An empty or unknown plan resolves world-free, and a catalog failure serves that same free floor rather than erroring — so this always answers 200, and it can only ever under-grant. It reports the contract; it does not enforce it.
@@ -410,7 +411,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LimitsView",
+            '200': "WorldLimitsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -477,7 +478,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LimitsView",
+            '200': "WorldLimitsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -524,7 +525,8 @@ class WorldApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -567,7 +569,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NewsResponse:
+    ) -> WorldNewsResponse:
         """Returns the caller's merged world-news feed: every source their project's pipeline names — GDELT once per keyword, plus each allowlisted RSS or Atom feed — fetched concurrently, narrowed by the pipeline's keyword/region/source filters, deduplicated by link and sorted freshest first, capped at 50 items.
 
         Returns the caller's merged world-news feed: every source their project's pipeline names — GDELT once per keyword, plus each allowlisted RSS or Atom feed — fetched concurrently, narrowed by the pipeline's keyword/region/source filters, deduplicated by link and sorted freshest first, capped at 50 items.  A project with no stored pipeline gets a sensible default set of world feeds rather than an empty answer. A source that fails or times out is SKIPPED: the feed degrades to honest partial results and never 5xxs because one outlet was down. Reading also publishes the result to the /v1/world/stream subscribers of the same (org, project), so a dashboard's own refresh updates every open tab.
@@ -602,7 +604,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NewsResponse",
+            '200': "WorldNewsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -630,7 +632,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NewsResponse]:
+    ) -> ApiResponse[WorldNewsResponse]:
         """Returns the caller's merged world-news feed: every source their project's pipeline names — GDELT once per keyword, plus each allowlisted RSS or Atom feed — fetched concurrently, narrowed by the pipeline's keyword/region/source filters, deduplicated by link and sorted freshest first, capped at 50 items.
 
         Returns the caller's merged world-news feed: every source their project's pipeline names — GDELT once per keyword, plus each allowlisted RSS or Atom feed — fetched concurrently, narrowed by the pipeline's keyword/region/source filters, deduplicated by link and sorted freshest first, capped at 50 items.  A project with no stored pipeline gets a sensible default set of world feeds rather than an empty answer. A source that fails or times out is SKIPPED: the feed degrades to honest partial results and never 5xxs because one outlet was down. Reading also publishes the result to the /v1/world/stream subscribers of the same (org, project), so a dashboard's own refresh updates every open tab.
@@ -665,7 +667,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NewsResponse",
+            '200': "WorldNewsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -728,7 +730,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NewsResponse",
+            '200': "WorldNewsResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -770,7 +772,8 @@ class WorldApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -813,7 +816,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PipelineView:
+    ) -> WorldPipelineView:
         """Returns the caller project's news pipeline: which feeds it reads and how the merged result is filtered.
 
         Returns the caller project's news pipeline: which feeds it reads and how the merged result is filtered. A project that has never written one is answered with the built-in world feeds and `default: true`, so a fresh project sees the same feed /v1/world/news would actually serve rather than an empty configuration.
@@ -848,7 +851,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -876,7 +879,7 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PipelineView]:
+    ) -> ApiResponse[WorldPipelineView]:
         """Returns the caller project's news pipeline: which feeds it reads and how the merged result is filtered.
 
         Returns the caller project's news pipeline: which feeds it reads and how the merged result is filtered. A project that has never written one is answered with the built-in world feeds and `default: true`, so a fresh project sees the same feed /v1/world/news would actually serve rather than an empty configuration.
@@ -911,7 +914,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -974,7 +977,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1016,7 +1019,8 @@ class WorldApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1062,7 +1066,7 @@ class WorldApi:
     ) -> None:
         """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1124,7 +1128,7 @@ class WorldApi:
     ) -> ApiResponse[None]:
         """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1186,7 +1190,7 @@ class WorldApi:
     ) -> RESTResponseType:
         """Live news refreshes for the caller's org and project, as Server-Sent Events.
 
-        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 403 without one.
+        Holds the connection open as text/event-stream and pushes a `news` event — the same {items:[…]} body GET /v1/world/news answers — each time the caller's (org, project) feed refreshes, with a `: ping` heartbeat comment every 25s. Delivery is best-effort: a slow consumer is dropped on buffer overrun and reconnects, re-fetching GET /v1/world/news, which stays the source of truth. Requires a validated principal; 401 without one.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1283,7 +1287,7 @@ class WorldApi:
     @validate_call
     def put_world_pipeline(
         self,
-        pipeline_req: PipelineReq,
+        world_pipeline_req: WorldPipelineReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1296,13 +1300,13 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PipelineView:
+    ) -> WorldPipelineView:
         """Replaces the caller project's news pipeline and returns what was stored.
 
         Replaces the caller project's news pipeline and returns what was stored. It is a WHOLE replacement, not a patch: a field the request leaves out is stored empty, so sending only feeds clears the filters.  Every feed URL is validated HERE, at the write boundary — http(s) only, and the host must be on the server's allowlist — so a stored pipeline can never name a host the fetcher would later refuse, and the allowlist is one decision in one place rather than a check at each fetch.
 
-        :param pipeline_req: (required)
-        :type pipeline_req: PipelineReq
+        :param world_pipeline_req: (required)
+        :type world_pipeline_req: WorldPipelineReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1326,7 +1330,7 @@ class WorldApi:
         """ # noqa: E501
 
         _param = self._put_world_pipeline_serialize(
-            pipeline_req=pipeline_req,
+            world_pipeline_req=world_pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1334,7 +1338,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1350,7 +1354,7 @@ class WorldApi:
     @validate_call
     def put_world_pipeline_with_http_info(
         self,
-        pipeline_req: PipelineReq,
+        world_pipeline_req: WorldPipelineReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1363,13 +1367,13 @@ class WorldApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PipelineView]:
+    ) -> ApiResponse[WorldPipelineView]:
         """Replaces the caller project's news pipeline and returns what was stored.
 
         Replaces the caller project's news pipeline and returns what was stored. It is a WHOLE replacement, not a patch: a field the request leaves out is stored empty, so sending only feeds clears the filters.  Every feed URL is validated HERE, at the write boundary — http(s) only, and the host must be on the server's allowlist — so a stored pipeline can never name a host the fetcher would later refuse, and the allowlist is one decision in one place rather than a check at each fetch.
 
-        :param pipeline_req: (required)
-        :type pipeline_req: PipelineReq
+        :param world_pipeline_req: (required)
+        :type world_pipeline_req: WorldPipelineReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1393,7 +1397,7 @@ class WorldApi:
         """ # noqa: E501
 
         _param = self._put_world_pipeline_serialize(
-            pipeline_req=pipeline_req,
+            world_pipeline_req=world_pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1401,7 +1405,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1417,7 +1421,7 @@ class WorldApi:
     @validate_call
     def put_world_pipeline_without_preload_content(
         self,
-        pipeline_req: PipelineReq,
+        world_pipeline_req: WorldPipelineReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1435,8 +1439,8 @@ class WorldApi:
 
         Replaces the caller project's news pipeline and returns what was stored. It is a WHOLE replacement, not a patch: a field the request leaves out is stored empty, so sending only feeds clears the filters.  Every feed URL is validated HERE, at the write boundary — http(s) only, and the host must be on the server's allowlist — so a stored pipeline can never name a host the fetcher would later refuse, and the allowlist is one decision in one place rather than a check at each fetch.
 
-        :param pipeline_req: (required)
-        :type pipeline_req: PipelineReq
+        :param world_pipeline_req: (required)
+        :type world_pipeline_req: WorldPipelineReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1460,7 +1464,7 @@ class WorldApi:
         """ # noqa: E501
 
         _param = self._put_world_pipeline_serialize(
-            pipeline_req=pipeline_req,
+            world_pipeline_req=world_pipeline_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1468,7 +1472,7 @@ class WorldApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PipelineView",
+            '200': "WorldPipelineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1479,7 +1483,7 @@ class WorldApi:
 
     def _put_world_pipeline_serialize(
         self,
-        pipeline_req,
+        world_pipeline_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1505,15 +1509,16 @@ class WorldApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if pipeline_req is not None:
-            _body_params = pipeline_req
+        if world_pipeline_req is not None:
+            _body_params = world_pipeline_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,10 +19,10 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import List
 from typing_extensions import Annotated
-from hanzoai.cloud.models.provision_request import ProvisionRequest
-from hanzoai.cloud.models.provision_result import ProvisionResult
-from hanzoai.cloud.models.provisioned_resource import ProvisionedResource
-from hanzoai.cloud.models.provisioned_summary import ProvisionedSummary
+from hanzoai.cloud.models.provisioning_provision_request import ProvisioningProvisionRequest
+from hanzoai.cloud.models.provisioning_provision_result import ProvisioningProvisionResult
+from hanzoai.cloud.models.provisioning_provisioned_resource import ProvisioningProvisionedResource
+from hanzoai.cloud.models.provisioning_provisioned_summary import ProvisioningProvisionedSummary
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -271,6 +271,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -313,9 +320,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """DropDocDB deprovisions one Hanzo DocDB database.
+        """Deprovisions one Hanzo DocDB database.
 
-        DropDocDB deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -380,9 +387,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """DropDocDB deprovisions one Hanzo DocDB database.
+        """Deprovisions one Hanzo DocDB database.
 
-        DropDocDB deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -447,9 +454,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """DropDocDB deprovisions one Hanzo DocDB database.
+        """Deprovisions one Hanzo DocDB database.
 
-        DropDocDB deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo DocDB database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated FerretDB instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -525,6 +532,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -567,9 +581,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """DropKV deprovisions one Hanzo KV store.
+        """Deprovisions one Hanzo KV store.
 
-        DropKV deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -634,9 +648,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """DropKV deprovisions one Hanzo KV store.
+        """Deprovisions one Hanzo KV store.
 
-        DropKV deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -701,9 +715,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """DropKV deprovisions one Hanzo KV store.
+        """Deprovisions one Hanzo KV store.
 
-        DropKV deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
+        Deprovisions one Hanzo KV store. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Valkey instance, then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -779,6 +793,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1033,6 +1054,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1287,6 +1315,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1329,9 +1364,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> None:
-        """DropSQL deprovisions one Hanzo SQL database.
+        """Deprovisions one Hanzo SQL database.
 
-        DropSQL deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
+        Deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -1396,9 +1431,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[None]:
-        """DropSQL deprovisions one Hanzo SQL database.
+        """Deprovisions one Hanzo SQL database.
 
-        DropSQL deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
+        Deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -1463,9 +1498,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """DropSQL deprovisions one Hanzo SQL database.
+        """Deprovisions one Hanzo SQL database.
 
-        DropSQL deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
+        Deprovisions one Hanzo SQL database. It reverts any app instance bound to it back to Base BEFORE tearing down the org's dedicated Postgres instance — never a live app pointed at a deleted backend — then deletes the sealed credential and removes the metadata row. Answers 204 with no body; a second call is a 404, not a second delete.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -1541,6 +1576,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1795,6 +1837,13 @@ class ProvisioningApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1835,7 +1884,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
+    ) -> List[ProvisioningProvisionedSummary]:
         """Lists the caller org's Hanzo Datastore warehouses.
 
         Lists the caller org's Hanzo Datastore warehouses. Each one is a DEDICATED analytical instance the org alone runs, so the host is that instance's own in-cluster Service and the port is its HTTP port, 8123.
@@ -1870,7 +1919,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1898,7 +1947,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
         """Lists the caller org's Hanzo Datastore warehouses.
 
         Lists the caller org's Hanzo Datastore warehouses. Each one is a DEDICATED analytical instance the org alone runs, so the host is that instance's own in-cluster Service and the port is its HTTP port, 8123.
@@ -1933,7 +1982,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1996,7 +2045,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2038,7 +2087,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2082,7 +2132,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
+    ) -> ProvisioningProvisionedResource:
         """Returns one Hanzo Datastore warehouse's metadata.
 
         Returns one Hanzo Datastore warehouse's metadata. It carries the warehouse's status, its instance address and the admin user the instance booted with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than the row.
@@ -2120,7 +2170,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2149,7 +2199,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
         """Returns one Hanzo Datastore warehouse's metadata.
 
         Returns one Hanzo Datastore warehouse's metadata. It carries the warehouse's status, its instance address and the admin user the instance booted with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than the row.
@@ -2187,7 +2237,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2254,7 +2304,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2299,7 +2349,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2342,10 +2393,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
-        """ListDocDB lists the caller org's Hanzo DocDB document databases.
+    ) -> List[ProvisioningProvisionedSummary]:
+        """Lists the caller org's Hanzo DocDB document databases.
 
-        ListDocDB lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
+        Lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2377,7 +2428,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2405,10 +2456,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
-        """ListDocDB lists the caller org's Hanzo DocDB document databases.
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
+        """Lists the caller org's Hanzo DocDB document databases.
 
-        ListDocDB lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
+        Lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2440,7 +2491,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2469,9 +2520,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ListDocDB lists the caller org's Hanzo DocDB document databases.
+        """Lists the caller org's Hanzo DocDB document databases.
 
-        ListDocDB lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
+        Lists the caller org's Hanzo DocDB document databases. Each one is a DEDICATED FerretDB instance the org alone runs, speaking the MongoDB wire protocol, so the host is that instance's own in-cluster Service and the port is 27017.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2503,7 +2554,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2545,7 +2596,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2589,10 +2641,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
-        """GetDocDB returns one Hanzo DocDB database's metadata.
+    ) -> ProvisioningProvisionedResource:
+        """Returns one Hanzo DocDB database's metadata.
 
-        GetDocDB returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -2627,7 +2679,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2656,10 +2708,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
-        """GetDocDB returns one Hanzo DocDB database's metadata.
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
+        """Returns one Hanzo DocDB database's metadata.
 
-        GetDocDB returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -2694,7 +2746,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2724,9 +2776,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """GetDocDB returns one Hanzo DocDB database's metadata.
+        """Returns one Hanzo DocDB database's metadata.
 
-        GetDocDB returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo DocDB database's metadata. It carries the database's status, its instance address and the SCRAM user the instance was set up with — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -2761,7 +2813,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2806,7 +2858,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2849,10 +2902,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
-        """ListKV lists the caller org's Hanzo KV stores.
+    ) -> List[ProvisioningProvisionedSummary]:
+        """Lists the caller org's Hanzo KV stores.
 
-        ListKV lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
+        Lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2884,7 +2937,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2912,10 +2965,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
-        """ListKV lists the caller org's Hanzo KV stores.
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
+        """Lists the caller org's Hanzo KV stores.
 
-        ListKV lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
+        Lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2947,7 +3000,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2976,9 +3029,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ListKV lists the caller org's Hanzo KV stores.
+        """Lists the caller org's Hanzo KV stores.
 
-        ListKV lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
+        Lists the caller org's Hanzo KV stores. Each one is a DEDICATED Valkey instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 6379.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3010,7 +3063,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3052,7 +3105,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3096,10 +3150,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
-        """GetKV returns one Hanzo KV store's metadata.
+    ) -> ProvisioningProvisionedResource:
+        """Returns one Hanzo KV store's metadata.
 
-        GetKV returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -3134,7 +3188,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3163,10 +3217,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
-        """GetKV returns one Hanzo KV store's metadata.
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
+        """Returns one Hanzo KV store's metadata.
 
-        GetKV returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -3201,7 +3255,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3231,9 +3285,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """GetKV returns one Hanzo KV store's metadata.
+        """Returns one Hanzo KV store's metadata.
 
-        GetKV returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
+        Returns one Hanzo KV store's metadata. It carries the store's status, its instance address and the Valkey user it authenticates as (\"default\", the only user a requirepass instance has) — never the password. A still-booting instance reads \"provisioning\", reconciled from the operator's live view.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -3268,7 +3322,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3313,7 +3367,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3356,7 +3411,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
+    ) -> List[ProvisioningProvisionedSummary]:
         """Lists the caller org's object-storage buckets.
 
         Lists the caller org's object-storage buckets. A bucket lives in an already-live shared object store and is reached through the public gateway. The names here are the friendly ones the org provisioned; the physical bucket is org-namespaced underneath, which is what keeps two tenants' buckets distinct.
@@ -3391,7 +3446,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3419,7 +3474,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
         """Lists the caller org's object-storage buckets.
 
         Lists the caller org's object-storage buckets. A bucket lives in an already-live shared object store and is reached through the public gateway. The names here are the friendly ones the org provisioned; the physical bucket is org-namespaced underneath, which is what keeps two tenants' buckets distinct.
@@ -3454,7 +3509,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3517,7 +3572,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3559,7 +3614,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3603,7 +3659,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
+    ) -> ProvisioningProvisionedResource:
         """Returns one bucket's metadata.
 
         Returns one bucket's metadata. It carries the bucket's status and the gateway address it is reached at, and no username: the object store authenticates with a shared, out-of-band key rather than a per-bucket credential.
@@ -3641,7 +3697,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3670,7 +3726,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
         """Returns one bucket's metadata.
 
         Returns one bucket's metadata. It carries the bucket's status and the gateway address it is reached at, and no username: the object store authenticates with a shared, out-of-band key rather than a per-bucket credential.
@@ -3708,7 +3764,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3775,7 +3831,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3820,7 +3876,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3863,7 +3920,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
+    ) -> List[ProvisioningProvisionedSummary]:
         """Lists the caller org's search indexes.
 
         Lists the caller org's search indexes. An index is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
@@ -3898,7 +3955,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3926,7 +3983,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
         """Lists the caller org's search indexes.
 
         Lists the caller org's search indexes. An index is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
@@ -3961,7 +4018,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4024,7 +4081,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4066,7 +4123,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4110,7 +4168,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
+    ) -> ProvisioningProvisionedResource:
         """Returns one search index's metadata.
 
         Returns one search index's metadata. It carries the index's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-index credential.
@@ -4148,7 +4206,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4177,7 +4235,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
         """Returns one search index's metadata.
 
         Returns one search index's metadata. It carries the index's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-index credential.
@@ -4215,7 +4273,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4282,7 +4340,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4327,7 +4385,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4370,10 +4429,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
-        """ListSQL lists the caller org's Hanzo SQL databases.
+    ) -> List[ProvisioningProvisionedSummary]:
+        """Lists the caller org's Hanzo SQL databases.
 
-        ListSQL lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4405,7 +4464,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4433,10 +4492,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
-        """ListSQL lists the caller org's Hanzo SQL databases.
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
+        """Lists the caller org's Hanzo SQL databases.
 
-        ListSQL lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4468,7 +4527,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4497,9 +4556,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """ListSQL lists the caller org's Hanzo SQL databases.
+        """Lists the caller org's Hanzo SQL databases.
 
-        ListSQL lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
+        Lists the caller org's Hanzo SQL databases. Each one is a DEDICATED PostgreSQL instance the org alone runs, so the host is that instance's own in-cluster Service and the port is 5432.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4531,7 +4590,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4573,7 +4632,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4617,10 +4677,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
-        """GetSQL returns one Hanzo SQL database's metadata.
+    ) -> ProvisioningProvisionedResource:
+        """Returns one Hanzo SQL database's metadata.
 
-        GetSQL returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
+        Returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -4655,7 +4715,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4684,10 +4744,10 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
-        """GetSQL returns one Hanzo SQL database's metadata.
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
+        """Returns one Hanzo SQL database's metadata.
 
-        GetSQL returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
+        Returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -4722,7 +4782,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4752,9 +4812,9 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """GetSQL returns one Hanzo SQL database's metadata.
+        """Returns one Hanzo SQL database's metadata.
 
-        GetSQL returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
+        Returns one Hanzo SQL database's metadata. It carries the database's status, its instance address and the admin user Postgres booted with — never the password, which is returned once at create and otherwise lives only in Hanzo KMS. A still-booting instance reads \"provisioning\", reconciled from the operator's live view rather than from the row.
 
         :param name: Name is the resource's org-unique slug, from the path. Lower-cased and trimmed before lookup, exactly as it was at create. (required)
         :type name: str
@@ -4789,7 +4849,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4834,7 +4894,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4877,7 +4938,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[ProvisionedSummary]:
+    ) -> List[ProvisioningProvisionedSummary]:
         """Lists the caller org's vector collections.
 
         Lists the caller org's vector collections. A collection is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
@@ -4912,7 +4973,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4940,7 +5001,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[ProvisionedSummary]]:
+    ) -> ApiResponse[List[ProvisioningProvisionedSummary]]:
         """Lists the caller org's vector collections.
 
         Lists the caller org's vector collections. A collection is a logical resource inside an already-live shared backend, so every one of them is reached through the public gateway rather than at an instance of its own.
@@ -4975,7 +5036,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5038,7 +5099,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[ProvisionedSummary]",
+            '200': "List[ProvisioningProvisionedSummary]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5080,7 +5141,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5124,7 +5186,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionedResource:
+    ) -> ProvisioningProvisionedResource:
         """Returns one vector collection's metadata.
 
         Returns one vector collection's metadata. It carries the collection's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-collection credential, so there is no per-resource user to report.
@@ -5162,7 +5224,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5191,7 +5253,7 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionedResource]:
+    ) -> ApiResponse[ProvisioningProvisionedResource]:
         """Returns one vector collection's metadata.
 
         Returns one vector collection's metadata. It carries the collection's status and the gateway address it is reached at, and no username: the backend authenticates with a shared, out-of-band key rather than a per-collection credential, so there is no per-resource user to report.
@@ -5229,7 +5291,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5296,7 +5358,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProvisionedResource",
+            '200': "ProvisioningProvisionedResource",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5341,7 +5403,8 @@ class ProvisioningApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5372,7 +5435,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_datastore(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5385,13 +5448,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
+    ) -> ProvisioningProvisionResult:
         """Launches your org's OWN Hanzo Datastore instance and answers with its `datastore://` connection string.
 
         Launches your org's OWN Hanzo Datastore instance and answers with its `datastore://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5415,7 +5478,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_datastore_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5423,7 +5486,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5439,7 +5502,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_datastore_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5452,13 +5515,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
+    ) -> ApiResponse[ProvisioningProvisionResult]:
         """Launches your org's OWN Hanzo Datastore instance and answers with its `datastore://` connection string.
 
         Launches your org's OWN Hanzo Datastore instance and answers with its `datastore://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5482,7 +5545,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_datastore_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5490,7 +5553,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5506,7 +5569,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_datastore_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5524,8 +5587,8 @@ class ProvisioningApi:
 
         Launches your org's OWN Hanzo Datastore instance and answers with its `datastore://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5549,7 +5612,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_datastore_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5557,7 +5620,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5568,7 +5631,7 @@ class ProvisioningApi:
 
     def _post_provisioning_datastore_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -5594,15 +5657,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5646,7 +5710,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_docdb(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5659,13 +5723,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
-        """CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
+    ) -> ProvisioningProvisionResult:
+        """Launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
 
-        CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5689,7 +5753,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_docdb_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5697,7 +5761,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5713,7 +5777,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_docdb_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5726,13 +5790,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
-        """CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
+    ) -> ApiResponse[ProvisioningProvisionResult]:
+        """Launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
 
-        CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5756,7 +5820,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_docdb_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5764,7 +5828,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5780,7 +5844,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_docdb_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5794,12 +5858,12 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
+        """Launches your org's OWN document-database instance and answers with its `mongodb://` connection string.
 
-        CreateDocDB launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN document-database instance and answers with its `mongodb://` connection string. It speaks the MongoDB wire protocol, so existing MongoDB drivers connect unchanged.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5823,7 +5887,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_docdb_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5831,7 +5895,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5842,7 +5906,7 @@ class ProvisioningApi:
 
     def _post_provisioning_docdb_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -5868,15 +5932,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5920,7 +5985,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_kv(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5933,13 +5998,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
-        """CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.
+    ) -> ProvisioningProvisionResult:
+        """Launches your org's OWN key-value instance and answers with its `kv://` connection string.
 
-        CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5963,7 +6028,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_kv_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5971,7 +6036,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5987,7 +6052,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_kv_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6000,13 +6065,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
-        """CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.
+    ) -> ApiResponse[ProvisioningProvisionResult]:
+        """Launches your org's OWN key-value instance and answers with its `kv://` connection string.
 
-        CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6030,7 +6095,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_kv_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6038,7 +6103,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6054,7 +6119,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_kv_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6068,12 +6133,12 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.
+        """Launches your org's OWN key-value instance and answers with its `kv://` connection string.
 
-        CreateKV launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN key-value instance and answers with its `kv://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6097,7 +6162,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_kv_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6105,7 +6170,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6116,7 +6181,7 @@ class ProvisioningApi:
 
     def _post_provisioning_kv_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6142,15 +6207,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6194,7 +6260,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_s3(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6207,13 +6273,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
+    ) -> ProvisioningProvisionResult:
         """Creates an S3-compatible bucket inside the already-running shared object store and answers with the endpoint that reaches it.
 
         Creates an S3-compatible bucket inside the already-running shared object store and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6237,7 +6303,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_s3_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6245,7 +6311,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6261,7 +6327,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_s3_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6274,13 +6340,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
+    ) -> ApiResponse[ProvisioningProvisionResult]:
         """Creates an S3-compatible bucket inside the already-running shared object store and answers with the endpoint that reaches it.
 
         Creates an S3-compatible bucket inside the already-running shared object store and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6304,7 +6370,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_s3_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6312,7 +6378,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6328,7 +6394,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_s3_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6346,8 +6412,8 @@ class ProvisioningApi:
 
         Creates an S3-compatible bucket inside the already-running shared object store and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6371,7 +6437,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_s3_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6379,7 +6445,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6390,7 +6456,7 @@ class ProvisioningApi:
 
     def _post_provisioning_s3_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6416,15 +6482,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6468,7 +6535,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_search(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6481,13 +6548,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
+    ) -> ProvisioningProvisionResult:
         """Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.
 
         Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6511,7 +6578,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_search_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6519,7 +6586,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6535,7 +6602,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_search_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6548,13 +6615,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
+    ) -> ApiResponse[ProvisioningProvisionResult]:
         """Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.
 
         Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6578,7 +6645,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_search_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6586,7 +6653,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6602,7 +6669,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_search_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6620,8 +6687,8 @@ class ProvisioningApi:
 
         Creates a search index inside the already-running shared search backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6645,7 +6712,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_search_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6653,7 +6720,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6664,7 +6731,7 @@ class ProvisioningApi:
 
     def _post_provisioning_search_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6690,15 +6757,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6742,7 +6810,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_sql(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6755,13 +6823,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
-        """CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+    ) -> ProvisioningProvisionResult:
+        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
 
-        CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6785,7 +6853,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_sql_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6793,7 +6861,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6809,7 +6877,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_sql_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6822,13 +6890,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
-        """CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+    ) -> ApiResponse[ProvisioningProvisionResult]:
+        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
 
-        CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6852,7 +6920,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_sql_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6860,7 +6928,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6876,7 +6944,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_sql_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6890,12 +6958,12 @@ class ProvisioningApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
+        """Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.
 
-        CreateSQL launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
+        Launches your org's OWN PostgreSQL instance and answers with its `postgres://` connection string.  The instance is yours alone — a deployment in your own tenant namespace, so its admin credential is naturally scoped to you and no other tenant shares the process. Off-cluster, where there is no orchestrator to launch one, this fails closed with 503 rather than handing back a shared one.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6919,7 +6987,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_sql_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6927,7 +6995,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6938,7 +7006,7 @@ class ProvisioningApi:
 
     def _post_provisioning_sql_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -6964,15 +7032,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7016,7 +7085,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_vector(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7029,13 +7098,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProvisionResult:
+    ) -> ProvisioningProvisionResult:
         """Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.
 
         Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7059,7 +7128,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_vector_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7067,7 +7136,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7083,7 +7152,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_vector_with_http_info(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7096,13 +7165,13 @@ class ProvisioningApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProvisionResult]:
+    ) -> ApiResponse[ProvisioningProvisionResult]:
         """Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.
 
         Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7126,7 +7195,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_vector_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7134,7 +7203,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7150,7 +7219,7 @@ class ProvisioningApi:
     @validate_call
     def post_provisioning_vector_without_preload_content(
         self,
-        provision_request: ProvisionRequest,
+        provisioning_provision_request: ProvisioningProvisionRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7168,8 +7237,8 @@ class ProvisioningApi:
 
         Creates a vector collection inside the already-running shared vector backend and answers with the endpoint that reaches it.
 
-        :param provision_request: (required)
-        :type provision_request: ProvisionRequest
+        :param provisioning_provision_request: (required)
+        :type provisioning_provision_request: ProvisioningProvisionRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7193,7 +7262,7 @@ class ProvisioningApi:
         """ # noqa: E501
 
         _param = self._post_provisioning_vector_serialize(
-            provision_request=provision_request,
+            provisioning_provision_request=provisioning_provision_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7201,7 +7270,7 @@ class ProvisioningApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "ProvisionResult",
+            '201': "ProvisioningProvisionResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7212,7 +7281,7 @@ class ProvisioningApi:
 
     def _post_provisioning_vector_serialize(
         self,
-        provision_request,
+        provisioning_provision_request,
         _request_auth,
         _content_type,
         _headers,
@@ -7238,15 +7307,16 @@ class ProvisioningApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if provision_request is not None:
-            _body_params = provision_request
+        if provisioning_provision_request is not None:
+            _body_params = provisioning_provision_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

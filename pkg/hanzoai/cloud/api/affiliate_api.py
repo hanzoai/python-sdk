@@ -16,21 +16,21 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.affiliate_board import AffiliateBoard
-from hanzoai.cloud.models.affiliate_earnings import AffiliateEarnings
-from hanzoai.cloud.models.affiliate_links import AffiliateLinks
-from hanzoai.cloud.models.affiliate_self import AffiliateSelf
-from hanzoai.cloud.models.affiliate_standing import AffiliateStanding
-from hanzoai.cloud.models.application import Application
-from hanzoai.cloud.models.apply_request import ApplyRequest
-from hanzoai.cloud.models.attribute_request import AttributeRequest
-from hanzoai.cloud.models.attribution import Attribution
-from hanzoai.cloud.models.click_count import ClickCount
-from hanzoai.cloud.models.click_request import ClickRequest
-from hanzoai.cloud.models.create_link_request import CreateLinkRequest
-from hanzoai.cloud.models.handle_request import HandleRequest
-from hanzoai.cloud.models.handle_set import HandleSet
-from hanzoai.cloud.models.link_mint import LinkMint
+from hanzoai.cloud.models.affiliate_affiliate_board import AffiliateAffiliateBoard
+from hanzoai.cloud.models.affiliate_affiliate_earnings import AffiliateAffiliateEarnings
+from hanzoai.cloud.models.affiliate_affiliate_links import AffiliateAffiliateLinks
+from hanzoai.cloud.models.affiliate_affiliate_self import AffiliateAffiliateSelf
+from hanzoai.cloud.models.affiliate_affiliate_standing import AffiliateAffiliateStanding
+from hanzoai.cloud.models.affiliate_application import AffiliateApplication
+from hanzoai.cloud.models.affiliate_apply_request import AffiliateApplyRequest
+from hanzoai.cloud.models.affiliate_attribute_request import AffiliateAttributeRequest
+from hanzoai.cloud.models.affiliate_attribution import AffiliateAttribution
+from hanzoai.cloud.models.affiliate_click_count import AffiliateClickCount
+from hanzoai.cloud.models.affiliate_click_request import AffiliateClickRequest
+from hanzoai.cloud.models.affiliate_create_link_request import AffiliateCreateLinkRequest
+from hanzoai.cloud.models.affiliate_handle_request import AffiliateHandleRequest
+from hanzoai.cloud.models.affiliate_handle_set import AffiliateHandleSet
+from hanzoai.cloud.models.affiliate_link_mint import AffiliateLinkMint
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -65,7 +65,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AffiliateStanding:
+    ) -> AffiliateAffiliateStanding:
         """Answers the caller org's OWN affiliate standing: status, referral code and share link, commission rate, how many orgs it has referred, and its lifetime accrued, still-pending and already-paid commission in integer cents, with its payout history.
 
         Answers the caller org's OWN affiliate standing: status, referral code and share link, commission rate, how many orgs it has referred, and its lifetime accrued, still-pending and already-paid commission in integer cents, with its payout history.  An org that never applied gets an honest `isAffiliate:false` and the default rate rather than a 404 — the console renders the apply form off that answer.  The affiliate is resolved from the VALIDATED org, never from a field, so this can only ever read the caller's own row; without a principal it is refused. It is a PURE READ: nothing accrues until the sweep runs. Commission is earned on Hanzo's MARGIN, never on the referred customer's bill, so nothing here changes what that customer pays.
@@ -100,7 +100,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateStanding",
+            '200': "AffiliateAffiliateStanding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -128,7 +128,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AffiliateStanding]:
+    ) -> ApiResponse[AffiliateAffiliateStanding]:
         """Answers the caller org's OWN affiliate standing: status, referral code and share link, commission rate, how many orgs it has referred, and its lifetime accrued, still-pending and already-paid commission in integer cents, with its payout history.
 
         Answers the caller org's OWN affiliate standing: status, referral code and share link, commission rate, how many orgs it has referred, and its lifetime accrued, still-pending and already-paid commission in integer cents, with its payout history.  An org that never applied gets an honest `isAffiliate:false` and the default rate rather than a 404 — the console renders the apply form off that answer.  The affiliate is resolved from the VALIDATED org, never from a field, so this can only ever read the caller's own row; without a principal it is refused. It is a PURE READ: nothing accrues until the sweep runs. Commission is earned on Hanzo's MARGIN, never on the referred customer's bill, so nothing here changes what that customer pays.
@@ -163,7 +163,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateStanding",
+            '200': "AffiliateAffiliateStanding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -226,7 +226,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateStanding",
+            '200': "AffiliateAffiliateStanding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -268,7 +268,8 @@ class AffiliateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -311,7 +312,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AffiliateBoard:
+    ) -> AffiliateAffiliateBoard:
         """Answers the top affiliates by lifetime accrued commission, shown by OPT-IN HANDLE with aggregate figures only, plus the caller's own exact rank.
 
         Answers the top affiliates by lifetime accrued commission, shown by OPT-IN HANDLE with aggregate figures only, plus the caller's own exact rank.  It never discloses an org identity and never a referred org's usage. An affiliate that has set no handle still OCCUPIES its rank but is not listed — so opting out hides the name, not the position, and the visible board must not be read as a complete roster.  The caller's own row carries its exact GLOBAL rank, computed over the whole approved set rather than over the page, so it is right well outside the top of the board. Only an approved affiliate has a rank. Requires a validated principal; a signed-in non-affiliate may read the board but gets no personal row.
@@ -346,7 +347,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateBoard",
+            '200': "AffiliateAffiliateBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,7 +375,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AffiliateBoard]:
+    ) -> ApiResponse[AffiliateAffiliateBoard]:
         """Answers the top affiliates by lifetime accrued commission, shown by OPT-IN HANDLE with aggregate figures only, plus the caller's own exact rank.
 
         Answers the top affiliates by lifetime accrued commission, shown by OPT-IN HANDLE with aggregate figures only, plus the caller's own exact rank.  It never discloses an org identity and never a referred org's usage. An affiliate that has set no handle still OCCUPIES its rank but is not listed — so opting out hides the name, not the position, and the visible board must not be read as a complete roster.  The caller's own row carries its exact GLOBAL rank, computed over the whole approved set rather than over the page, so it is right well outside the top of the board. Only an approved affiliate has a rank. Requires a validated principal; a signed-in non-affiliate may read the board but gets no personal row.
@@ -409,7 +410,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateBoard",
+            '200': "AffiliateAffiliateBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -472,7 +473,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateBoard",
+            '200': "AffiliateAffiliateBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -514,7 +515,8 @@ class AffiliateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -557,7 +559,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AffiliateSelf:
+    ) -> AffiliateAffiliateSelf:
         """Answers the richer self-view: the same lifetime accrued, pending and paid commission and payout history, plus the caller's downline broken out by upline LEVEL — direct, second, third — each with the rate paid at that level and how many orgs sit there.
 
         Answers the richer self-view: the same lifetime accrued, pending and paid commission and payout history, plus the caller's downline broken out by upline LEVEL — direct, second, third — each with the rate paid at that level and how many orgs sit there.  Commission is MULTI-LEVEL: a referred org's spend pays up its referral chain, three levels deep and no further. The direct level is the affiliate's own negotiated rate; the second and third are platform-wide switches, read live, so the schedule shown is the one actually in force rather than one compiled in. A caller that has not applied still gets that schedule alongside `isAffiliate:false`, so the console can show what it would earn.  Scoped to the validated org and nothing else, and refused without a principal. A PURE READ — it reports the downline but accrues nothing.
@@ -592,7 +594,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateSelf",
+            '200': "AffiliateAffiliateSelf",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -620,7 +622,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AffiliateSelf]:
+    ) -> ApiResponse[AffiliateAffiliateSelf]:
         """Answers the richer self-view: the same lifetime accrued, pending and paid commission and payout history, plus the caller's downline broken out by upline LEVEL — direct, second, third — each with the rate paid at that level and how many orgs sit there.
 
         Answers the richer self-view: the same lifetime accrued, pending and paid commission and payout history, plus the caller's downline broken out by upline LEVEL — direct, second, third — each with the rate paid at that level and how many orgs sit there.  Commission is MULTI-LEVEL: a referred org's spend pays up its referral chain, three levels deep and no further. The direct level is the affiliate's own negotiated rate; the second and third are platform-wide switches, read live, so the schedule shown is the one actually in force rather than one compiled in. A caller that has not applied still gets that schedule alongside `isAffiliate:false`, so the console can show what it would earn.  Scoped to the validated org and nothing else, and refused without a principal. A PURE READ — it reports the downline but accrues nothing.
@@ -655,7 +657,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateSelf",
+            '200': "AffiliateAffiliateSelf",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -718,7 +720,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateSelf",
+            '200': "AffiliateAffiliateSelf",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -760,7 +762,8 @@ class AffiliateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -803,7 +806,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AffiliateEarnings:
+    ) -> AffiliateAffiliateEarnings:
         """Answers the caller's own commission ledger: per period, the margin it earned against and the commission taken from that margin; and per referred org, that referral's aggregate contribution.
 
         Answers the caller's own commission ledger: per period, the margin it earned against and the commission taken from that margin; and per referred org, that referral's aggregate contribution. Integer cents throughout.  The per-org view deliberately carries the affiliate's OWN earned share and NOT the referred org's spend or margin. An affiliate is entitled to what it earned, not to a restatement of its customer's usage — the period view is where the margin base appears, aggregated across every referral.  Scoped server-side to the validated caller's affiliate; a caller that is not one gets `isAffiliate:false`.
@@ -838,7 +841,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateEarnings",
+            '200': "AffiliateAffiliateEarnings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -866,7 +869,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AffiliateEarnings]:
+    ) -> ApiResponse[AffiliateAffiliateEarnings]:
         """Answers the caller's own commission ledger: per period, the margin it earned against and the commission taken from that margin; and per referred org, that referral's aggregate contribution.
 
         Answers the caller's own commission ledger: per period, the margin it earned against and the commission taken from that margin; and per referred org, that referral's aggregate contribution. Integer cents throughout.  The per-org view deliberately carries the affiliate's OWN earned share and NOT the referred org's spend or margin. An affiliate is entitled to what it earned, not to a restatement of its customer's usage — the period view is where the margin base appears, aggregated across every referral.  Scoped server-side to the validated caller's affiliate; a caller that is not one gets `isAffiliate:false`.
@@ -901,7 +904,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateEarnings",
+            '200': "AffiliateAffiliateEarnings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -964,7 +967,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateEarnings",
+            '200': "AffiliateAffiliateEarnings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1006,7 +1009,8 @@ class AffiliateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1049,7 +1053,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AffiliateLinks:
+    ) -> AffiliateAffiliateLinks:
         """Answers the caller's share links, each with its URL and its funnel: clicks tracked, signups — orgs attributed with that code — and conversions, meaning how many of those signups have actually produced commission.
 
         Answers the caller's share links, each with its URL and its funnel: clicks tracked, signups — orgs attributed with that code — and conversions, meaning how many of those signups have actually produced commission.  Signups and conversions are DERIVED from the commission ledger and never stored, so they cannot drift from the money. Clicks are the one stored counter and the one that is pure vanity.  Any pending public click pings are folded into the store before the read, in one batch — which is how the counters stay current without a database write per click. Scoped to the validated caller's own affiliate; a non-affiliate gets `isAffiliate:false` and the link cap.
@@ -1084,7 +1088,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateLinks",
+            '200': "AffiliateAffiliateLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1112,7 +1116,7 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AffiliateLinks]:
+    ) -> ApiResponse[AffiliateAffiliateLinks]:
         """Answers the caller's share links, each with its URL and its funnel: clicks tracked, signups — orgs attributed with that code — and conversions, meaning how many of those signups have actually produced commission.
 
         Answers the caller's share links, each with its URL and its funnel: clicks tracked, signups — orgs attributed with that code — and conversions, meaning how many of those signups have actually produced commission.  Signups and conversions are DERIVED from the commission ledger and never stored, so they cannot drift from the money. Clicks are the one stored counter and the one that is pure vanity.  Any pending public click pings are folded into the store before the read, in one batch — which is how the counters stay current without a database write per click. Scoped to the validated caller's own affiliate; a non-affiliate gets `isAffiliate:false` and the link cap.
@@ -1147,7 +1151,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateLinks",
+            '200': "AffiliateAffiliateLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1210,7 +1214,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AffiliateLinks",
+            '200': "AffiliateAffiliateLinks",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1252,7 +1256,8 @@ class AffiliateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1283,7 +1288,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_apply(
         self,
-        apply_request: ApplyRequest,
+        affiliate_apply_request: AffiliateApplyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1296,13 +1301,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Application:
+    ) -> AffiliateApplication:
         """Enrolls the caller's OWN org as an affiliate at status `applied`, optionally requesting a vanity code, and answers the record — 201 on the first apply, 200 with `created:false` afterwards.
 
         Enrolls the caller's OWN org as an affiliate at status `applied`, optionally requesting a vanity code, and answers the record — 201 on the first apply, 200 with `created:false` afterwards.  IDEMPOTENT, first apply wins: one affiliate per org, so re-applying never creates a second row and never resets an existing approval. Applying is not joining — no code is minted and nothing accrues until staff approve, which is where both the code and the commission rate come from.  The org is the validated caller's, never a field. A malformed vanity code is refused up front; the code is only REQUESTED here, and approval may mint a different one if the requested code is taken.
 
-        :param apply_request: (required)
-        :type apply_request: ApplyRequest
+        :param affiliate_apply_request: (required)
+        :type affiliate_apply_request: AffiliateApplyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1326,7 +1331,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_apply_serialize(
-            apply_request=apply_request,
+            affiliate_apply_request=affiliate_apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1334,8 +1339,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
-            '201': "Application",
+            '200': "AffiliateApplication",
+            '201': "AffiliateApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1351,7 +1356,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_apply_with_http_info(
         self,
-        apply_request: ApplyRequest,
+        affiliate_apply_request: AffiliateApplyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1364,13 +1369,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Application]:
+    ) -> ApiResponse[AffiliateApplication]:
         """Enrolls the caller's OWN org as an affiliate at status `applied`, optionally requesting a vanity code, and answers the record — 201 on the first apply, 200 with `created:false` afterwards.
 
         Enrolls the caller's OWN org as an affiliate at status `applied`, optionally requesting a vanity code, and answers the record — 201 on the first apply, 200 with `created:false` afterwards.  IDEMPOTENT, first apply wins: one affiliate per org, so re-applying never creates a second row and never resets an existing approval. Applying is not joining — no code is minted and nothing accrues until staff approve, which is where both the code and the commission rate come from.  The org is the validated caller's, never a field. A malformed vanity code is refused up front; the code is only REQUESTED here, and approval may mint a different one if the requested code is taken.
 
-        :param apply_request: (required)
-        :type apply_request: ApplyRequest
+        :param affiliate_apply_request: (required)
+        :type affiliate_apply_request: AffiliateApplyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1394,7 +1399,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_apply_serialize(
-            apply_request=apply_request,
+            affiliate_apply_request=affiliate_apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1402,8 +1407,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
-            '201': "Application",
+            '200': "AffiliateApplication",
+            '201': "AffiliateApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1419,7 +1424,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_apply_without_preload_content(
         self,
-        apply_request: ApplyRequest,
+        affiliate_apply_request: AffiliateApplyRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1437,8 +1442,8 @@ class AffiliateApi:
 
         Enrolls the caller's OWN org as an affiliate at status `applied`, optionally requesting a vanity code, and answers the record — 201 on the first apply, 200 with `created:false` afterwards.  IDEMPOTENT, first apply wins: one affiliate per org, so re-applying never creates a second row and never resets an existing approval. Applying is not joining — no code is minted and nothing accrues until staff approve, which is where both the code and the commission rate come from.  The org is the validated caller's, never a field. A malformed vanity code is refused up front; the code is only REQUESTED here, and approval may mint a different one if the requested code is taken.
 
-        :param apply_request: (required)
-        :type apply_request: ApplyRequest
+        :param affiliate_apply_request: (required)
+        :type affiliate_apply_request: AffiliateApplyRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1462,7 +1467,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_apply_serialize(
-            apply_request=apply_request,
+            affiliate_apply_request=affiliate_apply_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1470,8 +1475,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Application",
-            '201': "Application",
+            '200': "AffiliateApplication",
+            '201': "AffiliateApplication",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1482,7 +1487,7 @@ class AffiliateApi:
 
     def _post_affiliate_apply_serialize(
         self,
-        apply_request,
+        affiliate_apply_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1508,15 +1513,16 @@ class AffiliateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if apply_request is not None:
-            _body_params = apply_request
+        if affiliate_apply_request is not None:
+            _body_params = affiliate_apply_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1560,7 +1566,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_attribute(
         self,
-        attribute_request: AttributeRequest,
+        affiliate_attribute_request: AffiliateAttributeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1573,13 +1579,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Attribution:
+    ) -> AffiliateAttribution:
         """Records the first-touch edge every later commission is computed from: the caller's org was referred by the affiliate that owns this code.
 
         Records the first-touch edge every later commission is computed from: the caller's org was referred by the affiliate that owns this code.  The REFERRED org is the validated caller, never a field. A caller that could name the referred org could attach itself to somebody else's revenue. The affiliate is resolved from the code, and only an APPROVED affiliate's code resolves.  FIRST TOUCH WINS, set once: one affiliate per referred org, so a re-post answers the existing edge with `created:false` rather than moving the attribution. Self-attribution is refused, and so is a code that would make a cycle in the upline chain. An unknown code is a 404, deliberately: an affiliate code IS a public shareable link, so whether one is real is public by design, and the caller legitimately needs to know its link resolved.  A user-level mirror of the edge is written best-effort; a conflict there never fails the org attribution, which is the money-bearing one.
 
-        :param attribute_request: (required)
-        :type attribute_request: AttributeRequest
+        :param affiliate_attribute_request: (required)
+        :type affiliate_attribute_request: AffiliateAttributeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1603,7 +1609,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_attribute_serialize(
-            attribute_request=attribute_request,
+            affiliate_attribute_request=affiliate_attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1611,8 +1617,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Attribution",
-            '201': "Attribution",
+            '200': "AffiliateAttribution",
+            '201': "AffiliateAttribution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1628,7 +1634,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_attribute_with_http_info(
         self,
-        attribute_request: AttributeRequest,
+        affiliate_attribute_request: AffiliateAttributeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1641,13 +1647,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Attribution]:
+    ) -> ApiResponse[AffiliateAttribution]:
         """Records the first-touch edge every later commission is computed from: the caller's org was referred by the affiliate that owns this code.
 
         Records the first-touch edge every later commission is computed from: the caller's org was referred by the affiliate that owns this code.  The REFERRED org is the validated caller, never a field. A caller that could name the referred org could attach itself to somebody else's revenue. The affiliate is resolved from the code, and only an APPROVED affiliate's code resolves.  FIRST TOUCH WINS, set once: one affiliate per referred org, so a re-post answers the existing edge with `created:false` rather than moving the attribution. Self-attribution is refused, and so is a code that would make a cycle in the upline chain. An unknown code is a 404, deliberately: an affiliate code IS a public shareable link, so whether one is real is public by design, and the caller legitimately needs to know its link resolved.  A user-level mirror of the edge is written best-effort; a conflict there never fails the org attribution, which is the money-bearing one.
 
-        :param attribute_request: (required)
-        :type attribute_request: AttributeRequest
+        :param affiliate_attribute_request: (required)
+        :type affiliate_attribute_request: AffiliateAttributeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1671,7 +1677,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_attribute_serialize(
-            attribute_request=attribute_request,
+            affiliate_attribute_request=affiliate_attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1679,8 +1685,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Attribution",
-            '201': "Attribution",
+            '200': "AffiliateAttribution",
+            '201': "AffiliateAttribution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1696,7 +1702,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_attribute_without_preload_content(
         self,
-        attribute_request: AttributeRequest,
+        affiliate_attribute_request: AffiliateAttributeRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1714,8 +1720,8 @@ class AffiliateApi:
 
         Records the first-touch edge every later commission is computed from: the caller's org was referred by the affiliate that owns this code.  The REFERRED org is the validated caller, never a field. A caller that could name the referred org could attach itself to somebody else's revenue. The affiliate is resolved from the code, and only an APPROVED affiliate's code resolves.  FIRST TOUCH WINS, set once: one affiliate per referred org, so a re-post answers the existing edge with `created:false` rather than moving the attribution. Self-attribution is refused, and so is a code that would make a cycle in the upline chain. An unknown code is a 404, deliberately: an affiliate code IS a public shareable link, so whether one is real is public by design, and the caller legitimately needs to know its link resolved.  A user-level mirror of the edge is written best-effort; a conflict there never fails the org attribution, which is the money-bearing one.
 
-        :param attribute_request: (required)
-        :type attribute_request: AttributeRequest
+        :param affiliate_attribute_request: (required)
+        :type affiliate_attribute_request: AffiliateAttributeRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1739,7 +1745,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_attribute_serialize(
-            attribute_request=attribute_request,
+            affiliate_attribute_request=affiliate_attribute_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1747,8 +1753,8 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Attribution",
-            '201': "Attribution",
+            '200': "AffiliateAttribution",
+            '201': "AffiliateAttribution",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1759,7 +1765,7 @@ class AffiliateApi:
 
     def _post_affiliate_attribute_serialize(
         self,
-        attribute_request,
+        affiliate_attribute_request,
         _request_auth,
         _content_type,
         _headers,
@@ -1785,15 +1791,16 @@ class AffiliateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if attribute_request is not None:
-            _body_params = attribute_request
+        if affiliate_attribute_request is not None:
+            _body_params = affiliate_attribute_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1837,7 +1844,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_click(
         self,
-        click_request: ClickRequest,
+        affiliate_click_request: AffiliateClickRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1850,13 +1857,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClickCount:
+    ) -> AffiliateClickCount:
         """Counts a click on a share link.
 
         Counts a click on a share link. PUBLIC — it takes no principal, because a visitor clicking a shareable link has no session yet.  The ping folds into an in-memory buffer and NEVER writes the money database synchronously, so a click flood cannot contend with the accrual and payout write path; tallies are flushed in one batch on the next authenticated links read and at shutdown. Clicks are a vanity metric: no accrual and no payout ever reads them — those key on real metered spend — so click inflation cannot move money.  Any well-formed code is accepted WITHOUT checking that it exists, deliberately: this is not a code-existence oracle. `counted` reports that the buffer took the ping, not that the code is real; an unknown code simply no-ops at flush time.
 
-        :param click_request: (required)
-        :type click_request: ClickRequest
+        :param affiliate_click_request: (required)
+        :type affiliate_click_request: AffiliateClickRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1880,7 +1887,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_click_serialize(
-            click_request=click_request,
+            affiliate_click_request=affiliate_click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1888,7 +1895,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClickCount",
+            '200': "AffiliateClickCount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1904,7 +1911,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_click_with_http_info(
         self,
-        click_request: ClickRequest,
+        affiliate_click_request: AffiliateClickRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1917,13 +1924,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClickCount]:
+    ) -> ApiResponse[AffiliateClickCount]:
         """Counts a click on a share link.
 
         Counts a click on a share link. PUBLIC — it takes no principal, because a visitor clicking a shareable link has no session yet.  The ping folds into an in-memory buffer and NEVER writes the money database synchronously, so a click flood cannot contend with the accrual and payout write path; tallies are flushed in one batch on the next authenticated links read and at shutdown. Clicks are a vanity metric: no accrual and no payout ever reads them — those key on real metered spend — so click inflation cannot move money.  Any well-formed code is accepted WITHOUT checking that it exists, deliberately: this is not a code-existence oracle. `counted` reports that the buffer took the ping, not that the code is real; an unknown code simply no-ops at flush time.
 
-        :param click_request: (required)
-        :type click_request: ClickRequest
+        :param affiliate_click_request: (required)
+        :type affiliate_click_request: AffiliateClickRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1947,7 +1954,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_click_serialize(
-            click_request=click_request,
+            affiliate_click_request=affiliate_click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1955,7 +1962,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClickCount",
+            '200': "AffiliateClickCount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1971,7 +1978,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_click_without_preload_content(
         self,
-        click_request: ClickRequest,
+        affiliate_click_request: AffiliateClickRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1989,8 +1996,8 @@ class AffiliateApi:
 
         Counts a click on a share link. PUBLIC — it takes no principal, because a visitor clicking a shareable link has no session yet.  The ping folds into an in-memory buffer and NEVER writes the money database synchronously, so a click flood cannot contend with the accrual and payout write path; tallies are flushed in one batch on the next authenticated links read and at shutdown. Clicks are a vanity metric: no accrual and no payout ever reads them — those key on real metered spend — so click inflation cannot move money.  Any well-formed code is accepted WITHOUT checking that it exists, deliberately: this is not a code-existence oracle. `counted` reports that the buffer took the ping, not that the code is real; an unknown code simply no-ops at flush time.
 
-        :param click_request: (required)
-        :type click_request: ClickRequest
+        :param affiliate_click_request: (required)
+        :type affiliate_click_request: AffiliateClickRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2014,7 +2021,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_click_serialize(
-            click_request=click_request,
+            affiliate_click_request=affiliate_click_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2022,7 +2029,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClickCount",
+            '200': "AffiliateClickCount",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2033,7 +2040,7 @@ class AffiliateApi:
 
     def _post_affiliate_click_serialize(
         self,
-        click_request,
+        affiliate_click_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2059,15 +2066,16 @@ class AffiliateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if click_request is not None:
-            _body_params = click_request
+        if affiliate_click_request is not None:
+            _body_params = affiliate_click_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2111,7 +2119,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_handle(
         self,
-        handle_request: HandleRequest,
+        affiliate_handle_request: AffiliateHandleRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2124,13 +2132,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HandleSet:
+    ) -> AffiliateHandleSet:
         """Sets the caller's public leaderboard display name, or clears it.
 
         Sets the caller's public leaderboard display name, or clears it.  The handle IS the opt-in. An empty handle opts out: the affiliate keeps its rank and can still see its own row, it simply stops being listed to anyone else. That is the whole privacy control — there is no separate visibility flag, and no way to be listed without choosing a name.  Requires a validated principal and an existing affiliate record; apply first. The handle is bounded and restricted to letters, digits, space, hyphen, underscore and dot.
 
-        :param handle_request: (required)
-        :type handle_request: HandleRequest
+        :param affiliate_handle_request: (required)
+        :type affiliate_handle_request: AffiliateHandleRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2154,7 +2162,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_handle_serialize(
-            handle_request=handle_request,
+            affiliate_handle_request=affiliate_handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2162,7 +2170,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HandleSet",
+            '200': "AffiliateHandleSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2178,7 +2186,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_handle_with_http_info(
         self,
-        handle_request: HandleRequest,
+        affiliate_handle_request: AffiliateHandleRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2191,13 +2199,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HandleSet]:
+    ) -> ApiResponse[AffiliateHandleSet]:
         """Sets the caller's public leaderboard display name, or clears it.
 
         Sets the caller's public leaderboard display name, or clears it.  The handle IS the opt-in. An empty handle opts out: the affiliate keeps its rank and can still see its own row, it simply stops being listed to anyone else. That is the whole privacy control — there is no separate visibility flag, and no way to be listed without choosing a name.  Requires a validated principal and an existing affiliate record; apply first. The handle is bounded and restricted to letters, digits, space, hyphen, underscore and dot.
 
-        :param handle_request: (required)
-        :type handle_request: HandleRequest
+        :param affiliate_handle_request: (required)
+        :type affiliate_handle_request: AffiliateHandleRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2221,7 +2229,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_handle_serialize(
-            handle_request=handle_request,
+            affiliate_handle_request=affiliate_handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2229,7 +2237,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HandleSet",
+            '200': "AffiliateHandleSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2245,7 +2253,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_handle_without_preload_content(
         self,
-        handle_request: HandleRequest,
+        affiliate_handle_request: AffiliateHandleRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2263,8 +2271,8 @@ class AffiliateApi:
 
         Sets the caller's public leaderboard display name, or clears it.  The handle IS the opt-in. An empty handle opts out: the affiliate keeps its rank and can still see its own row, it simply stops being listed to anyone else. That is the whole privacy control — there is no separate visibility flag, and no way to be listed without choosing a name.  Requires a validated principal and an existing affiliate record; apply first. The handle is bounded and restricted to letters, digits, space, hyphen, underscore and dot.
 
-        :param handle_request: (required)
-        :type handle_request: HandleRequest
+        :param affiliate_handle_request: (required)
+        :type affiliate_handle_request: AffiliateHandleRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2288,7 +2296,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_handle_serialize(
-            handle_request=handle_request,
+            affiliate_handle_request=affiliate_handle_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2296,7 +2304,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HandleSet",
+            '200': "AffiliateHandleSet",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2307,7 +2315,7 @@ class AffiliateApi:
 
     def _post_affiliate_me_handle_serialize(
         self,
-        handle_request,
+        affiliate_handle_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2333,15 +2341,16 @@ class AffiliateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if handle_request is not None:
-            _body_params = handle_request
+        if affiliate_handle_request is not None:
+            _body_params = affiliate_handle_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2385,7 +2394,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_links(
         self,
-        create_link_request: CreateLinkRequest,
+        affiliate_create_link_request: AffiliateCreateLinkRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2398,13 +2407,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinkMint:
+    ) -> AffiliateLinkMint:
         """Mints a new share link for the caller's own affiliate and answers it with its full URL, 201.
 
         Mints a new share link for the caller's own affiliate and answers it with its full URL, 201.  APPROVAL IS REQUIRED: an org that has applied but is not approved is refused, because a link that cannot accrue is a link that quietly loses the referral. A requested vanity code must be valid and free across the WHOLE directory — codes are one global namespace, so a taken code is a 409 rather than a silent alias. Omit the code and a random one is minted.  Bounded per affiliate. The label is cosmetic: it is trimmed, stripped of control characters and capped, and it is never part of a code.
 
-        :param create_link_request: (required)
-        :type create_link_request: CreateLinkRequest
+        :param affiliate_create_link_request: (required)
+        :type affiliate_create_link_request: AffiliateCreateLinkRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2428,7 +2437,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_links_serialize(
-            create_link_request=create_link_request,
+            affiliate_create_link_request=affiliate_create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2436,7 +2445,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkMint",
+            '201': "AffiliateLinkMint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2452,7 +2461,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_links_with_http_info(
         self,
-        create_link_request: CreateLinkRequest,
+        affiliate_create_link_request: AffiliateCreateLinkRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2465,13 +2474,13 @@ class AffiliateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinkMint]:
+    ) -> ApiResponse[AffiliateLinkMint]:
         """Mints a new share link for the caller's own affiliate and answers it with its full URL, 201.
 
         Mints a new share link for the caller's own affiliate and answers it with its full URL, 201.  APPROVAL IS REQUIRED: an org that has applied but is not approved is refused, because a link that cannot accrue is a link that quietly loses the referral. A requested vanity code must be valid and free across the WHOLE directory — codes are one global namespace, so a taken code is a 409 rather than a silent alias. Omit the code and a random one is minted.  Bounded per affiliate. The label is cosmetic: it is trimmed, stripped of control characters and capped, and it is never part of a code.
 
-        :param create_link_request: (required)
-        :type create_link_request: CreateLinkRequest
+        :param affiliate_create_link_request: (required)
+        :type affiliate_create_link_request: AffiliateCreateLinkRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2495,7 +2504,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_links_serialize(
-            create_link_request=create_link_request,
+            affiliate_create_link_request=affiliate_create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2503,7 +2512,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkMint",
+            '201': "AffiliateLinkMint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2519,7 +2528,7 @@ class AffiliateApi:
     @validate_call
     def post_affiliate_me_links_without_preload_content(
         self,
-        create_link_request: CreateLinkRequest,
+        affiliate_create_link_request: AffiliateCreateLinkRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2537,8 +2546,8 @@ class AffiliateApi:
 
         Mints a new share link for the caller's own affiliate and answers it with its full URL, 201.  APPROVAL IS REQUIRED: an org that has applied but is not approved is refused, because a link that cannot accrue is a link that quietly loses the referral. A requested vanity code must be valid and free across the WHOLE directory — codes are one global namespace, so a taken code is a 409 rather than a silent alias. Omit the code and a random one is minted.  Bounded per affiliate. The label is cosmetic: it is trimmed, stripped of control characters and capped, and it is never part of a code.
 
-        :param create_link_request: (required)
-        :type create_link_request: CreateLinkRequest
+        :param affiliate_create_link_request: (required)
+        :type affiliate_create_link_request: AffiliateCreateLinkRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2562,7 +2571,7 @@ class AffiliateApi:
         """ # noqa: E501
 
         _param = self._post_affiliate_me_links_serialize(
-            create_link_request=create_link_request,
+            affiliate_create_link_request=affiliate_create_link_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2570,7 +2579,7 @@ class AffiliateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkMint",
+            '201': "AffiliateLinkMint",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2581,7 +2590,7 @@ class AffiliateApi:
 
     def _post_affiliate_me_links_serialize(
         self,
-        create_link_request,
+        affiliate_create_link_request,
         _request_auth,
         _content_type,
         _headers,
@@ -2607,15 +2616,16 @@ class AffiliateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_link_request is not None:
-            _body_params = create_link_request
+        if affiliate_create_link_request is not None:
+            _body_params = affiliate_create_link_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

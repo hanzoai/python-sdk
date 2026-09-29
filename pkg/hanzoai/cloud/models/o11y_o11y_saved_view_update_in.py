@@ -20,7 +20,7 @@ import json
 from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.o11y_composite_query import O11yCompositeQuery
+from hanzoai.cloud.models.o11y_v3_composite_query import O11yV3CompositeQuery
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,7 +29,7 @@ class O11yO11ySavedViewUpdateIn(BaseModel):
     O11yO11ySavedViewUpdateIn
     """ # noqa: E501
     category: Optional[StrictStr] = None
-    composite_query: Optional[O11yCompositeQuery] = Field(default=None, alias="compositeQuery")
+    composite_query: Optional[O11yV3CompositeQuery] = Field(default=None, alias="compositeQuery")
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
     created_by: Optional[StrictStr] = Field(default=None, alias="createdBy")
     extra_data: Optional[StrictStr] = Field(default=None, alias="extraData")
@@ -102,7 +102,7 @@ class O11yO11ySavedViewUpdateIn(BaseModel):
 
         _obj = cls.model_validate({
             "category": obj.get("category"),
-            "compositeQuery": O11yCompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
+            "compositeQuery": O11yV3CompositeQuery.from_dict(obj["compositeQuery"]) if obj.get("compositeQuery") is not None else None,
             "createdAt": obj.get("createdAt"),
             "createdBy": obj.get("createdBy"),
             "extraData": obj.get("extraData"),

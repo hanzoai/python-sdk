@@ -19,41 +19,43 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Any, List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.accounts import Accounts
-from hanzoai.cloud.models.alert import Alert
-from hanzoai.cloud.models.alert_patch import AlertPatch
-from hanzoai.cloud.models.alert_spec import AlertSpec
-from hanzoai.cloud.models.auto_recharge import AutoRecharge
-from hanzoai.cloud.models.auto_recharge_edit import AutoRechargeEdit
-from hanzoai.cloud.models.billing_account import BillingAccount
-from hanzoai.cloud.models.cap_verdict import CapVerdict
-from hanzoai.cloud.models.charged import Charged
-from hanzoai.cloud.models.collected import Collected
-from hanzoai.cloud.models.credit_balance import CreditBalance
-from hanzoai.cloud.models.credit_grants import CreditGrants
-from hanzoai.cloud.models.crypto_asset import CryptoAsset
-from hanzoai.cloud.models.crypto_deposit import CryptoDeposit
-from hanzoai.cloud.models.crypto_options import CryptoOptions
-from hanzoai.cloud.models.detachment import Detachment
-from hanzoai.cloud.models.finance_ledger_entry import FinanceLedgerEntry
-from hanzoai.cloud.models.holder import Holder
-from hanzoai.cloud.models.invoice import Invoice
-from hanzoai.cloud.models.invoices import Invoices
-from hanzoai.cloud.models.mode import Mode
-from hanzoai.cloud.models.mode_in import ModeIn
-from hanzoai.cloud.models.payment_config import PaymentConfig
-from hanzoai.cloud.models.payout import Payout
-from hanzoai.cloud.models.raise_in import RaiseIn
-from hanzoai.cloud.models.recharge import Recharge
-from hanzoai.cloud.models.rollup import Rollup
-from hanzoai.cloud.models.subscription import Subscription
-from hanzoai.cloud.models.subscription_ref import SubscriptionRef
-from hanzoai.cloud.models.subscriptions import Subscriptions
-from hanzoai.cloud.models.tier import Tier
-from hanzoai.cloud.models.topup_in import TopupIn
-from hanzoai.cloud.models.transaction import Transaction
-from hanzoai.cloud.models.transactions import Transactions
-from hanzoai.cloud.models.wire_instructions import WireInstructions
+from hanzoai.cloud.models.billing_accounts import BillingAccounts
+from hanzoai.cloud.models.billing_alert import BillingAlert
+from hanzoai.cloud.models.billing_alert_patch import BillingAlertPatch
+from hanzoai.cloud.models.billing_alert_spec import BillingAlertSpec
+from hanzoai.cloud.models.billing_auto_recharge import BillingAutoRecharge
+from hanzoai.cloud.models.billing_auto_recharge_edit import BillingAutoRechargeEdit
+from hanzoai.cloud.models.billing_billing_account import BillingBillingAccount
+from hanzoai.cloud.models.billing_cap_verdict import BillingCapVerdict
+from hanzoai.cloud.models.billing_charged import BillingCharged
+from hanzoai.cloud.models.billing_collected import BillingCollected
+from hanzoai.cloud.models.billing_credit_balance import BillingCreditBalance
+from hanzoai.cloud.models.billing_credit_grants import BillingCreditGrants
+from hanzoai.cloud.models.billing_crypto_asset import BillingCryptoAsset
+from hanzoai.cloud.models.billing_crypto_deposit import BillingCryptoDeposit
+from hanzoai.cloud.models.billing_crypto_options import BillingCryptoOptions
+from hanzoai.cloud.models.billing_detachment import BillingDetachment
+from hanzoai.cloud.models.billing_finance_ledger_entry import BillingFinanceLedgerEntry
+from hanzoai.cloud.models.billing_holder import BillingHolder
+from hanzoai.cloud.models.billing_invoice import BillingInvoice
+from hanzoai.cloud.models.billing_invoices import BillingInvoices
+from hanzoai.cloud.models.billing_mode import BillingMode
+from hanzoai.cloud.models.billing_mode_in import BillingModeIn
+from hanzoai.cloud.models.billing_payment_config import BillingPaymentConfig
+from hanzoai.cloud.models.billing_payout import BillingPayout
+from hanzoai.cloud.models.billing_raise_in import BillingRaiseIn
+from hanzoai.cloud.models.billing_recharge import BillingRecharge
+from hanzoai.cloud.models.billing_rollup import BillingRollup
+from hanzoai.cloud.models.billing_subscription import BillingSubscription
+from hanzoai.cloud.models.billing_subscription_ref import BillingSubscriptionRef
+from hanzoai.cloud.models.billing_subscriptions import BillingSubscriptions
+from hanzoai.cloud.models.billing_tier import BillingTier
+from hanzoai.cloud.models.billing_topup_in import BillingTopupIn
+from hanzoai.cloud.models.billing_transaction import BillingTransaction
+from hanzoai.cloud.models.billing_transactions import BillingTransactions
+from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt
+from hanzoai.cloud.models.billing_usage_report import BillingUsageReport
+from hanzoai.cloud.models.billing_wire_instructions import BillingWireInstructions
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -77,7 +79,7 @@ class BillingApi:
     def cancel_subscription(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -90,15 +92,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Subscription:
+    ) -> BillingSubscription:
         """End a subscription
 
         Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  A subscription from another org is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -123,7 +125,7 @@ class BillingApi:
 
         _param = self._cancel_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -131,7 +133,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -148,7 +150,7 @@ class BillingApi:
     def cancel_subscription_with_http_info(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -161,15 +163,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Subscription]:
+    ) -> ApiResponse[BillingSubscription]:
         """End a subscription
 
         Ends a subscription.  It cancels at the END OF THE PAID PERIOD by default, because a customer who cancels has already paid for the period they are in and taking it away is taking money for nothing. `atPeriodEnd: false` ends it at once, which is the caller asking for that.  A subscription from another org is not found rather than refused, so an id cannot be probed for existence.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -194,7 +196,7 @@ class BillingApi:
 
         _param = self._cancel_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -202,7 +204,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -219,7 +221,7 @@ class BillingApi:
     def cancel_subscription_without_preload_content(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -239,8 +241,8 @@ class BillingApi:
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -265,7 +267,7 @@ class BillingApi:
 
         _param = self._cancel_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -273,7 +275,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -285,7 +287,7 @@ class BillingApi:
     def _cancel_subscription_serialize(
         self,
         id,
-        subscription_ref,
+        billing_subscription_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -313,15 +315,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if subscription_ref is not None:
-            _body_params = subscription_ref
+        if billing_subscription_ref is not None:
+            _body_params = billing_subscription_ref
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -378,10 +381,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Collected:
+    ) -> BillingCollected:
         """Collect an issued invoice from credits, balance, then card
 
-        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs. It spends the named customer's money, so it is the org admin's act; a member is refused 403.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -416,7 +419,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Collected",
+            '200': "BillingCollected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -445,10 +448,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Collected]:
+    ) -> ApiResponse[BillingCollected]:
         """Collect an issued invoice from credits, balance, then card
 
-        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs. It spends the named customer's money, so it is the org admin's act; a member is refused 403.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -483,7 +486,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Collected",
+            '200': "BillingCollected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -515,7 +518,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Collect an issued invoice from credits, balance, then card
 
-        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Collects an issued invoice: credit grants first, then prepaid balance, then the card on file — the same waterfall the dunning workflow runs. It spends the named customer's money, so it is the org admin's act; a member is refused 403.  A DECLINE IS NOT AN ERROR. It answers with paid=false, a reason, and the invoice still open, because a declined collection is a normal business outcome that must remain retryable — and because sealing it as a failure would wedge dunning behind a replayed decline. Only a successful collection is sealed, so a retry of a paid invoice replays the receipt instead of charging again.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -550,7 +553,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Collected",
+            '200': "BillingCollected",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -595,7 +598,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -852,6 +856,13 @@ class BillingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -893,7 +904,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Detachment:
+    ) -> BillingDetachment:
         """Removes one card or account the caller has saved.
 
         Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
@@ -931,7 +942,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -960,7 +971,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Detachment]:
+    ) -> ApiResponse[BillingDetachment]:
         """Removes one card or account the caller has saved.
 
         Removes one card or account the caller has saved.  It detaches only the CALLER'S own — the wallet this request bills from, resolved server-side — so an id belonging to another customer of the same org is not something this operation can reach. A platform or service caller detaches on the subject's behalf, and that authority is decided HERE, where the credential is, and travels as a value: authority decided twice is authority that eventually disagrees with itself.  The card is vaulted at the processor, so what goes is our token for it.
@@ -998,7 +1009,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1065,7 +1076,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1110,7 +1121,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1154,10 +1166,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Detachment:
-        """DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by.
+    ) -> BillingDetachment:
+        """Removes one card or account the caller has saved, at the address a hosted checkout reaches it by.
 
-        DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
+        Removes one card or account the caller has saved, at the address a hosted checkout reaches it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -1192,7 +1204,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1221,10 +1233,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Detachment]:
-        """DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by.
+    ) -> ApiResponse[BillingDetachment]:
+        """Removes one card or account the caller has saved, at the address a hosted checkout reaches it by.
 
-        DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
+        Removes one card or account the caller has saved, at the address a hosted checkout reaches it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -1259,7 +1271,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1289,9 +1301,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by.
+        """Removes one card or account the caller has saved, at the address a hosted checkout reaches it by.
 
-        DetachPortalMethod is DetachMethod at the address a hosted checkout addresses it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
+        Removes one card or account the caller has saved, at the address a hosted checkout reaches it by. One set of rows, two spellings: a card detached at either is gone from both, because there is one store behind them.
 
         :param id: ID is the saved method to detach, from the path. (required)
         :type id: str
@@ -1326,7 +1338,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Detachment",
+            '200': "BillingDetachment",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1371,7 +1383,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1414,7 +1427,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[BillingAccount]:
+    ) -> List[BillingBillingAccount]:
         """Answers the caller's billing accounts: the org itself, its currency, when it was opened, and the caller's own standing in it.
 
         Answers the caller's billing accounts: the org itself, its currency, when it was opened, and the caller's own standing in it.  The standing is the caller's, resolved from the validated principal here and sent to the store rather than looked up there — the membership roster is IAM's and commerce keeps none, so a callee that answered \"what role is this\" would be inventing it. An anonymous read gets the account with no role rather than an implied membership.  Scoped to the caller's own org, which is the whole tenancy story: there is no org field on the wire and none on the input.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -1449,7 +1462,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BillingAccount]",
+            '200': "List[BillingBillingAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1477,7 +1490,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[BillingAccount]]:
+    ) -> ApiResponse[List[BillingBillingAccount]]:
         """Answers the caller's billing accounts: the org itself, its currency, when it was opened, and the caller's own standing in it.
 
         Answers the caller's billing accounts: the org itself, its currency, when it was opened, and the caller's own standing in it.  The standing is the caller's, resolved from the validated principal here and sent to the store rather than looked up there — the membership roster is IAM's and commerce keeps none, so a callee that answered \"what role is this\" would be inventing it. An anonymous read gets the account with no role rather than an implied membership.  Scoped to the caller's own org, which is the whole tenancy story: there is no org field on the wire and none on the input.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -1512,7 +1525,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BillingAccount]",
+            '200': "List[BillingBillingAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1575,7 +1588,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[BillingAccount]",
+            '200': "List[BillingBillingAccount]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1617,7 +1630,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1661,7 +1675,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Holder]:
+    ) -> List[BillingHolder]:
         """Answers one billing account's roster.
 
         Answers one billing account's roster.  commerce stores no roster — that is IAM's — so the only member it can name is the caller, and that is what comes back. What it does enforce is that the account named in the path is the caller's own: a foreign id is 403, not an empty list, because \"no members\" and \"not your account\" are different answers.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -1699,7 +1713,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Holder]",
+            '200': "List[BillingHolder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1728,7 +1742,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Holder]]:
+    ) -> ApiResponse[List[BillingHolder]]:
         """Answers one billing account's roster.
 
         Answers one billing account's roster.  commerce stores no roster — that is IAM's — so the only member it can name is the caller, and that is what comes back. What it does enforce is that the account named in the path is the caller's own: a foreign id is 403, not an empty list, because \"no members\" and \"not your account\" are different answers.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -1766,7 +1780,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Holder]",
+            '200': "List[BillingHolder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1833,7 +1847,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Holder]",
+            '200': "List[BillingHolder]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1878,7 +1892,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1921,7 +1936,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Alert]:
+    ) -> List[BillingAlert]:
         """Lists this org's spend caps: the ceiling, its scope, whether it enforces, and how much of it has been spent this period.
 
         Lists this org's spend caps: the ceiling, its scope, whether it enforces, and how much of it has been spent this period.  `periodSpentCents`, `over` and `warn` are ABSENT rather than zero when the spend could not be read, because \"nothing spent\" and \"spend unknown\" are different answers and a customer acting on the first when the second is true would be reading a ceiling that is not there. The policy row is reported either way.  The period is the UTC calendar month and `resetsAt` is when the count starts again, so a surface can say \"resets on\" without a second call.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -1956,7 +1971,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Alert]",
+            '200': "List[BillingAlert]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1984,7 +1999,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Alert]]:
+    ) -> ApiResponse[List[BillingAlert]]:
         """Lists this org's spend caps: the ceiling, its scope, whether it enforces, and how much of it has been spent this period.
 
         Lists this org's spend caps: the ceiling, its scope, whether it enforces, and how much of it has been spent this period.  `periodSpentCents`, `over` and `warn` are ABSENT rather than zero when the spend could not be read, because \"nothing spent\" and \"spend unknown\" are different answers and a customer acting on the first when the second is true would be reading a ceiling that is not there. The policy row is reported either way.  The period is the UTC calendar month and `resetsAt` is when the count starts again, so a surface can say \"resets on\" without a second call.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -2019,7 +2034,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Alert]",
+            '200': "List[BillingAlert]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2082,7 +2097,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Alert]",
+            '200': "List[BillingAlert]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2124,7 +2139,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2171,7 +2187,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CapVerdict:
+    ) -> BillingCapVerdict:
         """Answers whether one proposed spend fits inside this org's caps.
 
         Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: the platform, stating the org over the plane, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -2218,7 +2234,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CapVerdict",
+            '200': "BillingCapVerdict",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2250,7 +2266,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CapVerdict]:
+    ) -> ApiResponse[BillingCapVerdict]:
         """Answers whether one proposed spend fits inside this org's caps.
 
         Answers whether one proposed spend fits inside this org's caps.  It is the per-request verdict the metering edge consumes before every priced call, and its caller is a SERVICE rather than a person: the platform, stating the org over the plane, with no user behind it. So this admits that principal where the CRUD beside it does not.  Every covering row is evaluated, most-restrictive-wins, and the tightest one is what `capCents`, `spentCents` and `reason` describe. Soft rows never deny; nor does a project-scoped enforcing row whose project axis the caller could not establish — `pv=1` is how a caller states that it did, and an unproven claim must not be able to refuse traffic.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -2297,7 +2313,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CapVerdict",
+            '200': "BillingCapVerdict",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2376,7 +2392,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CapVerdict",
+            '200': "BillingCapVerdict",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2438,7 +2454,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2717,7 +2734,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CreditBalance:
+    ) -> BillingCreditBalance:
         """Answers what the caller can spend right now, one entry per currency.
 
         Answers what the caller can spend right now, one entry per currency.  Only ACTIVE grants count: a voided, exhausted or lapsed grant contributes nothing, which is why this number can be smaller than the grant list suggests and why the two reads exist separately. It is credit, not prepaid balance — /v1/billing/balance is the wallet, and the two are added by the gate, never by a reader.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -2752,7 +2769,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditBalance",
+            '200': "BillingCreditBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2780,7 +2797,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CreditBalance]:
+    ) -> ApiResponse[BillingCreditBalance]:
         """Answers what the caller can spend right now, one entry per currency.
 
         Answers what the caller can spend right now, one entry per currency.  Only ACTIVE grants count: a voided, exhausted or lapsed grant contributes nothing, which is why this number can be smaller than the grant list suggests and why the two reads exist separately. It is credit, not prepaid balance — /v1/billing/balance is the wallet, and the two are added by the gate, never by a reader.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -2815,7 +2832,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditBalance",
+            '200': "BillingCreditBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2878,7 +2895,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditBalance",
+            '200': "BillingCreditBalance",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2920,7 +2937,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3166,7 +3184,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3209,7 +3228,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CreditGrants:
+    ) -> BillingCreditGrants:
         """Lists the caller's credit grants — every one of them, spent and lapsed and voided included.
 
         Lists the caller's credit grants — every one of them, spent and lapsed and voided included.  That is deliberate and it is what makes the list useful: a grant list is a LEDGER, and one that hid its spent rows could not be reconciled against a burn-down. What is spendable right now is the sibling read, /v1/billing/ credit-balance, and the two are different questions.  Scoped to the caller's own wallet, resolved server-side.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3244,7 +3263,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditGrants",
+            '200': "BillingCreditGrants",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3272,7 +3291,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CreditGrants]:
+    ) -> ApiResponse[BillingCreditGrants]:
         """Lists the caller's credit grants — every one of them, spent and lapsed and voided included.
 
         Lists the caller's credit grants — every one of them, spent and lapsed and voided included.  That is deliberate and it is what makes the list useful: a grant list is a LEDGER, and one that hid its spent rows could not be reconciled against a burn-down. What is spendable right now is the sibling read, /v1/billing/ credit-balance, and the two are different questions.  Scoped to the caller's own wallet, resolved server-side.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3307,7 +3326,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditGrants",
+            '200': "BillingCreditGrants",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3370,7 +3389,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CreditGrants",
+            '200': "BillingCreditGrants",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3412,7 +3431,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3456,7 +3476,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CryptoDeposit:
+    ) -> BillingCryptoDeposit:
         """Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.
 
         Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3494,7 +3514,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3523,7 +3543,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CryptoDeposit]:
+    ) -> ApiResponse[BillingCryptoDeposit]:
         """Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.
 
         Reads one of the caller's own deposit intents back — pending, confirming, or succeeded.  An intent belonging to another payer answers 404, exactly as an id that names nothing, so a guessed id cannot confirm that somebody else's deposit exists.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3561,7 +3581,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3628,7 +3648,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3673,7 +3693,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3716,7 +3737,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CryptoOptions:
+    ) -> BillingCryptoOptions:
         """Answers which chains and tokens the crypto rail accepts — what an asset picker renders.
 
         Answers which chains and tokens the crypto rail accepts — what an asset picker renders.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3751,7 +3772,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoOptions",
+            '200': "BillingCryptoOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3779,7 +3800,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CryptoOptions]:
+    ) -> ApiResponse[BillingCryptoOptions]:
         """Answers which chains and tokens the crypto rail accepts — what an asset picker renders.
 
         Answers which chains and tokens the crypto rail accepts — what an asset picker renders.  It is the intersection of two live facts rather than a configured list: an asset appears only if something is WATCHING it and the custody processor supports it. An address nobody watches credits nobody, so offering one would take a customer's money and lose it. A rail with nothing armed answers 503, not an empty menu — \"no rail\" and \"no assets\" are different, and only one of them means try again later.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -3814,7 +3835,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoOptions",
+            '200': "BillingCryptoOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3877,7 +3898,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoOptions",
+            '200': "BillingCryptoOptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3919,7 +3940,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3967,7 +3989,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Invoices:
+    ) -> BillingInvoices:
         """Lists the caller's invoices, newest first, with the count beside them.
 
         Lists the caller's invoices, newest first, with the count beside them.  It is scoped to the caller's own billing subject — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org. An org with no invoices is an empty list, not a refusal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -4017,7 +4039,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoices",
+            '200': "BillingInvoices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4050,7 +4072,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Invoices]:
+    ) -> ApiResponse[BillingInvoices]:
         """Lists the caller's invoices, newest first, with the count beside them.
 
         Lists the caller's invoices, newest first, with the count beside them.  It is scoped to the caller's own billing subject — the wallet this request bills from, resolved server-side — so a query cannot widen it to another customer of the same org. An org with no invoices is an empty list, not a refusal.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -4100,7 +4122,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoices",
+            '200': "BillingInvoices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4183,7 +4205,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoices",
+            '200': "BillingInvoices",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4250,7 +4272,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4545,10 +4568,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[FinanceLedgerEntry]:
-        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
+    ) -> List[BillingFinanceLedgerEntry]:
+        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
 
-        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
+        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
 
         :param range: Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.
         :type range: str
@@ -4583,7 +4606,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[FinanceLedgerEntry]",
+            '200': "List[BillingFinanceLedgerEntry]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4612,10 +4635,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[FinanceLedgerEntry]]:
-        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
+    ) -> ApiResponse[List[BillingFinanceLedgerEntry]]:
+        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
 
-        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
+        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
 
         :param range: Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.
         :type range: str
@@ -4650,7 +4673,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[FinanceLedgerEntry]",
+            '200': "List[BillingFinanceLedgerEntry]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4680,9 +4703,9 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
+        """Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags.
 
-        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`) and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
+        Answers the org's own postings inside `range=`, each as a signed entry: a DEPOSIT CREDITS the wallet (positive, account `credits:<org>`), a HOLD sets money aside for a payment agreed and not yet made (negative, account `held:<org>`) and its return gives it back (positive), and every other posting DEBITS it (negative, account `usage:<org>`), described by its notes or its tags. The sign is the posting's own meaning, read through ONE vocabulary shared with the ledger that wrote it — a reader with its own spelling for `deposit` rendered a customer's grant as a charge.  This is the closest projection of the truth. The org's double-entry postings are the source of record — balanced, only ever appended, one file per org — and this lane is that list, wider than either half of it: the deposits are the grants /v1/billing/credits lists and the debits are the spend /v1/billing/usage rolls up. It answers 503 where this deployment runs no ledger, rather than reporting an empty wallet.  A row whose timestamp will not parse is KEPT rather than dropped — a malformed date must show up in a money list, not vanish from it. `balanceCents` is omitted: these are MOVEMENTS, and the standing balance is /v1/billing/balance.  Cents are ROUNDED from the ledger's exact 18-decimal USD. Scoped to the caller's own org, where the org's ledger file is the tenant boundary; 401 without a validated principal.
 
         :param range: Range is the window: 24h, 7d, 30d or 90d. Anything else — including absent — is 30d, so a typo silently widens the window to a month rather than failing.
         :type range: str
@@ -4717,7 +4740,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[FinanceLedgerEntry]",
+            '200': "List[BillingFinanceLedgerEntry]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4764,7 +4787,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5043,7 +5067,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> List[Payout]:
+    ) -> List[BillingPayout]:
         """Answers the org's outbound payouts, newest first — amount, destination, status, and the failure reason where one applies.
 
         Answers the org's outbound payouts, newest first — amount, destination, status, and the failure reason where one applies.  A payout is ORG-scoped rather than subject-scoped, so there is nothing to pin beyond the tenant the caller already is, and no query can widen it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -5078,7 +5102,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Payout]",
+            '200': "List[BillingPayout]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5106,7 +5130,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[List[Payout]]:
+    ) -> ApiResponse[List[BillingPayout]]:
         """Answers the org's outbound payouts, newest first — amount, destination, status, and the failure reason where one applies.
 
         Answers the org's outbound payouts, newest first — amount, destination, status, and the failure reason where one applies.  A payout is ORG-scoped rather than subject-scoped, so there is nothing to pin beyond the tenant the caller already is, and no query can widen it.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -5141,7 +5165,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Payout]",
+            '200': "List[BillingPayout]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5204,7 +5228,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "List[Payout]",
+            '200': "List[BillingPayout]",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5246,7 +5270,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5292,7 +5317,7 @@ class BillingApi:
     ) -> None:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is the public catalog and needs no tenant: this is what anyone may buy.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5354,7 +5379,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is the public catalog and needs no tenant: this is what anyone may buy.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5416,7 +5441,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """The plan catalog, priced with whatever offer is in force
 
-        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is the public catalog and needs no tenant: this is what anyone may buy.
+        Answers every plan on sale — its price, what it includes, and the limits it carries — optionally narrowed to one `?category=`.  The prices are what the CHECKOUT will charge: any active promotion is applied before they leave the store, so a reader never applies a discount a second time and a quote can never disagree with the sale.  It is public and needs no tenant, and it is the catalog of the brand the request's host resolves to — the same brand `/v1/commerce/org` answers there. A brand that publishes no plans answers an empty list.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -5761,7 +5786,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AutoRecharge:
+    ) -> BillingAutoRecharge:
         """Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session.
 
         Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -5796,7 +5821,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingAutoRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5824,7 +5849,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AutoRecharge]:
+    ) -> ApiResponse[BillingAutoRecharge]:
         """Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session.
 
         Reads the caller's auto-reload rule: top the balance up by `amountCents` whenever it falls below `thresholdCents`, charging the card on file off-session. It is the same setting every prepaid AI account calls auto-reload.  An org that has never set one reads as disabled with zeroes rather than as an error — \"no rule\" answers the question — and `stored` is how a caller tells never-configured from deliberately-off.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -5859,7 +5884,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingAutoRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5922,7 +5947,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingAutoRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5964,7 +5989,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6007,7 +6033,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PaymentConfig:
+    ) -> BillingPaymentConfig:
         """Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.
 
         Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.  It carries no secret: an application id is published to every checkout page by design. What matters is that it names the SAME processor account the charge will be made on, because a card vaulted against one account and charged against another is a card that saves and then cannot be used.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6042,7 +6068,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaymentConfig",
+            '200': "BillingPaymentConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6070,7 +6096,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PaymentConfig]:
+    ) -> ApiResponse[BillingPaymentConfig]:
         """Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.
 
         Answers the PUBLIC half of this org's processor configuration — the ids a browser needs to tokenize a card, and the environment it must tokenize against.  It carries no secret: an application id is published to every checkout page by design. What matters is that it names the SAME processor account the charge will be made on, because a card vaulted against one account and charged against another is a card that saves and then cannot be used.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6105,7 +6131,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaymentConfig",
+            '200': "BillingPaymentConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6168,7 +6194,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PaymentConfig",
+            '200': "BillingPaymentConfig",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6210,7 +6236,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6253,7 +6280,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Subscriptions:
+    ) -> BillingSubscriptions:
         """Lists the plans the caller holds, with the count beside them.
 
         Lists the plans the caller holds, with the count beside them.  It is scoped to the caller's own org, so a query cannot widen it to another customer's. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6288,7 +6315,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscriptions",
+            '200': "BillingSubscriptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6316,7 +6343,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Subscriptions]:
+    ) -> ApiResponse[BillingSubscriptions]:
         """Lists the plans the caller holds, with the count beside them.
 
         Lists the plans the caller holds, with the count beside them.  It is scoped to the caller's own org, so a query cannot widen it to another customer's. An org on nothing is an empty list, not a refusal — being on no plan is an answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6351,7 +6378,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscriptions",
+            '200': "BillingSubscriptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6414,7 +6441,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscriptions",
+            '200': "BillingSubscriptions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6456,7 +6483,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6499,7 +6527,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Tier:
+    ) -> BillingTier:
         """Answers which tier the caller is on, what it allows, and what is left to spend.
 
         Answers which tier the caller is on, what it allows, and what is left to spend.  `effectiveAvailable` is the ONLY figure to compare against zero. The others are its parts — prepaid money, granted credits and the daily term are three sources of one spend, not three balances to add up a second time.  A tier that cannot be READ is an error, never Free. The router in front of the models maps any non-2xx to Free, so answering Free from a question nobody could answer would pin every paying customer to the most restrictive row with nothing anywhere to find.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6534,7 +6562,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tier",
+            '200': "BillingTier",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6562,7 +6590,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Tier]:
+    ) -> ApiResponse[BillingTier]:
         """Answers which tier the caller is on, what it allows, and what is left to spend.
 
         Answers which tier the caller is on, what it allows, and what is left to spend.  `effectiveAvailable` is the ONLY figure to compare against zero. The others are its parts — prepaid money, granted credits and the daily term are three sources of one spend, not three balances to add up a second time.  A tier that cannot be READ is an error, never Free. The router in front of the models maps any non-2xx to Free, so answering Free from a question nobody could answer would pin every paying customer to the most restrictive row with nothing anywhere to find.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6597,7 +6625,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tier",
+            '200': "BillingTier",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6660,7 +6688,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Tier",
+            '200': "BillingTier",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6702,7 +6730,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6748,7 +6777,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Transactions:
+    ) -> BillingTransactions:
         """Answers one page of the caller's own ledger, newest first: what moved, how much, when, and what it was tagged with.
 
         Answers one page of the caller's own ledger, newest first: what moved, how much, when, and what it was tagged with.  `count` is the size of the WHOLE history rather than of the page, which is how a reader knows there is more to ask for, and `user` echoes the wallet the page was read for — the same subject the spend gate debits, so a customer can see which account answered rather than guessing from their own token.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6792,7 +6821,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transactions",
+            '200': "BillingTransactions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6823,7 +6852,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Transactions]:
+    ) -> ApiResponse[BillingTransactions]:
         """Answers one page of the caller's own ledger, newest first: what moved, how much, when, and what it was tagged with.
 
         Answers one page of the caller's own ledger, newest first: what moved, how much, when, and what it was tagged with.  `count` is the size of the WHOLE history rather than of the page, which is how a reader knows there is more to ask for, and `user` echoes the wallet the page was read for — the same subject the spend gate debits, so a customer can see which account answered rather than guessing from their own token.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -6867,7 +6896,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transactions",
+            '200': "BillingTransactions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6942,7 +6971,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transactions",
+            '200': "BillingTransactions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6999,7 +7028,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7043,7 +7073,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Transaction:
+    ) -> BillingTransaction:
         """Reads one ledger entry by its id.
 
         Reads one ledger entry by its id.  It is the MEMBER of the collection beside it rather than a second way to ask — the same rows GET /v1/billing/transactions lists, addressed one at a time. A top-up receipt is read here, because a receipt IS a ledger entry: the id this takes is the `transactionId` a top-up hands back.  The read is narrower than the list: commerce's core loads the row and refuses anything that is not a deposit, so a row that exists but is not a top-up answers 404. That asymmetry is stated rather than closed, because widening a money read to make two shapes match is not a change worth making for symmetry.  The books are the caller's own and cannot be named, so a guessed id misses rather than reaching another tenant's ledger.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7081,7 +7111,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transaction",
+            '200': "BillingTransaction",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7110,7 +7140,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Transaction]:
+    ) -> ApiResponse[BillingTransaction]:
         """Reads one ledger entry by its id.
 
         Reads one ledger entry by its id.  It is the MEMBER of the collection beside it rather than a second way to ask — the same rows GET /v1/billing/transactions lists, addressed one at a time. A top-up receipt is read here, because a receipt IS a ledger entry: the id this takes is the `transactionId` a top-up hands back.  The read is narrower than the list: commerce's core loads the row and refuses anything that is not a deposit, so a row that exists but is not a top-up answers 404. That asymmetry is stated rather than closed, because widening a money read to make two shapes match is not a change worth making for symmetry.  The books are the caller's own and cannot be named, so a guessed id misses rather than reaching another tenant's ledger.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7148,7 +7178,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transaction",
+            '200': "BillingTransaction",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7215,7 +7245,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Transaction",
+            '200': "BillingTransaction",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7260,7 +7290,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7539,7 +7570,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Accounts:
+    ) -> BillingAccounts:
         """Answers per-account totals for the linked provider accounts the gateway ROUTED this caller's traffic through — requests, prompt and completion tokens, recorded cost — plus their honest sum.
 
         Answers per-account totals for the linked provider accounts the gateway ROUTED this caller's traffic through — requests, prompt and completion tokens, recorded cost — plus their honest sum.  This is the one read in the billing namespace scoped to the PERSON, not the org. Rows are keyed on (validated org, validated user), so a caller sees the accounts THEY linked and never a colleague's, even inside one org — everything else under /v1/billing is org-wide. Neither key is ever read from the request body or the query.  It is a ROUTING counter, not the money ledger. `costCents` is 0 for an account billed by its own subscription, where the plan pays the provider directly, so these totals do not reconcile against what the org was charged. /v1/billing/usage is the charged ledger.  401 without a validated principal. Where the linked-account plane is not resident the answer is an honest 501 — never an empty breakdown, which would read as no usage.
@@ -7574,7 +7605,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Accounts",
+            '200': "BillingAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7602,7 +7633,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Accounts]:
+    ) -> ApiResponse[BillingAccounts]:
         """Answers per-account totals for the linked provider accounts the gateway ROUTED this caller's traffic through — requests, prompt and completion tokens, recorded cost — plus their honest sum.
 
         Answers per-account totals for the linked provider accounts the gateway ROUTED this caller's traffic through — requests, prompt and completion tokens, recorded cost — plus their honest sum.  This is the one read in the billing namespace scoped to the PERSON, not the org. Rows are keyed on (validated org, validated user), so a caller sees the accounts THEY linked and never a colleague's, even inside one org — everything else under /v1/billing is org-wide. Neither key is ever read from the request body or the query.  It is a ROUTING counter, not the money ledger. `costCents` is 0 for an account billed by its own subscription, where the plan pays the provider directly, so these totals do not reconcile against what the org was charged. /v1/billing/usage is the charged ledger.  401 without a validated principal. Where the linked-account plane is not resident the answer is an honest 501 — never an empty breakdown, which would read as no usage.
@@ -7637,7 +7668,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Accounts",
+            '200': "BillingAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7700,7 +7731,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Accounts",
+            '200': "BillingAccounts",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7742,7 +7773,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7785,7 +7817,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Rollup:
+    ) -> BillingRollup:
         """Answers the caller's month: what their plan includes, what has been consumed against it, and the wallet beside it.
 
         Answers the caller's month: what their plan includes, what has been consumed against it, and the wallet beside it.  The two blocks are SEPARATE monies and are never added. One is usage a plan granted; the other is prepaid credit bought with a card. Their sum is not a number anyone holds, and a reader that formed it would be inventing a balance.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7820,7 +7852,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rollup",
+            '200': "BillingRollup",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7848,7 +7880,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Rollup]:
+    ) -> ApiResponse[BillingRollup]:
         """Answers the caller's month: what their plan includes, what has been consumed against it, and the wallet beside it.
 
         Answers the caller's month: what their plan includes, what has been consumed against it, and the wallet beside it.  The two blocks are SEPARATE monies and are never added. One is usage a plan granted; the other is prepaid credit bought with a card. Their sum is not a number anyone holds, and a reader that formed it would be inventing a balance.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -7883,7 +7915,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rollup",
+            '200': "BillingRollup",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7946,7 +7978,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Rollup",
+            '200': "BillingRollup",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7988,7 +8020,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8031,7 +8064,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WireInstructions:
+    ) -> BillingWireInstructions:
         """Answers where to send a wire top-up: the receiving bank details, with the caller's own payment reference.
 
         Answers where to send a wire top-up: the receiving bank details, with the caller's own payment reference.  The account is the SERVING BRAND'S — resolved from the host the customer is paying on, so paying on one brand never shows another's bank — and the reference carries the caller's billing key, which is how an arriving wire names who it credits. Nothing mints here; a receipt is settled by an operator once the bank confirms it.  It is all-or-nothing: no configured account is 503 rather than a partial form, because nobody can wire to three fields out of five.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -8066,7 +8099,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WireInstructions",
+            '200': "BillingWireInstructions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8094,7 +8127,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WireInstructions]:
+    ) -> ApiResponse[BillingWireInstructions]:
         """Answers where to send a wire top-up: the receiving bank details, with the caller's own payment reference.
 
         Answers where to send a wire top-up: the receiving bank details, with the caller's own payment reference.  The account is the SERVING BRAND'S — resolved from the host the customer is paying on, so paying on one brand never shows another's bank — and the reference carries the caller's billing key, which is how an arriving wire names who it credits. Nothing mints here; a receipt is settled by an operator once the bank confirms it.  It is all-or-nothing: no configured account is 503 rather than a partial form, because nobody can wire to three fields out of five.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -8129,7 +8162,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WireInstructions",
+            '200': "BillingWireInstructions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8192,7 +8225,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WireInstructions",
+            '200': "BillingWireInstructions",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8234,7 +8267,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8278,7 +8312,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Invoice:
+    ) -> BillingInvoice:
         """Read one invoice
 
         Reads one invoice out of the caller's org.  The org scopes the read by construction — the store is namespaced to it — so an id belonging to another tenant is not found rather than found and then filtered.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -8316,7 +8350,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8345,7 +8379,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Invoice]:
+    ) -> ApiResponse[BillingInvoice]:
         """Read one invoice
 
         Reads one invoice out of the caller's org.  The org scopes the read by construction — the store is namespaced to it — so an id belonging to another tenant is not found rather than found and then filtered.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
@@ -8383,7 +8417,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8450,7 +8484,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8495,7 +8529,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8539,10 +8574,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Invoice:
+    ) -> BillingInvoice:
         """Issue a draft invoice, making it collectible
 
-        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible. It is the org admin's act; a member is refused 403.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -8577,7 +8612,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8606,10 +8641,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Invoice]:
+    ) -> ApiResponse[BillingInvoice]:
         """Issue a draft invoice, making it collectible
 
-        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible. It is the org admin's act; a member is refused 403.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -8644,7 +8679,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8676,7 +8711,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Issue a draft invoice, making it collectible
 
-        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Issues a draft invoice: moves it to OPEN, assigns its number, and makes it collectible. It is the org admin's act; a member is refused 403.  Only a draft can be issued. An invoice already open, paid or void is refused with the state machine's own reason rather than being silently re-issued, which would mint a second number for one debt.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -8711,7 +8746,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8756,7 +8791,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8788,7 +8824,7 @@ class BillingApi:
     def patch_billing_alerts_by_id(
         self,
         id: StrictStr,
-        alert_patch: AlertPatch,
+        billing_alert_patch: BillingAlertPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8801,15 +8837,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Alert:
+    ) -> BillingAlert:
         """Changes one spend cap: raise or lower the ceiling, flip enforcement, retune the rate limit.
 
         Changes one spend cap: raise or lower the ceiling, flip enforcement, retune the rate limit.  Only the fields the body carries move. Every mutable field is optional, and an absent one is PRESERVED rather than reset — so a change that flips enforcement cannot silently wipe the threshold it enforces.  A cap belonging to another org is a 404, not a 403: a guessed id must not become an oracle for what anyone else holds.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param alert_patch: (required)
-        :type alert_patch: AlertPatch
+        :param billing_alert_patch: (required)
+        :type billing_alert_patch: BillingAlertPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8834,7 +8870,7 @@ class BillingApi:
 
         _param = self._patch_billing_alerts_by_id_serialize(
             id=id,
-            alert_patch=alert_patch,
+            billing_alert_patch=billing_alert_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8842,7 +8878,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Alert",
+            '200': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8859,7 +8895,7 @@ class BillingApi:
     def patch_billing_alerts_by_id_with_http_info(
         self,
         id: StrictStr,
-        alert_patch: AlertPatch,
+        billing_alert_patch: BillingAlertPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8872,15 +8908,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Alert]:
+    ) -> ApiResponse[BillingAlert]:
         """Changes one spend cap: raise or lower the ceiling, flip enforcement, retune the rate limit.
 
         Changes one spend cap: raise or lower the ceiling, flip enforcement, retune the rate limit.  Only the fields the body carries move. Every mutable field is optional, and an absent one is PRESERVED rather than reset — so a change that flips enforcement cannot silently wipe the threshold it enforces.  A cap belonging to another org is a 404, not a 403: a guessed id must not become an oracle for what anyone else holds.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param alert_patch: (required)
-        :type alert_patch: AlertPatch
+        :param billing_alert_patch: (required)
+        :type billing_alert_patch: BillingAlertPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8905,7 +8941,7 @@ class BillingApi:
 
         _param = self._patch_billing_alerts_by_id_serialize(
             id=id,
-            alert_patch=alert_patch,
+            billing_alert_patch=billing_alert_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8913,7 +8949,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Alert",
+            '200': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8930,7 +8966,7 @@ class BillingApi:
     def patch_billing_alerts_by_id_without_preload_content(
         self,
         id: StrictStr,
-        alert_patch: AlertPatch,
+        billing_alert_patch: BillingAlertPatch,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8950,8 +8986,8 @@ class BillingApi:
 
         :param id: (required)
         :type id: str
-        :param alert_patch: (required)
-        :type alert_patch: AlertPatch
+        :param billing_alert_patch: (required)
+        :type billing_alert_patch: BillingAlertPatch
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8976,7 +9012,7 @@ class BillingApi:
 
         _param = self._patch_billing_alerts_by_id_serialize(
             id=id,
-            alert_patch=alert_patch,
+            billing_alert_patch=billing_alert_patch,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8984,7 +9020,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Alert",
+            '200': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8996,7 +9032,7 @@ class BillingApi:
     def _patch_billing_alerts_by_id_serialize(
         self,
         id,
-        alert_patch,
+        billing_alert_patch,
         _request_auth,
         _content_type,
         _headers,
@@ -9024,15 +9060,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if alert_patch is not None:
-            _body_params = alert_patch
+        if billing_alert_patch is not None:
+            _body_params = billing_alert_patch
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9076,7 +9113,7 @@ class BillingApi:
     @validate_call
     def post_billing_alerts(
         self,
-        alert_spec: AlertSpec,
+        billing_alert_spec: BillingAlertSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9089,13 +9126,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Alert:
+    ) -> BillingAlert:
         """Opens a spend cap on the caller's own org.
 
         Opens a spend cap on the caller's own org.  At least one limit must mean something: a threshold above zero (a spend cap) or a requests-per-minute above zero (a rate limit). A row that bounds neither is refused rather than stored, because a ceiling nothing measures against is a ceiling a customer believes in and does not have.  The cap is keyed on the caller's own billing subject, resolved server-side — the SAME key the verdict looks it up under, which is what makes enforcement bind rather than merely record.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param alert_spec: (required)
-        :type alert_spec: AlertSpec
+        :param billing_alert_spec: (required)
+        :type billing_alert_spec: BillingAlertSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9119,7 +9156,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_alerts_serialize(
-            alert_spec=alert_spec,
+            billing_alert_spec=billing_alert_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9127,7 +9164,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Alert",
+            '201': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9143,7 +9180,7 @@ class BillingApi:
     @validate_call
     def post_billing_alerts_with_http_info(
         self,
-        alert_spec: AlertSpec,
+        billing_alert_spec: BillingAlertSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9156,13 +9193,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Alert]:
+    ) -> ApiResponse[BillingAlert]:
         """Opens a spend cap on the caller's own org.
 
         Opens a spend cap on the caller's own org.  At least one limit must mean something: a threshold above zero (a spend cap) or a requests-per-minute above zero (a rate limit). A row that bounds neither is refused rather than stored, because a ceiling nothing measures against is a ceiling a customer believes in and does not have.  The cap is keyed on the caller's own billing subject, resolved server-side — the SAME key the verdict looks it up under, which is what makes enforcement bind rather than merely record.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param alert_spec: (required)
-        :type alert_spec: AlertSpec
+        :param billing_alert_spec: (required)
+        :type billing_alert_spec: BillingAlertSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9186,7 +9223,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_alerts_serialize(
-            alert_spec=alert_spec,
+            billing_alert_spec=billing_alert_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9194,7 +9231,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Alert",
+            '201': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9210,7 +9247,7 @@ class BillingApi:
     @validate_call
     def post_billing_alerts_without_preload_content(
         self,
-        alert_spec: AlertSpec,
+        billing_alert_spec: BillingAlertSpec,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9228,8 +9265,8 @@ class BillingApi:
 
         Opens a spend cap on the caller's own org.  At least one limit must mean something: a threshold above zero (a spend cap) or a requests-per-minute above zero (a rate limit). A row that bounds neither is refused rather than stored, because a ceiling nothing measures against is a ceiling a customer believes in and does not have.  The cap is keyed on the caller's own billing subject, resolved server-side — the SAME key the verdict looks it up under, which is what makes enforcement bind rather than merely record.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param alert_spec: (required)
-        :type alert_spec: AlertSpec
+        :param billing_alert_spec: (required)
+        :type billing_alert_spec: BillingAlertSpec
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9253,7 +9290,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_alerts_serialize(
-            alert_spec=alert_spec,
+            billing_alert_spec=billing_alert_spec,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9261,7 +9298,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Alert",
+            '201': "BillingAlert",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9272,7 +9309,7 @@ class BillingApi:
 
     def _post_billing_alerts_serialize(
         self,
-        alert_spec,
+        billing_alert_spec,
         _request_auth,
         _content_type,
         _headers,
@@ -9298,15 +9335,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if alert_spec is not None:
-            _body_params = alert_spec
+        if billing_alert_spec is not None:
+            _body_params = billing_alert_spec
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9350,7 +9388,7 @@ class BillingApi:
     @validate_call
     def post_billing_crypto_deposit(
         self,
-        crypto_asset: CryptoAsset,
+        billing_crypto_asset: BillingCryptoAsset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9363,13 +9401,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CryptoDeposit:
+    ) -> BillingCryptoDeposit:
         """Issues a deposit address the caller can send crypto to, on the asset they ask for.
 
         Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param crypto_asset: (required)
-        :type crypto_asset: CryptoAsset
+        :param billing_crypto_asset: (required)
+        :type billing_crypto_asset: BillingCryptoAsset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9393,7 +9431,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_crypto_deposit_serialize(
-            crypto_asset=crypto_asset,
+            billing_crypto_asset=billing_crypto_asset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9401,7 +9439,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9417,7 +9455,7 @@ class BillingApi:
     @validate_call
     def post_billing_crypto_deposit_with_http_info(
         self,
-        crypto_asset: CryptoAsset,
+        billing_crypto_asset: BillingCryptoAsset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9430,13 +9468,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CryptoDeposit]:
+    ) -> ApiResponse[BillingCryptoDeposit]:
         """Issues a deposit address the caller can send crypto to, on the asset they ask for.
 
         Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param crypto_asset: (required)
-        :type crypto_asset: CryptoAsset
+        :param billing_crypto_asset: (required)
+        :type billing_crypto_asset: BillingCryptoAsset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9460,7 +9498,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_crypto_deposit_serialize(
-            crypto_asset=crypto_asset,
+            billing_crypto_asset=billing_crypto_asset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9468,7 +9506,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9484,7 +9522,7 @@ class BillingApi:
     @validate_call
     def post_billing_crypto_deposit_without_preload_content(
         self,
-        crypto_asset: CryptoAsset,
+        billing_crypto_asset: BillingCryptoAsset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9502,8 +9540,8 @@ class BillingApi:
 
         Issues a deposit address the caller can send crypto to, on the asset they ask for.  The address credits the CALLER'S own wallet and nobody else's: the payer is the validated principal, never a body value. Asking again reuses the caller's open intent rather than minting a second address, so a refresh cannot spray key generations — and a payer who sent to the address they saw earlier is still credited.  No balance moves here. The chain watcher credits on real confirmations, so what comes back is an address and a status, not a receipt.  An asset this rail cannot mint on is 400 — ask for another. A rail that is shut for that asset is 503 — nothing sent now can be credited.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param crypto_asset: (required)
-        :type crypto_asset: CryptoAsset
+        :param billing_crypto_asset: (required)
+        :type billing_crypto_asset: BillingCryptoAsset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9527,7 +9565,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_crypto_deposit_serialize(
-            crypto_asset=crypto_asset,
+            billing_crypto_asset=billing_crypto_asset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9535,7 +9573,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CryptoDeposit",
+            '200': "BillingCryptoDeposit",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9546,7 +9584,7 @@ class BillingApi:
 
     def _post_billing_crypto_deposit_serialize(
         self,
-        crypto_asset,
+        billing_crypto_asset,
         _request_auth,
         _content_type,
         _headers,
@@ -9572,15 +9610,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if crypto_asset is not None:
-            _body_params = crypto_asset
+        if billing_crypto_asset is not None:
+            _body_params = billing_crypto_asset
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9860,7 +9899,7 @@ class BillingApi:
     @validate_call
     def post_billing_mode(
         self,
-        mode_in: ModeIn,
+        billing_mode_in: BillingModeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9873,13 +9912,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Mode:
+    ) -> BillingMode:
         """Moves this org between sandbox money and real money.
 
         Moves this org between sandbox money and real money.  It decides whether a charge hits a real card, so it is the one posture change that is not self-service: the platform bar, never an org owner, because an org that could put itself in test mode could take priced work for free.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param mode_in: (required)
-        :type mode_in: ModeIn
+        :param billing_mode_in: (required)
+        :type billing_mode_in: BillingModeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9903,7 +9942,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_mode_serialize(
-            mode_in=mode_in,
+            billing_mode_in=billing_mode_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9911,7 +9950,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Mode",
+            '200': "BillingMode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9927,7 +9966,7 @@ class BillingApi:
     @validate_call
     def post_billing_mode_with_http_info(
         self,
-        mode_in: ModeIn,
+        billing_mode_in: BillingModeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9940,13 +9979,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Mode]:
+    ) -> ApiResponse[BillingMode]:
         """Moves this org between sandbox money and real money.
 
         Moves this org between sandbox money and real money.  It decides whether a charge hits a real card, so it is the one posture change that is not self-service: the platform bar, never an org owner, because an org that could put itself in test mode could take priced work for free.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param mode_in: (required)
-        :type mode_in: ModeIn
+        :param billing_mode_in: (required)
+        :type billing_mode_in: BillingModeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9970,7 +10009,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_mode_serialize(
-            mode_in=mode_in,
+            billing_mode_in=billing_mode_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9978,7 +10017,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Mode",
+            '200': "BillingMode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9994,7 +10033,7 @@ class BillingApi:
     @validate_call
     def post_billing_mode_without_preload_content(
         self,
-        mode_in: ModeIn,
+        billing_mode_in: BillingModeIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10012,8 +10051,8 @@ class BillingApi:
 
         Moves this org between sandbox money and real money.  It decides whether a charge hits a real card, so it is the one posture change that is not self-service: the platform bar, never an org owner, because an org that could put itself in test mode could take priced work for free.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param mode_in: (required)
-        :type mode_in: ModeIn
+        :param billing_mode_in: (required)
+        :type billing_mode_in: BillingModeIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10037,7 +10076,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_mode_serialize(
-            mode_in=mode_in,
+            billing_mode_in=billing_mode_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10045,7 +10084,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Mode",
+            '200': "BillingMode",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10056,7 +10095,7 @@ class BillingApi:
 
     def _post_billing_mode_serialize(
         self,
-        mode_in,
+        billing_mode_in,
         _request_auth,
         _content_type,
         _headers,
@@ -10082,15 +10121,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if mode_in is not None:
-            _body_params = mode_in
+        if billing_mode_in is not None:
+            _body_params = billing_mode_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10382,7 +10422,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Recharge:
+    ) -> BillingRecharge:
         """Sweeps every org's auto-recharge and answers what it did.
 
         Sweeps every org's auto-recharge and answers what it did.  PLATFORM AUTHORITY ONLY. It charges saved cards across every tenant, so an org owner reaching it could sweep-charge the estate; a caller without it is refused before anything is charged.  The answer explains a sweep that charged nobody as readily as one that charged: it names how many orgs were considered and how many needed charging, with a row each.
@@ -10417,7 +10457,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Recharge",
+            '200': "BillingRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10445,7 +10485,7 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Recharge]:
+    ) -> ApiResponse[BillingRecharge]:
         """Sweeps every org's auto-recharge and answers what it did.
 
         Sweeps every org's auto-recharge and answers what it did.  PLATFORM AUTHORITY ONLY. It charges saved cards across every tenant, so an org owner reaching it could sweep-charge the estate; a caller without it is refused before anything is charged.  The answer explains a sweep that charged nobody as readily as one that charged: it names how many orgs were considered and how many needed charging, with a row each.
@@ -10480,7 +10520,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Recharge",
+            '200': "BillingRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10543,7 +10583,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Recharge",
+            '200': "BillingRecharge",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10585,7 +10625,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -10631,7 +10672,7 @@ class BillingApi:
     ) -> None:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10693,7 +10734,7 @@ class BillingApi:
     ) -> ApiResponse[None]:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10755,7 +10796,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Buy a plan with a card
 
-        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
+        Vaults the card (or reuses one already on file), charges the plan's FIRST period at the catalog price, and opens the subscription — one act, all of it server-side.  There is NO AMOUNT in the request. `level` picks which of the plan's published prices to buy at — an index, never a number — so what the card is charged is decided by the catalog and underpaying cannot be expressed.  `interval` picks the term: \"month\" (the default) or \"year\", which charges the plan's annual total now and renews yearly. A plan with no annual price refuses \"year\".  A fresh sale answers 201 with the receipt. An identical retry answers 200 with the FIRST sale's body, byte for byte, so a client cannot read a replay as a second subscription having been opened. A caller already on a paid plan is 409 rather than charged again.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -10852,7 +10893,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -10866,13 +10907,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Charged:
+    ) -> BillingCharged:
         """Charges a card the caller already saved and credits the balance.
 
         Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -10898,7 +10939,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10907,7 +10948,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10923,7 +10964,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup_with_http_info(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -10937,13 +10978,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Charged]:
+    ) -> ApiResponse[BillingCharged]:
         """Charges a card the caller already saved and credits the balance.
 
         Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -10969,7 +11010,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -10978,7 +11019,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -10994,7 +11035,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup_without_preload_content(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -11013,8 +11054,8 @@ class BillingApi:
 
         Charges a card the caller already saved and credits the balance. Same receipt and the same retry safety as the token endpoint; the only difference is which card, so a caller topping up from a saved method never re-enters one.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -11040,7 +11081,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11049,7 +11090,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11060,7 +11101,7 @@ class BillingApi:
 
     def _post_billing_topup_serialize(
         self,
-        topup_in,
+        billing_topup_in,
         x_idempotency_key,
         _request_auth,
         _content_type,
@@ -11089,15 +11130,16 @@ class BillingApi:
             _header_params['X-Idempotency-Key'] = x_idempotency_key
         # process the form parameters
         # process the body parameter
-        if topup_in is not None:
-            _body_params = topup_in
+        if billing_topup_in is not None:
+            _body_params = billing_topup_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11141,7 +11183,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup_token(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -11155,13 +11197,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Charged:
+    ) -> BillingCharged:
         """Charges a single-use card token and credits the caller's balance.
 
         Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -11187,7 +11229,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_token_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11196,7 +11238,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11212,7 +11254,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup_token_with_http_info(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -11226,13 +11268,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Charged]:
+    ) -> ApiResponse[BillingCharged]:
         """Charges a single-use card token and credits the caller's balance.
 
         Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -11258,7 +11300,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_token_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11267,7 +11309,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11283,7 +11325,7 @@ class BillingApi:
     @validate_call
     def post_billing_topup_token_without_preload_content(
         self,
-        topup_in: TopupIn,
+        billing_topup_in: BillingTopupIn,
         x_idempotency_key: Optional[StrictStr] = None,
         _request_timeout: Union[
             None,
@@ -11302,8 +11344,8 @@ class BillingApi:
 
         Charges a single-use card token and credits the caller's balance.  The token comes from the payment form and is vaulted as part of the charge, so no card number reaches this service and none is stored here. The receipt names the ledger entry, the new balance, and the PROCESSOR's own reference — which is the only field that proves money moved at the gateway rather than only in our ledger.  Retry-safe on X-Idempotency-Key: the same key settles one charge and returns the first receipt.
 
-        :param topup_in: (required)
-        :type topup_in: TopupIn
+        :param billing_topup_in: (required)
+        :type billing_topup_in: BillingTopupIn
         :param x_idempotency_key:
         :type x_idempotency_key: str
         :param _request_timeout: timeout setting for this request. If one
@@ -11329,7 +11371,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._post_billing_topup_token_serialize(
-            topup_in=topup_in,
+            billing_topup_in=billing_topup_in,
             x_idempotency_key=x_idempotency_key,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -11338,7 +11380,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Charged",
+            '200': "BillingCharged",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11349,7 +11391,7 @@ class BillingApi:
 
     def _post_billing_topup_token_serialize(
         self,
-        topup_in,
+        billing_topup_in,
         x_idempotency_key,
         _request_auth,
         _content_type,
@@ -11378,15 +11420,16 @@ class BillingApi:
             _header_params['X-Idempotency-Key'] = x_idempotency_key
         # process the form parameters
         # process the body parameter
-        if topup_in is not None:
-            _body_params = topup_in
+        if billing_topup_in is not None:
+            _body_params = billing_topup_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11428,9 +11471,9 @@ class BillingApi:
 
 
     @validate_call
-    def put_billing_recharge(
+    def post_billing_usage(
         self,
-        auto_recharge_edit: AutoRechargeEdit,
+        billing_usage_report: BillingUsageReport,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11443,13 +11486,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AutoRecharge:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+    ) -> BillingUsageReceipt:
+        """Debits one act an application metered to the org it acts for, and answers the receipt.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Debits one act an application metered to the org it acts for, and answers the receipt.  The caller is an application acting as itself — an IAM client_credentials token — and the org is the one that token acts in: the application's own, or one that granted it membership, selected with X-Org-Id and named again in `org`. A person, an API key, an unauthenticated caller, and a body naming an org the token does not act in are all refused before anything is debited.  The debit lands in the same ledger every other meter writes, in the wallet GET /v1/billing/balance reports for the same caller. It is exactly-once on `id`: a retry answers the same receipt, and the same id for a different amount is 409. Recording does not gate — the work already happened — so a caller that must refuse unfunded work asks GET /v1/billing/balance and GET /v1/billing/alerts/authorize first.
 
-        :param auto_recharge_edit: (required)
-        :type auto_recharge_edit: AutoRechargeEdit
+        :param billing_usage_report: (required)
+        :type billing_usage_report: BillingUsageReport
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11472,8 +11515,8 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_billing_recharge_serialize(
-            auto_recharge_edit=auto_recharge_edit,
+        _param = self._post_billing_usage_serialize(
+            billing_usage_report=billing_usage_report,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11481,7 +11524,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingUsageReceipt",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11495,9 +11538,9 @@ class BillingApi:
 
 
     @validate_call
-    def put_billing_recharge_with_http_info(
+    def post_billing_usage_with_http_info(
         self,
-        auto_recharge_edit: AutoRechargeEdit,
+        billing_usage_report: BillingUsageReport,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11510,13 +11553,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AutoRecharge]:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+    ) -> ApiResponse[BillingUsageReceipt]:
+        """Debits one act an application metered to the org it acts for, and answers the receipt.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Debits one act an application metered to the org it acts for, and answers the receipt.  The caller is an application acting as itself — an IAM client_credentials token — and the org is the one that token acts in: the application's own, or one that granted it membership, selected with X-Org-Id and named again in `org`. A person, an API key, an unauthenticated caller, and a body naming an org the token does not act in are all refused before anything is debited.  The debit lands in the same ledger every other meter writes, in the wallet GET /v1/billing/balance reports for the same caller. It is exactly-once on `id`: a retry answers the same receipt, and the same id for a different amount is 409. Recording does not gate — the work already happened — so a caller that must refuse unfunded work asks GET /v1/billing/balance and GET /v1/billing/alerts/authorize first.
 
-        :param auto_recharge_edit: (required)
-        :type auto_recharge_edit: AutoRechargeEdit
+        :param billing_usage_report: (required)
+        :type billing_usage_report: BillingUsageReport
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11539,8 +11582,8 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_billing_recharge_serialize(
-            auto_recharge_edit=auto_recharge_edit,
+        _param = self._post_billing_usage_serialize(
+            billing_usage_report=billing_usage_report,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11548,7 +11591,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingUsageReceipt",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11562,9 +11605,9 @@ class BillingApi:
 
 
     @validate_call
-    def put_billing_recharge_without_preload_content(
+    def post_billing_usage_without_preload_content(
         self,
-        auto_recharge_edit: AutoRechargeEdit,
+        billing_usage_report: BillingUsageReport,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11578,12 +11621,12 @@ class BillingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+        """Debits one act an application metered to the org it acts for, and answers the receipt.
 
-        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Debits one act an application metered to the org it acts for, and answers the receipt.  The caller is an application acting as itself — an IAM client_credentials token — and the org is the one that token acts in: the application's own, or one that granted it membership, selected with X-Org-Id and named again in `org`. A person, an API key, an unauthenticated caller, and a body naming an org the token does not act in are all refused before anything is debited.  The debit lands in the same ledger every other meter writes, in the wallet GET /v1/billing/balance reports for the same caller. It is exactly-once on `id`: a retry answers the same receipt, and the same id for a different amount is 409. Recording does not gate — the work already happened — so a caller that must refuse unfunded work asks GET /v1/billing/balance and GET /v1/billing/alerts/authorize first.
 
-        :param auto_recharge_edit: (required)
-        :type auto_recharge_edit: AutoRechargeEdit
+        :param billing_usage_report: (required)
+        :type billing_usage_report: BillingUsageReport
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11606,8 +11649,8 @@ class BillingApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._put_billing_recharge_serialize(
-            auto_recharge_edit=auto_recharge_edit,
+        _param = self._post_billing_usage_serialize(
+            billing_usage_report=billing_usage_report,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11615,7 +11658,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AutoRecharge",
+            '200': "BillingUsageReceipt",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11624,9 +11667,9 @@ class BillingApi:
         return response_data.response
 
 
-    def _put_billing_recharge_serialize(
+    def _post_billing_usage_serialize(
         self,
-        auto_recharge_edit,
+        billing_usage_report,
         _request_auth,
         _content_type,
         _headers,
@@ -11652,15 +11695,291 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if auto_recharge_edit is not None:
-            _body_params = auto_recharge_edit
+        if billing_usage_report is not None:
+            _body_params = billing_usage_report
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/billing/usage',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def put_billing_recharge(
+        self,
+        billing_auto_recharge_edit: BillingAutoRechargeEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> BillingAutoRecharge:
+        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+
+        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_auto_recharge_edit: (required)
+        :type billing_auto_recharge_edit: BillingAutoRechargeEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_billing_recharge_serialize(
+            billing_auto_recharge_edit=billing_auto_recharge_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingAutoRecharge",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def put_billing_recharge_with_http_info(
+        self,
+        billing_auto_recharge_edit: BillingAutoRechargeEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[BillingAutoRecharge]:
+        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+
+        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_auto_recharge_edit: (required)
+        :type billing_auto_recharge_edit: BillingAutoRechargeEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_billing_recharge_serialize(
+            billing_auto_recharge_edit=billing_auto_recharge_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingAutoRecharge",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def put_billing_recharge_without_preload_content(
+        self,
+        billing_auto_recharge_edit: BillingAutoRechargeEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Sets the caller's auto-reload rule, and answers with the rule as stored.
+
+        Sets the caller's auto-reload rule, and answers with the rule as stored.  ENABLING REQUIRES A CARD ON FILE (400), because the sweep charges off-session: a rule naming no chargeable method is a promise the schedule cannot keep. A non-positive amount and a negative threshold are refused the same way, each naming the field that was wrong.  The rule is the caller's OWN. The org comes from the validated principal and the body names none, so there is no field a write could be steered through onto another tenant's schedule.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+
+        :param billing_auto_recharge_edit: (required)
+        :type billing_auto_recharge_edit: BillingAutoRechargeEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._put_billing_recharge_serialize(
+            billing_auto_recharge_edit=billing_auto_recharge_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "BillingAutoRecharge",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _put_billing_recharge_serialize(
+        self,
+        billing_auto_recharge_edit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if billing_auto_recharge_edit is not None:
+            _body_params = billing_auto_recharge_edit
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11704,7 +12023,7 @@ class BillingApi:
     @validate_call
     def raise_invoice(
         self,
-        raise_in: RaiseIn,
+        billing_raise_in: BillingRaiseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11717,13 +12036,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Invoice:
+    ) -> BillingInvoice:
         """Raise a draft invoice against a customer
 
-        Raises a DRAFT invoice against a customer in the caller's own org.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Raises a DRAFT invoice against a customer in the caller's own org. It is the org admin's act; a member is refused 403.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param raise_in: (required)
-        :type raise_in: RaiseIn
+        :param billing_raise_in: (required)
+        :type billing_raise_in: BillingRaiseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11747,7 +12066,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._raise_invoice_serialize(
-            raise_in=raise_in,
+            billing_raise_in=billing_raise_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11755,7 +12074,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Invoice",
+            '201': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11771,7 +12090,7 @@ class BillingApi:
     @validate_call
     def raise_invoice_with_http_info(
         self,
-        raise_in: RaiseIn,
+        billing_raise_in: BillingRaiseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11784,13 +12103,13 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Invoice]:
+    ) -> ApiResponse[BillingInvoice]:
         """Raise a draft invoice against a customer
 
-        Raises a DRAFT invoice against a customer in the caller's own org.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Raises a DRAFT invoice against a customer in the caller's own org. It is the org admin's act; a member is refused 403.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param raise_in: (required)
-        :type raise_in: RaiseIn
+        :param billing_raise_in: (required)
+        :type billing_raise_in: BillingRaiseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11814,7 +12133,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._raise_invoice_serialize(
-            raise_in=raise_in,
+            billing_raise_in=billing_raise_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11822,7 +12141,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Invoice",
+            '201': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11838,7 +12157,7 @@ class BillingApi:
     @validate_call
     def raise_invoice_without_preload_content(
         self,
-        raise_in: RaiseIn,
+        billing_raise_in: BillingRaiseIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11854,10 +12173,10 @@ class BillingApi:
     ) -> RESTResponseType:
         """Raise a draft invoice against a customer
 
-        Raises a DRAFT invoice against a customer in the caller's own org.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Raises a DRAFT invoice against a customer in the caller's own org. It is the org admin's act; a member is refused 403.  The invoice is not collectible yet: a draft exists so it can be read and corrected, and issueInvoice is the separate act that turns it into a demand for payment. The subtotal and amount due are computed from the lines, so there is no total to send and none to get wrong.  The billing org is the caller's, taken from the validated principal, so an invoice can only ever be raised on the caller's own books.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
-        :param raise_in: (required)
-        :type raise_in: RaiseIn
+        :param billing_raise_in: (required)
+        :type billing_raise_in: BillingRaiseIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -11881,7 +12200,7 @@ class BillingApi:
         """ # noqa: E501
 
         _param = self._raise_invoice_serialize(
-            raise_in=raise_in,
+            billing_raise_in=billing_raise_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -11889,7 +12208,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "Invoice",
+            '201': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -11900,7 +12219,7 @@ class BillingApi:
 
     def _raise_invoice_serialize(
         self,
-        raise_in,
+        billing_raise_in,
         _request_auth,
         _content_type,
         _headers,
@@ -11926,15 +12245,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if raise_in is not None:
-            _body_params = raise_in
+        if billing_raise_in is not None:
+            _body_params = billing_raise_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -11979,7 +12299,7 @@ class BillingApi:
     def reactivate_subscription(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -11992,15 +12312,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Subscription:
+    ) -> BillingSubscription:
         """Put a canceled subscription back on its plan
 
         Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12025,7 +12345,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12033,7 +12353,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12050,7 +12370,7 @@ class BillingApi:
     def reactivate_subscription_with_http_info(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12063,15 +12383,15 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Subscription]:
+    ) -> ApiResponse[BillingSubscription]:
         """Put a canceled subscription back on its plan
 
         Puts a canceled subscription back on its plan.  What asks for this is usually a recovered payment method or a support tool rather than a browser, which is most of the argument for it having an address at all. The engine decides whether the move is legal; a row it will not reactivate comes back with its own reason.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12096,7 +12416,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12104,7 +12424,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12121,7 +12441,7 @@ class BillingApi:
     def reactivate_subscription_without_preload_content(
         self,
         id: StrictStr,
-        subscription_ref: SubscriptionRef,
+        billing_subscription_ref: BillingSubscriptionRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -12141,8 +12461,8 @@ class BillingApi:
 
         :param id: (required)
         :type id: str
-        :param subscription_ref: (required)
-        :type subscription_ref: SubscriptionRef
+        :param billing_subscription_ref: (required)
+        :type billing_subscription_ref: BillingSubscriptionRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -12167,7 +12487,7 @@ class BillingApi:
 
         _param = self._reactivate_subscription_serialize(
             id=id,
-            subscription_ref=subscription_ref,
+            billing_subscription_ref=billing_subscription_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -12175,7 +12495,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Subscription",
+            '200': "BillingSubscription",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12187,7 +12507,7 @@ class BillingApi:
     def _reactivate_subscription_serialize(
         self,
         id,
-        subscription_ref,
+        billing_subscription_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -12215,15 +12535,16 @@ class BillingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if subscription_ref is not None:
-            _body_params = subscription_ref
+        if billing_subscription_ref is not None:
+            _body_params = billing_subscription_ref
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -12280,10 +12601,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Invoice:
+    ) -> BillingInvoice:
         """Void a draft or issued invoice
 
-        Voids a draft or issued invoice — the cancel.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -12318,7 +12639,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12347,10 +12668,10 @@ class BillingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Invoice]:
+    ) -> ApiResponse[BillingInvoice]:
         """Void a draft or issued invoice
 
-        Voids a draft or issued invoice — the cancel.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -12385,7 +12706,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12417,7 +12738,7 @@ class BillingApi:
     ) -> RESTResponseType:
         """Void a draft or issued invoice
 
-        Voids a draft or issued invoice — the cancel.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
+        Voids a draft or issued invoice — the cancel. It is the org admin's act; a member is refused 403.  A paid invoice cannot be voided: money has moved, and the correction for that is a refund, not an erasure. The state machine refuses it and that refusal is the answer.  A named handler, not a closure, so zipdoc can lift this prose into the registry.
 
         :param id: ID is the invoice id. (required)
         :type id: str
@@ -12452,7 +12773,7 @@ class BillingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Invoice",
+            '200': "BillingInvoice",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -12497,7 +12818,8 @@ class BillingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

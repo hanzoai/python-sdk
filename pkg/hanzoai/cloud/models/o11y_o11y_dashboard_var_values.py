@@ -26,7 +26,7 @@ class O11yO11yDashboardVarValues(BaseModel):
     """
     O11yO11yDashboardVarValues
     """ # noqa: E501
-    variable_values: Optional[List[Dict[str, Any]]] = Field(default=None, description="VariableValues are the values, in the order the query produced them.", alias="variableValues")
+    variable_values: Optional[List[Any]] = Field(default=None, description="VariableValues are the values, in the order the query produced them.", alias="variableValues")
     __properties: ClassVar[List[str]] = ["variableValues"]
 
     model_config = ConfigDict(

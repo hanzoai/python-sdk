@@ -26,7 +26,7 @@ class O11yO11yEventIn(BaseModel):
     """
     O11yO11yEventIn
     """ # noqa: E501
-    attributes: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Attributes are free-form event properties.")
+    attributes: Optional[Dict[str, Any]] = Field(default=None, description="Attributes are free-form event properties.")
     event_name: Optional[StrictStr] = Field(default=None, description="EventName names the event; required for track events.", alias="eventName")
     event_type: StrictStr = Field(description="EventType is the kind of event — track, identify or group. Required.", alias="eventType")
     rate_limited: Optional[StrictBool] = Field(default=None, description="RateLimited marks an event the reporting client rate-limited.", alias="rateLimited")

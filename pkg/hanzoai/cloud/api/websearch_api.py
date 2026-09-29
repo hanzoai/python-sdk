@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.web_search_query import WebSearchQuery
-from hanzoai.cloud.models.web_search_results import WebSearchResults
+from hanzoai.cloud.models.websearch_web_search_query import WebsearchWebSearchQuery
+from hanzoai.cloud.models.websearch_web_search_results import WebsearchWebSearchResults
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -1456,7 +1456,7 @@ class WebsearchApi:
     @validate_call
     def search_web(
         self,
-        web_search_query: WebSearchQuery,
+        websearch_web_search_query: WebsearchWebSearchQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1469,13 +1469,13 @@ class WebsearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WebSearchResults:
+    ) -> WebsearchWebSearchResults:
         """Search the live web
 
         Searches the live web and answers with ranked results.  This is the fleet's path to what is happening RIGHT NOW — today's weather, an outage, a release that postdates any model's training. `q` is the query and `language` narrows it to a locale. The answer is `{query, number_of_results, results:[{url, title, content, engine}]}`, where `content` is the ENGINE's snippet and not the page: read a page with POST /v1/crawl.  It is served in-process by a Go meta-search over keyless public engines — never a third-party search API and never a search key. The enabled engines run concurrently and their hits are merged, deduplicated by normalised URL (host and path, trailing slash and fragment dropped, query kept, so distinct queries stay distinct results) and capped at 30. Ranking is deterministic rather than scored: the first configured engine's hits lead.  It fails SOFT on the engines. One that errors, times out or is served a bot-challenge page contributes zero results and never fails the call, so an empty `results` is a real answer — nothing was found — and not an outage. The array is always present, never null.  Two refusals in the order they have to be asked, both in the PREAMBLE. A typed op is also an MCP tool, a call-plane operation, a graph field and a CLI command, and every one of those invokes it with no route and therefore no middleware — so what admits a caller here is asked where every caller reaches it rather than in a middleware only one of them passes through.  A VALIDATED PRINCIPAL IS REQUIRED, and there is no tenant beyond that: the results are public web pages, identical for every caller, so nothing here is scoped and nothing here can leak across orgs.  THEN THE ANTI-FORGERY TOKEN, immediately before the money, because that is what it is about. This search is the SAME bought meta-search the compat endpoint runs — the engines cost, and account.Shared/meter.go bills the caller's ledger for the answer — so a page the caller never visited must not be able to spend for them by sending their browser here with a cookie they already hold. Nothing leaks; the answer is unreadable cross-origin. What moves is money.  It is account's control, the one every operation in this estate asks, and it is a no-op the moment a caller PRESENTS a credential (Bearer, gateway, API key) — which is every service and console caller here — so it costs a CLI, an agent and an API client nothing. Only the ambient-cookie path is asked for the echoed token. The raw /v1/websearch/search route asks the same control on its group (see Mount), so the two addresses of one search are admitted alike.
 
-        :param web_search_query: (required)
-        :type web_search_query: WebSearchQuery
+        :param websearch_web_search_query: (required)
+        :type websearch_web_search_query: WebsearchWebSearchQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1499,7 +1499,7 @@ class WebsearchApi:
         """ # noqa: E501
 
         _param = self._search_web_serialize(
-            web_search_query=web_search_query,
+            websearch_web_search_query=websearch_web_search_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1507,7 +1507,7 @@ class WebsearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebSearchResults",
+            '200': "WebsearchWebSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1523,7 +1523,7 @@ class WebsearchApi:
     @validate_call
     def search_web_with_http_info(
         self,
-        web_search_query: WebSearchQuery,
+        websearch_web_search_query: WebsearchWebSearchQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1536,13 +1536,13 @@ class WebsearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WebSearchResults]:
+    ) -> ApiResponse[WebsearchWebSearchResults]:
         """Search the live web
 
         Searches the live web and answers with ranked results.  This is the fleet's path to what is happening RIGHT NOW — today's weather, an outage, a release that postdates any model's training. `q` is the query and `language` narrows it to a locale. The answer is `{query, number_of_results, results:[{url, title, content, engine}]}`, where `content` is the ENGINE's snippet and not the page: read a page with POST /v1/crawl.  It is served in-process by a Go meta-search over keyless public engines — never a third-party search API and never a search key. The enabled engines run concurrently and their hits are merged, deduplicated by normalised URL (host and path, trailing slash and fragment dropped, query kept, so distinct queries stay distinct results) and capped at 30. Ranking is deterministic rather than scored: the first configured engine's hits lead.  It fails SOFT on the engines. One that errors, times out or is served a bot-challenge page contributes zero results and never fails the call, so an empty `results` is a real answer — nothing was found — and not an outage. The array is always present, never null.  Two refusals in the order they have to be asked, both in the PREAMBLE. A typed op is also an MCP tool, a call-plane operation, a graph field and a CLI command, and every one of those invokes it with no route and therefore no middleware — so what admits a caller here is asked where every caller reaches it rather than in a middleware only one of them passes through.  A VALIDATED PRINCIPAL IS REQUIRED, and there is no tenant beyond that: the results are public web pages, identical for every caller, so nothing here is scoped and nothing here can leak across orgs.  THEN THE ANTI-FORGERY TOKEN, immediately before the money, because that is what it is about. This search is the SAME bought meta-search the compat endpoint runs — the engines cost, and account.Shared/meter.go bills the caller's ledger for the answer — so a page the caller never visited must not be able to spend for them by sending their browser here with a cookie they already hold. Nothing leaks; the answer is unreadable cross-origin. What moves is money.  It is account's control, the one every operation in this estate asks, and it is a no-op the moment a caller PRESENTS a credential (Bearer, gateway, API key) — which is every service and console caller here — so it costs a CLI, an agent and an API client nothing. Only the ambient-cookie path is asked for the echoed token. The raw /v1/websearch/search route asks the same control on its group (see Mount), so the two addresses of one search are admitted alike.
 
-        :param web_search_query: (required)
-        :type web_search_query: WebSearchQuery
+        :param websearch_web_search_query: (required)
+        :type websearch_web_search_query: WebsearchWebSearchQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1566,7 +1566,7 @@ class WebsearchApi:
         """ # noqa: E501
 
         _param = self._search_web_serialize(
-            web_search_query=web_search_query,
+            websearch_web_search_query=websearch_web_search_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1574,7 +1574,7 @@ class WebsearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebSearchResults",
+            '200': "WebsearchWebSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1590,7 +1590,7 @@ class WebsearchApi:
     @validate_call
     def search_web_without_preload_content(
         self,
-        web_search_query: WebSearchQuery,
+        websearch_web_search_query: WebsearchWebSearchQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1608,8 +1608,8 @@ class WebsearchApi:
 
         Searches the live web and answers with ranked results.  This is the fleet's path to what is happening RIGHT NOW — today's weather, an outage, a release that postdates any model's training. `q` is the query and `language` narrows it to a locale. The answer is `{query, number_of_results, results:[{url, title, content, engine}]}`, where `content` is the ENGINE's snippet and not the page: read a page with POST /v1/crawl.  It is served in-process by a Go meta-search over keyless public engines — never a third-party search API and never a search key. The enabled engines run concurrently and their hits are merged, deduplicated by normalised URL (host and path, trailing slash and fragment dropped, query kept, so distinct queries stay distinct results) and capped at 30. Ranking is deterministic rather than scored: the first configured engine's hits lead.  It fails SOFT on the engines. One that errors, times out or is served a bot-challenge page contributes zero results and never fails the call, so an empty `results` is a real answer — nothing was found — and not an outage. The array is always present, never null.  Two refusals in the order they have to be asked, both in the PREAMBLE. A typed op is also an MCP tool, a call-plane operation, a graph field and a CLI command, and every one of those invokes it with no route and therefore no middleware — so what admits a caller here is asked where every caller reaches it rather than in a middleware only one of them passes through.  A VALIDATED PRINCIPAL IS REQUIRED, and there is no tenant beyond that: the results are public web pages, identical for every caller, so nothing here is scoped and nothing here can leak across orgs.  THEN THE ANTI-FORGERY TOKEN, immediately before the money, because that is what it is about. This search is the SAME bought meta-search the compat endpoint runs — the engines cost, and account.Shared/meter.go bills the caller's ledger for the answer — so a page the caller never visited must not be able to spend for them by sending their browser here with a cookie they already hold. Nothing leaks; the answer is unreadable cross-origin. What moves is money.  It is account's control, the one every operation in this estate asks, and it is a no-op the moment a caller PRESENTS a credential (Bearer, gateway, API key) — which is every service and console caller here — so it costs a CLI, an agent and an API client nothing. Only the ambient-cookie path is asked for the echoed token. The raw /v1/websearch/search route asks the same control on its group (see Mount), so the two addresses of one search are admitted alike.
 
-        :param web_search_query: (required)
-        :type web_search_query: WebSearchQuery
+        :param websearch_web_search_query: (required)
+        :type websearch_web_search_query: WebsearchWebSearchQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1633,7 +1633,7 @@ class WebsearchApi:
         """ # noqa: E501
 
         _param = self._search_web_serialize(
-            web_search_query=web_search_query,
+            websearch_web_search_query=websearch_web_search_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1641,7 +1641,7 @@ class WebsearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WebSearchResults",
+            '200': "WebsearchWebSearchResults",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1652,7 +1652,7 @@ class WebsearchApi:
 
     def _search_web_serialize(
         self,
-        web_search_query,
+        websearch_web_search_query,
         _request_auth,
         _content_type,
         _headers,
@@ -1678,15 +1678,16 @@ class WebsearchApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if web_search_query is not None:
-            _body_params = web_search_query
+        if websearch_web_search_query is not None:
+            _body_params = websearch_web_search_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

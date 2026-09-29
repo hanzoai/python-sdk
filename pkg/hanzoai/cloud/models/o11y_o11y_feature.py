@@ -30,9 +30,9 @@ class O11yO11yFeature(BaseModel):
     description: Optional[StrictStr] = Field(default=None, description="Description says what the flag gates.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is the flag's value kind, e.g. boolean.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the flag's name.")
-    resolved_value: Optional[Dict[str, Any]] = Field(default=None, description="ResolvedValue is the value resolved for the caller's org.", alias="resolvedValue")
+    resolved_value: Optional[Any] = Field(default=None, alias="resolvedValue")
     stage: Optional[StrictStr] = Field(default=None, description="Stage is the flag's lifecycle stage, e.g. stable.")
-    variants: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, description="Variants are the flag's possible values, by variant name.")
+    variants: Optional[Dict[str, Any]] = Field(default=None, description="Variants are the flag's possible values, by variant name.")
     __properties: ClassVar[List[str]] = ["defaultVariant", "description", "kind", "name", "resolvedValue", "stage", "variants"]
 
     model_config = ConfigDict(
@@ -74,6 +74,11 @@ class O11yO11yFeature(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if resolved_value (nullable) is None
+        # and model_fields_set contains the field
+        if self.resolved_value is None and "resolved_value" in self.model_fields_set:
+            _dict['resolvedValue'] = None
+
         return _dict
 
     @classmethod

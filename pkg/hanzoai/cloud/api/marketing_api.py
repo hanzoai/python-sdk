@@ -19,33 +19,35 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.audience import Audience
-from hanzoai.cloud.models.audience_list import AudienceList
-from hanzoai.cloud.models.audience_preview import AudiencePreview
-from hanzoai.cloud.models.calendar_post import CalendarPost
-from hanzoai.cloud.models.campaign import Campaign
-from hanzoai.cloud.models.campaign_list import CampaignList
-from hanzoai.cloud.models.enroll_input import EnrollInput
-from hanzoai.cloud.models.enroll_result import EnrollResult
-from hanzoai.cloud.models.enrollment_list import EnrollmentList
-from hanzoai.cloud.models.post_list import PostList
-from hanzoai.cloud.models.promo_list import PromoList
-from hanzoai.cloud.models.quote import Quote
-from hanzoai.cloud.models.redeem_input import RedeemInput
-from hanzoai.cloud.models.redeem_result import RedeemResult
-from hanzoai.cloud.models.redemption import Redemption
-from hanzoai.cloud.models.schedule_input import ScheduleInput
-from hanzoai.cloud.models.sequence import Sequence
-from hanzoai.cloud.models.sequence_list import SequenceList
-from hanzoai.cloud.models.sequence_status import SequenceStatus
-from hanzoai.cloud.models.sequence_view import SequenceView
-from hanzoai.cloud.models.step import Step
-from hanzoai.cloud.models.step_input import StepInput
-from hanzoai.cloud.models.step_list import StepList
-from hanzoai.cloud.models.summary import Summary
-from hanzoai.cloud.models.suppression import Suppression
-from hanzoai.cloud.models.suppression_list import SuppressionList
-from hanzoai.cloud.models.unsubscribed import Unsubscribed
+from hanzoai.cloud.models.marketing_audience import MarketingAudience
+from hanzoai.cloud.models.marketing_audience_list import MarketingAudienceList
+from hanzoai.cloud.models.marketing_audience_preview import MarketingAudiencePreview
+from hanzoai.cloud.models.marketing_calendar_post import MarketingCalendarPost
+from hanzoai.cloud.models.marketing_campaign import MarketingCampaign
+from hanzoai.cloud.models.marketing_campaign_list import MarketingCampaignList
+from hanzoai.cloud.models.marketing_enroll_input import MarketingEnrollInput
+from hanzoai.cloud.models.marketing_enroll_result import MarketingEnrollResult
+from hanzoai.cloud.models.marketing_enrollment_list import MarketingEnrollmentList
+from hanzoai.cloud.models.marketing_lead import MarketingLead
+from hanzoai.cloud.models.marketing_lead_in import MarketingLeadIn
+from hanzoai.cloud.models.marketing_post_list import MarketingPostList
+from hanzoai.cloud.models.marketing_promo_list import MarketingPromoList
+from hanzoai.cloud.models.marketing_quote import MarketingQuote
+from hanzoai.cloud.models.marketing_redeem_input import MarketingRedeemInput
+from hanzoai.cloud.models.marketing_redeem_result import MarketingRedeemResult
+from hanzoai.cloud.models.marketing_redemption import MarketingRedemption
+from hanzoai.cloud.models.marketing_schedule_input import MarketingScheduleInput
+from hanzoai.cloud.models.marketing_sequence import MarketingSequence
+from hanzoai.cloud.models.marketing_sequence_list import MarketingSequenceList
+from hanzoai.cloud.models.marketing_sequence_status import MarketingSequenceStatus
+from hanzoai.cloud.models.marketing_sequence_view import MarketingSequenceView
+from hanzoai.cloud.models.marketing_step import MarketingStep
+from hanzoai.cloud.models.marketing_step_input import MarketingStepInput
+from hanzoai.cloud.models.marketing_step_list import MarketingStepList
+from hanzoai.cloud.models.marketing_summary import MarketingSummary
+from hanzoai.cloud.models.marketing_suppression import MarketingSuppression
+from hanzoai.cloud.models.marketing_suppression_list import MarketingSuppressionList
+from hanzoai.cloud.models.marketing_unsubscribed import MarketingUnsubscribed
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -294,6 +296,13 @@ class MarketingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -548,6 +557,13 @@ class MarketingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -802,6 +818,13 @@ class MarketingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1109,6 +1132,13 @@ class MarketingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1150,7 +1180,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AudienceList:
+    ) -> MarketingAudienceList:
         """Returns the org's saved audiences, most recently updated first.
 
         Returns the org's saved audiences, most recently updated first.
@@ -1188,7 +1218,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudienceList",
+            '200': "MarketingAudienceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1217,7 +1247,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AudienceList]:
+    ) -> ApiResponse[MarketingAudienceList]:
         """Returns the org's saved audiences, most recently updated first.
 
         Returns the org's saved audiences, most recently updated first.
@@ -1255,7 +1285,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudienceList",
+            '200': "MarketingAudienceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1322,7 +1352,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudienceList",
+            '200': "MarketingAudienceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1369,7 +1399,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1413,7 +1444,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Audience:
+    ) -> MarketingAudience:
         """Returns one of the caller org's saved audiences.
 
         Returns one of the caller org's saved audiences. An audience belonging to another org reads as not found.
@@ -1451,7 +1482,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1480,7 +1511,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Audience]:
+    ) -> ApiResponse[MarketingAudience]:
         """Returns one of the caller org's saved audiences.
 
         Returns one of the caller org's saved audiences. An audience belonging to another org reads as not found.
@@ -1518,7 +1549,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1585,7 +1616,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1630,7 +1661,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1674,7 +1706,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AudiencePreview:
+    ) -> MarketingAudiencePreview:
         """Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches.
 
         Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches. It is the honest answer to \"is this send worth making\": a cohort of 500 that mails 3 says so, in deliverable and unmatched. Nothing is sent.
@@ -1712,7 +1744,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudiencePreview",
+            '200': "MarketingAudiencePreview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1741,7 +1773,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AudiencePreview]:
+    ) -> ApiResponse[MarketingAudiencePreview]:
         """Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches.
 
         Evaluates the cohort LIVE — the same resolution an enrollment would run — and reports how big it is and how many real mailboxes it reaches. It is the honest answer to \"is this send worth making\": a cohort of 500 that mails 3 says so, in deliverable and unmatched. Nothing is sent.
@@ -1779,7 +1811,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudiencePreview",
+            '200': "MarketingAudiencePreview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1846,7 +1878,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AudiencePreview",
+            '200': "MarketingAudiencePreview",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1891,7 +1923,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1936,7 +1969,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PostList:
+    ) -> MarketingPostList:
         """Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
 
         Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
@@ -1977,7 +2010,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostList",
+            '200': "MarketingPostList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2007,7 +2040,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PostList]:
+    ) -> ApiResponse[MarketingPostList]:
         """Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
 
         Returns the org's calendar, latest scheduled first, optionally narrowed to one status.
@@ -2048,7 +2081,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostList",
+            '200': "MarketingPostList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2119,7 +2152,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PostList",
+            '200': "MarketingPostList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2171,7 +2204,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2215,7 +2249,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CalendarPost:
+    ) -> MarketingCalendarPost:
         """Returns one of the caller org's posts, including the exact error behind a failed publish.
 
         Returns one of the caller org's posts, including the exact error behind a failed publish. A post belonging to another org reads as not found.
@@ -2253,7 +2287,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2282,7 +2316,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CalendarPost]:
+    ) -> ApiResponse[MarketingCalendarPost]:
         """Returns one of the caller org's posts, including the exact error behind a failed publish.
 
         Returns one of the caller org's posts, including the exact error behind a failed publish. A post belonging to another org reads as not found.
@@ -2320,7 +2354,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2387,7 +2421,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2432,7 +2466,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2477,7 +2512,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CampaignList:
+    ) -> MarketingCampaignList:
         """Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
 
         Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
@@ -2518,7 +2553,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "MarketingCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2548,7 +2583,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CampaignList]:
+    ) -> ApiResponse[MarketingCampaignList]:
         """Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
 
         Returns the org's campaigns, most recently updated first, optionally narrowed to one lifecycle status.
@@ -2589,7 +2624,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "MarketingCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2660,7 +2695,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CampaignList",
+            '200': "MarketingCampaignList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2712,7 +2747,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2756,7 +2792,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Campaign:
+    ) -> MarketingCampaign:
         """Returns one of the caller org's campaigns.
 
         Returns one of the caller org's campaigns. A campaign belonging to another org reads as not found.
@@ -2794,7 +2830,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2823,7 +2859,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Campaign]:
+    ) -> ApiResponse[MarketingCampaign]:
         """Returns one of the caller org's campaigns.
 
         Returns one of the caller org's campaigns. A campaign belonging to another org reads as not found.
@@ -2861,7 +2897,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2928,7 +2964,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2973,7 +3009,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3016,7 +3053,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PromoList:
+    ) -> MarketingPromoList:
         """Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap.
 
         Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap. The promos are fleet-wide, not per-org — only the counters move.
@@ -3051,7 +3088,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromoList",
+            '200': "MarketingPromoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3079,7 +3116,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PromoList]:
+    ) -> ApiResponse[MarketingPromoList]:
         """Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap.
 
         Returns every promo the deployment offers with its live counters: how many orgs have redeemed it and how many redemptions remain under the cap. The promos are fleet-wide, not per-org — only the counters move.
@@ -3114,7 +3151,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromoList",
+            '200': "MarketingPromoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3177,7 +3214,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PromoList",
+            '200': "MarketingPromoList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3219,7 +3256,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3265,7 +3303,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Quote:
+    ) -> MarketingQuote:
         """Prices a promo against a plan and seat count.
 
         Prices a promo against a plan and seat count. It is PURE: nothing is redeemed, credited or counted, so it is safe to call from a pricing page on every keystroke. An inactive promo or an exhausted cap quotes ineligible with the reason rather than erroring.
@@ -3309,7 +3347,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Quote",
+            '200': "MarketingQuote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3340,7 +3378,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Quote]:
+    ) -> ApiResponse[MarketingQuote]:
         """Prices a promo against a plan and seat count.
 
         Prices a promo against a plan and seat count. It is PURE: nothing is redeemed, credited or counted, so it is safe to call from a pricing page on every keystroke. An inactive promo or an exhausted cap quotes ineligible with the reason rather than erroring.
@@ -3384,7 +3422,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Quote",
+            '200': "MarketingQuote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3459,7 +3497,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Quote",
+            '200': "MarketingQuote",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3514,7 +3552,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3558,7 +3597,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Redemption:
+    ) -> MarketingRedemption:
         """Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's.
 
         Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's. Not found when this org has not redeemed it.
@@ -3596,7 +3635,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Redemption",
+            '200': "MarketingRedemption",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3625,7 +3664,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Redemption]:
+    ) -> ApiResponse[MarketingRedemption]:
         """Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's.
 
         Returns the caller org's OWN redemption of a promo — an org-scoped read, so it can never surface another tenant's. Not found when this org has not redeemed it.
@@ -3663,7 +3702,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Redemption",
+            '200': "MarketingRedemption",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3730,7 +3769,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Redemption",
+            '200': "MarketingRedemption",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3775,7 +3814,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3819,7 +3859,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SequenceList:
+    ) -> MarketingSequenceList:
         """Returns the org's drip sequences, most recently updated first.
 
         Returns the org's drip sequences, most recently updated first.
@@ -3857,7 +3897,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceList",
+            '200': "MarketingSequenceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3886,7 +3926,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SequenceList]:
+    ) -> ApiResponse[MarketingSequenceList]:
         """Returns the org's drip sequences, most recently updated first.
 
         Returns the org's drip sequences, most recently updated first.
@@ -3924,7 +3964,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceList",
+            '200': "MarketingSequenceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3991,7 +4031,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceList",
+            '200': "MarketingSequenceList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4038,7 +4078,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4082,7 +4123,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SequenceView:
+    ) -> MarketingSequenceView:
         """Returns one of the caller org's sequences together with its steps in send order.
 
         Returns one of the caller org's sequences together with its steps in send order. A sequence belonging to another org reads as not found.
@@ -4120,7 +4161,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceView",
+            '200': "MarketingSequenceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4149,7 +4190,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SequenceView]:
+    ) -> ApiResponse[MarketingSequenceView]:
         """Returns one of the caller org's sequences together with its steps in send order.
 
         Returns one of the caller org's sequences together with its steps in send order. A sequence belonging to another org reads as not found.
@@ -4187,7 +4228,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceView",
+            '200': "MarketingSequenceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4254,7 +4295,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceView",
+            '200': "MarketingSequenceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4299,7 +4340,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4344,7 +4386,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EnrollmentList:
+    ) -> MarketingEnrollmentList:
         """Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
 
         Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
@@ -4385,7 +4427,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollmentList",
+            '200': "MarketingEnrollmentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4415,7 +4457,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EnrollmentList]:
+    ) -> ApiResponse[MarketingEnrollmentList]:
         """Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
 
         Returns who is walking one sequence, most recently enrolled first, with each walk's current step and next due time.
@@ -4456,7 +4498,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollmentList",
+            '200': "MarketingEnrollmentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4527,7 +4569,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollmentList",
+            '200': "MarketingEnrollmentList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4577,7 +4619,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4621,7 +4664,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> StepList:
+    ) -> MarketingStepList:
         """Returns one sequence's steps in send order.
 
         Returns one sequence's steps in send order.
@@ -4659,7 +4702,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StepList",
+            '200': "MarketingStepList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4688,7 +4731,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[StepList]:
+    ) -> ApiResponse[MarketingStepList]:
         """Returns one sequence's steps in send order.
 
         Returns one sequence's steps in send order.
@@ -4726,7 +4769,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StepList",
+            '200': "MarketingStepList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4793,7 +4836,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "StepList",
+            '200': "MarketingStepList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4838,7 +4881,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4881,7 +4925,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Summary:
+    ) -> MarketingSummary:
         """Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
 
         Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
@@ -4916,7 +4960,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "MarketingSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4944,7 +4988,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Summary]:
+    ) -> ApiResponse[MarketingSummary]:
         """Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
 
         Rolls up the caller org's campaigns: how many there are, how many are active, and the summed budget and spend in cents.
@@ -4979,7 +5023,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "MarketingSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5042,7 +5086,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Summary",
+            '200': "MarketingSummary",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5084,7 +5128,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5128,7 +5173,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SuppressionList:
+    ) -> MarketingSuppressionList:
         """Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
 
         Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
@@ -5166,7 +5211,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuppressionList",
+            '200': "MarketingSuppressionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5195,7 +5240,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SuppressionList]:
+    ) -> ApiResponse[MarketingSuppressionList]:
         """Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
 
         Returns the org's opt-out list, newest first — everyone the send gate will refuse to deliver to.
@@ -5233,7 +5278,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuppressionList",
+            '200': "MarketingSuppressionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5300,7 +5345,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuppressionList",
+            '200': "MarketingSuppressionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5347,7 +5392,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5394,7 +5440,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Unsubscribed:
+    ) -> MarketingUnsubscribed:
         """Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
 
         Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
@@ -5441,7 +5487,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Unsubscribed",
+            '200': "MarketingUnsubscribed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5473,7 +5519,7 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Unsubscribed]:
+    ) -> ApiResponse[MarketingUnsubscribed]:
         """Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer.
 
         Is the PUBLIC one-click endpoint (no principal): a recipient clicks the signed link in an email footer. The token binds (org, channel, address), so a caller can only opt OUT exactly the tuple it was minted for — never another address and never another org. An invalid token is refused, and a deployment with no KMS-sealed key refuses rather than accepting anything.
@@ -5520,7 +5566,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Unsubscribed",
+            '200': "MarketingUnsubscribed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5599,7 +5645,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Unsubscribed",
+            '200': "MarketingUnsubscribed",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5661,7 +5707,8 @@ class MarketingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5692,7 +5739,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_audiences(
         self,
-        audience: Audience,
+        marketing_audience: MarketingAudience,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5705,13 +5752,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Audience:
+    ) -> MarketingAudience:
         """Saves a cohort filter for the caller's org.
 
         Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
 
-        :param audience: (required)
-        :type audience: Audience
+        :param marketing_audience: (required)
+        :type marketing_audience: MarketingAudience
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5735,7 +5782,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_audiences_serialize(
-            audience=audience,
+            marketing_audience=marketing_audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5743,7 +5790,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5759,7 +5806,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_audiences_with_http_info(
         self,
-        audience: Audience,
+        marketing_audience: MarketingAudience,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5772,13 +5819,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Audience]:
+    ) -> ApiResponse[MarketingAudience]:
         """Saves a cohort filter for the caller's org.
 
         Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
 
-        :param audience: (required)
-        :type audience: Audience
+        :param marketing_audience: (required)
+        :type marketing_audience: MarketingAudience
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5802,7 +5849,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_audiences_serialize(
-            audience=audience,
+            marketing_audience=marketing_audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5810,7 +5857,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5826,7 +5873,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_audiences_without_preload_content(
         self,
-        audience: Audience,
+        marketing_audience: MarketingAudience,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5844,8 +5891,8 @@ class MarketingApi:
 
         Saves a cohort filter for the caller's org. Name is required. Omitting event saves the WHOLE-ORG audience — every mailable customer — which needs no analytics warehouse; naming one narrows that roster to the customers who fired it within windowDays.
 
-        :param audience: (required)
-        :type audience: Audience
+        :param marketing_audience: (required)
+        :type marketing_audience: MarketingAudience
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -5869,7 +5916,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_audiences_serialize(
-            audience=audience,
+            marketing_audience=marketing_audience,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -5877,7 +5924,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Audience",
+            '200': "MarketingAudience",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5888,7 +5935,7 @@ class MarketingApi:
 
     def _post_marketing_audiences_serialize(
         self,
-        audience,
+        marketing_audience,
         _request_auth,
         _content_type,
         _headers,
@@ -5914,15 +5961,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if audience is not None:
-            _body_params = audience
+        if marketing_audience is not None:
+            _body_params = marketing_audience
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5966,7 +6014,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_calendar(
         self,
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -5979,13 +6027,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CalendarPost:
+    ) -> MarketingCalendarPost:
         """Adds a post to the content calendar.
 
         Adds a post to the content calendar. Channel and body are required. A scheduledAt in the future makes the post \"scheduled\" and the durable sweep publishes it when it comes due — claimed once, so a post publishes at most once; without one it stays a draft.
 
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6009,7 +6057,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_calendar_serialize(
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6017,7 +6065,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6033,7 +6081,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_calendar_with_http_info(
         self,
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6046,13 +6094,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CalendarPost]:
+    ) -> ApiResponse[MarketingCalendarPost]:
         """Adds a post to the content calendar.
 
         Adds a post to the content calendar. Channel and body are required. A scheduledAt in the future makes the post \"scheduled\" and the durable sweep publishes it when it comes due — claimed once, so a post publishes at most once; without one it stays a draft.
 
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6076,7 +6124,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_calendar_serialize(
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6084,7 +6132,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6100,7 +6148,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_calendar_without_preload_content(
         self,
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6118,8 +6166,8 @@ class MarketingApi:
 
         Adds a post to the content calendar. Channel and body are required. A scheduledAt in the future makes the post \"scheduled\" and the durable sweep publishes it when it comes due — claimed once, so a post publishes at most once; without one it stays a draft.
 
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6143,7 +6191,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_calendar_serialize(
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6151,7 +6199,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6162,7 +6210,7 @@ class MarketingApi:
 
     def _post_marketing_calendar_serialize(
         self,
-        calendar_post,
+        marketing_calendar_post,
         _request_auth,
         _content_type,
         _headers,
@@ -6188,15 +6236,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if calendar_post is not None:
-            _body_params = calendar_post
+        if marketing_calendar_post is not None:
+            _body_params = marketing_calendar_post
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6238,270 +6287,9 @@ class MarketingApi:
 
 
     @validate_call
-    def post_marketing_calendar_by_id_publish(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CalendarPost:
-        """Publishes a post NOW, synchronously, whatever its schedule.
-
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
-
-        :param id: ID is the post id from the path, as returned by create. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_marketing_calendar_by_id_publish_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_marketing_calendar_by_id_publish_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CalendarPost]:
-        """Publishes a post NOW, synchronously, whatever its schedule.
-
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
-
-        :param id: ID is the post id from the path, as returned by create. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_marketing_calendar_by_id_publish_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_marketing_calendar_by_id_publish_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the post id from the path, as returned by create.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Publishes a post NOW, synchronously, whatever its schedule.
-
-        Publishes a post NOW, synchronously, whatever its schedule. No social connector is wired today, so every channel answers an honest 501 naming the client a real one would plug into, and the post is recorded failed with that exact reason — never a faked \"published\".
-
-        :param id: ID is the post id from the path, as returned by create. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_marketing_calendar_by_id_publish_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_marketing_calendar_by_id_publish_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/marketing/calendar/{id}/publish',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def post_marketing_campaigns(
         self,
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6514,13 +6302,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Campaign:
+    ) -> MarketingCampaign:
         """Registers a campaign in the caller's org.
 
         Registers a campaign in the caller's org. Name is required; channel defaults to email and status to draft, and a future scheduledAt with no explicit status makes the campaign \"scheduled\". Budget and spend are cents and are clamped to >= 0. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6544,7 +6332,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_campaigns_serialize(
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6552,7 +6340,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6568,7 +6356,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_campaigns_with_http_info(
         self,
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6581,13 +6369,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Campaign]:
+    ) -> ApiResponse[MarketingCampaign]:
         """Registers a campaign in the caller's org.
 
         Registers a campaign in the caller's org. Name is required; channel defaults to email and status to draft, and a future scheduledAt with no explicit status makes the campaign \"scheduled\". Budget and spend are cents and are clamped to >= 0. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6611,7 +6399,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_campaigns_serialize(
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6619,7 +6407,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6635,7 +6423,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_campaigns_without_preload_content(
         self,
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6653,8 +6441,8 @@ class MarketingApi:
 
         Registers a campaign in the caller's org. Name is required; channel defaults to email and status to draft, and a future scheduledAt with no explicit status makes the campaign \"scheduled\". Budget and spend are cents and are clamped to >= 0. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6678,7 +6466,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_campaigns_serialize(
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6686,7 +6474,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6697,7 +6485,7 @@ class MarketingApi:
 
     def _post_marketing_campaigns_serialize(
         self,
-        campaign,
+        marketing_campaign,
         _request_auth,
         _content_type,
         _headers,
@@ -6723,15 +6511,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if campaign is not None:
-            _body_params = campaign
+        if marketing_campaign is not None:
+            _body_params = marketing_campaign
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6776,7 +6565,7 @@ class MarketingApi:
     def post_marketing_campaigns_by_id_schedule(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
-        schedule_input: ScheduleInput,
+        marketing_schedule_input: MarketingScheduleInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6789,15 +6578,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Campaign:
+    ) -> MarketingCampaign:
         """Sets a campaign's send time and moves it to \"scheduled\".
 
         Sets a campaign's send time and moves it to \"scheduled\". A scheduledAt of 0 clears the schedule and returns it to \"draft\".
 
         :param id: ID is the campaign id from the path. (required)
         :type id: str
-        :param schedule_input: (required)
-        :type schedule_input: ScheduleInput
+        :param marketing_schedule_input: (required)
+        :type marketing_schedule_input: MarketingScheduleInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6822,7 +6611,7 @@ class MarketingApi:
 
         _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
-            schedule_input=schedule_input,
+            marketing_schedule_input=marketing_schedule_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6830,7 +6619,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6847,7 +6636,7 @@ class MarketingApi:
     def post_marketing_campaigns_by_id_schedule_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
-        schedule_input: ScheduleInput,
+        marketing_schedule_input: MarketingScheduleInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6860,15 +6649,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Campaign]:
+    ) -> ApiResponse[MarketingCampaign]:
         """Sets a campaign's send time and moves it to \"scheduled\".
 
         Sets a campaign's send time and moves it to \"scheduled\". A scheduledAt of 0 clears the schedule and returns it to \"draft\".
 
         :param id: ID is the campaign id from the path. (required)
         :type id: str
-        :param schedule_input: (required)
-        :type schedule_input: ScheduleInput
+        :param marketing_schedule_input: (required)
+        :type marketing_schedule_input: MarketingScheduleInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6893,7 +6682,7 @@ class MarketingApi:
 
         _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
-            schedule_input=schedule_input,
+            marketing_schedule_input=marketing_schedule_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6901,7 +6690,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6918,7 +6707,7 @@ class MarketingApi:
     def post_marketing_campaigns_by_id_schedule_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the campaign id from the path.")],
-        schedule_input: ScheduleInput,
+        marketing_schedule_input: MarketingScheduleInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6938,8 +6727,8 @@ class MarketingApi:
 
         :param id: ID is the campaign id from the path. (required)
         :type id: str
-        :param schedule_input: (required)
-        :type schedule_input: ScheduleInput
+        :param marketing_schedule_input: (required)
+        :type marketing_schedule_input: MarketingScheduleInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6964,7 +6753,7 @@ class MarketingApi:
 
         _param = self._post_marketing_campaigns_by_id_schedule_serialize(
             id=id,
-            schedule_input=schedule_input,
+            marketing_schedule_input=marketing_schedule_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6972,7 +6761,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6984,7 +6773,7 @@ class MarketingApi:
     def _post_marketing_campaigns_by_id_schedule_serialize(
         self,
         id,
-        schedule_input,
+        marketing_schedule_input,
         _request_auth,
         _content_type,
         _headers,
@@ -7012,15 +6801,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if schedule_input is not None:
-            _body_params = schedule_input
+        if marketing_schedule_input is not None:
+            _body_params = marketing_schedule_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7062,10 +6852,9 @@ class MarketingApi:
 
 
     @validate_call
-    def post_marketing_promos_by_code_redeem(
+    def post_marketing_leads(
         self,
-        code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
-        redeem_input: RedeemInput,
+        marketing_lead_in: MarketingLeadIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7078,15 +6867,291 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RedeemResult:
+    ) -> MarketingLead:
+        """Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane.
+
+        Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane. No account is needed and none is read: every lead lands in the brand's org. Answers 201 with an opaque reference.  A brand org without the CRM installed answers 503, a body over 16 KiB answers 413, and a missing or malformed email answers 400 — in that order.
+
+        :param marketing_lead_in: (required)
+        :type marketing_lead_in: MarketingLeadIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_leads_serialize(
+            marketing_lead_in=marketing_lead_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingLead",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_marketing_leads_with_http_info(
+        self,
+        marketing_lead_in: MarketingLeadIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[MarketingLead]:
+        """Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane.
+
+        Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane. No account is needed and none is read: every lead lands in the brand's org. Answers 201 with an opaque reference.  A brand org without the CRM installed answers 503, a body over 16 KiB answers 413, and a missing or malformed email answers 400 — in that order.
+
+        :param marketing_lead_in: (required)
+        :type marketing_lead_in: MarketingLeadIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_leads_serialize(
+            marketing_lead_in=marketing_lead_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingLead",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_marketing_leads_without_preload_content(
+        self,
+        marketing_lead_in: MarketingLeadIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane.
+
+        Files a sales inquiry as a new lead in the deployment's own CRM and states it on the event plane. No account is needed and none is read: every lead lands in the brand's org. Answers 201 with an opaque reference.  A brand org without the CRM installed answers 503, a body over 16 KiB answers 413, and a missing or malformed email answers 400 — in that order.
+
+        :param marketing_lead_in: (required)
+        :type marketing_lead_in: MarketingLeadIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_marketing_leads_serialize(
+            marketing_lead_in=marketing_lead_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '201': "MarketingLead",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_marketing_leads_serialize(
+        self,
+        marketing_lead_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if marketing_lead_in is not None:
+            _body_params = marketing_lead_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/marketing/leads',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_marketing_promos_by_code_redeem(
+        self,
+        code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
+        marketing_redeem_input: MarketingRedeemInput,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> MarketingRedeemResult:
         """Records the caller org's claim on a promo.
 
         Records the caller org's claim on a promo. NOTHING IS CREDITED: the redemption is a row, and credit into an org is an admin decision made on the admin surface against an auditable ledger.  The plan is DERIVED from the org's live ACTIVE/TRIALING paid subscription and can never be named by the caller — an org with no qualifying subscription is refused, and so is one whose subscription cannot be read. The seat count is the single-seat floor (claimSeats), so the recorded figure has no input that can inflate it.  Guards run under one lock so the cap cannot be raced past: the fleet-wide redemption cap, one redemption per org, one per payment instrument (REQUIRED), and the per-redemption ceiling.  It is IDEMPOTENT: an org that already redeemed gets its original redemption back with alreadyRedeemed true.
 
         :param code: Code is the promo code from the path. (required)
         :type code: str
-        :param redeem_input: (required)
-        :type redeem_input: RedeemInput
+        :param marketing_redeem_input: (required)
+        :type marketing_redeem_input: MarketingRedeemInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7111,7 +7176,7 @@ class MarketingApi:
 
         _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
-            redeem_input=redeem_input,
+            marketing_redeem_input=marketing_redeem_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7119,7 +7184,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RedeemResult",
+            '200': "MarketingRedeemResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7136,7 +7201,7 @@ class MarketingApi:
     def post_marketing_promos_by_code_redeem_with_http_info(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
-        redeem_input: RedeemInput,
+        marketing_redeem_input: MarketingRedeemInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7149,15 +7214,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RedeemResult]:
+    ) -> ApiResponse[MarketingRedeemResult]:
         """Records the caller org's claim on a promo.
 
         Records the caller org's claim on a promo. NOTHING IS CREDITED: the redemption is a row, and credit into an org is an admin decision made on the admin surface against an auditable ledger.  The plan is DERIVED from the org's live ACTIVE/TRIALING paid subscription and can never be named by the caller — an org with no qualifying subscription is refused, and so is one whose subscription cannot be read. The seat count is the single-seat floor (claimSeats), so the recorded figure has no input that can inflate it.  Guards run under one lock so the cap cannot be raced past: the fleet-wide redemption cap, one redemption per org, one per payment instrument (REQUIRED), and the per-redemption ceiling.  It is IDEMPOTENT: an org that already redeemed gets its original redemption back with alreadyRedeemed true.
 
         :param code: Code is the promo code from the path. (required)
         :type code: str
-        :param redeem_input: (required)
-        :type redeem_input: RedeemInput
+        :param marketing_redeem_input: (required)
+        :type marketing_redeem_input: MarketingRedeemInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7182,7 +7247,7 @@ class MarketingApi:
 
         _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
-            redeem_input=redeem_input,
+            marketing_redeem_input=marketing_redeem_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7190,7 +7255,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RedeemResult",
+            '200': "MarketingRedeemResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7207,7 +7272,7 @@ class MarketingApi:
     def post_marketing_promos_by_code_redeem_without_preload_content(
         self,
         code: Annotated[StrictStr, Field(description="Code is the promo code from the path.")],
-        redeem_input: RedeemInput,
+        marketing_redeem_input: MarketingRedeemInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7227,8 +7292,8 @@ class MarketingApi:
 
         :param code: Code is the promo code from the path. (required)
         :type code: str
-        :param redeem_input: (required)
-        :type redeem_input: RedeemInput
+        :param marketing_redeem_input: (required)
+        :type marketing_redeem_input: MarketingRedeemInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7253,7 +7318,7 @@ class MarketingApi:
 
         _param = self._post_marketing_promos_by_code_redeem_serialize(
             code=code,
-            redeem_input=redeem_input,
+            marketing_redeem_input=marketing_redeem_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7261,7 +7326,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RedeemResult",
+            '200': "MarketingRedeemResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7273,7 +7338,7 @@ class MarketingApi:
     def _post_marketing_promos_by_code_redeem_serialize(
         self,
         code,
-        redeem_input,
+        marketing_redeem_input,
         _request_auth,
         _content_type,
         _headers,
@@ -7301,15 +7366,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if redeem_input is not None:
-            _body_params = redeem_input
+        if marketing_redeem_input is not None:
+            _body_params = marketing_redeem_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7353,7 +7419,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_sequences(
         self,
-        sequence: Sequence,
+        marketing_sequence: MarketingSequence,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7366,13 +7432,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Sequence:
+    ) -> MarketingSequence:
         """Registers a drip sequence in the caller's org.
 
         Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param sequence: (required)
-        :type sequence: Sequence
+        :param marketing_sequence: (required)
+        :type marketing_sequence: MarketingSequence
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7396,7 +7462,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_sequences_serialize(
-            sequence=sequence,
+            marketing_sequence=marketing_sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7404,7 +7470,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sequence",
+            '200': "MarketingSequence",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7420,7 +7486,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_sequences_with_http_info(
         self,
-        sequence: Sequence,
+        marketing_sequence: MarketingSequence,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7433,13 +7499,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Sequence]:
+    ) -> ApiResponse[MarketingSequence]:
         """Registers a drip sequence in the caller's org.
 
         Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param sequence: (required)
-        :type sequence: Sequence
+        :param marketing_sequence: (required)
+        :type marketing_sequence: MarketingSequence
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7463,7 +7529,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_sequences_serialize(
-            sequence=sequence,
+            marketing_sequence=marketing_sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7471,7 +7537,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sequence",
+            '200': "MarketingSequence",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7487,7 +7553,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_sequences_without_preload_content(
         self,
-        sequence: Sequence,
+        marketing_sequence: MarketingSequence,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7505,8 +7571,8 @@ class MarketingApi:
 
         Registers a drip sequence in the caller's org. Name is required; status defaults to draft, and a sequence must be ACTIVE before it will accept enrollments. The id, createdAt and updatedAt of the input are ignored — the server assigns them.
 
-        :param sequence: (required)
-        :type sequence: Sequence
+        :param marketing_sequence: (required)
+        :type marketing_sequence: MarketingSequence
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7530,7 +7596,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_sequences_serialize(
-            sequence=sequence,
+            marketing_sequence=marketing_sequence,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7538,7 +7604,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Sequence",
+            '200': "MarketingSequence",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7549,7 +7615,7 @@ class MarketingApi:
 
     def _post_marketing_sequences_serialize(
         self,
-        sequence,
+        marketing_sequence,
         _request_auth,
         _content_type,
         _headers,
@@ -7575,15 +7641,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sequence is not None:
-            _body_params = sequence
+        if marketing_sequence is not None:
+            _body_params = marketing_sequence
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7628,7 +7695,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_enroll(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        enroll_input: EnrollInput,
+        marketing_enroll_input: MarketingEnrollInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7641,15 +7708,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EnrollResult:
+    ) -> MarketingEnrollResult:
         """Adds one contact or a whole audience to a sequence and schedules the first step for each.
 
         Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param enroll_input: (required)
-        :type enroll_input: EnrollInput
+        :param marketing_enroll_input: (required)
+        :type marketing_enroll_input: MarketingEnrollInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7674,7 +7741,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
-            enroll_input=enroll_input,
+            marketing_enroll_input=marketing_enroll_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7682,7 +7749,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollResult",
+            '200': "MarketingEnrollResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7699,7 +7766,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_enroll_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        enroll_input: EnrollInput,
+        marketing_enroll_input: MarketingEnrollInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7712,15 +7779,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EnrollResult]:
+    ) -> ApiResponse[MarketingEnrollResult]:
         """Adds one contact or a whole audience to a sequence and schedules the first step for each.
 
         Adds one contact or a whole audience to a sequence and schedules the first step for each. The sequence must be ACTIVE (a draft sends nothing), and the request must name exactly one of address or audienceId.  Enrolling is ALL this does: the message itself is sent later by the drip engine, through the suppression gate, so an opted-out customer can be enrolled here and still never be mailed. Re-posting is safe — an address this sequence already took is counted in alreadyEnrolled and never double-dripped — which is what makes retrying a partially-applied announcement a resume rather than a second send.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param enroll_input: (required)
-        :type enroll_input: EnrollInput
+        :param marketing_enroll_input: (required)
+        :type marketing_enroll_input: MarketingEnrollInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7745,7 +7812,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
-            enroll_input=enroll_input,
+            marketing_enroll_input=marketing_enroll_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7753,7 +7820,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollResult",
+            '200': "MarketingEnrollResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7770,7 +7837,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_enroll_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        enroll_input: EnrollInput,
+        marketing_enroll_input: MarketingEnrollInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7790,8 +7857,8 @@ class MarketingApi:
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param enroll_input: (required)
-        :type enroll_input: EnrollInput
+        :param marketing_enroll_input: (required)
+        :type marketing_enroll_input: MarketingEnrollInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7816,7 +7883,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_enroll_serialize(
             id=id,
-            enroll_input=enroll_input,
+            marketing_enroll_input=marketing_enroll_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7824,7 +7891,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnrollResult",
+            '200': "MarketingEnrollResult",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7836,7 +7903,7 @@ class MarketingApi:
     def _post_marketing_sequences_by_id_enroll_serialize(
         self,
         id,
-        enroll_input,
+        marketing_enroll_input,
         _request_auth,
         _content_type,
         _headers,
@@ -7864,15 +7931,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if enroll_input is not None:
-            _body_params = enroll_input
+        if marketing_enroll_input is not None:
+            _body_params = marketing_enroll_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8157,6 +8225,13 @@ class MarketingApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -8186,7 +8261,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_status(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        sequence_status: SequenceStatus,
+        marketing_sequence_status: MarketingSequenceStatus,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8199,15 +8274,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SequenceStatus:
+    ) -> MarketingSequenceStatus:
         """Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
 
         Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param sequence_status: (required)
-        :type sequence_status: SequenceStatus
+        :param marketing_sequence_status: (required)
+        :type marketing_sequence_status: MarketingSequenceStatus
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8232,7 +8307,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
-            sequence_status=sequence_status,
+            marketing_sequence_status=marketing_sequence_status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8240,7 +8315,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceStatus",
+            '200': "MarketingSequenceStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8257,7 +8332,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_status_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        sequence_status: SequenceStatus,
+        marketing_sequence_status: MarketingSequenceStatus,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8270,15 +8345,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SequenceStatus]:
+    ) -> ApiResponse[MarketingSequenceStatus]:
         """Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments.
 
         Flips draft/active/archived — the activation gate for sending, since only an active sequence accepts enrollments. It does not touch enrollments already walking: archiving stops new ones, not in-flight ones.
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param sequence_status: (required)
-        :type sequence_status: SequenceStatus
+        :param marketing_sequence_status: (required)
+        :type marketing_sequence_status: MarketingSequenceStatus
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8303,7 +8378,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
-            sequence_status=sequence_status,
+            marketing_sequence_status=marketing_sequence_status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8311,7 +8386,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceStatus",
+            '200': "MarketingSequenceStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8328,7 +8403,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_status_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the sequence id from the path.")],
-        sequence_status: SequenceStatus,
+        marketing_sequence_status: MarketingSequenceStatus,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8348,8 +8423,8 @@ class MarketingApi:
 
         :param id: ID is the sequence id from the path. (required)
         :type id: str
-        :param sequence_status: (required)
-        :type sequence_status: SequenceStatus
+        :param marketing_sequence_status: (required)
+        :type marketing_sequence_status: MarketingSequenceStatus
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8374,7 +8449,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_status_serialize(
             id=id,
-            sequence_status=sequence_status,
+            marketing_sequence_status=marketing_sequence_status,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8382,7 +8457,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SequenceStatus",
+            '200': "MarketingSequenceStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8394,7 +8469,7 @@ class MarketingApi:
     def _post_marketing_sequences_by_id_status_serialize(
         self,
         id,
-        sequence_status,
+        marketing_sequence_status,
         _request_auth,
         _content_type,
         _headers,
@@ -8422,15 +8497,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sequence_status is not None:
-            _body_params = sequence_status
+        if marketing_sequence_status is not None:
+            _body_params = marketing_sequence_status
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8475,7 +8551,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_steps(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
-        step_input: StepInput,
+        marketing_step_input: MarketingStepInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8488,15 +8564,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Step:
+    ) -> MarketingStep:
         """Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
 
         Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
-        :param step_input: (required)
-        :type step_input: StepInput
+        :param marketing_step_input: (required)
+        :type marketing_step_input: MarketingStepInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8521,7 +8597,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
-            step_input=step_input,
+            marketing_step_input=marketing_step_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8529,7 +8605,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Step",
+            '200': "MarketingStep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8546,7 +8622,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_steps_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
-        step_input: StepInput,
+        marketing_step_input: MarketingStepInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8559,15 +8635,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Step]:
+    ) -> ApiResponse[MarketingStep]:
         """Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added.
 
         Appends a message to the END of a sequence: the new step's idx is one past the last, so steps arrive in the order they are added. Body is required and delaySeconds must be >= 0. Adding a step does not disturb enrollments already walking — one that has passed this index simply never sees it.
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
-        :param step_input: (required)
-        :type step_input: StepInput
+        :param marketing_step_input: (required)
+        :type marketing_step_input: MarketingStepInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8592,7 +8668,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
-            step_input=step_input,
+            marketing_step_input=marketing_step_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8600,7 +8676,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Step",
+            '200': "MarketingStep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8617,7 +8693,7 @@ class MarketingApi:
     def post_marketing_sequences_by_id_steps_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="SequenceID is the sequence id from the path (the route's :id).")],
-        step_input: StepInput,
+        marketing_step_input: MarketingStepInput,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8637,8 +8713,8 @@ class MarketingApi:
 
         :param id: SequenceID is the sequence id from the path (the route's :id). (required)
         :type id: str
-        :param step_input: (required)
-        :type step_input: StepInput
+        :param marketing_step_input: (required)
+        :type marketing_step_input: MarketingStepInput
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8663,7 +8739,7 @@ class MarketingApi:
 
         _param = self._post_marketing_sequences_by_id_steps_serialize(
             id=id,
-            step_input=step_input,
+            marketing_step_input=marketing_step_input,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8671,7 +8747,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Step",
+            '200': "MarketingStep",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8683,7 +8759,7 @@ class MarketingApi:
     def _post_marketing_sequences_by_id_steps_serialize(
         self,
         id,
-        step_input,
+        marketing_step_input,
         _request_auth,
         _content_type,
         _headers,
@@ -8711,15 +8787,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if step_input is not None:
-            _body_params = step_input
+        if marketing_step_input is not None:
+            _body_params = marketing_step_input
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -8763,7 +8840,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_suppressions(
         self,
-        suppression: Suppression,
+        marketing_suppression: MarketingSuppression,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8776,13 +8853,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Suppression:
+    ) -> MarketingSuppression:
         """Records an opt-out for the org (admin / self-service management).
 
         Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
 
-        :param suppression: (required)
-        :type suppression: Suppression
+        :param marketing_suppression: (required)
+        :type marketing_suppression: MarketingSuppression
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8806,7 +8883,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_suppressions_serialize(
-            suppression=suppression,
+            marketing_suppression=marketing_suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8814,7 +8891,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Suppression",
+            '200': "MarketingSuppression",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8830,7 +8907,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_suppressions_with_http_info(
         self,
-        suppression: Suppression,
+        marketing_suppression: MarketingSuppression,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8843,13 +8920,13 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Suppression]:
+    ) -> ApiResponse[MarketingSuppression]:
         """Records an opt-out for the org (admin / self-service management).
 
         Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
 
-        :param suppression: (required)
-        :type suppression: Suppression
+        :param marketing_suppression: (required)
+        :type marketing_suppression: MarketingSuppression
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8873,7 +8950,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_suppressions_serialize(
-            suppression=suppression,
+            marketing_suppression=marketing_suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8881,7 +8958,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Suppression",
+            '200': "MarketingSuppression",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8897,7 +8974,7 @@ class MarketingApi:
     @validate_call
     def post_marketing_suppressions_without_preload_content(
         self,
-        suppression: Suppression,
+        marketing_suppression: MarketingSuppression,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -8915,8 +8992,8 @@ class MarketingApi:
 
         Records an opt-out for the org (admin / self-service management). Address is required; channel defaults to email. It is idempotent: re-suppressing the same tuple keeps the original record rather than erroring. From here on the ONE send gate refuses that recipient on that channel.
 
-        :param suppression: (required)
-        :type suppression: Suppression
+        :param marketing_suppression: (required)
+        :type marketing_suppression: MarketingSuppression
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -8940,7 +9017,7 @@ class MarketingApi:
         """ # noqa: E501
 
         _param = self._post_marketing_suppressions_serialize(
-            suppression=suppression,
+            marketing_suppression=marketing_suppression,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -8948,7 +9025,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Suppression",
+            '200': "MarketingSuppression",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -8959,7 +9036,7 @@ class MarketingApi:
 
     def _post_marketing_suppressions_serialize(
         self,
-        suppression,
+        marketing_suppression,
         _request_auth,
         _content_type,
         _headers,
@@ -8985,15 +9062,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if suppression is not None:
-            _body_params = suppression
+        if marketing_suppression is not None:
+            _body_params = marketing_suppression
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9038,7 +9116,7 @@ class MarketingApi:
     def put_marketing_calendar_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9051,15 +9129,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CalendarPost:
+    ) -> MarketingCalendarPost:
         """Replaces a post's editable fields.
 
         Replaces a post's editable fields. It is a full write, not a patch, and it RESETS the lifecycle from the schedule: a scheduledAt makes the post \"scheduled\" again and none makes it a draft — so editing a failed post requeues it rather than leaving it stuck.
 
         :param id: ID is the server-assigned post id (\"cal_\" + 128 random bits). (required)
         :type id: str
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9084,7 +9162,7 @@ class MarketingApi:
 
         _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9092,7 +9170,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9109,7 +9187,7 @@ class MarketingApi:
     def put_marketing_calendar_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9122,15 +9200,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CalendarPost]:
+    ) -> ApiResponse[MarketingCalendarPost]:
         """Replaces a post's editable fields.
 
         Replaces a post's editable fields. It is a full write, not a patch, and it RESETS the lifecycle from the schedule: a scheduledAt makes the post \"scheduled\" again and none makes it a draft — so editing a failed post requeues it rather than leaving it stuck.
 
         :param id: ID is the server-assigned post id (\"cal_\" + 128 random bits). (required)
         :type id: str
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9155,7 +9233,7 @@ class MarketingApi:
 
         _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9163,7 +9241,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9180,7 +9258,7 @@ class MarketingApi:
     def put_marketing_calendar_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned post id (\"cal_\" + 128 random bits).")],
-        calendar_post: CalendarPost,
+        marketing_calendar_post: MarketingCalendarPost,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9200,8 +9278,8 @@ class MarketingApi:
 
         :param id: ID is the server-assigned post id (\"cal_\" + 128 random bits). (required)
         :type id: str
-        :param calendar_post: (required)
-        :type calendar_post: CalendarPost
+        :param marketing_calendar_post: (required)
+        :type marketing_calendar_post: MarketingCalendarPost
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9226,7 +9304,7 @@ class MarketingApi:
 
         _param = self._put_marketing_calendar_by_id_serialize(
             id=id,
-            calendar_post=calendar_post,
+            marketing_calendar_post=marketing_calendar_post,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9234,7 +9312,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CalendarPost",
+            '200': "MarketingCalendarPost",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9246,7 +9324,7 @@ class MarketingApi:
     def _put_marketing_calendar_by_id_serialize(
         self,
         id,
-        calendar_post,
+        marketing_calendar_post,
         _request_auth,
         _content_type,
         _headers,
@@ -9274,15 +9352,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if calendar_post is not None:
-            _body_params = calendar_post
+        if marketing_calendar_post is not None:
+            _body_params = marketing_calendar_post
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -9327,7 +9406,7 @@ class MarketingApi:
     def put_marketing_campaigns_by_id(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9340,15 +9419,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Campaign:
+    ) -> MarketingCampaign:
         """Replaces a campaign's editable fields.
 
         Replaces a campaign's editable fields. It is a full write, not a patch: every field takes the value in the body, and an omitted one is cleared. The id comes from the path — the body cannot retarget another campaign — and createdAt is never rewritten.
 
         :param id: ID is the server-assigned campaign id (\"camp_\" + 128 random bits). (required)
         :type id: str
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9373,7 +9452,7 @@ class MarketingApi:
 
         _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9381,7 +9460,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9398,7 +9477,7 @@ class MarketingApi:
     def put_marketing_campaigns_by_id_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9411,15 +9490,15 @@ class MarketingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Campaign]:
+    ) -> ApiResponse[MarketingCampaign]:
         """Replaces a campaign's editable fields.
 
         Replaces a campaign's editable fields. It is a full write, not a patch: every field takes the value in the body, and an omitted one is cleared. The id comes from the path — the body cannot retarget another campaign — and createdAt is never rewritten.
 
         :param id: ID is the server-assigned campaign id (\"camp_\" + 128 random bits). (required)
         :type id: str
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9444,7 +9523,7 @@ class MarketingApi:
 
         _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9452,7 +9531,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9469,7 +9548,7 @@ class MarketingApi:
     def put_marketing_campaigns_by_id_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the server-assigned campaign id (\"camp_\" + 128 random bits).")],
-        campaign: Campaign,
+        marketing_campaign: MarketingCampaign,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9489,8 +9568,8 @@ class MarketingApi:
 
         :param id: ID is the server-assigned campaign id (\"camp_\" + 128 random bits). (required)
         :type id: str
-        :param campaign: (required)
-        :type campaign: Campaign
+        :param marketing_campaign: (required)
+        :type marketing_campaign: MarketingCampaign
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9515,7 +9594,7 @@ class MarketingApi:
 
         _param = self._put_marketing_campaigns_by_id_serialize(
             id=id,
-            campaign=campaign,
+            marketing_campaign=marketing_campaign,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9523,7 +9602,7 @@ class MarketingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Campaign",
+            '200': "MarketingCampaign",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9535,7 +9614,7 @@ class MarketingApi:
     def _put_marketing_campaigns_by_id_serialize(
         self,
         id,
-        campaign,
+        marketing_campaign,
         _request_auth,
         _content_type,
         _headers,
@@ -9563,15 +9642,16 @@ class MarketingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if campaign is not None:
-            _body_params = campaign
+        if marketing_campaign is not None:
+            _body_params = marketing_campaign
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,18 +19,18 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.admission import Admission
-from hanzoai.cloud.models.benchmark_catalog import BenchmarkCatalog
-from hanzoai.cloud.models.claims_out import ClaimsOut
-from hanzoai.cloud.models.history_out import HistoryOut
-from hanzoai.cloud.models.leaderboard import Leaderboard
-from hanzoai.cloud.models.pairing import Pairing
-from hanzoai.cloud.models.preset import Preset
-from hanzoai.cloud.models.preset_accepted import PresetAccepted
-from hanzoai.cloud.models.preset_list import PresetList
-from hanzoai.cloud.models.put_claims_in import PutClaimsIn
-from hanzoai.cloud.models.put_claims_out import PutClaimsOut
-from hanzoai.cloud.models.suite import Suite
+from hanzoai.cloud.models.benchmark_admission import BenchmarkAdmission
+from hanzoai.cloud.models.benchmark_benchmark_catalog import BenchmarkBenchmarkCatalog
+from hanzoai.cloud.models.benchmark_claims_out import BenchmarkClaimsOut
+from hanzoai.cloud.models.benchmark_history_out import BenchmarkHistoryOut
+from hanzoai.cloud.models.benchmark_leaderboard import BenchmarkLeaderboard
+from hanzoai.cloud.models.benchmark_pairing import BenchmarkPairing
+from hanzoai.cloud.models.benchmark_preset import BenchmarkPreset
+from hanzoai.cloud.models.benchmark_preset_accepted import BenchmarkPresetAccepted
+from hanzoai.cloud.models.benchmark_preset_list import BenchmarkPresetList
+from hanzoai.cloud.models.benchmark_put_claims_in import BenchmarkPutClaimsIn
+from hanzoai.cloud.models.benchmark_put_claims_out import BenchmarkPutClaimsOut
+from hanzoai.cloud.models.benchmark_suite import BenchmarkSuite
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -65,7 +65,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BenchmarkCatalog:
+    ) -> BenchmarkBenchmarkCatalog:
         """Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.
 
         Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.  These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from ?benchmark=. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
@@ -100,7 +100,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BenchmarkCatalog",
+            '200': "BenchmarkBenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -128,7 +128,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BenchmarkCatalog]:
+    ) -> ApiResponse[BenchmarkBenchmarkCatalog]:
         """Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.
 
         Is the canonical public benchmarks this arena runs — the id, title, axis, item count and upstream source of each, with native marking the ones the standardized harness runs today; the rest are registered and adapter-pending.  These ids are the vocabulary the rest of the surface takes: a run names them, and the leaderboard and compare read them from ?benchmark=. The catalog is deployment-wide and identical for every caller — there is no tenant in it.
@@ -163,7 +163,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BenchmarkCatalog",
+            '200': "BenchmarkBenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -226,7 +226,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BenchmarkCatalog",
+            '200': "BenchmarkBenchmarkCatalog",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -268,7 +268,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -316,7 +317,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClaimsOut:
+    ) -> BenchmarkClaimsOut:
         """Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
 
         Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
@@ -366,7 +367,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimsOut",
+            '200': "BenchmarkClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -399,7 +400,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClaimsOut]:
+    ) -> ApiResponse[BenchmarkClaimsOut]:
         """Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
 
         Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
@@ -449,7 +450,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimsOut",
+            '200': "BenchmarkClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -532,7 +533,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClaimsOut",
+            '200': "BenchmarkClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -599,7 +600,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -645,7 +647,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Pairing:
+    ) -> BenchmarkPairing:
         """Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
 
         Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.  Pairing is what prevents the subset artifact — comparing one model's easy subset against another's full run — so n_common, not either arm's own coverage, is the number to read this by.  Both a and b are required. The benchmark defaults to gpqa_diamond.
@@ -689,7 +691,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pairing",
+            '200': "BenchmarkPairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -720,7 +722,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Pairing]:
+    ) -> ApiResponse[BenchmarkPairing]:
         """Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.
 
         Is the ONLY valid arm-vs-arm test: it pairs the two models on the items BOTH completed, and answers rescue and damage counts with an exact-McNemar p.  Pairing is what prevents the subset artifact — comparing one model's easy subset against another's full run — so n_common, not either arm's own coverage, is the number to read this by.  Both a and b are required. The benchmark defaults to gpqa_diamond.
@@ -764,7 +766,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pairing",
+            '200': "BenchmarkPairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -839,7 +841,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Pairing",
+            '200': "BenchmarkPairing",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -896,7 +898,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -941,7 +944,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> HistoryOut:
+    ) -> BenchmarkHistoryOut:
         """Returns each model's measured score per run over time, oldest first, with the change between runs.
 
         Returns each model's measured score per run over time, oldest first, with the change between runs.  This is the counterweight to a leaderboard: the board shows the latest run because that is what \"how good is it\" means, and a single latest number cannot distinguish a model that has always been strong from one that just improved, or from one that regressed after a provider changed something. Both matter for routing, and only one of them is visible on a board.  Runs with no id — attempts recorded before runs existed — group under the empty run, which is honestly what they are: one undated measurement.
@@ -982,7 +985,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HistoryOut",
+            '200': "BenchmarkHistoryOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1012,7 +1015,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[HistoryOut]:
+    ) -> ApiResponse[BenchmarkHistoryOut]:
         """Returns each model's measured score per run over time, oldest first, with the change between runs.
 
         Returns each model's measured score per run over time, oldest first, with the change between runs.  This is the counterweight to a leaderboard: the board shows the latest run because that is what \"how good is it\" means, and a single latest number cannot distinguish a model that has always been strong from one that just improved, or from one that regressed after a provider changed something. Both matter for routing, and only one of them is visible on a board.  Runs with no id — attempts recorded before runs existed — group under the empty run, which is honestly what they are: one undated measurement.
@@ -1053,7 +1056,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HistoryOut",
+            '200': "BenchmarkHistoryOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1124,7 +1127,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "HistoryOut",
+            '200': "BenchmarkHistoryOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1176,7 +1179,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1220,7 +1224,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Leaderboard:
+    ) -> BenchmarkLeaderboard:
         """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
         Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
@@ -1258,7 +1262,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leaderboard",
+            '200': "BenchmarkLeaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1287,7 +1291,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Leaderboard]:
+    ) -> ApiResponse[BenchmarkLeaderboard]:
         """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
         Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
@@ -1325,7 +1329,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leaderboard",
+            '200': "BenchmarkLeaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1392,7 +1396,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Leaderboard",
+            '200': "BenchmarkLeaderboard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1439,7 +1443,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1482,7 +1487,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PresetList:
+    ) -> BenchmarkPresetList:
         """Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.
 
         Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.  Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
@@ -1517,7 +1522,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresetList",
+            '200': "BenchmarkPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1545,7 +1550,7 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PresetList]:
+    ) -> ApiResponse[BenchmarkPresetList]:
         """Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.
 
         Are the router blends available to compose from — a named set of model arms, the rank they escalate through and the panel width that bounds fan-out — each served by the model layer as enso-<name>.  Today it answers exactly one row, the reference blend: a worked example written in models we name, published as an example of the FORM. It is deliberately not the composition of a Hanzo-served tier — the tier name exists to abstract that — so fork it and swap arms by what the leaderboard measures on your own tasks rather than reading it as a disclosure.
@@ -1580,7 +1585,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresetList",
+            '200': "BenchmarkPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1643,7 +1648,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PresetList",
+            '200': "BenchmarkPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1685,7 +1690,8 @@ class BenchmarkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1716,7 +1722,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_claims(
         self,
-        put_claims_in: PutClaimsIn,
+        benchmark_put_claims_in: BenchmarkPutClaimsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1729,13 +1735,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PutClaimsOut:
+    ) -> BenchmarkPutClaimsOut:
         """Records published claims: one to correct a number, many to import a leaderboard.
 
         Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
-        :param put_claims_in: (required)
-        :type put_claims_in: PutClaimsIn
+        :param benchmark_put_claims_in: (required)
+        :type benchmark_put_claims_in: BenchmarkPutClaimsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1759,7 +1765,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_claims_serialize(
-            put_claims_in=put_claims_in,
+            benchmark_put_claims_in=benchmark_put_claims_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1767,7 +1773,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PutClaimsOut",
+            '200': "BenchmarkPutClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1783,7 +1789,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_claims_with_http_info(
         self,
-        put_claims_in: PutClaimsIn,
+        benchmark_put_claims_in: BenchmarkPutClaimsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1796,13 +1802,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PutClaimsOut]:
+    ) -> ApiResponse[BenchmarkPutClaimsOut]:
         """Records published claims: one to correct a number, many to import a leaderboard.
 
         Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
-        :param put_claims_in: (required)
-        :type put_claims_in: PutClaimsIn
+        :param benchmark_put_claims_in: (required)
+        :type benchmark_put_claims_in: BenchmarkPutClaimsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1826,7 +1832,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_claims_serialize(
-            put_claims_in=put_claims_in,
+            benchmark_put_claims_in=benchmark_put_claims_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1834,7 +1840,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PutClaimsOut",
+            '200': "BenchmarkPutClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1850,7 +1856,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_claims_without_preload_content(
         self,
-        put_claims_in: PutClaimsIn,
+        benchmark_put_claims_in: BenchmarkPutClaimsIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1868,8 +1874,8 @@ class BenchmarkApi:
 
         Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
-        :param put_claims_in: (required)
-        :type put_claims_in: PutClaimsIn
+        :param benchmark_put_claims_in: (required)
+        :type benchmark_put_claims_in: BenchmarkPutClaimsIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1893,7 +1899,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_claims_serialize(
-            put_claims_in=put_claims_in,
+            benchmark_put_claims_in=benchmark_put_claims_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1901,7 +1907,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PutClaimsOut",
+            '200': "BenchmarkPutClaimsOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1912,7 +1918,7 @@ class BenchmarkApi:
 
     def _post_benchmark_claims_serialize(
         self,
-        put_claims_in,
+        benchmark_put_claims_in,
         _request_auth,
         _content_type,
         _headers,
@@ -1938,15 +1944,16 @@ class BenchmarkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if put_claims_in is not None:
-            _body_params = put_claims_in
+        if benchmark_put_claims_in is not None:
+            _body_params = benchmark_put_claims_in
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1990,7 +1997,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_presets(
         self,
-        preset: Preset,
+        benchmark_preset: BenchmarkPreset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2003,13 +2010,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PresetAccepted:
+    ) -> BenchmarkPresetAccepted:
         """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
         Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
-        :param preset: (required)
-        :type preset: Preset
+        :param benchmark_preset: (required)
+        :type benchmark_preset: BenchmarkPreset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2033,7 +2040,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_presets_serialize(
-            preset=preset,
+            benchmark_preset=benchmark_preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2041,7 +2048,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PresetAccepted",
+            '202': "BenchmarkPresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2057,7 +2064,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_presets_with_http_info(
         self,
-        preset: Preset,
+        benchmark_preset: BenchmarkPreset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2070,13 +2077,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PresetAccepted]:
+    ) -> ApiResponse[BenchmarkPresetAccepted]:
         """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
         Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
-        :param preset: (required)
-        :type preset: Preset
+        :param benchmark_preset: (required)
+        :type benchmark_preset: BenchmarkPreset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2100,7 +2107,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_presets_serialize(
-            preset=preset,
+            benchmark_preset=benchmark_preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2108,7 +2115,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PresetAccepted",
+            '202': "BenchmarkPresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2124,7 +2131,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_presets_without_preload_content(
         self,
-        preset: Preset,
+        benchmark_preset: BenchmarkPreset,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2142,8 +2149,8 @@ class BenchmarkApi:
 
         Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
-        :param preset: (required)
-        :type preset: Preset
+        :param benchmark_preset: (required)
+        :type benchmark_preset: BenchmarkPreset
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2167,7 +2174,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_presets_serialize(
-            preset=preset,
+            benchmark_preset=benchmark_preset,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2175,7 +2182,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "PresetAccepted",
+            '202': "BenchmarkPresetAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2186,7 +2193,7 @@ class BenchmarkApi:
 
     def _post_benchmark_presets_serialize(
         self,
-        preset,
+        benchmark_preset,
         _request_auth,
         _content_type,
         _headers,
@@ -2212,15 +2219,16 @@ class BenchmarkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if preset is not None:
-            _body_params = preset
+        if benchmark_preset is not None:
+            _body_params = benchmark_preset
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2264,7 +2272,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_runs(
         self,
-        suite: Suite,
+        benchmark_suite: BenchmarkSuite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2277,13 +2285,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Admission:
+    ) -> BenchmarkAdmission:
         """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
         Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
-        :param suite: (required)
-        :type suite: Suite
+        :param benchmark_suite: (required)
+        :type benchmark_suite: BenchmarkSuite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2307,7 +2315,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_runs_serialize(
-            suite=suite,
+            benchmark_suite=benchmark_suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2315,7 +2323,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Admission",
+            '202': "BenchmarkAdmission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2331,7 +2339,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_runs_with_http_info(
         self,
-        suite: Suite,
+        benchmark_suite: BenchmarkSuite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2344,13 +2352,13 @@ class BenchmarkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Admission]:
+    ) -> ApiResponse[BenchmarkAdmission]:
         """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
         Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
-        :param suite: (required)
-        :type suite: Suite
+        :param benchmark_suite: (required)
+        :type benchmark_suite: BenchmarkSuite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2374,7 +2382,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_runs_serialize(
-            suite=suite,
+            benchmark_suite=benchmark_suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2382,7 +2390,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Admission",
+            '202': "BenchmarkAdmission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2398,7 +2406,7 @@ class BenchmarkApi:
     @validate_call
     def post_benchmark_runs_without_preload_content(
         self,
-        suite: Suite,
+        benchmark_suite: BenchmarkSuite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2416,8 +2424,8 @@ class BenchmarkApi:
 
         Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
-        :param suite: (required)
-        :type suite: Suite
+        :param benchmark_suite: (required)
+        :type benchmark_suite: BenchmarkSuite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2441,7 +2449,7 @@ class BenchmarkApi:
         """ # noqa: E501
 
         _param = self._post_benchmark_runs_serialize(
-            suite=suite,
+            benchmark_suite=benchmark_suite,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2449,7 +2457,7 @@ class BenchmarkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "Admission",
+            '202': "BenchmarkAdmission",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2460,7 +2468,7 @@ class BenchmarkApi:
 
     def _post_benchmark_runs_serialize(
         self,
-        suite,
+        benchmark_suite,
         _request_auth,
         _content_type,
         _headers,
@@ -2486,15 +2494,16 @@ class BenchmarkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if suite is not None:
-            _body_params = suite
+        if benchmark_suite is not None:
+            _body_params = benchmark_suite
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

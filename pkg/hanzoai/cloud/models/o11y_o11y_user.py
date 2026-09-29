@@ -27,14 +27,14 @@ class O11yO11yUser(BaseModel):
     """
     O11yO11yUser
     """ # noqa: E501
-    created_at: Optional[datetime] = Field(default=None, description="CreatedAt is when they joined.", alias="createdAt")
-    display_name: Optional[StrictStr] = Field(default=None, description="DisplayName is what the console shows for them.", alias="displayName")
-    email: Optional[StrictStr] = Field(default=None, description="Email is their address.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the user id.")
-    is_root: Optional[StrictBool] = Field(default=None, description="IsRoot marks the org's root user, which cannot be deleted or demoted.", alias="isRoot")
-    org_id: Optional[StrictStr] = Field(default=None, description="OrgID is the org they belong to.", alias="orgId")
-    status: Optional[StrictStr] = Field(default=None, description="Status is their lifecycle state — active, pending_invite or deleted.")
-    updated_at: Optional[datetime] = Field(default=None, description="UpdatedAt is when their record last changed.", alias="updatedAt")
+    created_at: Optional[datetime] = Field(default=None, alias="createdAt")
+    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    email: Optional[StrictStr] = None
+    id: Optional[StrictStr] = None
+    is_root: Optional[StrictBool] = Field(default=None, alias="isRoot")
+    org_id: Optional[StrictStr] = Field(default=None, alias="orgId")
+    status: Optional[StrictStr] = None
+    updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     __properties: ClassVar[List[str]] = ["createdAt", "displayName", "email", "id", "isRoot", "orgId", "status", "updatedAt"]
 
     model_config = ConfigDict(

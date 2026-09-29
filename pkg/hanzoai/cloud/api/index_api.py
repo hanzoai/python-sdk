@@ -18,19 +18,20 @@ from typing_extensions import Annotated
 
 from pydantic import StrictInt, StrictStr
 from typing import Any, List, Optional
-from hanzoai.cloud.models.index_documents import IndexDocuments
 from hanzoai.cloud.models.index_enqueued import IndexEnqueued
-from hanzoai.cloud.models.index_filter import IndexFilter
-from hanzoai.cloud.models.index_health import IndexHealth
-from hanzoai.cloud.models.index_hits import IndexHits
-from hanzoai.cloud.models.index_list import IndexList
-from hanzoai.cloud.models.index_new import IndexNew
-from hanzoai.cloud.models.index_query import IndexQuery
-from hanzoai.cloud.models.index_settings import IndexSettings
-from hanzoai.cloud.models.index_stats import IndexStats
-from hanzoai.cloud.models.index_task import IndexTask
-from hanzoai.cloud.models.index_version import IndexVersion
-from hanzoai.cloud.models.index_view import IndexView
+from hanzoai.cloud.models.index_index_documents import IndexIndexDocuments
+from hanzoai.cloud.models.index_index_enqueued import IndexIndexEnqueued
+from hanzoai.cloud.models.index_index_filter import IndexIndexFilter
+from hanzoai.cloud.models.index_index_health import IndexIndexHealth
+from hanzoai.cloud.models.index_index_hits import IndexIndexHits
+from hanzoai.cloud.models.index_index_list import IndexIndexList
+from hanzoai.cloud.models.index_index_new import IndexIndexNew
+from hanzoai.cloud.models.index_index_query import IndexIndexQuery
+from hanzoai.cloud.models.index_index_settings import IndexIndexSettings
+from hanzoai.cloud.models.index_index_stats import IndexIndexStats
+from hanzoai.cloud.models.index_index_task import IndexIndexTask
+from hanzoai.cloud.models.index_index_version import IndexIndexVersion
+from hanzoai.cloud.models.index_index_view import IndexIndexView
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +67,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexEnqueued:
+    ) -> IndexIndexEnqueued:
         """Deletes an index and everything in it.
 
         Deletes an index and everything in it.  Drops the index and every document in it from the caller's own org, and answers the dialect's EnqueuedTask. This is the only way to retire an index; without it a mistaken uid is permanent. Deleting an index that is not there succeeds, so a cleanup pass is safe to re-run.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the documents are already gone when this answers.
@@ -104,7 +105,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -133,7 +134,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexEnqueued]:
+    ) -> ApiResponse[IndexIndexEnqueued]:
         """Deletes an index and everything in it.
 
         Deletes an index and everything in it.  Drops the index and every document in it from the caller's own org, and answers the dialect's EnqueuedTask. This is the only way to retire an index; without it a mistaken uid is permanent. Deleting an index that is not there succeeds, so a cleanup pass is safe to re-run.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the documents are already gone when this answers.
@@ -171,7 +172,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -238,7 +239,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -283,7 +284,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -328,7 +330,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexEnqueued:
+    ) -> IndexIndexEnqueued:
         """Deletes one document by its primary key.
 
         Deletes one document by its primary key.  Removes the document from the caller's own org and answers the dialect's EnqueuedTask. Deleting a key that is not there succeeds, so a client reconciling its own corpus can delete without checking first.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the document is already gone when this answers.
@@ -369,7 +371,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -399,7 +401,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexEnqueued]:
+    ) -> ApiResponse[IndexIndexEnqueued]:
         """Deletes one document by its primary key.
 
         Deletes one document by its primary key.  Removes the document from the caller's own org and answers the dialect's EnqueuedTask. Deleting a key that is not there succeeds, so a client reconciling its own corpus can delete without checking first.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the document is already gone when this answers.
@@ -440,7 +442,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -511,7 +513,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -559,7 +561,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -602,7 +605,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexHealth:
+    ) -> IndexIndexHealth:
         """Reports whether the search plane can serve.
 
         Reports whether the search plane can serve.  Answers the dialect's `{\"status\":\"available\"}` when the index store is readable. It FAILS CLOSED — an unreadable store answers 503 with `{\"status\":\"unavailable\"}` rather than an empty result set, because a Meilisearch client probes this before it will use a server at all and a cheerful 200 over a broken volume turns \"search is down\" into \"nothing matched\". It requires no principal and reads no tenant data.
@@ -637,8 +640,8 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHealth",
-            '503': "IndexHealth",
+            '200': "IndexIndexHealth",
+            '503': "IndexIndexHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -666,7 +669,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexHealth]:
+    ) -> ApiResponse[IndexIndexHealth]:
         """Reports whether the search plane can serve.
 
         Reports whether the search plane can serve.  Answers the dialect's `{\"status\":\"available\"}` when the index store is readable. It FAILS CLOSED — an unreadable store answers 503 with `{\"status\":\"unavailable\"}` rather than an empty result set, because a Meilisearch client probes this before it will use a server at all and a cheerful 200 over a broken volume turns \"search is down\" into \"nothing matched\". It requires no principal and reads no tenant data.
@@ -701,8 +704,8 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHealth",
-            '503': "IndexHealth",
+            '200': "IndexIndexHealth",
+            '503': "IndexIndexHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -765,8 +768,8 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHealth",
-            '503': "IndexHealth",
+            '200': "IndexIndexHealth",
+            '503': "IndexIndexHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -808,7 +811,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -851,7 +855,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexList:
+    ) -> IndexIndexList:
         """Lists the indexes your org holds.
 
         Lists the indexes your org holds.  Answers every index in the caller's own org with its primary key and timestamps. Without it an index whose uid a caller has forgotten is unreachable — there is no other way to enumerate what an org holds. The page is the whole set: an org's index count is small by construction, so `limit` and `total` both report it.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and two orgs may both hold an index named \"messages\" without either seeing the other. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
@@ -886,7 +890,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexList",
+            '200': "IndexIndexList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -914,7 +918,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexList]:
+    ) -> ApiResponse[IndexIndexList]:
         """Lists the indexes your org holds.
 
         Lists the indexes your org holds.  Answers every index in the caller's own org with its primary key and timestamps. Without it an index whose uid a caller has forgotten is unreachable — there is no other way to enumerate what an org holds. The page is the whole set: an org's index count is small by construction, so `limit` and `total` both report it.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, and two orgs may both hold an index named \"messages\" without either seeing the other. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
@@ -949,7 +953,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexList",
+            '200': "IndexIndexList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1012,7 +1016,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexList",
+            '200': "IndexIndexList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1054,7 +1058,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1098,7 +1103,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexView:
+    ) -> IndexIndexView:
         """Reads one index's definition.
 
         Reads one index's definition.  Answers the index's uid, primary key and timestamps. An index this org does not hold answers 404 carrying the dialect's `index_not_found` — the code a Meilisearch client reads as permission to create it, which is why this is a refusal rather than an empty object.  The uid is scoped to the caller's own org, so another tenant's index is indistinguishable from one that never existed: this surface is not an existence oracle.
@@ -1136,7 +1141,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexView",
+            '200': "IndexIndexView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1165,7 +1170,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexView]:
+    ) -> ApiResponse[IndexIndexView]:
         """Reads one index's definition.
 
         Reads one index's definition.  Answers the index's uid, primary key and timestamps. An index this org does not hold answers 404 carrying the dialect's `index_not_found` — the code a Meilisearch client reads as permission to create it, which is why this is a refusal rather than an empty object.  The uid is scoped to the caller's own org, so another tenant's index is indistinguishable from one that never existed: this surface is not an existence oracle.
@@ -1203,7 +1208,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexView",
+            '200': "IndexIndexView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1270,7 +1275,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexView",
+            '200': "IndexIndexView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1315,7 +1320,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1361,7 +1367,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexDocuments:
+    ) -> IndexIndexDocuments:
         """Pages through the documents in an index.
 
         Pages through the documents in an index.  Answers the org's stored documents in insertion order, whole, with the page's bounds and the index's total. It is the enumeration surface — search ranks by relevance and cannot walk a corpus — so a caller reconciling what it has written reads it here.  An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
@@ -1405,7 +1411,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexDocuments",
+            '200': "IndexIndexDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1436,7 +1442,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexDocuments]:
+    ) -> ApiResponse[IndexIndexDocuments]:
         """Pages through the documents in an index.
 
         Pages through the documents in an index.  Answers the org's stored documents in insertion order, whole, with the page's bounds and the index's total. It is the enumeration surface — search ranks by relevance and cannot walk a corpus — so a caller reconciling what it has written reads it here.  An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
@@ -1480,7 +1486,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexDocuments",
+            '200': "IndexIndexDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1555,7 +1561,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexDocuments",
+            '200': "IndexIndexDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1610,7 +1616,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1886,7 +1893,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1930,7 +1938,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexSettings:
+    ) -> IndexIndexSettings:
         """Reads an index's filterable attributes.
 
         Reads an index's filterable attributes.  Answers the settings subset this surface implements: the attributes a search `filter` may constrain. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
@@ -1968,7 +1976,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexSettings",
+            '200': "IndexIndexSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1997,7 +2005,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexSettings]:
+    ) -> ApiResponse[IndexIndexSettings]:
         """Reads an index's filterable attributes.
 
         Reads an index's filterable attributes.  Answers the settings subset this surface implements: the attributes a search `filter` may constrain. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
@@ -2035,7 +2043,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexSettings",
+            '200': "IndexIndexSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2102,7 +2110,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexSettings",
+            '200': "IndexIndexSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2147,7 +2155,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2190,7 +2199,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexStats:
+    ) -> IndexIndexStats:
         """Counts the documents in each of your indexes.
 
         Counts the documents in each of your indexes.  Reports every index the caller's own org holds with its document count, plus the org's total. `isIndexing` is always false because writes here are applied before their response — there is never a background pass to wait on.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, so this counts the caller's own documents and no other tenant's. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
@@ -2225,7 +2234,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexStats",
+            '200': "IndexIndexStats",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2253,7 +2262,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexStats]:
+    ) -> ApiResponse[IndexIndexStats]:
         """Counts the documents in each of your indexes.
 
         Counts the documents in each of your indexes.  Reports every index the caller's own org holds with its document count, plus the org's total. `isIndexing` is always false because writes here are applied before their response — there is never a background pass to wait on.  The tenant is the org minted from the VALIDATED bearer's owner claim, never a client-supplied header, so this counts the caller's own documents and no other tenant's. Without a validated principal the answer is 403 carrying the dialect's `invalid_api_key` body.
@@ -2288,7 +2297,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexStats",
+            '200': "IndexIndexStats",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2351,7 +2360,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexStats",
+            '200': "IndexIndexStats",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2393,7 +2402,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2437,7 +2447,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexTask:
+    ) -> IndexIndexTask:
         """Checks a write task, which has already finished.
 
         Checks a write task, which has already finished.  Always reports `succeeded`. Writes here are applied to SQLite before their EnqueuedTask is returned, so a client polling waitForTask resolves on its first call rather than waiting for a queue that was never there. The three timestamps are the same instant for the same reason.  It requires a validated principal but reads no tenant data: the task id it echoes was minted by this process and names nothing about any org.
@@ -2475,7 +2485,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexTask",
+            '200': "IndexIndexTask",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2504,7 +2514,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexTask]:
+    ) -> ApiResponse[IndexIndexTask]:
         """Checks a write task, which has already finished.
 
         Checks a write task, which has already finished.  Always reports `succeeded`. Writes here are applied to SQLite before their EnqueuedTask is returned, so a client polling waitForTask resolves on its first call rather than waiting for a queue that was never there. The three timestamps are the same instant for the same reason.  It requires a validated principal but reads no tenant data: the task id it echoes was minted by this process and names nothing about any org.
@@ -2542,7 +2552,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexTask",
+            '200': "IndexIndexTask",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2609,7 +2619,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexTask",
+            '200': "IndexIndexTask",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2654,7 +2664,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2697,7 +2708,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexVersion:
+    ) -> IndexIndexVersion:
         """Identifies the search implementation answering.
 
         Identifies the search implementation answering.  Reports the dialect's version shape with `commitSha` naming this implementation rather than a Meilisearch build, so a client that logs the version records which server answered instead of implying a release of software this is not. It requires no principal and reads no tenant data.
@@ -2732,7 +2743,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexVersion",
+            '200': "IndexIndexVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2760,7 +2771,7 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexVersion]:
+    ) -> ApiResponse[IndexIndexVersion]:
         """Identifies the search implementation answering.
 
         Identifies the search implementation answering.  Reports the dialect's version shape with `commitSha` naming this implementation rather than a Meilisearch build, so a client that logs the version records which server answered instead of implying a release of software this is not. It requires no principal and reads no tenant data.
@@ -2795,7 +2806,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexVersion",
+            '200': "IndexIndexVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2858,7 +2869,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexVersion",
+            '200': "IndexIndexVersion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2900,7 +2911,8 @@ class IndexApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2932,7 +2944,7 @@ class IndexApi:
     def patch_index_indexes_by_uid_settings(
         self,
         uid: StrictStr,
-        index_filter: IndexFilter,
+        index_index_filter: IndexIndexFilter,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2945,15 +2957,15 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexEnqueued:
+    ) -> IndexIndexEnqueued:
         """Sets which attributes an index can be filtered on.
 
         Sets which attributes an index can be filtered on.  Replaces the whole filterable set. An attribute not listed here cannot be used in a search `filter`, so this is what makes a per-user or per-tag narrowing possible at all.  It CREATES the index when it is missing rather than answering 404, because a Meilisearch client configures settings on an index it has just asked for and a refusal there leaves the client with no index at all.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the setting is already applied when this answers.
 
         :param uid: (required)
         :type uid: str
-        :param index_filter: (required)
-        :type index_filter: IndexFilter
+        :param index_index_filter: (required)
+        :type index_index_filter: IndexIndexFilter
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2978,7 +2990,7 @@ class IndexApi:
 
         _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
-            index_filter=index_filter,
+            index_index_filter=index_index_filter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2986,7 +2998,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3003,7 +3015,7 @@ class IndexApi:
     def patch_index_indexes_by_uid_settings_with_http_info(
         self,
         uid: StrictStr,
-        index_filter: IndexFilter,
+        index_index_filter: IndexIndexFilter,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3016,15 +3028,15 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexEnqueued]:
+    ) -> ApiResponse[IndexIndexEnqueued]:
         """Sets which attributes an index can be filtered on.
 
         Sets which attributes an index can be filtered on.  Replaces the whole filterable set. An attribute not listed here cannot be used in a search `filter`, so this is what makes a per-user or per-tag narrowing possible at all.  It CREATES the index when it is missing rather than answering 404, because a Meilisearch client configures settings on an index it has just asked for and a refusal there leaves the client with no index at all.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the setting is already applied when this answers.
 
         :param uid: (required)
         :type uid: str
-        :param index_filter: (required)
-        :type index_filter: IndexFilter
+        :param index_index_filter: (required)
+        :type index_index_filter: IndexIndexFilter
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3049,7 +3061,7 @@ class IndexApi:
 
         _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
-            index_filter=index_filter,
+            index_index_filter=index_index_filter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3057,7 +3069,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3074,7 +3086,7 @@ class IndexApi:
     def patch_index_indexes_by_uid_settings_without_preload_content(
         self,
         uid: StrictStr,
-        index_filter: IndexFilter,
+        index_index_filter: IndexIndexFilter,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3094,8 +3106,8 @@ class IndexApi:
 
         :param uid: (required)
         :type uid: str
-        :param index_filter: (required)
-        :type index_filter: IndexFilter
+        :param index_index_filter: (required)
+        :type index_index_filter: IndexIndexFilter
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3120,7 +3132,7 @@ class IndexApi:
 
         _param = self._patch_index_indexes_by_uid_settings_serialize(
             uid=uid,
-            index_filter=index_filter,
+            index_index_filter=index_index_filter,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3128,7 +3140,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3140,7 +3152,7 @@ class IndexApi:
     def _patch_index_indexes_by_uid_settings_serialize(
         self,
         uid,
-        index_filter,
+        index_index_filter,
         _request_auth,
         _content_type,
         _headers,
@@ -3168,15 +3180,16 @@ class IndexApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if index_filter is not None:
-            _body_params = index_filter
+        if index_index_filter is not None:
+            _body_params = index_index_filter
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3220,7 +3233,7 @@ class IndexApi:
     @validate_call
     def post_index_indexes(
         self,
-        index_new: IndexNew,
+        index_index_new: IndexIndexNew,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3233,13 +3246,13 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexEnqueued:
+    ) -> IndexIndexEnqueued:
         """Creates an index.
 
         Creates an index.  Registers a named index in the caller's own org and answers the dialect's EnqueuedTask. It is idempotent: creating an index that already exists returns the same receipt and changes nothing, which is what lets a client create on startup without checking first.  `primaryKey` is optional — the first write establishes one when it is omitted. An index is a ROW here rather than a table, so an unusual uid is stored verbatim instead of being sanitised into a schema name.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers. A client that polls waitForTask resolves immediately.
 
-        :param index_new: (required)
-        :type index_new: IndexNew
+        :param index_index_new: (required)
+        :type index_index_new: IndexIndexNew
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3263,7 +3276,7 @@ class IndexApi:
         """ # noqa: E501
 
         _param = self._post_index_indexes_serialize(
-            index_new=index_new,
+            index_index_new=index_index_new,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3271,7 +3284,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3287,7 +3300,7 @@ class IndexApi:
     @validate_call
     def post_index_indexes_with_http_info(
         self,
-        index_new: IndexNew,
+        index_index_new: IndexIndexNew,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3300,13 +3313,13 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexEnqueued]:
+    ) -> ApiResponse[IndexIndexEnqueued]:
         """Creates an index.
 
         Creates an index.  Registers a named index in the caller's own org and answers the dialect's EnqueuedTask. It is idempotent: creating an index that already exists returns the same receipt and changes nothing, which is what lets a client create on startup without checking first.  `primaryKey` is optional — the first write establishes one when it is omitted. An index is a ROW here rather than a table, so an unusual uid is stored verbatim instead of being sanitised into a schema name.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers. A client that polls waitForTask resolves immediately.
 
-        :param index_new: (required)
-        :type index_new: IndexNew
+        :param index_index_new: (required)
+        :type index_index_new: IndexIndexNew
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3330,7 +3343,7 @@ class IndexApi:
         """ # noqa: E501
 
         _param = self._post_index_indexes_serialize(
-            index_new=index_new,
+            index_index_new=index_index_new,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3338,7 +3351,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3354,7 +3367,7 @@ class IndexApi:
     @validate_call
     def post_index_indexes_without_preload_content(
         self,
-        index_new: IndexNew,
+        index_index_new: IndexIndexNew,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -3372,8 +3385,8 @@ class IndexApi:
 
         Creates an index.  Registers a named index in the caller's own org and answers the dialect's EnqueuedTask. It is idempotent: creating an index that already exists returns the same receipt and changes nothing, which is what lets a client create on startup without checking first.  `primaryKey` is optional — the first write establishes one when it is omitted. An index is a ROW here rather than a table, so an unusual uid is stored verbatim instead of being sanitised into a schema name.  The 202 and its `enqueued` task are DIALECT COMPATIBILITY, not a promise of later work: the write is already applied when this answers. A client that polls waitForTask resolves immediately.
 
-        :param index_new: (required)
-        :type index_new: IndexNew
+        :param index_index_new: (required)
+        :type index_index_new: IndexIndexNew
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3397,7 +3410,7 @@ class IndexApi:
         """ # noqa: E501
 
         _param = self._post_index_indexes_serialize(
-            index_new=index_new,
+            index_index_new=index_index_new,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3405,7 +3418,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IndexEnqueued",
+            '202': "IndexIndexEnqueued",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3416,7 +3429,7 @@ class IndexApi:
 
     def _post_index_indexes_serialize(
         self,
-        index_new,
+        index_index_new,
         _request_auth,
         _content_type,
         _headers,
@@ -3442,15 +3455,16 @@ class IndexApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if index_new is not None:
-            _body_params = index_new
+        if index_index_new is not None:
+            _body_params = index_index_new
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4075,7 +4089,7 @@ class IndexApi:
     def post_index_indexes_by_uid_search(
         self,
         uid: StrictStr,
-        index_query: IndexQuery,
+        index_index_query: IndexIndexQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4088,15 +4102,15 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IndexHits:
+    ) -> IndexIndexHits:
         """Searches an index, forgiving typos.
 
         Searches an index, forgiving typos.  Ranks the org's documents in one index against `q` and answers the matching documents whole, most relevant first. A prefix matches, so a partial word finds the documents containing it, and `filter` narrows the result to documents whose filterable attributes match — which is how a caller scopes results to one end user within its own org.  `estimatedTotalHits` is the dialect's name for the count; every hit is materialised here, so for this page it is exact. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
 
         :param uid: (required)
         :type uid: str
-        :param index_query: (required)
-        :type index_query: IndexQuery
+        :param index_index_query: (required)
+        :type index_index_query: IndexIndexQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4121,7 +4135,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
-            index_query=index_query,
+            index_index_query=index_index_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4129,7 +4143,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHits",
+            '200': "IndexIndexHits",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4146,7 +4160,7 @@ class IndexApi:
     def post_index_indexes_by_uid_search_with_http_info(
         self,
         uid: StrictStr,
-        index_query: IndexQuery,
+        index_index_query: IndexIndexQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4159,15 +4173,15 @@ class IndexApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IndexHits]:
+    ) -> ApiResponse[IndexIndexHits]:
         """Searches an index, forgiving typos.
 
         Searches an index, forgiving typos.  Ranks the org's documents in one index against `q` and answers the matching documents whole, most relevant first. A prefix matches, so a partial word finds the documents containing it, and `filter` narrows the result to documents whose filterable attributes match — which is how a caller scopes results to one end user within its own org.  `estimatedTotalHits` is the dialect's name for the count; every hit is materialised here, so for this page it is exact. An index this org does not hold answers 404 carrying the dialect's `index_not_found`.
 
         :param uid: (required)
         :type uid: str
-        :param index_query: (required)
-        :type index_query: IndexQuery
+        :param index_index_query: (required)
+        :type index_index_query: IndexIndexQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4192,7 +4206,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
-            index_query=index_query,
+            index_index_query=index_index_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4200,7 +4214,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHits",
+            '200': "IndexIndexHits",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4217,7 +4231,7 @@ class IndexApi:
     def post_index_indexes_by_uid_search_without_preload_content(
         self,
         uid: StrictStr,
-        index_query: IndexQuery,
+        index_index_query: IndexIndexQuery,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4237,8 +4251,8 @@ class IndexApi:
 
         :param uid: (required)
         :type uid: str
-        :param index_query: (required)
-        :type index_query: IndexQuery
+        :param index_index_query: (required)
+        :type index_index_query: IndexIndexQuery
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4263,7 +4277,7 @@ class IndexApi:
 
         _param = self._post_index_indexes_by_uid_search_serialize(
             uid=uid,
-            index_query=index_query,
+            index_index_query=index_index_query,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4271,7 +4285,7 @@ class IndexApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "IndexHits",
+            '200': "IndexIndexHits",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4283,7 +4297,7 @@ class IndexApi:
     def _post_index_indexes_by_uid_search_serialize(
         self,
         uid,
-        index_query,
+        index_index_query,
         _request_auth,
         _content_type,
         _headers,
@@ -4311,15 +4325,16 @@ class IndexApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if index_query is not None:
-            _body_params = index_query
+        if index_index_query is not None:
+            _body_params = index_index_query
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

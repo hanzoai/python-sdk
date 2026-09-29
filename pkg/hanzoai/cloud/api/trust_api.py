@@ -19,19 +19,19 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.centre import Centre
-from hanzoai.cloud.models.clause_coverage import ClauseCoverage
-from hanzoai.cloud.models.control_list import ControlList
-from hanzoai.cloud.models.dropped import Dropped
-from hanzoai.cloud.models.faq_list import FaqList
-from hanzoai.cloud.models.framework_list import FrameworkList
-from hanzoai.cloud.models.policy_list import PolicyList
-from hanzoai.cloud.models.section_write import SectionWrite
-from hanzoai.cloud.models.subprocessor_list import SubprocessorList
-from hanzoai.cloud.models.trust_coverage import TrustCoverage
-from hanzoai.cloud.models.trust_documents import TrustDocuments
-from hanzoai.cloud.models.update_list import UpdateList
-from hanzoai.cloud.models.written import Written
+from hanzoai.cloud.models.trust_centre import TrustCentre
+from hanzoai.cloud.models.trust_clause_coverage import TrustClauseCoverage
+from hanzoai.cloud.models.trust_control_list import TrustControlList
+from hanzoai.cloud.models.trust_dropped import TrustDropped
+from hanzoai.cloud.models.trust_faq_list import TrustFaqList
+from hanzoai.cloud.models.trust_framework_list import TrustFrameworkList
+from hanzoai.cloud.models.trust_policy_list import TrustPolicyList
+from hanzoai.cloud.models.trust_section_write import TrustSectionWrite
+from hanzoai.cloud.models.trust_subprocessor_list import TrustSubprocessorList
+from hanzoai.cloud.models.trust_trust_coverage import TrustTrustCoverage
+from hanzoai.cloud.models.trust_trust_documents import TrustTrustDocuments
+from hanzoai.cloud.models.trust_update_list import TrustUpdateList
+from hanzoai.cloud.models.trust_written import TrustWritten
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -68,7 +68,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Dropped:
+    ) -> TrustDropped:
         """Removes one record from a section of your organization's trust centre.
 
         Removes one record from a section of your organization's trust centre. A record that is not there is a 404, never a silent success. A control that belongs to the deployment's own inventory is removed by a commit, not by a request.
@@ -109,7 +109,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dropped",
+            '200': "TrustDropped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -139,7 +139,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Dropped]:
+    ) -> ApiResponse[TrustDropped]:
         """Removes one record from a section of your organization's trust centre.
 
         Removes one record from a section of your organization's trust centre. A record that is not there is a 404, never a silent success. A control that belongs to the deployment's own inventory is removed by a commit, not by a request.
@@ -180,7 +180,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dropped",
+            '200': "TrustDropped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -251,7 +251,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Dropped",
+            '200': "TrustDropped",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -299,7 +299,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -342,7 +343,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Centre:
+    ) -> TrustCentre:
         """Reads YOUR organization's whole trust centre, including the addresses of your own gated documents.
 
         Reads YOUR organization's whole trust centre, including the addresses of your own gated documents. Same shape as the published endpoint; the difference is that this one is resolved from your validated bearer and shows you your own artifacts.
@@ -377,7 +378,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -405,7 +406,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Centre]:
+    ) -> ApiResponse[TrustCentre]:
         """Reads YOUR organization's whole trust centre, including the addresses of your own gated documents.
 
         Reads YOUR organization's whole trust centre, including the addresses of your own gated documents. Same shape as the published endpoint; the difference is that this one is resolved from your validated bearer and shows you your own artifacts.
@@ -440,7 +441,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -503,7 +504,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -545,7 +546,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -588,7 +590,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ControlList:
+    ) -> TrustControlList:
         """Lists every control your organization publishes, with the counts.
 
         Lists every control your organization publishes, with the counts.  A control names what it asserts, the mechanism behind it, the repository and file where that mechanism is enforced, how it is verified, and the framework clauses it maps to. Status is automated, partial or absent — and an absent one still names the clause it would satisfy, which is a roadmap, while never moving a coverage number.
@@ -623,7 +625,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlList",
+            '200': "TrustControlList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -651,7 +653,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ControlList]:
+    ) -> ApiResponse[TrustControlList]:
         """Lists every control your organization publishes, with the counts.
 
         Lists every control your organization publishes, with the counts.  A control names what it asserts, the mechanism behind it, the repository and file where that mechanism is enforced, how it is verified, and the framework clauses it maps to. Status is automated, partial or absent — and an absent one still names the clause it would satisfy, which is a roadmap, while never moving a coverage number.
@@ -686,7 +688,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlList",
+            '200': "TrustControlList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -749,7 +751,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ControlList",
+            '200': "TrustControlList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -791,7 +793,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1052,7 +1055,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1095,7 +1099,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrustCoverage:
+    ) -> TrustTrustCoverage:
         """Reads coverage: per framework, how many clauses have an automated control behind them, how many are partial, and how many have none — each carrying the unit it is counted in, because \"12 of 20\" is not a fact until you know what the 20 are.
 
         Reads coverage: per framework, how many clauses have an automated control behind them, how many are partial, and how many have none — each carrying the unit it is counted in, because \"12 of 20\" is not a fact until you know what the 20 are.  Nothing here is a verdict. There is no boolean, and a control that only a person has read counts one rung weaker than it claims to be, because only a check that can FAIL is evidence.
@@ -1130,7 +1134,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustCoverage",
+            '200': "TrustTrustCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1158,7 +1162,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrustCoverage]:
+    ) -> ApiResponse[TrustTrustCoverage]:
         """Reads coverage: per framework, how many clauses have an automated control behind them, how many are partial, and how many have none — each carrying the unit it is counted in, because \"12 of 20\" is not a fact until you know what the 20 are.
 
         Reads coverage: per framework, how many clauses have an automated control behind them, how many are partial, and how many have none — each carrying the unit it is counted in, because \"12 of 20\" is not a fact until you know what the 20 are.  Nothing here is a verdict. There is no boolean, and a control that only a person has read counts one rung weaker than it claims to be, because only a check that can FAIL is evidence.
@@ -1193,7 +1197,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustCoverage",
+            '200': "TrustTrustCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1256,7 +1260,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustCoverage",
+            '200': "TrustTrustCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1298,7 +1302,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1342,7 +1347,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClauseCoverage:
+    ) -> TrustClauseCoverage:
         """Reads one framework clause by clause: every clause the standard publishes, what covers it, and which controls stand behind it — so a coverage number can be checked line by line rather than taken on trust.
 
         Reads one framework clause by clause: every clause the standard publishes, what covers it, and which controls stand behind it — so a coverage number can be checked line by line rather than taken on trust.
@@ -1380,7 +1385,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClauseCoverage",
+            '200': "TrustClauseCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1409,7 +1414,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClauseCoverage]:
+    ) -> ApiResponse[TrustClauseCoverage]:
         """Reads one framework clause by clause: every clause the standard publishes, what covers it, and which controls stand behind it — so a coverage number can be checked line by line rather than taken on trust.
 
         Reads one framework clause by clause: every clause the standard publishes, what covers it, and which controls stand behind it — so a coverage number can be checked line by line rather than taken on trust.
@@ -1447,7 +1452,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClauseCoverage",
+            '200': "TrustClauseCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1514,7 +1519,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClauseCoverage",
+            '200': "TrustClauseCoverage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1559,7 +1564,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1602,7 +1608,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> TrustDocuments:
+    ) -> TrustTrustDocuments:
         """Lists your organization's documents.
 
         Lists your organization's documents. Because this is your own centre, a gated artifact carries its address here; through the published endpoint it does not.
@@ -1637,7 +1643,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustDocuments",
+            '200': "TrustTrustDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1665,7 +1671,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[TrustDocuments]:
+    ) -> ApiResponse[TrustTrustDocuments]:
         """Lists your organization's documents.
 
         Lists your organization's documents. Because this is your own centre, a gated artifact carries its address here; through the published endpoint it does not.
@@ -1700,7 +1706,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustDocuments",
+            '200': "TrustTrustDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1763,7 +1769,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "TrustDocuments",
+            '200': "TrustTrustDocuments",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1805,7 +1811,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2119,7 +2126,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2162,7 +2170,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FaqList:
+    ) -> TrustFaqList:
         """Lists your knowledge base — the questions a reviewer asks, answered once.
 
         Lists your knowledge base — the questions a reviewer asks, answered once.
@@ -2197,7 +2205,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FaqList",
+            '200': "TrustFaqList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2225,7 +2233,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FaqList]:
+    ) -> ApiResponse[TrustFaqList]:
         """Lists your knowledge base — the questions a reviewer asks, answered once.
 
         Lists your knowledge base — the questions a reviewer asks, answered once.
@@ -2260,7 +2268,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FaqList",
+            '200': "TrustFaqList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2323,7 +2331,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FaqList",
+            '200': "TrustFaqList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2365,7 +2373,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2408,7 +2417,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FrameworkList:
+    ) -> TrustFrameworkList:
         """Lists the frameworks coverage is computed against, and how many clauses each publishes.
 
         Lists the frameworks coverage is computed against, and how many clauses each publishes. That count is the denominator of every coverage number, which is what keeps an uncovered clause visible instead of dropping out of the fraction.
@@ -2443,7 +2452,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FrameworkList",
+            '200': "TrustFrameworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2471,7 +2480,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FrameworkList]:
+    ) -> ApiResponse[TrustFrameworkList]:
         """Lists the frameworks coverage is computed against, and how many clauses each publishes.
 
         Lists the frameworks coverage is computed against, and how many clauses each publishes. That count is the denominator of every coverage number, which is what keeps an uncovered clause visible instead of dropping out of the fraction.
@@ -2506,7 +2515,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FrameworkList",
+            '200': "TrustFrameworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2569,7 +2578,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FrameworkList",
+            '200': "TrustFrameworkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2611,7 +2620,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2654,7 +2664,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PolicyList:
+    ) -> TrustPolicyList:
         """Lists your organization's published policies.
 
         Lists your organization's published policies.
@@ -2689,7 +2699,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PolicyList",
+            '200': "TrustPolicyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2717,7 +2727,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PolicyList]:
+    ) -> ApiResponse[TrustPolicyList]:
         """Lists your organization's published policies.
 
         Lists your organization's published policies.
@@ -2752,7 +2762,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PolicyList",
+            '200': "TrustPolicyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2815,7 +2825,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PolicyList",
+            '200': "TrustPolicyList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2857,7 +2867,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3103,7 +3114,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3147,7 +3159,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Centre:
+    ) -> TrustCentre:
         """Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.
 
         Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.  This is the PUBLIC endpoint and needs no credential, because a published trust centre is a public document. It answers only for an organization that has published one — an organization that has not is not found rather than empty, since an empty centre and a centre nobody meant to show read the same and are not the same thing.  A gated document appears here with its title, its type and its date and NO address: the listing says the artifact exists and that reading it takes a grant. Nothing an independent auditor signed is ever released through this endpoint.
@@ -3185,7 +3197,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3214,7 +3226,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Centre]:
+    ) -> ApiResponse[TrustCentre]:
         """Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.
 
         Reads a published trust centre — the whole thing in one answer: the organization's profile, its control inventory, coverage computed against each framework's whole published clause list, its documents, subprocessors, policies, knowledge base, updates and risk profile.  This is the PUBLIC endpoint and needs no credential, because a published trust centre is a public document. It answers only for an organization that has published one — an organization that has not is not found rather than empty, since an empty centre and a centre nobody meant to show read the same and are not the same thing.  A gated document appears here with its title, its type and its date and NO address: the listing says the artifact exists and that reading it takes a grant. Nothing an independent auditor signed is ever released through this endpoint.
@@ -3252,7 +3264,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3319,7 +3331,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Centre",
+            '200': "TrustCentre",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3364,7 +3376,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3609,7 +3622,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3652,7 +3666,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SubprocessorList:
+    ) -> TrustSubprocessorList:
         """Lists the third parties your organization sends data to, each naming what it is for.
 
         Lists the third parties your organization sends data to, each naming what it is for.
@@ -3687,7 +3701,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubprocessorList",
+            '200': "TrustSubprocessorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3715,7 +3729,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SubprocessorList]:
+    ) -> ApiResponse[TrustSubprocessorList]:
         """Lists the third parties your organization sends data to, each naming what it is for.
 
         Lists the third parties your organization sends data to, each naming what it is for.
@@ -3750,7 +3764,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubprocessorList",
+            '200': "TrustSubprocessorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3813,7 +3827,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SubprocessorList",
+            '200': "TrustSubprocessorList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3855,7 +3869,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3898,7 +3913,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UpdateList:
+    ) -> TrustUpdateList:
         """Lists your trust-centre updates, newest as you ordered them.
 
         Lists your trust-centre updates, newest as you ordered them.
@@ -3933,7 +3948,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UpdateList",
+            '200': "TrustUpdateList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3961,7 +3976,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UpdateList]:
+    ) -> ApiResponse[TrustUpdateList]:
         """Lists your trust-centre updates, newest as you ordered them.
 
         Lists your trust-centre updates, newest as you ordered them.
@@ -3996,7 +4011,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UpdateList",
+            '200': "TrustUpdateList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4059,7 +4074,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UpdateList",
+            '200': "TrustUpdateList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4101,7 +4116,8 @@ class TrustApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4134,7 +4150,7 @@ class TrustApi:
         self,
         kind: Annotated[StrictStr, Field(description="Kind is the section being written. The URL is the authority.")],
         id: Annotated[StrictStr, Field(description="ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named.")],
-        section_write: SectionWrite,
+        trust_section_write: TrustSectionWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4147,7 +4163,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Written:
+    ) -> TrustWritten:
         """Writes one record into a section of YOUR organization's trust centre — profile, control, document, subprocessor, policy, faq, update or risk.
 
         Writes one record into a section of YOUR organization's trust centre — profile, control, document, subprocessor, policy, faq, update or risk.  A control written here is held to exactly the rule a control committed to the deployment's own inventory is held to, by the same validator: its prose may not claim a certificate and may not name a framework (a framework belongs in the mappings, where it arrives attached to a number), anything short of automated must say what is missing, and a mapping to a clause no framework declares is refused rather than scored as nothing.  A document defaults to GATED. An artifact an independent auditor signed — a SOC 2 report, an ISO certificate, a penetration test, an auditor letter — cannot be made public at all; it is released through a grant. A self-assessment can, because the organization is the one attesting it.  The deployment's OWN control inventory is governed in git and is not writable here: naming one of its ids is a conflict, not an overwrite.
@@ -4156,8 +4172,8 @@ class TrustApi:
         :type kind: str
         :param id: ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named. (required)
         :type id: str
-        :param section_write: (required)
-        :type section_write: SectionWrite
+        :param trust_section_write: (required)
+        :type trust_section_write: TrustSectionWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4183,7 +4199,7 @@ class TrustApi:
         _param = self._put_trust_by_kind_by_id_serialize(
             kind=kind,
             id=id,
-            section_write=section_write,
+            trust_section_write=trust_section_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4191,7 +4207,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Written",
+            '200': "TrustWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4209,7 +4225,7 @@ class TrustApi:
         self,
         kind: Annotated[StrictStr, Field(description="Kind is the section being written. The URL is the authority.")],
         id: Annotated[StrictStr, Field(description="ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named.")],
-        section_write: SectionWrite,
+        trust_section_write: TrustSectionWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4222,7 +4238,7 @@ class TrustApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Written]:
+    ) -> ApiResponse[TrustWritten]:
         """Writes one record into a section of YOUR organization's trust centre — profile, control, document, subprocessor, policy, faq, update or risk.
 
         Writes one record into a section of YOUR organization's trust centre — profile, control, document, subprocessor, policy, faq, update or risk.  A control written here is held to exactly the rule a control committed to the deployment's own inventory is held to, by the same validator: its prose may not claim a certificate and may not name a framework (a framework belongs in the mappings, where it arrives attached to a number), anything short of automated must say what is missing, and a mapping to a clause no framework declares is refused rather than scored as nothing.  A document defaults to GATED. An artifact an independent auditor signed — a SOC 2 report, an ISO certificate, a penetration test, an auditor letter — cannot be made public at all; it is released through a grant. A self-assessment can, because the organization is the one attesting it.  The deployment's OWN control inventory is governed in git and is not writable here: naming one of its ids is a conflict, not an overwrite.
@@ -4231,8 +4247,8 @@ class TrustApi:
         :type kind: str
         :param id: ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named. (required)
         :type id: str
-        :param section_write: (required)
-        :type section_write: SectionWrite
+        :param trust_section_write: (required)
+        :type trust_section_write: TrustSectionWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4258,7 +4274,7 @@ class TrustApi:
         _param = self._put_trust_by_kind_by_id_serialize(
             kind=kind,
             id=id,
-            section_write=section_write,
+            trust_section_write=trust_section_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4266,7 +4282,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Written",
+            '200': "TrustWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4284,7 +4300,7 @@ class TrustApi:
         self,
         kind: Annotated[StrictStr, Field(description="Kind is the section being written. The URL is the authority.")],
         id: Annotated[StrictStr, Field(description="ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named.")],
-        section_write: SectionWrite,
+        trust_section_write: TrustSectionWrite,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -4306,8 +4322,8 @@ class TrustApi:
         :type kind: str
         :param id: ID is the record's id. Omit it on a create and one is minted; the single-valued sections (profile, risk) hold one record whatever is named. (required)
         :type id: str
-        :param section_write: (required)
-        :type section_write: SectionWrite
+        :param trust_section_write: (required)
+        :type trust_section_write: TrustSectionWrite
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -4333,7 +4349,7 @@ class TrustApi:
         _param = self._put_trust_by_kind_by_id_serialize(
             kind=kind,
             id=id,
-            section_write=section_write,
+            trust_section_write=trust_section_write,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -4341,7 +4357,7 @@ class TrustApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Written",
+            '200': "TrustWritten",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4354,7 +4370,7 @@ class TrustApi:
         self,
         kind,
         id,
-        section_write,
+        trust_section_write,
         _request_auth,
         _content_type,
         _headers,
@@ -4384,15 +4400,16 @@ class TrustApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if section_write is not None:
-            _body_params = section_write
+        if trust_section_write is not None:
+            _body_params = trust_section_write
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,21 +26,17 @@ class IamInput(BaseModel):
     """
     IamInput
     """ # noqa: E501
-    action: Optional[StrictStr] = None
-    client_ip: Optional[StrictStr] = Field(default=None, alias="clientIp")
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
-    is_triggered: Optional[StrictBool] = Field(default=None, alias="isTriggered")
-    language: Optional[StrictStr] = None
-    method: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    object: Optional[StrictStr] = None
-    organization: Optional[StrictStr] = None
+    description: Optional[StrictStr] = None
+    display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
+    domains: Optional[List[StrictStr]] = None
+    is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
+    name: Optional[StrictStr] = Field(default=None, description="Name addresses the team on update and names it on create; every other field is content and binds from the BODY, never the URL.")
     owner: Optional[StrictStr] = None
-    request_uri: Optional[StrictStr] = Field(default=None, alias="requestUri")
-    response: Optional[StrictStr] = None
-    status_code: Optional[StrictInt] = Field(default=None, alias="statusCode")
-    user: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["action", "clientIp", "createdTime", "isTriggered", "language", "method", "name", "object", "organization", "owner", "requestUri", "response", "statusCode", "user"]
+    roles: Optional[List[StrictStr]] = None
+    teams: Optional[List[StrictStr]] = None
+    users: Optional[List[StrictStr]] = None
+    __properties: ClassVar[List[str]] = ["createdTime", "description", "displayName", "domains", "isEnabled", "name", "owner", "roles", "teams", "users"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,20 +89,16 @@ class IamInput(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "action": obj.get("action"),
-            "clientIp": obj.get("clientIp"),
             "createdTime": obj.get("createdTime"),
-            "isTriggered": obj.get("isTriggered"),
-            "language": obj.get("language"),
-            "method": obj.get("method"),
+            "description": obj.get("description"),
+            "displayName": obj.get("displayName"),
+            "domains": obj.get("domains"),
+            "isEnabled": obj.get("isEnabled"),
             "name": obj.get("name"),
-            "object": obj.get("object"),
-            "organization": obj.get("organization"),
             "owner": obj.get("owner"),
-            "requestUri": obj.get("requestUri"),
-            "response": obj.get("response"),
-            "statusCode": obj.get("statusCode"),
-            "user": obj.get("user")
+            "roles": obj.get("roles"),
+            "teams": obj.get("teams"),
+            "users": obj.get("users")
         })
         return _obj
 

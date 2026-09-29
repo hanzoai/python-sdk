@@ -19,31 +19,31 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.agent_binding import AgentBinding
-from hanzoai.cloud.models.bind_agent_req import BindAgentReq
-from hanzoai.cloud.models.binding_list import BindingList
-from hanzoai.cloud.models.cluster_attach import ClusterAttach
-from hanzoai.cloud.models.cluster_detached import ClusterDetached
-from hanzoai.cloud.models.cluster_detail_view import ClusterDetailView
-from hanzoai.cloud.models.cluster_list import ClusterList
-from hanzoai.cloud.models.cluster_view import ClusterView
-from hanzoai.cloud.models.create_cluster_req import CreateClusterReq
-from hanzoai.cloud.models.fleet_board import FleetBoard
-from hanzoai.cloud.models.gpu_alert_list import GpuAlertList
-from hanzoai.cloud.models.gpu_list import GpuList
-from hanzoai.cloud.models.job_cancel import JobCancel
-from hanzoai.cloud.models.job_canceled import JobCanceled
-from hanzoai.cloud.models.job_list import JobList
-from hanzoai.cloud.models.machine_list import MachineList
-from hanzoai.cloud.models.machine_view import MachineView
-from hanzoai.cloud.models.node_list import NodeList
-from hanzoai.cloud.models.node_pool_view import NodePoolView
-from hanzoai.cloud.models.pool_create import PoolCreate
-from hanzoai.cloud.models.pool_scale import PoolScale
-from hanzoai.cloud.models.sample_accepted import SampleAccepted
-from hanzoai.cloud.models.sample_ingest import SampleIngest
-from hanzoai.cloud.models.sample_list import SampleList
-from hanzoai.cloud.models.worker_list import WorkerList
+from hanzoai.cloud.models.compute_agent_binding import ComputeAgentBinding
+from hanzoai.cloud.models.compute_bind_agent_req import ComputeBindAgentReq
+from hanzoai.cloud.models.compute_binding_list import ComputeBindingList
+from hanzoai.cloud.models.compute_cluster_attach import ComputeClusterAttach
+from hanzoai.cloud.models.compute_cluster_detached import ComputeClusterDetached
+from hanzoai.cloud.models.compute_cluster_detail_view import ComputeClusterDetailView
+from hanzoai.cloud.models.compute_cluster_list import ComputeClusterList
+from hanzoai.cloud.models.compute_cluster_view import ComputeClusterView
+from hanzoai.cloud.models.compute_create_cluster_req import ComputeCreateClusterReq
+from hanzoai.cloud.models.compute_fleet_board import ComputeFleetBoard
+from hanzoai.cloud.models.compute_gpu_alert_list import ComputeGpuAlertList
+from hanzoai.cloud.models.compute_gpu_list import ComputeGpuList
+from hanzoai.cloud.models.compute_job_cancel import ComputeJobCancel
+from hanzoai.cloud.models.compute_job_canceled import ComputeJobCanceled
+from hanzoai.cloud.models.compute_job_list import ComputeJobList
+from hanzoai.cloud.models.compute_machine_list import ComputeMachineList
+from hanzoai.cloud.models.compute_machine_view import ComputeMachineView
+from hanzoai.cloud.models.compute_node_list import ComputeNodeList
+from hanzoai.cloud.models.compute_node_pool_view import ComputeNodePoolView
+from hanzoai.cloud.models.compute_pool_create import ComputePoolCreate
+from hanzoai.cloud.models.compute_pool_scale import ComputePoolScale
+from hanzoai.cloud.models.compute_sample_accepted import ComputeSampleAccepted
+from hanzoai.cloud.models.compute_sample_ingest import ComputeSampleIngest
+from hanzoai.cloud.models.compute_sample_list import ComputeSampleList
+from hanzoai.cloud.models.compute_worker_list import ComputeWorkerList
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +66,7 @@ class ComputeApi:
     @validate_call
     def attach_cluster(
         self,
-        cluster_attach: ClusterAttach,
+        compute_cluster_attach: ComputeClusterAttach,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -79,13 +79,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterView:
+    ) -> ComputeClusterView:
         """Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/compute/clusters.
 
         Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/compute/clusters. Billed the nominal management fee: the customer brings the compute, Hanzo meters the management plane.
 
-        :param cluster_attach: (required)
-        :type cluster_attach: ClusterAttach
+        :param compute_cluster_attach: (required)
+        :type compute_cluster_attach: ComputeClusterAttach
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -109,7 +109,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._attach_cluster_serialize(
-            cluster_attach=cluster_attach,
+            compute_cluster_attach=compute_cluster_attach,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -117,7 +117,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -133,7 +133,7 @@ class ComputeApi:
     @validate_call
     def attach_cluster_with_http_info(
         self,
-        cluster_attach: ClusterAttach,
+        compute_cluster_attach: ComputeClusterAttach,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -146,13 +146,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterView]:
+    ) -> ApiResponse[ComputeClusterView]:
         """Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/compute/clusters.
 
         Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/compute/clusters. Billed the nominal management fee: the customer brings the compute, Hanzo meters the management plane.
 
-        :param cluster_attach: (required)
-        :type cluster_attach: ClusterAttach
+        :param compute_cluster_attach: (required)
+        :type compute_cluster_attach: ComputeClusterAttach
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -176,7 +176,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._attach_cluster_serialize(
-            cluster_attach=cluster_attach,
+            compute_cluster_attach=compute_cluster_attach,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -184,7 +184,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -200,7 +200,7 @@ class ComputeApi:
     @validate_call
     def attach_cluster_without_preload_content(
         self,
-        cluster_attach: ClusterAttach,
+        compute_cluster_attach: ComputeClusterAttach,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -218,8 +218,8 @@ class ComputeApi:
 
         Attaches a BYO cluster to the caller's org — the kubeconfig is validated, KMS-sealed and added to the fleet — and answers 201 with the cluster as it now appears on GET /v1/compute/clusters. Billed the nominal management fee: the customer brings the compute, Hanzo meters the management plane.
 
-        :param cluster_attach: (required)
-        :type cluster_attach: ClusterAttach
+        :param compute_cluster_attach: (required)
+        :type compute_cluster_attach: ComputeClusterAttach
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -243,7 +243,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._attach_cluster_serialize(
-            cluster_attach=cluster_attach,
+            compute_cluster_attach=compute_cluster_attach,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -251,7 +251,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -262,7 +262,7 @@ class ComputeApi:
 
     def _attach_cluster_serialize(
         self,
-        cluster_attach,
+        compute_cluster_attach,
         _request_auth,
         _content_type,
         _headers,
@@ -288,15 +288,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if cluster_attach is not None:
-            _body_params = cluster_attach
+        if compute_cluster_attach is not None:
+            _body_params = compute_cluster_attach
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -341,7 +342,7 @@ class ComputeApi:
     def bind_machine_agent(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine to bind, from the URL path.")],
-        bind_agent_req: BindAgentReq,
+        compute_bind_agent_req: ComputeBindAgentReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -354,15 +355,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentBinding:
+    ) -> ComputeAgentBinding:
         """Binds a cloud Agent to one of the caller org's machines: the machine is recorded as running that Agent's @hanzo/bot runtime.
 
         Binds a cloud Agent to one of the caller org's machines: the machine is recorded as running that Agent's @hanzo/bot runtime. The owning org is the validated tenant, never a client field.
 
         :param id: ID is the machine to bind, from the URL path. (required)
         :type id: str
-        :param bind_agent_req: (required)
-        :type bind_agent_req: BindAgentReq
+        :param compute_bind_agent_req: (required)
+        :type compute_bind_agent_req: ComputeBindAgentReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -387,7 +388,7 @@ class ComputeApi:
 
         _param = self._bind_machine_agent_serialize(
             id=id,
-            bind_agent_req=bind_agent_req,
+            compute_bind_agent_req=compute_bind_agent_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -395,7 +396,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -412,7 +413,7 @@ class ComputeApi:
     def bind_machine_agent_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine to bind, from the URL path.")],
-        bind_agent_req: BindAgentReq,
+        compute_bind_agent_req: ComputeBindAgentReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -425,15 +426,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentBinding]:
+    ) -> ApiResponse[ComputeAgentBinding]:
         """Binds a cloud Agent to one of the caller org's machines: the machine is recorded as running that Agent's @hanzo/bot runtime.
 
         Binds a cloud Agent to one of the caller org's machines: the machine is recorded as running that Agent's @hanzo/bot runtime. The owning org is the validated tenant, never a client field.
 
         :param id: ID is the machine to bind, from the URL path. (required)
         :type id: str
-        :param bind_agent_req: (required)
-        :type bind_agent_req: BindAgentReq
+        :param compute_bind_agent_req: (required)
+        :type compute_bind_agent_req: ComputeBindAgentReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -458,7 +459,7 @@ class ComputeApi:
 
         _param = self._bind_machine_agent_serialize(
             id=id,
-            bind_agent_req=bind_agent_req,
+            compute_bind_agent_req=compute_bind_agent_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -466,7 +467,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -483,7 +484,7 @@ class ComputeApi:
     def bind_machine_agent_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the machine to bind, from the URL path.")],
-        bind_agent_req: BindAgentReq,
+        compute_bind_agent_req: ComputeBindAgentReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -503,8 +504,8 @@ class ComputeApi:
 
         :param id: ID is the machine to bind, from the URL path. (required)
         :type id: str
-        :param bind_agent_req: (required)
-        :type bind_agent_req: BindAgentReq
+        :param compute_bind_agent_req: (required)
+        :type compute_bind_agent_req: ComputeBindAgentReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -529,7 +530,7 @@ class ComputeApi:
 
         _param = self._bind_machine_agent_serialize(
             id=id,
-            bind_agent_req=bind_agent_req,
+            compute_bind_agent_req=compute_bind_agent_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -537,7 +538,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -549,7 +550,7 @@ class ComputeApi:
     def _bind_machine_agent_serialize(
         self,
         id,
-        bind_agent_req,
+        compute_bind_agent_req,
         _request_auth,
         _content_type,
         _headers,
@@ -577,15 +578,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if bind_agent_req is not None:
-            _body_params = bind_agent_req
+        if compute_bind_agent_req is not None:
+            _body_params = compute_bind_agent_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -630,7 +632,7 @@ class ComputeApi:
     def cancel_fleet_job(
         self,
         id: Annotated[StrictStr, Field(description="ID is the job (activity) id, from the URL path.")],
-        job_cancel: JobCancel,
+        compute_job_cancel: ComputeJobCancel,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -643,15 +645,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> JobCanceled:
+    ) -> ComputeJobCanceled:
         """Cancels a queued or running render in the caller's org.
 
         Cancels a queued or running render in the caller's org. The engine cancel is org-scoped, so a tenant can only ever cancel its OWN job: a job in another tenant's shard is 404, exactly like one that never existed. An already-finished job is 409.
 
         :param id: ID is the job (activity) id, from the URL path. (required)
         :type id: str
-        :param job_cancel: (required)
-        :type job_cancel: JobCancel
+        :param compute_job_cancel: (required)
+        :type compute_job_cancel: ComputeJobCancel
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -676,7 +678,7 @@ class ComputeApi:
 
         _param = self._cancel_fleet_job_serialize(
             id=id,
-            job_cancel=job_cancel,
+            compute_job_cancel=compute_job_cancel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -684,7 +686,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobCanceled",
+            '200': "ComputeJobCanceled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -701,7 +703,7 @@ class ComputeApi:
     def cancel_fleet_job_with_http_info(
         self,
         id: Annotated[StrictStr, Field(description="ID is the job (activity) id, from the URL path.")],
-        job_cancel: JobCancel,
+        compute_job_cancel: ComputeJobCancel,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -714,15 +716,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[JobCanceled]:
+    ) -> ApiResponse[ComputeJobCanceled]:
         """Cancels a queued or running render in the caller's org.
 
         Cancels a queued or running render in the caller's org. The engine cancel is org-scoped, so a tenant can only ever cancel its OWN job: a job in another tenant's shard is 404, exactly like one that never existed. An already-finished job is 409.
 
         :param id: ID is the job (activity) id, from the URL path. (required)
         :type id: str
-        :param job_cancel: (required)
-        :type job_cancel: JobCancel
+        :param compute_job_cancel: (required)
+        :type compute_job_cancel: ComputeJobCancel
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -747,7 +749,7 @@ class ComputeApi:
 
         _param = self._cancel_fleet_job_serialize(
             id=id,
-            job_cancel=job_cancel,
+            compute_job_cancel=compute_job_cancel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -755,7 +757,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobCanceled",
+            '200': "ComputeJobCanceled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -772,7 +774,7 @@ class ComputeApi:
     def cancel_fleet_job_without_preload_content(
         self,
         id: Annotated[StrictStr, Field(description="ID is the job (activity) id, from the URL path.")],
-        job_cancel: JobCancel,
+        compute_job_cancel: ComputeJobCancel,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -792,8 +794,8 @@ class ComputeApi:
 
         :param id: ID is the job (activity) id, from the URL path. (required)
         :type id: str
-        :param job_cancel: (required)
-        :type job_cancel: JobCancel
+        :param compute_job_cancel: (required)
+        :type compute_job_cancel: ComputeJobCancel
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -818,7 +820,7 @@ class ComputeApi:
 
         _param = self._cancel_fleet_job_serialize(
             id=id,
-            job_cancel=job_cancel,
+            compute_job_cancel=compute_job_cancel,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -826,7 +828,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobCanceled",
+            '200': "ComputeJobCanceled",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -838,7 +840,7 @@ class ComputeApi:
     def _cancel_fleet_job_serialize(
         self,
         id,
-        job_cancel,
+        compute_job_cancel,
         _request_auth,
         _content_type,
         _headers,
@@ -866,15 +868,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if job_cancel is not None:
-            _body_params = job_cancel
+        if compute_job_cancel is not None:
+            _body_params = compute_job_cancel
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -918,7 +921,7 @@ class ComputeApi:
     @validate_call
     def create_kubernetes_cluster(
         self,
-        create_cluster_req: CreateClusterReq,
+        compute_create_cluster_req: ComputeCreateClusterReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -931,13 +934,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterView:
+    ) -> ComputeClusterView:
         """Provisions a DOKS cluster for the caller's org and answers 201.
 
         Provisions a DOKS cluster for the caller's org and answers 201. ADMIN-GATED — a SuperAdmin, or an OrgAdmin of the caller's own org — because provisioning spends real infrastructure on the house account. The request is validated at this boundary, then Visor owns provisioning and the hanzo-org ownership tag.
 
-        :param create_cluster_req: (required)
-        :type create_cluster_req: CreateClusterReq
+        :param compute_create_cluster_req: (required)
+        :type compute_create_cluster_req: ComputeCreateClusterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -961,7 +964,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._create_kubernetes_cluster_serialize(
-            create_cluster_req=create_cluster_req,
+            compute_create_cluster_req=compute_create_cluster_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -969,7 +972,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -985,7 +988,7 @@ class ComputeApi:
     @validate_call
     def create_kubernetes_cluster_with_http_info(
         self,
-        create_cluster_req: CreateClusterReq,
+        compute_create_cluster_req: ComputeCreateClusterReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -998,13 +1001,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterView]:
+    ) -> ApiResponse[ComputeClusterView]:
         """Provisions a DOKS cluster for the caller's org and answers 201.
 
         Provisions a DOKS cluster for the caller's org and answers 201. ADMIN-GATED — a SuperAdmin, or an OrgAdmin of the caller's own org — because provisioning spends real infrastructure on the house account. The request is validated at this boundary, then Visor owns provisioning and the hanzo-org ownership tag.
 
-        :param create_cluster_req: (required)
-        :type create_cluster_req: CreateClusterReq
+        :param compute_create_cluster_req: (required)
+        :type compute_create_cluster_req: ComputeCreateClusterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1028,7 +1031,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._create_kubernetes_cluster_serialize(
-            create_cluster_req=create_cluster_req,
+            compute_create_cluster_req=compute_create_cluster_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1036,7 +1039,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1052,7 +1055,7 @@ class ComputeApi:
     @validate_call
     def create_kubernetes_cluster_without_preload_content(
         self,
-        create_cluster_req: CreateClusterReq,
+        compute_create_cluster_req: ComputeCreateClusterReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1070,8 +1073,8 @@ class ComputeApi:
 
         Provisions a DOKS cluster for the caller's org and answers 201. ADMIN-GATED — a SuperAdmin, or an OrgAdmin of the caller's own org — because provisioning spends real infrastructure on the house account. The request is validated at this boundary, then Visor owns provisioning and the hanzo-org ownership tag.
 
-        :param create_cluster_req: (required)
-        :type create_cluster_req: CreateClusterReq
+        :param compute_create_cluster_req: (required)
+        :type compute_create_cluster_req: ComputeCreateClusterReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1095,7 +1098,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._create_kubernetes_cluster_serialize(
-            create_cluster_req=create_cluster_req,
+            compute_create_cluster_req=compute_create_cluster_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1103,7 +1106,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterView",
+            '200': "ComputeClusterView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1114,7 +1117,7 @@ class ComputeApi:
 
     def _create_kubernetes_cluster_serialize(
         self,
-        create_cluster_req,
+        compute_create_cluster_req,
         _request_auth,
         _content_type,
         _headers,
@@ -1140,15 +1143,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if create_cluster_req is not None:
-            _body_params = create_cluster_req
+        if compute_create_cluster_req is not None:
+            _body_params = compute_create_cluster_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1193,7 +1197,7 @@ class ComputeApi:
     def create_node_pool(
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster to add the pool to, from the URL path.")],
-        pool_create: PoolCreate,
+        compute_pool_create: ComputePoolCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1206,15 +1210,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NodePoolView:
+    ) -> ComputeNodePoolView:
         """Adds a node pool to one of the caller org's clusters and answers 201 with the created pool.
 
         Adds a node pool to one of the caller org's clusters and answers 201 with the created pool. Only the CreateNodePoolSpec fields are forwarded; owner/provider/clusterId ride in the query exactly as Visor expects them.
 
         :param cluster_id: ClusterID is the cluster to add the pool to, from the URL path. (required)
         :type cluster_id: str
-        :param pool_create: (required)
-        :type pool_create: PoolCreate
+        :param compute_pool_create: (required)
+        :type compute_pool_create: ComputePoolCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1239,7 +1243,7 @@ class ComputeApi:
 
         _param = self._create_node_pool_serialize(
             cluster_id=cluster_id,
-            pool_create=pool_create,
+            compute_pool_create=compute_pool_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1247,7 +1251,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1264,7 +1268,7 @@ class ComputeApi:
     def create_node_pool_with_http_info(
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster to add the pool to, from the URL path.")],
-        pool_create: PoolCreate,
+        compute_pool_create: ComputePoolCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1277,15 +1281,15 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NodePoolView]:
+    ) -> ApiResponse[ComputeNodePoolView]:
         """Adds a node pool to one of the caller org's clusters and answers 201 with the created pool.
 
         Adds a node pool to one of the caller org's clusters and answers 201 with the created pool. Only the CreateNodePoolSpec fields are forwarded; owner/provider/clusterId ride in the query exactly as Visor expects them.
 
         :param cluster_id: ClusterID is the cluster to add the pool to, from the URL path. (required)
         :type cluster_id: str
-        :param pool_create: (required)
-        :type pool_create: PoolCreate
+        :param compute_pool_create: (required)
+        :type compute_pool_create: ComputePoolCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1310,7 +1314,7 @@ class ComputeApi:
 
         _param = self._create_node_pool_serialize(
             cluster_id=cluster_id,
-            pool_create=pool_create,
+            compute_pool_create=compute_pool_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1318,7 +1322,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1335,7 +1339,7 @@ class ComputeApi:
     def create_node_pool_without_preload_content(
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster to add the pool to, from the URL path.")],
-        pool_create: PoolCreate,
+        compute_pool_create: ComputePoolCreate,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1355,8 +1359,8 @@ class ComputeApi:
 
         :param cluster_id: ClusterID is the cluster to add the pool to, from the URL path. (required)
         :type cluster_id: str
-        :param pool_create: (required)
-        :type pool_create: PoolCreate
+        :param compute_pool_create: (required)
+        :type compute_pool_create: ComputePoolCreate
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1381,7 +1385,7 @@ class ComputeApi:
 
         _param = self._create_node_pool_serialize(
             cluster_id=cluster_id,
-            pool_create=pool_create,
+            compute_pool_create=compute_pool_create,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1389,7 +1393,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1401,7 +1405,7 @@ class ComputeApi:
     def _create_node_pool_serialize(
         self,
         cluster_id,
-        pool_create,
+        compute_pool_create,
         _request_auth,
         _content_type,
         _headers,
@@ -1429,15 +1433,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if pool_create is not None:
-            _body_params = pool_create
+        if compute_pool_create is not None:
+            _body_params = compute_pool_create
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1707,6 +1712,13 @@ class ComputeApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -1961,6 +1973,13 @@ class ComputeApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -2247,6 +2266,13 @@ class ComputeApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting
@@ -2288,7 +2314,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterDetached:
+    ) -> ComputeClusterDetached:
         """Removes a BYO cluster from the caller org's fleet.
 
         Removes a BYO cluster from the caller org's fleet. It only ever touches BYO clusters — a managed cluster's nodes are removed through the node-pool routes — and answers 404 when the name is not in this org's fleet.
@@ -2326,7 +2352,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetached",
+            '200': "ComputeClusterDetached",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2355,7 +2381,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterDetached]:
+    ) -> ApiResponse[ComputeClusterDetached]:
         """Removes a BYO cluster from the caller org's fleet.
 
         Removes a BYO cluster from the caller org's fleet. It only ever touches BYO clusters — a managed cluster's nodes are removed through the node-pool routes — and answers 404 when the name is not in this org's fleet.
@@ -2393,7 +2419,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetached",
+            '200': "ComputeClusterDetached",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2460,7 +2486,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetached",
+            '200': "ComputeClusterDetached",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2505,7 +2531,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2549,9 +2576,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Regions lists the regions a machine can be launched in.
+        """Lists the regions a machine can be launched in.
 
-        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
+        Lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2612,9 +2639,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Regions lists the regions a machine can be launched in.
+        """Lists the regions a machine can be launched in.
 
-        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
+        Lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2675,9 +2702,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Regions lists the regions a machine can be launched in.
+        """Lists the regions a machine can be launched in.
 
-        Regions lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
+        Lists the regions a machine can be launched in.  The catalog is GLOBAL — identical for every tenant — so no owner is forwarded upstream. It is still org-gated, because a catalog is a map of what this deployment can spend money in and an anonymous caller has no business reading it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2751,7 +2778,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2795,9 +2823,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> object:
-        """Sizes lists the machine sizes available to launch, with their specifications.
+        """Lists the machine sizes available to launch, with their specifications.
 
-        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
+        Lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2858,9 +2886,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[object]:
-        """Sizes lists the machine sizes available to launch, with their specifications.
+        """Lists the machine sizes available to launch, with their specifications.
 
-        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
+        Lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2921,9 +2949,9 @@ class ComputeApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Sizes lists the machine sizes available to launch, with their specifications.
+        """Lists the machine sizes available to launch, with their specifications.
 
-        Sizes lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
+        Lists the machine sizes available to launch, with their specifications.  Global and org-gated, exactly as the region catalog is, and for the same reasons.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2997,7 +3025,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3041,7 +3070,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterDetailView:
+    ) -> ComputeClusterDetailView:
         """Returns one cluster's detail: node pools + worker nodes.
 
         Returns one cluster's detail: node pools + worker nodes. Visor scopes the lookup to the org (a foreign or missing id resolves to not-found), so a tenant can never read another tenant's cluster by guessing an id.
@@ -3079,7 +3108,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetailView",
+            '200': "ComputeClusterDetailView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3108,7 +3137,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterDetailView]:
+    ) -> ApiResponse[ComputeClusterDetailView]:
         """Returns one cluster's detail: node pools + worker nodes.
 
         Returns one cluster's detail: node pools + worker nodes. Visor scopes the lookup to the org (a foreign or missing id resolves to not-found), so a tenant can never read another tenant's cluster by guessing an id.
@@ -3146,7 +3175,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetailView",
+            '200': "ComputeClusterDetailView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3213,7 +3242,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterDetailView",
+            '200': "ComputeClusterDetailView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3258,7 +3287,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3302,7 +3332,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MachineView:
+    ) -> ComputeMachineView:
         """Returns one of the caller org's machines by its org-scoped name.
 
         Returns one of the caller org's machines by its org-scoped name. Visor keys the lookup by owner/name, so an id belonging to another tenant resolves to not-found rather than another org's machine.
@@ -3340,7 +3370,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineView",
+            '200': "ComputeMachineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3369,7 +3399,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MachineView]:
+    ) -> ApiResponse[ComputeMachineView]:
         """Returns one of the caller org's machines by its org-scoped name.
 
         Returns one of the caller org's machines by its org-scoped name. Visor keys the lookup by owner/name, so an id belonging to another tenant resolves to not-found rather than another org's machine.
@@ -3407,7 +3437,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineView",
+            '200': "ComputeMachineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3474,7 +3504,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineView",
+            '200': "ComputeMachineView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3519,7 +3549,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3563,7 +3594,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AgentBinding:
+    ) -> ComputeAgentBinding:
         """Returns the agent binding of one of the caller org's machines, or 404 when the machine runs no bot runtime.
 
         Returns the agent binding of one of the caller org's machines, or 404 when the machine runs no bot runtime.
@@ -3601,7 +3632,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3630,7 +3661,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AgentBinding]:
+    ) -> ApiResponse[ComputeAgentBinding]:
         """Returns the agent binding of one of the caller org's machines, or 404 when the machine runs no bot runtime.
 
         Returns the agent binding of one of the caller org's machines, or 404 when the machine runs no bot runtime.
@@ -3668,7 +3699,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3735,7 +3766,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AgentBinding",
+            '200': "ComputeAgentBinding",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3780,7 +3811,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3823,7 +3855,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterList:
+    ) -> ComputeClusterList:
         """Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project.
 
         Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project. A Visor outage costs the managed half only — the BYO half still lists, because a page that 502s on an optional provider is worse than a page that shows what it can.
@@ -3858,7 +3890,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3886,7 +3918,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterList]:
+    ) -> ApiResponse[ComputeClusterList]:
         """Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project.
 
         Returns the caller org's clusters from both sources: the managed clusters projected from Visor's node pools, and the BYO clusters attached to the caller's project. A Visor outage costs the managed half only — the BYO half still lists, because a page that 502s on an optional provider is worse than a page that shows what it can.
@@ -3921,7 +3953,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3984,7 +4016,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4026,7 +4058,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4069,7 +4102,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> FleetBoard:
+    ) -> ComputeFleetBoard:
         """Returns every compute unit the caller's org has, from every source, each carrying its latest utilization: agent run-targets, the BYO machines that dialed in, attached BYO clusters and Visor-provisioned machines.
 
         Returns every compute unit the caller's org has, from every source, each carrying its latest utilization: agent run-targets, the BYO machines that dialed in, attached BYO clusters and Visor-provisioned machines.  A unit with a live snapshot of its own keeps it; the rest are overlaid from the utilization series, and only when the sample agrees about the SOURCE — two planes could mint the same unit id, and a board must never show one machine's load on another's row. BYO GPU units also carry their gpu-jobs queue depth. Every source is folded in independently: a broken one costs its own rows and nothing else.
@@ -4104,7 +4137,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FleetBoard",
+            '200': "ComputeFleetBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4132,7 +4165,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[FleetBoard]:
+    ) -> ApiResponse[ComputeFleetBoard]:
         """Returns every compute unit the caller's org has, from every source, each carrying its latest utilization: agent run-targets, the BYO machines that dialed in, attached BYO clusters and Visor-provisioned machines.
 
         Returns every compute unit the caller's org has, from every source, each carrying its latest utilization: agent run-targets, the BYO machines that dialed in, attached BYO clusters and Visor-provisioned machines.  A unit with a live snapshot of its own keeps it; the rest are overlaid from the utilization series, and only when the sample agrees about the SOURCE — two planes could mint the same unit id, and a board must never show one machine's load on another's row. BYO GPU units also carry their gpu-jobs queue depth. Every source is folded in independently: a broken one costs its own rows and nothing else.
@@ -4167,7 +4200,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FleetBoard",
+            '200': "ComputeFleetBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4230,7 +4263,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "FleetBoard",
+            '200': "ComputeFleetBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4272,7 +4305,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4317,7 +4351,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> JobList:
+    ) -> ComputeJobList:
         """Returns the caller org's gpu-jobs render queue, each row tagged with the GPU it targets (empty = the shared any-GPU lane) and the node claiming it, optionally narrowed to one GPU's queue and/or one status.
 
         Returns the caller org's gpu-jobs render queue, each row tagged with the GPU it targets (empty = the shared any-GPU lane) and the node claiming it, optionally narrowed to one GPU's queue and/or one status.  A job whose worker died — STARTED with an elapsed lease and not yet reclaimed — reads \"stalled\", not \"running\". Fail-soft: an unavailable tasks engine yields an empty queue rather than an error.
@@ -4358,7 +4392,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobList",
+            '200': "ComputeJobList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4388,7 +4422,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[JobList]:
+    ) -> ApiResponse[ComputeJobList]:
         """Returns the caller org's gpu-jobs render queue, each row tagged with the GPU it targets (empty = the shared any-GPU lane) and the node claiming it, optionally narrowed to one GPU's queue and/or one status.
 
         Returns the caller org's gpu-jobs render queue, each row tagged with the GPU it targets (empty = the shared any-GPU lane) and the node claiming it, optionally narrowed to one GPU's queue and/or one status.  A job whose worker died — STARTED with an elapsed lease and not yet reclaimed — reads \"stalled\", not \"running\". Fail-soft: an unavailable tasks engine yields an empty queue rather than an error.
@@ -4429,7 +4463,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobList",
+            '200': "ComputeJobList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4500,7 +4534,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "JobList",
+            '200': "ComputeJobList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4552,7 +4586,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4598,7 +4633,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SampleList:
+    ) -> ComputeSampleList:
         """Returns the caller org's utilization series, oldest first.
 
         Returns the caller org's utilization series, oldest first.  A rejected narrower is a 400 carrying its own reason (the vocabulary is ours and safe to echo); a warehouse failure is logged and answered 503 \"unavailable\", because a chart that silently reads \"no load\" when the truth is \"we cannot tell\" is worse than one that says so. An ABSENT warehouse is different again: it returns an empty series, which renders honestly as \"no samples yet\".
@@ -4642,7 +4677,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleList",
+            '200': "ComputeSampleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4673,7 +4708,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SampleList]:
+    ) -> ApiResponse[ComputeSampleList]:
         """Returns the caller org's utilization series, oldest first.
 
         Returns the caller org's utilization series, oldest first.  A rejected narrower is a 400 carrying its own reason (the vocabulary is ours and safe to echo); a warehouse failure is logged and answered 503 \"unavailable\", because a chart that silently reads \"no load\" when the truth is \"we cannot tell\" is worse than one that says so. An ABSENT warehouse is different again: it returns an empty series, which renders honestly as \"no samples yet\".
@@ -4717,7 +4752,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleList",
+            '200': "ComputeSampleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4792,7 +4827,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleList",
+            '200': "ComputeSampleList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4849,7 +4884,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4892,7 +4928,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> WorkerList:
+    ) -> ComputeWorkerList:
         """Returns the caller org's BYO machines — the ones that dialed in via `hanzo link` — with everything each host reported about itself.
 
         Returns the caller org's BYO machines — the ones that dialed in via `hanzo link` — with everything each host reported about itself. The Machines and GPUs pages fold the same data into their normalized shapes; this is the canonical raw list a fleet view (or the CLI's `status`) reads.
@@ -4927,7 +4963,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkerList",
+            '200': "ComputeWorkerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4955,7 +4991,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[WorkerList]:
+    ) -> ApiResponse[ComputeWorkerList]:
         """Returns the caller org's BYO machines — the ones that dialed in via `hanzo link` — with everything each host reported about itself.
 
         Returns the caller org's BYO machines — the ones that dialed in via `hanzo link` — with everything each host reported about itself. The Machines and GPUs pages fold the same data into their normalized shapes; this is the canonical raw list a fleet view (or the CLI's `status`) reads.
@@ -4990,7 +5026,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkerList",
+            '200': "ComputeWorkerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5053,7 +5089,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "WorkerList",
+            '200': "ComputeWorkerList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5095,7 +5131,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5138,7 +5175,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GpuAlertList:
+    ) -> ComputeGpuAlertList:
         """Is an HONEST empty surface: Visor exposes no GPU alert inventory, so this returns [] rather than fabricating alerts.
 
         Is an HONEST empty surface: Visor exposes no GPU alert inventory, so this returns [] rather than fabricating alerts. It stays a real, tenant-gated route so the console's alerts fetch resolves (200 [], not a 404) — an honest \"no alerts\", the same discipline the rest of the surface follows.
@@ -5173,7 +5210,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuAlertList",
+            '200': "ComputeGpuAlertList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5201,7 +5238,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GpuAlertList]:
+    ) -> ApiResponse[ComputeGpuAlertList]:
         """Is an HONEST empty surface: Visor exposes no GPU alert inventory, so this returns [] rather than fabricating alerts.
 
         Is an HONEST empty surface: Visor exposes no GPU alert inventory, so this returns [] rather than fabricating alerts. It stays a real, tenant-gated route so the console's alerts fetch resolves (200 [], not a 404) — an honest \"no alerts\", the same discipline the rest of the surface follows.
@@ -5236,7 +5273,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuAlertList",
+            '200': "ComputeGpuAlertList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5299,7 +5336,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuAlertList",
+            '200': "ComputeGpuAlertList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5341,7 +5378,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5384,7 +5422,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GpuList:
+    ) -> ComputeGpuList:
         """Returns one row per physical accelerator the caller's org has, derived from its real GPU machines (the size slug says how many cards a node holds) and from the accelerators BYO workers report through nvidia-smi.
 
         Returns one row per physical accelerator the caller's org has, derived from its real GPU machines (the size slug says how many cards a node holds) and from the accelerators BYO workers report through nvidia-smi.  Live telemetry is absent on Visor rows because Visor's machine object carries none — an honest omission the console renders as \"—\", never a fabricated 0.
@@ -5419,7 +5457,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuList",
+            '200': "ComputeGpuList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5447,7 +5485,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GpuList]:
+    ) -> ApiResponse[ComputeGpuList]:
         """Returns one row per physical accelerator the caller's org has, derived from its real GPU machines (the size slug says how many cards a node holds) and from the accelerators BYO workers report through nvidia-smi.
 
         Returns one row per physical accelerator the caller's org has, derived from its real GPU machines (the size slug says how many cards a node holds) and from the accelerators BYO workers report through nvidia-smi.  Live telemetry is absent on Visor rows because Visor's machine object carries none — an honest omission the console renders as \"—\", never a fabricated 0.
@@ -5482,7 +5520,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuList",
+            '200': "ComputeGpuList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5545,7 +5583,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GpuList",
+            '200': "ComputeGpuList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5587,7 +5625,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5630,7 +5669,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ClusterList:
+    ) -> ComputeClusterList:
         """Lists the org's DOKS clusters (Visor, house account) folded with the org's BYO clusters — ONE fleet cluster view under the unified k8s noun.
 
         Lists the org's DOKS clusters (Visor, house account) folded with the org's BYO clusters — ONE fleet cluster view under the unified k8s noun. A Visor outage is logged and skipped so a down optional provider never hides the BYO list.
@@ -5665,7 +5704,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5693,7 +5732,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ClusterList]:
+    ) -> ApiResponse[ComputeClusterList]:
         """Lists the org's DOKS clusters (Visor, house account) folded with the org's BYO clusters — ONE fleet cluster view under the unified k8s noun.
 
         Lists the org's DOKS clusters (Visor, house account) folded with the org's BYO clusters — ONE fleet cluster view under the unified k8s noun. A Visor outage is logged and skipped so a down optional provider never hides the BYO list.
@@ -5728,7 +5767,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5791,7 +5830,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ClusterList",
+            '200': "ComputeClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5833,7 +5872,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5876,7 +5916,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NodeList:
+    ) -> ComputeNodeList:
         """Returns every DOKS worker node in the org's clusters as a machine — the SAME set the fleet folds in (managedMachines), exposed directly under the k8s noun.
 
         Returns every DOKS worker node in the org's clusters as a machine — the SAME set the fleet folds in (managedMachines), exposed directly under the k8s noun. House account (hanzo-org cluster tag) + BYOC, deduped by Visor.
@@ -5911,7 +5951,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodeList",
+            '200': "ComputeNodeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5939,7 +5979,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NodeList]:
+    ) -> ApiResponse[ComputeNodeList]:
         """Returns every DOKS worker node in the org's clusters as a machine — the SAME set the fleet folds in (managedMachines), exposed directly under the k8s noun.
 
         Returns every DOKS worker node in the org's clusters as a machine — the SAME set the fleet folds in (managedMachines), exposed directly under the k8s noun. House account (hanzo-org cluster tag) + BYOC, deduped by Visor.
@@ -5974,7 +6014,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodeList",
+            '200': "ComputeNodeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6037,7 +6077,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodeList",
+            '200': "ComputeNodeList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6079,7 +6119,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6122,7 +6163,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BindingList:
+    ) -> ComputeBindingList:
         """Returns every agent↔machine binding in the caller's org — which machines are running which cloud Agent, with vm's own reconciled status.
 
         Returns every agent↔machine binding in the caller's org — which machines are running which cloud Agent, with vm's own reconciled status.
@@ -6157,7 +6198,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BindingList",
+            '200': "ComputeBindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6185,7 +6226,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BindingList]:
+    ) -> ApiResponse[ComputeBindingList]:
         """Returns every agent↔machine binding in the caller's org — which machines are running which cloud Agent, with vm's own reconciled status.
 
         Returns every agent↔machine binding in the caller's org — which machines are running which cloud Agent, with vm's own reconciled status.
@@ -6220,7 +6261,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BindingList",
+            '200': "ComputeBindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6283,7 +6324,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BindingList",
+            '200': "ComputeBindingList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6325,7 +6366,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6369,7 +6411,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MachineList:
+    ) -> ComputeMachineList:
         """Returns every machine the caller's org has — Visor's registry, the live DigitalOcean droplets and the DOKS worker nodes (deduped into one union), plus the BYO machines that dialed in via `hanzo link` (provider \"byo\").
 
         Returns every machine the caller's org has — Visor's registry, the live DigitalOcean droplets and the DOKS worker nodes (deduped into one union), plus the BYO machines that dialed in via `hanzo link` (provider \"byo\").  A source Visor cannot answer for is logged and skipped, never an error: one wedged upstream must not hide the machines the other sources can see.
@@ -6407,7 +6449,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineList",
+            '200': "ComputeMachineList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6436,7 +6478,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MachineList]:
+    ) -> ApiResponse[ComputeMachineList]:
         """Returns every machine the caller's org has — Visor's registry, the live DigitalOcean droplets and the DOKS worker nodes (deduped into one union), plus the BYO machines that dialed in via `hanzo link` (provider \"byo\").
 
         Returns every machine the caller's org has — Visor's registry, the live DigitalOcean droplets and the DOKS worker nodes (deduped into one union), plus the BYO machines that dialed in via `hanzo link` (provider \"byo\").  A source Visor cannot answer for is logged and skipped, never an error: one wedged upstream must not hide the machines the other sources can see.
@@ -6474,7 +6516,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineList",
+            '200': "ComputeMachineList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6541,7 +6583,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MachineList",
+            '200': "ComputeMachineList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6588,7 +6630,8 @@ class ComputeApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6634,7 +6677,7 @@ class ComputeApi:
     ) -> None:
         """Launch a metered machine for your org, or price one first with dryRun
 
-        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (403 without one) and `size` (or its `instanceType` alias) is required (400).
+        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (401 without one) and `size` (or its `instanceType` alias) is required (400).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6696,7 +6739,7 @@ class ComputeApi:
     ) -> ApiResponse[None]:
         """Launch a metered machine for your org, or price one first with dryRun
 
-        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (403 without one) and `size` (or its `instanceType` alias) is required (400).
+        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (401 without one) and `size` (or its `instanceType` alias) is required (400).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6758,7 +6801,7 @@ class ComputeApi:
     ) -> RESTResponseType:
         """Launch a metered machine for your org, or price one first with dryRun
 
-        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (403 without one) and `size` (or its `instanceType` alias) is required (400).
+        Provisions a machine owned by the caller's org and answers 201 with the machine. Send `dryRun: true` to get a PRICE QUOTE instead: 200 with the upstream quote passed through verbatim, nothing launched and nothing spent. Two response shapes on one address is the rule to know, and it is why this is not a typed op.  Metering is not this plane's: the launch fronts the compute provider's resell endpoint, which owns the balance gate and the per-hour meter, and cloud only forwards the tenant. Ownership is the validated principal's org and is never read from the body, so a launch always lands in the caller's OWN tenant and the machine it creates is only ever visible to that tenant. Fails closed: a validated principal is required (401 without one) and `size` (or its `instanceType` alias) is required (400).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6872,7 +6915,7 @@ class ComputeApi:
     ) -> None:
         """Message a bot, or stop it, by naming the action in the path
 
-        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (403 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
+        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (401 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
 
         :param id: (required)
         :type id: str
@@ -6942,7 +6985,7 @@ class ComputeApi:
     ) -> ApiResponse[None]:
         """Message a bot, or stop it, by naming the action in the path
 
-        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (403 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
+        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (401 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
 
         :param id: (required)
         :type id: str
@@ -7012,7 +7055,7 @@ class ComputeApi:
     ) -> RESTResponseType:
         """Message a bot, or stop it, by naming the action in the path
 
-        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (403 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
+        Dispatches one verb against a bot the caller's org owns. `message` runs the bot's bound agent with the request body as the message and streams the agent's answer back VERBATIM — the upstream body, its content type and its status — so a message is a real agent run, recorded, billed and traced exactly like any other, under the caller's own identity rather than a fabricated one. `stop` and `pause` are the same single honest capability: they halt the runtime by unbinding the agent while LEAVING THE MACHINE UP, so the bot stops answering but keeps costing — rebind to resume, or delete the bot to tear it down. Stopping is idempotent; a bot with no binding still reports stopped.  Org-scoped and fails closed: a validated principal is required (401 without one) and the bot is addressed under the caller's OWN org, so another tenant's id is not reachable. An unknown action is a clean 400 naming the three it accepts, never a silent no-op, and messaging a bot with no bound agent is a 400.
 
         :param id: (required)
         :type id: str
@@ -7121,7 +7164,7 @@ class ComputeApi:
     @validate_call
     def record_fleet_sample(
         self,
-        sample_ingest: SampleIngest,
+        compute_sample_ingest: ComputeSampleIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7134,13 +7177,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SampleAccepted:
+    ) -> ComputeSampleAccepted:
         """Records a BYO worker's live GPU utilization into the SAME series the fleet board overlays.
 
         Records a BYO worker's live GPU utilization into the SAME series the fleet board overlays. The org is the validated principal and source/kind are fixed server-side, so a worker names only its own metrics — never another tenant or another source. Answers 202: the warehouse write is DETACHED (its own bounded context, never in the response path), so a slow or absent warehouse cannot stall a heartbeat.
 
-        :param sample_ingest: (required)
-        :type sample_ingest: SampleIngest
+        :param compute_sample_ingest: (required)
+        :type compute_sample_ingest: ComputeSampleIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7164,7 +7207,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._record_fleet_sample_serialize(
-            sample_ingest=sample_ingest,
+            compute_sample_ingest=compute_sample_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7172,7 +7215,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleAccepted",
+            '200': "ComputeSampleAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7188,7 +7231,7 @@ class ComputeApi:
     @validate_call
     def record_fleet_sample_with_http_info(
         self,
-        sample_ingest: SampleIngest,
+        compute_sample_ingest: ComputeSampleIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7201,13 +7244,13 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SampleAccepted]:
+    ) -> ApiResponse[ComputeSampleAccepted]:
         """Records a BYO worker's live GPU utilization into the SAME series the fleet board overlays.
 
         Records a BYO worker's live GPU utilization into the SAME series the fleet board overlays. The org is the validated principal and source/kind are fixed server-side, so a worker names only its own metrics — never another tenant or another source. Answers 202: the warehouse write is DETACHED (its own bounded context, never in the response path), so a slow or absent warehouse cannot stall a heartbeat.
 
-        :param sample_ingest: (required)
-        :type sample_ingest: SampleIngest
+        :param compute_sample_ingest: (required)
+        :type compute_sample_ingest: ComputeSampleIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7231,7 +7274,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._record_fleet_sample_serialize(
-            sample_ingest=sample_ingest,
+            compute_sample_ingest=compute_sample_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7239,7 +7282,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleAccepted",
+            '200': "ComputeSampleAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7255,7 +7298,7 @@ class ComputeApi:
     @validate_call
     def record_fleet_sample_without_preload_content(
         self,
-        sample_ingest: SampleIngest,
+        compute_sample_ingest: ComputeSampleIngest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7273,8 +7316,8 @@ class ComputeApi:
 
         Records a BYO worker's live GPU utilization into the SAME series the fleet board overlays. The org is the validated principal and source/kind are fixed server-side, so a worker names only its own metrics — never another tenant or another source. Answers 202: the warehouse write is DETACHED (its own bounded context, never in the response path), so a slow or absent warehouse cannot stall a heartbeat.
 
-        :param sample_ingest: (required)
-        :type sample_ingest: SampleIngest
+        :param compute_sample_ingest: (required)
+        :type compute_sample_ingest: ComputeSampleIngest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7298,7 +7341,7 @@ class ComputeApi:
         """ # noqa: E501
 
         _param = self._record_fleet_sample_serialize(
-            sample_ingest=sample_ingest,
+            compute_sample_ingest=compute_sample_ingest,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7306,7 +7349,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SampleAccepted",
+            '200': "ComputeSampleAccepted",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7317,7 +7360,7 @@ class ComputeApi:
 
     def _record_fleet_sample_serialize(
         self,
-        sample_ingest,
+        compute_sample_ingest,
         _request_auth,
         _content_type,
         _headers,
@@ -7343,15 +7386,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if sample_ingest is not None:
-            _body_params = sample_ingest
+        if compute_sample_ingest is not None:
+            _body_params = compute_sample_ingest
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7397,7 +7441,7 @@ class ComputeApi:
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster holding the pool, from the URL path.")],
         pool_id: Annotated[StrictStr, Field(description="PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required.")],
-        pool_scale: PoolScale,
+        compute_pool_scale: ComputePoolScale,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7410,7 +7454,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> NodePoolView:
+    ) -> ComputeNodePoolView:
         """Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
 
         Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
@@ -7419,8 +7463,8 @@ class ComputeApi:
         :type cluster_id: str
         :param pool_id: PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required. (required)
         :type pool_id: str
-        :param pool_scale: (required)
-        :type pool_scale: PoolScale
+        :param compute_pool_scale: (required)
+        :type compute_pool_scale: ComputePoolScale
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7446,7 +7490,7 @@ class ComputeApi:
         _param = self._scale_node_pool_serialize(
             cluster_id=cluster_id,
             pool_id=pool_id,
-            pool_scale=pool_scale,
+            compute_pool_scale=compute_pool_scale,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7454,7 +7498,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7472,7 +7516,7 @@ class ComputeApi:
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster holding the pool, from the URL path.")],
         pool_id: Annotated[StrictStr, Field(description="PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required.")],
-        pool_scale: PoolScale,
+        compute_pool_scale: ComputePoolScale,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7485,7 +7529,7 @@ class ComputeApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[NodePoolView]:
+    ) -> ApiResponse[ComputeNodePoolView]:
         """Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
 
         Resizes a node pool to an absolute node count and returns the pool as Visor reports it after the change.
@@ -7494,8 +7538,8 @@ class ComputeApi:
         :type cluster_id: str
         :param pool_id: PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required. (required)
         :type pool_id: str
-        :param pool_scale: (required)
-        :type pool_scale: PoolScale
+        :param compute_pool_scale: (required)
+        :type compute_pool_scale: ComputePoolScale
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7521,7 +7565,7 @@ class ComputeApi:
         _param = self._scale_node_pool_serialize(
             cluster_id=cluster_id,
             pool_id=pool_id,
-            pool_scale=pool_scale,
+            compute_pool_scale=compute_pool_scale,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7529,7 +7573,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7547,7 +7591,7 @@ class ComputeApi:
         self,
         cluster_id: Annotated[StrictStr, Field(description="ClusterID is the cluster holding the pool, from the URL path.")],
         pool_id: Annotated[StrictStr, Field(description="PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required.")],
-        pool_scale: PoolScale,
+        compute_pool_scale: ComputePoolScale,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -7569,8 +7613,8 @@ class ComputeApi:
         :type cluster_id: str
         :param pool_id: PoolID is the pool to resize, from the URL path — the `poolId` a cluster read reports for it. Required. (required)
         :type pool_id: str
-        :param pool_scale: (required)
-        :type pool_scale: PoolScale
+        :param compute_pool_scale: (required)
+        :type compute_pool_scale: ComputePoolScale
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -7596,7 +7640,7 @@ class ComputeApi:
         _param = self._scale_node_pool_serialize(
             cluster_id=cluster_id,
             pool_id=pool_id,
-            pool_scale=pool_scale,
+            compute_pool_scale=compute_pool_scale,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -7604,7 +7648,7 @@ class ComputeApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "NodePoolView",
+            '200': "ComputeNodePoolView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7617,7 +7661,7 @@ class ComputeApi:
         self,
         cluster_id,
         pool_id,
-        pool_scale,
+        compute_pool_scale,
         _request_auth,
         _content_type,
         _headers,
@@ -7647,15 +7691,16 @@ class ComputeApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if pool_scale is not None:
-            _body_params = pool_scale
+        if compute_pool_scale is not None:
+            _body_params = compute_pool_scale
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7925,6 +7970,13 @@ class ComputeApi:
         # process the body parameter
 
 
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/problem+json'
+                ]
+            )
 
 
         # authentication setting

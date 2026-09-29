@@ -19,19 +19,19 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Any, Dict
 from typing_extensions import Annotated
-from hanzoai.cloud.models.card import Card
-from hanzoai.cloud.models.enablement_board import EnablementBoard
-from hanzoai.cloud.models.enablement_opt_ref import EnablementOptRef
-from hanzoai.cloud.models.pricing_health import PricingHealth
-from hanzoai.cloud.models.pricing_model_list import PricingModelList
-from hanzoai.cloud.models.pricing_plan_list import PricingPlanList
-from hanzoai.cloud.models.pricing_preset_list import PricingPresetList
-from hanzoai.cloud.models.pricing_provider_list import PricingProviderList
-from hanzoai.cloud.models.pricing_region_list import PricingRegionList
-from hanzoai.cloud.models.pricing_sync_out import PricingSyncOut
-from hanzoai.cloud.models.pricing_tier_list import PricingTierList
-from hanzoai.cloud.models.pricing_tool_list import PricingToolList
-from hanzoai.cloud.models.user_enablement_item import UserEnablementItem
+from hanzoai.cloud.models.pricing_card import PricingCard
+from hanzoai.cloud.models.pricing_enablement_board import PricingEnablementBoard
+from hanzoai.cloud.models.pricing_enablement_opt_ref import PricingEnablementOptRef
+from hanzoai.cloud.models.pricing_pricing_health import PricingPricingHealth
+from hanzoai.cloud.models.pricing_pricing_model_list import PricingPricingModelList
+from hanzoai.cloud.models.pricing_pricing_plan_list import PricingPricingPlanList
+from hanzoai.cloud.models.pricing_pricing_preset_list import PricingPricingPresetList
+from hanzoai.cloud.models.pricing_pricing_provider_list import PricingPricingProviderList
+from hanzoai.cloud.models.pricing_pricing_region_list import PricingPricingRegionList
+from hanzoai.cloud.models.pricing_pricing_sync_out import PricingPricingSyncOut
+from hanzoai.cloud.models.pricing_pricing_tier_list import PricingPricingTierList
+from hanzoai.cloud.models.pricing_pricing_tool_list import PricingPricingToolList
+from hanzoai.cloud.models.pricing_user_enablement_item import PricingUserEnablementItem
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -269,7 +269,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -312,7 +313,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """Returns the Hanzo Base plans — the managed-instance tiers, each with its monthly and annual price, storage and request allowances and feature list.
 
         Returns the Hanzo Base plans — the managed-instance tiers, each with its monthly and annual price, storage and request allowances and feature list.
@@ -347,7 +348,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -375,7 +376,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """Returns the Hanzo Base plans — the managed-instance tiers, each with its monthly and annual price, storage and request allowances and feature list.
 
         Returns the Hanzo Base plans — the managed-instance tiers, each with its monthly and annual price, storage and request allowances and feature list.
@@ -410,7 +411,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -473,7 +474,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -515,7 +516,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -558,7 +560,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """Returns the blockchain access plans — the RPC and node tiers, each with its monthly price, compute-unit allowance and feature list.
 
         Returns the blockchain access plans — the RPC and node tiers, each with its monthly price, compute-unit allowance and feature list.
@@ -593,7 +595,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -621,7 +623,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """Returns the blockchain access plans — the RPC and node tiers, each with its monthly price, compute-unit allowance and feature list.
 
         Returns the blockchain access plans — the RPC and node tiers, each with its monthly price, compute-unit allowance and feature list.
@@ -656,7 +658,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -719,7 +721,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -761,7 +763,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1007,7 +1010,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1050,7 +1054,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """Returns just the cloud instance plans — each with its vCPU, memory, disk, CPU type, VM allowance, feature list and monthly and hourly price.
 
         Returns just the cloud instance plans — each with its vCPU, memory, disk, CPU type, VM allowance, feature list and monthly and hourly price. It is the plans of the cloud section on their own.
@@ -1085,7 +1089,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1113,7 +1117,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """Returns just the cloud instance plans — each with its vCPU, memory, disk, CPU type, VM allowance, feature list and monthly and hourly price.
 
         Returns just the cloud instance plans — each with its vCPU, memory, disk, CPU type, VM allowance, feature list and monthly and hourly price. It is the plans of the cloud section on their own.
@@ -1148,7 +1152,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1211,7 +1215,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1253,7 +1257,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1296,7 +1301,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingRegionList:
+    ) -> PricingPricingRegionList:
         """Returns the regions a cloud instance can be placed in, each with its id, display name and physical location.
 
         Returns the regions a cloud instance can be placed in, each with its id, display name and physical location. It is the regions of the cloud section on their own.
@@ -1331,7 +1336,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingRegionList",
+            '200': "PricingPricingRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1359,7 +1364,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingRegionList]:
+    ) -> ApiResponse[PricingPricingRegionList]:
         """Returns the regions a cloud instance can be placed in, each with its id, display name and physical location.
 
         Returns the regions a cloud instance can be placed in, each with its id, display name and physical location. It is the regions of the cloud section on their own.
@@ -1394,7 +1399,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingRegionList",
+            '200': "PricingPricingRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1457,7 +1462,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingRegionList",
+            '200': "PricingPricingRegionList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1499,7 +1504,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1745,7 +1751,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1991,7 +1998,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2034,7 +2042,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPresetList:
+    ) -> PricingPricingPresetList:
         """Returns just the named compute sizes — the short, human-labelled list (\"Starter\", \"Pro\") a size picker renders, each carrying its provider slug, vCPU, memory, disk and price.
 
         Returns just the named compute sizes — the short, human-labelled list (\"Starter\", \"Pro\") a size picker renders, each carrying its provider slug, vCPU, memory, disk and price. It is the presets of the compute section on their own, for a caller that does not need the full tier table.
@@ -2069,7 +2077,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPresetList",
+            '200': "PricingPricingPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2097,7 +2105,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPresetList]:
+    ) -> ApiResponse[PricingPricingPresetList]:
         """Returns just the named compute sizes — the short, human-labelled list (\"Starter\", \"Pro\") a size picker renders, each carrying its provider slug, vCPU, memory, disk and price.
 
         Returns just the named compute sizes — the short, human-labelled list (\"Starter\", \"Pro\") a size picker renders, each carrying its provider slug, vCPU, memory, disk and price. It is the presets of the compute section on their own, for a caller that does not need the full tier table.
@@ -2132,7 +2140,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPresetList",
+            '200': "PricingPricingPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2195,7 +2203,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPresetList",
+            '200': "PricingPricingPresetList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2237,7 +2245,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2483,7 +2492,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2526,7 +2536,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> EnablementBoard:
+    ) -> PricingEnablementBoard:
         """Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
 
         Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
@@ -2561,7 +2571,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnablementBoard",
+            '200': "PricingEnablementBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2589,7 +2599,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[EnablementBoard]:
+    ) -> ApiResponse[PricingEnablementBoard]:
         """Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
 
         Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
@@ -2624,7 +2634,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnablementBoard",
+            '200': "PricingEnablementBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2687,7 +2697,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "EnablementBoard",
+            '200': "PricingEnablementBoard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2729,7 +2739,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2772,7 +2783,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingModelList:
+    ) -> PricingPricingModelList:
         """Returns the models the catalog highlights, filtered to what the caller's org may see.
 
         Returns the models the catalog highlights, filtered to what the caller's org may see. It is the same catalog as ListModels narrowed to entries the pricing source marks featured.
@@ -2807,7 +2818,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2835,7 +2846,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingModelList]:
+    ) -> ApiResponse[PricingPricingModelList]:
         """Returns the models the catalog highlights, filtered to what the caller's org may see.
 
         Returns the models the catalog highlights, filtered to what the caller's org may see. It is the same catalog as ListModels narrowed to entries the pricing source marks featured.
@@ -2870,7 +2881,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2933,7 +2944,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2975,7 +2986,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3018,7 +3030,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingModelList:
+    ) -> PricingPricingModelList:
         """Returns the models that cost nothing to call, filtered to what the caller's org may see.
 
         Returns the models that cost nothing to call, filtered to what the caller's org may see. It is the same catalog as ListModels narrowed to entries the pricing source marks free.
@@ -3053,7 +3065,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3081,7 +3093,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingModelList]:
+    ) -> ApiResponse[PricingPricingModelList]:
         """Returns the models that cost nothing to call, filtered to what the caller's org may see.
 
         Returns the models that cost nothing to call, filtered to what the caller's org may see. It is the same catalog as ListModels narrowed to entries the pricing source marks free.
@@ -3116,7 +3128,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3179,7 +3191,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3221,7 +3233,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3264,7 +3277,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingTierList:
+    ) -> PricingPricingTierList:
         """ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPU, host memory and hourly price.
 
         ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPU, host memory and hourly price.
@@ -3299,7 +3312,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingTierList",
+            '200': "PricingPricingTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3327,7 +3340,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingTierList]:
+    ) -> ApiResponse[PricingPricingTierList]:
         """ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPU, host memory and hourly price.
 
         ListGPUTiers returns the rentable GPU configurations, each with its accelerator count and model, VRAM, vCPU, host memory and hourly price.
@@ -3362,7 +3375,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingTierList",
+            '200': "PricingPricingTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3425,7 +3438,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingTierList",
+            '200': "PricingPricingTierList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3467,7 +3480,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3510,10 +3524,10 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingHealth:
-        """Health reports that the pricing subsystem is mounted and serving.
+    ) -> PricingPricingHealth:
+        """Reports that the pricing subsystem is mounted and serving.
 
-        Health reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
+        Reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3545,7 +3559,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingHealth",
+            '200': "PricingPricingHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3573,10 +3587,10 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingHealth]:
-        """Health reports that the pricing subsystem is mounted and serving.
+    ) -> ApiResponse[PricingPricingHealth]:
+        """Reports that the pricing subsystem is mounted and serving.
 
-        Health reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
+        Reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3608,7 +3622,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingHealth",
+            '200': "PricingPricingHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3637,9 +3651,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports that the pricing subsystem is mounted and serving.
+        """Reports that the pricing subsystem is mounted and serving.
 
-        Health reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
+        Reports that the pricing subsystem is mounted and serving. It answers from the process itself and consults neither the catalog bundle nor the enablement store, so it stays \"ok\" while either is degraded.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -3671,7 +3685,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingHealth",
+            '200': "PricingPricingHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3713,7 +3727,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3756,7 +3771,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """ListIAMPlans returns the identity plans — the Hanzo IAM tiers, each with its monthly and annual price, monthly-active-user allowance and feature list.
 
         ListIAMPlans returns the identity plans — the Hanzo IAM tiers, each with its monthly and annual price, monthly-active-user allowance and feature list.
@@ -3791,7 +3806,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3819,7 +3834,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """ListIAMPlans returns the identity plans — the Hanzo IAM tiers, each with its monthly and annual price, monthly-active-user allowance and feature list.
 
         ListIAMPlans returns the identity plans — the Hanzo IAM tiers, each with its monthly and annual price, monthly-active-user allowance and feature list.
@@ -3854,7 +3869,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3917,7 +3932,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3959,7 +3974,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4220,7 +4236,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4263,7 +4280,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingModelList:
+    ) -> PricingPricingModelList:
         """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
 
         Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
@@ -4298,7 +4315,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4326,7 +4343,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingModelList]:
+    ) -> ApiResponse[PricingPricingModelList]:
         """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
 
         Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
@@ -4361,7 +4378,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4424,7 +4441,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingModelList",
+            '200': "PricingPricingModelList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4466,7 +4483,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4509,7 +4527,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """ListPaaSPlans returns the application-hosting plans — the deploy-and-host tiers, each with its monthly and annual price, app and memory allowances and feature list.
 
         ListPaaSPlans returns the application-hosting plans — the deploy-and-host tiers, each with its monthly and annual price, app and memory allowances and feature list.
@@ -4544,7 +4562,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4572,7 +4590,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """ListPaaSPlans returns the application-hosting plans — the deploy-and-host tiers, each with its monthly and annual price, app and memory allowances and feature list.
 
         ListPaaSPlans returns the application-hosting plans — the deploy-and-host tiers, each with its monthly and annual price, app and memory allowances and feature list.
@@ -4607,7 +4625,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4670,7 +4688,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4712,7 +4730,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4958,7 +4977,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5001,7 +5021,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingProviderList:
+    ) -> PricingPricingProviderList:
         """Returns the model providers the catalog knows, each with its info object, filtered to what the caller's org may see.
 
         Returns the model providers the catalog knows, each with its info object, filtered to what the caller's org may see. A provider an admin has disabled is absent — and so are its models everywhere else on this surface, because a provider's state cascades to what it serves.
@@ -5036,7 +5056,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingProviderList",
+            '200': "PricingPricingProviderList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5064,7 +5084,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingProviderList]:
+    ) -> ApiResponse[PricingPricingProviderList]:
         """Returns the model providers the catalog knows, each with its info object, filtered to what the caller's org may see.
 
         Returns the model providers the catalog knows, each with its info object, filtered to what the caller's org may see. A provider an admin has disabled is absent — and so are its models everywhere else on this surface, because a provider's state cascades to what it serves.
@@ -5099,7 +5119,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingProviderList",
+            '200': "PricingPricingProviderList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5162,7 +5182,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingProviderList",
+            '200': "PricingPricingProviderList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5204,7 +5224,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5450,7 +5471,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5493,7 +5515,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingPlanList:
+    ) -> PricingPricingPlanList:
         """Returns the API subscription plans — the account-level tiers a customer subscribes to, each with its monthly and annual price, included credit, rate limits and feature list.
 
         Returns the API subscription plans — the account-level tiers a customer subscribes to, each with its monthly and annual price, included credit, rate limits and feature list.
@@ -5528,7 +5550,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5556,7 +5578,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingPlanList]:
+    ) -> ApiResponse[PricingPricingPlanList]:
         """Returns the API subscription plans — the account-level tiers a customer subscribes to, each with its monthly and annual price, included credit, rate limits and feature list.
 
         Returns the API subscription plans — the account-level tiers a customer subscribes to, each with its monthly and annual price, included credit, rate limits and feature list.
@@ -5591,7 +5613,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5654,7 +5676,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingPlanList",
+            '200': "PricingPricingPlanList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5696,7 +5718,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5942,7 +5965,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -5985,7 +6009,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Card:
+    ) -> PricingCard:
         """Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.
 
         Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.  FOUR COMPONENTS, and every charge is one of them — model inference, computer, web tools and media generation. Two are quoted before they run, so an agent is refused before it breaches its budget; two are booked from what they used, because neither a provider's charge nor a render's cost is knowable in advance.  EVERY AMOUNT IS INTEGER MICRO-USD (1 USD = 1,000,000), stated once in `unit`, and each rate says what one unit of it is in `per`. The compute rates are per HOUR because that is the unit a span is priced in — rate × seconds / 3600 — and because a GiB-second is four and a half micro-USD, which no integer holds.  The rates are the ones the ledger books: each is resolved through the same authority the metering path reads, falling back to the same compiled floor. A rate of zero is a price and not an absence — a paused computer, a computer's creation, the interfaces and a seat all cost nothing by design.
@@ -6020,7 +6044,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Card",
+            '200': "PricingCard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6048,7 +6072,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Card]:
+    ) -> ApiResponse[PricingCard]:
         """Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.
 
         Returns the platform's rate card: what a bill is made of, what each part costs, and the completion windows a request may ask for.  FOUR COMPONENTS, and every charge is one of them — model inference, computer, web tools and media generation. Two are quoted before they run, so an agent is refused before it breaches its budget; two are booked from what they used, because neither a provider's charge nor a render's cost is knowable in advance.  EVERY AMOUNT IS INTEGER MICRO-USD (1 USD = 1,000,000), stated once in `unit`, and each rate says what one unit of it is in `per`. The compute rates are per HOUR because that is the unit a span is priced in — rate × seconds / 3600 — and because a GiB-second is four and a half micro-USD, which no integer holds.  The rates are the ones the ledger books: each is resolved through the same authority the metering path reads, falling back to the same compiled floor. A rate of zero is a price and not an absence — a paused computer, a computer's creation, the interfaces and a seat all cost nothing by design.
@@ -6083,7 +6107,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Card",
+            '200': "PricingCard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6146,7 +6170,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Card",
+            '200': "PricingCard",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6188,7 +6212,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6231,7 +6256,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingToolList:
+    ) -> PricingPricingToolList:
         """Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
 
         Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.  The two WEB rows are priced from the rate card rather than from the catalog, because those are the rows the platform charges by the call and a published number that is also a charged one has exactly one home (see tariff.go). Read them as integer micro-USD at /v1/pricing/tariff; the decimal here is the display this list has always carried.
@@ -6266,7 +6291,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingToolList",
+            '200': "PricingPricingToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6294,7 +6319,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingToolList]:
+    ) -> ApiResponse[PricingPricingToolList]:
         """Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.
 
         Returns the per-use tool prices — web search, web fetch, code interpreter, file storage, image generation, speech-to-text and text-to-speech — each with the unit it is billed by and its price in that unit.  The two WEB rows are priced from the rate card rather than from the catalog, because those are the rows the platform charges by the call and a published number that is also a charged one has exactly one home (see tariff.go). Read them as integer micro-USD at /v1/pricing/tariff; the decimal here is the display this list has always carried.
@@ -6329,7 +6354,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingToolList",
+            '200': "PricingPricingToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6392,7 +6417,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingToolList",
+            '200': "PricingPricingToolList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6434,7 +6459,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6465,7 +6491,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optin(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6478,13 +6504,13 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserEnablementItem:
+    ) -> PricingUserEnablementItem:
         """Opts the caller's OWN org into a beta item.
 
         Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6508,7 +6534,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optin_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6516,7 +6542,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6532,7 +6558,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optin_with_http_info(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6545,13 +6571,13 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserEnablementItem]:
+    ) -> ApiResponse[PricingUserEnablementItem]:
         """Opts the caller's OWN org into a beta item.
 
         Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6575,7 +6601,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optin_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6583,7 +6609,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6599,7 +6625,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optin_without_preload_content(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6617,8 +6643,8 @@ class PricingApi:
 
         Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6642,7 +6668,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optin_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6650,7 +6676,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6661,7 +6687,7 @@ class PricingApi:
 
     def _post_pricing_enablement_optin_serialize(
         self,
-        enablement_opt_ref,
+        pricing_enablement_opt_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -6687,15 +6713,16 @@ class PricingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if enablement_opt_ref is not None:
-            _body_params = enablement_opt_ref
+        if pricing_enablement_opt_ref is not None:
+            _body_params = pricing_enablement_opt_ref
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -6739,7 +6766,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optout(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6752,13 +6779,13 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> UserEnablementItem:
+    ) -> PricingUserEnablementItem:
         """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
 
         Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6782,7 +6809,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optout_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6790,7 +6817,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6806,7 +6833,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optout_with_http_info(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6819,13 +6846,13 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[UserEnablementItem]:
+    ) -> ApiResponse[PricingUserEnablementItem]:
         """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
 
         Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6849,7 +6876,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optout_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6857,7 +6884,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6873,7 +6900,7 @@ class PricingApi:
     @validate_call
     def post_pricing_enablement_optout_without_preload_content(
         self,
-        enablement_opt_ref: EnablementOptRef,
+        pricing_enablement_opt_ref: PricingEnablementOptRef,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -6891,8 +6918,8 @@ class PricingApi:
 
         Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
 
-        :param enablement_opt_ref: (required)
-        :type enablement_opt_ref: EnablementOptRef
+        :param pricing_enablement_opt_ref: (required)
+        :type pricing_enablement_opt_ref: PricingEnablementOptRef
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -6916,7 +6943,7 @@ class PricingApi:
         """ # noqa: E501
 
         _param = self._post_pricing_enablement_optout_serialize(
-            enablement_opt_ref=enablement_opt_ref,
+            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -6924,7 +6951,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "UserEnablementItem",
+            '200': "PricingUserEnablementItem",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -6935,7 +6962,7 @@ class PricingApi:
 
     def _post_pricing_enablement_optout_serialize(
         self,
-        enablement_opt_ref,
+        pricing_enablement_opt_ref,
         _request_auth,
         _content_type,
         _headers,
@@ -6961,15 +6988,16 @@ class PricingApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if enablement_opt_ref is not None:
-            _body_params = enablement_opt_ref
+        if pricing_enablement_opt_ref is not None:
+            _body_params = pricing_enablement_opt_ref
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -7025,7 +7053,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingSyncOut:
+    ) -> PricingPricingSyncOut:
         """Refreshes the third-party section of the catalog from its upstream listings and returns the time the refreshed catalog was stamped with.
 
         Refreshes the third-party section of the catalog from its upstream listings and returns the time the refreshed catalog was stamped with. The fetch runs in Go and the markup transform in the pricing bundle. SuperAdmin only; every other caller is refused.
@@ -7060,7 +7088,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingSyncOut",
+            '200': "PricingPricingSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7088,7 +7116,7 @@ class PricingApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingSyncOut]:
+    ) -> ApiResponse[PricingPricingSyncOut]:
         """Refreshes the third-party section of the catalog from its upstream listings and returns the time the refreshed catalog was stamped with.
 
         Refreshes the third-party section of the catalog from its upstream listings and returns the time the refreshed catalog was stamped with. The fetch runs in Go and the markup transform in the pricing bundle. SuperAdmin only; every other caller is refused.
@@ -7123,7 +7151,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingSyncOut",
+            '200': "PricingPricingSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7186,7 +7214,7 @@ class PricingApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingSyncOut",
+            '200': "PricingPricingSyncOut",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -7228,7 +7256,8 @@ class PricingApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

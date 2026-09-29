@@ -16,8 +16,8 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from hanzoai.cloud.models.fusion import Fusion
-from hanzoai.cloud.models.request import Request
+from hanzoai.cloud.models.search_fusion import SearchFusion
+from hanzoai.cloud.models.search_request import SearchRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -40,7 +40,7 @@ class SearchApi:
     @validate_call
     def search(
         self,
-        request: Request,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53,13 +53,13 @@ class SearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> Fusion:
+    ) -> SearchFusion:
         """Hybrid search over the org's own corpora
 
         Is the typed op behind POST /v1/search. It does exactly two things the in-process entry point must not do: resolve the tenant from the validated principal, and refuse when there is none. Everything else is ForOrg.
 
-        :param request: (required)
-        :type request: Request
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -83,7 +83,7 @@ class SearchApi:
         """ # noqa: E501
 
         _param = self._search_serialize(
-            request=request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -91,7 +91,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Fusion",
+            '200': "SearchFusion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -107,7 +107,7 @@ class SearchApi:
     @validate_call
     def search_with_http_info(
         self,
-        request: Request,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -120,13 +120,13 @@ class SearchApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[Fusion]:
+    ) -> ApiResponse[SearchFusion]:
         """Hybrid search over the org's own corpora
 
         Is the typed op behind POST /v1/search. It does exactly two things the in-process entry point must not do: resolve the tenant from the validated principal, and refuse when there is none. Everything else is ForOrg.
 
-        :param request: (required)
-        :type request: Request
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -150,7 +150,7 @@ class SearchApi:
         """ # noqa: E501
 
         _param = self._search_serialize(
-            request=request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -158,7 +158,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Fusion",
+            '200': "SearchFusion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -174,7 +174,7 @@ class SearchApi:
     @validate_call
     def search_without_preload_content(
         self,
-        request: Request,
+        search_request: SearchRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -192,8 +192,8 @@ class SearchApi:
 
         Is the typed op behind POST /v1/search. It does exactly two things the in-process entry point must not do: resolve the tenant from the validated principal, and refuse when there is none. Everything else is ForOrg.
 
-        :param request: (required)
-        :type request: Request
+        :param search_request: (required)
+        :type search_request: SearchRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -217,7 +217,7 @@ class SearchApi:
         """ # noqa: E501
 
         _param = self._search_serialize(
-            request=request,
+            search_request=search_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -225,7 +225,7 @@ class SearchApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "Fusion",
+            '200': "SearchFusion",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -236,7 +236,7 @@ class SearchApi:
 
     def _search_serialize(
         self,
-        request,
+        search_request,
         _request_auth,
         _content_type,
         _headers,
@@ -262,15 +262,16 @@ class SearchApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if request is not None:
-            _body_params = request
+        if search_request is not None:
+            _body_params = search_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

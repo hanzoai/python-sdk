@@ -19,17 +19,17 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.actions_view import ActionsView
-from hanzoai.cloud.models.analytics_view import AnalyticsView
-from hanzoai.cloud.models.blueprint_versions_view import BlueprintVersionsView
-from hanzoai.cloud.models.blueprint_view import BlueprintView
-from hanzoai.cloud.models.chat_request import ChatRequest
-from hanzoai.cloud.models.chat_response import ChatResponse
-from hanzoai.cloud.models.corpus_view import CorpusView
-from hanzoai.cloud.models.curriculum_view import CurriculumView
-from hanzoai.cloud.models.overview_view import OverviewView
-from hanzoai.cloud.models.profile_response import ProfileResponse
-from hanzoai.cloud.models.suggest_response import SuggestResponse
+from hanzoai.cloud.models.guide_actions_view import GuideActionsView
+from hanzoai.cloud.models.guide_analytics_view import GuideAnalyticsView
+from hanzoai.cloud.models.guide_blueprint_versions_view import GuideBlueprintVersionsView
+from hanzoai.cloud.models.guide_blueprint_view import GuideBlueprintView
+from hanzoai.cloud.models.guide_chat_request import GuideChatRequest
+from hanzoai.cloud.models.guide_chat_response import GuideChatResponse
+from hanzoai.cloud.models.guide_corpus_view import GuideCorpusView
+from hanzoai.cloud.models.guide_curriculum_view import GuideCurriculumView
+from hanzoai.cloud.models.guide_overview_view import GuideOverviewView
+from hanzoai.cloud.models.guide_profile_response import GuideProfileResponse
+from hanzoai.cloud.models.guide_suggest_response import GuideSuggestResponse
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -64,7 +64,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CurriculumView:
+    ) -> GuideCurriculumView:
         """Clears the caller org's curriculum override and returns the journey it falls back to — the brand blueprint, else the embedded fixture.
 
         Clears the caller org's curriculum override and returns the journey it falls back to — the brand blueprint, else the embedded fixture. Clearing an org that never set one is a no-op that answers the same default.
@@ -99,7 +99,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -127,7 +127,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CurriculumView]:
+    ) -> ApiResponse[GuideCurriculumView]:
         """Clears the caller org's curriculum override and returns the journey it falls back to — the brand blueprint, else the embedded fixture.
 
         Clears the caller org's curriculum override and returns the journey it falls back to — the brand blueprint, else the embedded fixture. Clearing an org that never set one is a no-op that answers the same default.
@@ -162,7 +162,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -225,7 +225,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -267,7 +267,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -310,10 +311,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OverviewView:
-        """Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
+    ) -> GuideOverviewView:
+        """Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
 
-        Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
+        Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -345,7 +346,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -373,10 +374,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OverviewView]:
-        """Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
+    ) -> ApiResponse[GuideOverviewView]:
+        """Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
 
-        Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
+        Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -408,7 +409,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -437,9 +438,9 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
+        """Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in.
 
-        Overview returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
+        Returns the caller org's launch journey: the active curriculum's version and title, every step with its state, whether it is available, what blocks it and whether the Business AI can run it, the done/total/percent progress with the next step to take, and the org's analytics funnel folded in. Auto-detect runs first, so a step the org has already completed elsewhere reads done without anyone marking it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -471,7 +472,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -513,7 +514,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -556,7 +558,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ActionsView:
+    ) -> GuideActionsView:
         """Returns the caller org's Business AI action ledger, most recent first: every \"do it for me\" tool call, the arguments it ran with, its result and whether it succeeded.
 
         Returns the caller org's Business AI action ledger, most recent first: every \"do it for me\" tool call, the arguments it ran with, its result and whether it succeeded. It is the audit-visible record of what the agent did on the org's behalf, and the backing state for the \"acted\" auto-detect signal.
@@ -591,7 +593,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActionsView",
+            '200': "GuideActionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -619,7 +621,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ActionsView]:
+    ) -> ApiResponse[GuideActionsView]:
         """Returns the caller org's Business AI action ledger, most recent first: every \"do it for me\" tool call, the arguments it ran with, its result and whether it succeeded.
 
         Returns the caller org's Business AI action ledger, most recent first: every \"do it for me\" tool call, the arguments it ran with, its result and whether it succeeded. It is the audit-visible record of what the agent did on the org's behalf, and the backing state for the \"acted\" auto-detect signal.
@@ -654,7 +656,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActionsView",
+            '200': "GuideActionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -717,7 +719,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ActionsView",
+            '200': "GuideActionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -759,7 +761,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -802,10 +805,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AnalyticsView:
-        """Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
+    ) -> GuideAnalyticsView:
+        """Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
 
-        Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
+        Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -837,7 +840,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AnalyticsView",
+            '200': "GuideAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -865,10 +868,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AnalyticsView]:
-        """Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
+    ) -> ApiResponse[GuideAnalyticsView]:
+        """Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
 
-        Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
+        Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -900,7 +903,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AnalyticsView",
+            '200': "GuideAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -929,9 +932,9 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
+        """Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it.
 
-        Analytics returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
+        Returns the caller org's funnel from the analytics lens plus the GTM recommendations derived from it. It is the Business AI's data-grounded read — what the funnel is doing, and the next-best action to move its weakest stage. An unreachable or silent warehouse answers available=false, never a fabricated number.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -963,7 +966,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AnalyticsView",
+            '200': "GuideAnalyticsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1005,7 +1008,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1048,7 +1052,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BlueprintView:
+    ) -> GuideBlueprintView:
         """Returns the FULL authored brand blueprint — every principle, section, step, strategy and template WITH its enabled flag made explicit, including the disabled items the org-facing reads never see — plus the active version number, the brand key it is stored under and the item counts.
 
         Returns the FULL authored brand blueprint — every principle, section, step, strategy and template WITH its enabled flag made explicit, including the disabled items the org-facing reads never see — plus the active version number, the brand key it is stored under and the item counts. It is the SuperAdmin authoring view of the platform blueprint, so it is refused 403 for anyone else, including a per-org admin: the brand blueprint is shared platform content, not a per-customer surface.
@@ -1083,7 +1087,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintView",
+            '200': "GuideBlueprintView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1111,7 +1115,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BlueprintView]:
+    ) -> ApiResponse[GuideBlueprintView]:
         """Returns the FULL authored brand blueprint — every principle, section, step, strategy and template WITH its enabled flag made explicit, including the disabled items the org-facing reads never see — plus the active version number, the brand key it is stored under and the item counts.
 
         Returns the FULL authored brand blueprint — every principle, section, step, strategy and template WITH its enabled flag made explicit, including the disabled items the org-facing reads never see — plus the active version number, the brand key it is stored under and the item counts. It is the SuperAdmin authoring view of the platform blueprint, so it is refused 403 for anyone else, including a per-org admin: the brand blueprint is shared platform content, not a per-customer surface.
@@ -1146,7 +1150,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintView",
+            '200': "GuideBlueprintView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1209,7 +1213,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintView",
+            '200': "GuideBlueprintView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1251,7 +1255,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1294,7 +1299,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BlueprintVersionsView:
+    ) -> GuideBlueprintVersionsView:
         """Returns the brand blueprint's version history — every stored version's number and edit time, newest first — which is the point-in-time-recovery and audit trail behind the authoring plane.
 
         Returns the brand blueprint's version history — every stored version's number and edit time, newest first — which is the point-in-time-recovery and audit trail behind the authoring plane. Metadata only: the documents are not returned. SuperAdmin only, like the rest of this plane. The history is listable even when the current stored document no longer parses, so a schema-drifted row can still be diagnosed.
@@ -1329,7 +1334,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintVersionsView",
+            '200': "GuideBlueprintVersionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1357,7 +1362,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BlueprintVersionsView]:
+    ) -> ApiResponse[GuideBlueprintVersionsView]:
         """Returns the brand blueprint's version history — every stored version's number and edit time, newest first — which is the point-in-time-recovery and audit trail behind the authoring plane.
 
         Returns the brand blueprint's version history — every stored version's number and edit time, newest first — which is the point-in-time-recovery and audit trail behind the authoring plane. Metadata only: the documents are not returned. SuperAdmin only, like the rest of this plane. The history is listable even when the current stored document no longer parses, so a schema-drifted row can still be diagnosed.
@@ -1392,7 +1397,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintVersionsView",
+            '200': "GuideBlueprintVersionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1455,7 +1460,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BlueprintVersionsView",
+            '200': "GuideBlueprintVersionsView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1497,7 +1502,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1540,7 +1546,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CurriculumView:
+    ) -> GuideCurriculumView:
         """Returns the journey the caller's org is actually running, and whether it comes from the org's OWN override (custom) or from the platform default — the brand blueprint, else the embedded fixture.
 
         Returns the journey the caller's org is actually running, and whether it comes from the org's OWN override (custom) or from the platform default — the brand blueprint, else the embedded fixture.
@@ -1575,7 +1581,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1603,7 +1609,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CurriculumView]:
+    ) -> ApiResponse[GuideCurriculumView]:
         """Returns the journey the caller's org is actually running, and whether it comes from the org's OWN override (custom) or from the platform default — the brand blueprint, else the embedded fixture.
 
         Returns the journey the caller's org is actually running, and whether it comes from the org's OWN override (custom) or from the platform default — the brand blueprint, else the embedded fixture.
@@ -1638,7 +1644,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1701,7 +1707,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CurriculumView",
+            '200': "GuideCurriculumView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1743,7 +1749,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1786,10 +1793,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ProfileResponse:
-        """Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
+    ) -> GuideProfileResponse:
+        """Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
 
-        Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
+        Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1821,7 +1828,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProfileResponse",
+            '200': "GuideProfileResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1849,10 +1856,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ProfileResponse]:
-        """Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
+    ) -> ApiResponse[GuideProfileResponse]:
+        """Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
 
-        Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
+        Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1884,7 +1891,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProfileResponse",
+            '200': "GuideProfileResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1913,9 +1920,9 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
+        """Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics.
 
-        Profile returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
+        Returns the caller org's OBSERVED growth profile — the signal set, the classified growth stage, and the org's own key metrics. It is a pure READ, recomputed from the org's CURRENT state each request (real-time by pull): it reuses the reconcile path (snapshotFor runs the detectors) for launch progress and runs the growth probes (observe) for the signals — it never caches, never runs a billable effect, never targets another org. Org-scoped on the validated principal; fail-closed without one. It PRODUCES the profile and classifies the stage; it decides NO recommendation (that is a later surface).
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1947,7 +1954,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ProfileResponse",
+            '200': "GuideProfileResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1989,7 +1996,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2035,10 +2043,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> CorpusView:
-        """Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
+    ) -> GuideCorpusView:
+        """Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
 
-        Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
+        Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
 
         :param category: Category filters to tactics in exactly this category.
         :type category: str
@@ -2079,7 +2087,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CorpusView",
+            '200': "GuideCorpusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2110,10 +2118,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[CorpusView]:
-        """Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
+    ) -> ApiResponse[GuideCorpusView]:
+        """Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
 
-        Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
+        Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
 
         :param category: Category filters to tactics in exactly this category.
         :type category: str
@@ -2154,7 +2162,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CorpusView",
+            '200': "GuideCorpusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2186,9 +2194,9 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
+        """Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it).
 
-        Strategies returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
+        Returns the ENABLED tactics corpus for the caller's org: the tactics library narrowed by the explicit category/workload filters AND by the org's OBSERVED growth stage and capability signals (a tactic's tags are preconditions, so it surfaces only once the org can act on it). Passing stage PREVIEWS the corpus at that stage instead of the observed one. The content is shared platform data — no org's records — and the read is never a billable effect.
 
         :param category: Category filters to tactics in exactly this category.
         :type category: str
@@ -2229,7 +2237,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "CorpusView",
+            '200': "GuideCorpusView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2286,7 +2294,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2329,10 +2338,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SuggestResponse:
-        """Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
+    ) -> GuideSuggestResponse:
+        """Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
 
-        Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
+        Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2364,7 +2373,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuggestResponse",
+            '200': "GuideSuggestResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2392,10 +2401,10 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SuggestResponse]:
-        """Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
+    ) -> ApiResponse[GuideSuggestResponse]:
+        """Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
 
-        Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
+        Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2427,7 +2436,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuggestResponse",
+            '200': "GuideSuggestResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2456,9 +2465,9 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
+        """Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it.
 
-        Suggest returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
+        Returns the caller org's next-best quests: the available, non-terminal steps of its journey ranked by how much downstream work each unblocks, each with the grounded reason it is a good next move and whether the Business AI can run it, plus the org's funnel and the GTM recommendations derived from it. A best-effort AI narrative over exactly those quests and numbers is included when an AI plane is wired. READ-ONLY: it advises and never runs a step — the only executing path is POST /v1/guide/steps/{id}/do.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2490,7 +2499,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SuggestResponse",
+            '200': "GuideSuggestResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2532,7 +2541,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2829,7 +2839,7 @@ class GuideApi:
     @validate_call
     def post_guide_chat(
         self,
-        chat_request: ChatRequest,
+        guide_chat_request: GuideChatRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2842,13 +2852,13 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ChatResponse:
-        """Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
+    ) -> GuideChatResponse:
+        """Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
 
-        Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
+        Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
 
-        :param chat_request: (required)
-        :type chat_request: ChatRequest
+        :param guide_chat_request: (required)
+        :type guide_chat_request: GuideChatRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2872,7 +2882,7 @@ class GuideApi:
         """ # noqa: E501
 
         _param = self._post_guide_chat_serialize(
-            chat_request=chat_request,
+            guide_chat_request=guide_chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2880,7 +2890,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatResponse",
+            '200': "GuideChatResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2896,7 +2906,7 @@ class GuideApi:
     @validate_call
     def post_guide_chat_with_http_info(
         self,
-        chat_request: ChatRequest,
+        guide_chat_request: GuideChatRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2909,13 +2919,13 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ChatResponse]:
-        """Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
+    ) -> ApiResponse[GuideChatResponse]:
+        """Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
 
-        Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
+        Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
 
-        :param chat_request: (required)
-        :type chat_request: ChatRequest
+        :param guide_chat_request: (required)
+        :type guide_chat_request: GuideChatRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2939,7 +2949,7 @@ class GuideApi:
         """ # noqa: E501
 
         _param = self._post_guide_chat_serialize(
-            chat_request=chat_request,
+            guide_chat_request=guide_chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2947,7 +2957,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatResponse",
+            '200': "GuideChatResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2963,7 +2973,7 @@ class GuideApi:
     @validate_call
     def post_guide_chat_without_preload_content(
         self,
-        chat_request: ChatRequest,
+        guide_chat_request: GuideChatRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2977,12 +2987,12 @@ class GuideApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
+        """Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one.
 
-        Chat answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
+        Answers a founder's question about their launch journey as the Business AI coach: it grounds the reply in the org's REAL progress, its ranked available quests and its analytics funnel, and returns those candidate quests alongside so the caller can act on one. READ-ONLY — it advises and never runs a step, so it cannot be talked into performing an action; the only executing path is POST /v1/guide/steps/{id}/do. One AI completion per call, billed to the caller's own payer.
 
-        :param chat_request: (required)
-        :type chat_request: ChatRequest
+        :param guide_chat_request: (required)
+        :type guide_chat_request: GuideChatRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -3006,7 +3016,7 @@ class GuideApi:
         """ # noqa: E501
 
         _param = self._post_guide_chat_serialize(
-            chat_request=chat_request,
+            guide_chat_request=guide_chat_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -3014,7 +3024,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ChatResponse",
+            '200': "GuideChatResponse",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3025,7 +3035,7 @@ class GuideApi:
 
     def _post_guide_chat_serialize(
         self,
-        chat_request,
+        guide_chat_request,
         _request_auth,
         _content_type,
         _headers,
@@ -3051,15 +3061,16 @@ class GuideApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if chat_request is not None:
-            _body_params = chat_request
+        if guide_chat_request is not None:
+            _body_params = guide_chat_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3119,7 +3130,7 @@ class GuideApi:
     ) -> None:
         """Have the Business AI actually do the step for you
 
-        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 403 without a validated org.
+        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 401 without a principal and 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -3185,7 +3196,7 @@ class GuideApi:
     ) -> ApiResponse[None]:
         """Have the Business AI actually do the step for you
 
-        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 403 without a validated org.
+        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 401 without a principal and 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -3251,7 +3262,7 @@ class GuideApi:
     ) -> RESTResponseType:
         """Have the Business AI actually do the step for you
 
-        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 403 without a validated org.
+        Executes one step of the caller org's journey through that principal's OWN tool plane and answers the action log — `{step, events, state}` — so the caller sees every tool call the agent made and where the step ended up. This is the ONE executing path in guide: suggest and chat advise, this acts, and the work is charged to the calling principal's ledger.  Ask for it live and the same actions arrive as Server-Sent Events instead, on either of two triggers — `Accept: text/event-stream` or `?stream=1`. The stream opens with a comment, emits one frame per action as it happens, and closes with an `end` frame carrying `ok` and the final state. The streamed run is detached and bounded at 120 seconds, so it finishes on its own clock once the response has begun.  An agent that FAILS is not a failed request: the JSON answer still comes back 200 with `error` beside the events it did manage, and the stream still ends with `ok:false`. The refusals are the ones before the agent runs — 409 with `{error, step, blockedBy}` for a step whose dependencies are unfinished, 404 for an id the journey does not contain, 401 without a principal and 403 without an org.
 
         :param id: (required)
         :type id: str
@@ -3367,7 +3378,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OverviewView:
+    ) -> GuideOverviewView:
         """Marks one step of the caller org's journey complete and returns the refreshed journey.
 
         Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
@@ -3405,7 +3416,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3434,7 +3445,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OverviewView]:
+    ) -> ApiResponse[GuideOverviewView]:
         """Marks one step of the caller org's journey complete and returns the refreshed journey.
 
         Marks one step of the caller org's journey complete and returns the refreshed journey.  Dependency-GATED, exactly as start is: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy} naming what is in the way.
@@ -3472,7 +3483,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3539,7 +3550,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3584,7 +3595,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3628,7 +3640,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OverviewView:
+    ) -> GuideOverviewView:
         """Returns one step of the caller org's journey to todo — clearing a manual mark or a skip — and returns the refreshed journey.
 
         Returns one step of the caller org's journey to todo — clearing a manual mark or a skip — and returns the refreshed journey. Reset is never dependency-gated. Auto-detect runs on the next read, so a step the org has in fact completed elsewhere goes straight back to done.
@@ -3666,7 +3678,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3695,7 +3707,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OverviewView]:
+    ) -> ApiResponse[GuideOverviewView]:
         """Returns one step of the caller org's journey to todo — clearing a manual mark or a skip — and returns the refreshed journey.
 
         Returns one step of the caller org's journey to todo — clearing a manual mark or a skip — and returns the refreshed journey. Reset is never dependency-gated. Auto-detect runs on the next read, so a step the org has in fact completed elsewhere goes straight back to done.
@@ -3733,7 +3745,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3800,7 +3812,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3845,7 +3857,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3889,7 +3902,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OverviewView:
+    ) -> GuideOverviewView:
         """Marks one step of the caller org's journey skipped and returns the refreshed journey.
 
         Marks one step of the caller org's journey skipped and returns the refreshed journey. Skipping is never dependency-gated — the founder is declaring the step does not apply to them — so a step whose dependencies are unfinished can still be skipped, and a skipped step counts as terminal for everything downstream of it.
@@ -3927,7 +3940,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3956,7 +3969,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OverviewView]:
+    ) -> ApiResponse[GuideOverviewView]:
         """Marks one step of the caller org's journey skipped and returns the refreshed journey.
 
         Marks one step of the caller org's journey skipped and returns the refreshed journey. Skipping is never dependency-gated — the founder is declaring the step does not apply to them — so a step whose dependencies are unfinished can still be skipped, and a skipped step counts as terminal for everything downstream of it.
@@ -3994,7 +4007,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4061,7 +4074,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4106,7 +4119,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4150,7 +4164,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OverviewView:
+    ) -> GuideOverviewView:
         """Marks one step of the caller org's journey in progress and returns the refreshed journey.
 
         Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
@@ -4188,7 +4202,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4217,7 +4231,7 @@ class GuideApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OverviewView]:
+    ) -> ApiResponse[GuideOverviewView]:
         """Marks one step of the caller org's journey in progress and returns the refreshed journey.
 
         Marks one step of the caller org's journey in progress and returns the refreshed journey.  Dependency-GATED: a step whose prerequisites are unfinished is refused 409 carrying {error, step, blockedBy}, where blockedBy names the exact steps in the way — enough to render the reason without asking again.
@@ -4255,7 +4269,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4322,7 +4336,7 @@ class GuideApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OverviewView",
+            '200': "GuideOverviewView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4367,7 +4381,8 @@ class GuideApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4649,7 +4664,7 @@ class GuideApi:
     ) -> None:
         """Replace your org's journey with a curriculum you author
 
-        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org; 403 without one. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
+        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org: 401 without a principal, 403 without an org. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4711,7 +4726,7 @@ class GuideApi:
     ) -> ApiResponse[None]:
         """Replace your org's journey with a curriculum you author
 
-        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org; 403 without one. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
+        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org: 401 without a principal, 403 without an org. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4773,7 +4788,7 @@ class GuideApi:
     ) -> RESTResponseType:
         """Replace your org's journey with a curriculum you author
 
-        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org; 403 without one. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
+        Sets the caller org's OWN curriculum — the per-customer override — and answers the journey now in force with `custom: true`. The body is a curriculum document, and it is accepted as YAML **or** JSON: that is the caller-visible reason this takes a raw body rather than a declared shape. Whatever the syntax, the CANONICAL parsed form is what is stored, so the document the engine runs never depends on how it was written.  Fail-closed: a body that does not parse, or parses but is not a valid journey (unique step ids, no dangling or cyclic dependencies), is 422 and NEVER becomes active — the org keeps the journey it had. Requires a validated org: 401 without a principal, 403 without an org. An empty body is 400 and one over 256 KiB is 413.  This is tier one only. It overrides nothing but this org's own journey; the shared brand blueprint is a different surface with a different gate. DELETE the same path to drop the override and fall back to it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

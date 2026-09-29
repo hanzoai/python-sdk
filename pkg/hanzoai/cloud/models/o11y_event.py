@@ -26,7 +26,7 @@ class O11yEvent(BaseModel):
     """
     O11yEvent
     """ # noqa: E501
-    attribute_map: Optional[Dict[str, Dict[str, Any]]] = Field(default=None, alias="attributeMap")
+    attribute_map: Optional[Dict[str, Any]] = Field(default=None, alias="attributeMap")
     is_error: Optional[StrictBool] = Field(default=None, alias="isError")
     name: Optional[StrictStr] = None
     time_unix_nano: Optional[StrictInt] = Field(default=None, alias="timeUnixNano")

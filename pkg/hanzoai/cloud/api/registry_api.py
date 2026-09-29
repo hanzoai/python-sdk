@@ -19,13 +19,13 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.registry_image_list import RegistryImageList
-from hanzoai.cloud.models.registry_mint import RegistryMint
-from hanzoai.cloud.models.registry_package_list import RegistryPackageList
-from hanzoai.cloud.models.registry_project_list import RegistryProjectList
-from hanzoai.cloud.models.registry_status import RegistryStatus
-from hanzoai.cloud.models.registry_tag_list import RegistryTagList
-from hanzoai.cloud.models.registry_token import RegistryToken
+from hanzoai.cloud.models.registry_registry_image_list import RegistryRegistryImageList
+from hanzoai.cloud.models.registry_registry_mint import RegistryRegistryMint
+from hanzoai.cloud.models.registry_registry_package_list import RegistryRegistryPackageList
+from hanzoai.cloud.models.registry_registry_project_list import RegistryRegistryProjectList
+from hanzoai.cloud.models.registry_registry_status import RegistryRegistryStatus
+from hanzoai.cloud.models.registry_registry_tag_list import RegistryRegistryTagList
+from hanzoai.cloud.models.registry_registry_token import RegistryRegistryToken
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -60,10 +60,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryImageList:
-        """Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+    ) -> RegistryRegistryImageList:
+        """Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
-        Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+        Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -95,7 +95,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryImageList",
+            '200': "RegistryRegistryImageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -123,10 +123,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryImageList]:
-        """Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+    ) -> ApiResponse[RegistryRegistryImageList]:
+        """Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
-        Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+        Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -158,7 +158,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryImageList",
+            '200': "RegistryRegistryImageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -187,9 +187,9 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+        """Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
-        Images lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
+        Lists the org's container repositories, read live from the OCI catalog and filtered server-side to the org's namespace — the page can only ever hold the caller's own images.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -221,7 +221,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryImageList",
+            '200': "RegistryRegistryImageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -263,7 +263,8 @@ class RegistryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -307,10 +308,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryPackageList:
-        """Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
+    ) -> RegistryRegistryPackageList:
+        """Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
 
-        Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
+        Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
 
         :param query: Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.
         :type query: str
@@ -345,7 +346,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryPackageList",
+            '200': "RegistryRegistryPackageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -374,10 +375,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryPackageList]:
-        """Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
+    ) -> ApiResponse[RegistryRegistryPackageList]:
+        """Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
 
-        Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
+        Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
 
         :param query: Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.
         :type query: str
@@ -412,7 +413,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryPackageList",
+            '200': "RegistryRegistryPackageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -442,9 +443,9 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
+        """Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope.
 
-        Packages lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
+        Lists the org's npm packages — `<org>` and `@<org>/…` — from the npm registry's search index, optionally narrowed by a query within that scope. The org boundary is applied server-side after the search, so a query can never widen it.
 
         :param query: Query narrows the listing within the org's scope when present; the org boundary itself is never widened by it. It rides the query string.
         :type query: str
@@ -479,7 +480,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryPackageList",
+            '200': "RegistryRegistryPackageList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -526,7 +527,8 @@ class RegistryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -569,10 +571,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryProjectList:
-        """Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
+    ) -> RegistryRegistryProjectList:
+        """Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
 
-        Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
+        Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -604,7 +606,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryProjectList",
+            '200': "RegistryRegistryProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -632,10 +634,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryProjectList]:
-        """Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
+    ) -> ApiResponse[RegistryRegistryProjectList]:
+        """Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
 
-        Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
+        Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -667,7 +669,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryProjectList",
+            '200': "RegistryRegistryProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -696,9 +698,9 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
+        """Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry.
 
-        Projects lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
+        Lists the namespaces the caller can see with what each holds: the org's slug, its repository count on the OCI catalog, and its package count on the npm registry. Today that is exactly one row — the caller's org.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -730,7 +732,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryProjectList",
+            '200': "RegistryRegistryProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -772,7 +774,8 @@ class RegistryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -815,10 +818,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryStatus:
-        """Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+    ) -> RegistryRegistryStatus:
+        """Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
-        Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+        Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -850,7 +853,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryStatus",
+            '200': "RegistryRegistryStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -878,10 +881,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryStatus]:
-        """Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+    ) -> ApiResponse[RegistryRegistryStatus]:
+        """Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
-        Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+        Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -913,7 +916,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryStatus",
+            '200': "RegistryRegistryStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -942,9 +945,9 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+        """Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
-        Status reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
+        Reports whether the OCI and npm registries are reachable and, when the OCI half is auth-gated, which token realm its challenge advertises — an honest lens for \"is the registry plane up\", never a fabricated ok.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -976,7 +979,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryStatus",
+            '200': "RegistryRegistryStatus",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1018,7 +1021,8 @@ class RegistryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1062,10 +1066,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryTagList:
-        """Tags lists one org-owned repository's tags, read live from the OCI registry.
+    ) -> RegistryRegistryTagList:
+        """Lists one org-owned repository's tags, read live from the OCI registry.
 
-        Tags lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
+        Lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
 
         :param image: Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.
         :type image: str
@@ -1100,7 +1104,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryTagList",
+            '200': "RegistryRegistryTagList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1129,10 +1133,10 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryTagList]:
-        """Tags lists one org-owned repository's tags, read live from the OCI registry.
+    ) -> ApiResponse[RegistryRegistryTagList]:
+        """Lists one org-owned repository's tags, read live from the OCI registry.
 
-        Tags lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
+        Lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
 
         :param image: Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.
         :type image: str
@@ -1167,7 +1171,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryTagList",
+            '200': "RegistryRegistryTagList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1197,9 +1201,9 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Tags lists one org-owned repository's tags, read live from the OCI registry.
+        """Lists one org-owned repository's tags, read live from the OCI registry.
 
-        Tags lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
+        Lists one org-owned repository's tags, read live from the OCI registry. The repository is addressed inside the org's namespace — a name outside it cannot be expressed, and an unknown one answers 404.
 
         :param image: Image is the repository name inside the org's namespace, as returned by the images op. It rides the query string.
         :type image: str
@@ -1234,7 +1238,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryTagList",
+            '200': "RegistryRegistryTagList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1281,7 +1285,8 @@ class RegistryApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1312,7 +1317,7 @@ class RegistryApi:
     @validate_call
     def post_registry_token(
         self,
-        registry_mint: RegistryMint,
+        registry_registry_mint: RegistryRegistryMint,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1325,13 +1330,13 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RegistryToken:
-        """Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
+    ) -> RegistryRegistryToken:
+        """Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
 
-        Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
+        Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
 
-        :param registry_mint: (required)
-        :type registry_mint: RegistryMint
+        :param registry_registry_mint: (required)
+        :type registry_registry_mint: RegistryRegistryMint
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1355,7 +1360,7 @@ class RegistryApi:
         """ # noqa: E501
 
         _param = self._post_registry_token_serialize(
-            registry_mint=registry_mint,
+            registry_registry_mint=registry_registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1363,7 +1368,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryToken",
+            '200': "RegistryRegistryToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1379,7 +1384,7 @@ class RegistryApi:
     @validate_call
     def post_registry_token_with_http_info(
         self,
-        registry_mint: RegistryMint,
+        registry_registry_mint: RegistryRegistryMint,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1392,13 +1397,13 @@ class RegistryApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RegistryToken]:
-        """Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
+    ) -> ApiResponse[RegistryRegistryToken]:
+        """Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
 
-        Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
+        Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
 
-        :param registry_mint: (required)
-        :type registry_mint: RegistryMint
+        :param registry_registry_mint: (required)
+        :type registry_registry_mint: RegistryRegistryMint
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1422,7 +1427,7 @@ class RegistryApi:
         """ # noqa: E501
 
         _param = self._post_registry_token_serialize(
-            registry_mint=registry_mint,
+            registry_registry_mint=registry_registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1430,7 +1435,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryToken",
+            '200': "RegistryRegistryToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1446,7 +1451,7 @@ class RegistryApi:
     @validate_call
     def post_registry_token_without_preload_content(
         self,
-        registry_mint: RegistryMint,
+        registry_registry_mint: RegistryRegistryMint,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1460,12 +1465,12 @@ class RegistryApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
+        """Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against.
 
-        Token mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
+        Mints a short-lived, pull-only registry token for exactly one of the org's images, through the same IAM realm the docker CLI authenticates against. The scope is pinned server-side to `<org>/<image>` with the `pull` action — no field exists to name another org's image or ask for push. Use it as `Authorization: Bearer …` on the OCI wire; it expires in minutes.
 
-        :param registry_mint: (required)
-        :type registry_mint: RegistryMint
+        :param registry_registry_mint: (required)
+        :type registry_registry_mint: RegistryRegistryMint
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1489,7 +1494,7 @@ class RegistryApi:
         """ # noqa: E501
 
         _param = self._post_registry_token_serialize(
-            registry_mint=registry_mint,
+            registry_registry_mint=registry_registry_mint,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1497,7 +1502,7 @@ class RegistryApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RegistryToken",
+            '200': "RegistryRegistryToken",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1508,7 +1513,7 @@ class RegistryApi:
 
     def _post_registry_token_serialize(
         self,
-        registry_mint,
+        registry_registry_mint,
         _request_auth,
         _content_type,
         _headers,
@@ -1534,15 +1539,16 @@ class RegistryApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if registry_mint is not None:
-            _body_params = registry_mint
+        if registry_registry_mint is not None:
+            _body_params = registry_registry_mint
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -19,17 +19,17 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.accounts_usage import AccountsUsage
-from hanzoai.cloud.models.board_resp import BoardResp
-from hanzoai.cloud.models.device_view import DeviceView
-from hanzoai.cloud.models.enroll_req import EnrollReq
-from hanzoai.cloud.models.ingest_req import IngestReq
-from hanzoai.cloud.models.ingest_resp import IngestResp
-from hanzoai.cloud.models.link_list import LinkList
-from hanzoai.cloud.models.link_view import LinkView
-from hanzoai.cloud.models.revoke_resp import RevokeResp
-from hanzoai.cloud.models.route_plan import RoutePlan
-from hanzoai.cloud.models.summary_resp import SummaryResp
+from hanzoai.cloud.models.link_accounts_usage import LinkAccountsUsage
+from hanzoai.cloud.models.link_board_resp import LinkBoardResp
+from hanzoai.cloud.models.link_device_view import LinkDeviceView
+from hanzoai.cloud.models.link_enroll_req import LinkEnrollReq
+from hanzoai.cloud.models.link_ingest_req import LinkIngestReq
+from hanzoai.cloud.models.link_ingest_resp import LinkIngestResp
+from hanzoai.cloud.models.link_link_list import LinkLinkList
+from hanzoai.cloud.models.link_link_view import LinkLinkView
+from hanzoai.cloud.models.link_revoke_resp import LinkRevokeResp
+from hanzoai.cloud.models.link_route_plan import LinkRoutePlan
+from hanzoai.cloud.models.link_summary_resp import LinkSummaryResp
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -65,7 +65,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RevokeResp:
+    ) -> LinkRevokeResp:
         """Logs out one account and stops the sessions it was running.
 
         Logs out one account and stops the sessions it was running.  It revokes a single linked account and stops the agent sessions that ran under it, answering with the revoked row and how many sessions stopped. The link is RETAINED with a revoked status rather than deleted, so its usage history and the audit trail survive the log-out — which also means a revoked account still appears in the list, and is excluded from the route plan rather than absent from it. The session stop is narrowed to the revoking user's own sessions on that device, provider and account, and a stop that fails does not fail the revoke: the revoked row is the durable truth. An id that does not exist, or belongs to another user or org, is the same 404.
@@ -103,7 +103,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -132,7 +132,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RevokeResp]:
+    ) -> ApiResponse[LinkRevokeResp]:
         """Logs out one account and stops the sessions it was running.
 
         Logs out one account and stops the sessions it was running.  It revokes a single linked account and stops the agent sessions that ran under it, answering with the revoked row and how many sessions stopped. The link is RETAINED with a revoked status rather than deleted, so its usage history and the audit trail survive the log-out — which also means a revoked account still appears in the list, and is excluded from the route plan rather than absent from it. The session stop is narrowed to the revoking user's own sessions on that device, provider and account, and a stop that fails does not fail the revoke: the revoked row is the durable truth. An id that does not exist, or belongs to another user or org, is the same 404.
@@ -170,7 +170,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -237,7 +237,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -282,7 +282,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -325,7 +326,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinkList:
+    ) -> LinkLinkList:
         """Lists your linked accounts and the devices they sit on.
 
         Lists your linked accounts and the devices they sit on.  It answers the caller's own links plus a devices projection of the same rows folded per machine — the cross-machine \"AI Providers / Accounts\" view. A device is a projection, not a stored entity: its labels come from its most-recently-seen account, so there is no device to create and none to garbage-collect. Revoked links are INCLUDED rather than dropped, because a logged-out account keeps its usage history and audit trail. Scoped to the caller: a validated principal and a non-empty org, else 403.
@@ -360,7 +361,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkList",
+            '200': "LinkLinkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -388,7 +389,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinkList]:
+    ) -> ApiResponse[LinkLinkList]:
         """Lists your linked accounts and the devices they sit on.
 
         Lists your linked accounts and the devices they sit on.  It answers the caller's own links plus a devices projection of the same rows folded per machine — the cross-machine \"AI Providers / Accounts\" view. A device is a projection, not a stored entity: its labels come from its most-recently-seen account, so there is no device to create and none to garbage-collect. Revoked links are INCLUDED rather than dropped, because a logged-out account keeps its usage history and audit trail. Scoped to the caller: a validated principal and a non-empty org, else 403.
@@ -423,7 +424,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkList",
+            '200': "LinkLinkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -486,7 +487,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkList",
+            '200': "LinkLinkList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -528,7 +529,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -572,7 +574,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinkView:
+    ) -> LinkLinkView:
         """Reads one linked account.
 
         Reads one linked account.  It answers a single link — its device, provider, account, plan, how it bills, its status and its latest usage snapshot. An id that does not exist, or belongs to another user or org, is the same 404: the scope is a bound predicate on the read, so a wrong id and a foreign id are indistinguishable and neither confirms the other's existence. The static paths on this collection — route, usage, devices — register before this one and win first-match, so a link whose id collided with one of those words could not be addressed here.
@@ -610,7 +612,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkView",
+            '200': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -639,7 +641,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinkView]:
+    ) -> ApiResponse[LinkLinkView]:
         """Reads one linked account.
 
         Reads one linked account.  It answers a single link — its device, provider, account, plan, how it bills, its status and its latest usage snapshot. An id that does not exist, or belongs to another user or org, is the same 404: the scope is a bound predicate on the read, so a wrong id and a foreign id are indistinguishable and neither confirms the other's existence. The static paths on this collection — route, usage, devices — register before this one and win first-match, so a link whose id collided with one of those words could not be addressed here.
@@ -677,7 +679,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkView",
+            '200': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -744,7 +746,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LinkView",
+            '200': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -789,7 +791,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -833,7 +836,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeviceView:
+    ) -> LinkDeviceView:
         """Shows one machine: its accounts, usage and live sessions.
 
         Shows one machine: its accounts, usage and live sessions.  It answers one device — its host and OS labels, every account the caller has signed in on that machine with its latest usage, and how many agent sessions the caller currently has running on it. The device labels come from the most-recently-seen account, since a device is a projection of its links rather than a row of its own. A machine with none of the caller's accounts is 404, which is also the answer when the machine belongs to someone else — the scope makes the two indistinguishable, deliberately. The session count reports 0 where the agent plane is not mounted rather than failing the read.
@@ -871,7 +874,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceView",
+            '200': "LinkDeviceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -900,7 +903,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeviceView]:
+    ) -> ApiResponse[LinkDeviceView]:
         """Shows one machine: its accounts, usage and live sessions.
 
         Shows one machine: its accounts, usage and live sessions.  It answers one device — its host and OS labels, every account the caller has signed in on that machine with its latest usage, and how many agent sessions the caller currently has running on it. The device labels come from the most-recently-seen account, since a device is a projection of its links rather than a row of its own. A machine with none of the caller's accounts is 404, which is also the answer when the machine belongs to someone else — the scope makes the two indistinguishable, deliberately. The session count reports 0 where the agent plane is not mounted rather than failing the read.
@@ -938,7 +941,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceView",
+            '200': "LinkDeviceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1005,7 +1008,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeviceView",
+            '200': "LinkDeviceView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1050,7 +1053,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1093,7 +1097,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RoutePlan:
+    ) -> LinkRoutePlan:
         """Gets the failover order across your linked accounts.
 
         Gets the failover order across your linked accounts.  It answers an ordered redundancy plan over the caller's LINKED (not revoked) accounts: each candidate with its remaining rate-limit headroom, whether it is routable right now, how it BILLS (plan or commerce), and a reason when it is not — plus the primary to try first. It is what lets a router fail over from one subscription to another and fall back to the metered API as the always-available backstop, knowing the cost consequence before it dials.  It is POLICY, not execution: the plan is computed purely from the usage snapshots already in the registry, never by probing a provider, so it is a total function of the links and costs nothing to ask for. Actually dialing, detecting a live 429 and advancing to the next candidate belongs to the caller. A link with no snapshot counts as full headroom.
@@ -1128,7 +1132,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutePlan",
+            '200': "LinkRoutePlan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1156,7 +1160,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RoutePlan]:
+    ) -> ApiResponse[LinkRoutePlan]:
         """Gets the failover order across your linked accounts.
 
         Gets the failover order across your linked accounts.  It answers an ordered redundancy plan over the caller's LINKED (not revoked) accounts: each candidate with its remaining rate-limit headroom, whether it is routable right now, how it BILLS (plan or commerce), and a reason when it is not — plus the primary to try first. It is what lets a router fail over from one subscription to another and fall back to the metered API as the always-available backstop, knowing the cost consequence before it dials.  It is POLICY, not execution: the plan is computed purely from the usage snapshots already in the registry, never by probing a provider, so it is a total function of the links and costs nothing to ask for. Actually dialing, detecting a live 429 and advancing to the next candidate belongs to the caller. A link with no snapshot counts as full headroom.
@@ -1191,7 +1195,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutePlan",
+            '200': "LinkRoutePlan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1254,7 +1258,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RoutePlan",
+            '200': "LinkRoutePlan",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1296,7 +1300,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1343,7 +1348,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> BoardResp:
+    ) -> LinkBoardResp:
         """Shows one provider account's own usage dashboard.
 
         Shows one provider account's own usage dashboard.  It answers the time series for a SINGLE provider account — the windows in range plus the currently-open ones — as that provider's own meter reported it: \"my plan is 47% through its 6h window, resets at 14:20\". current is the newest instance of each lane (the headline); windows is the history behind it, both computed from ONE deduped read. provider is required; an unknown window class or range is 400, never a quiet fallback to a different one. When no series is available the response is a 200 with available:false and empty lists — an honest \"we have no data\", which is a different claim from zero usage.
@@ -1390,7 +1395,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardResp",
+            '200': "LinkBoardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1422,7 +1427,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[BoardResp]:
+    ) -> ApiResponse[LinkBoardResp]:
         """Shows one provider account's own usage dashboard.
 
         Shows one provider account's own usage dashboard.  It answers the time series for a SINGLE provider account — the windows in range plus the currently-open ones — as that provider's own meter reported it: \"my plan is 47% through its 6h window, resets at 14:20\". current is the newest instance of each lane (the headline); windows is the history behind it, both computed from ONE deduped read. provider is required; an unknown window class or range is 400, never a quiet fallback to a different one. When no series is available the response is a 200 with available:false and empty lists — an honest \"we have no data\", which is a different claim from zero usage.
@@ -1469,7 +1474,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardResp",
+            '200': "LinkBoardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1548,7 +1553,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "BoardResp",
+            '200': "LinkBoardResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1610,7 +1615,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1653,7 +1659,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccountsUsage:
+    ) -> LinkAccountsUsage:
         """Breaks down what the gateway routed through each of your accounts.
 
         Breaks down what the gateway routed through each of your accounts.  It answers one row per linked account the GATEWAY actually routed through, plus their total — requests, prompt and completion tokens, and cost. This is the routed ledger, the read twin of the counter the router writes, and it is distinct from both of its neighbours: not the device collector's plan snapshots, and not the org money ledger. The source and scope fields on the response say so on every payload. The same shape answers in the billing namespace, from one shaping function, so the two mounts cannot drift.
@@ -1688,7 +1694,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsUsage",
+            '200': "LinkAccountsUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1716,7 +1722,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccountsUsage]:
+    ) -> ApiResponse[LinkAccountsUsage]:
         """Breaks down what the gateway routed through each of your accounts.
 
         Breaks down what the gateway routed through each of your accounts.  It answers one row per linked account the GATEWAY actually routed through, plus their total — requests, prompt and completion tokens, and cost. This is the routed ledger, the read twin of the counter the router writes, and it is distinct from both of its neighbours: not the device collector's plan snapshots, and not the org money ledger. The source and scope fields on the response say so on every payload. The same shape answers in the billing namespace, from one shaping function, so the two mounts cannot drift.
@@ -1751,7 +1757,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsUsage",
+            '200': "LinkAccountsUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1814,7 +1820,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountsUsage",
+            '200': "LinkAccountsUsage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1856,7 +1862,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1900,7 +1907,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SummaryResp:
+    ) -> LinkSummaryResp:
         """Shows plan consumption and Hanzo spend side by side.
 
         Shows plan consumption and Hanzo spend side by side.  It answers the global usage board over one window: the caller's own linked accounts, metered from each provider's own login, alongside their org's Hanzo-routed inference. These come from different ledgers and mean different things, so every row is LABELLED by source, by scope and by availability, and THE TWO ARE NEVER SUMMED — a plan's percentage is not money, and a provider's own spend is not a Hanzo charge. The rows sit side by side and say what they are.  One resolver fixes the window for both halves, so the two sets always cover the same period. range is one of 1h, 24h, 7d or 30d and defaults to 24h; anything else is 400 rather than a silent substitution. A ledger that cannot answer reports available:false instead of a zero that would read as \"no usage\".
@@ -1938,7 +1945,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryResp",
+            '200': "LinkSummaryResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1967,7 +1974,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SummaryResp]:
+    ) -> ApiResponse[LinkSummaryResp]:
         """Shows plan consumption and Hanzo spend side by side.
 
         Shows plan consumption and Hanzo spend side by side.  It answers the global usage board over one window: the caller's own linked accounts, metered from each provider's own login, alongside their org's Hanzo-routed inference. These come from different ledgers and mean different things, so every row is LABELLED by source, by scope and by availability, and THE TWO ARE NEVER SUMMED — a plan's percentage is not money, and a provider's own spend is not a Hanzo charge. The rows sit side by side and say what they are.  One resolver fixes the window for both halves, so the two sets always cover the same period. range is one of 1h, 24h, 7d or 30d and defaults to 24h; anything else is 400 rather than a silent substitution. A ledger that cannot answer reports available:false instead of a zero that would read as \"no usage\".
@@ -2005,7 +2012,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryResp",
+            '200': "LinkSummaryResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2072,7 +2079,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SummaryResp",
+            '200': "LinkSummaryResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2119,7 +2126,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2150,7 +2158,7 @@ class LinkApi:
     @validate_call
     def post_link(
         self,
-        enroll_req: EnrollReq,
+        link_enroll_req: LinkEnrollReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2163,13 +2171,13 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LinkView:
+    ) -> LinkLinkView:
         """Registers a signed-in AI provider account on a machine.
 
         Registers a signed-in AI provider account on a machine.  It records that a developer has signed into one provider account on one machine — a Claude Max or ChatGPT Plus subscription, a Hanzo key, a raw provider key — and answers 201 with the stored link. Re-reporting the same (machine, provider, account) UPDATES that link rather than creating a second, so a collector may call this on every heartbeat. machine and provider are required (400 otherwise), as is a valid kind, and every field is length-bounded. Scoped to the caller: a validated principal and a non-empty org, else 403, so a caller writes only their OWN accounts within their own org.
 
-        :param enroll_req: (required)
-        :type enroll_req: EnrollReq
+        :param link_enroll_req: (required)
+        :type link_enroll_req: LinkEnrollReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2193,7 +2201,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_serialize(
-            enroll_req=enroll_req,
+            link_enroll_req=link_enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2201,7 +2209,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkView",
+            '201': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2217,7 +2225,7 @@ class LinkApi:
     @validate_call
     def post_link_with_http_info(
         self,
-        enroll_req: EnrollReq,
+        link_enroll_req: LinkEnrollReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2230,13 +2238,13 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LinkView]:
+    ) -> ApiResponse[LinkLinkView]:
         """Registers a signed-in AI provider account on a machine.
 
         Registers a signed-in AI provider account on a machine.  It records that a developer has signed into one provider account on one machine — a Claude Max or ChatGPT Plus subscription, a Hanzo key, a raw provider key — and answers 201 with the stored link. Re-reporting the same (machine, provider, account) UPDATES that link rather than creating a second, so a collector may call this on every heartbeat. machine and provider are required (400 otherwise), as is a valid kind, and every field is length-bounded. Scoped to the caller: a validated principal and a non-empty org, else 403, so a caller writes only their OWN accounts within their own org.
 
-        :param enroll_req: (required)
-        :type enroll_req: EnrollReq
+        :param link_enroll_req: (required)
+        :type link_enroll_req: LinkEnrollReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2260,7 +2268,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_serialize(
-            enroll_req=enroll_req,
+            link_enroll_req=link_enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2268,7 +2276,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkView",
+            '201': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2284,7 +2292,7 @@ class LinkApi:
     @validate_call
     def post_link_without_preload_content(
         self,
-        enroll_req: EnrollReq,
+        link_enroll_req: LinkEnrollReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2302,8 +2310,8 @@ class LinkApi:
 
         Registers a signed-in AI provider account on a machine.  It records that a developer has signed into one provider account on one machine — a Claude Max or ChatGPT Plus subscription, a Hanzo key, a raw provider key — and answers 201 with the stored link. Re-reporting the same (machine, provider, account) UPDATES that link rather than creating a second, so a collector may call this on every heartbeat. machine and provider are required (400 otherwise), as is a valid kind, and every field is length-bounded. Scoped to the caller: a validated principal and a non-empty org, else 403, so a caller writes only their OWN accounts within their own org.
 
-        :param enroll_req: (required)
-        :type enroll_req: EnrollReq
+        :param link_enroll_req: (required)
+        :type link_enroll_req: LinkEnrollReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2327,7 +2335,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_serialize(
-            enroll_req=enroll_req,
+            link_enroll_req=link_enroll_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2335,7 +2343,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LinkView",
+            '201': "LinkLinkView",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2346,7 +2354,7 @@ class LinkApi:
 
     def _post_link_serialize(
         self,
-        enroll_req,
+        link_enroll_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2372,15 +2380,16 @@ class LinkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if enroll_req is not None:
-            _body_params = enroll_req
+        if link_enroll_req is not None:
+            _body_params = link_enroll_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2437,7 +2446,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RevokeResp:
+    ) -> LinkRevokeResp:
         """Logs out every account on one machine and stops its sessions.
 
         Logs out every account on one machine and stops its sessions.  It revokes every one of the caller's accounts on one machine and stops the agent sessions they were running, answering with how many of each. This is the \"I lost that laptop\" button. Revoked links are RETAINED, not deleted, so usage history and the audit trail survive a log-out — the rows come back in the response with their new status. The session stop reaches only the REVOKING user's own sessions, so a shared machine name can never be used to stop a co-tenant's work, and a stop that fails does not fail the revoke: the revoked row is the durable truth and the count then honestly reports fewer. A machine with nothing left to revoke is 404.
@@ -2475,7 +2484,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2504,7 +2513,7 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[RevokeResp]:
+    ) -> ApiResponse[LinkRevokeResp]:
         """Logs out every account on one machine and stops its sessions.
 
         Logs out every account on one machine and stops its sessions.  It revokes every one of the caller's accounts on one machine and stops the agent sessions they were running, answering with how many of each. This is the \"I lost that laptop\" button. Revoked links are RETAINED, not deleted, so usage history and the audit trail survive a log-out — the rows come back in the response with their new status. The session stop reaches only the REVOKING user's own sessions, so a shared machine name can never be used to stop a co-tenant's work, and a stop that fails does not fail the revoke: the revoked row is the durable truth and the count then honestly reports fewer. A machine with nothing left to revoke is 404.
@@ -2542,7 +2551,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2609,7 +2618,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "RevokeResp",
+            '200': "LinkRevokeResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2654,7 +2663,8 @@ class LinkApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2685,7 +2695,7 @@ class LinkApi:
     @validate_call
     def post_link_usage(
         self,
-        ingest_req: IngestReq,
+        link_ingest_req: LinkIngestReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2698,13 +2708,13 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> IngestResp:
+    ) -> LinkIngestResp:
         """Reports usage samples from the device collector.
 
         Reports usage samples from the device collector.  It ingests a batch of usage samples and answers with how many were accepted, whether history was durably stored, and the links they refreshed. A report also REFRESHES one link per distinct (machine, provider, account) it names, so a running collector keeps the accounts overview current without a separate registration call.  A caller can only ever report for THEMSELVES: org and subject come from the validated bearer, never from the body, so no sample can be attributed to another user or tenant. History is FAIL-SOFT and stored says which happened — a warehouse outage still accepts the report and refreshes the links rather than failing the device, and answers 202 either way. Send either one sample inline or up to 256 in samples; an empty batch or an over-long one is 400, as is a provider, window class or kind outside the closed vocabulary — an unrecognized window is refused rather than rewritten, because a silently reclassified sample would fill a dashboard with a class nobody reported.
 
-        :param ingest_req: (required)
-        :type ingest_req: IngestReq
+        :param link_ingest_req: (required)
+        :type link_ingest_req: LinkIngestReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2728,7 +2738,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_usage_serialize(
-            ingest_req=ingest_req,
+            link_ingest_req=link_ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2736,7 +2746,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IngestResp",
+            '202': "LinkIngestResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2752,7 +2762,7 @@ class LinkApi:
     @validate_call
     def post_link_usage_with_http_info(
         self,
-        ingest_req: IngestReq,
+        link_ingest_req: LinkIngestReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2765,13 +2775,13 @@ class LinkApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[IngestResp]:
+    ) -> ApiResponse[LinkIngestResp]:
         """Reports usage samples from the device collector.
 
         Reports usage samples from the device collector.  It ingests a batch of usage samples and answers with how many were accepted, whether history was durably stored, and the links they refreshed. A report also REFRESHES one link per distinct (machine, provider, account) it names, so a running collector keeps the accounts overview current without a separate registration call.  A caller can only ever report for THEMSELVES: org and subject come from the validated bearer, never from the body, so no sample can be attributed to another user or tenant. History is FAIL-SOFT and stored says which happened — a warehouse outage still accepts the report and refreshes the links rather than failing the device, and answers 202 either way. Send either one sample inline or up to 256 in samples; an empty batch or an over-long one is 400, as is a provider, window class or kind outside the closed vocabulary — an unrecognized window is refused rather than rewritten, because a silently reclassified sample would fill a dashboard with a class nobody reported.
 
-        :param ingest_req: (required)
-        :type ingest_req: IngestReq
+        :param link_ingest_req: (required)
+        :type link_ingest_req: LinkIngestReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2795,7 +2805,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_usage_serialize(
-            ingest_req=ingest_req,
+            link_ingest_req=link_ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2803,7 +2813,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IngestResp",
+            '202': "LinkIngestResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2819,7 +2829,7 @@ class LinkApi:
     @validate_call
     def post_link_usage_without_preload_content(
         self,
-        ingest_req: IngestReq,
+        link_ingest_req: LinkIngestReq,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2837,8 +2847,8 @@ class LinkApi:
 
         Reports usage samples from the device collector.  It ingests a batch of usage samples and answers with how many were accepted, whether history was durably stored, and the links they refreshed. A report also REFRESHES one link per distinct (machine, provider, account) it names, so a running collector keeps the accounts overview current without a separate registration call.  A caller can only ever report for THEMSELVES: org and subject come from the validated bearer, never from the body, so no sample can be attributed to another user or tenant. History is FAIL-SOFT and stored says which happened — a warehouse outage still accepts the report and refreshes the links rather than failing the device, and answers 202 either way. Send either one sample inline or up to 256 in samples; an empty batch or an over-long one is 400, as is a provider, window class or kind outside the closed vocabulary — an unrecognized window is refused rather than rewritten, because a silently reclassified sample would fill a dashboard with a class nobody reported.
 
-        :param ingest_req: (required)
-        :type ingest_req: IngestReq
+        :param link_ingest_req: (required)
+        :type link_ingest_req: LinkIngestReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2862,7 +2872,7 @@ class LinkApi:
         """ # noqa: E501
 
         _param = self._post_link_usage_serialize(
-            ingest_req=ingest_req,
+            link_ingest_req=link_ingest_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2870,7 +2880,7 @@ class LinkApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '202': "IngestResp",
+            '202': "LinkIngestResp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2881,7 +2891,7 @@ class LinkApi:
 
     def _post_link_usage_serialize(
         self,
-        ingest_req,
+        link_ingest_req,
         _request_auth,
         _content_type,
         _headers,
@@ -2907,15 +2917,16 @@ class LinkApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if ingest_req is not None:
-            _body_params = ingest_req
+        if link_ingest_req is not None:
+            _body_params = link_ingest_req
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

@@ -18,20 +18,20 @@ from typing_extensions import Annotated
 
 from pydantic import Field, StrictStr
 from typing_extensions import Annotated
-from hanzoai.cloud.models.argo_app import ArgoApp
-from hanzoai.cloud.models.argo_app_list import ArgoAppList
-from hanzoai.cloud.models.argo_cluster_list import ArgoClusterList
-from hanzoai.cloud.models.argo_project_list import ArgoProjectList
-from hanzoai.cloud.models.argo_revision_metadata import ArgoRevisionMetadata
-from hanzoai.cloud.models.argo_sync_windows import ArgoSyncWindows
-from hanzoai.cloud.models.argo_tree import ArgoTree
-from hanzoai.cloud.models.console_settings import ConsoleSettings
-from hanzoai.cloud.models.deploy_health import DeployHealth
-from hanzoai.cloud.models.git_ops_plane import GitOpsPlane
-from hanzoai.cloud.models.reconcile_report import ReconcileReport
-from hanzoai.cloud.models.session_ended import SessionEnded
-from hanzoai.cloud.models.session_user import SessionUser
-from hanzoai.cloud.models.version_message import VersionMessage
+from hanzoai.cloud.models.deploy_argo_app import DeployArgoApp
+from hanzoai.cloud.models.deploy_argo_app_list import DeployArgoAppList
+from hanzoai.cloud.models.deploy_argo_cluster_list import DeployArgoClusterList
+from hanzoai.cloud.models.deploy_argo_project_list import DeployArgoProjectList
+from hanzoai.cloud.models.deploy_argo_revision_metadata import DeployArgoRevisionMetadata
+from hanzoai.cloud.models.deploy_argo_sync_windows import DeployArgoSyncWindows
+from hanzoai.cloud.models.deploy_argo_tree import DeployArgoTree
+from hanzoai.cloud.models.deploy_console_settings import DeployConsoleSettings
+from hanzoai.cloud.models.deploy_deploy_health import DeployDeployHealth
+from hanzoai.cloud.models.deploy_git_ops_plane import DeployGitOpsPlane
+from hanzoai.cloud.models.deploy_reconcile_report import DeployReconcileReport
+from hanzoai.cloud.models.deploy_session_ended import DeploySessionEnded
+from hanzoai.cloud.models.deploy_session_user import DeploySessionUser
+from hanzoai.cloud.models.deploy_version_message import DeployVersionMessage
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -66,7 +66,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoAppList:
+    ) -> DeployArgoAppList:
         """Returns the fleet as an argocd ApplicationList: one projected Application per operator App CR, carrying the image tag the CR DECLARES, the tag actually RUNNING in the cluster's Deployment, the reconciled health, and the sync verdict those two produce (declared == running ⇒ Synced, both known and different ⇒ OutOfSync, either unknown ⇒ Unknown).
 
         Returns the fleet as an argocd ApplicationList: one projected Application per operator App CR, carrying the image tag the CR DECLARES, the tag actually RUNNING in the cluster's Deployment, the reconciled health, and the sync verdict those two produce (declared == running ⇒ Synced, both known and different ⇒ OutOfSync, either unknown ⇒ Unknown).  It is TENANT-SCOPED: a platform SuperAdmin reads every platform namespace, a validated org member reads only its own org's tenant namespace and only the App CRs labelled with its org, and anyone else is refused. A cross-tenant CR is never projected into an answer.
@@ -101,7 +101,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoAppList",
+            '200': "DeployArgoAppList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -129,7 +129,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoAppList]:
+    ) -> ApiResponse[DeployArgoAppList]:
         """Returns the fleet as an argocd ApplicationList: one projected Application per operator App CR, carrying the image tag the CR DECLARES, the tag actually RUNNING in the cluster's Deployment, the reconciled health, and the sync verdict those two produce (declared == running ⇒ Synced, both known and different ⇒ OutOfSync, either unknown ⇒ Unknown).
 
         Returns the fleet as an argocd ApplicationList: one projected Application per operator App CR, carrying the image tag the CR DECLARES, the tag actually RUNNING in the cluster's Deployment, the reconciled health, and the sync verdict those two produce (declared == running ⇒ Synced, both known and different ⇒ OutOfSync, either unknown ⇒ Unknown).  It is TENANT-SCOPED: a platform SuperAdmin reads every platform namespace, a validated org member reads only its own org's tenant namespace and only the App CRs labelled with its org, and anyone else is refused. A cross-tenant CR is never projected into an answer.
@@ -164,7 +164,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoAppList",
+            '200': "DeployArgoAppList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -227,7 +227,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoAppList",
+            '200': "DeployArgoAppList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -269,7 +269,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -313,7 +314,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoApp:
+    ) -> DeployArgoApp:
         """Returns ONE projected argocd Application by name, with status.resources filled in from its reconciled resource tree — which is what makes it the detail view rather than a row of the list.
 
         Returns ONE projected argocd Application by name, with status.resources filled in from its reconciled resource tree — which is what makes it the detail view rather than a row of the list.  It is TENANT-SCOPED, and a name that belongs to another org is reported NOT FOUND rather than refused: a 403 would confirm the application exists, so the route would become a cross-tenant existence oracle. A name that is not a DNS-1123 label is a 400 before any cluster read.
@@ -351,7 +352,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -380,7 +381,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoApp]:
+    ) -> ApiResponse[DeployArgoApp]:
         """Returns ONE projected argocd Application by name, with status.resources filled in from its reconciled resource tree — which is what makes it the detail view rather than a row of the list.
 
         Returns ONE projected argocd Application by name, with status.resources filled in from its reconciled resource tree — which is what makes it the detail view rather than a row of the list.  It is TENANT-SCOPED, and a name that belongs to another org is reported NOT FOUND rather than refused: a 403 would confirm the application exists, so the route would become a cross-tenant existence oracle. A name that is not a DNS-1123 label is a 400 before any cluster read.
@@ -418,7 +419,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -485,7 +486,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -530,7 +531,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -574,7 +576,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoTree:
+    ) -> DeployArgoTree:
         """Returns one application's argocd ApplicationTree: the objects the operator reconciled from its App CR, reached by ownerRef — the Deployment and, under it, the ReplicaSet and Pods, plus the Service, Ingress, HorizontalPodAutoscaler, PodDisruptionBudget and ConfigMaps it owns — each node carrying its parent edges and its health.
 
         Returns one application's argocd ApplicationTree: the objects the operator reconciled from its App CR, reached by ownerRef — the Deployment and, under it, the ReplicaSet and Pods, plus the Service, Ingress, HorizontalPodAutoscaler, PodDisruptionBudget and ConfigMaps it owns — each node carrying its parent edges and its health.  Secrets are DELIBERATELY not walked, so no materialized environment can ever appear in the tree. Tenant-scoped exactly like the application read: another org's name is not found, a malformed name is a 400.
@@ -612,7 +614,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoTree",
+            '200': "DeployArgoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -641,7 +643,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoTree]:
+    ) -> ApiResponse[DeployArgoTree]:
         """Returns one application's argocd ApplicationTree: the objects the operator reconciled from its App CR, reached by ownerRef — the Deployment and, under it, the ReplicaSet and Pods, plus the Service, Ingress, HorizontalPodAutoscaler, PodDisruptionBudget and ConfigMaps it owns — each node carrying its parent edges and its health.
 
         Returns one application's argocd ApplicationTree: the objects the operator reconciled from its App CR, reached by ownerRef — the Deployment and, under it, the ReplicaSet and Pods, plus the Service, Ingress, HorizontalPodAutoscaler, PodDisruptionBudget and ConfigMaps it owns — each node carrying its parent edges and its health.  Secrets are DELIBERATELY not walked, so no materialized environment can ever appear in the tree. Tenant-scoped exactly like the application read: another org's name is not found, a malformed name is a 400.
@@ -679,7 +681,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoTree",
+            '200': "DeployArgoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -746,7 +748,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoTree",
+            '200': "DeployArgoTree",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -791,7 +793,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -836,7 +839,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoRevisionMetadata:
+    ) -> DeployArgoRevisionMetadata:
         """Returns the argocd RevisionMetadata for one revision of one application — what the detail view shows beside a revision.
 
         Returns the argocd RevisionMetadata for one revision of one application — what the detail view shows beside a revision.  An App CR is IMAGE-pinned rather than commit-pinned: the deploy names an image tag, and the git source this projection reports is the display-only manifest repo, not the application's own source. Nothing in this process can read a commit's author or message for an arbitrary revision. So rather than 404 (which the SPA turns into an error toast) or invent a git author, it answers the HONEST minimum: date is when the App CR was created, message is the revision asked for — with the empty revision and \"HEAD\" resolving to the image tag the CR declares — and author is empty. An over-long revision is truncated before it is echoed back.  Tenant-scoped exactly like the application read.
@@ -877,7 +880,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoRevisionMetadata",
+            '200': "DeployArgoRevisionMetadata",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -907,7 +910,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoRevisionMetadata]:
+    ) -> ApiResponse[DeployArgoRevisionMetadata]:
         """Returns the argocd RevisionMetadata for one revision of one application — what the detail view shows beside a revision.
 
         Returns the argocd RevisionMetadata for one revision of one application — what the detail view shows beside a revision.  An App CR is IMAGE-pinned rather than commit-pinned: the deploy names an image tag, and the git source this projection reports is the display-only manifest repo, not the application's own source. Nothing in this process can read a commit's author or message for an arbitrary revision. So rather than 404 (which the SPA turns into an error toast) or invent a git author, it answers the HONEST minimum: date is when the App CR was created, message is the revision asked for — with the empty revision and \"HEAD\" resolving to the image tag the CR declares — and author is empty. An over-long revision is truncated before it is echoed back.  Tenant-scoped exactly like the application read.
@@ -948,7 +951,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoRevisionMetadata",
+            '200': "DeployArgoRevisionMetadata",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1019,7 +1022,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoRevisionMetadata",
+            '200': "DeployArgoRevisionMetadata",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1067,7 +1070,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1111,7 +1115,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoSyncWindows:
+    ) -> DeployArgoSyncWindows:
         """Returns one application's argocd ApplicationSyncWindowState — the answer to \"is anything blocking a sync of this application right now?\".
 
         Returns one application's argocd ApplicationSyncWindowState — the answer to \"is anything blocking a sync of this application right now?\".  This platform runs NO sync windows, so the answer is always the permissive empty one: canSync true, with no active and no assigned windows. The application is still resolved first, so a name that is not the caller's is not found rather than handed the static body — the endpoint discloses nothing about another tenant's fleet.
@@ -1149,7 +1153,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoSyncWindows",
+            '200': "DeployArgoSyncWindows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1178,7 +1182,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoSyncWindows]:
+    ) -> ApiResponse[DeployArgoSyncWindows]:
         """Returns one application's argocd ApplicationSyncWindowState — the answer to \"is anything blocking a sync of this application right now?\".
 
         Returns one application's argocd ApplicationSyncWindowState — the answer to \"is anything blocking a sync of this application right now?\".  This platform runs NO sync windows, so the answer is always the permissive empty one: canSync true, with no active and no assigned windows. The application is still resolved first, so a name that is not the caller's is not found rather than handed the static body — the endpoint discloses nothing about another tenant's fleet.
@@ -1216,7 +1220,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoSyncWindows",
+            '200': "DeployArgoSyncWindows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1283,7 +1287,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoSyncWindows",
+            '200': "DeployArgoSyncWindows",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1328,7 +1332,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1607,7 +1612,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoClusterList:
+    ) -> DeployArgoClusterList:
         """Returns the argocd ClusterList of the destinations the caller's applications reconcile into: one entry per distinct destination server, carrying the count of applications reconciling into it.
 
         Returns the argocd ClusterList of the destinations the caller's applications reconcile into: one entry per distinct destination server, carrying the count of applications reconciling into it. The in-cluster destination is always present, so an empty fleet still answers one cluster, and no cluster credential can appear — the projected type physically has no config field.  It is TENANT-SCOPED and reads the SAME App CRs the applications list reads: a platform SuperAdmin counts the whole fleet, a validated org member counts only its own org's applications, anyone else is refused.
@@ -1642,7 +1647,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoClusterList",
+            '200': "DeployArgoClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1670,7 +1675,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoClusterList]:
+    ) -> ApiResponse[DeployArgoClusterList]:
         """Returns the argocd ClusterList of the destinations the caller's applications reconcile into: one entry per distinct destination server, carrying the count of applications reconciling into it.
 
         Returns the argocd ClusterList of the destinations the caller's applications reconcile into: one entry per distinct destination server, carrying the count of applications reconciling into it. The in-cluster destination is always present, so an empty fleet still answers one cluster, and no cluster credential can appear — the projected type physically has no config field.  It is TENANT-SCOPED and reads the SAME App CRs the applications list reads: a platform SuperAdmin counts the whole fleet, a validated org member counts only its own org's applications, anyone else is refused.
@@ -1705,7 +1710,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoClusterList",
+            '200': "DeployArgoClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1768,7 +1773,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoClusterList",
+            '200': "DeployArgoClusterList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1810,7 +1815,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -1853,7 +1859,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GitOpsPlane:
+    ) -> DeployGitOpsPlane:
         """Lists every Hanzo CD Application in the cluster: the git source each one polls, the commit it last APPLIED, how its last sync operation ended, and its recent deploy history — newest deploy first, ordered by namespace then name.
 
         Lists every Hanzo CD Application in the cluster: the git source each one polls, the commit it last APPLIED, how its last sync operation ended, and its recent deploy history — newest deploy first, ordered by namespace then name.  This is the layer ABOVE the application board, and the two disagree in exactly the case an operator most needs to see: main carries a new image pin, CD has not applied that commit yet, so every App CR still declares the old tag and the application board is legitimately \"Synced\" while the deploy has not landed. Only the applied revision here can show that.  installed is false — with a reason and an empty list — when the CD CRD is not served in this cluster. That is a FACT about the cluster rather than a failure of the request, so the caller can say \"no CD plane here\" instead of rendering an error it cannot act on; a genuine transport or RBAC failure still errors.  Read-only, and platform SuperAdmin only: the CD plane is fleet infrastructure with no tenant dimension. This view observes CD and never drives it — the sync policy is automated with self-heal, and the actionable verb an operator has is the per-application reconcile at POST /v1/deploy/applications/{name}/sync.
@@ -1888,7 +1894,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitOpsPlane",
+            '200': "DeployGitOpsPlane",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -1916,7 +1922,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GitOpsPlane]:
+    ) -> ApiResponse[DeployGitOpsPlane]:
         """Lists every Hanzo CD Application in the cluster: the git source each one polls, the commit it last APPLIED, how its last sync operation ended, and its recent deploy history — newest deploy first, ordered by namespace then name.
 
         Lists every Hanzo CD Application in the cluster: the git source each one polls, the commit it last APPLIED, how its last sync operation ended, and its recent deploy history — newest deploy first, ordered by namespace then name.  This is the layer ABOVE the application board, and the two disagree in exactly the case an operator most needs to see: main carries a new image pin, CD has not applied that commit yet, so every App CR still declares the old tag and the application board is legitimately \"Synced\" while the deploy has not landed. Only the applied revision here can show that.  installed is false — with a reason and an empty list — when the CD CRD is not served in this cluster. That is a FACT about the cluster rather than a failure of the request, so the caller can say \"no CD plane here\" instead of rendering an error it cannot act on; a genuine transport or RBAC failure still errors.  Read-only, and platform SuperAdmin only: the CD plane is fleet infrastructure with no tenant dimension. This view observes CD and never drives it — the sync policy is automated with self-heal, and the actionable verb an operator has is the per-application reconcile at POST /v1/deploy/applications/{name}/sync.
@@ -1951,7 +1957,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitOpsPlane",
+            '200': "DeployGitOpsPlane",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2014,7 +2020,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitOpsPlane",
+            '200': "DeployGitOpsPlane",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2056,7 +2062,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2099,10 +2106,10 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> DeployHealth:
-        """Health reports whether this deployment can observe the delivery plane.
+    ) -> DeployDeployHealth:
+        """Reports whether this deployment can observe the delivery plane.
 
-        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
+        Reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2134,8 +2141,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployHealth",
-            '503': "DeployHealth",
+            '200': "DeployDeployHealth",
+            '503': "DeployDeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2163,10 +2170,10 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[DeployHealth]:
-        """Health reports whether this deployment can observe the delivery plane.
+    ) -> ApiResponse[DeployDeployHealth]:
+        """Reports whether this deployment can observe the delivery plane.
 
-        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
+        Reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2198,8 +2205,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployHealth",
-            '503': "DeployHealth",
+            '200': "DeployDeployHealth",
+            '503': "DeployDeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2228,9 +2235,9 @@ class DeployApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Health reports whether this deployment can observe the delivery plane.
+        """Reports whether this deployment can observe the delivery plane.
 
-        Health reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
+        Reports whether this deployment can observe the delivery plane.  200 only when the Kubernetes API answers AND the App custom resource is served; 503 with the same shape otherwise, naming which half failed. It reports BOOLEANS and never the underlying error, because the route is unauthenticated — liveness must be probe-able without a token — and a raw client error can disclose the apiserver address or an RBAC detail. That detail is logged server-side instead.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2262,8 +2269,8 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "DeployHealth",
-            '503': "DeployHealth",
+            '200': "DeployDeployHealth",
+            '503': "DeployDeployHealth",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2305,7 +2312,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2584,7 +2592,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoProjectList:
+    ) -> DeployArgoProjectList:
         """Returns the argocd AppProjectList this console groups and filters applications by.
 
         Returns the argocd AppProjectList this console groups and filters applications by. Projects are owned by Hanzo IAM rather than by argocd, so they are REFLECTED read-only from the IAM project store and nothing is persisted here: a validated org member gets its own organization's projects and a platform SuperAdmin gets every organization's.  A SuperAdmin whose IAM store is not reachable falls back to the real argoproj.io AppProject CRs when that CRD is served, and otherwise to one permissive synthesized project per distinct project name the App CRs declare. A project named \"default\" is always present, because that is what an App CR carrying no project label projects to.
@@ -2619,7 +2627,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoProjectList",
+            '200': "DeployArgoProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2647,7 +2655,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoProjectList]:
+    ) -> ApiResponse[DeployArgoProjectList]:
         """Returns the argocd AppProjectList this console groups and filters applications by.
 
         Returns the argocd AppProjectList this console groups and filters applications by. Projects are owned by Hanzo IAM rather than by argocd, so they are REFLECTED read-only from the IAM project store and nothing is persisted here: a validated org member gets its own organization's projects and a platform SuperAdmin gets every organization's.  A SuperAdmin whose IAM store is not reachable falls back to the real argoproj.io AppProject CRs when that CRD is served, and otherwise to one permissive synthesized project per distinct project name the App CRs declare. A project named \"default\" is always present, because that is what an App CR carrying no project label projects to.
@@ -2682,7 +2690,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoProjectList",
+            '200': "DeployArgoProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2745,7 +2753,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoProjectList",
+            '200': "DeployArgoProjectList",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2787,7 +2795,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -2830,7 +2839,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionUser:
+    ) -> DeploySessionUser:
         """Answers \"is this browser signed in, and if not where does it sign in?\" — the dashboard SPA's bootstrap question, and the only route on this plane that answers for an anonymous caller.
 
         Answers \"is this browser signed in, and if not where does it sign in?\" — the dashboard SPA's bootstrap question, and the only route on this plane that answers for an anonymous caller.  The anonymous answer carries loggedIn:false and a URL and NOTHING else: no username, no org, no groups, no issuer, no hint about who the caller might be or what exists in the cluster. Answering it costs nothing (the caller already knows whether it holds a cookie) and withholding it costs the whole sign-in journey.  The predicate is the platform SuperAdmin fact — the SAME one every other route here gates on, minted from a validated principal whose org is the reserved admin org — so a validated-but-not-SuperAdmin caller is reported as NOT signed in, which is the truth as this console defines it: they cannot use it.
@@ -2865,7 +2874,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionUser",
+            '200': "DeploySessionUser",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2893,7 +2902,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionUser]:
+    ) -> ApiResponse[DeploySessionUser]:
         """Answers \"is this browser signed in, and if not where does it sign in?\" — the dashboard SPA's bootstrap question, and the only route on this plane that answers for an anonymous caller.
 
         Answers \"is this browser signed in, and if not where does it sign in?\" — the dashboard SPA's bootstrap question, and the only route on this plane that answers for an anonymous caller.  The anonymous answer carries loggedIn:false and a URL and NOTHING else: no username, no org, no groups, no issuer, no hint about who the caller might be or what exists in the cluster. Answering it costs nothing (the caller already knows whether it holds a cookie) and withholding it costs the whole sign-in journey.  The predicate is the platform SuperAdmin fact — the SAME one every other route here gates on, minted from a validated principal whose org is the reserved admin org — so a validated-but-not-SuperAdmin caller is reported as NOT signed in, which is the truth as this console defines it: they cannot use it.
@@ -2928,7 +2937,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionUser",
+            '200': "DeploySessionUser",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2991,7 +3000,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionUser",
+            '200': "DeploySessionUser",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3033,7 +3042,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3076,7 +3086,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ConsoleSettings:
+    ) -> DeployConsoleSettings:
         """Returns the argocd AuthSettings object the dashboard SPA awaits before its first render.
 
         Returns the argocd AuthSettings object the dashboard SPA awaits before its first render.  Every value is a CONSTANT of this projection rather than configuration read from anywhere: the SPA's own login form is reported disabled and its OIDC config null because Hanzo IAM owns identity at the edge and this console's sign-in is GET /v1/deploy/login, and every argocd feature the projection does not implement — status badges, Dex connectors, config-management plugins, kustomize versions, the exec terminal, apps-in-any-namespace, the hydrator, sync-with-replace — is reported off. Platform SuperAdmin only.
@@ -3111,7 +3121,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConsoleSettings",
+            '200': "DeployConsoleSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3139,7 +3149,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ConsoleSettings]:
+    ) -> ApiResponse[DeployConsoleSettings]:
         """Returns the argocd AuthSettings object the dashboard SPA awaits before its first render.
 
         Returns the argocd AuthSettings object the dashboard SPA awaits before its first render.  Every value is a CONSTANT of this projection rather than configuration read from anywhere: the SPA's own login form is reported disabled and its OIDC config null because Hanzo IAM owns identity at the edge and this console's sign-in is GET /v1/deploy/login, and every argocd feature the projection does not implement — status badges, Dex connectors, config-management plugins, kustomize versions, the exec terminal, apps-in-any-namespace, the hydrator, sync-with-replace — is reported off. Platform SuperAdmin only.
@@ -3174,7 +3184,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConsoleSettings",
+            '200': "DeployConsoleSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3237,7 +3247,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ConsoleSettings",
+            '200': "DeployConsoleSettings",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3279,7 +3289,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -3809,7 +3820,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> VersionMessage:
+    ) -> DeployVersionMessage:
         """Returns the argocd VersionMessage the dashboard SPA reads at bootstrap.
 
         Returns the argocd VersionMessage the dashboard SPA reads at bootstrap. There is no argocd binary behind this plane — it is a projection over operator App CRs — so the fields say so rather than describing a build: Version names the projection, BuildDate is the moment this response was generated, and Compiler/Platform/GoVersion are the constants the SPA tolerates rather than facts about this process. Platform SuperAdmin only.
@@ -3844,7 +3855,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionMessage",
+            '200': "DeployVersionMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3872,7 +3883,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[VersionMessage]:
+    ) -> ApiResponse[DeployVersionMessage]:
         """Returns the argocd VersionMessage the dashboard SPA reads at bootstrap.
 
         Returns the argocd VersionMessage the dashboard SPA reads at bootstrap. There is no argocd binary behind this plane — it is a projection over operator App CRs — so the fields say so rather than describing a build: Version names the projection, BuildDate is the moment this response was generated, and Compiler/Platform/GoVersion are the constants the SPA tolerates rather than facts about this process. Platform SuperAdmin only.
@@ -3907,7 +3918,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionMessage",
+            '200': "DeployVersionMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -3970,7 +3981,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "VersionMessage",
+            '200': "DeployVersionMessage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4012,7 +4023,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4056,7 +4068,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoApp:
+    ) -> DeployArgoApp:
         """Serves the console's rollback control, and today it requests a reconcile and nothing more.
 
         Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
@@ -4094,7 +4106,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4123,7 +4135,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoApp]:
+    ) -> ApiResponse[DeployArgoApp]:
         """Serves the console's rollback control, and today it requests a reconcile and nothing more.
 
         Serves the console's rollback control, and today it requests a reconcile and nothing more.  The opening verb is not style. zipdoc drops a leading CamelCase symbol only when a plain verb follows it and never before a copula (internal/zipdoc/ extract.go:811-824, \"CompleteDeployment IS the CI completion hook\" would otherwise become \"Is the CI completion hook\") — so \"RollbackDeployApplication is …\" would publish a Go symbol no caller can see into the summary an SDK docstring, an MCP tool list and a CLI help line all show.  It performs exactly what the sync action performs — the same stamp on the same App CR, the same application re-projected — and it does NOT select, pin or revert to a prior image tag. That is the one thing to know before wiring anything to it: the name is the console's, the behaviour is the sync. Pinning a previous release rides the release client, which this address does not call yet.  Same gate, same refusals and the same absent request body as the sync it shares a core with.
@@ -4161,7 +4173,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4228,7 +4240,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4273,7 +4285,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4317,7 +4330,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ArgoApp:
+    ) -> DeployArgoApp:
         """Asks the operator to reconcile ONE application now.
 
         Asks the operator to reconcile ONE application now.  It stamps a sync-requested timestamp onto the application's App CR, which the operator's watch observes, and answers the application re-projected. It ASKS, it does not apply: the operator reconciles on its own clock, so a 200 means the request landed, not that the rollout finished — the returned row's running version still lags until it does.  SuperAdmin-only and fail-closed, and the gate is INSIDE the op rather than in middleware wrapped around the route. That is a correctness requirement, not a preference: this op is also reached by POST /mcp and by the by-name call plane, neither of which runs route middleware, so a gate that only the REST projection runs would publish an unguarded alias of a fleet-mutating write. It reads no request body — the URL names the application and nothing else does. An unknown name is a 404 (never a 403, which would confirm the application exists), a name that is not a DNS-1123 label is a 400, and no cluster client is a 503.
@@ -4355,7 +4368,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4384,7 +4397,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ArgoApp]:
+    ) -> ApiResponse[DeployArgoApp]:
         """Asks the operator to reconcile ONE application now.
 
         Asks the operator to reconcile ONE application now.  It stamps a sync-requested timestamp onto the application's App CR, which the operator's watch observes, and answers the application re-projected. It ASKS, it does not apply: the operator reconciles on its own clock, so a 200 means the request landed, not that the rollout finished — the returned row's running version still lags until it does.  SuperAdmin-only and fail-closed, and the gate is INSIDE the op rather than in middleware wrapped around the route. That is a correctness requirement, not a preference: this op is also reached by POST /mcp and by the by-name call plane, neither of which runs route middleware, so a gate that only the REST projection runs would publish an unguarded alias of a fleet-mutating write. It reads no request body — the URL names the application and nothing else does. An unknown name is a 404 (never a 403, which would confirm the application exists), a name that is not a DNS-1123 label is a 400, and no cluster client is a 503.
@@ -4422,7 +4435,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4489,7 +4502,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ArgoApp",
+            '200': "DeployArgoApp",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4534,7 +4547,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4577,7 +4591,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> SessionEnded:
+    ) -> DeploySessionEnded:
         """Ends the console session on this host.
 
         Ends the console session on this host.  It clears this console's session cookie and answers the signed-out state with the sign-in URL to start again. IAM's own session is untouched — this ends the console session only, so signing back in may not prompt for credentials.  It is a POST because it CHANGES STATE. As a GET it was reachable by a cross-site top-level navigation, which a SameSite=Lax cookie still rides, so any page could sign a SuperAdmin out; a POST is not carried cross-site by that cookie. It reads no request body and takes no argument: the session it ends is the one the request already carries.
@@ -4612,7 +4626,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionEnded",
+            '200': "DeploySessionEnded",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4640,7 +4654,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[SessionEnded]:
+    ) -> ApiResponse[DeploySessionEnded]:
         """Ends the console session on this host.
 
         Ends the console session on this host.  It clears this console's session cookie and answers the signed-out state with the sign-in URL to start again. IAM's own session is untouched — this ends the console session only, so signing back in may not prompt for credentials.  It is a POST because it CHANGES STATE. As a GET it was reachable by a cross-site top-level navigation, which a SameSite=Lax cookie still rides, so any page could sign a SuperAdmin out; a POST is not carried cross-site by that cookie. It reads no request body and takes no argument: the session it ends is the one the request already carries.
@@ -4675,7 +4689,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionEnded",
+            '200': "DeploySessionEnded",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4738,7 +4752,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "SessionEnded",
+            '200': "DeploySessionEnded",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4780,7 +4794,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -4823,7 +4838,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ReconcileReport:
+    ) -> DeployReconcileReport:
         """Renders the configured git source and applies it to the cluster, once.
 
         Renders the configured git source and applies it to the cluster, once.  It runs one full GitOps sync through the embedded engine — render the configured repo, ref and path, then three-way server-side apply with scoped prune — and answers the revision it applied, the source it came from, the declared/synced/pruned/failed counts and a per-resource result. This is the WRITE half of the plane: it mutates live cluster objects and, with prune enabled, deletes objects the source no longer declares.  SuperAdmin-only and fail-closed, with the gate INSIDE the op because a typed op is also reached by POST /mcp and by the by-name call plane, where no route middleware runs. The git source is read AS THE PLATFORM, not as the caller: the coordinate is this deployment's own configuration and never a parameter, which is why the op reads no request body at all. A deployment with the engine switched off, or with no usable cluster config, answers 503; a failure to start, render or sync is a 502.
@@ -4858,7 +4873,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReconcileReport",
+            '200': "DeployReconcileReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4886,7 +4901,7 @@ class DeployApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[ReconcileReport]:
+    ) -> ApiResponse[DeployReconcileReport]:
         """Renders the configured git source and applies it to the cluster, once.
 
         Renders the configured git source and applies it to the cluster, once.  It runs one full GitOps sync through the embedded engine — render the configured repo, ref and path, then three-way server-side apply with scoped prune — and answers the revision it applied, the source it came from, the declared/synced/pruned/failed counts and a per-resource result. This is the WRITE half of the plane: it mutates live cluster objects and, with prune enabled, deletes objects the source no longer declares.  SuperAdmin-only and fail-closed, with the gate INSIDE the op because a typed op is also reached by POST /mcp and by the by-name call plane, where no route middleware runs. The git source is read AS THE PLATFORM, not as the caller: the coordinate is this deployment's own configuration and never a parameter, which is why the op reads no request body at all. A deployment with the engine switched off, or with no usable cluster config, answers 503; a failure to start, render or sync is a 502.
@@ -4921,7 +4936,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReconcileReport",
+            '200': "DeployReconcileReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -4984,7 +4999,7 @@ class DeployApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "ReconcileReport",
+            '200': "DeployReconcileReport",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -5026,7 +5041,8 @@ class DeployApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

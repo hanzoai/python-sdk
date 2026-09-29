@@ -26,7 +26,7 @@ class O11yO11yLicenseActiveOut(BaseModel):
     """
     O11yO11yLicenseActiveOut
     """ # noqa: E501
-    data: Optional[Dict[str, Any]] = Field(default=None, description="Data is the license.")
+    data: Optional[Any] = None
     status: Optional[StrictStr] = Field(default=None, description="Status is \"success\".")
     __properties: ClassVar[List[str]] = ["data", "status"]
 
@@ -69,6 +69,11 @@ class O11yO11yLicenseActiveOut(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if data (nullable) is None
+        # and model_fields_set contains the field
+        if self.data is None and "data" in self.model_fields_set:
+            _dict['data'] = None
+
         return _dict
 
     @classmethod

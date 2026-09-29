@@ -19,9 +19,9 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictInt, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.memory_entry import MemoryEntry
-from hanzoai.cloud.models.memory_page import MemoryPage
-from hanzoai.cloud.models.review_request import ReviewRequest
+from hanzoai.cloud.models.translate_memory_entry import TranslateMemoryEntry
+from hanzoai.cloud.models.translate_memory_page import TranslateMemoryPage
+from hanzoai.cloud.models.translate_review_request import TranslateReviewRequest
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -59,10 +59,10 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryPage:
-        """List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
+    ) -> TranslateMemoryPage:
+        """Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
 
-        List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
+        Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
 
         :param target: Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").
         :type target: str
@@ -103,7 +103,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryPage",
+            '200': "TranslateMemoryPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -134,10 +134,10 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryPage]:
-        """List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
+    ) -> ApiResponse[TranslateMemoryPage]:
+        """Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
 
-        List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
+        Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
 
         :param target: Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").
         :type target: str
@@ -178,7 +178,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryPage",
+            '200': "TranslateMemoryPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -210,9 +210,9 @@ class TranslateApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
+        """Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder.
 
-        List returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
+        Returns the org's own translation-memory entries, newest first, optionally narrowed to one target language and/or one position on the review ladder. It is the review lane's read: what a human reviewer works through.  The org is ALWAYS the validated principal's org, never a request field, so one tenant can never read another's memory — the entries hold customer source text.
 
         :param target: Target narrows to one target language tag (BCP-47, e.g. \"es\" or \"pt-BR\").
         :type target: str
@@ -253,7 +253,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryPage",
+            '200': "TranslateMemoryPage",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -310,7 +310,8 @@ class TranslateApi:
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 
@@ -577,7 +578,7 @@ class TranslateApi:
     @validate_call
     def put_translate_memory(
         self,
-        review_request: ReviewRequest,
+        translate_review_request: TranslateReviewRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -590,13 +591,13 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> MemoryEntry:
-        """Review records a human decision on one translation-memory entry, and returns the entry as stored.
+    ) -> TranslateMemoryEntry:
+        """Records a human decision on one translation-memory entry, and returns the entry as stored.
 
-        Review records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
+        Records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
 
-        :param review_request: (required)
-        :type review_request: ReviewRequest
+        :param translate_review_request: (required)
+        :type translate_review_request: TranslateReviewRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -620,7 +621,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._put_translate_memory_serialize(
-            review_request=review_request,
+            translate_review_request=translate_review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -628,7 +629,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryEntry",
+            '200': "TranslateMemoryEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -644,7 +645,7 @@ class TranslateApi:
     @validate_call
     def put_translate_memory_with_http_info(
         self,
-        review_request: ReviewRequest,
+        translate_review_request: TranslateReviewRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -657,13 +658,13 @@ class TranslateApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[MemoryEntry]:
-        """Review records a human decision on one translation-memory entry, and returns the entry as stored.
+    ) -> ApiResponse[TranslateMemoryEntry]:
+        """Records a human decision on one translation-memory entry, and returns the entry as stored.
 
-        Review records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
+        Records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
 
-        :param review_request: (required)
-        :type review_request: ReviewRequest
+        :param translate_review_request: (required)
+        :type translate_review_request: TranslateReviewRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -687,7 +688,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._put_translate_memory_serialize(
-            review_request=review_request,
+            translate_review_request=translate_review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -695,7 +696,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryEntry",
+            '200': "TranslateMemoryEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -711,7 +712,7 @@ class TranslateApi:
     @validate_call
     def put_translate_memory_without_preload_content(
         self,
-        review_request: ReviewRequest,
+        translate_review_request: TranslateReviewRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -725,12 +726,12 @@ class TranslateApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Review records a human decision on one translation-memory entry, and returns the entry as stored.
+        """Records a human decision on one translation-memory entry, and returns the entry as stored.
 
-        Review records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
+        Records a human decision on one translation-memory entry, and returns the entry as stored. A human write always wins over the stored value, and once it lands at approved or published no machine write can move it again — which is what makes a locale rebuild safe to run against reviewed work.  The org is ALWAYS the validated principal's org, never a request field, so a review can only ever land in the caller's own memory.
 
-        :param review_request: (required)
-        :type review_request: ReviewRequest
+        :param translate_review_request: (required)
+        :type translate_review_request: TranslateReviewRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -754,7 +755,7 @@ class TranslateApi:
         """ # noqa: E501
 
         _param = self._put_translate_memory_serialize(
-            review_request=review_request,
+            translate_review_request=translate_review_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -762,7 +763,7 @@ class TranslateApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "MemoryEntry",
+            '200': "TranslateMemoryEntry",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -773,7 +774,7 @@ class TranslateApi:
 
     def _put_translate_memory_serialize(
         self,
-        review_request,
+        translate_review_request,
         _request_auth,
         _content_type,
         _headers,
@@ -799,15 +800,16 @@ class TranslateApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if review_request is not None:
-            _body_params = review_request
+        if translate_review_request is not None:
+            _body_params = translate_review_request
 
 
         # set the HTTP header `Accept`
         if 'Accept' not in _header_params:
             _header_params['Accept'] = self.api_client.select_header_accept(
                 [
-                    'application/json'
+                    'application/json', 
+                    'application/problem+json'
                 ]
             )
 

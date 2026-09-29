@@ -29,7 +29,7 @@ class O11yO11yAgentCheckInIn(BaseModel):
     account_id: Optional[StrictStr] = None
     cloud_integration_id: Optional[Any] = Field(default=None, alias="cloudIntegrationId")
     cloud_account_id: Optional[StrictStr] = None
-    data: Optional[Dict[str, Dict[str, Any]]] = None
+    data: Optional[Dict[str, Any]] = None
     provider_account_id: Optional[StrictStr] = Field(default=None, alias="providerAccountId")
     __properties: ClassVar[List[str]] = ["account_id", "cloudIntegrationId", "cloud_account_id", "data", "providerAccountId"]
 
