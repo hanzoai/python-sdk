@@ -57,7 +57,7 @@ on:
         default: ''
 jobs:
   cicd:
-    uses: hanzoai/ci/.github/workflows/build.yml@4b737d13ecaf2826837d72c5ccc668a2cdd80490
+    uses: hanzoai/ci/.github/workflows/build.yml@909203f2ef807bb022e0b3807a43197015203d61
     with:
       spec-ref: ${{ github.event.inputs.spec-ref || '' }}
       spec-version: ${{ github.event.inputs.spec-version || '' }}
