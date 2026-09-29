@@ -18,7 +18,7 @@ rather than leaving it billable for the next run to collide with.
 
 import time
 
-from hanzoai.cloud import ProvisionRequest, ProvisioningApi
+from hanzoai.cloud import ProvisioningApi, ProvisioningProvisionRequest
 
 from examples.client import client, run
 
@@ -29,7 +29,7 @@ def main() -> None:
     with client() as api:
         kv = ProvisioningApi(api)
 
-        kv.post_provisioning_kv(ProvisionRequest(name=NAME))
+        kv.post_provisioning_kv(ProvisioningProvisionRequest(name=NAME))
         print(f"provisioned {NAME}")
 
         try:

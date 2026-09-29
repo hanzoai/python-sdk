@@ -19,7 +19,7 @@ rows, because the document declares ``GET /v1/agent/{ref}/runs`` without its
 
 import time
 
-from hanzoai.cloud import AgentApi, CreateAgentIn
+from hanzoai.cloud import AgentApi, AgentCreateAgentIn
 
 from examples.client import MODEL, client, run
 
@@ -32,7 +32,7 @@ def main() -> None:
         agents = AgentApi(api)
 
         created = agents.post_agent(
-            CreateAgentIn(
+            AgentCreateAgentIn(
                 name=NAME,
                 model=MODEL,
                 description="Created by the hanzoai SDK agent example.",
