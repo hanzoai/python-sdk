@@ -12,7 +12,7 @@ QUESTIONS = {
 with TypeSafeClient() as client:
     for model in ("kai", "jev-latest"):
         try:
-            result = client.system_one("I was charged twice. Please refund the duplicate.", QUESTIONS, model=model)
+            result = client.system_one("I was charged twice for my March invoice. Please refund the duplicate.", QUESTIONS, model=model)
             print(model, "->", result.model, result.choices["team"].choice, result.nouls["refund"].noul, result.usage)
         except APIError as error:
             print(model, "->", type(error).__name__, error.status, error.message)
