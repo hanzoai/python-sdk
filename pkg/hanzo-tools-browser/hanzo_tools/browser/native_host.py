@@ -29,6 +29,8 @@ from pathlib import Path
 
 NAME = "ai.hanzo.zap"
 EXTENSIONS = ("biingenefmanpecedoafkfajbnlgdmbl",)
+# Firefox names an extension by its gecko id (manifest-firefox.json), not an origin.
+GECKO = ("hanzo-ai@hanzo.ai",)
 
 # Where each Chromium-family browser looks for a user-level host manifest.
 _LINUX = (
@@ -48,6 +50,9 @@ _DARWIN = (
     "~/Library/Application Support/Microsoft Edge",
     "~/Library/Application Support/Vivaldi",
 )
+# Where Firefox looks: the host directory itself, not a profile root.
+_FIREFOX_LINUX = ("~/.mozilla/native-messaging-hosts",)
+_FIREFOX_DARWIN = ("~/Library/Application Support/Mozilla/NativeMessagingHosts",)
 
 
 def _executable() -> str | None:
@@ -73,16 +78,23 @@ def install() -> list[str]:
         "description": "Hanzo ZAP: the browser's seat on this machine's router",
         "path": exe,
         "type": "stdio",
-        "allowed_origins": [f"chrome-extension://{e}/" for e in EXTENSIONS],
     }
-    body = json.dumps(manifest, indent=2) + "\n"
-    roots = _DARWIN if sys.platform == "darwin" else _LINUX
+    chromium = json.dumps({**manifest, "allowed_origins": [f"chrome-extension://{e}/" for e in EXTENSIONS]}, indent=2) + "\n"
+    firefox = json.dumps({**manifest, "allowed_extensions": list(GECKO)}, indent=2) + "\n"
+    darwin = sys.platform == "darwin"
+    targets = [
+        (Path(r).expanduser(), Path(r).expanduser() / "NativeMessagingHosts", chromium)
+        for r in (_DARWIN if darwin else _LINUX)
+    ] + [
+        # Firefox's host directory: present once Firefox has a profile there.
+        (Path(r).expanduser().parent, Path(r).expanduser(), firefox)
+        for r in (_FIREFOX_DARWIN if darwin else _FIREFOX_LINUX)
+    ]
     written = []
-    for root in roots:
-        base = Path(root).expanduser()
+    for base, hosts, body in targets:
         if not base.is_dir():
             continue
-        target = base / "NativeMessagingHosts" / f"{NAME}.json"
+        target = hosts / f"{NAME}.json"
         try:
             if target.exists() and target.read_text() == body:
                 continue
