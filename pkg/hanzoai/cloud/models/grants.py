@@ -17,21 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ToolCurateReq(BaseModel):
+class Grants(BaseModel):
     """
-    ToolCurateReq
+    Grants
     """ # noqa: E501
-    featured: Optional[StrictBool] = Field(default=None, description="Featured puts the listing on the front of the shelf, or takes it off.")
-    hidden: Optional[StrictBool] = Field(default=None, description="Hidden takes the listing off the org-visible shelf, or puts it back.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the listing to curate, from the path.")
-    logo: Optional[StrictStr] = Field(default=None, description="Logo is the brand mark to render, an https URL. Empty clears ours and lets the next sync adopt the publisher's own icon again.")
-    official: Optional[StrictBool] = Field(default=None, description="Official overrides the derivation: setting it makes this answer FINAL, so no later sync re-derives over it. That is the difference between a default and a decision — the derivation can only tell that a domain-verified publisher serves the endpoint, not that the product is theirs.")
-    __properties: ClassVar[List[str]] = ["featured", "hidden", "id", "logo", "official"]
+    ads: Optional[StrictBool] = None
+    analytics: Optional[StrictBool] = None
+    marketing: Optional[StrictBool] = None
+    __properties: ClassVar[List[str]] = ["ads", "analytics", "marketing"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +49,7 @@ class ToolCurateReq(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ToolCurateReq from a JSON string"""
+        """Create an instance of Grants from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +74,7 @@ class ToolCurateReq(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ToolCurateReq from a dict"""
+        """Create an instance of Grants from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +82,9 @@ class ToolCurateReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "featured": obj.get("featured"),
-            "hidden": obj.get("hidden"),
-            "id": obj.get("id"),
-            "logo": obj.get("logo"),
-            "official": obj.get("official")
+            "ads": obj.get("ads"),
+            "analytics": obj.get("analytics"),
+            "marketing": obj.get("marketing")
         })
         return _obj
 

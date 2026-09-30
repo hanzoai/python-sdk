@@ -46,7 +46,7 @@ class DestinationApi:
     @validate_call
     def delete_destination_by_platform(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -64,7 +64,7 @@ class DestinationApi:
 
         Forgets a destination for the caller's org: every credential held in KMS, then the stored config. Idempotent, and it requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -113,7 +113,7 @@ class DestinationApi:
     @validate_call
     def delete_destination_by_platform_with_http_info(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -131,7 +131,7 @@ class DestinationApi:
 
         Forgets a destination for the caller's org: every credential held in KMS, then the stored config. Idempotent, and it requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -180,7 +180,7 @@ class DestinationApi:
     @validate_call
     def delete_destination_by_platform_without_preload_content(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -198,7 +198,7 @@ class DestinationApi:
 
         Forgets a destination for the caller's org: every credential held in KMS, then the stored config. Idempotent, and it requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -555,7 +555,7 @@ class DestinationApi:
     @validate_call
     def get_destination_by_platform(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -573,7 +573,7 @@ class DestinationApi:
 
         Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now. A platform this deployment does not carry is not found.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -622,7 +622,7 @@ class DestinationApi:
     @validate_call
     def get_destination_by_platform_with_http_info(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -640,7 +640,7 @@ class DestinationApi:
 
         Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now. A platform this deployment does not carry is not found.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -689,7 +689,7 @@ class DestinationApi:
     @validate_call
     def get_destination_by_platform_without_preload_content(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -707,7 +707,7 @@ class DestinationApi:
 
         Reports one destination's card for the caller's org — its config fields, its connection state, and whether a credential resolves right now. A platform this deployment does not carry is not found.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1106,7 +1106,7 @@ class DestinationApi:
     @validate_call
     def post_destination_by_platform_test(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1124,7 +1124,7 @@ class DestinationApi:
 
         Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1173,7 +1173,7 @@ class DestinationApi:
     @validate_call
     def post_destination_by_platform_test_with_http_info(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1191,7 +1191,7 @@ class DestinationApi:
 
         Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1240,7 +1240,7 @@ class DestinationApi:
     @validate_call
     def post_destination_by_platform_test_without_preload_content(
         self,
-        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics.")],
+        platform: Annotated[StrictStr, Field(description="Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1258,7 +1258,7 @@ class DestinationApi:
 
         Sends ONE synthetic conversion through the connected destination end to end and reports what the platform said. Where the platform can check one without recording it, it is a lead and nothing is kept: GA4 answers from its validation server, Google Ads validates without importing, and Meta files it under the connection's Test Event Code (and is refused without one). Anywhere else it is a page view. A send the platform refuses is reported as data — {\"ok\": false, \"error\": …} at 200 — so the console shows the platform's own words rather than an error about Hanzo. It requires org admin.
 
-        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights | analytics. (required)
+        :param platform: Platform is the destination to act on, from the path: ga4 | meta | tiktok | linkedin | x | reddit | insights. (required)
         :type platform: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

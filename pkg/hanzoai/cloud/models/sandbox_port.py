@@ -17,20 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.deploy_git_ops_app import DeployGitOpsApp
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DeployGitOpsPlane(BaseModel):
+class SandboxPort(BaseModel):
     """
-    DeployGitOpsPlane
+    SandboxPort
     """ # noqa: E501
-    applications: Optional[List[DeployGitOpsApp]] = Field(default=None, description="Applications is every CD Application in the cluster, ordered by namespace then name. Empty (never null) when the plane is not installed, and equally empty when it is installed and tracks nothing — Installed is what separates those two.")
-    installed: Optional[StrictBool] = Field(default=None, description="Installed is whether this cluster serves the CD Application CRD at all. False is a fact about the cluster, not a failure of the request: the caller says \"no CD plane here\" rather than rendering an error it cannot act on.")
-    reason: Optional[StrictStr] = Field(default=None, description="Reason says why the plane is absent, in words a caller can show. Empty when Installed.")
-    __properties: ClassVar[List[str]] = ["applications", "installed", "reason"]
+    host: Optional[StrictStr] = Field(default=None, description="Host is the preview host that serves it, the same for as long as the sandbox lives, parked or running.")
+    port: Optional[StrictInt] = Field(default=None, description="Port is the TCP port.")
+    __properties: ClassVar[List[str]] = ["host", "port"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +48,7 @@ class DeployGitOpsPlane(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DeployGitOpsPlane from a JSON string"""
+        """Create an instance of SandboxPort from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,18 +69,11 @@ class DeployGitOpsPlane(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in applications (list)
-        _items = []
-        if self.applications:
-            for _item_applications in self.applications:
-                if _item_applications:
-                    _items.append(_item_applications.to_dict())
-            _dict['applications'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DeployGitOpsPlane from a dict"""
+        """Create an instance of SandboxPort from a dict"""
         if obj is None:
             return None
 
@@ -90,9 +81,8 @@ class DeployGitOpsPlane(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "applications": [DeployGitOpsApp.from_dict(_item) for _item in obj["applications"]] if obj.get("applications") is not None else None,
-            "installed": obj.get("installed"),
-            "reason": obj.get("reason")
+            "host": obj.get("host"),
+            "port": obj.get("port")
         })
         return _obj
 

@@ -29,6 +29,7 @@ class ProjectProjectsUpdate(BaseModel):
     """ # noqa: E501
     cache_control: Optional[StrictStr] = Field(default=None, description="CacheControl replaces the Cache-Control policy the edge serves this site's HTML under. Absent leaves it.", alias="cacheControl")
     description: Optional[StrictStr] = Field(default=None, description="Description replaces the one-line summary. Absent leaves it.")
+    drop_local: Optional[StrictBool] = Field(default=None, description="DropLocal turns the drop of localhost events at ingest on or off. Absent leaves it.", alias="dropLocal")
     framework: Optional[StrictStr] = Field(default=None, description="Framework replaces the build hint. It affects the NEXT build only — nothing already deployed is rebuilt.")
     hidden: Optional[StrictBool] = Field(default=None, description="Hidden is MODERATION, and the only admin-gated field on this body: it pulls a public project out of the catalogue from admin.hanzo.ai without editing the publisher's own visibility choice, so un-hiding restores exactly what they asked for. A tenant sending it is ignored.")
     hidden_reason: Optional[StrictStr] = Field(default=None, description="HiddenReason records WHY moderation hid it, so the action can be explained and reviewed later. Admin-gated like hidden itself.", alias="hiddenReason")
@@ -39,7 +40,7 @@ class ProjectProjectsUpdate(BaseModel):
     tags: Optional[Dict[str, StrictStr]] = Field(default=None, description="Tags sets the site's browser tag config: platform slug → non-secret pixel id (e.g. {\"ga4\":\"G-…\",\"meta\":\"…\"}). track.js injects these first-party and the server CAPI reads them, per site. Absent LEAVES them; a present object REPLACES the set (send {} to clear). The ids are public — they ship in the page — so this is not the SECRET path (a CAPI token is sealed via POST /v1/destination).")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream credits the third-party work this project was published from, and is settable after the fact because the live demos are the ones that most need crediting. An explicit empty string CLEARS the credit; absent leaves it.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility flips an existing project between \"public\" and \"private\". Same ONE rule as at create: public is free, private needs a paid plan.")
-    __properties: ClassVar[List[str]] = ["cacheControl", "description", "framework", "hidden", "hiddenReason", "license", "name", "repo", "slug", "tags", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["cacheControl", "description", "dropLocal", "framework", "hidden", "hiddenReason", "license", "name", "repo", "slug", "tags", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +98,7 @@ class ProjectProjectsUpdate(BaseModel):
         _obj = cls.model_validate({
             "cacheControl": obj.get("cacheControl"),
             "description": obj.get("description"),
+            "dropLocal": obj.get("dropLocal"),
             "framework": obj.get("framework"),
             "hidden": obj.get("hidden"),
             "hiddenReason": obj.get("hiddenReason"),

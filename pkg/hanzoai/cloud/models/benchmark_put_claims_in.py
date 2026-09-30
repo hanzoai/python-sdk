@@ -27,9 +27,9 @@ class BenchmarkPutClaimsIn(BaseModel):
     """
     BenchmarkPutClaimsIn
     """ # noqa: E501
-    by: Optional[StrictStr] = Field(default=None, description="By is who is recording them — a person, or the importer's name.")
     data: Optional[List[BenchmarkPublishedClaim]] = Field(default=None, description="Data is the claims to record. One row is a correction; many is an import. There is no separate bulk endpoint because there is no separate operation: importing a leaderboard and fixing one number are the same write.")
-    __properties: ClassVar[List[str]] = ["by", "data"]
+    visibility: Optional[StrictStr] = Field(default=None, description="Visibility is who may read every row in Data: \"private\", the default, keeps them to the caller's org; \"public\" shows them to anyone. Restating a claim with the other value moves it.")
+    __properties: ClassVar[List[str]] = ["data", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,8 +89,8 @@ class BenchmarkPutClaimsIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "by": obj.get("by"),
-            "data": [BenchmarkPublishedClaim.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "data": [BenchmarkPublishedClaim.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "visibility": obj.get("visibility")
         })
         return _obj
 

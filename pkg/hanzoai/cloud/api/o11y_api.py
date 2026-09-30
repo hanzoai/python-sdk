@@ -29,7 +29,6 @@ from hanzoai.cloud.models.o11y_ann_queue_deleted import O11yAnnQueueDeleted
 from hanzoai.cloud.models.o11y_ann_queue_detail_view import O11yAnnQueueDetailView
 from hanzoai.cloud.models.o11y_ann_queue_list import O11yAnnQueueList
 from hanzoai.cloud.models.o11y_ann_queue_view import O11yAnnQueueView
-from hanzoai.cloud.models.o11y_availability_response import O11yAvailabilityResponse
 from hanzoai.cloud.models.o11y_cluster_list_request import O11yClusterListRequest
 from hanzoai.cloud.models.o11y_create_queue_req import O11yCreateQueueReq
 from hanzoai.cloud.models.o11y_daemon_set_list_request import O11yDaemonSetListRequest
@@ -10342,9 +10341,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> Approval:
-        """Deletes one Sentry project of the caller's org.
+        """Deletes one Sentry project of the caller's org; retained events are not touched.
 
-        Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
+        Deletes one Sentry project of the caller's org; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -10410,9 +10409,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[Approval]:
-        """Deletes one Sentry project of the caller's org.
+        """Deletes one Sentry project of the caller's org; retained events are not touched.
 
-        Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
+        Deletes one Sentry project of the caller's org; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -10478,9 +10477,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Deletes one Sentry project of the caller's org.
+        """Deletes one Sentry project of the caller's org; retained events are not touched.
 
-        Deletes one Sentry project of the caller's org. Its DSN stops resolving immediately, so ingest for that id fails closed exactly as an unknown project does; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
+        Deletes one Sentry project of the caller's org; retained events are not touched. Answers 204.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -23681,290 +23680,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/autocomplete/attribute_values',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_o11y_availability(
-        self,
-        range: Annotated[Optional[StrictInt], Field(description="Range is the trend window in seconds. Default 3600, capped at 604800 (7d).")] = None,
-        step_sec: Annotated[Optional[StrictInt], Field(description="StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yAvailabilityResponse:
-        """Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window.
-
-        Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window. Both come from the fleet prober's own measurements: every service is asked its health URL every 30 seconds, so a service is listed as down because it did not answer, never because something failed to collect it. PLATFORM SUDO ONLY — this is the whole fleet's inventory, not tenant data, so every customer is 403. An unreachable telemetry store answers 503 rather than an empty trend, because a board of zeroes and a fleet that is down look identical.
-
-        :param range: Range is the trend window in seconds. Default 3600, capped at 604800 (7d).
-        :type range: int
-        :param step_sec: StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.
-        :type step_sec: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_availability_serialize(
-            range=range,
-            step_sec=step_sec,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yAvailabilityResponse",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_o11y_availability_with_http_info(
-        self,
-        range: Annotated[Optional[StrictInt], Field(description="Range is the trend window in seconds. Default 3600, capped at 604800 (7d).")] = None,
-        step_sec: Annotated[Optional[StrictInt], Field(description="StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yAvailabilityResponse]:
-        """Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window.
-
-        Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window. Both come from the fleet prober's own measurements: every service is asked its health URL every 30 seconds, so a service is listed as down because it did not answer, never because something failed to collect it. PLATFORM SUDO ONLY — this is the whole fleet's inventory, not tenant data, so every customer is 403. An unreachable telemetry store answers 503 rather than an empty trend, because a board of zeroes and a fleet that is down look identical.
-
-        :param range: Range is the trend window in seconds. Default 3600, capped at 604800 (7d).
-        :type range: int
-        :param step_sec: StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.
-        :type step_sec: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_availability_serialize(
-            range=range,
-            step_sec=step_sec,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yAvailabilityResponse",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_o11y_availability_without_preload_content(
-        self,
-        range: Annotated[Optional[StrictInt], Field(description="Range is the trend window in seconds. Default 3600, capped at 604800 (7d).")] = None,
-        step_sec: Annotated[Optional[StrictInt], Field(description="StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.")] = None,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window.
-
-        Reports how much of the Hanzo fleet is up — the current per-service inventory plus an up-versus-reporting trend across the window. Both come from the fleet prober's own measurements: every service is asked its health URL every 30 seconds, so a service is listed as down because it did not answer, never because something failed to collect it. PLATFORM SUDO ONLY — this is the whole fleet's inventory, not tenant data, so every customer is 403. An unreachable telemetry store answers 503 rather than an empty trend, because a board of zeroes and a fleet that is down look identical.
-
-        :param range: Range is the trend window in seconds. Default 3600, capped at 604800 (7d).
-        :type range: int
-        :param step_sec: StepSec is the bucket width in seconds, clamped to [30, 3600]. Absent picks ~60 buckets across the range.
-        :type step_sec: int
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_o11y_availability_serialize(
-            range=range,
-            step_sec=step_sec,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yAvailabilityResponse",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_o11y_availability_serialize(
-        self,
-        range,
-        step_sec,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        if range is not None:
-            
-            _query_params.append(('range', range))
-            
-        if step_sec is not None:
-            
-            _query_params.append(('stepSec', step_sec))
-            
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/o11y/availability',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -43175,9 +42890,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> O11yO11ySentryProjectsOut:
-        """Lists the caller's org's Sentry projects, each with its freshly-derived DSN.
+        """Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.
 
-        Lists the caller's org's Sentry projects, each with its freshly-derived DSN.  Callers need the viewer role; the runtime's own gate enforces it.
+        Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -43239,9 +42954,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[O11yO11ySentryProjectsOut]:
-        """Lists the caller's org's Sentry projects, each with its freshly-derived DSN.
+        """Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.
 
-        Lists the caller's org's Sentry projects, each with its freshly-derived DSN.  Callers need the viewer role; the runtime's own gate enforces it.
+        Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -43303,9 +43018,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the caller's org's Sentry projects, each with its freshly-derived DSN.
+        """Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.
 
-        Lists the caller's org's Sentry projects, each with its freshly-derived DSN.  Callers need the viewer role; the runtime's own gate enforces it.
+        Lists the caller's org's Sentry projects — one per product that has reported an error, plus any created by hand.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -43426,9 +43141,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> O11yO11ySentryProjectOut:
-        """Returns one Sentry project of the caller's org, DSN included.
+        """Returns one Sentry project of the caller's org.
 
-        Returns one Sentry project of the caller's org, DSN included.  Callers need the viewer role; the runtime's own gate enforces it.
+        Returns one Sentry project of the caller's org.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -43494,9 +43209,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[O11yO11ySentryProjectOut]:
-        """Returns one Sentry project of the caller's org, DSN included.
+        """Returns one Sentry project of the caller's org.
 
-        Returns one Sentry project of the caller's org, DSN included.  Callers need the viewer role; the runtime's own gate enforces it.
+        Returns one Sentry project of the caller's org.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -43562,9 +43277,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns one Sentry project of the caller's org, DSN included.
+        """Returns one Sentry project of the caller's org.
 
-        Returns one Sentry project of the caller's org, DSN included.  Callers need the viewer role; the runtime's own gate enforces it.
+        Returns one Sentry project of the caller's org.  Callers need the viewer role; the runtime's own gate enforces it.
 
         :param id: ID is the project id. (required)
         :type id: str
@@ -67839,508 +67554,6 @@ class O11yApi:
 
 
     @validate_call
-    def post_o11y_api_by_project_id_envelope(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Receive a Sentry envelope on the SDK's own DSN path
-
-        Accepts an application/x-sentry-envelope frame from a Sentry SDK — the batched wire format carrying events, sessions and attachments — and ingests it against the project named in the path.  THE /api/ SEGMENT IS NOT OURS TO NAME. An SDK appends its own fixed /api/<project>/envelope/ suffix to whatever DSN it is given, so this address is the SDK's, received verbatim. We receive this shape; we do not publish it. The clean spelling of the same wire is /v1/event/{project}/envelope/.  AUTHENTICATED BY THE DSN PUBLIC KEY, never a Hanzo session, and therefore exempt from the principal gate: the ingest verifier checks the key in constant time, fails closed, and derives the org from it. A keyless submission is a 401 from that verifier — not a 403 from the gate, and not a 404 — which is how you tell the hops apart. The exemption is matched by method plus prefix plus suffix, never a bare prefix, so no read is reachable through it.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_envelope_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_o11y_api_by_project_id_envelope_with_http_info(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Receive a Sentry envelope on the SDK's own DSN path
-
-        Accepts an application/x-sentry-envelope frame from a Sentry SDK — the batched wire format carrying events, sessions and attachments — and ingests it against the project named in the path.  THE /api/ SEGMENT IS NOT OURS TO NAME. An SDK appends its own fixed /api/<project>/envelope/ suffix to whatever DSN it is given, so this address is the SDK's, received verbatim. We receive this shape; we do not publish it. The clean spelling of the same wire is /v1/event/{project}/envelope/.  AUTHENTICATED BY THE DSN PUBLIC KEY, never a Hanzo session, and therefore exempt from the principal gate: the ingest verifier checks the key in constant time, fails closed, and derives the org from it. A keyless submission is a 401 from that verifier — not a 403 from the gate, and not a 404 — which is how you tell the hops apart. The exemption is matched by method plus prefix plus suffix, never a bare prefix, so no read is reachable through it.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_envelope_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_o11y_api_by_project_id_envelope_without_preload_content(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Receive a Sentry envelope on the SDK's own DSN path
-
-        Accepts an application/x-sentry-envelope frame from a Sentry SDK — the batched wire format carrying events, sessions and attachments — and ingests it against the project named in the path.  THE /api/ SEGMENT IS NOT OURS TO NAME. An SDK appends its own fixed /api/<project>/envelope/ suffix to whatever DSN it is given, so this address is the SDK's, received verbatim. We receive this shape; we do not publish it. The clean spelling of the same wire is /v1/event/{project}/envelope/.  AUTHENTICATED BY THE DSN PUBLIC KEY, never a Hanzo session, and therefore exempt from the principal gate: the ingest verifier checks the key in constant time, fails closed, and derives the org from it. A keyless submission is a 401 from that verifier — not a 403 from the gate, and not a 404 — which is how you tell the hops apart. The exemption is matched by method plus prefix plus suffix, never a bare prefix, so no read is reachable through it.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_envelope_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_o11y_api_by_project_id_envelope_serialize(
-        self,
-        project_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if project_id is not None:
-            _path_params['project_id'] = project_id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/api/{project_id}/envelope',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_o11y_api_by_project_id_store(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Receive a single Sentry event on the SDK's own DSN path
-
-        The legacy single-event form of the envelope ingest: one JSON event rather than a framed batch, kept because SDKs in the field still send it.  Same address ownership and same authentication as the envelope route — the /api/ segment is the SDK's, the DSN public key is the credential, the principal gate does not apply, and a keyless submission is a 401 from the ingest verifier.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_store_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_o11y_api_by_project_id_store_with_http_info(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Receive a single Sentry event on the SDK's own DSN path
-
-        The legacy single-event form of the envelope ingest: one JSON event rather than a framed batch, kept because SDKs in the field still send it.  Same address ownership and same authentication as the envelope route — the /api/ segment is the SDK's, the DSN public key is the credential, the principal gate does not apply, and a keyless submission is a 401 from the ingest verifier.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_store_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_o11y_api_by_project_id_store_without_preload_content(
-        self,
-        project_id: StrictStr,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Receive a single Sentry event on the SDK's own DSN path
-
-        The legacy single-event form of the envelope ingest: one JSON event rather than a framed batch, kept because SDKs in the field still send it.  Same address ownership and same authentication as the envelope route — the /api/ segment is the SDK's, the DSN public key is the credential, the principal gate does not apply, and a keyless submission is a 401 from the ingest verifier.
-
-        :param project_id: (required)
-        :type project_id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_api_by_project_id_store_serialize(
-            project_id=project_id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_o11y_api_by_project_id_store_serialize(
-        self,
-        project_id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if project_id is not None:
-            _path_params['project_id'] = project_id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/api/{project_id}/store',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
     def post_o11y_auto_complete_attribute_values(
         self,
         o11y_filter_attribute_value_request: O11yFilterAttributeValueRequest,
@@ -83080,9 +82293,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> O11yO11ySentryProjectOut:
-        """Creates a Sentry project under the caller's org and returns it, DSN included.
+        """Creates a Sentry project under the caller's org and returns it.
 
-        Creates a Sentry project under the caller's org and returns it, DSN included. Only the name, and optionally a slug and platform, are the caller's to set; the org, id and key are server-assigned.  Callers need the editor role; the runtime's own gate enforces it.
+        Creates a Sentry project under the caller's org and returns it. Only the name, and optionally a slug and platform, are the caller's to set; the org and id are server-assigned. The slug is the product name the event plane stores, so a project reads that product's errors.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param o11y_o11y_sentry_postable_project: (required)
         :type o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject
@@ -83148,9 +82361,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[O11yO11ySentryProjectOut]:
-        """Creates a Sentry project under the caller's org and returns it, DSN included.
+        """Creates a Sentry project under the caller's org and returns it.
 
-        Creates a Sentry project under the caller's org and returns it, DSN included. Only the name, and optionally a slug and platform, are the caller's to set; the org, id and key are server-assigned.  Callers need the editor role; the runtime's own gate enforces it.
+        Creates a Sentry project under the caller's org and returns it. Only the name, and optionally a slug and platform, are the caller's to set; the org and id are server-assigned. The slug is the product name the event plane stores, so a project reads that product's errors.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param o11y_o11y_sentry_postable_project: (required)
         :type o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject
@@ -83216,9 +82429,9 @@ class O11yApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Creates a Sentry project under the caller's org and returns it, DSN included.
+        """Creates a Sentry project under the caller's org and returns it.
 
-        Creates a Sentry project under the caller's org and returns it, DSN included. Only the name, and optionally a slug and platform, are the caller's to set; the org, id and key are server-assigned.  Callers need the editor role; the runtime's own gate enforces it.
+        Creates a Sentry project under the caller's org and returns it. Only the name, and optionally a slug and platform, are the caller's to set; the org and id are server-assigned. The slug is the product name the event plane stores, so a project reads that product's errors.  Callers need the editor role; the runtime's own gate enforces it.
 
         :param o11y_o11y_sentry_postable_project: (required)
         :type o11y_o11y_sentry_postable_project: O11yO11ySentryPostableProject
@@ -83326,271 +82539,6 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/o11y/sentinel/projects',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_o11y_sentinel_projects_by_id_keys_rotate(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the project id.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> O11yO11ySentryProjectOut:
-        """Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.
-
-        Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.  Callers need the editor role; the runtime's own gate enforces it.
-
-        :param id: ID is the project id. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_sentinel_projects_by_id_keys_rotate_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySentryProjectOut",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_o11y_sentinel_projects_by_id_keys_rotate_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the project id.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[O11yO11ySentryProjectOut]:
-        """Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.
-
-        Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.  Callers need the editor role; the runtime's own gate enforces it.
-
-        :param id: ID is the project id. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_sentinel_projects_by_id_keys_rotate_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySentryProjectOut",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_o11y_sentinel_projects_by_id_keys_rotate_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the project id.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.
-
-        Rotates a project's DSN key — bumping its rotation watermark so keys below it stop verifying — and returns the project with its new DSN.  Callers need the editor role; the runtime's own gate enforces it.
-
-        :param id: ID is the project id. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_o11y_sentinel_projects_by_id_keys_rotate_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "O11yO11ySentryProjectOut",
-            '202': "Approval",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_o11y_sentinel_projects_by_id_keys_rotate_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/o11y/sentinel/projects/{id}/keys/rotate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

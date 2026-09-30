@@ -340,7 +340,7 @@ class ProjectApi:
     ) -> None:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str
@@ -411,7 +411,7 @@ class ProjectApi:
     ) -> ApiResponse[None]:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str
@@ -482,7 +482,7 @@ class ProjectApi:
     ) -> RESTResponseType:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str
@@ -1139,7 +1139,7 @@ class ProjectApi:
     ) -> None:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str
@@ -1210,7 +1210,7 @@ class ProjectApi:
     ) -> ApiResponse[None]:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str
@@ -1281,7 +1281,7 @@ class ProjectApi:
     ) -> RESTResponseType:
         """Gives a custom hostname back, so the name is free to reuse.
 
-        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so an add-only surface was not ownership but a leak: a customer who mistyped a domain, or claimed one they later moved elsewhere, could neither reuse it nor let anyone else. This is the third writer that closes it. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
+        Gives a custom hostname back, so the name is free to reuse.  A claim is FIRST-COME and global, so ownership includes giving a name back: a customer who mistyped a domain, or moved one elsewhere, releases it here and the name is free for them or anyone else. The release is scoped to (host, org, slug), so it can only ever drop THIS tenant's own claim, and it is IDEMPOTENT: releasing a host we do not hold is a clean 204, never a 404 that would let a caller probe which hosts other tenants hold. The edge cache-tag is flushed, since the host stops routing here.  Scope: a validated principal is required (401 without one) and the site is resolved within that principal's org, so another tenant's slug is a 404.
 
         :param slug: Slug is the project the host is attached to, from the path. (required)
         :type slug: str

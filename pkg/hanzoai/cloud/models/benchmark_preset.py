@@ -29,7 +29,7 @@ class BenchmarkPreset(BaseModel):
     arms: Optional[List[StrictStr]] = Field(default=None, description="the blend — model ids from the arena")
     name: Optional[StrictStr] = Field(default=None, description="served as enso-<name>")
     note: Optional[StrictStr] = Field(default=None, description="why this blend (audit)")
-    owner: Optional[StrictStr] = Field(default=None, description="scoping org (never cross-tenant)")
+    owner: Optional[StrictStr] = Field(default=None, description="the org the blend belongs to: the writer's verified org, never a value sent")
     panel: Optional[StrictInt] = Field(default=None, description="fan-out width (>=1)")
     rank: Optional[List[StrictStr]] = Field(default=None, description="escalation order over arms")
     __properties: ClassVar[List[str]] = ["arms", "name", "note", "owner", "panel", "rank"]

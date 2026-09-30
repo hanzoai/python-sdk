@@ -28,14 +28,13 @@ class O11yO11ySentryProject(BaseModel):
     O11yO11ySentryProject
     """ # noqa: E501
     created_at: Optional[datetime] = Field(default=None, description="CreatedAt is when the project was created.", alias="createdAt")
-    dsn: Optional[StrictStr] = Field(default=None, description="DSN is the project's freshly-derived ingest DSN.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the project id.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the project's display name.")
     platform: Optional[StrictStr] = Field(default=None, description="Platform is the reporting runtime, e.g. go, python, javascript.")
     slug: Optional[StrictStr] = Field(default=None, description="Slug is the project's short name.")
     status: Optional[StrictStr] = Field(default=None, description="Status is the project's lifecycle state: active or disabled.")
     updated_at: Optional[datetime] = Field(default=None, description="UpdatedAt is when the project last changed.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["createdAt", "dsn", "id", "name", "platform", "slug", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["createdAt", "id", "name", "platform", "slug", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -89,7 +88,6 @@ class O11yO11ySentryProject(BaseModel):
 
         _obj = cls.model_validate({
             "createdAt": obj.get("createdAt"),
-            "dsn": obj.get("dsn"),
             "id": obj.get("id"),
             "name": obj.get("name"),
             "platform": obj.get("platform"),

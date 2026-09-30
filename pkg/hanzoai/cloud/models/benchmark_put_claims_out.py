@@ -26,9 +26,11 @@ class BenchmarkPutClaimsOut(BaseModel):
     """
     BenchmarkPutClaimsOut
     """ # noqa: E501
+    org: Optional[StrictStr] = Field(default=None, description="Org is the org the rows were recorded under: the caller's own.")
     recorded: Optional[StrictInt] = Field(default=None, description="Recorded is how many rows were written.")
     rejected: Optional[List[StrictStr]] = Field(default=None, description="Rejected names the rows that were not, and why.")
-    __properties: ClassVar[List[str]] = ["recorded", "rejected"]
+    visibility: Optional[StrictStr] = Field(default=None, description="Visibility is who may read them.")
+    __properties: ClassVar[List[str]] = ["org", "recorded", "rejected", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,8 +83,10 @@ class BenchmarkPutClaimsOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "org": obj.get("org"),
             "recorded": obj.get("recorded"),
-            "rejected": obj.get("rejected")
+            "rejected": obj.get("rejected"),
+            "visibility": obj.get("visibility")
         })
         return _obj
 

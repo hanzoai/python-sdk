@@ -33,6 +33,7 @@ class ProjectProjectsProject(BaseModel):
     created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the project was created, as Unix seconds.", alias="createdAt")
     current_deployment_id: Optional[StrictStr] = Field(default=None, description="CurrentDeploymentID names the deployment currently serving, so a caller can ask what is live without scanning the history.", alias="currentDeploymentId")
     description: Optional[StrictStr] = Field(default=None, description="Description is the one-line summary, which is copied onto forks of this project and shown on a gallery card.")
+    drop_local: Optional[StrictBool] = Field(default=None, description="DropLocal is whether events a developer's own machine sends (localhost, 127.0.0.1, *.local) are dropped at ingest. ON by default.", alias="dropLocal")
     forked_from: Optional[StrictStr] = Field(default=None, description="ForkedFrom is the parent this project was forked from (\"<org>/<slug>\" of a published project, or a catalog template slug) — the attribution edge a gallery credits.", alias="forkedFrom")
     framework: Optional[StrictStr] = Field(default=None, description="Framework is a BUILD HINT from a closed set, defaulting to static. It tells CI how to build a linked repo and never gates a deploy, so a wrong value costs a build rather than access.")
     hidden: Optional[StrictBool] = Field(default=None, description="Hidden is PLATFORM MODERATION, and it is a different axis from visibility: it pulls a public project out of the catalogue without editing the publisher's own choice, so un-hiding restores exactly what they asked for. A project is listed only when it is public AND not hidden. Always present, never omitted, for the same reason as visibility.")
@@ -53,7 +54,7 @@ class ProjectProjectsProject(BaseModel):
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the project's own record last changed, as Unix seconds. A deploy is not an edit of the project, so this does not move on every publish.", alias="updatedAt")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream credits the third-party work this project was published from — a free-text line, because the honest answer is a name and a title that no enum could hold. Absent means NOBODY HAS SAID, not that there is nothing to say.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above.")
-    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "dropLocal", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -115,6 +116,7 @@ class ProjectProjectsProject(BaseModel):
             "createdAt": obj.get("createdAt"),
             "currentDeploymentId": obj.get("currentDeploymentId"),
             "description": obj.get("description"),
+            "dropLocal": obj.get("dropLocal"),
             "forkedFrom": obj.get("forkedFrom"),
             "framework": obj.get("framework"),
             "hidden": obj.get("hidden"),

@@ -26,10 +26,11 @@ class BrowserTagOut(BaseModel):
     """
     BrowserTagOut
     """ # noqa: E501
+    events: Optional[Dict[str, StrictStr]] = None
     id: Optional[StrictStr] = None
     platform: Optional[StrictStr] = None
     type: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["id", "platform", "type"]
+    __properties: ClassVar[List[str]] = ["events", "id", "platform", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,6 +83,7 @@ class BrowserTagOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "events": obj.get("events"),
             "id": obj.get("id"),
             "platform": obj.get("platform"),
             "type": obj.get("type")

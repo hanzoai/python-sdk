@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,11 +30,12 @@ class SandboxRunIn(BaseModel):
     blind: Optional[List[StrictStr]] = Field(default=None, description="Blind is the set of secrets this command must never publish.  It exists because output is redacted where it is PRODUCED or not at all. A caller that scrubbed the returned result would still have streamed the unredacted bytes into the session as they were written — to a durable event store, an SSE feed and a chat thread — because the narration leaves the sandbox by a different path from the result. Nothing downstream can take a secret back out of a message that has already been delivered.  The sandbox holds these only for the life of the one command, applies them to every stream leaving it, and never logs or stores them.")
     command: Optional[StrictStr] = Field(default=None, description="Command is a shell line, run by `sh -c`. Use it when a pipeline or a redirection is the point, and Argv when it is not.")
     dir: Optional[StrictStr] = Field(default=None, description="Dir runs the command somewhere other than the sandbox's working directory, which Leased.Workdir names.")
+    events: Optional[StrictBool] = Field(default=None, description="Events says the command writes JSON lines to stdout, one event each, as an agent harness's --json does: each is appended to Session as one `event`, in the shape the command wrote it, and stderr is narrated as output.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the sandbox to run in, from an earlier lease.")
     session: Optional[StrictStr] = Field(default=None, description="Session is the live agent session this command narrates into: its output is appended there AS IT IS PRODUCED, so every surface watching that session watches the command work instead of a blank pause. A long run is otherwise a silence with a verdict at the end.  It names a SESSION and never a tenant. The org is the one the caller already proved, so a session belonging to somebody else is simply absent from the org this call acts for and the append is refused there. Empty means nothing is watching, and then nothing is sent.")
     stdin: Optional[StrictStr] = Field(default=None, description="Stdin is fed to the program on standard input. This is how bytes reach a file without being quoted into a shell line: `cat > path` with the contents here writes them exactly.")
     timeout_sec: Optional[StrictInt] = Field(default=None, description="TimeoutSec bounds this ONE command, so a wedged program holds the caller for its own timeout rather than for the whole lease.", alias="timeoutSec")
-    __properties: ClassVar[List[str]] = ["argv", "blind", "command", "dir", "id", "session", "stdin", "timeoutSec"]
+    __properties: ClassVar[List[str]] = ["argv", "blind", "command", "dir", "events", "id", "session", "stdin", "timeoutSec"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -91,6 +92,7 @@ class SandboxRunIn(BaseModel):
             "blind": obj.get("blind"),
             "command": obj.get("command"),
             "dir": obj.get("dir"),
+            "events": obj.get("events"),
             "id": obj.get("id"),
             "session": obj.get("session"),
             "stdin": obj.get("stdin"),

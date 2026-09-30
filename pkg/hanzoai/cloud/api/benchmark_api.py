@@ -305,6 +305,7 @@ class BenchmarkApi:
         provider: Annotated[Optional[StrictStr], Field(description="Provider filters to one lab or leaderboard — the way to read what a single source claims across every model it covers.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source filters to one citation, which is the finest grain there is: a source is what makes two claims about one model independent rather than a restatement of each other.")] = None,
         protocol: Annotated[Optional[StrictStr], Field(description="Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -318,9 +319,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BenchmarkClaimsOut:
-        """Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
+        """Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.
 
-        Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
+        Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.  Anyone reads the public claims. A signed-in caller also reads its own org's private ones. No caller reads another org's private claims — a SuperAdmin acting in that org included, since acting in an org is not membership of it. Rows under org \"admin\" are the platform's own curated readings: the compiled seed and any correction a SuperAdmin wrote.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
 
         :param benchmark: Benchmark filters to one benchmark id. Empty returns every benchmark.
         :type benchmark: str
@@ -332,6 +333,8 @@ class BenchmarkApi:
         :type source: str
         :param protocol: Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.
         :type protocol: str
+        :param org: Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -360,6 +363,7 @@ class BenchmarkApi:
             provider=provider,
             source=source,
             protocol=protocol,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -388,6 +392,7 @@ class BenchmarkApi:
         provider: Annotated[Optional[StrictStr], Field(description="Provider filters to one lab or leaderboard — the way to read what a single source claims across every model it covers.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source filters to one citation, which is the finest grain there is: a source is what makes two claims about one model independent rather than a restatement of each other.")] = None,
         protocol: Annotated[Optional[StrictStr], Field(description="Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -401,9 +406,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BenchmarkClaimsOut]:
-        """Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
+        """Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.
 
-        Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
+        Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.  Anyone reads the public claims. A signed-in caller also reads its own org's private ones. No caller reads another org's private claims — a SuperAdmin acting in that org included, since acting in an org is not membership of it. Rows under org \"admin\" are the platform's own curated readings: the compiled seed and any correction a SuperAdmin wrote.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
 
         :param benchmark: Benchmark filters to one benchmark id. Empty returns every benchmark.
         :type benchmark: str
@@ -415,6 +420,8 @@ class BenchmarkApi:
         :type source: str
         :param protocol: Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.
         :type protocol: str
+        :param org: Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -443,6 +450,7 @@ class BenchmarkApi:
             provider=provider,
             source=source,
             protocol=protocol,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -471,6 +479,7 @@ class BenchmarkApi:
         provider: Annotated[Optional[StrictStr], Field(description="Provider filters to one lab or leaderboard — the way to read what a single source claims across every model it covers.")] = None,
         source: Annotated[Optional[StrictStr], Field(description="Source filters to one citation, which is the finest grain there is: a source is what makes two claims about one model independent rather than a restatement of each other.")] = None,
         protocol: Annotated[Optional[StrictStr], Field(description="Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.")] = None,
+        org: Annotated[Optional[StrictStr], Field(description="Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -484,9 +493,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered.
+        """Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.
 
-        Lists the effective published claims: what the leaderboard will use for each (benchmark, model) after the seed, the import and any stored correction are layered. It answers the operator's question — what does this arena currently believe someone else reported, and did we ship that or fix it.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
+        Lists the effective claims the caller may read, each labelled with the org that made it and the user who recorded it.  Anyone reads the public claims. A signed-in caller also reads its own org's private ones. No caller reads another org's private claims — a SuperAdmin acting in that org included, since acting in an org is not membership of it. Rows under org \"admin\" are the platform's own curated readings: the compiled seed and any correction a SuperAdmin wrote.  Effective values only. The history of a key lives in the append-only file and is not what this op is for; a list that returned every superseded row would make the common question the hard one.
 
         :param benchmark: Benchmark filters to one benchmark id. Empty returns every benchmark.
         :type benchmark: str
@@ -498,6 +507,8 @@ class BenchmarkApi:
         :type source: str
         :param protocol: Protocol filters by HOW a claim was scored, so provider cards can be read apart from third parties running their own harness.
         :type protocol: str
+        :param org: Org filters to the claims one org made; \"admin\" reads the platform's own. It narrows what the caller may already read and never widens it.
+        :type org: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -526,6 +537,7 @@ class BenchmarkApi:
             provider=provider,
             source=source,
             protocol=protocol,
+            org=org,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -549,6 +561,7 @@ class BenchmarkApi:
         provider,
         source,
         protocol,
+        org,
         _request_auth,
         _content_type,
         _headers,
@@ -590,6 +603,10 @@ class BenchmarkApi:
         if protocol is not None:
             
             _query_params.append(('Protocol', protocol))
+            
+        if org is not None:
+            
+            _query_params.append(('Org', org))
             
         # process the header parameters
         # process the form parameters
@@ -1227,7 +1244,7 @@ class BenchmarkApi:
     ) -> BenchmarkLeaderboard:
         """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  Published, Claims, Spread and Mean read the platform's own public claims (org \"admin\") and nothing else, whoever asks. Other orgs' claims are at /v1/benchmark/claims, labelled, and never on this board.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
         :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
         :type benchmark: str
@@ -1294,7 +1311,7 @@ class BenchmarkApi:
     ) -> ApiResponse[BenchmarkLeaderboard]:
         """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  Published, Claims, Spread and Mean read the platform's own public claims (org \"admin\") and nothing else, whoever asks. Other orgs' claims are at /v1/benchmark/claims, labelled, and never on this board.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
         :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
         :type benchmark: str
@@ -1361,7 +1378,7 @@ class BenchmarkApi:
     ) -> RESTResponseType:
         """Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.
 
-        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
+        Answers one row per model for the benchmark named — what our own harness measured, beside what the vendor claims, and the gap between them.  The gap is the point of the arena; provider-reported claims have run materially hot against one standardized harness.  The two planes are NEVER blended, and that is the rule to read the rows by: a model we have measured but no vendor has claimed for shows published null, a model with only a claim shows measured null, and gap exists only where both do.  Published, Claims, Spread and Mean read the platform's own public claims (org \"admin\") and nothing else, whoever asks. Other orgs' claims are at /v1/benchmark/claims, labelled, and never on this board.  n is coverage and is not decoration: two measured numbers taken over different item counts are not comparable, so read the row's n before reading its accuracy.
 
         :param benchmark: Benchmark is the catalog id to read, defaulting to gpqa_diamond.
         :type benchmark: str
@@ -1736,9 +1753,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> BenchmarkPutClaimsOut:
-        """Records published claims: one to correct a number, many to import a leaderboard.
+        """Records claims for the caller's org: one to correct a number, many to import a leaderboard.
 
-        Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
+        Records claims for the caller's org: one to correct a number, many to import a leaderboard. Any signed-in caller may write; a caller with no verified principal is refused 401.  The org and the author are the verified caller's. Nothing in the body names either, and a body that tries is not read. Claims are private to that org unless visibility is \"public\". Writing as org \"admin\" curates the leaderboard, so it takes a SuperAdmin; anyone else acting there is refused 403, and the refusal is audited.  Every row must carry a Source, because a claim without its citation is a number nobody can check, and a benchmark id from /catalog, because an unknown id would sit in the store invisible to every read. A row names its benchmark, model, provider and protocol in at most 128 characters each, cites a source of at most 2048 bytes, and scores a percentage from 0 to 100; a row outside that is rejected by number.  A request carries at most 500 rows in at most 1 MiB (413 past either), and an org writes at most 2000 rows per UTC day (429 past that, and nothing from the request is written).  The trail takes the call's intent, naming every row, BEFORE the first row lands; a trail that cannot take it answers 503 and nothing is written. A second record then names which rows were stored and which failed.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
         :param benchmark_put_claims_in: (required)
         :type benchmark_put_claims_in: BenchmarkPutClaimsIn
@@ -1803,9 +1820,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[BenchmarkPutClaimsOut]:
-        """Records published claims: one to correct a number, many to import a leaderboard.
+        """Records claims for the caller's org: one to correct a number, many to import a leaderboard.
 
-        Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
+        Records claims for the caller's org: one to correct a number, many to import a leaderboard. Any signed-in caller may write; a caller with no verified principal is refused 401.  The org and the author are the verified caller's. Nothing in the body names either, and a body that tries is not read. Claims are private to that org unless visibility is \"public\". Writing as org \"admin\" curates the leaderboard, so it takes a SuperAdmin; anyone else acting there is refused 403, and the refusal is audited.  Every row must carry a Source, because a claim without its citation is a number nobody can check, and a benchmark id from /catalog, because an unknown id would sit in the store invisible to every read. A row names its benchmark, model, provider and protocol in at most 128 characters each, cites a source of at most 2048 bytes, and scores a percentage from 0 to 100; a row outside that is rejected by number.  A request carries at most 500 rows in at most 1 MiB (413 past either), and an org writes at most 2000 rows per UTC day (429 past that, and nothing from the request is written).  The trail takes the call's intent, naming every row, BEFORE the first row lands; a trail that cannot take it answers 503 and nothing is written. A second record then names which rows were stored and which failed.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
         :param benchmark_put_claims_in: (required)
         :type benchmark_put_claims_in: BenchmarkPutClaimsIn
@@ -1870,9 +1887,9 @@ class BenchmarkApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Records published claims: one to correct a number, many to import a leaderboard.
+        """Records claims for the caller's org: one to correct a number, many to import a leaderboard.
 
-        Records published claims: one to correct a number, many to import a leaderboard. Every row must carry a Source, because a claim without its citation is a number nobody can check — and an unattributed number in the published plane is indistinguishable from a measurement, which is the one confusion this whole surface is built to prevent.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
+        Records claims for the caller's org: one to correct a number, many to import a leaderboard. Any signed-in caller may write; a caller with no verified principal is refused 401.  The org and the author are the verified caller's. Nothing in the body names either, and a body that tries is not read. Claims are private to that org unless visibility is \"public\". Writing as org \"admin\" curates the leaderboard, so it takes a SuperAdmin; anyone else acting there is refused 403, and the refusal is audited.  Every row must carry a Source, because a claim without its citation is a number nobody can check, and a benchmark id from /catalog, because an unknown id would sit in the store invisible to every read. A row names its benchmark, model, provider and protocol in at most 128 characters each, cites a source of at most 2048 bytes, and scores a percentage from 0 to 100; a row outside that is rejected by number.  A request carries at most 500 rows in at most 1 MiB (413 past either), and an org writes at most 2000 rows per UTC day (429 past that, and nothing from the request is written).  The trail takes the call's intent, naming every row, BEFORE the first row lands; a trail that cannot take it answers 503 and nothing is written. A second record then names which rows were stored and which failed.  Writes are append-only, so this never destroys the value it replaces. A vendor restating a score leaves both rows on disk, which is how the restating itself becomes visible.
 
         :param benchmark_put_claims_in: (required)
         :type benchmark_put_claims_in: BenchmarkPutClaimsIn
@@ -2013,7 +2030,7 @@ class BenchmarkApi:
     ) -> BenchmarkPresetAccepted:
         """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Any signed-in caller may compose; a caller with no verified principal is refused 401. Owner is the caller's verified org whatever the body says, so a blend is never checked or echoed as another org's.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
         :param benchmark_preset: (required)
         :type benchmark_preset: BenchmarkPreset
@@ -2080,7 +2097,7 @@ class BenchmarkApi:
     ) -> ApiResponse[BenchmarkPresetAccepted]:
         """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Any signed-in caller may compose; a caller with no verified principal is refused 401. Owner is the caller's verified org whatever the body says, so a blend is never checked or echoed as another org's.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
         :param benchmark_preset: (required)
         :type benchmark_preset: BenchmarkPreset
@@ -2147,7 +2164,7 @@ class BenchmarkApi:
     ) -> RESTResponseType:
         """Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.
 
-        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
+        Validates a router blend — its name, its arms, the rank they escalate through and the panel fan-out width — and answers 202 with the preset and the enso-<name> it would be served as.  It VALIDATES AND ECHOES: the definition is not persisted yet, so a preset accepted here is not one the model layer will resolve. Treat the response as a check on the blend, not a promise to serve it.  Any signed-in caller may compose; a caller with no verified principal is refused 401. Owner is the caller's verified org whatever the body says, so a blend is never checked or echoed as another org's.  Defaults fill the shape rather than refusing it: an omitted rank becomes the arms in declared order and a panel below 1 becomes 1. The one real invariant is that rank may only name arms the blend declares — the same rule the model catalog enforces — and a rank naming anything else is a 422 listing exactly which entries were undeclared. A blend with no name or no arms is a 400.
 
         :param benchmark_preset: (required)
         :type benchmark_preset: BenchmarkPreset
@@ -2288,7 +2305,7 @@ class BenchmarkApi:
     ) -> BenchmarkAdmission:
         """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Any signed-in caller may ask; a caller with no verified principal is refused 401. The receipt names the caller's verified org and user — nothing in the body names either — and stores nothing.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
         :param benchmark_suite: (required)
         :type benchmark_suite: BenchmarkSuite
@@ -2355,7 +2372,7 @@ class BenchmarkApi:
     ) -> ApiResponse[BenchmarkAdmission]:
         """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Any signed-in caller may ask; a caller with no verified principal is refused 401. The receipt names the caller's verified org and user — nothing in the body names either — and stores nothing.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
         :param benchmark_suite: (required)
         :type benchmark_suite: BenchmarkSuite
@@ -2422,7 +2439,7 @@ class BenchmarkApi:
     ) -> RESTResponseType:
         """Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.
 
-        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
+        Admits and queues a benchmark run against a model or your own endpoint, and answers 202 with the receipt.  It is an ADMISSION, not a result: the work is done by the harness afterwards and the numbers appear on the leaderboard as it completes them.  Any signed-in caller may ask; a caller with no verified principal is refused 401. The receipt names the caller's verified org and user — nothing in the body names either — and stores nothing.  Cost is bounded by the store rather than by a quota: attempts are append-only and keyed by (benchmark, item, model), so an (item, model) pair already attempted is skipped instead of re-spent, and re-queuing the same run is close to free.  Validation is up front and total — a request with neither model nor endpoint is a 400, one with no benchmarks is a 400, and any benchmark id outside the catalog is a 422 naming exactly which ids were unknown, so a typo never silently queues a partial run.
 
         :param benchmark_suite: (required)
         :type benchmark_suite: BenchmarkSuite

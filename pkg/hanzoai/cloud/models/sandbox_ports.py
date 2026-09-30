@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.sandbox_port import SandboxPort
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PlatformRestartRef(BaseModel):
+class SandboxPorts(BaseModel):
     """
-    PlatformRestartRef
+    SandboxPorts
     """ # noqa: E501
-    app: Optional[StrictStr] = Field(default=None, description="App is the service's CR name, from the path. It must be a DNS-1123 label.")
-    env: Optional[StrictStr] = Field(default=None, description="Env is REQUIRED and must be main, test or dev. A bare call does not default to production, which is what closes the fat-finger and confused-deputy hazard.  It carries no `validate:\"required\"`: the handler already refuses an empty env with the sentence that names the three values, and a validator tag would replace that sentence with a generic one. The requirement is stated here and enforced there, once.")
-    __properties: ClassVar[List[str]] = ["app", "env"]
+    ports: Optional[List[SandboxPort]] = Field(default=None, description="Ports are the listening ports, ascending. Never null.")
+    __properties: ClassVar[List[str]] = ["ports"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class PlatformRestartRef(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PlatformRestartRef from a JSON string"""
+        """Create an instance of SandboxPorts from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +69,18 @@ class PlatformRestartRef(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in ports (list)
+        _items = []
+        if self.ports:
+            for _item_ports in self.ports:
+                if _item_ports:
+                    _items.append(_item_ports.to_dict())
+            _dict['ports'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PlatformRestartRef from a dict"""
+        """Create an instance of SandboxPorts from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +88,7 @@ class PlatformRestartRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "app": obj.get("app"),
-            "env": obj.get("env")
+            "ports": [SandboxPort.from_dict(_item) for _item in obj["ports"]] if obj.get("ports") is not None else None
         })
         return _obj
 

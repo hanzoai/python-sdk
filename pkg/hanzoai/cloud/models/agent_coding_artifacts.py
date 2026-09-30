@@ -17,21 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.agent_artifact import AgentArtifact
 from typing import Optional, Set
 from typing_extensions import Self
 
-class EngineEngineReplicaUpdate(BaseModel):
+class AgentCodingArtifacts(BaseModel):
     """
-    EngineEngineReplicaUpdate
+    AgentCodingArtifacts
     """ # noqa: E501
-    capacity: Optional[StrictInt] = None
-    id: Optional[StrictStr] = None
-    model: Optional[StrictStr] = None
-    roles: Optional[List[StrictStr]] = None
-    weight: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["capacity", "id", "model", "roles", "weight"]
+    artifacts: Optional[List[AgentArtifact]] = Field(default=None, description="Artifacts are the run's artifacts, stored files first. Never null.")
+    saved: Optional[StrictStr] = Field(default=None, description="Saved is when the artifacts were saved, RFC 3339 in UTC; empty while the run has saved none.")
+    session: Optional[StrictStr] = Field(default=None, description="Session is the run's handle.")
+    __properties: ClassVar[List[str]] = ["artifacts", "saved", "session"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +50,7 @@ class EngineEngineReplicaUpdate(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of EngineEngineReplicaUpdate from a JSON string"""
+        """Create an instance of AgentCodingArtifacts from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,11 +71,18 @@ class EngineEngineReplicaUpdate(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in artifacts (list)
+        _items = []
+        if self.artifacts:
+            for _item_artifacts in self.artifacts:
+                if _item_artifacts:
+                    _items.append(_item_artifacts.to_dict())
+            _dict['artifacts'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of EngineEngineReplicaUpdate from a dict"""
+        """Create an instance of AgentCodingArtifacts from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +90,9 @@ class EngineEngineReplicaUpdate(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "capacity": obj.get("capacity"),
-            "id": obj.get("id"),
-            "model": obj.get("model"),
-            "roles": obj.get("roles"),
-            "weight": obj.get("weight")
+            "artifacts": [AgentArtifact.from_dict(_item) for _item in obj["artifacts"]] if obj.get("artifacts") is not None else None,
+            "saved": obj.get("saved"),
+            "session": obj.get("session")
         })
         return _obj
 

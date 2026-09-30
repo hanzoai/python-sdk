@@ -27,11 +27,13 @@ class BenchmarkAdmission(BaseModel):
     BenchmarkAdmission
     """ # noqa: E501
     benchmarks: Optional[List[StrictStr]] = Field(default=None, description="Benchmarks are the catalog ids admitted.")
+    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who asked for it.")
     endpoint: Optional[StrictStr] = Field(default=None, description="Endpoint is the caller's own endpoint the run targets.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the catalog model the run targets.")
     note: Optional[StrictStr] = Field(default=None, description="Note explains what admission does and does not promise.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the org the run is admitted for: the caller's verified org.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"queued\": the run is admitted, not finished.")
-    __properties: ClassVar[List[str]] = ["benchmarks", "endpoint", "model", "note", "status"]
+    __properties: ClassVar[List[str]] = ["benchmarks", "by", "endpoint", "model", "note", "org", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -85,9 +87,11 @@ class BenchmarkAdmission(BaseModel):
 
         _obj = cls.model_validate({
             "benchmarks": obj.get("benchmarks"),
+            "by": obj.get("by"),
             "endpoint": obj.get("endpoint"),
             "model": obj.get("model"),
             "note": obj.get("note"),
+            "org": obj.get("org"),
             "status": obj.get("status")
         })
         return _obj

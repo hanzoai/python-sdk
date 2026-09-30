@@ -27,8 +27,6 @@ from hanzoai.cloud.models.licensing_pubkey_view import LicensingPubkeyView
 from hanzoai.cloud.models.licensing_release import LicensingRelease
 from hanzoai.cloud.models.licensing_release_asset import LicensingReleaseAsset
 from hanzoai.cloud.models.licensing_release_list import LicensingReleaseList
-from hanzoai.cloud.models.licensing_revoke_request import LicensingRevokeRequest
-from hanzoai.cloud.models.licensing_revoke_response import LicensingRevokeResponse
 from hanzoai.cloud.models.licensing_verify_request import LicensingVerifyRequest
 from hanzoai.cloud.models.licensing_verify_response import LicensingVerifyResponse
 
@@ -362,7 +360,7 @@ class LicensingApi:
     ) -> LicensingHealthView:
         """Health reports which signer this deployment mints with, and in which env.
 
-        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since the KMS is reached only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
+        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since KMS is read only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -425,7 +423,7 @@ class LicensingApi:
     ) -> ApiResponse[LicensingHealthView]:
         """Health reports which signer this deployment mints with, and in which env.
 
-        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since the KMS is reached only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
+        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since KMS is read only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -488,7 +486,7 @@ class LicensingApi:
     ) -> RESTResponseType:
         """Health reports which signer this deployment mints with, and in which env.
 
-        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since the KMS is reached only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
+        Health reports which signer this deployment mints with, and in which env.  It answers 200 whenever the process is up: there is nothing downstream to probe, since KMS is read only when a token is actually minted. Its value is the `signer` field — `\"signer\":\"local\"` on a production host says that deployment is signing licenses with a development key, which is a misconfiguration worth paging on rather than a healthy 200.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -609,7 +607,7 @@ class LicensingApi:
     ) -> LicensingPubkeyView:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -672,7 +670,7 @@ class LicensingApi:
     ) -> ApiResponse[LicensingPubkeyView]:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -735,7 +733,7 @@ class LicensingApi:
     ) -> RESTResponseType:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -856,7 +854,7 @@ class LicensingApi:
     ) -> LicensingPubkeyView:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -919,7 +917,7 @@ class LicensingApi:
     ) -> ApiResponse[LicensingPubkeyView]:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -982,7 +980,7 @@ class LicensingApi:
     ) -> RESTResponseType:
         """Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.
 
-        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half never enters this process — it lives in the KMS — so nothing served here is a secret. `provider` names the KMS holding that half; `\"local\"` means a development key, and a token signed by one is not a production credential.
+        Pubkey publishes the Ed25519 PUBLIC verification key, at both /pubkey and /jwks.  This is the only public-safe surface here and the reason the whole scheme works offline: the engine embeds or fetches this key once and then verifies every license itself, with no call home per launch. The private half lives in KMS, so nothing served here is a secret. `provider` names where that half lives: `\"kms\"` is the production key every engine embeds; `\"local\"` is a development key, and a token signed by one is not a production credential.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1888,7 +1886,7 @@ class LicensingApi:
     ) -> LicensingIssueResponse:
         """Issue mints a signed license token for a product the caller's org already pays for.
 
-        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
+        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed, with the production key KMS holds. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
         :param licensing_issue_request: (required)
         :type licensing_issue_request: LicensingIssueRequest
@@ -1955,7 +1953,7 @@ class LicensingApi:
     ) -> ApiResponse[LicensingIssueResponse]:
         """Issue mints a signed license token for a product the caller's org already pays for.
 
-        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
+        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed, with the production key KMS holds. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
         :param licensing_issue_request: (required)
         :type licensing_issue_request: LicensingIssueRequest
@@ -2022,7 +2020,7 @@ class LicensingApi:
     ) -> RESTResponseType:
         """Issue mints a signed license token for a product the caller's org already pays for.
 
-        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed — by the KMS, never by key material in this process. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
+        Issue mints a signed license token for a product the caller's org already pays for.  The order is the whole security argument: the caller is an IAM-validated principal, commerce is then asked whether that principal's ORG holds an ACTIVE entitlement for the product, and only then is a token signed, with the production key KMS holds. A product the org does not own answers 403 and no token. The signed features are the plan's features verbatim, so the engine enforces exactly what was bought, and the expiry is clamped to the entitlement's so a token cannot outlive the subscription that paid for it.  The token is the credential the engine runs on. Treat it as a secret.
 
         :param licensing_issue_request: (required)
         :type licensing_issue_request: LicensingIssueRequest
@@ -2129,556 +2127,6 @@ class LicensingApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/licensing/issue',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_licensing_releases(
-        self,
-        licensing_release: LicensingRelease,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LicensingRelease:
-        """Publishes a signed binary release, answering 201 Created.
-
-        Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
-
-        :param licensing_release: (required)
-        :type licensing_release: LicensingRelease
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_releases_serialize(
-            licensing_release=licensing_release,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LicensingRelease",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_licensing_releases_with_http_info(
-        self,
-        licensing_release: LicensingRelease,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LicensingRelease]:
-        """Publishes a signed binary release, answering 201 Created.
-
-        Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
-
-        :param licensing_release: (required)
-        :type licensing_release: LicensingRelease
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_releases_serialize(
-            licensing_release=licensing_release,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LicensingRelease",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_licensing_releases_without_preload_content(
-        self,
-        licensing_release: LicensingRelease,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Publishes a signed binary release, answering 201 Created.
-
-        Publishes a signed binary release, answering 201 Created.  Outside dev a release MUST carry its cosign signature: this is how a binary becomes downloadable, so accepting an unsigned one would let an unverifiable artifact into the distribution path. Org-admin only — publishing is an operator action, not something a licensee does.
-
-        :param licensing_release: (required)
-        :type licensing_release: LicensingRelease
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_releases_serialize(
-            licensing_release=licensing_release,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '201': "LicensingRelease",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_licensing_releases_serialize(
-        self,
-        licensing_release,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if licensing_release is not None:
-            _body_params = licensing_release
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/licensing/releases',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_licensing_revoke(
-        self,
-        licensing_revoke_request: LicensingRevokeRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> LicensingRevokeResponse:
-        """Revoke turns off tokens that have already been issued.
-
-        Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
-
-        :param licensing_revoke_request: (required)
-        :type licensing_revoke_request: LicensingRevokeRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_revoke_serialize(
-            licensing_revoke_request=licensing_revoke_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LicensingRevokeResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_licensing_revoke_with_http_info(
-        self,
-        licensing_revoke_request: LicensingRevokeRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[LicensingRevokeResponse]:
-        """Revoke turns off tokens that have already been issued.
-
-        Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
-
-        :param licensing_revoke_request: (required)
-        :type licensing_revoke_request: LicensingRevokeRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_revoke_serialize(
-            licensing_revoke_request=licensing_revoke_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LicensingRevokeResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_licensing_revoke_without_preload_content(
-        self,
-        licensing_revoke_request: LicensingRevokeRequest,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Revoke turns off tokens that have already been issued.
-
-        Revoke turns off tokens that have already been issued.  A signed token cannot be un-signed, so revocation is the only way to withdraw one: this appends an entry that verify and the license-gated download both consult. It is a POST rather than a DELETE because it APPENDS a durable, attributed record — the entry names the admin who recorded it and when — rather than removing one.  Org-admin only. Scope it as narrowly as the incident allows: \"nonce\" for one leaked token, \"holder\" for one compromised account, \"fingerprint\" for one stolen machine, \"release\" when a whole build is bad.
-
-        :param licensing_revoke_request: (required)
-        :type licensing_revoke_request: LicensingRevokeRequest
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_licensing_revoke_serialize(
-            licensing_revoke_request=licensing_revoke_request,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "LicensingRevokeResponse",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_licensing_revoke_serialize(
-        self,
-        licensing_revoke_request,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if licensing_revoke_request is not None:
-            _body_params = licensing_revoke_request
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/licensing/revoke',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

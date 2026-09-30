@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_cache_writes import AiCacheWrites
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,9 +27,13 @@ class AiAnthropicUsage(BaseModel):
     """
     AiAnthropicUsage
     """ # noqa: E501
+    cache_creation: Optional[AiCacheWrites] = None
+    cache_creation_input_tokens: Optional[StrictInt] = None
+    cache_read_input_tokens: Optional[StrictInt] = None
     input_tokens: Optional[StrictInt] = None
+    iterations: Optional[List[AiAnthropicUsage]] = None
     output_tokens: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["input_tokens", "output_tokens"]
+    __properties: ClassVar[List[str]] = ["cache_creation", "cache_creation_input_tokens", "cache_read_input_tokens", "input_tokens", "iterations", "output_tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +74,16 @@ class AiAnthropicUsage(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of cache_creation
+        if self.cache_creation:
+            _dict['cache_creation'] = self.cache_creation.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in iterations (list)
+        _items = []
+        if self.iterations:
+            for _item_iterations in self.iterations:
+                if _item_iterations:
+                    _items.append(_item_iterations.to_dict())
+            _dict['iterations'] = _items
         return _dict
 
     @classmethod
@@ -81,9 +96,15 @@ class AiAnthropicUsage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "cache_creation": AiCacheWrites.from_dict(obj["cache_creation"]) if obj.get("cache_creation") is not None else None,
+            "cache_creation_input_tokens": obj.get("cache_creation_input_tokens"),
+            "cache_read_input_tokens": obj.get("cache_read_input_tokens"),
             "input_tokens": obj.get("input_tokens"),
+            "iterations": [AiAnthropicUsage.from_dict(_item) for _item in obj["iterations"]] if obj.get("iterations") is not None else None,
             "output_tokens": obj.get("output_tokens")
         })
         return _obj
 
+# TODO: Rewrite to not use raise_errors
+AiAnthropicUsage.model_rebuild(raise_errors=False)
 

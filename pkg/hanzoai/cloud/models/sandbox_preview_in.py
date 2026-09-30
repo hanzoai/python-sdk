@@ -17,19 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.guide_version_meta import GuideVersionMeta
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GuideBlueprintVersionsView(BaseModel):
+class SandboxPreviewIn(BaseModel):
     """
-    GuideBlueprintVersionsView
+    SandboxPreviewIn
     """ # noqa: E501
-    brand: Optional[StrictStr] = Field(default=None, description="Brand is the blueprint key the history belongs to — this deployment's brand, or \"\" (the base blueprint) when the brand has no row of its own.")
-    versions: Optional[List[GuideVersionMeta]] = Field(default=None, description="Versions are the stored versions, newest first: metadata only, never the documents.")
-    __properties: ClassVar[List[str]] = ["brand", "versions"]
+    id: Optional[StrictStr] = Field(default=None, description="ID is the sandbox, from the path.")
+    port: Optional[StrictInt] = Field(default=None, description="Port is the TCP port inside the sandbox to open, 1 to 65535. Whatever listens on it on localhost is what the address serves.")
+    __properties: ClassVar[List[str]] = ["id", "port"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class GuideBlueprintVersionsView(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GuideBlueprintVersionsView from a JSON string"""
+        """Create an instance of SandboxPreviewIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,18 +69,11 @@ class GuideBlueprintVersionsView(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in versions (list)
-        _items = []
-        if self.versions:
-            for _item_versions in self.versions:
-                if _item_versions:
-                    _items.append(_item_versions.to_dict())
-            _dict['versions'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GuideBlueprintVersionsView from a dict"""
+        """Create an instance of SandboxPreviewIn from a dict"""
         if obj is None:
             return None
 
@@ -89,8 +81,8 @@ class GuideBlueprintVersionsView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "brand": obj.get("brand"),
-            "versions": [GuideVersionMeta.from_dict(_item) for _item in obj["versions"]] if obj.get("versions") is not None else None
+            "id": obj.get("id"),
+            "port": obj.get("port")
         })
         return _obj
 

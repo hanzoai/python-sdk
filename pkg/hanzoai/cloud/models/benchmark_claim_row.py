@@ -29,14 +29,16 @@ class BenchmarkClaimRow(BaseModel):
     """ # noqa: E501
     at: Optional[datetime] = Field(default=None, description="At is when a stored row was recorded. Zero for a seed row.")
     benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the canonical test id the claim is about, from /catalog.")
-    by: Optional[StrictStr] = Field(default=None, description="By is who recorded it, when the caller said.")
+    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who recorded a stored row. Empty for a seed row.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the system the score is claimed for.")
-    origin: Optional[StrictStr] = Field(default=None, description="Origin is \"seed\" for a compiled row and \"stored\" for one written through this surface. It is the difference between what we shipped and what an operator has since corrected.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the org that made the claim. \"admin\" is the platform's own curated reading; any other org is that org's claim, not the platform's. Empty on an unattributed row.")
+    origin: Optional[StrictStr] = Field(default=None, description="Origin is \"seed\" for a compiled row, \"stored\" for one a verified caller wrote through this surface, and \"unattributed\" for a stored row no verified caller vouches for, which never reaches the leaderboard.")
     protocol: Optional[StrictStr] = Field(default=None, description="Protocol records HOW it was scored — provider-reported, agentic, third-party-leaderboard — so a provider card is never read as a measurement.")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is who the claim belongs to — the lab or leaderboard whose number this is.")
     score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the reported aggregate, as a percentage.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the citation the row was read from.")
-    __properties: ClassVar[List[str]] = ["at", "benchmark", "by", "model", "origin", "protocol", "provider", "score", "source"]
+    visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\", readable by anyone, or \"private\", readable by Org's own members only. Only the curator's public claims reach the leaderboard.")
+    __properties: ClassVar[List[str]] = ["at", "benchmark", "by", "model", "org", "origin", "protocol", "provider", "score", "source", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -93,11 +95,13 @@ class BenchmarkClaimRow(BaseModel):
             "benchmark": obj.get("benchmark"),
             "by": obj.get("by"),
             "model": obj.get("model"),
+            "org": obj.get("org"),
             "origin": obj.get("origin"),
             "protocol": obj.get("protocol"),
             "provider": obj.get("provider"),
             "score": obj.get("score"),
-            "source": obj.get("source")
+            "source": obj.get("source"),
+            "visibility": obj.get("visibility")
         })
         return _obj
 

@@ -1767,14 +1767,14 @@ provides-extras = ["consensus", "api", "full", "dev"]
 
 [[package]]
 name = "hanzo-tools-browser"
-version = "0.5.11"
+version = "0.5.12"
 source = { editable = "pkg/hanzo-tools-browser" }
 dependencies = [
     { name = "hanzo-tools" },
     { name = "mcp" },
     { name = "pillow" },
     { name = "pydantic" },
-    { name = "zap-proto" },
+    { name = "zapd" },
 ]
 
 [package.optional-dependencies]
@@ -1789,7 +1789,7 @@ requires-dist = [
     { name = "pillow", specifier = ">=10.0.0" },
     { name = "playwright", marker = "extra == 'playwright'", specifier = ">=1.49.0" },
     { name = "pydantic", specifier = ">=2.12.5" },
-    { name = "zap-proto", specifier = ">=1.2.0" },
+    { name = "zapd", specifier = ">=1.1.3" },
 ]
 provides-extras = ["playwright"]
 
@@ -2252,7 +2252,7 @@ wheels = [
 
 [[package]]
 name = "hanzoai"
-version = "8.5.163"
+version = "8.5.164"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
@@ -5779,6 +5779,17 @@ source = { registry = "https://pypi.org/simple" }
 sdist = { url = "https://files.pythonhosted.org/packages/7d/7b/37543decb0ec4d55781307a5a00a52e974f0a114cc9b042dfd42b0a57154/zap_proto-1.4.1.tar.gz", hash = "sha256:32965a0c1d10c6532b294e531497e519292bf63638c00f1d83211268330777c7", size = 99806, upload-time = "2026-06-21T15:04:23.967Z" }
 wheels = [
     { url = "https://files.pythonhosted.org/packages/b7/eb/bec558b662a24149d8a266b34bb655e6ce08c08118cd2bb2aa866b4e5421/zap_proto-1.4.1-py3-none-any.whl", hash = "sha256:21b440ed1c5d265edc5fa267dc88b042f240b7a2e8b8509aaec1d8a3fb41fea6", size = 61625, upload-time = "2026-06-21T15:04:22.871Z" },
+]
+
+[[package]]
+name = "zapd"
+version = "1.1.3"
+source = { registry = "https://pypi.org/simple" }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/d6/0e/8b204858137b2c1826e617cf7e503776593ffa6b20a93ed1527f82114c79/zapd-1.1.3-cp310-abi3-macosx_10_12_x86_64.whl", hash = "sha256:4dd2d09d23530c6f56ce39f8833913e265eb05fea33c74c93ab413bbe99b2efc", size = 885041, upload-time = "2026-09-30T09:29:14.837Z" },
+    { url = "https://files.pythonhosted.org/packages/d4/c8/468defd75addd0d29d53083029f59a8636d7e648c18ec40cc147d6c1c186/zapd-1.1.3-cp310-abi3-macosx_11_0_arm64.whl", hash = "sha256:3f54406a1900c945c19499d61afcdf453c5a3498d27bf5c58a12e5e1e1261a3c", size = 839781, upload-time = "2026-09-30T09:29:16.468Z" },
+    { url = "https://files.pythonhosted.org/packages/25/3e/dc8640b7e8ad49f4379209c16a5da55464751c300ac02b138a5ef3850aa0/zapd-1.1.3-cp310-abi3-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:aaf29b974ae612144070f56b5d84661e6b98cef19c29f3699aedb19c22e8a83d", size = 883725, upload-time = "2026-09-30T09:29:17.826Z" },
+    { url = "https://files.pythonhosted.org/packages/45/42/dbf61150622ce82a9f7f9c5e4c2c4e7ba21282282a10d5a4417313d019c3/zapd-1.1.3-cp310-abi3-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:35914a22b353bd1d4ddf6bb770c44d9da7ee3c1a6020795df7bd764e9ac6f3ba", size = 926272, upload-time = "2026-09-30T09:29:19.117Z" },
 ]
 
 [[package]]

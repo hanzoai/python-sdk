@@ -28,7 +28,7 @@ class LicensingHealthView(BaseModel):
     """ # noqa: E501
     env: Optional[StrictStr] = Field(default=None, description="Env is the deployment environment (\"dev\" | \"staging\" | \"prod\").")
     service: Optional[StrictStr] = Field(default=None, description="Service is always \"licensing\".")
-    signer: Optional[StrictStr] = Field(default=None, description="Signer names the KMS provider signing licenses here. \"local\" means a development key: tokens it mints are not production credentials.")
+    signer: Optional[StrictStr] = Field(default=None, description="Signer names where the signing key lives: \"kms\" or \"local\". \"local\" means a development key: tokens it mints are not production credentials.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"ok\" whenever the process is up — this is not a dependency probe.")
     __properties: ClassVar[List[str]] = ["env", "service", "signer", "status"]
 

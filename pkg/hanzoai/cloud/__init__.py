@@ -194,11 +194,13 @@ __all__ = [
     "AgentAgentList",
     "AgentAgentRunView",
     "AgentAgentView",
+    "AgentArtifact",
     "AgentBuildList",
     "AgentBuildSummary",
     "AgentBuildTurn",
     "AgentBuildView",
     "AgentClaimKeyOut",
+    "AgentCodingArtifacts",
     "AgentCodingBlob",
     "AgentCodingChanges",
     "AgentCodingCommit",
@@ -254,6 +256,7 @@ __all__ = [
     "AiAnthropicResponse",
     "AiAnthropicTool",
     "AiAnthropicUsage",
+    "AiCacheWrites",
     "AiCostStats",
     "AiDecisionSides",
     "AiDecisionSidesFalse",
@@ -598,7 +601,6 @@ __all__ = [
     "CompanyAdvanceIn",
     "CompanyBeginIn",
     "CompanyCharge",
-    "CompanyDecisionIn",
     "CompanyEIN",
     "CompanyEinIn",
     "CompanyEsignCompleteIn",
@@ -748,13 +750,13 @@ __all__ = [
     "DatasetRiskDatasetVersions",
     "DatasetRiskLineage",
     "DatasetRiskSplitCounts",
+    "Decision",
     "DeckOut",
     "Declaration",
     "DeclareEnv",
     "DeclareReq",
     "DeclareResp",
     "DeclareResult",
-    "DeployAppliedResource",
     "DeployArgoApp",
     "DeployArgoAppList",
     "DeployArgoCluster",
@@ -781,20 +783,9 @@ __all__ = [
     "DeployArgoSyncStatus",
     "DeployArgoSyncWindows",
     "DeployArgoTree",
-    "DeployConsoleSettings",
-    "DeployConsoleSettingsDexConfig",
-    "DeployConsoleSettingsGoogleAnalytics",
-    "DeployConsoleSettingsHelp",
     "DeployDeployHealth",
-    "DeployGitOpsApp",
-    "DeployGitOpsDeploy",
-    "DeployGitOpsOperation",
-    "DeployGitOpsPlane",
-    "DeployReconcileReport",
-    "DeployReconcileSource",
     "DeploySessionEnded",
     "DeploySessionUser",
-    "DeployVersionMessage",
     "DeploymentDetail",
     "DestinationDestinationDisconnected",
     "DestinationDestinationField",
@@ -816,8 +807,6 @@ __all__ = [
     "DomainRenewReq",
     "DomainRenewResult",
     "DomainTransferReq",
-    "EngineEngineReplica",
-    "EngineEngineReplicaUpdate",
     "EngineEngineStatus",
     "EntitlementEntitlementsView",
     "EntitlementMutateReq",
@@ -1063,6 +1052,7 @@ __all__ = [
     "GitWorkflowRun",
     "GitWorkflowRuns",
     "GitWorkflowView",
+    "Grants",
     "Graph",
     "GraphGraphAnswerIn",
     "GraphGraphAnswerOut",
@@ -1103,11 +1093,6 @@ __all__ = [
     "GuideActionRecord",
     "GuideActionsView",
     "GuideAnalyticsView",
-    "GuideBlog",
-    "GuideBlueprint",
-    "GuideBlueprintCounts",
-    "GuideBlueprintVersionsView",
-    "GuideBlueprintView",
     "GuideChatRequest",
     "GuideChatResponse",
     "GuideCorpusView",
@@ -1116,18 +1101,13 @@ __all__ = [
     "GuideFunnel",
     "GuideJourneyStep",
     "GuideOverviewView",
-    "GuidePage",
-    "GuidePrinciple",
     "GuideProfileMetrics",
     "GuideProfileResponse",
     "GuideProgressView",
-    "GuideSection",
     "GuideStepView",
-    "GuideStrategy",
     "GuideStrategyView",
     "GuideSuggestResponse",
     "GuideSuggestion",
-    "GuideVersionMeta",
     "HelpHelpArticle",
     "HelpHelpArticleCard",
     "HelpHelpArticleList",
@@ -1146,7 +1126,6 @@ __all__ = [
     "IamAnswer",
     "IamApplication",
     "IamApplicationListResult",
-    "IamAssumeBody",
     "IamAuditLog",
     "IamAuditlogsDeleteOutput",
     "IamAuditlogsInput",
@@ -1355,9 +1334,6 @@ __all__ = [
     "LicensingRelease",
     "LicensingReleaseAsset",
     "LicensingReleaseList",
-    "LicensingRevocationEntry",
-    "LicensingRevokeRequest",
-    "LicensingRevokeResponse",
     "LicensingVerifyRequest",
     "LicensingVerifyResponse",
     "LineItem",
@@ -1469,7 +1445,6 @@ __all__ = [
     "MarketplacePublishReq",
     "MarketplaceReceived",
     "MarketplaceReputation",
-    "MarketplaceResolveIn",
     "MarketplaceSeller",
     "MarketplaceShop",
     "MarketplaceShopListing",
@@ -1557,9 +1532,6 @@ __all__ = [
     "O11yAttributeKey",
     "O11yAttributesComponentEntry",
     "O11yAuthorization",
-    "O11yAvailabilityPoint",
-    "O11yAvailabilityResponse",
-    "O11yAvailabilityResponseRange",
     "O11yAzureAccountConfig",
     "O11yAzureConnectionArtifact",
     "O11yAzureIntegrationConfig",
@@ -2200,7 +2172,6 @@ __all__ = [
     "O11yServiceConfig",
     "O11yServiceDashboard",
     "O11yServiceMetadata",
-    "O11yServiceUp",
     "O11ySigV4Config",
     "O11ySignalConnectionStatus",
     "O11ySlackAction",
@@ -2358,7 +2329,6 @@ __all__ = [
     "PlanPlanToolList",
     "PlanPlanVocab",
     "PlatformAddDomainReq",
-    "PlatformAppCD",
     "PlatformAppMove",
     "PlatformAppOut",
     "PlatformAppView",
@@ -2366,8 +2336,6 @@ __all__ = [
     "PlatformBuildBoard",
     "PlatformBuildRow",
     "PlatformCDApp",
-    "PlatformCDResource",
-    "PlatformCdDiff",
     "PlatformCdResp",
     "PlatformCreateAppReq",
     "PlatformDeclRef",
@@ -2408,8 +2376,6 @@ __all__ = [
     "PlatformRelabel",
     "PlatformReleaseBoard",
     "PlatformReleaseRow",
-    "PlatformRestartRef",
-    "PlatformRestarted",
     "PlatformRollbackReq",
     "PlatformRunReq",
     "PlatformRunView",
@@ -2466,7 +2432,6 @@ __all__ = [
     "PricingPricingPresetList",
     "PricingPricingProviderList",
     "PricingPricingRegionList",
-    "PricingPricingSyncOut",
     "PricingPricingTierList",
     "PricingPricingToolList",
     "PricingRate",
@@ -2477,7 +2442,6 @@ __all__ = [
     "PrincipalClearIn",
     "PrincipalClearance",
     "PrincipalClearanceList",
-    "PrincipalDecideIn",
     "PrincipalDecided",
     "PrincipalEntity",
     "PrincipalFact",
@@ -2489,7 +2453,6 @@ __all__ = [
     "PrincipalJWKS",
     "PrincipalList",
     "PrincipalMatch",
-    "PrincipalMatchList",
     "PrincipalMethod",
     "PrincipalObligation",
     "PrincipalRule",
@@ -2558,8 +2521,6 @@ __all__ = [
     "ProviderGithubBackfillResult",
     "ProviderGithubBranch",
     "ProviderGithubBranchesOut",
-    "ProviderGithubClaimIn",
-    "ProviderGithubClaimOut",
     "ProviderGithubForkOut",
     "ProviderGithubForkReq",
     "ProviderGithubImportIn",
@@ -2633,14 +2594,10 @@ __all__ = [
     "ReferenceReferenceOut",
     "ReferenceReferenceOverride",
     "ReferenceReferenceOverrideIn",
-    "ReferenceReferenceReceipt",
     "ReferenceReferenceSet",
     "ReferenceReferenceSetsOut",
     "ReferenceReferenceSource",
-    "ReferenceReferenceTaken",
     "ReferenceReferenceVersion",
-    "ReferenceRefreshReferenceIn",
-    "ReferenceRefreshReferenceOut",
     "ReferenceResolveReferenceIn",
     "ReferenceResolveReferenceOut",
     "ReferenceSetReferenceIn",
@@ -2724,6 +2681,10 @@ __all__ = [
     "SandboxLeaseIn",
     "SandboxLeased",
     "SandboxPathIn",
+    "SandboxPort",
+    "SandboxPorts",
+    "SandboxPreviewGrant",
+    "SandboxPreviewIn",
     "SandboxRan",
     "SandboxRunIn",
     "SandboxSandbox",
@@ -2735,8 +2696,6 @@ __all__ = [
     "SandboxWriteIn",
     "SandboxWrote",
     "SbomSbomHealth",
-    "SbomSbomIngest",
-    "SbomSbomIngested",
     "Scale",
     "ScanDraft",
     "SearchBackendStatus",
@@ -2933,13 +2892,11 @@ __all__ = [
     "ToolBuildOut",
     "ToolBuildRequest",
     "ToolCreateServerReq",
-    "ToolCurateReq",
     "ToolMCPListing",
     "ToolMCPPackage",
     "ToolMCPRemote",
     "ToolMCPServer",
     "ToolMcpCatalog",
-    "ToolMcpCatalogSync",
     "ToolMcpServerList",
     "ToolPluginDeleted",
     "ToolPluginMount",
@@ -3238,11 +3195,13 @@ from hanzoai.cloud.models.agent_agent_detail import AgentAgentDetail as AgentAge
 from hanzoai.cloud.models.agent_agent_list import AgentAgentList as AgentAgentList
 from hanzoai.cloud.models.agent_agent_run_view import AgentAgentRunView as AgentAgentRunView
 from hanzoai.cloud.models.agent_agent_view import AgentAgentView as AgentAgentView
+from hanzoai.cloud.models.agent_artifact import AgentArtifact as AgentArtifact
 from hanzoai.cloud.models.agent_build_list import AgentBuildList as AgentBuildList
 from hanzoai.cloud.models.agent_build_summary import AgentBuildSummary as AgentBuildSummary
 from hanzoai.cloud.models.agent_build_turn import AgentBuildTurn as AgentBuildTurn
 from hanzoai.cloud.models.agent_build_view import AgentBuildView as AgentBuildView
 from hanzoai.cloud.models.agent_claim_key_out import AgentClaimKeyOut as AgentClaimKeyOut
+from hanzoai.cloud.models.agent_coding_artifacts import AgentCodingArtifacts as AgentCodingArtifacts
 from hanzoai.cloud.models.agent_coding_blob import AgentCodingBlob as AgentCodingBlob
 from hanzoai.cloud.models.agent_coding_changes import AgentCodingChanges as AgentCodingChanges
 from hanzoai.cloud.models.agent_coding_commit import AgentCodingCommit as AgentCodingCommit
@@ -3298,6 +3257,7 @@ from hanzoai.cloud.models.ai_anthropic_request import AiAnthropicRequest as AiAn
 from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse as AiAnthropicResponse
 from hanzoai.cloud.models.ai_anthropic_tool import AiAnthropicTool as AiAnthropicTool
 from hanzoai.cloud.models.ai_anthropic_usage import AiAnthropicUsage as AiAnthropicUsage
+from hanzoai.cloud.models.ai_cache_writes import AiCacheWrites as AiCacheWrites
 from hanzoai.cloud.models.ai_cost_stats import AiCostStats as AiCostStats
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides as AiDecisionSides
 from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse as AiDecisionSidesFalse
@@ -3642,7 +3602,6 @@ from hanzoai.cloud.models.code_tree_entry import CodeTreeEntry as CodeTreeEntry
 from hanzoai.cloud.models.company_advance_in import CompanyAdvanceIn as CompanyAdvanceIn
 from hanzoai.cloud.models.company_begin_in import CompanyBeginIn as CompanyBeginIn
 from hanzoai.cloud.models.company_charge import CompanyCharge as CompanyCharge
-from hanzoai.cloud.models.company_decision_in import CompanyDecisionIn as CompanyDecisionIn
 from hanzoai.cloud.models.company_ein import CompanyEIN as CompanyEIN
 from hanzoai.cloud.models.company_ein_in import CompanyEinIn as CompanyEinIn
 from hanzoai.cloud.models.company_esign_complete_in import CompanyEsignCompleteIn as CompanyEsignCompleteIn
@@ -3792,13 +3751,13 @@ from hanzoai.cloud.models.dataset_risk_dataset_spec import DatasetRiskDatasetSpe
 from hanzoai.cloud.models.dataset_risk_dataset_versions import DatasetRiskDatasetVersions as DatasetRiskDatasetVersions
 from hanzoai.cloud.models.dataset_risk_lineage import DatasetRiskLineage as DatasetRiskLineage
 from hanzoai.cloud.models.dataset_risk_split_counts import DatasetRiskSplitCounts as DatasetRiskSplitCounts
+from hanzoai.cloud.models.decision import Decision as Decision
 from hanzoai.cloud.models.deck_out import DeckOut as DeckOut
 from hanzoai.cloud.models.declaration import Declaration as Declaration
 from hanzoai.cloud.models.declare_env import DeclareEnv as DeclareEnv
 from hanzoai.cloud.models.declare_req import DeclareReq as DeclareReq
 from hanzoai.cloud.models.declare_resp import DeclareResp as DeclareResp
 from hanzoai.cloud.models.declare_result import DeclareResult as DeclareResult
-from hanzoai.cloud.models.deploy_applied_resource import DeployAppliedResource as DeployAppliedResource
 from hanzoai.cloud.models.deploy_argo_app import DeployArgoApp as DeployArgoApp
 from hanzoai.cloud.models.deploy_argo_app_list import DeployArgoAppList as DeployArgoAppList
 from hanzoai.cloud.models.deploy_argo_cluster import DeployArgoCluster as DeployArgoCluster
@@ -3825,20 +3784,9 @@ from hanzoai.cloud.models.deploy_argo_summary import DeployArgoSummary as Deploy
 from hanzoai.cloud.models.deploy_argo_sync_status import DeployArgoSyncStatus as DeployArgoSyncStatus
 from hanzoai.cloud.models.deploy_argo_sync_windows import DeployArgoSyncWindows as DeployArgoSyncWindows
 from hanzoai.cloud.models.deploy_argo_tree import DeployArgoTree as DeployArgoTree
-from hanzoai.cloud.models.deploy_console_settings import DeployConsoleSettings as DeployConsoleSettings
-from hanzoai.cloud.models.deploy_console_settings_dex_config import DeployConsoleSettingsDexConfig as DeployConsoleSettingsDexConfig
-from hanzoai.cloud.models.deploy_console_settings_google_analytics import DeployConsoleSettingsGoogleAnalytics as DeployConsoleSettingsGoogleAnalytics
-from hanzoai.cloud.models.deploy_console_settings_help import DeployConsoleSettingsHelp as DeployConsoleSettingsHelp
 from hanzoai.cloud.models.deploy_deploy_health import DeployDeployHealth as DeployDeployHealth
-from hanzoai.cloud.models.deploy_git_ops_app import DeployGitOpsApp as DeployGitOpsApp
-from hanzoai.cloud.models.deploy_git_ops_deploy import DeployGitOpsDeploy as DeployGitOpsDeploy
-from hanzoai.cloud.models.deploy_git_ops_operation import DeployGitOpsOperation as DeployGitOpsOperation
-from hanzoai.cloud.models.deploy_git_ops_plane import DeployGitOpsPlane as DeployGitOpsPlane
-from hanzoai.cloud.models.deploy_reconcile_report import DeployReconcileReport as DeployReconcileReport
-from hanzoai.cloud.models.deploy_reconcile_source import DeployReconcileSource as DeployReconcileSource
 from hanzoai.cloud.models.deploy_session_ended import DeploySessionEnded as DeploySessionEnded
 from hanzoai.cloud.models.deploy_session_user import DeploySessionUser as DeploySessionUser
-from hanzoai.cloud.models.deploy_version_message import DeployVersionMessage as DeployVersionMessage
 from hanzoai.cloud.models.deployment_detail import DeploymentDetail as DeploymentDetail
 from hanzoai.cloud.models.destination_destination_disconnected import DestinationDestinationDisconnected as DestinationDestinationDisconnected
 from hanzoai.cloud.models.destination_destination_field import DestinationDestinationField as DestinationDestinationField
@@ -3860,8 +3808,6 @@ from hanzoai.cloud.models.domain_registrant import DomainRegistrant as DomainReg
 from hanzoai.cloud.models.domain_renew_req import DomainRenewReq as DomainRenewReq
 from hanzoai.cloud.models.domain_renew_result import DomainRenewResult as DomainRenewResult
 from hanzoai.cloud.models.domain_transfer_req import DomainTransferReq as DomainTransferReq
-from hanzoai.cloud.models.engine_engine_replica import EngineEngineReplica as EngineEngineReplica
-from hanzoai.cloud.models.engine_engine_replica_update import EngineEngineReplicaUpdate as EngineEngineReplicaUpdate
 from hanzoai.cloud.models.engine_engine_status import EngineEngineStatus as EngineEngineStatus
 from hanzoai.cloud.models.entitlement_entitlements_view import EntitlementEntitlementsView as EntitlementEntitlementsView
 from hanzoai.cloud.models.entitlement_mutate_req import EntitlementMutateReq as EntitlementMutateReq
@@ -4107,6 +4053,7 @@ from hanzoai.cloud.models.git_workflow_list import GitWorkflowList as GitWorkflo
 from hanzoai.cloud.models.git_workflow_run import GitWorkflowRun as GitWorkflowRun
 from hanzoai.cloud.models.git_workflow_runs import GitWorkflowRuns as GitWorkflowRuns
 from hanzoai.cloud.models.git_workflow_view import GitWorkflowView as GitWorkflowView
+from hanzoai.cloud.models.grants import Grants as Grants
 from hanzoai.cloud.models.graph import Graph as Graph
 from hanzoai.cloud.models.graph_graph_answer_in import GraphGraphAnswerIn as GraphGraphAnswerIn
 from hanzoai.cloud.models.graph_graph_answer_out import GraphGraphAnswerOut as GraphGraphAnswerOut
@@ -4147,11 +4094,6 @@ from hanzoai.cloud.models.graph_wire_fact import GraphWireFact as GraphWireFact
 from hanzoai.cloud.models.guide_action_record import GuideActionRecord as GuideActionRecord
 from hanzoai.cloud.models.guide_actions_view import GuideActionsView as GuideActionsView
 from hanzoai.cloud.models.guide_analytics_view import GuideAnalyticsView as GuideAnalyticsView
-from hanzoai.cloud.models.guide_blog import GuideBlog as GuideBlog
-from hanzoai.cloud.models.guide_blueprint import GuideBlueprint as GuideBlueprint
-from hanzoai.cloud.models.guide_blueprint_counts import GuideBlueprintCounts as GuideBlueprintCounts
-from hanzoai.cloud.models.guide_blueprint_versions_view import GuideBlueprintVersionsView as GuideBlueprintVersionsView
-from hanzoai.cloud.models.guide_blueprint_view import GuideBlueprintView as GuideBlueprintView
 from hanzoai.cloud.models.guide_chat_request import GuideChatRequest as GuideChatRequest
 from hanzoai.cloud.models.guide_chat_response import GuideChatResponse as GuideChatResponse
 from hanzoai.cloud.models.guide_corpus_view import GuideCorpusView as GuideCorpusView
@@ -4160,18 +4102,13 @@ from hanzoai.cloud.models.guide_curriculum_view import GuideCurriculumView as Gu
 from hanzoai.cloud.models.guide_funnel import GuideFunnel as GuideFunnel
 from hanzoai.cloud.models.guide_journey_step import GuideJourneyStep as GuideJourneyStep
 from hanzoai.cloud.models.guide_overview_view import GuideOverviewView as GuideOverviewView
-from hanzoai.cloud.models.guide_page import GuidePage as GuidePage
-from hanzoai.cloud.models.guide_principle import GuidePrinciple as GuidePrinciple
 from hanzoai.cloud.models.guide_profile_metrics import GuideProfileMetrics as GuideProfileMetrics
 from hanzoai.cloud.models.guide_profile_response import GuideProfileResponse as GuideProfileResponse
 from hanzoai.cloud.models.guide_progress_view import GuideProgressView as GuideProgressView
-from hanzoai.cloud.models.guide_section import GuideSection as GuideSection
 from hanzoai.cloud.models.guide_step_view import GuideStepView as GuideStepView
-from hanzoai.cloud.models.guide_strategy import GuideStrategy as GuideStrategy
 from hanzoai.cloud.models.guide_strategy_view import GuideStrategyView as GuideStrategyView
 from hanzoai.cloud.models.guide_suggest_response import GuideSuggestResponse as GuideSuggestResponse
 from hanzoai.cloud.models.guide_suggestion import GuideSuggestion as GuideSuggestion
-from hanzoai.cloud.models.guide_version_meta import GuideVersionMeta as GuideVersionMeta
 from hanzoai.cloud.models.help_help_article import HelpHelpArticle as HelpHelpArticle
 from hanzoai.cloud.models.help_help_article_card import HelpHelpArticleCard as HelpHelpArticleCard
 from hanzoai.cloud.models.help_help_article_list import HelpHelpArticleList as HelpHelpArticleList
@@ -4190,7 +4127,6 @@ from hanzoai.cloud.models.iam_address import IamAddress as IamAddress
 from hanzoai.cloud.models.iam_answer import IamAnswer as IamAnswer
 from hanzoai.cloud.models.iam_application import IamApplication as IamApplication
 from hanzoai.cloud.models.iam_application_list_result import IamApplicationListResult as IamApplicationListResult
-from hanzoai.cloud.models.iam_assume_body import IamAssumeBody as IamAssumeBody
 from hanzoai.cloud.models.iam_audit_log import IamAuditLog as IamAuditLog
 from hanzoai.cloud.models.iam_auditlogs_delete_output import IamAuditlogsDeleteOutput as IamAuditlogsDeleteOutput
 from hanzoai.cloud.models.iam_auditlogs_input import IamAuditlogsInput as IamAuditlogsInput
@@ -4399,9 +4335,6 @@ from hanzoai.cloud.models.licensing_pubkey_view import LicensingPubkeyView as Li
 from hanzoai.cloud.models.licensing_release import LicensingRelease as LicensingRelease
 from hanzoai.cloud.models.licensing_release_asset import LicensingReleaseAsset as LicensingReleaseAsset
 from hanzoai.cloud.models.licensing_release_list import LicensingReleaseList as LicensingReleaseList
-from hanzoai.cloud.models.licensing_revocation_entry import LicensingRevocationEntry as LicensingRevocationEntry
-from hanzoai.cloud.models.licensing_revoke_request import LicensingRevokeRequest as LicensingRevokeRequest
-from hanzoai.cloud.models.licensing_revoke_response import LicensingRevokeResponse as LicensingRevokeResponse
 from hanzoai.cloud.models.licensing_verify_request import LicensingVerifyRequest as LicensingVerifyRequest
 from hanzoai.cloud.models.licensing_verify_response import LicensingVerifyResponse as LicensingVerifyResponse
 from hanzoai.cloud.models.line_item import LineItem as LineItem
@@ -4513,7 +4446,6 @@ from hanzoai.cloud.models.marketplace_price import MarketplacePrice as Marketpla
 from hanzoai.cloud.models.marketplace_publish_req import MarketplacePublishReq as MarketplacePublishReq
 from hanzoai.cloud.models.marketplace_received import MarketplaceReceived as MarketplaceReceived
 from hanzoai.cloud.models.marketplace_reputation import MarketplaceReputation as MarketplaceReputation
-from hanzoai.cloud.models.marketplace_resolve_in import MarketplaceResolveIn as MarketplaceResolveIn
 from hanzoai.cloud.models.marketplace_seller import MarketplaceSeller as MarketplaceSeller
 from hanzoai.cloud.models.marketplace_shop import MarketplaceShop as MarketplaceShop
 from hanzoai.cloud.models.marketplace_shop_listing import MarketplaceShopListing as MarketplaceShopListing
@@ -4601,9 +4533,6 @@ from hanzoai.cloud.models.o11y_associated_component import O11yAssociatedCompone
 from hanzoai.cloud.models.o11y_attribute_key import O11yAttributeKey as O11yAttributeKey
 from hanzoai.cloud.models.o11y_attributes_component_entry import O11yAttributesComponentEntry as O11yAttributesComponentEntry
 from hanzoai.cloud.models.o11y_authorization import O11yAuthorization as O11yAuthorization
-from hanzoai.cloud.models.o11y_availability_point import O11yAvailabilityPoint as O11yAvailabilityPoint
-from hanzoai.cloud.models.o11y_availability_response import O11yAvailabilityResponse as O11yAvailabilityResponse
-from hanzoai.cloud.models.o11y_availability_response_range import O11yAvailabilityResponseRange as O11yAvailabilityResponseRange
 from hanzoai.cloud.models.o11y_azure_account_config import O11yAzureAccountConfig as O11yAzureAccountConfig
 from hanzoai.cloud.models.o11y_azure_connection_artifact import O11yAzureConnectionArtifact as O11yAzureConnectionArtifact
 from hanzoai.cloud.models.o11y_azure_integration_config import O11yAzureIntegrationConfig as O11yAzureIntegrationConfig
@@ -5244,7 +5173,6 @@ from hanzoai.cloud.models.o11y_service_assets import O11yServiceAssets as O11ySe
 from hanzoai.cloud.models.o11y_service_config import O11yServiceConfig as O11yServiceConfig
 from hanzoai.cloud.models.o11y_service_dashboard import O11yServiceDashboard as O11yServiceDashboard
 from hanzoai.cloud.models.o11y_service_metadata import O11yServiceMetadata as O11yServiceMetadata
-from hanzoai.cloud.models.o11y_service_up import O11yServiceUp as O11yServiceUp
 from hanzoai.cloud.models.o11y_sig_v4_config import O11ySigV4Config as O11ySigV4Config
 from hanzoai.cloud.models.o11y_signal_connection_status import O11ySignalConnectionStatus as O11ySignalConnectionStatus
 from hanzoai.cloud.models.o11y_slack_action import O11ySlackAction as O11ySlackAction
@@ -5402,7 +5330,6 @@ from hanzoai.cloud.models.plan_plan_tier_list import PlanPlanTierList as PlanPla
 from hanzoai.cloud.models.plan_plan_tool_list import PlanPlanToolList as PlanPlanToolList
 from hanzoai.cloud.models.plan_plan_vocab import PlanPlanVocab as PlanPlanVocab
 from hanzoai.cloud.models.platform_add_domain_req import PlatformAddDomainReq as PlatformAddDomainReq
-from hanzoai.cloud.models.platform_app_cd import PlatformAppCD as PlatformAppCD
 from hanzoai.cloud.models.platform_app_move import PlatformAppMove as PlatformAppMove
 from hanzoai.cloud.models.platform_app_out import PlatformAppOut as PlatformAppOut
 from hanzoai.cloud.models.platform_app_view import PlatformAppView as PlatformAppView
@@ -5410,8 +5337,6 @@ from hanzoai.cloud.models.platform_binary_spec import PlatformBinarySpec as Plat
 from hanzoai.cloud.models.platform_build_board import PlatformBuildBoard as PlatformBuildBoard
 from hanzoai.cloud.models.platform_build_row import PlatformBuildRow as PlatformBuildRow
 from hanzoai.cloud.models.platform_cd_app import PlatformCDApp as PlatformCDApp
-from hanzoai.cloud.models.platform_cd_resource import PlatformCDResource as PlatformCDResource
-from hanzoai.cloud.models.platform_cd_diff import PlatformCdDiff as PlatformCdDiff
 from hanzoai.cloud.models.platform_cd_resp import PlatformCdResp as PlatformCdResp
 from hanzoai.cloud.models.platform_create_app_req import PlatformCreateAppReq as PlatformCreateAppReq
 from hanzoai.cloud.models.platform_decl_ref import PlatformDeclRef as PlatformDeclRef
@@ -5452,8 +5377,6 @@ from hanzoai.cloud.models.platform_record import PlatformRecord as PlatformRecor
 from hanzoai.cloud.models.platform_relabel import PlatformRelabel as PlatformRelabel
 from hanzoai.cloud.models.platform_release_board import PlatformReleaseBoard as PlatformReleaseBoard
 from hanzoai.cloud.models.platform_release_row import PlatformReleaseRow as PlatformReleaseRow
-from hanzoai.cloud.models.platform_restart_ref import PlatformRestartRef as PlatformRestartRef
-from hanzoai.cloud.models.platform_restarted import PlatformRestarted as PlatformRestarted
 from hanzoai.cloud.models.platform_rollback_req import PlatformRollbackReq as PlatformRollbackReq
 from hanzoai.cloud.models.platform_run_req import PlatformRunReq as PlatformRunReq
 from hanzoai.cloud.models.platform_run_view import PlatformRunView as PlatformRunView
@@ -5510,7 +5433,6 @@ from hanzoai.cloud.models.pricing_pricing_plan_list import PricingPricingPlanLis
 from hanzoai.cloud.models.pricing_pricing_preset_list import PricingPricingPresetList as PricingPricingPresetList
 from hanzoai.cloud.models.pricing_pricing_provider_list import PricingPricingProviderList as PricingPricingProviderList
 from hanzoai.cloud.models.pricing_pricing_region_list import PricingPricingRegionList as PricingPricingRegionList
-from hanzoai.cloud.models.pricing_pricing_sync_out import PricingPricingSyncOut as PricingPricingSyncOut
 from hanzoai.cloud.models.pricing_pricing_tier_list import PricingPricingTierList as PricingPricingTierList
 from hanzoai.cloud.models.pricing_pricing_tool_list import PricingPricingToolList as PricingPricingToolList
 from hanzoai.cloud.models.pricing_rate import PricingRate as PricingRate
@@ -5521,7 +5443,6 @@ from hanzoai.cloud.models.principal_attestation import PrincipalAttestation as P
 from hanzoai.cloud.models.principal_clear_in import PrincipalClearIn as PrincipalClearIn
 from hanzoai.cloud.models.principal_clearance import PrincipalClearance as PrincipalClearance
 from hanzoai.cloud.models.principal_clearance_list import PrincipalClearanceList as PrincipalClearanceList
-from hanzoai.cloud.models.principal_decide_in import PrincipalDecideIn as PrincipalDecideIn
 from hanzoai.cloud.models.principal_decided import PrincipalDecided as PrincipalDecided
 from hanzoai.cloud.models.principal_entity import PrincipalEntity as PrincipalEntity
 from hanzoai.cloud.models.principal_fact import PrincipalFact as PrincipalFact
@@ -5533,7 +5454,6 @@ from hanzoai.cloud.models.principal_jwk import PrincipalJWK as PrincipalJWK
 from hanzoai.cloud.models.principal_jwks import PrincipalJWKS as PrincipalJWKS
 from hanzoai.cloud.models.principal_list import PrincipalList as PrincipalList
 from hanzoai.cloud.models.principal_match import PrincipalMatch as PrincipalMatch
-from hanzoai.cloud.models.principal_match_list import PrincipalMatchList as PrincipalMatchList
 from hanzoai.cloud.models.principal_method import PrincipalMethod as PrincipalMethod
 from hanzoai.cloud.models.principal_obligation import PrincipalObligation as PrincipalObligation
 from hanzoai.cloud.models.principal_rule import PrincipalRule as PrincipalRule
@@ -5602,8 +5522,6 @@ from hanzoai.cloud.models.provider_github_backfill_in import ProviderGithubBackf
 from hanzoai.cloud.models.provider_github_backfill_result import ProviderGithubBackfillResult as ProviderGithubBackfillResult
 from hanzoai.cloud.models.provider_github_branch import ProviderGithubBranch as ProviderGithubBranch
 from hanzoai.cloud.models.provider_github_branches_out import ProviderGithubBranchesOut as ProviderGithubBranchesOut
-from hanzoai.cloud.models.provider_github_claim_in import ProviderGithubClaimIn as ProviderGithubClaimIn
-from hanzoai.cloud.models.provider_github_claim_out import ProviderGithubClaimOut as ProviderGithubClaimOut
 from hanzoai.cloud.models.provider_github_fork_out import ProviderGithubForkOut as ProviderGithubForkOut
 from hanzoai.cloud.models.provider_github_fork_req import ProviderGithubForkReq as ProviderGithubForkReq
 from hanzoai.cloud.models.provider_github_import_in import ProviderGithubImportIn as ProviderGithubImportIn
@@ -5677,14 +5595,10 @@ from hanzoai.cloud.models.reference_reference_answer import ReferenceReferenceAn
 from hanzoai.cloud.models.reference_reference_out import ReferenceReferenceOut as ReferenceReferenceOut
 from hanzoai.cloud.models.reference_reference_override import ReferenceReferenceOverride as ReferenceReferenceOverride
 from hanzoai.cloud.models.reference_reference_override_in import ReferenceReferenceOverrideIn as ReferenceReferenceOverrideIn
-from hanzoai.cloud.models.reference_reference_receipt import ReferenceReferenceReceipt as ReferenceReferenceReceipt
 from hanzoai.cloud.models.reference_reference_set import ReferenceReferenceSet as ReferenceReferenceSet
 from hanzoai.cloud.models.reference_reference_sets_out import ReferenceReferenceSetsOut as ReferenceReferenceSetsOut
 from hanzoai.cloud.models.reference_reference_source import ReferenceReferenceSource as ReferenceReferenceSource
-from hanzoai.cloud.models.reference_reference_taken import ReferenceReferenceTaken as ReferenceReferenceTaken
 from hanzoai.cloud.models.reference_reference_version import ReferenceReferenceVersion as ReferenceReferenceVersion
-from hanzoai.cloud.models.reference_refresh_reference_in import ReferenceRefreshReferenceIn as ReferenceRefreshReferenceIn
-from hanzoai.cloud.models.reference_refresh_reference_out import ReferenceRefreshReferenceOut as ReferenceRefreshReferenceOut
 from hanzoai.cloud.models.reference_resolve_reference_in import ReferenceResolveReferenceIn as ReferenceResolveReferenceIn
 from hanzoai.cloud.models.reference_resolve_reference_out import ReferenceResolveReferenceOut as ReferenceResolveReferenceOut
 from hanzoai.cloud.models.reference_set_reference_in import ReferenceSetReferenceIn as ReferenceSetReferenceIn
@@ -5768,6 +5682,10 @@ from hanzoai.cloud.models.sandbox_exec_result import SandboxExecResult as Sandbo
 from hanzoai.cloud.models.sandbox_lease_in import SandboxLeaseIn as SandboxLeaseIn
 from hanzoai.cloud.models.sandbox_leased import SandboxLeased as SandboxLeased
 from hanzoai.cloud.models.sandbox_path_in import SandboxPathIn as SandboxPathIn
+from hanzoai.cloud.models.sandbox_port import SandboxPort as SandboxPort
+from hanzoai.cloud.models.sandbox_ports import SandboxPorts as SandboxPorts
+from hanzoai.cloud.models.sandbox_preview_grant import SandboxPreviewGrant as SandboxPreviewGrant
+from hanzoai.cloud.models.sandbox_preview_in import SandboxPreviewIn as SandboxPreviewIn
 from hanzoai.cloud.models.sandbox_ran import SandboxRan as SandboxRan
 from hanzoai.cloud.models.sandbox_run_in import SandboxRunIn as SandboxRunIn
 from hanzoai.cloud.models.sandbox_sandbox import SandboxSandbox as SandboxSandbox
@@ -5779,8 +5697,6 @@ from hanzoai.cloud.models.sandbox_ticket_grant import SandboxTicketGrant as Sand
 from hanzoai.cloud.models.sandbox_write_in import SandboxWriteIn as SandboxWriteIn
 from hanzoai.cloud.models.sandbox_wrote import SandboxWrote as SandboxWrote
 from hanzoai.cloud.models.sbom_sbom_health import SbomSbomHealth as SbomSbomHealth
-from hanzoai.cloud.models.sbom_sbom_ingest import SbomSbomIngest as SbomSbomIngest
-from hanzoai.cloud.models.sbom_sbom_ingested import SbomSbomIngested as SbomSbomIngested
 from hanzoai.cloud.models.scale import Scale as Scale
 from hanzoai.cloud.models.scan_draft import ScanDraft as ScanDraft
 from hanzoai.cloud.models.search_backend_status import SearchBackendStatus as SearchBackendStatus
@@ -5977,13 +5893,11 @@ from hanzoai.cloud.models.tool_authored_skill_list import ToolAuthoredSkillList 
 from hanzoai.cloud.models.tool_build_out import ToolBuildOut as ToolBuildOut
 from hanzoai.cloud.models.tool_build_request import ToolBuildRequest as ToolBuildRequest
 from hanzoai.cloud.models.tool_create_server_req import ToolCreateServerReq as ToolCreateServerReq
-from hanzoai.cloud.models.tool_curate_req import ToolCurateReq as ToolCurateReq
 from hanzoai.cloud.models.tool_mcp_listing import ToolMCPListing as ToolMCPListing
 from hanzoai.cloud.models.tool_mcp_package import ToolMCPPackage as ToolMCPPackage
 from hanzoai.cloud.models.tool_mcp_remote import ToolMCPRemote as ToolMCPRemote
 from hanzoai.cloud.models.tool_mcp_server import ToolMCPServer as ToolMCPServer
 from hanzoai.cloud.models.tool_mcp_catalog import ToolMcpCatalog as ToolMcpCatalog
-from hanzoai.cloud.models.tool_mcp_catalog_sync import ToolMcpCatalogSync as ToolMcpCatalogSync
 from hanzoai.cloud.models.tool_mcp_server_list import ToolMcpServerList as ToolMcpServerList
 from hanzoai.cloud.models.tool_plugin_deleted import ToolPluginDeleted as ToolPluginDeleted
 from hanzoai.cloud.models.tool_plugin_mount import ToolPluginMount as ToolPluginMount

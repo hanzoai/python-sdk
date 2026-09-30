@@ -29,7 +29,7 @@ class LicensingPubkeyView(BaseModel):
     """ # noqa: E501
     alg: Optional[StrictStr] = Field(default=None, description="Alg is always \"Ed25519\".")
     keys: Optional[List[LicensingJWK]] = Field(default=None, description="Keys is the same key as a single-entry JWKS (OKP/Ed25519), for JWKS-shaped consumers.")
-    provider: Optional[StrictStr] = Field(default=None, description="Provider names the KMS holding the private half (\"local\" | \"aws\" | ...). \"local\" means a development key — never trust it in production.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider names where the private half lives: \"kms\" (production) or \"local\" (a development key — never trust it in production).")
     public_key: Optional[StrictStr] = Field(default=None, description="PublicKey is the 32-byte Ed25519 public key, standard base64. This is the form the engine embeds for offline verification.")
     var_schema: Optional[StrictInt] = Field(default=None, description="Schema is the license payload schema version this key signs.", alias="schema")
     token_format: Optional[StrictStr] = Field(default=None, description="TokenFormat states the wire layout so an implementer can verify a token without this service's source.")

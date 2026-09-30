@@ -19,20 +19,18 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.guide_blueprint import GuideBlueprint
-from hanzoai.cloud.models.guide_blueprint_counts import GuideBlueprintCounts
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GuideBlueprintView(BaseModel):
+class SandboxPreviewGrant(BaseModel):
     """
-    GuideBlueprintView
+    SandboxPreviewGrant
     """ # noqa: E501
-    blueprint: Optional[GuideBlueprint] = Field(default=None, description="Blueprint is the whole authored document, including items disabled for the org-facing reads, with every enabled flag written out explicitly.")
-    brand: Optional[StrictStr] = Field(default=None, description="Brand is the key this blueprint is stored under — the deployment's brand, or \"\" for the shared base blueprint it falls back to.")
-    counts: Optional[GuideBlueprintCounts] = Field(default=None, description="Counts summarises how many items each collection holds.")
-    version: Optional[StrictInt] = Field(default=None, description="Version is the active stored version number (1 is the seed). Each edit appends a new one; nothing is ever overwritten.")
-    __properties: ClassVar[List[str]] = ["blueprint", "brand", "counts", "version"]
+    expires_in: Optional[StrictInt] = Field(default=None, description="ExpiresIn is how long the ticket in URL is good for, in seconds.", alias="expiresIn")
+    host: Optional[StrictStr] = Field(default=None, description="Host is the preview's origin host, the same for every ticket for this port of this sandbox, before and after the sandbox is parked and resumed.")
+    port: Optional[StrictInt] = Field(default=None, description="Port is the port the preview serves.")
+    url: Optional[StrictStr] = Field(default=None, description="URL opens the preview: its own origin, with a single-use ticket that sets the preview's cookie and redirects to its root. Open it in a frame or a tab within ExpiresIn seconds, and mint another to reopen.")
+    __properties: ClassVar[List[str]] = ["expiresIn", "host", "port", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +50,7 @@ class GuideBlueprintView(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GuideBlueprintView from a JSON string"""
+        """Create an instance of SandboxPreviewGrant from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,17 +71,11 @@ class GuideBlueprintView(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of blueprint
-        if self.blueprint:
-            _dict['blueprint'] = self.blueprint.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of counts
-        if self.counts:
-            _dict['counts'] = self.counts.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GuideBlueprintView from a dict"""
+        """Create an instance of SandboxPreviewGrant from a dict"""
         if obj is None:
             return None
 
@@ -91,10 +83,10 @@ class GuideBlueprintView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "blueprint": GuideBlueprint.from_dict(obj["blueprint"]) if obj.get("blueprint") is not None else None,
-            "brand": obj.get("brand"),
-            "counts": GuideBlueprintCounts.from_dict(obj["counts"]) if obj.get("counts") is not None else None,
-            "version": obj.get("version")
+            "expiresIn": obj.get("expiresIn"),
+            "host": obj.get("host"),
+            "port": obj.get("port"),
+            "url": obj.get("url")
         })
         return _obj
 

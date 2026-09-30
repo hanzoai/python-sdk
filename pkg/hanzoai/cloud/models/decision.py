@@ -17,21 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.grants import Grants
 from typing import Optional, Set
 from typing_extensions import Self
 
-class DeployVersionMessage(BaseModel):
+class Decision(BaseModel):
     """
-    DeployVersionMessage
+    Decision
     """ # noqa: E501
-    build_date: Optional[StrictStr] = Field(default=None, description="BuildDate is the time THIS RESPONSE was generated, in RFC 3339 — not a build timestamp. There is no argocd build here to report one for.", alias="BuildDate")
-    compiler: Optional[StrictStr] = Field(default=None, description="Compiler is the constant \"gc\" the SPA expects; it is not read from this process.", alias="Compiler")
-    go_version: Optional[StrictStr] = Field(default=None, description="GoVersion is always empty.", alias="GoVersion")
-    platform: Optional[StrictStr] = Field(default=None, description="Platform is the constant \"linux/amd64\" the SPA expects; it is not this process's own GOOS/GOARCH.", alias="Platform")
-    version: Optional[StrictStr] = Field(default=None, description="Version names the projection, \"hanzo-cd (projection)\".", alias="Version")
-    __properties: ClassVar[List[str]] = ["BuildDate", "Compiler", "GoVersion", "Platform", "Version"]
+    defaults: Optional[Grants] = None
+    gpc: Optional[StrictBool] = None
+    mode: Optional[StrictStr] = None
+    notice: Optional[StrictStr] = None
+    region: Optional[StrictStr] = None
+    version: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["defaults", "gpc", "mode", "notice", "region", "version"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +53,7 @@ class DeployVersionMessage(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of DeployVersionMessage from a JSON string"""
+        """Create an instance of Decision from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,11 +74,14 @@ class DeployVersionMessage(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of defaults
+        if self.defaults:
+            _dict['defaults'] = self.defaults.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of DeployVersionMessage from a dict"""
+        """Create an instance of Decision from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +89,12 @@ class DeployVersionMessage(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "BuildDate": obj.get("BuildDate"),
-            "Compiler": obj.get("Compiler"),
-            "GoVersion": obj.get("GoVersion"),
-            "Platform": obj.get("Platform"),
-            "Version": obj.get("Version")
+            "defaults": Grants.from_dict(obj["defaults"]) if obj.get("defaults") is not None else None,
+            "gpc": obj.get("gpc"),
+            "mode": obj.get("mode"),
+            "notice": obj.get("notice"),
+            "region": obj.get("region"),
+            "version": obj.get("version")
         })
         return _obj
 

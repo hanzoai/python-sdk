@@ -57,7 +57,7 @@ class EntitlementApi:
     ) -> EntitlementProjectionView:
         """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It never answers 500: an unvalidated principal is a 403, and an app whose plan cannot be confirmed is reported locked at 200, so the shell always renders. The paywall applies the same rule when it enforces: access follows a confirmed standing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -120,7 +120,7 @@ class EntitlementApi:
     ) -> ApiResponse[EntitlementProjectionView]:
         """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It never answers 500: an unvalidated principal is a 403, and an app whose plan cannot be confirmed is reported locked at 200, so the shell always renders. The paywall applies the same rule when it enforces: access follows a confirmed standing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -183,7 +183,7 @@ class EntitlementApi:
     ) -> RESTResponseType:
         """Reports which console apps the CALLER's org may open, and the plan slug that decides it.
 
-        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It fails SAFE-TO-LOCKED, never 500: an unvalidated principal is a 403, but a commerce outage reports every app locked at 200 rather than breaking the shell. The ENFORCEMENT path still fails open, so functionality survives the same outage even while the UI conservatively shows locked.
+        Reports which console apps the CALLER's org may open, and the plan slug that decides it. It is the READ side of the unified paywall: the org's plan tier resolved from commerce, which is a different authority from the enablement store behind GET /v1/entitlement/orgs/{org} (that one is the org's own on/off intent).  It never answers 500: an unvalidated principal is a 403, and an app whose plan cannot be confirmed is reported locked at 200, so the shell always renders. The paywall applies the same rule when it enforces: access follows a confirmed standing.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

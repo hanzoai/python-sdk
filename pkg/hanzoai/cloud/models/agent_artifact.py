@@ -22,15 +22,18 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ToolMcpCatalogSync(BaseModel):
+class AgentArtifact(BaseModel):
     """
-    ToolMcpCatalogSync
+    AgentArtifact
     """ # noqa: E501
-    added: Optional[StrictInt] = Field(default=None, description="Added is how many listings the catalog did not have before.")
-    registry: Optional[StrictStr] = Field(default=None, description="Registry is the upstream this pass read.")
-    total: Optional[StrictInt] = Field(default=None, description="Total is how many listings the catalog holds now.")
-    updated: Optional[StrictInt] = Field(default=None, description="Updated is how many the publisher has changed since we last looked.")
-    __properties: ClassVar[List[str]] = ["added", "registry", "total", "updated"]
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is file, patch, preview, pull or deploy. A file or a patch is stored, and its bytes are read at GET /v1/agent/coding/{session}/artifacts/{name}.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the artifact's handle: a changed file's path in the workspace, or `changes.patch` for the whole change; for a link, its kind and what it names.")
+    port: Optional[StrictInt] = Field(default=None, description="Port is a preview's port in the run's sandbox, which POST /v1/sandbox/{id}/preview opens while the sandbox is kept.")
+    sandbox: Optional[StrictStr] = Field(default=None, description="Sandbox is the sandbox a preview is served from.")
+    sha256: Optional[StrictStr] = Field(default=None, description="SHA256 is a stored artifact's digest, hex.")
+    size: Optional[StrictInt] = Field(default=None, description="Size is a stored artifact's length in bytes.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is where a link points: a preview's host, a pull request, a deployment.")
+    __properties: ClassVar[List[str]] = ["kind", "name", "port", "sandbox", "sha256", "size", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +53,7 @@ class ToolMcpCatalogSync(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ToolMcpCatalogSync from a JSON string"""
+        """Create an instance of AgentArtifact from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,7 +78,7 @@ class ToolMcpCatalogSync(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ToolMcpCatalogSync from a dict"""
+        """Create an instance of AgentArtifact from a dict"""
         if obj is None:
             return None
 
@@ -83,10 +86,13 @@ class ToolMcpCatalogSync(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "added": obj.get("added"),
-            "registry": obj.get("registry"),
-            "total": obj.get("total"),
-            "updated": obj.get("updated")
+            "kind": obj.get("kind"),
+            "name": obj.get("name"),
+            "port": obj.get("port"),
+            "sandbox": obj.get("sandbox"),
+            "sha256": obj.get("sha256"),
+            "size": obj.get("size"),
+            "url": obj.get("url")
         })
         return _obj
 

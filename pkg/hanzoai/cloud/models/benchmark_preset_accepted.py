@@ -27,11 +27,12 @@ class BenchmarkPresetAccepted(BaseModel):
     """
     BenchmarkPresetAccepted
     """ # noqa: E501
+    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who composed it.")
     note: Optional[StrictStr] = Field(default=None, description="Note explains what acceptance does and does not promise.")
-    preset: Optional[BenchmarkPreset] = Field(default=None, description="Preset is the blend with its defaults filled in.")
+    preset: Optional[BenchmarkPreset] = Field(default=None, description="Preset is the blend with its defaults filled in and Owner set to the caller's verified org.")
     served_as: Optional[StrictStr] = Field(default=None, description="ServedAs is the model id the serving layer would resolve this blend under.")
     status: Optional[StrictStr] = Field(default=None, description="Status is \"accepted\": the blend is well-formed, not that it is now served.")
-    __properties: ClassVar[List[str]] = ["note", "preset", "served_as", "status"]
+    __properties: ClassVar[List[str]] = ["by", "note", "preset", "served_as", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,6 +88,7 @@ class BenchmarkPresetAccepted(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "by": obj.get("by"),
             "note": obj.get("note"),
             "preset": BenchmarkPreset.from_dict(obj["preset"]) if obj.get("preset") is not None else None,
             "served_as": obj.get("served_as"),

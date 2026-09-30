@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.browser_tag_out import BrowserTagOut
+from hanzoai.cloud.models.decision import Decision
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +28,9 @@ class TagConfig(BaseModel):
     """
     TagConfig
     """ # noqa: E501
+    consent: Optional[Decision] = None
     tags: Optional[List[BrowserTagOut]] = None
-    __properties: ClassVar[List[str]] = ["tags"]
+    __properties: ClassVar[List[str]] = ["consent", "tags"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -69,6 +71,9 @@ class TagConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of consent
+        if self.consent:
+            _dict['consent'] = self.consent.to_dict()
         # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
         _items = []
         if self.tags:
@@ -88,6 +93,7 @@ class TagConfig(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "consent": Decision.from_dict(obj["consent"]) if obj.get("consent") is not None else None,
             "tags": [BrowserTagOut.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None
         })
         return _obj

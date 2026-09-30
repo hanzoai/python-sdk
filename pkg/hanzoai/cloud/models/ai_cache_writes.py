@@ -17,18 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PricingPricingSyncOut(BaseModel):
+class AiCacheWrites(BaseModel):
     """
-    PricingPricingSyncOut
+    AiCacheWrites
     """ # noqa: E501
-    status: Optional[StrictStr] = Field(default=None, description="Status is \"ok\" when the sync completed.")
-    updated: Optional[StrictStr] = Field(default=None, description="Updated is the RFC 3339 time the refreshed catalog was stamped with.")
-    __properties: ClassVar[List[str]] = ["status", "updated"]
+    ephemeral_1h_input_tokens: Optional[StrictInt] = None
+    ephemeral_5m_input_tokens: Optional[StrictInt] = None
+    __properties: ClassVar[List[str]] = ["ephemeral_1h_input_tokens", "ephemeral_5m_input_tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +48,7 @@ class PricingPricingSyncOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PricingPricingSyncOut from a JSON string"""
+        """Create an instance of AiCacheWrites from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +73,7 @@ class PricingPricingSyncOut(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PricingPricingSyncOut from a dict"""
+        """Create an instance of AiCacheWrites from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +81,8 @@ class PricingPricingSyncOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "status": obj.get("status"),
-            "updated": obj.get("updated")
+            "ephemeral_1h_input_tokens": obj.get("ephemeral_1h_input_tokens"),
+            "ephemeral_5m_input_tokens": obj.get("ephemeral_5m_input_tokens")
         })
         return _obj
 

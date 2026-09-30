@@ -27,7 +27,7 @@ class BenchmarkClaimsOut(BaseModel):
     """
     BenchmarkClaimsOut
     """ # noqa: E501
-    data: Optional[List[BenchmarkClaimRow]] = Field(default=None, description="Data is one row per (benchmark, model, SOURCE) — every independent claim, not one per model. Effective values only: the row that wins after layering for each source, never the superseded readings behind it.")
+    data: Optional[List[BenchmarkClaimRow]] = Field(default=None, description="Data is one row per (org, benchmark, model, SOURCE) — every independent claim, not one per model. Effective values only: the row that wins after layering for each key, never the superseded readings behind it.")
     total: Optional[StrictInt] = Field(default=None, description="Total is how many rows Data holds.")
     __properties: ClassVar[List[str]] = ["data", "total"]
 
