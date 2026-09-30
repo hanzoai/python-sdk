@@ -40,12 +40,13 @@ class BillingSubscription(BaseModel):
     plan_id: Optional[StrictStr] = Field(default=None, description="PlanID is the plan slug, e.g. \"max-20x\".", alias="planId")
     provider_type: Optional[StrictStr] = Field(default=None, description="ProviderType is who collects it: a processor (\"square\"), \"credit\" for a plan bought with credits, \"internal\" or \"bundle\" for a row nobody paid for.", alias="providerType")
     quantity: Optional[StrictInt] = Field(default=None, description="Quantity is the seat count; a flat plan holds 1.")
+    settled: Optional[StrictStr] = Field(default=None, description="Settled is how the period in hand was paid: \"card\" (a card paid all of it), \"external:<processor>\" (a payment recorded as collected outside commerce), \"balance\", \"credit\" or \"mixed\" (prepaid money). Empty when unpaid or unknown.")
     status: Optional[StrictStr] = Field(default=None, description="Status is trialing, active, past_due, canceled or unpaid. Only active and trialing confer the plan.")
     trial_end: Optional[StrictStr] = Field(default=None, description="TrialEnd is when that trial ends; absent when there was none.", alias="trialEnd")
     trial_start: Optional[StrictStr] = Field(default=None, description="TrialStart is when a trial began; absent when there was none.", alias="trialStart")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the row last changed, RFC 3339.", alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the billing account that holds it: the org slug for an org's own plan, \"<org>/<name>\" for a member's.", alias="userId")
-    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "status", "trialEnd", "trialStart", "updatedAt", "userId"]
+    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "settled", "status", "trialEnd", "trialStart", "updatedAt", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -114,6 +115,7 @@ class BillingSubscription(BaseModel):
             "planId": obj.get("planId"),
             "providerType": obj.get("providerType"),
             "quantity": obj.get("quantity"),
+            "settled": obj.get("settled"),
             "status": obj.get("status"),
             "trialEnd": obj.get("trialEnd"),
             "trialStart": obj.get("trialStart"),

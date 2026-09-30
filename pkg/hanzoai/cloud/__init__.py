@@ -308,7 +308,11 @@ __all__ = [
     "AiRetrainMeta",
     "AiRouterHistory",
     "AiRouterStats",
+    "AiRoutingEdit",
+    "AiRoutingProbe",
+    "AiRoutingProposal",
     "AiRoutingRewardResult",
+    "AiRoutingView",
     "AiStatsWindow",
     "AiTaskStats",
     "AiThroughputStats",
@@ -339,6 +343,12 @@ __all__ = [
     "AuthorEnrolment",
     "AuthorOrgView",
     "AuthorVerifyRequest",
+    "AutoAutomation",
+    "AutoAutomationIn",
+    "AutoAutomationPage",
+    "AutoAutomationPatch",
+    "AutoAutomationRun",
+    "AutoAutomationRunPage",
     "AutoCatalog",
     "AutoConnectorAction",
     "AutoConnectorAuth",
@@ -352,12 +362,18 @@ __all__ = [
     "AutoFlowRun",
     "AutoFlowTrigger",
     "AutoFlowVersion",
+    "AutoLastRun",
     "AutoPatchFlowIn",
     "AutoPopulatedFlow",
     "AutoPropSpec",
+    "AutoRunHandle",
     "AutoRunIn",
     "AutoRunPage",
     "AutoRunResp",
+    "AutoRunStarted",
+    "AutoSchedule",
+    "AutoStarter",
+    "AutoStarterPage",
     "AutoStepSettings",
     "AutoVersionPage",
     "BankTally",
@@ -991,6 +1007,7 @@ __all__ = [
     "GetAiProviders200Response",
     "GetAiRecords200Response",
     "GetAiRemoteConnections200Response",
+    "GetAiRouterCatalog200Response",
     "GetAiRouterHistory200Response",
     "GetAiRouterJudgePanel200Response",
     "GetAiRouterStats200Response",
@@ -1180,6 +1197,7 @@ __all__ = [
     "IamProviderItem",
     "IamProviderResult",
     "IamRegistration",
+    "IamReleaseOutput",
     "IamReply",
     "IamRole",
     "IamRolesDeleteOutput",
@@ -1199,11 +1217,13 @@ __all__ = [
     "IamTeamsDeleteOutput",
     "IamTeamsInput",
     "IamTeamsListOutput",
+    "IamTermsBody",
     "IamThemeData",
     "IamToggle",
     "IamToken",
     "IamTokenMutation",
     "IamTokenResult",
+    "IamTombstone",
     "IamUpdateInput",
     "IamUpdateOrganizationInput",
     "IamUpdateSessionIn",
@@ -2408,6 +2428,8 @@ __all__ = [
     "PostAiRagIngest200Response",
     "PostAiRecords200Response",
     "PostAiRemoteConnections200Response",
+    "PostAiRouterCatalogPropose200Response",
+    "PostAiRouterCatalogTest200Response",
     "PostAiRoutes200Response",
     "PostAiScales200Response",
     "PostAiScans200Response",
@@ -2587,6 +2609,7 @@ __all__ = [
     "PubsubBusMessage",
     "PubsubBusPublish",
     "PubsubBusRequest",
+    "PutAiRouterCatalog200Response",
     "Question",
     "RagEmbedResult",
     "ReferenceClearReferenceOut",
@@ -2648,6 +2671,7 @@ __all__ = [
     "RiskRiskTrial",
     "RiskRiskValue",
     "Root",
+    "RoutingVersion",
     "RunnerContext",
     "RunnerDeclareIn",
     "RunnerDeclareOut",
@@ -2892,18 +2916,22 @@ __all__ = [
     "ToolBuildOut",
     "ToolBuildRequest",
     "ToolCreateServerReq",
+    "ToolKit",
     "ToolMCPListing",
     "ToolMCPPackage",
     "ToolMCPRemote",
     "ToolMCPServer",
     "ToolMcpCatalog",
     "ToolMcpServerList",
+    "ToolMuteReq",
     "ToolPluginDeleted",
     "ToolPluginMount",
     "ToolPluginMountList",
     "ToolPrice",
+    "ToolRemote",
     "ToolSkill",
     "ToolSkillDeleted",
+    "ToolSkillDoc",
     "ToolSkillIn",
     "ToolSkillWritten",
     "ToolSourceToolList",
@@ -3309,7 +3337,11 @@ from hanzoai.cloud.models.ai_responses_usage import AiResponsesUsage as AiRespon
 from hanzoai.cloud.models.ai_retrain_meta import AiRetrainMeta as AiRetrainMeta
 from hanzoai.cloud.models.ai_router_history import AiRouterHistory as AiRouterHistory
 from hanzoai.cloud.models.ai_router_stats import AiRouterStats as AiRouterStats
+from hanzoai.cloud.models.ai_routing_edit import AiRoutingEdit as AiRoutingEdit
+from hanzoai.cloud.models.ai_routing_probe import AiRoutingProbe as AiRoutingProbe
+from hanzoai.cloud.models.ai_routing_proposal import AiRoutingProposal as AiRoutingProposal
 from hanzoai.cloud.models.ai_routing_reward_result import AiRoutingRewardResult as AiRoutingRewardResult
+from hanzoai.cloud.models.ai_routing_view import AiRoutingView as AiRoutingView
 from hanzoai.cloud.models.ai_stats_window import AiStatsWindow as AiStatsWindow
 from hanzoai.cloud.models.ai_task_stats import AiTaskStats as AiTaskStats
 from hanzoai.cloud.models.ai_throughput_stats import AiThroughputStats as AiThroughputStats
@@ -3340,6 +3372,12 @@ from hanzoai.cloud.models.author_deploy_request import AuthorDeployRequest as Au
 from hanzoai.cloud.models.author_enrolment import AuthorEnrolment as AuthorEnrolment
 from hanzoai.cloud.models.author_org_view import AuthorOrgView as AuthorOrgView
 from hanzoai.cloud.models.author_verify_request import AuthorVerifyRequest as AuthorVerifyRequest
+from hanzoai.cloud.models.auto_automation import AutoAutomation as AutoAutomation
+from hanzoai.cloud.models.auto_automation_in import AutoAutomationIn as AutoAutomationIn
+from hanzoai.cloud.models.auto_automation_page import AutoAutomationPage as AutoAutomationPage
+from hanzoai.cloud.models.auto_automation_patch import AutoAutomationPatch as AutoAutomationPatch
+from hanzoai.cloud.models.auto_automation_run import AutoAutomationRun as AutoAutomationRun
+from hanzoai.cloud.models.auto_automation_run_page import AutoAutomationRunPage as AutoAutomationRunPage
 from hanzoai.cloud.models.auto_catalog import AutoCatalog as AutoCatalog
 from hanzoai.cloud.models.auto_connector_action import AutoConnectorAction as AutoConnectorAction
 from hanzoai.cloud.models.auto_connector_auth import AutoConnectorAuth as AutoConnectorAuth
@@ -3353,12 +3391,18 @@ from hanzoai.cloud.models.auto_flow_page import AutoFlowPage as AutoFlowPage
 from hanzoai.cloud.models.auto_flow_run import AutoFlowRun as AutoFlowRun
 from hanzoai.cloud.models.auto_flow_trigger import AutoFlowTrigger as AutoFlowTrigger
 from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion as AutoFlowVersion
+from hanzoai.cloud.models.auto_last_run import AutoLastRun as AutoLastRun
 from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn as AutoPatchFlowIn
 from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow as AutoPopulatedFlow
 from hanzoai.cloud.models.auto_prop_spec import AutoPropSpec as AutoPropSpec
+from hanzoai.cloud.models.auto_run_handle import AutoRunHandle as AutoRunHandle
 from hanzoai.cloud.models.auto_run_in import AutoRunIn as AutoRunIn
 from hanzoai.cloud.models.auto_run_page import AutoRunPage as AutoRunPage
 from hanzoai.cloud.models.auto_run_resp import AutoRunResp as AutoRunResp
+from hanzoai.cloud.models.auto_run_started import AutoRunStarted as AutoRunStarted
+from hanzoai.cloud.models.auto_schedule import AutoSchedule as AutoSchedule
+from hanzoai.cloud.models.auto_starter import AutoStarter as AutoStarter
+from hanzoai.cloud.models.auto_starter_page import AutoStarterPage as AutoStarterPage
 from hanzoai.cloud.models.auto_step_settings import AutoStepSettings as AutoStepSettings
 from hanzoai.cloud.models.auto_version_page import AutoVersionPage as AutoVersionPage
 from hanzoai.cloud.models.bank_tally import BankTally as BankTally
@@ -3992,6 +4036,7 @@ from hanzoai.cloud.models.get_ai_nodes200_response import GetAiNodes200Response 
 from hanzoai.cloud.models.get_ai_providers200_response import GetAiProviders200Response as GetAiProviders200Response
 from hanzoai.cloud.models.get_ai_records200_response import GetAiRecords200Response as GetAiRecords200Response
 from hanzoai.cloud.models.get_ai_remote_connections200_response import GetAiRemoteConnections200Response as GetAiRemoteConnections200Response
+from hanzoai.cloud.models.get_ai_router_catalog200_response import GetAiRouterCatalog200Response as GetAiRouterCatalog200Response
 from hanzoai.cloud.models.get_ai_router_history200_response import GetAiRouterHistory200Response as GetAiRouterHistory200Response
 from hanzoai.cloud.models.get_ai_router_judge_panel200_response import GetAiRouterJudgePanel200Response as GetAiRouterJudgePanel200Response
 from hanzoai.cloud.models.get_ai_router_stats200_response import GetAiRouterStats200Response as GetAiRouterStats200Response
@@ -4181,6 +4226,7 @@ from hanzoai.cloud.models.iam_provider import IamProvider as IamProvider
 from hanzoai.cloud.models.iam_provider_item import IamProviderItem as IamProviderItem
 from hanzoai.cloud.models.iam_provider_result import IamProviderResult as IamProviderResult
 from hanzoai.cloud.models.iam_registration import IamRegistration as IamRegistration
+from hanzoai.cloud.models.iam_release_output import IamReleaseOutput as IamReleaseOutput
 from hanzoai.cloud.models.iam_reply import IamReply as IamReply
 from hanzoai.cloud.models.iam_role import IamRole as IamRole
 from hanzoai.cloud.models.iam_roles_delete_output import IamRolesDeleteOutput as IamRolesDeleteOutput
@@ -4200,11 +4246,13 @@ from hanzoai.cloud.models.iam_team import IamTeam as IamTeam
 from hanzoai.cloud.models.iam_teams_delete_output import IamTeamsDeleteOutput as IamTeamsDeleteOutput
 from hanzoai.cloud.models.iam_teams_input import IamTeamsInput as IamTeamsInput
 from hanzoai.cloud.models.iam_teams_list_output import IamTeamsListOutput as IamTeamsListOutput
+from hanzoai.cloud.models.iam_terms_body import IamTermsBody as IamTermsBody
 from hanzoai.cloud.models.iam_theme_data import IamThemeData as IamThemeData
 from hanzoai.cloud.models.iam_toggle import IamToggle as IamToggle
 from hanzoai.cloud.models.iam_token import IamToken as IamToken
 from hanzoai.cloud.models.iam_token_mutation import IamTokenMutation as IamTokenMutation
 from hanzoai.cloud.models.iam_token_result import IamTokenResult as IamTokenResult
+from hanzoai.cloud.models.iam_tombstone import IamTombstone as IamTombstone
 from hanzoai.cloud.models.iam_update_input import IamUpdateInput as IamUpdateInput
 from hanzoai.cloud.models.iam_update_organization_input import IamUpdateOrganizationInput as IamUpdateOrganizationInput
 from hanzoai.cloud.models.iam_update_session_in import IamUpdateSessionIn as IamUpdateSessionIn
@@ -5409,6 +5457,8 @@ from hanzoai.cloud.models.post_ai_rag_embed200_response import PostAiRagEmbed200
 from hanzoai.cloud.models.post_ai_rag_ingest200_response import PostAiRagIngest200Response as PostAiRagIngest200Response
 from hanzoai.cloud.models.post_ai_records200_response import PostAiRecords200Response as PostAiRecords200Response
 from hanzoai.cloud.models.post_ai_remote_connections200_response import PostAiRemoteConnections200Response as PostAiRemoteConnections200Response
+from hanzoai.cloud.models.post_ai_router_catalog_propose200_response import PostAiRouterCatalogPropose200Response as PostAiRouterCatalogPropose200Response
+from hanzoai.cloud.models.post_ai_router_catalog_test200_response import PostAiRouterCatalogTest200Response as PostAiRouterCatalogTest200Response
 from hanzoai.cloud.models.post_ai_routes200_response import PostAiRoutes200Response as PostAiRoutes200Response
 from hanzoai.cloud.models.post_ai_scales200_response import PostAiScales200Response as PostAiScales200Response
 from hanzoai.cloud.models.post_ai_scans200_response import PostAiScans200Response as PostAiScans200Response
@@ -5588,6 +5638,7 @@ from hanzoai.cloud.models.pubsub_bus_ack import PubsubBusAck as PubsubBusAck
 from hanzoai.cloud.models.pubsub_bus_message import PubsubBusMessage as PubsubBusMessage
 from hanzoai.cloud.models.pubsub_bus_publish import PubsubBusPublish as PubsubBusPublish
 from hanzoai.cloud.models.pubsub_bus_request import PubsubBusRequest as PubsubBusRequest
+from hanzoai.cloud.models.put_ai_router_catalog200_response import PutAiRouterCatalog200Response as PutAiRouterCatalog200Response
 from hanzoai.cloud.models.question import Question as Question
 from hanzoai.cloud.models.rag_embed_result import RagEmbedResult as RagEmbedResult
 from hanzoai.cloud.models.reference_clear_reference_out import ReferenceClearReferenceOut as ReferenceClearReferenceOut
@@ -5649,6 +5700,7 @@ from hanzoai.cloud.models.risk_risk_topology import RiskRiskTopology as RiskRisk
 from hanzoai.cloud.models.risk_risk_trial import RiskRiskTrial as RiskRiskTrial
 from hanzoai.cloud.models.risk_risk_value import RiskRiskValue as RiskRiskValue
 from hanzoai.cloud.models.root import Root as Root
+from hanzoai.cloud.models.routing_version import RoutingVersion as RoutingVersion
 from hanzoai.cloud.models.runner_context import RunnerContext as RunnerContext
 from hanzoai.cloud.models.runner_declare_in import RunnerDeclareIn as RunnerDeclareIn
 from hanzoai.cloud.models.runner_declare_out import RunnerDeclareOut as RunnerDeclareOut
@@ -5893,18 +5945,22 @@ from hanzoai.cloud.models.tool_authored_skill_list import ToolAuthoredSkillList 
 from hanzoai.cloud.models.tool_build_out import ToolBuildOut as ToolBuildOut
 from hanzoai.cloud.models.tool_build_request import ToolBuildRequest as ToolBuildRequest
 from hanzoai.cloud.models.tool_create_server_req import ToolCreateServerReq as ToolCreateServerReq
+from hanzoai.cloud.models.tool_kit import ToolKit as ToolKit
 from hanzoai.cloud.models.tool_mcp_listing import ToolMCPListing as ToolMCPListing
 from hanzoai.cloud.models.tool_mcp_package import ToolMCPPackage as ToolMCPPackage
 from hanzoai.cloud.models.tool_mcp_remote import ToolMCPRemote as ToolMCPRemote
 from hanzoai.cloud.models.tool_mcp_server import ToolMCPServer as ToolMCPServer
 from hanzoai.cloud.models.tool_mcp_catalog import ToolMcpCatalog as ToolMcpCatalog
 from hanzoai.cloud.models.tool_mcp_server_list import ToolMcpServerList as ToolMcpServerList
+from hanzoai.cloud.models.tool_mute_req import ToolMuteReq as ToolMuteReq
 from hanzoai.cloud.models.tool_plugin_deleted import ToolPluginDeleted as ToolPluginDeleted
 from hanzoai.cloud.models.tool_plugin_mount import ToolPluginMount as ToolPluginMount
 from hanzoai.cloud.models.tool_plugin_mount_list import ToolPluginMountList as ToolPluginMountList
 from hanzoai.cloud.models.tool_price import ToolPrice as ToolPrice
+from hanzoai.cloud.models.tool_remote import ToolRemote as ToolRemote
 from hanzoai.cloud.models.tool_skill import ToolSkill as ToolSkill
 from hanzoai.cloud.models.tool_skill_deleted import ToolSkillDeleted as ToolSkillDeleted
+from hanzoai.cloud.models.tool_skill_doc import ToolSkillDoc as ToolSkillDoc
 from hanzoai.cloud.models.tool_skill_in import ToolSkillIn as ToolSkillIn
 from hanzoai.cloud.models.tool_skill_written import ToolSkillWritten as ToolSkillWritten
 from hanzoai.cloud.models.tool_source_tool_list import ToolSourceToolList as ToolSourceToolList

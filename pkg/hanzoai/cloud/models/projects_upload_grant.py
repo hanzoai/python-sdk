@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,13 @@ class ProjectsUploadGrant(BaseModel):
     """
     ProjectsUploadGrant
     """ # noqa: E501
+    copy: Optional[StrictBool] = None
     expires_at: Optional[StrictInt] = Field(default=None, alias="expiresAt")
     fields: Optional[Dict[str, StrictStr]] = None
     max_bytes: Optional[StrictInt] = Field(default=None, alias="maxBytes")
     prefix: Optional[StrictStr] = None
     url: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["expiresAt", "fields", "maxBytes", "prefix", "url"]
+    __properties: ClassVar[List[str]] = ["copy", "expiresAt", "fields", "maxBytes", "prefix", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,7 @@ class ProjectsUploadGrant(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "copy": obj.get("copy"),
             "expiresAt": obj.get("expiresAt"),
             "fields": obj.get("fields"),
             "maxBytes": obj.get("maxBytes"),

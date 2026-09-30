@@ -4257,7 +4257,7 @@ class ProjectApi:
     ) -> TagConfig:
         """The site's browser tag set for the hosted tag — which pixels to inject, by publishable key
 
-        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config.
+        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config. `audience` says who is asking — `bot` (automation, a crawler, or a cloud provider's published address), `internal` (a member of the site's org, by the IAM bearer the page sends, or an address in the project's internal networks) or `person` — and the set answers for it: nothing for a bot, Google Analytics alone for the team.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4320,7 +4320,7 @@ class ProjectApi:
     ) -> ApiResponse[TagConfig]:
         """The site's browser tag set for the hosted tag — which pixels to inject, by publishable key
 
-        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config.
+        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config. `audience` says who is asking — `bot` (automation, a crawler, or a cloud provider's published address), `internal` (a member of the site's org, by the IAM bearer the page sends, or an address in the project's internal networks) or `person` — and the set answers for it: nothing for a bot, Google Analytics alone for the team.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4383,7 +4383,7 @@ class ProjectApi:
     ) -> RESTResponseType:
         """The site's browser tag set for the hosted tag — which pixels to inject, by publishable key
 
-        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config.
+        Returns the client-side pixels the SITE has connected (GA4, Google Ads, LinkedIn, Meta, Pinterest, Reddit, TikTok, X) with their NON-SECRET ids, so the hosted tag injects them first-party and stamps each browser event with the same event_id the server-side Conversions API uses — deduping the two. Resolved per site: by the publishable key on ?key= when it names a project, else by the request host, so hanzo.ai and hanzo.chat carry different tags under one org. WITHOUT a resolvable site it answers an empty set at 200 — a page never breaks on its tag config. `audience` says who is asking — `bot` (automation, a crawler, or a cloud provider's published address), `internal` (a member of the site's org, by the IAM bearer the page sends, or an address in the project's internal networks) or `person` — and the set answers for it: nothing for a bot, Google Analytics alone for the team.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

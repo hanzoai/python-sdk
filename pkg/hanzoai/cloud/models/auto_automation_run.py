@@ -17,32 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo
-from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiModelInfo(BaseModel):
+class AutoAutomationRun(BaseModel):
     """
-    AiModelInfo
+    AutoAutomationRun
     """ # noqa: E501
-    access: Optional[AiModelAccessInfo] = None
-    canonical_slug: Optional[StrictStr] = None
-    context_window: Optional[StrictInt] = None
-    created: Optional[StrictInt] = None
+    at: Optional[StrictStr] = Field(default=None, description="At is when it started and Finished when it ended (null while it runs), RFC 3339 UTC.")
+    finished: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
-    max_output_tokens: Optional[StrictInt] = None
-    object: Optional[StrictStr] = None
-    outputs: Optional[List[StrictStr]] = None
-    owned_by: Optional[StrictStr] = None
-    premium: Optional[StrictBool] = None
-    pricing: Optional[AiModelPricingInfo] = None
-    provider: Optional[StrictStr] = None
-    supports_tools: Optional[StrictBool] = None
-    supports_vision: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "context_window", "created", "id", "max_output_tokens", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_tools", "supports_vision"]
+    status: Optional[StrictStr] = Field(default=None, description="Status is succeeded, failed, running, queued, skipped for a start that found the previous run still going, or refused for a run whose person is no longer a member of the org.")
+    summary: Optional[StrictStr] = Field(default=None, description="Summary is one line on how it went.")
+    transcript: Optional[StrictStr] = Field(default=None, description="Transcript opens the run's Dev run; null when it started none.")
+    __properties: ClassVar[List[str]] = ["at", "finished", "id", "status", "summary", "transcript"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -62,7 +52,7 @@ class AiModelInfo(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiModelInfo from a JSON string"""
+        """Create an instance of AutoAutomationRun from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -83,17 +73,11 @@ class AiModelInfo(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of access
-        if self.access:
-            _dict['access'] = self.access.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of pricing
-        if self.pricing:
-            _dict['pricing'] = self.pricing.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiModelInfo from a dict"""
+        """Create an instance of AutoAutomationRun from a dict"""
         if obj is None:
             return None
 
@@ -101,20 +85,12 @@ class AiModelInfo(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "access": AiModelAccessInfo.from_dict(obj["access"]) if obj.get("access") is not None else None,
-            "canonical_slug": obj.get("canonical_slug"),
-            "context_window": obj.get("context_window"),
-            "created": obj.get("created"),
+            "at": obj.get("at"),
+            "finished": obj.get("finished"),
             "id": obj.get("id"),
-            "max_output_tokens": obj.get("max_output_tokens"),
-            "object": obj.get("object"),
-            "outputs": obj.get("outputs"),
-            "owned_by": obj.get("owned_by"),
-            "premium": obj.get("premium"),
-            "pricing": AiModelPricingInfo.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None,
-            "provider": obj.get("provider"),
-            "supports_tools": obj.get("supports_tools"),
-            "supports_vision": obj.get("supports_vision")
+            "status": obj.get("status"),
+            "summary": obj.get("summary"),
+            "transcript": obj.get("transcript")
         })
         return _obj
 

@@ -28,6 +28,8 @@ class ProjectProjectsComplete(BaseModel):
     """ # noqa: E501
     bytes: Optional[StrictInt] = Field(default=None, description="Bytes is their total size in bytes.")
     commit: Optional[StrictStr] = Field(default=None, description="Commit is the revision that was built, recorded on the deployment.")
+    copy: Optional[List[StrictStr]] = Field(default=None, description="Copy lists the keys to take from CopyFrom's prefix, relative to it. They are also named in Keys, which stays the whole release.")
+    copy_from: Optional[StrictStr] = Field(default=None, description="CopyFrom names another site of the same org whose prefix already holds the bytes of Copy. A host that shares a build with another differs from it by a page or two, so CI uploads those and asks for the rest to be copied inside the object store instead of sent again over the runner's link.", alias="copyFrom")
     files: Optional[StrictInt] = Field(default=None, description="Files is how many objects CI published.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the queued deployment to complete, from the path.")
     keys: Optional[List[StrictStr]] = Field(default=None, description="Keys is the manifest CI just uploaded, RELATIVE to the deployment prefix. It is what replaces `aws s3 sync --delete`: an upload grant authorizes writes only, so CI cannot remove a file, and cloud reconciles the prefix against this list instead (grant.go). Omit it and nothing is deleted — the prefix only grows, which is the old pre-grant behaviour and a safe default.")
@@ -35,7 +37,7 @@ class ProjectProjectsComplete(BaseModel):
     message: Optional[StrictStr] = Field(default=None, description="Message is what happened, in words — on an error completion, why it failed.")
     slug: Optional[StrictStr] = Field(default=None, description="Slug is the project the deployment belongs to, from the path.")
     status: Optional[StrictStr] = Field(default=None, description="Status is how the build ended: `live` if it succeeded, `error` if it did not. Nothing else is accepted.")
-    __properties: ClassVar[List[str]] = ["bytes", "commit", "files", "id", "keys", "liveUrl", "message", "slug", "status"]
+    __properties: ClassVar[List[str]] = ["bytes", "commit", "copy", "copyFrom", "files", "id", "keys", "liveUrl", "message", "slug", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +92,8 @@ class ProjectProjectsComplete(BaseModel):
         _obj = cls.model_validate({
             "bytes": obj.get("bytes"),
             "commit": obj.get("commit"),
+            "copy": obj.get("copy"),
+            "copyFrom": obj.get("copyFrom"),
             "files": obj.get("files"),
             "id": obj.get("id"),
             "keys": obj.get("keys"),

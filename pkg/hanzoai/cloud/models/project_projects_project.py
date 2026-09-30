@@ -39,6 +39,7 @@ class ProjectProjectsProject(BaseModel):
     hidden: Optional[StrictBool] = Field(default=None, description="Hidden is PLATFORM MODERATION, and it is a different axis from visibility: it pulls a public project out of the catalogue without editing the publisher's own choice, so un-hiding restores exactly what they asked for. A project is listed only when it is public AND not hidden. Always present, never omitted, for the same reason as visibility.")
     hidden_reason: Optional[StrictStr] = Field(default=None, description="HiddenReason is why moderation hid it. Absent when it is not hidden.", alias="hiddenReason")
     id: Optional[StrictStr] = Field(default=None, description="ID is the project's internal identifier. It is stable across a rename, but it is not what the API addresses this project by — `slug` is.")
+    internal_networks: Optional[List[StrictStr]] = Field(default=None, description="InternalNetworks are the site's own addresses, as CIDRs (\"203.0.113.0/24\"). A visit from one is the site's team: the tag config answers audience \"internal\" (Google Analytics tagged internal, no ad pixel) and its events are stamped internal and forwarded to no ad platform. Empty unless set.", alias="internalNetworks")
     key: Optional[StrictStr] = Field(default=None, description="Key is the project's publishable ingest key, minted at create. It is the value the injected beacon carries and the ONE thing that attributes this site's events; the static-builder reads it beside analytics.  Publishable means it belongs in a page's source: it names a write scope and mints no principal, so it is returned in full rather than masked. Masking it would only mean every caller needed a second endpoint to get the thing the page already ships.")
     last_purge_at: Optional[StrictInt] = Field(default=None, description="LastPurgeAt is when the edge cache was last cleared, as Unix seconds, so a console can say how fresh what readers see actually is. Absent means never.", alias="lastPurgeAt")
     license: Optional[StrictStr] = Field(default=None, description="License is the terms that upstream work carries. Absent has the same reading: undeclared, not unencumbered.")
@@ -54,7 +55,7 @@ class ProjectProjectsProject(BaseModel):
     updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when the project's own record last changed, as Unix seconds. A deploy is not an edit of the project, so this does not move on every publish.", alias="updatedAt")
     upstream: Optional[StrictStr] = Field(default=None, description="Upstream credits the third-party work this project was published from — a free-text line, because the honest answer is a name and a title that no enum could hold. Absent means NOBODY HAS SAID, not that there is nothing to say.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\" or \"private\", and Hidden reports platform moderation. Both are always present (never omitempty) so a consumer can tell a real answer from \"this API is too old to say\" — and so a console never renders a project as public because a field was missing.  Authorship is deliberately absent: it is Org, above.")
-    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "dropLocal", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
+    __properties: ClassVar[List[str]] = ["analytics", "bucket", "cacheControl", "createdAt", "currentDeploymentId", "description", "dropLocal", "forkedFrom", "framework", "hidden", "hiddenReason", "id", "internalNetworks", "key", "lastPurgeAt", "license", "liveUrl", "name", "org", "repo", "slug", "space", "starred", "status", "tags", "updatedAt", "upstream", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -122,6 +123,7 @@ class ProjectProjectsProject(BaseModel):
             "hidden": obj.get("hidden"),
             "hiddenReason": obj.get("hiddenReason"),
             "id": obj.get("id"),
+            "internalNetworks": obj.get("internalNetworks"),
             "key": obj.get("key"),
             "lastPurgeAt": obj.get("lastPurgeAt"),
             "license": obj.get("license"),

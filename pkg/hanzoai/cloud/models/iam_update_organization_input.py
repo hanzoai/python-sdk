@@ -81,6 +81,7 @@ class IamUpdateOrganizationInput(BaseModel):
     password_options: Optional[List[StrictStr]] = Field(default=None, alias="passwordOptions")
     password_salt: Optional[StrictStr] = Field(default=None, alias="passwordSalt")
     password_type: Optional[StrictStr] = Field(default=None, alias="passwordType")
+    platform: Optional[StrictBool] = None
     tags: Optional[List[StrictStr]] = None
     theme_data: Optional[IamThemeData] = Field(default=None, alias="themeData")
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
@@ -91,7 +92,7 @@ class IamUpdateOrganizationInput(BaseModel):
     user_types: Optional[List[StrictStr]] = Field(default=None, alias="userTypes")
     website_url: Optional[StrictStr] = Field(default=None, alias="websiteUrl")
     widget_items: Optional[List[StrictStr]] = Field(default=None, alias="widgetItems")
-    __properties: ClassVar[List[str]] = ["accountItems", "accountMenu", "avatar", "balanceCredit", "balanceCurrency", "countryCodes", "createdAt", "createdTime", "dcrPolicy", "defaultApplication", "defaultAvatar", "defaultPassword", "deleted", "disableSignin", "displayName", "emoji", "enableSoftDeletion", "enableTour", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "founder", "hasPrivilegeConsent", "id", "initScore", "ipRestriction", "ipWhitelist", "isPersonal", "isProfilePublic", "kerberosKdcHost", "kerberosKeytab", "kerberosRealm", "kerberosServiceName", "languages", "ldapAttributes", "logo", "logoDark", "masterPassword", "masterVerificationCode", "mfaItems", "mfaRememberInHours", "name", "navItems", "orgBalance", "owner", "passwordExpireDays", "passwordObfuscatorKey", "passwordObfuscatorType", "passwordOptions", "passwordSalt", "passwordType", "tags", "themeData", "updatedAt", "useEmailAsUsername", "usePermanentAvatar", "userBalance", "userNavItems", "userTypes", "websiteUrl", "widgetItems"]
+    __properties: ClassVar[List[str]] = ["accountItems", "accountMenu", "avatar", "balanceCredit", "balanceCurrency", "countryCodes", "createdAt", "createdTime", "dcrPolicy", "defaultApplication", "defaultAvatar", "defaultPassword", "deleted", "disableSignin", "displayName", "emoji", "enableSoftDeletion", "enableTour", "failedSigninFrozenTime", "failedSigninLimit", "favicon", "founder", "hasPrivilegeConsent", "id", "initScore", "ipRestriction", "ipWhitelist", "isPersonal", "isProfilePublic", "kerberosKdcHost", "kerberosKeytab", "kerberosRealm", "kerberosServiceName", "languages", "ldapAttributes", "logo", "logoDark", "masterPassword", "masterVerificationCode", "mfaItems", "mfaRememberInHours", "name", "navItems", "orgBalance", "owner", "passwordExpireDays", "passwordObfuscatorKey", "passwordObfuscatorType", "passwordOptions", "passwordSalt", "passwordType", "platform", "tags", "themeData", "updatedAt", "useEmailAsUsername", "usePermanentAvatar", "userBalance", "userNavItems", "userTypes", "websiteUrl", "widgetItems"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -212,6 +213,7 @@ class IamUpdateOrganizationInput(BaseModel):
             "passwordOptions": obj.get("passwordOptions"),
             "passwordSalt": obj.get("passwordSalt"),
             "passwordType": obj.get("passwordType"),
+            "platform": obj.get("platform"),
             "tags": obj.get("tags"),
             "themeData": IamThemeData.from_dict(obj["themeData"]) if obj.get("themeData") is not None else None,
             "updatedAt": obj.get("updatedAt"),

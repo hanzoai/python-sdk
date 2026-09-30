@@ -17,21 +17,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.browser_tag_out import BrowserTagOut
-from hanzoai.cloud.models.decision import Decision
+from hanzoai.cloud.models.auto_schedule import AutoSchedule
 from typing import Optional, Set
 from typing_extensions import Self
 
-class TagConfig(BaseModel):
+class AutoAutomationPatch(BaseModel):
     """
-    TagConfig
+    AutoAutomationPatch
     """ # noqa: E501
-    audience: Optional[StrictStr] = None
-    consent: Optional[Decision] = None
-    tags: Optional[List[BrowserTagOut]] = None
-    __properties: ClassVar[List[str]] = ["audience", "consent", "tags"]
+    enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms or disarms its schedule.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the automation, from the path.")
+    instructions: Optional[StrictStr] = None
+    model: Optional[StrictStr] = None
+    name: Optional[StrictStr] = None
+    notify: Optional[StrictBool] = None
+    permissions: Optional[StrictStr] = None
+    project: Optional[StrictStr] = None
+    schedule: Optional[AutoSchedule] = None
+    __properties: ClassVar[List[str]] = ["enabled", "id", "instructions", "model", "name", "notify", "permissions", "project", "schedule"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +56,7 @@ class TagConfig(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of TagConfig from a JSON string"""
+        """Create an instance of AutoAutomationPatch from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,21 +77,14 @@ class TagConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of consent
-        if self.consent:
-            _dict['consent'] = self.consent.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
-        _items = []
-        if self.tags:
-            for _item_tags in self.tags:
-                if _item_tags:
-                    _items.append(_item_tags.to_dict())
-            _dict['tags'] = _items
+        # override the default output from pydantic by calling `to_dict()` of schedule
+        if self.schedule:
+            _dict['schedule'] = self.schedule.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of TagConfig from a dict"""
+        """Create an instance of AutoAutomationPatch from a dict"""
         if obj is None:
             return None
 
@@ -94,9 +92,15 @@ class TagConfig(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "audience": obj.get("audience"),
-            "consent": Decision.from_dict(obj["consent"]) if obj.get("consent") is not None else None,
-            "tags": [BrowserTagOut.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None
+            "enabled": obj.get("enabled"),
+            "id": obj.get("id"),
+            "instructions": obj.get("instructions"),
+            "model": obj.get("model"),
+            "name": obj.get("name"),
+            "notify": obj.get("notify"),
+            "permissions": obj.get("permissions"),
+            "project": obj.get("project"),
+            "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None
         })
         return _obj
 

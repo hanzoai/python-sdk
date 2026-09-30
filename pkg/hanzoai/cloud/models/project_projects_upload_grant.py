@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,12 +26,13 @@ class ProjectProjectsUploadGrant(BaseModel):
     """
     ProjectProjectsUploadGrant
     """ # noqa: E501
+    copy: Optional[StrictBool] = Field(default=None, description="Copy is true when the completion of this deployment accepts copyFrom and copy. A client that does not see it uploads every object itself, since a server that ignores those fields would leave the copied keys missing.")
     expires_at: Optional[StrictInt] = Field(default=None, description="ExpiresAt is when the grant stops being accepted, as Unix seconds. It is short-lived by design and is handed out ONCE, on the response that queues the deployment — a later read of that deployment does not carry it, so a grant cannot be fetched again after the build it was minted for.", alias="expiresAt")
     fields: Optional[Dict[str, StrictStr]] = Field(default=None, description="Fields are form values every POST must carry VERBATIM, alongside `key` and `file`. The signature covers them, so altering any one of them — including widening the key to reach outside the prefix — invalidates the grant rather than extending it.")
     max_bytes: Optional[StrictInt] = Field(default=None, description="MaxBytes bounds ONE object, not the upload as a whole.", alias="maxBytes")
     prefix: Optional[StrictStr] = Field(default=None, description="Prefix is the only place this grant can write: the deployment's own key prefix. It authorizes WRITES ONLY, which is why completing a deployment reconciles the prefix against a manifest instead of letting CI delete.")
     url: Optional[StrictStr] = Field(default=None, description="URL is the address to POST each object to. It is signed for the PUBLIC endpoint, because the signature covers the host and CI posts from outside the cluster.")
-    __properties: ClassVar[List[str]] = ["expiresAt", "fields", "maxBytes", "prefix", "url"]
+    __properties: ClassVar[List[str]] = ["copy", "expiresAt", "fields", "maxBytes", "prefix", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +85,7 @@ class ProjectProjectsUploadGrant(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "copy": obj.get("copy"),
             "expiresAt": obj.get("expiresAt"),
             "fields": obj.get("fields"),
             "maxBytes": obj.get("maxBytes"),

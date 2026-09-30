@@ -17,21 +17,24 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.browser_tag_out import BrowserTagOut
-from hanzoai.cloud.models.decision import Decision
+from hanzoai.cloud.models.routing_version import RoutingVersion
 from typing import Optional, Set
 from typing_extensions import Self
 
-class TagConfig(BaseModel):
+class AiRoutingView(BaseModel):
     """
-    TagConfig
+    AiRoutingView
     """ # noqa: E501
-    audience: Optional[StrictStr] = None
-    consent: Optional[Decision] = None
-    tags: Optional[List[BrowserTagOut]] = None
-    __properties: ClassVar[List[str]] = ["audience", "consent", "tags"]
+    catalog: Optional[Any] = None
+    drift: Optional[StrictBool] = None
+    error: Optional[StrictStr] = None
+    family: Optional[StrictStr] = None
+    stats: Optional[Any] = None
+    version: Optional[RoutingVersion] = None
+    versions: Optional[List[RoutingVersion]] = None
+    __properties: ClassVar[List[str]] = ["catalog", "drift", "error", "family", "stats", "version", "versions"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +54,7 @@ class TagConfig(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of TagConfig from a JSON string"""
+        """Create an instance of AiRoutingView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,21 +75,31 @@ class TagConfig(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of consent
-        if self.consent:
-            _dict['consent'] = self.consent.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in tags (list)
+        # override the default output from pydantic by calling `to_dict()` of version
+        if self.version:
+            _dict['version'] = self.version.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in versions (list)
         _items = []
-        if self.tags:
-            for _item_tags in self.tags:
-                if _item_tags:
-                    _items.append(_item_tags.to_dict())
-            _dict['tags'] = _items
+        if self.versions:
+            for _item_versions in self.versions:
+                if _item_versions:
+                    _items.append(_item_versions.to_dict())
+            _dict['versions'] = _items
+        # set to None if catalog (nullable) is None
+        # and model_fields_set contains the field
+        if self.catalog is None and "catalog" in self.model_fields_set:
+            _dict['catalog'] = None
+
+        # set to None if stats (nullable) is None
+        # and model_fields_set contains the field
+        if self.stats is None and "stats" in self.model_fields_set:
+            _dict['stats'] = None
+
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of TagConfig from a dict"""
+        """Create an instance of AiRoutingView from a dict"""
         if obj is None:
             return None
 
@@ -94,9 +107,13 @@ class TagConfig(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "audience": obj.get("audience"),
-            "consent": Decision.from_dict(obj["consent"]) if obj.get("consent") is not None else None,
-            "tags": [BrowserTagOut.from_dict(_item) for _item in obj["tags"]] if obj.get("tags") is not None else None
+            "catalog": obj.get("catalog"),
+            "drift": obj.get("drift"),
+            "error": obj.get("error"),
+            "family": obj.get("family"),
+            "stats": obj.get("stats"),
+            "version": RoutingVersion.from_dict(obj["version"]) if obj.get("version") is not None else None,
+            "versions": [RoutingVersion.from_dict(_item) for _item in obj["versions"]] if obj.get("versions") is not None else None
         })
         return _obj
 
