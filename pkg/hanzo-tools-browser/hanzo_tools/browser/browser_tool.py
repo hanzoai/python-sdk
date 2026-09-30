@@ -148,16 +148,13 @@ def _normalize_tab_id(tab_id: Union[str, int, None]) -> Union[str, int, None]:
 
 
 async def _check_extension(browser: Optional[str] = None) -> bool:
-    """Check if a browser provider is connected to the local zapd router."""
+    """Whether a browser is on this user's ZAP router."""
     import asyncio
 
     from hanzo_tools.browser.zapd_consumer import get_consumer
 
-    consumer = get_consumer()
-    if consumer is None:
-        return False
     try:
-        return await asyncio.to_thread(consumer.resolve_browser, browser, None) is not None
+        return await asyncio.to_thread(get_consumer().resolve_browser, browser, None) is not None
     except Exception:
         return False
 
@@ -188,7 +185,7 @@ def _zap_params(
     params: dict[str, Any] = {}
     if action in ("screenshot", "annotate"):
         # Shrink where the pixels are. A 4480x1440 PNG is ~740 KB of base64 on the
-        # native-messaging hop; asking the browser for a 1280px JPEG means that
+        # router hop; asking the browser for a 1280px JPEG means that
         # payload is never built, let alone carried.
         params["format"] = "png" if full_res else "jpeg"
         if quality is not None:
@@ -331,26 +328,18 @@ async def _extension_command(
     detail: Optional[dict] = None,
     **kwargs,
 ) -> Optional[dict]:
-    """Route a browser command to a provider via the local zapd router.
-
-    hanzo-mcp is a zapd *consumer*: it connects to ``~/.zap/run/zapd.sock``,
-    lists providers, and routes opaque commands to a ``browser:*`` provider.
-    No in-process server, no HTTP bridge, no :9224, no Playwright fallback.
-    """
+    """Route a browser command to a ``browser/…`` node on this user's ZAP router."""
     import asyncio
 
-    from hanzo_tools.browser.zapd_consumer import get_consumer
-
-    consumer = get_consumer()
-    if consumer is None:
-        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
+    from hanzo_tools.browser.zapd_consumer import UNPAIRED, get_consumer
 
     try:
+        consumer = get_consumer()
         provider = await asyncio.to_thread(consumer.resolve_browser, browser, client_id)
     except Exception as e:
         return {"error": str(e), "transport": "native-zap"}
     if not provider:
-        return {"error": "no browser provider connected over zapd", "transport": "native-zap"}
+        return {"error": UNPAIRED, "transport": "native-zap"}
 
     detail = detail or {}
     method = _zap_method_for(action)
@@ -936,8 +925,8 @@ class BrowserTool(BaseTool):
         self.cdp_endpoint = cdp_endpoint or os.environ.get("BROWSER_CDP_ENDPOINT")
         self.backend = backend or get_backend()
         self.timeout = 30000
-        # No server to start: native-browser commands route through the shared
-        # zapd router (~/.zap/run/zapd.sock) on demand via zapd_consumer.
+        # No server to start: commands reach the browser through this user's
+        # ZAP router, via zapd_consumer.
 
     @property
     def description(self) -> str:
@@ -1071,14 +1060,10 @@ class BrowserTool(BaseTool):
         if action == "browsers":
             from hanzo_tools.browser.zapd_consumer import get_consumer
 
-            consumer = get_consumer()
-            if consumer is None:
-                return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
             try:
-                provs = await asyncio.to_thread(consumer.list_providers)
+                browsers = await asyncio.to_thread(get_consumer().browsers)
             except Exception as e:
                 return {"error": str(e), "transport": "native-zap"}
-            browsers = [p for p in provs if p.get("id", "").startswith("browser:")]
             return {"success": True, "transport": "native-zap", "browsers": browsers, "count": len(browsers)}
 
         # A wait with nothing to wait for is a pause; no browser needs asking.

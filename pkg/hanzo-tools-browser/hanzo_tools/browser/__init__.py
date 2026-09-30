@@ -1,13 +1,11 @@
-"""Browser automation tools for Hanzo AI — zapd consumer model.
+"""Browser automation tools for Hanzo AI, over the ZAP router.
 
-    [Browser ext] --native host--> [zapd router] --unix sock--> [hanzo-mcp] --stdio--> [Agent]
+    [Browser ext] --door (ws, paired)--> [zapd, embedded] <--seat-- [hanzo-mcp] --stdio--> [Agent]
 
-hanzo-mcp hosts NO server. It connects to the one shared local router at
-``~/.zap/run/zapd.sock`` as a *consumer*, lists providers, and routes opaque
-CDP commands to a ``browser:*`` provider (the real Chrome/Firefox extension,
-connected via its native-messaging host). No in-process server, no mDNS, no
-well-known port pool, no :9224 HTTP bridge, no Playwright fallback in
-native-browser mode. ``zapd`` is a separate always-on daemon (see ``~/work/zap``).
+Every ZAP process embeds the router and the kernel elects one by lock; there is
+no daemon. hanzo-mcp takes the seat ``mcp/hanzo-<pid>``, and the Hanzo
+extension, paired once (``hanzo-mcp pair``), is a ``browser/<host>/<name>``
+node that answers the commands routed to it.
 
 Three peer tools are exposed, all sharing one transport (``zapd_consumer``):
 - ``browser``    — high-level, action-oriented (navigate/click/screenshot/tabs …).
@@ -71,10 +69,6 @@ __all__ = [
 
 def register_browser_tools(mcp_server: FastMCP, **kwargs) -> list[BaseTool]:
     """Register the browser tools with the MCP server.
-
-    hanzo-mcp is a zapd *consumer* — it connects to the shared local router at
-    ``~/.zap/run/zapd.sock`` on demand and hosts no in-process server. zapd is a
-    separate always-on daemon, so there is nothing to start here.
 
     Args:
         mcp_server: The FastMCP server instance

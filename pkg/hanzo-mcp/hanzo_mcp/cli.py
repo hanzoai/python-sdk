@@ -40,8 +40,29 @@ def _parse_timeout_arg(timeout_str: str) -> float:
             raise ValueError(f"Invalid timeout format: '{timeout_str}'")
 
 
+def _pair(args: list[str]) -> None:
+    """`hanzo-mcp pair [--reset]`: the code the Hanzo extension's popup takes,
+    once per browser. `--reset` mints a new one; every browser pairs again."""
+    from hanzo_tools.browser.zapd_consumer import pair
+
+    print(pair(reset="--reset" in args))
+
+
+def _seat() -> None:
+    """Stand for this user's ZAP router and take this process's seat, so a
+    paired browser can reach it before the first browser call."""
+    try:
+        from hanzo_tools.browser.zapd_consumer import get_consumer
+    except ImportError:
+        return
+    get_consumer()
+
+
 def main() -> None:
     """Run the CLI for the Hanzo AI server."""
+    if len(sys.argv) > 1 and sys.argv[1] == "pair":
+        _pair(sys.argv[2:])
+        return
     # Handle 'serve' subcommand for Claude Code compatibility
     # Claude Code calls: hanzo-mcp serve --enable-agent
     # We support both: hanzo-mcp [serve] [options]
@@ -524,6 +545,7 @@ def main() -> None:
             host=host,
             port=port,
         )
+        _seat()
         dev_server.run(transport=transport)
         return
 
@@ -547,6 +569,7 @@ def main() -> None:
         port=port,
     )
 
+    _seat()
     try:
         # Transport will be automatically cast to Literal['stdio', 'sse'] by the server
         server.run(transport=transport)

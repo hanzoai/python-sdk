@@ -65,14 +65,26 @@ class TestCdpTool:
         assert "error" in result and "method" in result["error"]
 
     @pytest.mark.asyncio
-    async def test_zapd_unreachable_is_reported(self, tool, monkeypatch):
-        # No zapd → a clear native-zap error, never a stale "server not running".
-        monkeypatch.setattr(
-            "hanzo_tools.browser.cdp_tool.get_consumer", lambda: None
-        )
+    async def test_no_router_is_reported(self, tool, monkeypatch):
+        # A router that never answers is the router's own error, named.
+        class NoRouter:
+            def resolve_browser(self, browser, client_id):
+                raise TimeoutError("zapd: no router on this machine")
+
+        monkeypatch.setattr("hanzo_tools.browser.cdp_tool.get_consumer", lambda: NoRouter())
         result = await tool.execute(action="tabs")
         assert result.get("transport") == "native-zap"
         assert "zapd" in result["error"]
+
+    @pytest.mark.asyncio
+    async def test_no_browser_says_how_to_pair(self, tool, monkeypatch):
+        class Alone:
+            def resolve_browser(self, browser, client_id):
+                return None
+
+        monkeypatch.setattr("hanzo_tools.browser.cdp_tool.get_consumer", lambda: Alone())
+        result = await tool.execute(action="tabs")
+        assert "hanzo-mcp pair" in result["error"]
 
     @pytest.mark.asyncio
     async def test_routes_bare_method_not_cdp_envelope(self, tool, monkeypatch):
@@ -86,7 +98,7 @@ class TestCdpTool:
 
         class FakeConsumer:
             def resolve_browser(self, browser, client_id):
-                return "browser:chrome/host/default"
+                return "browser/host/chrome-1a2b"
 
             def route(self, provider, method, params, timeout=30.0):
                 sent["provider"] = provider
@@ -116,31 +128,36 @@ class TestCdpTool:
 
 
 class TestZapdWire:
-    """The consumer delegates the router envelope to canonical ``zap.frame`` and
-    keeps only the untagged browser-command codec the extension peer decodes."""
+    """The router is the embedded zapd; the one codec here is the browser
+    command body the extension's decodeCmd reads."""
 
-    def test_uses_canonical_frame(self):
-        # No hand-rolled envelope: socket_path and the client come from zap.
+    def test_the_router_is_embedded_not_spawned(self):
         from hanzo_tools.browser import zapd_consumer as zc
-        from zap import frame
-        from zap.client import ZapClient
 
-        assert zc.socket_path() == frame.socket_path()
-        assert zc.ZapClient is ZapClient
-        # The duplicated framing primitives are gone from this module.
-        for gone in ("_encode_frame", "_hello_payload", "_parse_providers", "_read_frame"):
-            assert not hasattr(zc, gone), f"{gone} should be deleted (use zap.frame)"
+        assert zc.zapd.__name__ == "zapd"
+        for gone in ("ensure_zapd_running", "_find_zapd", "_socket_live", "socket_path", "ZapClient"):
+            assert not hasattr(zc, gone), f"{gone} is the retired daemon path"
+
+    def test_a_browser_is_found_by_engine_or_name(self):
+        from hanzo_tools.browser.zapd_consumer import ZapdConsumer
+
+        c = ZapdConsumer.__new__(ZapdConsumer)
+        nodes = [
+            {"id": "mcp/spark/hanzo-42", "attrs": {}},
+            {"id": "browser/spark/firefox-9c1d", "attrs": {"engine": "firefox"}},
+            {"id": "browser/spark/chrome-1a2b", "attrs": {"engine": "chrome"}},
+        ]
+        c.list_providers = lambda: nodes
+        assert c.resolve_browser(None, None) == "browser/spark/firefox-9c1d"
+        assert c.resolve_browser("chrome", None) == "browser/spark/chrome-1a2b"
+        assert c.resolve_browser("safari", None) is None
+        assert c.resolve_browser(None, "browser/spark/chrome-1a2b") == "browser/spark/chrome-1a2b"
+        assert c.resolve_browser(None, "mcp/spark/hanzo-42") is None
 
     def test_cmd_codec_is_extension_compatible_untagged(self):
-        """``_encode_cmd`` must match the extension's ``decodeCmd`` byte layout:
-        method + u16 count + per-param(key + u32 len + value), NO type tag.
-
-        This is intentionally NOT ``zap.frame.encode_cmd`` (which inserts a
-        per-value tag byte). Decode it here exactly as native-zap.ts does and
-        confirm the round trip; then confirm the tagged helper differs.
-        """
+        """``_encode_cmd`` matches the extension's ``decodeCmd`` byte layout:
+        method + u16 count + per-param(key + u32 len + value), no type tag."""
         from hanzo_tools.browser.zapd_consumer import _encode_cmd
-        from zap import frame
 
         method, params = "Page.navigate", {"url": "https://example.com", "tabId": "7"}
         buf = _encode_cmd(method, params)
@@ -160,7 +177,3 @@ class TestZapdWire:
         assert o == len(buf)
         assert out == params
 
-        # The canonical (tagged) helper is a different, longer wire — proving we
-        # were right not to use it for this peer.
-        assert frame.encode_cmd(method, params) != buf
-        assert len(frame.encode_cmd(method, params)) == len(buf) + len(params)

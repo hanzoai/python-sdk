@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.16"
+version = "0.15.18"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -34,7 +34,7 @@ dependencies = [
     "hanzo-tools-fs>=0.3.4",     # 0.3.4 returns image files as native MCP ImageContent
     "hanzo-tools-shell>=0.6.5",  # 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError)
     "hanzo-tools-core>=0.3.1",   # 0.3.1 is the EMPTY shim — no longer shadows canonical hanzo-tools.core
-    "hanzo-tools-browser[playwright]>=0.5.11",  # 0.5.11 screenshots downscale before they reach the wire
+    "hanzo-tools-browser[playwright]>=0.5.12",  # 0.5.12 reaches the browser over the embedded ZAP router
     "hanzo-tools-memory>=0.2.0",
     "hanzo-tools-todo>=0.1.0",
     "hanzo-tools-reasoning>=0.1.0",

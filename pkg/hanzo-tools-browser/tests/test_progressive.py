@@ -12,6 +12,7 @@ import inspect
 import pytest
 from mcp.server import FastMCP
 
+from hanzo_tools.browser.zapd_consumer import UNPAIRED
 from hanzo_tools.browser.browser_tool import ACTIONS, CORE, TOPICS, BrowserTool, _help
 
 CORE_ACTIONS = ("navigate", "snapshot", "click", "fill", "type", "press", "read", "screenshot", "evaluate", "wait", "tabs", "help")
@@ -25,7 +26,7 @@ class FakeConsumer:
         self.replies = replies or {}
 
     def resolve_browser(self, browser, client_id):
-        return "browser:chrome/host/default"
+        return "browser/host/chrome-1a2b"
 
     def route(self, provider, method, params, timeout=30.0):
         self.sent.append((method, params))
@@ -214,9 +215,13 @@ class TestRouting:
 class TestRefsNeedTheExtension:
     @pytest.mark.asyncio
     async def test_no_playwright_stand_in_for_a_ref(self, monkeypatch):
-        monkeypatch.setattr("hanzo_tools.browser.zapd_consumer.get_consumer", lambda: None)
+        class Alone:
+            def resolve_browser(self, browser, client_id):
+                return None
+
+        monkeypatch.setattr("hanzo_tools.browser.zapd_consumer.get_consumer", lambda: Alone())
         out = await BrowserTool(backend="auto").execute(action="click", selector="@e2")
-        assert out == {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "action": "click", "backend": "auto"}
+        assert out == {"error": UNPAIRED, "action": "click", "backend": "auto"}
 
     @pytest.mark.asyncio
     async def test_playwright_backend_refuses_a_ref_by_name(self):

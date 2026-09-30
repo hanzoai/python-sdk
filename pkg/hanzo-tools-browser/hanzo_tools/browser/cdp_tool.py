@@ -2,7 +2,7 @@
 
 Peer of ``browser`` (action-oriented). ``cdp`` is *method-oriented*: it sends a
 CDP method by name with raw params straight to a connected browser provider over
-the shared local zapd router (``~/.zap/run/zapd.sock``). Same backing transport
+this user's ZAP router (``zapd``, embedded). Same backing transport
 as ``browser`` — no in-process server, no :9224 HTTP bridge, no Playwright
 fallback. The method name goes on the wire verbatim (``Target.getTargets``,
 ``Page.navigate`` …) so the extension's CDP dispatch handles it directly; there
@@ -24,7 +24,7 @@ from mcp.server import FastMCP
 from hanzo_tools.core import BaseTool, capture
 from hanzo_tools.core.unified import _result_to_mcp
 from hanzo_tools.browser.browser_tool import _extract_b64
-from hanzo_tools.browser.zapd_consumer import get_consumer
+from hanzo_tools.browser.zapd_consumer import UNPAIRED, get_consumer
 
 logger = logging.getLogger(__name__)
 
@@ -53,16 +53,13 @@ async def _route_cdp(
     """
     import asyncio
 
-    consumer = get_consumer()
-    if consumer is None:
-        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap", "method": method}
-
     try:
+        consumer = get_consumer()
         provider = await asyncio.to_thread(consumer.resolve_browser, target_browser, client_id)
     except Exception as e:
         return {"error": str(e), "transport": "native-zap", "method": method}
     if not provider:
-        return {"error": "no browser provider connected over zapd", "transport": "native-zap", "method": method}
+        return {"error": UNPAIRED, "transport": "native-zap", "method": method}
 
     wire: dict[str, Any] = dict(params or {})
     if tab_id is not None:
@@ -92,17 +89,13 @@ async def _route_cdp(
 
 
 async def _list_browsers() -> dict[str, Any]:
-    """List browser providers connected to the local zapd router."""
+    """The browsers on this user's ZAP router."""
     import asyncio
 
-    consumer = get_consumer()
-    if consumer is None:
-        return {"error": "zapd not reachable (~/.zap/run/zapd.sock)", "transport": "native-zap"}
     try:
-        provs = await asyncio.to_thread(consumer.list_providers)
+        browsers = await asyncio.to_thread(get_consumer().browsers)
     except Exception as e:
         return {"error": str(e), "transport": "native-zap"}
-    browsers = [p for p in provs if p.get("id", "").startswith("browser:")]
     return {"success": True, "transport": "native-zap", "browsers": browsers, "count": len(browsers)}
 
 
