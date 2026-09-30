@@ -3,8 +3,10 @@
 Every process that speaks ZAP embeds the router (``zapd.embed()``) and the
 kernel elects one of them by lock; there is no daemon to start. This process
 stands for router and takes the seat ``mcp/hanzo-<pid>``. A browser is a
-``browser/<host>/<name>`` node, paired once through the router's door
-(``hanzo-mcp pair``), and a command reaches it with ``Node.call``.
+``browser/<host>/<name>`` node that joins through Chrome native messaging
+(:mod:`.native_host`, registered here on every start), and a command reaches
+it with ``Node.call``. The paired door (``hanzo-mcp pair``) is only for
+browsers that cannot start a native host.
 
 The one codec here is the browser command payload (:func:`_encode_cmd`). The
 router forwards it opaquely; the extension's ``decodeCmd`` reads it.
@@ -22,8 +24,9 @@ BROWSER = "browser/"
 
 # What a caller is told when no browser is on the router.
 UNPAIRED = (
-    "no browser on the ZAP router: run `hanzo-mcp pair` and paste the code into "
-    "the Hanzo extension's popup"
+    "no browser on the ZAP router: open Chrome with the Hanzo extension (1.9.59+); "
+    "it joins on its own. A sandboxed browser (snap, Flatpak) pairs instead: "
+    "`hanzo-mcp pair`, then paste the code into the extension's popup"
 )
 
 
@@ -54,6 +57,9 @@ class ZapdConsumer:
     """This process's node on the router, and the browsers it can reach."""
 
     def __init__(self, name: Optional[str] = None):
+        from .native_host import install
+
+        install()
         zapd.embed()
         self.node = zapd.Node(name or f"mcp/hanzo-{os.getpid()}")
 
