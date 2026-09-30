@@ -58,6 +58,10 @@ on:
 jobs:
   cicd:
     uses: hanzoai/ci/.github/workflows/build.yml@909203f2ef807bb022e0b3807a43197015203d61
+    permissions:
+      contents: write
+      packages: write
+      id-token: write
     with:
       spec-ref: ${{ github.event.inputs.spec-ref || '' }}
       spec-version: ${{ github.event.inputs.spec-version || '' }}
