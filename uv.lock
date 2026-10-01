@@ -1767,7 +1767,7 @@ provides-extras = ["consensus", "api", "full", "dev"]
 
 [[package]]
 name = "hanzo-tools-browser"
-version = "0.5.14"
+version = "0.5.16"
 source = { editable = "pkg/hanzo-tools-browser" }
 dependencies = [
     { name = "hanzo-tools" },

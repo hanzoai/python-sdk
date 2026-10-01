@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-tools-browser"
-version = "0.5.15"
+version = "0.5.16"
 description = "Browser automation tools: drive the user's own browser through the Hanzo extension, over the ZAP router every ZAP process embeds."
 readme = "README.md"
 requires-python = ">=3.12"

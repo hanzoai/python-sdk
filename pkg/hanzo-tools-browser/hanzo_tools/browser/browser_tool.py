@@ -1131,9 +1131,11 @@ class BrowserTool(BaseTool):
             if "error" not in ext_result:
                 return _answer(action, ext_result)
 
-            # Refs and labels exist only in the extension, and an explicit
-            # backend means that browser: no Playwright stand-in for either.
-            if backend in ("firefox", "chrome", "extension") or by_ref or wire == "annotate":
+            # Refs and labels exist only in the extension, an explicit backend
+            # means that browser, and a connected browser's own failure is the
+            # answer: Playwright stands in only when no browser is connected.
+            if (backend in ("firefox", "chrome", "extension") or by_ref or wire == "annotate"
+                    or await _check_extension(browser=browser_filter)):
                 return {"error": ext_result["error"], "action": action, "backend": backend}
 
         if by_ref:

@@ -177,3 +177,46 @@ class TestZapdWire:
         assert o == len(buf)
         assert out == params
 
+
+
+class TestConnectedBrowserIsTheAnswer:
+    """A connected browser's own failure comes back; Playwright never stands in for it."""
+
+    @pytest.fixture
+    def tool(self, monkeypatch):
+        import importlib
+
+        from hanzo_tools.browser import BrowserTool
+
+        browser_tool = importlib.import_module("hanzo_tools.browser.browser_tool")
+
+        async def failed(*a, **k):
+            return {"error": "timed out waiting for browser/dgx/chrome"}
+
+        monkeypatch.setattr(browser_tool, "_extension_command", failed)
+        monkeypatch.setattr(browser_tool, "PLAYWRIGHT_AVAILABLE", False)
+        t = BrowserTool()
+        t.backend = "auto"
+        return t, browser_tool
+
+    @pytest.mark.asyncio
+    async def test_connected(self, tool, monkeypatch):
+        t, bt = tool
+
+        async def yes(**k):
+            return True
+
+        monkeypatch.setattr(bt, "_check_extension", yes)
+        r = await t.execute(action="navigate", url="https://example.com")
+        assert r["error"] == "timed out waiting for browser/dgx/chrome"
+
+    @pytest.mark.asyncio
+    async def test_none_connected_falls_through(self, tool, monkeypatch):
+        t, bt = tool
+
+        async def no(**k):
+            return False
+
+        monkeypatch.setattr(bt, "_check_extension", no)
+        r = await t.execute(action="navigate", url="https://example.com")
+        assert "timed out" not in str(r)
