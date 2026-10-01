@@ -31,10 +31,11 @@ class BillingTier(BaseModel):
     """ # noqa: E501
     balance: Optional[BillingTierBalance] = None
     plan: Optional[StrictStr] = Field(default=None, description="Plan is the catalog rung the subject is served as (\"\" with no plan). A tier is a class of rungs; a bound that differs within one class keys on this.")
+    subscription: Optional[StrictStr] = Field(default=None, description="Subscription is the id of the subscription row whose plan is the served rung, \"\" when the tier is not a subscription's.")
     tier: Optional[BillingTierLimits] = None
     user: Optional[StrictStr] = None
     windows: Optional[List[BillingWindow]] = None
-    __properties: ClassVar[List[str]] = ["balance", "plan", "tier", "user", "windows"]
+    __properties: ClassVar[List[str]] = ["balance", "plan", "subscription", "tier", "user", "windows"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -102,6 +103,7 @@ class BillingTier(BaseModel):
         _obj = cls.model_validate({
             "balance": BillingTierBalance.from_dict(obj["balance"]) if obj.get("balance") is not None else None,
             "plan": obj.get("plan"),
+            "subscription": obj.get("subscription"),
             "tier": BillingTierLimits.from_dict(obj["tier"]) if obj.get("tier") is not None else None,
             "user": obj.get("user"),
             "windows": [BillingWindow.from_dict(_item) for _item in obj["windows"]] if obj.get("windows") is not None else None

@@ -29,6 +29,7 @@ class BillingSubscription(BaseModel):
     """ # noqa: E501
     cancel_at_period_end: Optional[StrictBool] = Field(default=None, description="CancelAtPeriodEnd reports that the plan ends at CurrentPeriodEnd.", alias="cancelAtPeriodEnd")
     canceled_at: Optional[StrictStr] = Field(default=None, description="CanceledAt is when it was canceled; absent when it was not.", alias="canceledAt")
+    charged_cents: Optional[StrictInt] = Field(default=None, description="ChargedCents is what the period in hand was actually paid, after any discount and net of refunds. 0 when the period is unpaid.", alias="chargedCents")
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the row was written, RFC 3339.", alias="createdAt")
     current_period_end: Optional[StrictStr] = Field(default=None, description="CurrentPeriodEnd is when it ends, RFC 3339. The plan is paid through it.", alias="currentPeriodEnd")
     current_period_start: Optional[StrictStr] = Field(default=None, description="CurrentPeriodStart is when the period in hand began, RFC 3339.", alias="currentPeriodStart")
@@ -40,13 +41,14 @@ class BillingSubscription(BaseModel):
     plan_id: Optional[StrictStr] = Field(default=None, description="PlanID is the plan slug, e.g. \"max-20x\".", alias="planId")
     provider_type: Optional[StrictStr] = Field(default=None, description="ProviderType is who collects it: a processor (\"square\"), \"credit\" for a plan bought with credits, \"internal\" or \"bundle\" for a row nobody paid for.", alias="providerType")
     quantity: Optional[StrictInt] = Field(default=None, description="Quantity is the seat count; a flat plan holds 1.")
+    seats: Optional[StrictInt] = Field(default=None, description="Seats is the seat count the period in hand was paid for — its paid invoice's quantity, or the quantity recorded with an external period — never the row's live Quantity, which the holder may change. 0 when the period is unpaid.")
     settled: Optional[StrictStr] = Field(default=None, description="Settled is how the period in hand was paid: \"card\" (a card paid all of it), \"external:<processor>\" (a payment recorded as collected outside commerce), \"balance\", \"credit\" or \"mixed\" (prepaid money). Empty when unpaid or unknown.")
     status: Optional[StrictStr] = Field(default=None, description="Status is trialing, active, past_due, canceled or unpaid. Only active and trialing confer the plan.")
     trial_end: Optional[StrictStr] = Field(default=None, description="TrialEnd is when that trial ends; absent when there was none.", alias="trialEnd")
     trial_start: Optional[StrictStr] = Field(default=None, description="TrialStart is when a trial began; absent when there was none.", alias="trialStart")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is when the row last changed, RFC 3339.", alias="updatedAt")
     user_id: Optional[StrictStr] = Field(default=None, description="UserID is the billing account that holds it: the org slug for an org's own plan, \"<org>/<name>\" for a member's.", alias="userId")
-    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "settled", "status", "trialEnd", "trialStart", "updatedAt", "userId"]
+    __properties: ClassVar[List[str]] = ["cancelAtPeriodEnd", "canceledAt", "chargedCents", "createdAt", "currentPeriodEnd", "currentPeriodStart", "defaultPaymentMethod", "endedAt", "id", "mrrCents", "plan", "planId", "providerType", "quantity", "seats", "settled", "status", "trialEnd", "trialStart", "updatedAt", "userId"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -104,6 +106,7 @@ class BillingSubscription(BaseModel):
         _obj = cls.model_validate({
             "cancelAtPeriodEnd": obj.get("cancelAtPeriodEnd"),
             "canceledAt": obj.get("canceledAt"),
+            "chargedCents": obj.get("chargedCents"),
             "createdAt": obj.get("createdAt"),
             "currentPeriodEnd": obj.get("currentPeriodEnd"),
             "currentPeriodStart": obj.get("currentPeriodStart"),
@@ -115,6 +118,7 @@ class BillingSubscription(BaseModel):
             "planId": obj.get("planId"),
             "providerType": obj.get("providerType"),
             "quantity": obj.get("quantity"),
+            "seats": obj.get("seats"),
             "settled": obj.get("settled"),
             "status": obj.get("status"),
             "trialEnd": obj.get("trialEnd"),
