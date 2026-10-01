@@ -1142,6 +1142,7 @@ pkg/hanzoai/cloud/models/iam_delete_result.py
 pkg/hanzoai/cloud/models/iam_delete_session_out.py
 pkg/hanzoai/cloud/models/iam_face_id.py
 pkg/hanzoai/cloud/models/iam_filter.py
+pkg/hanzoai/cloud/models/iam_identifier_body.py
 pkg/hanzoai/cloud/models/iam_input.py
 pkg/hanzoai/cloud/models/iam_invitation.py
 pkg/hanzoai/cloud/models/iam_invitations_delete_output.py

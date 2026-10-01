@@ -1164,6 +1164,7 @@ __all__ = [
     "IamDeleteSessionOut",
     "IamFaceId",
     "IamFilter",
+    "IamIdentifierBody",
     "IamInput",
     "IamInvitation",
     "IamInvitationsDeleteOutput",
@@ -4193,6 +4194,7 @@ from hanzoai.cloud.models.iam_delete_result import IamDeleteResult as IamDeleteR
 from hanzoai.cloud.models.iam_delete_session_out import IamDeleteSessionOut as IamDeleteSessionOut
 from hanzoai.cloud.models.iam_face_id import IamFaceId as IamFaceId
 from hanzoai.cloud.models.iam_filter import IamFilter as IamFilter
+from hanzoai.cloud.models.iam_identifier_body import IamIdentifierBody as IamIdentifierBody
 from hanzoai.cloud.models.iam_input import IamInput as IamInput
 from hanzoai.cloud.models.iam_invitation import IamInvitation as IamInvitation
 from hanzoai.cloud.models.iam_invitations_delete_output import IamInvitationsDeleteOutput as IamInvitationsDeleteOutput

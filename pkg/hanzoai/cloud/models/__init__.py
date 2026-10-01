@@ -1027,6 +1027,7 @@ from hanzoai.cloud.models.iam_delete_result import IamDeleteResult
 from hanzoai.cloud.models.iam_delete_session_out import IamDeleteSessionOut
 from hanzoai.cloud.models.iam_face_id import IamFaceId
 from hanzoai.cloud.models.iam_filter import IamFilter
+from hanzoai.cloud.models.iam_identifier_body import IamIdentifierBody
 from hanzoai.cloud.models.iam_input import IamInput
 from hanzoai.cloud.models.iam_invitation import IamInvitation
 from hanzoai.cloud.models.iam_invitations_delete_output import IamInvitationsDeleteOutput
