@@ -22,14 +22,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiLimit(BaseModel):
+class AiWindow(BaseModel):
     """
-    AiLimit
+    AiWindow
     """ # noqa: E501
-    limit_cents: Optional[StrictInt] = Field(default=None, description="LimitCents is what the plan covers in this window, in billed cents.")
-    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when the window starts again (RFC3339), null for a session that is not running: it starts at the member's next priced call.")
-    used_cents: Optional[StrictInt] = Field(default=None, description="UsedCents is what the plan has covered in this window, in billed cents.")
-    __properties: ClassVar[List[str]] = ["limit_cents", "resets_at", "used_cents"]
+    percent: Optional[StrictInt] = Field(default=None, description="Percent is the share of the window used, 0 to 100, rounded up so any use shows.")
+    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when the window starts again (RFC3339), null for a session that is not running: it starts at the next request.")
+    __properties: ClassVar[List[str]] = ["percent", "resets_at"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class AiLimit(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiLimit from a JSON string"""
+        """Create an instance of AiWindow from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +73,7 @@ class AiLimit(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiLimit from a dict"""
+        """Create an instance of AiWindow from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +81,8 @@ class AiLimit(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "limit_cents": obj.get("limit_cents"),
-            "resets_at": obj.get("resets_at"),
-            "used_cents": obj.get("used_cents")
+            "percent": obj.get("percent"),
+            "resets_at": obj.get("resets_at")
         })
         return _obj
 

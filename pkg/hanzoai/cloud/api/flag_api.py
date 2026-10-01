@@ -63,7 +63,7 @@ class FlagApi:
     ) -> FlagDeletedOut:
         """Removes one flag definition by key and records the deletion in the change log.
 
-        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set.
+        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set, and every other key an owner's or admin's of the org.
 
         :param key: Key is the flag key to act on, from the path. (required)
         :type key: str
@@ -130,7 +130,7 @@ class FlagApi:
     ) -> ApiResponse[FlagDeletedOut]:
         """Removes one flag definition by key and records the deletion in the change log.
 
-        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set.
+        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set, and every other key an owner's or admin's of the org.
 
         :param key: Key is the flag key to act on, from the path. (required)
         :type key: str
@@ -197,7 +197,7 @@ class FlagApi:
     ) -> RESTResponseType:
         """Removes one flag definition by key and records the deletion in the change log.
 
-        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set.
+        Removes one flag definition by key and records the deletion in the change log. A key the caller's store does not hold is a 404. A staged capability's key is a SuperAdmin's to remove, as it is to set, and every other key an owner's or admin's of the org.
 
         :param key: Key is the flag key to act on, from the path. (required)
         :type key: str
@@ -1896,7 +1896,7 @@ class FlagApi:
     ) -> FlagDefRow:
         """Creates or replaces the flag definition at the path's key and returns the stored row.
 
-        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands.
+        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands; every other key is an owner's or admin's of the org, never a member's.
 
         :param key: Key is the flag key to write, from the path. (required)
         :type key: str
@@ -1967,7 +1967,7 @@ class FlagApi:
     ) -> ApiResponse[FlagDefRow]:
         """Creates or replaces the flag definition at the path's key and returns the stored row.
 
-        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands.
+        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands; every other key is an owner's or admin's of the org, never a member's.
 
         :param key: Key is the flag key to write, from the path. (required)
         :type key: str
@@ -2038,7 +2038,7 @@ class FlagApi:
     ) -> RESTResponseType:
         """Creates or replaces the flag definition at the path's key and returns the stored row.
 
-        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands.
+        Creates or replaces the flag definition at the path's key and returns the stored row. The BODY IS THE DEFINITION DOCUMENT — the flag-definition JSON object the evaluator consumes — and it is stored verbatim except that its \"key\" is forced to the key in the URL, so a document can never be filed under a name other than the one it was addressed by. Every write bumps the version and appends to the change log under the caller's identity. A key that lets an org into a capability that is not ga — research, machines — is a SuperAdmin's to set, never an org admin's, and its write is on the audit trail before it lands; every other key is an owner's or admin's of the org, never a member's.
 
         :param key: Key is the flag key to write, from the path. (required)
         :type key: str

@@ -17,9 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.ai_limit import AiLimit
+from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,16 +27,14 @@ class AiLimits(BaseModel):
     """
     AiLimits
     """ # noqa: E501
-    month: Optional[AiLimit] = None
+    day: Optional[AiWindow] = None
+    month: Optional[AiWindow] = None
     period_end: Optional[StrictStr] = None
     period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the billing period (RFC3339).")
-    plan: Optional[StrictStr] = Field(default=None, description="Plan is the rung that covers AI (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\"), empty when the caller's plan covers none and they spend bought credit only.")
-    reset_available: Optional[StrictBool] = Field(default=None, description="ResetAvailable says the member can restart their session and weekly windows now; ResetExpiresAt is when an unused reset lapses (the period end).")
-    reset_expires_at: Optional[StrictStr] = None
-    session: Optional[AiLimit] = Field(default=None, description="Session, Weekly, WeeklyPremium and Month are the four windows. Month is the org's; the others are this member's.")
-    weekly: Optional[AiLimit] = None
-    weekly_premium: Optional[AiLimit] = None
-    __properties: ClassVar[List[str]] = ["month", "period_end", "period_start", "plan", "reset_available", "reset_expires_at", "session", "weekly", "weekly_premium"]
+    plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan that covers Enso and Zen in the consumer apps (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\", \"agency\", \"advisory\", \"dedicated\"), empty when none does: the caller is on the free allowance.")
+    session: Optional[AiWindow] = Field(default=None, description="Session is the request window that starts at the first request after the last one ended; Day turns at midnight UTC; Month is the plan's included usage for the billing period. When Month is used up, Enso and Zen keep answering from free models.")
+    upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent when none does.")
+    __properties: ClassVar[List[str]] = ["day", "month", "period_end", "period_start", "plan", "session", "upgrade"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,18 +75,15 @@ class AiLimits(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of day
+        if self.day:
+            _dict['day'] = self.day.to_dict()
         # override the default output from pydantic by calling `to_dict()` of month
         if self.month:
             _dict['month'] = self.month.to_dict()
         # override the default output from pydantic by calling `to_dict()` of session
         if self.session:
             _dict['session'] = self.session.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of weekly
-        if self.weekly:
-            _dict['weekly'] = self.weekly.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of weekly_premium
-        if self.weekly_premium:
-            _dict['weekly_premium'] = self.weekly_premium.to_dict()
         return _dict
 
     @classmethod
@@ -101,15 +96,13 @@ class AiLimits(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "month": AiLimit.from_dict(obj["month"]) if obj.get("month") is not None else None,
+            "day": AiWindow.from_dict(obj["day"]) if obj.get("day") is not None else None,
+            "month": AiWindow.from_dict(obj["month"]) if obj.get("month") is not None else None,
             "period_end": obj.get("period_end"),
             "period_start": obj.get("period_start"),
             "plan": obj.get("plan"),
-            "reset_available": obj.get("reset_available"),
-            "reset_expires_at": obj.get("reset_expires_at"),
-            "session": AiLimit.from_dict(obj["session"]) if obj.get("session") is not None else None,
-            "weekly": AiLimit.from_dict(obj["weekly"]) if obj.get("weekly") is not None else None,
-            "weekly_premium": AiLimit.from_dict(obj["weekly_premium"]) if obj.get("weekly_premium") is not None else None
+            "session": AiWindow.from_dict(obj["session"]) if obj.get("session") is not None else None,
+            "upgrade": obj.get("upgrade")
         })
         return _obj
 

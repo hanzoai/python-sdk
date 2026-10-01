@@ -143,7 +143,6 @@ from hanzoai.cloud.models.ai_history_totals import AiHistoryTotals
 from hanzoai.cloud.models.ai_history_window import AiHistoryWindow
 from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState
-from hanzoai.cloud.models.ai_limit import AiLimit
 from hanzoai.cloud.models.ai_limits import AiLimits
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
@@ -182,6 +181,7 @@ from hanzoai.cloud.models.ai_throughput_stats import AiThroughputStats
 from hanzoai.cloud.models.ai_token_count import AiTokenCount
 from hanzoai.cloud.models.ai_video_failure import AiVideoFailure
 from hanzoai.cloud.models.ai_video_status import AiVideoStatus
+from hanzoai.cloud.models.ai_window import AiWindow
 from hanzoai.cloud.models.allowance_allowance import AllowanceAllowance
 from hanzoai.cloud.models.allowance_pool import AllowancePool
 from hanzoai.cloud.models.app import App

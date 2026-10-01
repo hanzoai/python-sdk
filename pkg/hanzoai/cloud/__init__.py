@@ -280,7 +280,6 @@ __all__ = [
     "AiHistoryWindow",
     "AiJudgeBenchmark",
     "AiJudgePanelState",
-    "AiLimit",
     "AiLimits",
     "AiMCPApp",
     "AiMCPSurface",
@@ -319,6 +318,7 @@ __all__ = [
     "AiTokenCount",
     "AiVideoFailure",
     "AiVideoStatus",
+    "AiWindow",
     "AllowanceAllowance",
     "AllowancePool",
     "App",
@@ -3309,7 +3309,6 @@ from hanzoai.cloud.models.ai_history_totals import AiHistoryTotals as AiHistoryT
 from hanzoai.cloud.models.ai_history_window import AiHistoryWindow as AiHistoryWindow
 from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark as AiJudgeBenchmark
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState as AiJudgePanelState
-from hanzoai.cloud.models.ai_limit import AiLimit as AiLimit
 from hanzoai.cloud.models.ai_limits import AiLimits as AiLimits
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp as AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface as AiMCPSurface
@@ -3348,6 +3347,7 @@ from hanzoai.cloud.models.ai_throughput_stats import AiThroughputStats as AiThro
 from hanzoai.cloud.models.ai_token_count import AiTokenCount as AiTokenCount
 from hanzoai.cloud.models.ai_video_failure import AiVideoFailure as AiVideoFailure
 from hanzoai.cloud.models.ai_video_status import AiVideoStatus as AiVideoStatus
+from hanzoai.cloud.models.ai_window import AiWindow as AiWindow
 from hanzoai.cloud.models.allowance_allowance import AllowanceAllowance as AllowanceAllowance
 from hanzoai.cloud.models.allowance_pool import AllowancePool as AllowancePool
 from hanzoai.cloud.models.app import App as App

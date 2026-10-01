@@ -258,7 +258,6 @@ pkg/hanzoai/cloud/models/ai_history_totals.py
 pkg/hanzoai/cloud/models/ai_history_window.py
 pkg/hanzoai/cloud/models/ai_judge_benchmark.py
 pkg/hanzoai/cloud/models/ai_judge_panel_state.py
-pkg/hanzoai/cloud/models/ai_limit.py
 pkg/hanzoai/cloud/models/ai_limits.py
 pkg/hanzoai/cloud/models/ai_mcp_app.py
 pkg/hanzoai/cloud/models/ai_mcp_surface.py
@@ -297,6 +296,7 @@ pkg/hanzoai/cloud/models/ai_throughput_stats.py
 pkg/hanzoai/cloud/models/ai_token_count.py
 pkg/hanzoai/cloud/models/ai_video_failure.py
 pkg/hanzoai/cloud/models/ai_video_status.py
+pkg/hanzoai/cloud/models/ai_window.py
 pkg/hanzoai/cloud/models/allowance_allowance.py
 pkg/hanzoai/cloud/models/allowance_pool.py
 pkg/hanzoai/cloud/models/app.py
