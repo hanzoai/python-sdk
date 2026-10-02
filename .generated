@@ -1615,6 +1615,7 @@ pkg/hanzoai/cloud/models/o11y_gettable_waterfall_trace.py
 pkg/hanzoai/cloud/models/o11y_google_chat_receiver_config.py
 pkg/hanzoai/cloud/models/o11y_group_by_key.py
 pkg/hanzoai/cloud/models/o11y_having.py
+pkg/hanzoai/cloud/models/o11y_heartbeat.py
 pkg/hanzoai/cloud/models/o11y_host.py
 pkg/hanzoai/cloud/models/o11y_host_filter.py
 pkg/hanzoai/cloud/models/o11y_host_list_record.py

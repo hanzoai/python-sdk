@@ -1638,6 +1638,7 @@ __all__ = [
     "O11yGroupByKey",
     "O11yHTTPClientConfig",
     "O11yHaving",
+    "O11yHeartbeat",
     "O11yHost",
     "O11yHostFilter",
     "O11yHostListRecord",
@@ -4668,6 +4669,7 @@ from hanzoai.cloud.models.o11y_google_chat_receiver_config import O11yGoogleChat
 from hanzoai.cloud.models.o11y_group_by_key import O11yGroupByKey as O11yGroupByKey
 from hanzoai.cloud.models.o11y_http_client_config import O11yHTTPClientConfig as O11yHTTPClientConfig
 from hanzoai.cloud.models.o11y_having import O11yHaving as O11yHaving
+from hanzoai.cloud.models.o11y_heartbeat import O11yHeartbeat as O11yHeartbeat
 from hanzoai.cloud.models.o11y_host import O11yHost as O11yHost
 from hanzoai.cloud.models.o11y_host_filter import O11yHostFilter as O11yHostFilter
 from hanzoai.cloud.models.o11y_host_list_record import O11yHostListRecord as O11yHostListRecord

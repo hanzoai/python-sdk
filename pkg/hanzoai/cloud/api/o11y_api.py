@@ -34,6 +34,7 @@ from hanzoai.cloud.models.o11y_create_queue_req import O11yCreateQueueReq
 from hanzoai.cloud.models.o11y_daemon_set_list_request import O11yDaemonSetListRequest
 from hanzoai.cloud.models.o11y_deployment_list_request import O11yDeploymentListRequest
 from hanzoai.cloud.models.o11y_filter_attribute_value_request import O11yFilterAttributeValueRequest
+from hanzoai.cloud.models.o11y_heartbeat import O11yHeartbeat
 from hanzoai.cloud.models.o11y_host_list_request import O11yHostListRequest
 from hanzoai.cloud.models.o11y_install_integration_request import O11yInstallIntegrationRequest
 from hanzoai.cloud.models.o11y_job_list_request import O11yJobListRequest
@@ -22388,6 +22389,256 @@ class O11yApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/o11y/users/me',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_o11y_alerts_heartbeat(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> O11yHeartbeat:
+        """Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging.
+
+        Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging. The o11y ruler fires one alert forever, labelled watchdog=\"true\", and every notification of it that reaches this process is a heartbeat — recorded as ALERT-HEARTBEAT, never sent to a human.  It answers 200 with the heartbeat's age while one arrived within the last 15 minutes, and 503 once none has. A 503 means the path from the ruler to this receiver stopped — the ruler, its Alertmanager, or this process — which nothing inside the cluster can be trusted to say, so something OUTSIDE it polls this and pages on the 503. Process-local, like the replay ring: a restart starts the clock again rather than answering 503 before the first beat can arrive.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_o11y_alerts_heartbeat_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "O11yHeartbeat",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_o11y_alerts_heartbeat_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[O11yHeartbeat]:
+        """Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging.
+
+        Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging. The o11y ruler fires one alert forever, labelled watchdog=\"true\", and every notification of it that reaches this process is a heartbeat — recorded as ALERT-HEARTBEAT, never sent to a human.  It answers 200 with the heartbeat's age while one arrived within the last 15 minutes, and 503 once none has. A 503 means the path from the ruler to this receiver stopped — the ruler, its Alertmanager, or this process — which nothing inside the cluster can be trusted to say, so something OUTSIDE it polls this and pages on the 503. Process-local, like the replay ring: a restart starts the clock again rather than answering 503 before the first beat can arrive.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_o11y_alerts_heartbeat_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "O11yHeartbeat",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_o11y_alerts_heartbeat_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging.
+
+        Reports whether the alert path's heartbeat is still arriving: the dead-man's switch for paging. The o11y ruler fires one alert forever, labelled watchdog=\"true\", and every notification of it that reaches this process is a heartbeat — recorded as ALERT-HEARTBEAT, never sent to a human.  It answers 200 with the heartbeat's age while one arrived within the last 15 minutes, and 503 once none has. A 503 means the path from the ruler to this receiver stopped — the ruler, its Alertmanager, or this process — which nothing inside the cluster can be trusted to say, so something OUTSIDE it polls this and pages on the 503. Process-local, like the replay ring: a restart starts the clock again rather than answering 503 before the first beat can arrive.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_o11y_alerts_heartbeat_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "O11yHeartbeat",
+            '202': "Approval",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_o11y_alerts_heartbeat_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/o11y/alerts/heartbeat',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -67321,7 +67572,7 @@ class O11yApi:
     ) -> None:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for. An alert labelled `watchdog=\"true\"` is the path's heartbeat (see `GET /v1/o11y/alerts/heartbeat`) and pages nobody.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
@@ -67387,7 +67638,7 @@ class O11yApi:
     ) -> ApiResponse[None]:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for. An alert labelled `watchdog=\"true\"` is the path's heartbeat (see `GET /v1/o11y/alerts/heartbeat`) and pages nobody.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
@@ -67453,7 +67704,7 @@ class O11yApi:
     ) -> RESTResponseType:
         """Take an Alertmanager notification and page a human
 
-        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
+        Records one Alertmanager webhook delivery and pages the on-call. Each alert prints an `ALERT-RECEIVED` line and joins the replay ring, then the batch is carried out of the process by the egress chain: the org's KMS-custodied Slack bot token first (the ONE product Slack egress, not a second webhook credential), then an email to `CLOUD_ALERTS_EMAIL_TO` on the org's own notify credential, then a plain POST to `CLOUD_ALERTS_WEBHOOK_URL` — which needs no Slack connection and so works in exactly the state that silences the first. Resolved notifications page too: \"it recovered\" is the half of an incident people are actually waiting for. An alert labelled `watchdog=\"true\"` is the path's heartbeat (see `GET /v1/o11y/alerts/heartbeat`) and pages nobody.  THE STATUS CODE REPORTS DELIVERY, NOT ARRIVAL. 200 `ok` means an egress accepted the batch. If none did — including when none is configured at all — it answers **503** naming the failure, so Alertmanager retries and counts it in `alertmanager_notifications_failed_total`. An alert nobody could be told about must never answer the same way as one that was delivered.  A body that will not parse is still recorded (with empty fields) rather than rejected: the delivery happened, which is the fact being recorded, and a 400 would make Alertmanager retry a malformed payload forever.  The receiver segment is Alertmanager's own receiver name, a parameter rather than a hand-listed route because the receiver set is config, not code.
 
         :param receiver: (required)
         :type receiver: str
