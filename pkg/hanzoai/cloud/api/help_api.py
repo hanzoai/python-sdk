@@ -63,7 +63,7 @@ class HelpApi:
     ) -> HelpHelpArticleList:
         """Returns the public knowledge base: the help center's Published, publicly-visible articles as cards.
 
-        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404.
+        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404, and one whose center has not installed the Help model answers an empty list.
 
         :param category: Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.
         :type category: str
@@ -134,7 +134,7 @@ class HelpApi:
     ) -> ApiResponse[HelpHelpArticleList]:
         """Returns the public knowledge base: the help center's Published, publicly-visible articles as cards.
 
-        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404.
+        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404, and one whose center has not installed the Help model answers an empty list.
 
         :param category: Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.
         :type category: str
@@ -205,7 +205,7 @@ class HelpApi:
     ) -> RESTResponseType:
         """Returns the public knowledge base: the help center's Published, publicly-visible articles as cards.
 
-        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404.
+        Returns the public knowledge base: the help center's Published, publicly-visible articles as cards. The org is server-fixed and the status/is_public filter is server-set, so neither the tenant nor the visibility can be widened by the caller. A deployment with no help center answers 404, and one whose center has not installed the Help model answers an empty list.
 
         :param category: Category narrows the list to one knowledge-base section, matched against the article's category by exact name. Empty lists every section.
         :type category: str
@@ -604,7 +604,7 @@ class HelpApi:
     ) -> HelpHelpCategoryList:
         """Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks.
 
-        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error.
+        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error — as is a center that has not installed the Help model.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -667,7 +667,7 @@ class HelpApi:
     ) -> ApiResponse[HelpHelpCategoryList]:
         """Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks.
 
-        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error.
+        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error — as is a center that has not installed the Help model.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -730,7 +730,7 @@ class HelpApi:
     ) -> RESTResponseType:
         """Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks.
 
-        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error.
+        Returns the knowledge-base sections for the public center's navigation — but ONLY the sections that front at least one Published, public article, so an internal (agent-only) category name or description never leaks. A section with no public article is invisible; a center with no public articles has no sections, which is an empty list rather than an error — as is a center that has not installed the Help model.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
