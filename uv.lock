@@ -2252,7 +2252,7 @@ wheels = [
 
 [[package]]
 name = "hanzoai"
-version = "8.5.511"
+version = "8.5.512"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },
