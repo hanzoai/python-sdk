@@ -2427,6 +2427,7 @@ from hanzoai.cloud.models.provider_github_search_hit import ProviderGithubSearch
 from hanzoai.cloud.models.provider_github_search_out import ProviderGithubSearchOut
 from hanzoai.cloud.models.provider_github_search_req import ProviderGithubSearchReq
 from hanzoai.cloud.models.provider_github_user_complete_in import ProviderGithubUserCompleteIn
+from hanzoai.cloud.models.provider_github_user_connect_in import ProviderGithubUserConnectIn
 from hanzoai.cloud.models.provider_github_user_connect_out import ProviderGithubUserConnectOut
 from hanzoai.cloud.models.provider_github_user_disconnect_out import ProviderGithubUserDisconnectOut
 from hanzoai.cloud.models.provider_github_user_out import ProviderGithubUserOut

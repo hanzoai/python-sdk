@@ -2542,6 +2542,7 @@ pkg/hanzoai/cloud/models/provider_github_search_hit.py
 pkg/hanzoai/cloud/models/provider_github_search_out.py
 pkg/hanzoai/cloud/models/provider_github_search_req.py
 pkg/hanzoai/cloud/models/provider_github_user_complete_in.py
+pkg/hanzoai/cloud/models/provider_github_user_connect_in.py
 pkg/hanzoai/cloud/models/provider_github_user_connect_out.py
 pkg/hanzoai/cloud/models/provider_github_user_disconnect_out.py
 pkg/hanzoai/cloud/models/provider_github_user_out.py

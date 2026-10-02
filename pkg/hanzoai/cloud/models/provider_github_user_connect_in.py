@@ -22,12 +22,12 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ProviderGithubUserConnectOut(BaseModel):
+class ProviderGithubUserConnectIn(BaseModel):
     """
-    ProviderGithubUserConnectOut
+    ProviderGithubUserConnectIn
     """ # noqa: E501
-    authorize_url: Optional[StrictStr] = Field(default=None, description="AuthorizeURL is GitHub's authorization page for the App. GitHub returns the browser to the callback, which parks the answer and sends it on with complete=github&grant=<id> — to the return page the connect named, or the console's /connectors — and that page POSTs the grant to /v1/provider/github/user/complete.", alias="authorizeUrl")
-    __properties: ClassVar[List[str]] = ["authorizeUrl"]
+    var_return: Optional[StrictStr] = Field(default=None, description="Return is the page the callback sends the person back to, with complete=github&grant=<id> (or error=github&reason=<why>) added to its query. It must name one of this deployment's return pages (on api.hanzo.ai: https://hanzo.ai/?at=-/settings/integrations, https://console.hanzo.ai/connectors, https://platform.hanzo.ai/connectors); anything else, or nothing, returns to the console's /connectors.", alias="return")
+    __properties: ClassVar[List[str]] = ["return"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,7 +47,7 @@ class ProviderGithubUserConnectOut(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProviderGithubUserConnectOut from a JSON string"""
+        """Create an instance of ProviderGithubUserConnectIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,7 +72,7 @@ class ProviderGithubUserConnectOut(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProviderGithubUserConnectOut from a dict"""
+        """Create an instance of ProviderGithubUserConnectIn from a dict"""
         if obj is None:
             return None
 
@@ -80,7 +80,7 @@ class ProviderGithubUserConnectOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "authorizeUrl": obj.get("authorizeUrl")
+            "return": obj.get("return")
         })
         return _obj
 

@@ -29,8 +29,9 @@ class ProviderConnectIn(BaseModel):
     account_id: Optional[StrictStr] = Field(default=None, description="AccountID is the provider account the credential should be scoped to, for the providers whose Verify needs one (Cloudflare). Ignored by the OAuth path.", alias="accountId")
     fields: Optional[Dict[str, StrictStr]] = Field(default=None, description="Fields are the named inputs of a credential connector whose form is more than one key (the connector's published fields). Their presence selects the credential path exactly as Token's does. Never logged or echoed.")
     provider: Optional[StrictStr] = Field(default=None, description="Provider is the connector's registry id, from the :provider path segment.")
+    var_return: Optional[StrictStr] = Field(default=None, description="Return is the page the OAuth callback sends the person back to, with connected=<provider>&account=<label> or error=<provider>&reason=<why> added to its query. It must name one of this deployment's return pages (on api.hanzo.ai: https://hanzo.ai/?at=-/settings/integrations, https://console.hanzo.ai/connectors, https://platform.hanzo.ai/connectors); anything else, or nothing, returns to the console's /connectors. Ignored by the credential path.", alias="return")
     token: Optional[StrictStr] = Field(default=None, description="Token is the customer's provider credential. Its PRESENCE — not its value — is what selects the apikey seal over the OAuth flow for a provider that offers both: {\"token\":\"…\"}, even empty, is an apikey attempt (→ verify, which answers the \"token required\" 400 on an empty value), while a body with no token key (the console Connect button, `hanzo connector add` with no --token) starts OAuth. Read on STDIN by the CLI, never argv; never logged or echoed.")
-    __properties: ClassVar[List[str]] = ["accountId", "fields", "provider", "token"]
+    __properties: ClassVar[List[str]] = ["accountId", "fields", "provider", "return", "token"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +87,7 @@ class ProviderConnectIn(BaseModel):
             "accountId": obj.get("accountId"),
             "fields": obj.get("fields"),
             "provider": obj.get("provider"),
+            "return": obj.get("return"),
             "token": obj.get("token")
         })
         return _obj

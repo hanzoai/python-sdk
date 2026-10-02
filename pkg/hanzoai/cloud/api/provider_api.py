@@ -49,6 +49,7 @@ from hanzoai.cloud.models.provider_github_repos_out import ProviderGithubReposOu
 from hanzoai.cloud.models.provider_github_search_out import ProviderGithubSearchOut
 from hanzoai.cloud.models.provider_github_search_req import ProviderGithubSearchReq
 from hanzoai.cloud.models.provider_github_user_complete_in import ProviderGithubUserCompleteIn
+from hanzoai.cloud.models.provider_github_user_connect_in import ProviderGithubUserConnectIn
 from hanzoai.cloud.models.provider_github_user_connect_out import ProviderGithubUserConnectOut
 from hanzoai.cloud.models.provider_github_user_disconnect_out import ProviderGithubUserDisconnectOut
 from hanzoai.cloud.models.provider_github_user_out import ProviderGithubUserOut
@@ -4795,7 +4796,7 @@ class ProviderApi:
     ) -> None:
         """Is where GitHub returns the person.
 
-        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the return page to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4857,7 +4858,7 @@ class ProviderApi:
     ) -> ApiResponse[None]:
         """Is where GitHub returns the person.
 
-        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the return page to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4919,7 +4920,7 @@ class ProviderApi:
     ) -> RESTResponseType:
         """Is where GitHub returns the person.
 
-        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the console to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
+        Is where GitHub returns the person. It verifies the state, burns its nonce, and parks the code for the return page to complete; it exchanges nothing. PUBLIC and state-authed, like every OAuth return, and raw because it answers a browser with a redirect.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -13385,6 +13386,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_user_connect(
         self,
+        provider_github_user_connect_in: ProviderGithubUserConnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13402,6 +13404,8 @@ class ProviderApi:
 
         Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
 
+        :param provider_github_user_connect_in: (required)
+        :type provider_github_user_connect_in: ProviderGithubUserConnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13425,6 +13429,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_user_connect_serialize(
+            provider_github_user_connect_in=provider_github_user_connect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13448,6 +13453,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_user_connect_with_http_info(
         self,
+        provider_github_user_connect_in: ProviderGithubUserConnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13465,6 +13471,8 @@ class ProviderApi:
 
         Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
 
+        :param provider_github_user_connect_in: (required)
+        :type provider_github_user_connect_in: ProviderGithubUserConnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13488,6 +13496,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_user_connect_serialize(
+            provider_github_user_connect_in=provider_github_user_connect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13511,6 +13520,7 @@ class ProviderApi:
     @validate_call
     def post_provider_github_user_connect_without_preload_content(
         self,
+        provider_github_user_connect_in: ProviderGithubUserConnectIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -13528,6 +13538,8 @@ class ProviderApi:
 
         Begins connecting the caller's own GitHub account: it answers the App's authorization page, carrying a state signed for this org and this person. Every member may connect their own; it grants nothing the person does not already hold on GitHub.
 
+        :param provider_github_user_connect_in: (required)
+        :type provider_github_user_connect_in: ProviderGithubUserConnectIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -13551,6 +13563,7 @@ class ProviderApi:
         """ # noqa: E501
 
         _param = self._post_provider_github_user_connect_serialize(
+            provider_github_user_connect_in=provider_github_user_connect_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -13569,6 +13582,7 @@ class ProviderApi:
 
     def _post_provider_github_user_connect_serialize(
         self,
+        provider_github_user_connect_in,
         _request_auth,
         _content_type,
         _headers,
@@ -13594,6 +13608,8 @@ class ProviderApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if provider_github_user_connect_in is not None:
+            _body_params = provider_github_user_connect_in
 
 
         # set the HTTP header `Accept`
@@ -13605,6 +13621,19 @@ class ProviderApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [

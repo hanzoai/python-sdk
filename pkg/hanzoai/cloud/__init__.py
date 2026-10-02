@@ -2564,6 +2564,7 @@ __all__ = [
     "ProviderGithubSearchOut",
     "ProviderGithubSearchReq",
     "ProviderGithubUserCompleteIn",
+    "ProviderGithubUserConnectIn",
     "ProviderGithubUserConnectOut",
     "ProviderGithubUserDisconnectOut",
     "ProviderGithubUserOut",
@@ -5595,6 +5596,7 @@ from hanzoai.cloud.models.provider_github_search_hit import ProviderGithubSearch
 from hanzoai.cloud.models.provider_github_search_out import ProviderGithubSearchOut as ProviderGithubSearchOut
 from hanzoai.cloud.models.provider_github_search_req import ProviderGithubSearchReq as ProviderGithubSearchReq
 from hanzoai.cloud.models.provider_github_user_complete_in import ProviderGithubUserCompleteIn as ProviderGithubUserCompleteIn
+from hanzoai.cloud.models.provider_github_user_connect_in import ProviderGithubUserConnectIn as ProviderGithubUserConnectIn
 from hanzoai.cloud.models.provider_github_user_connect_out import ProviderGithubUserConnectOut as ProviderGithubUserConnectOut
 from hanzoai.cloud.models.provider_github_user_disconnect_out import ProviderGithubUserDisconnectOut as ProviderGithubUserDisconnectOut
 from hanzoai.cloud.models.provider_github_user_out import ProviderGithubUserOut as ProviderGithubUserOut
