@@ -19,6 +19,9 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_action import AiAction
+from hanzoai.cloud.models.ai_class import AiClass
+from hanzoai.cloud.models.ai_limited import AiLimited
 from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
 from typing_extensions import Self
@@ -27,14 +30,17 @@ class AiLimits(BaseModel):
     """
     AiLimits
     """ # noqa: E501
+    actions: Optional[List[AiAction]] = Field(default=None, description="Actions are the ways on: upgrade, add prepaid credit.")
+    classes: Optional[Dict[str, AiClass]] = Field(default=None, description="Classes are premium (third-party frontier models) and ours (Hanzo's), each present when the plan includes it.")
     day: Optional[AiWindow] = None
-    month: Optional[AiWindow] = None
+    limited: Optional[AiLimited] = Field(default=None, description="Limited is present in limited mode.")
     period_end: Optional[StrictStr] = None
     period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the billing period (RFC3339).")
-    plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan that covers Enso and Zen in the consumer apps (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\", \"agency\", \"advisory\", \"dedicated\"), empty when none does: the caller is on the free allowance.")
-    session: Optional[AiWindow] = Field(default=None, description="Session is the request window that starts at the first request after the last one ended; Day turns at midnight UTC; Month is the plan's included usage for the billing period. When Month is used up, Enso and Zen keep answering from free models.")
-    upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent when none does.")
-    __properties: ClassVar[List[str]] = ["day", "month", "period_end", "period_start", "plan", "session", "upgrade"]
+    plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan the caller is served as (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\", \"agency\", \"advisory\", \"dedicated\", ...), \"free\" when none counts.")
+    session: Optional[AiWindow] = Field(default=None, description="Session and Day are the request windows over every request the plan covers.")
+    state: Optional[StrictStr] = Field(default=None, description="State is the worst class's: ok, near or limited.")
+    upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent at the top.")
+    __properties: ClassVar[List[str]] = ["actions", "classes", "day", "limited", "period_end", "period_start", "plan", "session", "state", "upgrade"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -75,12 +81,26 @@ class AiLimits(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in actions (list)
+        _items = []
+        if self.actions:
+            for _item_actions in self.actions:
+                if _item_actions:
+                    _items.append(_item_actions.to_dict())
+            _dict['actions'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each value in classes (dict)
+        _field_dict = {}
+        if self.classes:
+            for _key_classes in self.classes:
+                if self.classes[_key_classes]:
+                    _field_dict[_key_classes] = self.classes[_key_classes].to_dict()
+            _dict['classes'] = _field_dict
         # override the default output from pydantic by calling `to_dict()` of day
         if self.day:
             _dict['day'] = self.day.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of month
-        if self.month:
-            _dict['month'] = self.month.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of limited
+        if self.limited:
+            _dict['limited'] = self.limited.to_dict()
         # override the default output from pydantic by calling `to_dict()` of session
         if self.session:
             _dict['session'] = self.session.to_dict()
@@ -96,12 +116,20 @@ class AiLimits(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "actions": [AiAction.from_dict(_item) for _item in obj["actions"]] if obj.get("actions") is not None else None,
+            "classes": dict(
+                (_k, AiClass.from_dict(_v))
+                for _k, _v in obj["classes"].items()
+            )
+            if obj.get("classes") is not None
+            else None,
             "day": AiWindow.from_dict(obj["day"]) if obj.get("day") is not None else None,
-            "month": AiWindow.from_dict(obj["month"]) if obj.get("month") is not None else None,
+            "limited": AiLimited.from_dict(obj["limited"]) if obj.get("limited") is not None else None,
             "period_end": obj.get("period_end"),
             "period_start": obj.get("period_start"),
             "plan": obj.get("plan"),
             "session": AiWindow.from_dict(obj["session"]) if obj.get("session") is not None else None,
+            "state": obj.get("state"),
             "upgrade": obj.get("upgrade")
         })
         return _obj

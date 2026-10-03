@@ -149,9 +149,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AiLimits:
-        """Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again.
+        """Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on.
 
-        Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again. Shares only, never amounts.
+        Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on. Shares only, never amounts.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -212,9 +212,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AiLimits]:
-        """Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again.
+        """Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on.
 
-        Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again. Shares only, never amounts.
+        Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on. Shares only, never amounts.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -275,9 +275,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again.
+        """Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on.
 
-        Reads the caller's plan usage: the share used of the session, the day and the month, and when each starts again. Shares only, never amounts.
+        Reads the caller's plan usage: for each class of model the plan includes, the share used of the billing period and of its short window, who pays for the next request, and whether the caller is in limited mode and why; the share used of the session and the day; and the ways on. Shares only, never amounts.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

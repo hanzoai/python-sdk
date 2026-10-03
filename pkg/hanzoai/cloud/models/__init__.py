@@ -112,6 +112,7 @@ from hanzoai.cloud.models.agent_target_req import AgentTargetReq
 from hanzoai.cloud.models.agent_target_view import AgentTargetView
 from hanzoai.cloud.models.agent_tree_node import AgentTreeNode
 from hanzoai.cloud.models.agent_update_agent_in import AgentUpdateAgentIn
+from hanzoai.cloud.models.ai_action import AiAction
 from hanzoai.cloud.models.ai_ai_conn_response import AiAiConnResponse
 from hanzoai.cloud.models.ai_anthropic_content_block import AiAnthropicContentBlock
 from hanzoai.cloud.models.ai_anthropic_message import AiAnthropicMessage
@@ -120,6 +121,7 @@ from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse
 from hanzoai.cloud.models.ai_anthropic_tool import AiAnthropicTool
 from hanzoai.cloud.models.ai_anthropic_usage import AiAnthropicUsage
 from hanzoai.cloud.models.ai_cache_writes import AiCacheWrites
+from hanzoai.cloud.models.ai_class import AiClass
 from hanzoai.cloud.models.ai_cost_stats import AiCostStats
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides
 from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
@@ -143,6 +145,7 @@ from hanzoai.cloud.models.ai_history_totals import AiHistoryTotals
 from hanzoai.cloud.models.ai_history_window import AiHistoryWindow
 from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState
+from hanzoai.cloud.models.ai_limited import AiLimited
 from hanzoai.cloud.models.ai_limits import AiLimits
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface

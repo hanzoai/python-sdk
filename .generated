@@ -227,6 +227,7 @@ pkg/hanzoai/cloud/models/agent_target_req.py
 pkg/hanzoai/cloud/models/agent_target_view.py
 pkg/hanzoai/cloud/models/agent_tree_node.py
 pkg/hanzoai/cloud/models/agent_update_agent_in.py
+pkg/hanzoai/cloud/models/ai_action.py
 pkg/hanzoai/cloud/models/ai_ai_conn_response.py
 pkg/hanzoai/cloud/models/ai_anthropic_content_block.py
 pkg/hanzoai/cloud/models/ai_anthropic_message.py
@@ -235,6 +236,7 @@ pkg/hanzoai/cloud/models/ai_anthropic_response.py
 pkg/hanzoai/cloud/models/ai_anthropic_tool.py
 pkg/hanzoai/cloud/models/ai_anthropic_usage.py
 pkg/hanzoai/cloud/models/ai_cache_writes.py
+pkg/hanzoai/cloud/models/ai_class.py
 pkg/hanzoai/cloud/models/ai_cost_stats.py
 pkg/hanzoai/cloud/models/ai_decision_sides.py
 pkg/hanzoai/cloud/models/ai_decision_sides_false.py
@@ -258,6 +260,7 @@ pkg/hanzoai/cloud/models/ai_history_totals.py
 pkg/hanzoai/cloud/models/ai_history_window.py
 pkg/hanzoai/cloud/models/ai_judge_benchmark.py
 pkg/hanzoai/cloud/models/ai_judge_panel_state.py
+pkg/hanzoai/cloud/models/ai_limited.py
 pkg/hanzoai/cloud/models/ai_limits.py
 pkg/hanzoai/cloud/models/ai_mcp_app.py
 pkg/hanzoai/cloud/models/ai_mcp_surface.py

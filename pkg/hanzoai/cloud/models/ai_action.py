@@ -17,19 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiWindow(BaseModel):
+class AiAction(BaseModel):
     """
-    AiWindow
+    AiAction
     """ # noqa: E501
-    percent: Optional[StrictInt] = Field(default=None, description="Percent is the share used, 0 to 100, rounded up to the next five so any use shows.")
-    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when the window starts again (RFC3339), null for a session that is not running: it starts at the next request.")
-    state: Optional[StrictStr] = Field(default=None, description="State is ok, near (four fifths used) or limited (used up).")
-    __properties: ClassVar[List[str]] = ["percent", "resets_at", "state"]
+    kind: Optional[StrictStr] = None
+    label: Optional[StrictStr] = None
+    plan: Optional[StrictStr] = None
+    url: Optional[StrictStr] = None
+    __properties: ClassVar[List[str]] = ["kind", "label", "plan", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +50,7 @@ class AiWindow(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiWindow from a JSON string"""
+        """Create an instance of AiAction from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +75,7 @@ class AiWindow(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiWindow from a dict"""
+        """Create an instance of AiAction from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +83,10 @@ class AiWindow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "percent": obj.get("percent"),
-            "resets_at": obj.get("resets_at"),
-            "state": obj.get("state")
+            "kind": obj.get("kind"),
+            "label": obj.get("label"),
+            "plan": obj.get("plan"),
+            "url": obj.get("url")
         })
         return _obj
 
