@@ -19,17 +19,20 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiWindow(BaseModel):
+class AiClass(BaseModel):
     """
-    AiWindow
+    AiClass
     """ # noqa: E501
-    percent: Optional[StrictInt] = Field(default=None, description="Percent is the share used, 0 to 100, rounded up to the next five so any use shows.")
-    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when the window starts again (RFC3339), null for a session that is not running: it starts at the next request.")
-    state: Optional[StrictStr] = Field(default=None, description="State is ok, near (four fifths used) or limited (used up).")
-    __properties: ClassVar[List[str]] = ["percent", "resets_at", "state"]
+    paying: Optional[StrictStr] = Field(default=None, description="Paying is plan, prepaid, credits, or none.")
+    percent: Optional[StrictInt] = None
+    resets_at: Optional[StrictStr] = None
+    state: Optional[StrictStr] = Field(default=None, description="State is ok, near, or limited when the class is used up and nothing else pays.")
+    window: Optional[AiWindow] = None
+    __properties: ClassVar[List[str]] = ["paying", "percent", "resets_at", "state", "window"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +52,7 @@ class AiWindow(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiWindow from a JSON string"""
+        """Create an instance of AiClass from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -70,11 +73,14 @@ class AiWindow(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of window
+        if self.window:
+            _dict['window'] = self.window.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiWindow from a dict"""
+        """Create an instance of AiClass from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +88,11 @@ class AiWindow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "paying": obj.get("paying"),
             "percent": obj.get("percent"),
             "resets_at": obj.get("resets_at"),
-            "state": obj.get("state")
+            "state": obj.get("state"),
+            "window": AiWindow.from_dict(obj["window"]) if obj.get("window") is not None else None
         })
         return _obj
 

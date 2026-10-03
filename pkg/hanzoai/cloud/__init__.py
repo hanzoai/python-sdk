@@ -249,6 +249,7 @@ __all__ = [
     "AgentTargetView",
     "AgentTreeNode",
     "AgentUpdateAgentIn",
+    "AiAction",
     "AiAiConnResponse",
     "AiAnthropicContentBlock",
     "AiAnthropicMessage",
@@ -257,6 +258,7 @@ __all__ = [
     "AiAnthropicTool",
     "AiAnthropicUsage",
     "AiCacheWrites",
+    "AiClass",
     "AiCostStats",
     "AiDecisionSides",
     "AiDecisionSidesFalse",
@@ -280,6 +282,7 @@ __all__ = [
     "AiHistoryWindow",
     "AiJudgeBenchmark",
     "AiJudgePanelState",
+    "AiLimited",
     "AiLimits",
     "AiMCPApp",
     "AiMCPSurface",
@@ -3310,6 +3313,7 @@ from hanzoai.cloud.models.agent_target_req import AgentTargetReq as AgentTargetR
 from hanzoai.cloud.models.agent_target_view import AgentTargetView as AgentTargetView
 from hanzoai.cloud.models.agent_tree_node import AgentTreeNode as AgentTreeNode
 from hanzoai.cloud.models.agent_update_agent_in import AgentUpdateAgentIn as AgentUpdateAgentIn
+from hanzoai.cloud.models.ai_action import AiAction as AiAction
 from hanzoai.cloud.models.ai_ai_conn_response import AiAiConnResponse as AiAiConnResponse
 from hanzoai.cloud.models.ai_anthropic_content_block import AiAnthropicContentBlock as AiAnthropicContentBlock
 from hanzoai.cloud.models.ai_anthropic_message import AiAnthropicMessage as AiAnthropicMessage
@@ -3318,6 +3322,7 @@ from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse as Ai
 from hanzoai.cloud.models.ai_anthropic_tool import AiAnthropicTool as AiAnthropicTool
 from hanzoai.cloud.models.ai_anthropic_usage import AiAnthropicUsage as AiAnthropicUsage
 from hanzoai.cloud.models.ai_cache_writes import AiCacheWrites as AiCacheWrites
+from hanzoai.cloud.models.ai_class import AiClass as AiClass
 from hanzoai.cloud.models.ai_cost_stats import AiCostStats as AiCostStats
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides as AiDecisionSides
 from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse as AiDecisionSidesFalse
@@ -3341,6 +3346,7 @@ from hanzoai.cloud.models.ai_history_totals import AiHistoryTotals as AiHistoryT
 from hanzoai.cloud.models.ai_history_window import AiHistoryWindow as AiHistoryWindow
 from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark as AiJudgeBenchmark
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState as AiJudgePanelState
+from hanzoai.cloud.models.ai_limited import AiLimited as AiLimited
 from hanzoai.cloud.models.ai_limits import AiLimits as AiLimits
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp as AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface as AiMCPSurface
