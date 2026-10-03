@@ -23,9 +23,17 @@ from hanzoai.cloud.models.s3_bucket_in import S3BucketIn
 from hanzoai.cloud.models.s3_bucket_item import S3BucketItem
 from hanzoai.cloud.models.s3_bucket_list import S3BucketList
 from hanzoai.cloud.models.s3_object_list import S3ObjectList
+from hanzoai.cloud.models.s3_part_urls import S3PartURLs
 from hanzoai.cloud.models.s3_presign_response import S3PresignResponse
 from hanzoai.cloud.models.s3_s3_health import S3S3Health
+from hanzoai.cloud.models.s3_stored_parts import S3StoredParts
+from hanzoai.cloud.models.s3_upload_done import S3UploadDone
+from hanzoai.cloud.models.s3_upload_gone import S3UploadGone
 from hanzoai.cloud.models.s3_upload_in import S3UploadIn
+from hanzoai.cloud.models.s3_upload_parts import S3UploadParts
+from hanzoai.cloud.models.s3_upload_ref import S3UploadRef
+from hanzoai.cloud.models.s3_upload_start import S3UploadStart
+from hanzoai.cloud.models.s3_upload_started import S3UploadStarted
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -291,6 +299,300 @@ class S3Api:
         return self.api_client.param_serialize(
             method='DELETE',
             resource_path='/v1/s3/buckets/{bucket}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def delete_s3_buckets_by_bucket_uploads_by_upload(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3UploadGone:
+        """Aborts a multipart upload and deletes the parts it stored.
+
+        Aborts a multipart upload and deletes the parts it stored. The object it would have become is never created.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadGone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def delete_s3_buckets_by_bucket_uploads_by_upload_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3UploadGone]:
+        """Aborts a multipart upload and deletes the parts it stored.
+
+        Aborts a multipart upload and deletes the parts it stored. The object it would have become is never created.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadGone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def delete_s3_buckets_by_bucket_uploads_by_upload_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Aborts a multipart upload and deletes the parts it stored.
+
+        Aborts a multipart upload and deletes the parts it stored. The object it would have become is never created.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._delete_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadGone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _delete_s3_buckets_by_bucket_uploads_by_upload_serialize(
+        self,
+        bucket,
+        upload,
+        key,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if upload is not None:
+            _path_params['upload'] = upload
+        # process the query parameters
+        if key is not None:
+            
+            _query_params.append(('key', key))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='DELETE',
+            resource_path='/v1/s3/buckets/{bucket}/uploads/{upload}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -834,6 +1136,300 @@ class S3Api:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/s3/buckets/{bucket}/objects',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_uploads_by_upload(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3StoredParts:
+        """Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3StoredParts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_uploads_by_upload_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3StoredParts]:
+        """Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3StoredParts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_s3_buckets_by_bucket_uploads_by_upload_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        key: Annotated[Optional[StrictStr], Field(description="Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        Answers the parts a multipart upload already holds, in order: what a client resuming after a dropped connection reads to send only the rest.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param key: Key is the object key the upload was started on. In the query for a read or an abandon, in the body to complete.
+        :type key: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_s3_buckets_by_bucket_uploads_by_upload_serialize(
+            bucket=bucket,
+            upload=upload,
+            key=key,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3StoredParts",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_s3_buckets_by_bucket_uploads_by_upload_serialize(
+        self,
+        bucket,
+        upload,
+        key,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if upload is not None:
+            _path_params['upload'] = upload
+        # process the query parameters
+        if key is not None:
+            
+            _query_params.append(('key', key))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/s3/buckets/{bucket}/uploads/{upload}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1649,6 +2245,906 @@ class S3Api:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/s3/buckets/{bucket}/objects',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
+        s3_upload_start: S3UploadStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3UploadStarted:
+        """Begins a multipart upload of a large file into one of the caller's org buckets.
+
+        Begins a multipart upload of a large file into one of the caller's org buckets. Then mint presigned URLs for its parts with POST .../uploads/{upload}/parts, PUT each part's bytes to its URL — every part but the last exactly partSize bytes — and assemble the object with POST .../uploads/{upload}/complete. A dropped connection loses nothing: GET .../uploads/{upload} lists the parts already stored, so only the rest are sent again. Use this for anything over a few megabytes; a small file takes the single presigned PUT of POST /v1/s3/buckets/{bucket}/objects.
+
+        :param bucket: Bucket is the bucket to upload into, from the path. (required)
+        :type bucket: str
+        :param s3_upload_start: (required)
+        :type s3_upload_start: S3UploadStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_serialize(
+            bucket=bucket,
+            s3_upload_start=s3_upload_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadStarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
+        s3_upload_start: S3UploadStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3UploadStarted]:
+        """Begins a multipart upload of a large file into one of the caller's org buckets.
+
+        Begins a multipart upload of a large file into one of the caller's org buckets. Then mint presigned URLs for its parts with POST .../uploads/{upload}/parts, PUT each part's bytes to its URL — every part but the last exactly partSize bytes — and assemble the object with POST .../uploads/{upload}/complete. A dropped connection loses nothing: GET .../uploads/{upload} lists the parts already stored, so only the rest are sent again. Use this for anything over a few megabytes; a small file takes the single presigned PUT of POST /v1/s3/buckets/{bucket}/objects.
+
+        :param bucket: Bucket is the bucket to upload into, from the path. (required)
+        :type bucket: str
+        :param s3_upload_start: (required)
+        :type s3_upload_start: S3UploadStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_serialize(
+            bucket=bucket,
+            s3_upload_start=s3_upload_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadStarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket to upload into, from the path.")],
+        s3_upload_start: S3UploadStart,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Begins a multipart upload of a large file into one of the caller's org buckets.
+
+        Begins a multipart upload of a large file into one of the caller's org buckets. Then mint presigned URLs for its parts with POST .../uploads/{upload}/parts, PUT each part's bytes to its URL — every part but the last exactly partSize bytes — and assemble the object with POST .../uploads/{upload}/complete. A dropped connection loses nothing: GET .../uploads/{upload} lists the parts already stored, so only the rest are sent again. Use this for anything over a few megabytes; a small file takes the single presigned PUT of POST /v1/s3/buckets/{bucket}/objects.
+
+        :param bucket: Bucket is the bucket to upload into, from the path. (required)
+        :type bucket: str
+        :param s3_upload_start: (required)
+        :type s3_upload_start: S3UploadStart
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_serialize(
+            bucket=bucket,
+            s3_upload_start=s3_upload_start,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadStarted",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_s3_buckets_by_bucket_uploads_serialize(
+        self,
+        bucket,
+        s3_upload_start,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if s3_upload_start is not None:
+            _body_params = s3_upload_start
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/s3/buckets/{bucket}/uploads',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_complete(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_ref: S3UploadRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3UploadDone:
+        """Assembles a multipart upload into its object from every part the store holds, in order.
+
+        Assembles a multipart upload into its object from every part the store holds, in order. The parts must run 1, 2, 3 … with no gap; a gap is 409, naming the first part missing, and the upload stays open to send it.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_ref: (required)
+        :type s3_upload_ref: S3UploadRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_complete_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_ref=s3_upload_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadDone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_complete_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_ref: S3UploadRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3UploadDone]:
+        """Assembles a multipart upload into its object from every part the store holds, in order.
+
+        Assembles a multipart upload into its object from every part the store holds, in order. The parts must run 1, 2, 3 … with no gap; a gap is 409, naming the first part missing, and the upload stays open to send it.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_ref: (required)
+        :type s3_upload_ref: S3UploadRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_complete_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_ref=s3_upload_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadDone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_complete_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_ref: S3UploadRef,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Assembles a multipart upload into its object from every part the store holds, in order.
+
+        Assembles a multipart upload into its object from every part the store holds, in order. The parts must run 1, 2, 3 … with no gap; a gap is 409, naming the first part missing, and the upload stays open to send it.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_ref: (required)
+        :type s3_upload_ref: S3UploadRef
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_complete_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_ref=s3_upload_ref,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3UploadDone",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_s3_buckets_by_bucket_uploads_by_upload_complete_serialize(
+        self,
+        bucket,
+        upload,
+        s3_upload_ref,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if upload is not None:
+            _path_params['upload'] = upload
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if s3_upload_ref is not None:
+            _body_params = s3_upload_ref
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/s3/buckets/{bucket}/uploads/{upload}/complete',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_parts(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_parts: S3UploadParts,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> S3PartURLs:
+        """Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them.
+
+        Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them. PUT a part's bytes to its URL as they are — no headers are signed — and the store answers the part's ETag, which completing does not need.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_parts: (required)
+        :type s3_upload_parts: S3UploadParts
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_parts_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_parts=s3_upload_parts,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PartURLs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_parts_with_http_info(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_parts: S3UploadParts,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[S3PartURLs]:
+        """Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them.
+
+        Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them. PUT a part's bytes to its URL as they are — no headers are signed — and the store answers the part's ETag, which completing does not need.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_parts: (required)
+        :type s3_upload_parts: S3UploadParts
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_parts_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_parts=s3_upload_parts,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PartURLs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_s3_buckets_by_bucket_uploads_by_upload_parts_without_preload_content(
+        self,
+        bucket: Annotated[StrictStr, Field(description="Bucket is the bucket, from the path.")],
+        upload: Annotated[StrictStr, Field(description="Upload is the upload's id, from the path.")],
+        s3_upload_parts: S3UploadParts,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them.
+
+        Answers presigned PUT URLs for some parts of a multipart upload, at most 64 a call, each valid for minutes: mint them as the upload reaches them. PUT a part's bytes to its URL as they are — no headers are signed — and the store answers the part's ETag, which completing does not need.
+
+        :param bucket: Bucket is the bucket, from the path. (required)
+        :type bucket: str
+        :param upload: Upload is the upload's id, from the path. (required)
+        :type upload: str
+        :param s3_upload_parts: (required)
+        :type s3_upload_parts: S3UploadParts
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_s3_buckets_by_bucket_uploads_by_upload_parts_serialize(
+            bucket=bucket,
+            upload=upload,
+            s3_upload_parts=s3_upload_parts,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "S3PartURLs",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_s3_buckets_by_bucket_uploads_by_upload_parts_serialize(
+        self,
+        bucket,
+        upload,
+        s3_upload_parts,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if bucket is not None:
+            _path_params['bucket'] = bucket
+        if upload is not None:
+            _path_params['upload'] = upload
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if s3_upload_parts is not None:
+            _body_params = s3_upload_parts
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/s3/buckets/{bucket}/uploads/{upload}/parts',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

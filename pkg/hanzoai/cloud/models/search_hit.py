@@ -27,15 +27,16 @@ class SearchHit(BaseModel):
     """
     SearchHit
     """ # noqa: E501
-    corpus: Optional[StrictStr] = Field(default=None, description="Corpus is which store the document lives in: \"kb\" for a document either knowledge leg returned, \"code\" for a span out of one of the org's own repositories. It is PROVENANCE — read it to say where a hit came from, not to branch on: the fused ranking is what decides order, and a caller that filters by corpus wants the backend's own endpoint instead.")
+    corpus: Optional[StrictStr] = Field(default=None, description="Corpus is which store the document lives in: \"kb\" for a document either knowledge leg returned, \"code\" for a span out of one of the org's own repositories, \"files\" for a passage of one of the org's workspace files (ID is then the file's id and Title its citation). It is PROVENANCE — read it to say where a hit came from, not to branch on: the fused ranking is what decides order, and a caller that filters by corpus wants the backend's own endpoint instead.")
     doctype: Optional[StrictStr] = Field(default=None, description="DocType is the knowledge doctype: kb.page, kb.memory or kb.source from the semantic leg, and a lexical row's own doctype/type field otherwise. Absent when the row carried neither.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the document's identity inside its corpus — the KB document name from the semantic leg, or a lexical row's own name/id/_id (falling back to \"row-<n>\" when the row carries none). It is unique with DocType, not alone: the pair is the key the two legs are fused on.")
     matched: Optional[List[SearchProvenance]] = Field(default=None, description="Matched is one entry per leg that returned this document, with that leg's rank and native score. More than one entry means the legs AGREED, which is exactly why the hit outranks one a single leg found. Never empty on a returned hit.")
+    passage: Optional[StrictStr] = Field(default=None, description="Passage is the matching passage, for a hit from the files corpus: the span of the file's section that matched, about 2000 bytes. Absent for every other corpus, whose hits name a document rather than a span of one.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the project scope the document was indexed under. Absent for a document saved with none; Request.Project filters the semantic leg on it.")
     score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the FUSED score, not a relevance or a similarity: Reciprocal Rank Fusion sums 1/(60+rank) over each leg that returned the document, so it is bounded by roughly 1/61 per leg (about 0.033 for a document two legs put first) and hits are ordered by it, descending. Being built from ranks, it is comparable only WITHIN one response — never across queries, and never against a backend's own score, which stays in Matched.")
     title: Optional[StrictStr] = Field(default=None, description="Title is the document's display title — the indexed title from the semantic leg, the row's title (falling back to its name) from the lexical one. Absent when the document has none.")
     url: Optional[StrictStr] = Field(default=None, description="URL is where the document can be opened, carried from the indexed payload — the link back to the app a connector ingested it from. Absent for anything written in the product, which has no external address.")
-    __properties: ClassVar[List[str]] = ["corpus", "doctype", "id", "matched", "project", "score", "title", "url"]
+    __properties: ClassVar[List[str]] = ["corpus", "doctype", "id", "matched", "passage", "project", "score", "title", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class SearchHit(BaseModel):
             "doctype": obj.get("doctype"),
             "id": obj.get("id"),
             "matched": [SearchProvenance.from_dict(_item) for _item in obj["matched"]] if obj.get("matched") is not None else None,
+            "passage": obj.get("passage"),
             "project": obj.get("project"),
             "score": obj.get("score"),
             "title": obj.get("title"),

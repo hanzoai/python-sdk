@@ -1276,8 +1276,19 @@ __all__ = [
     "KmsSecretMeta",
     "KnowledgeCatalogEntry",
     "KnowledgeCatalogOut",
+    "KnowledgeCitedPassage",
     "KnowledgeConnectionOut",
     "KnowledgeConnectorView",
+    "KnowledgeFile",
+    "KnowledgeFileBrief",
+    "KnowledgeFileEntity",
+    "KnowledgeFileGraph",
+    "KnowledgeFileIn",
+    "KnowledgeFileLink",
+    "KnowledgeFileSearchIn",
+    "KnowledgeFileSearchOut",
+    "KnowledgeFilesOut",
+    "KnowledgeForgotten",
     "KnowledgeGraphEdge",
     "KnowledgeGraphNode",
     "KnowledgeGraphOut",
@@ -1285,9 +1296,17 @@ __all__ = [
     "KnowledgeKbAuthorizeOut",
     "KnowledgeKbConnectorsOut",
     "KnowledgeKbSyncOut",
+    "KnowledgePickedSection",
     "KnowledgeReindexOut",
+    "KnowledgeRetrieveIn",
+    "KnowledgeRetrieveOut",
     "KnowledgeSearchIn",
     "KnowledgeSearchOut",
+    "KnowledgeSectionBrief",
+    "KnowledgeSectionLink",
+    "KnowledgeSectionOut",
+    "KnowledgeTocEntry",
+    "KnowledgeTocOut",
     "KvBucketRecord",
     "KvBucketWrite",
     "KvKvAck",
@@ -2698,9 +2717,19 @@ __all__ = [
     "S3BucketList",
     "S3ObjectItem",
     "S3ObjectList",
+    "S3PartURL",
+    "S3PartURLs",
     "S3PresignResponse",
     "S3S3Health",
+    "S3StoredPart",
+    "S3StoredParts",
+    "S3UploadDone",
+    "S3UploadGone",
     "S3UploadIn",
+    "S3UploadParts",
+    "S3UploadRef",
+    "S3UploadStart",
+    "S3UploadStarted",
     "SandboxBlob",
     "SandboxEndIn",
     "SandboxExecRequest",
@@ -4308,8 +4337,19 @@ from hanzoai.cloud.models.kms_kms_token import KmsKmsToken as KmsKmsToken
 from hanzoai.cloud.models.kms_secret_meta import KmsSecretMeta as KmsSecretMeta
 from hanzoai.cloud.models.knowledge_catalog_entry import KnowledgeCatalogEntry as KnowledgeCatalogEntry
 from hanzoai.cloud.models.knowledge_catalog_out import KnowledgeCatalogOut as KnowledgeCatalogOut
+from hanzoai.cloud.models.knowledge_cited_passage import KnowledgeCitedPassage as KnowledgeCitedPassage
 from hanzoai.cloud.models.knowledge_connection_out import KnowledgeConnectionOut as KnowledgeConnectionOut
 from hanzoai.cloud.models.knowledge_connector_view import KnowledgeConnectorView as KnowledgeConnectorView
+from hanzoai.cloud.models.knowledge_file import KnowledgeFile as KnowledgeFile
+from hanzoai.cloud.models.knowledge_file_brief import KnowledgeFileBrief as KnowledgeFileBrief
+from hanzoai.cloud.models.knowledge_file_entity import KnowledgeFileEntity as KnowledgeFileEntity
+from hanzoai.cloud.models.knowledge_file_graph import KnowledgeFileGraph as KnowledgeFileGraph
+from hanzoai.cloud.models.knowledge_file_in import KnowledgeFileIn as KnowledgeFileIn
+from hanzoai.cloud.models.knowledge_file_link import KnowledgeFileLink as KnowledgeFileLink
+from hanzoai.cloud.models.knowledge_file_search_in import KnowledgeFileSearchIn as KnowledgeFileSearchIn
+from hanzoai.cloud.models.knowledge_file_search_out import KnowledgeFileSearchOut as KnowledgeFileSearchOut
+from hanzoai.cloud.models.knowledge_files_out import KnowledgeFilesOut as KnowledgeFilesOut
+from hanzoai.cloud.models.knowledge_forgotten import KnowledgeForgotten as KnowledgeForgotten
 from hanzoai.cloud.models.knowledge_graph_edge import KnowledgeGraphEdge as KnowledgeGraphEdge
 from hanzoai.cloud.models.knowledge_graph_node import KnowledgeGraphNode as KnowledgeGraphNode
 from hanzoai.cloud.models.knowledge_graph_out import KnowledgeGraphOut as KnowledgeGraphOut
@@ -4317,9 +4357,17 @@ from hanzoai.cloud.models.knowledge_hit import KnowledgeHit as KnowledgeHit
 from hanzoai.cloud.models.knowledge_kb_authorize_out import KnowledgeKbAuthorizeOut as KnowledgeKbAuthorizeOut
 from hanzoai.cloud.models.knowledge_kb_connectors_out import KnowledgeKbConnectorsOut as KnowledgeKbConnectorsOut
 from hanzoai.cloud.models.knowledge_kb_sync_out import KnowledgeKbSyncOut as KnowledgeKbSyncOut
+from hanzoai.cloud.models.knowledge_picked_section import KnowledgePickedSection as KnowledgePickedSection
 from hanzoai.cloud.models.knowledge_reindex_out import KnowledgeReindexOut as KnowledgeReindexOut
+from hanzoai.cloud.models.knowledge_retrieve_in import KnowledgeRetrieveIn as KnowledgeRetrieveIn
+from hanzoai.cloud.models.knowledge_retrieve_out import KnowledgeRetrieveOut as KnowledgeRetrieveOut
 from hanzoai.cloud.models.knowledge_search_in import KnowledgeSearchIn as KnowledgeSearchIn
 from hanzoai.cloud.models.knowledge_search_out import KnowledgeSearchOut as KnowledgeSearchOut
+from hanzoai.cloud.models.knowledge_section_brief import KnowledgeSectionBrief as KnowledgeSectionBrief
+from hanzoai.cloud.models.knowledge_section_link import KnowledgeSectionLink as KnowledgeSectionLink
+from hanzoai.cloud.models.knowledge_section_out import KnowledgeSectionOut as KnowledgeSectionOut
+from hanzoai.cloud.models.knowledge_toc_entry import KnowledgeTocEntry as KnowledgeTocEntry
+from hanzoai.cloud.models.knowledge_toc_out import KnowledgeTocOut as KnowledgeTocOut
 from hanzoai.cloud.models.kv_bucket_record import KvBucketRecord as KvBucketRecord
 from hanzoai.cloud.models.kv_bucket_write import KvBucketWrite as KvBucketWrite
 from hanzoai.cloud.models.kv_kv_ack import KvKvAck as KvKvAck
@@ -5730,9 +5778,19 @@ from hanzoai.cloud.models.s3_bucket_item import S3BucketItem as S3BucketItem
 from hanzoai.cloud.models.s3_bucket_list import S3BucketList as S3BucketList
 from hanzoai.cloud.models.s3_object_item import S3ObjectItem as S3ObjectItem
 from hanzoai.cloud.models.s3_object_list import S3ObjectList as S3ObjectList
+from hanzoai.cloud.models.s3_part_url import S3PartURL as S3PartURL
+from hanzoai.cloud.models.s3_part_urls import S3PartURLs as S3PartURLs
 from hanzoai.cloud.models.s3_presign_response import S3PresignResponse as S3PresignResponse
 from hanzoai.cloud.models.s3_s3_health import S3S3Health as S3S3Health
+from hanzoai.cloud.models.s3_stored_part import S3StoredPart as S3StoredPart
+from hanzoai.cloud.models.s3_stored_parts import S3StoredParts as S3StoredParts
+from hanzoai.cloud.models.s3_upload_done import S3UploadDone as S3UploadDone
+from hanzoai.cloud.models.s3_upload_gone import S3UploadGone as S3UploadGone
 from hanzoai.cloud.models.s3_upload_in import S3UploadIn as S3UploadIn
+from hanzoai.cloud.models.s3_upload_parts import S3UploadParts as S3UploadParts
+from hanzoai.cloud.models.s3_upload_ref import S3UploadRef as S3UploadRef
+from hanzoai.cloud.models.s3_upload_start import S3UploadStart as S3UploadStart
+from hanzoai.cloud.models.s3_upload_started import S3UploadStarted as S3UploadStarted
 from hanzoai.cloud.models.sandbox_blob import SandboxBlob as SandboxBlob
 from hanzoai.cloud.models.sandbox_end_in import SandboxEndIn as SandboxEndIn
 from hanzoai.cloud.models.sandbox_exec_request import SandboxExecRequest as SandboxExecRequest
