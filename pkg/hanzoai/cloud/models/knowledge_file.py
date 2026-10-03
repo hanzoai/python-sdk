@@ -28,13 +28,15 @@ class KnowledgeFile(BaseModel):
     """ # noqa: E501
     bucket: Optional[StrictStr] = Field(default=None, description="Bucket is the org bucket the object is in, by the friendly name /v1/s3/buckets lists.")
     chars: Optional[StrictInt] = Field(default=None, description="Chars is the length of the text read out of the file, in bytes.")
-    clipped: Optional[StrictBool] = Field(default=None, description="Clipped is true when the file held more text than one file is indexed for, and only its beginning was indexed.")
+    clipped: Optional[StrictBool] = Field(default=None, description="Clipped is true when only the file's beginning is indexed: its text ran past the org's bound or the room the index has. Note says how far.")
     created: Optional[StrictInt] = Field(default=None, description="Created is when the file was first registered, in unix seconds.")
-    embedded: Optional[StrictInt] = Field(default=None, description="Embedded is how many of those passages carry a vector — Passages once the embed stage is done.")
+    done: Optional[StrictInt] = Field(default=None, description="Done is how far the running stage has come, of Total: bytes of the file read (extract), sections summarized (toc), cut into passages (passages) and linked (graph), passages embedded (embed). Absent between stages and once the ingest is done.")
+    embedded: Optional[StrictInt] = Field(default=None, description="Embedded is how many of those passages carry a vector — Passages once the embed stage is done, unless Note says the file is embedded in part.")
     error: Optional[StrictStr] = Field(default=None, description="Error is why a stored or failed file was not indexed — or, on a ready file, why it is searched by its words alone — in words a person can act on. Absent otherwise.")
     id: Optional[StrictStr] = Field(default=None, description="ID names the file in its org. It is derived from the bucket and key, so registering the same object twice answers the same file.")
     key: Optional[StrictStr] = Field(default=None, description="Key is the object's key in that bucket. GET /v1/s3/buckets/{bucket}/objects/{key} answers a signed download URL for it.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the object's file name, the last segment of its key.")
+    note: Optional[StrictStr] = Field(default=None, description="Note says in words where the file is indexed less than whole and why: its text past the org's bound or the room the index has, its passages past the bound on vectors. Absent when the whole file is indexed every way.")
     parent: Optional[StrictStr] = Field(default=None, description="Parent is the id of the archive this file was unpacked from. Absent for a file uploaded on its own.")
     passages: Optional[StrictInt] = Field(default=None, description="Passages is how many passages its text was cut into.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the project scope it is indexed under. Absent for the org's own files.")
@@ -42,9 +44,10 @@ class KnowledgeFile(BaseModel):
     size: Optional[StrictInt] = Field(default=None, description="Size is the object's length in bytes, as the store reports it.")
     stage: Optional[StrictStr] = Field(default=None, description="Stage is the ingest stage the file is in: extract, toc, passages or graph while indexing, embed while a ready file's vectors are written. Absent once the ingest is done.")
     status: Optional[StrictStr] = Field(default=None, description="Status is queued, indexing, ready, stored (kept but not indexed — Error says why) or failed. A ready file's contents, passages and links are all readable and its full text is searched; its vectors may still be filling in (Stage embed), which adds search by meaning as it goes.")
+    total: Optional[StrictInt] = Field(default=None, description="Total is what the running stage has to do in all, in Done's units.")
     type: Optional[StrictStr] = Field(default=None, description="Type is the object's media type as the store holds it, or the one its name implies when the store holds only the generic default.")
     updated: Optional[StrictInt] = Field(default=None, description="Updated is when its record last changed, in unix seconds.")
-    __properties: ClassVar[List[str]] = ["bucket", "chars", "clipped", "created", "embedded", "error", "id", "key", "name", "parent", "passages", "project", "sections", "size", "stage", "status", "type", "updated"]
+    __properties: ClassVar[List[str]] = ["bucket", "chars", "clipped", "created", "done", "embedded", "error", "id", "key", "name", "note", "parent", "passages", "project", "sections", "size", "stage", "status", "total", "type", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,11 +104,13 @@ class KnowledgeFile(BaseModel):
             "chars": obj.get("chars"),
             "clipped": obj.get("clipped"),
             "created": obj.get("created"),
+            "done": obj.get("done"),
             "embedded": obj.get("embedded"),
             "error": obj.get("error"),
             "id": obj.get("id"),
             "key": obj.get("key"),
             "name": obj.get("name"),
+            "note": obj.get("note"),
             "parent": obj.get("parent"),
             "passages": obj.get("passages"),
             "project": obj.get("project"),
@@ -113,6 +118,7 @@ class KnowledgeFile(BaseModel):
             "size": obj.get("size"),
             "stage": obj.get("stage"),
             "status": obj.get("status"),
+            "total": obj.get("total"),
             "type": obj.get("type"),
             "updated": obj.get("updated")
         })

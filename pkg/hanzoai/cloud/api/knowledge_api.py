@@ -339,7 +339,7 @@ class KnowledgeApi:
     ) -> KnowledgeForgotten:
         """Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record.
 
-        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
+        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The file is gone from every read when this answers: its listing, its contents, search and retrieval. What the index held of it is removed after, a batch at a time, so forgetting a file of any size answers at once. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
 
         :param id: ID is the file's id, as POST /v1/knowledge/files answered it. (required)
         :type id: str
@@ -406,7 +406,7 @@ class KnowledgeApi:
     ) -> ApiResponse[KnowledgeForgotten]:
         """Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record.
 
-        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
+        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The file is gone from every read when this answers: its listing, its contents, search and retrieval. What the index held of it is removed after, a batch at a time, so forgetting a file of any size answers at once. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
 
         :param id: ID is the file's id, as POST /v1/knowledge/files answered it. (required)
         :type id: str
@@ -473,7 +473,7 @@ class KnowledgeApi:
     ) -> RESTResponseType:
         """Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record.
 
-        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
+        Removes one of the caller's org files from the index — its table of contents, passages, full-text rows, mentions and links — and its record. The file is gone from every read when this answers: its listing, its contents, search and retrieval. What the index held of it is removed after, a batch at a time, so forgetting a file of any size answers at once. The object itself stays in its bucket; delete it there. Drive calls this when it deletes a file.
 
         :param id: ID is the file's id, as POST /v1/knowledge/files answered it. (required)
         :type id: str

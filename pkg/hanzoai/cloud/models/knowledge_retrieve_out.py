@@ -30,7 +30,7 @@ class KnowledgeRetrieveOut(BaseModel):
     """ # noqa: E501
     degraded: Optional[StrictBool] = Field(default=None, description="Degraded is true when a search leg failed along the way.")
     passages: Optional[List[KnowledgeCitedPassage]] = Field(default=None, description="Passages are the passages drilled out of those sections, then those the graph reached, each citing file › section › paragraph.")
-    picked: Optional[StrictStr] = Field(default=None, description="Picked says how the sections were chosen: model when a model read the tables of contents, search when the sections of the best passages stood in because no model answered.")
+    picked: Optional[StrictStr] = Field(default=None, description="Picked says how the sections were chosen: whole when the documents were short enough to read every section, model when a model read the tables of contents, search when the sections of the best passages stood in — the documents had no headings to choose by, or no model answered.")
     sections: Optional[List[KnowledgePickedSection]] = Field(default=None, description="Sections are the sections chosen from the candidate documents' tables of contents.")
     __properties: ClassVar[List[str]] = ["degraded", "passages", "picked", "sections"]
 
