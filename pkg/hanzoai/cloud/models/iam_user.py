@@ -157,6 +157,7 @@ class IamUser(BaseModel):
     microsoftonline: Optional[StrictStr] = None
     multi_factor_auths: Optional[List[IamMfaProps]] = Field(default=None, alias="multiFactorAuths")
     name: Optional[StrictStr] = None
+    name_key: Optional[StrictStr] = Field(default=None, alias="nameKey")
     naver: Optional[StrictStr] = None
     need_update_password: Optional[StrictBool] = Field(default=None, alias="needUpdatePassword")
     nextcloud: Optional[StrictStr] = None
@@ -219,7 +220,7 @@ class IamUser(BaseModel):
     yammer: Optional[StrictStr] = None
     yandex: Optional[StrictStr] = None
     zoom: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom10", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
+    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretHash", "accessToken", "address", "addresses", "adfs", "affiliation", "alipay", "amazon", "apple", "applicationScopes", "auth0", "avatar", "avatarType", "azuread", "azureadb2c", "baidu", "balance", "balanceCredit", "balanceCurrency", "battlenet", "bilibili", "bio", "birthday", "bitbucket", "box", "cart", "cloudfoundry", "countryCode", "createdAt", "createdIp", "createdTime", "currency", "custom", "custom10", "custom2", "custom3", "custom4", "custom5", "custom6", "custom7", "custom8", "custom9", "dailymotion", "deezer", "deleted", "deletedTime", "digitalocean", "dingtalk", "discord", "displayName", "douyin", "dropbox", "education", "email", "emailVerified", "eveonline", "externalId", "faceIds", "facebook", "firstName", "fitbit", "gender", "gitea", "gitee", "github", "gitlab", "google", "hash", "heroku", "homepage", "iam", "id", "idCard", "idCardType", "influxcloud", "infoflow", "instagram", "intercom", "invitation", "invitationCode", "ipWhitelist", "isAdmin", "isDefaultAvatar", "isDeleted", "isForbidden", "isOnline", "isVerified", "kakao", "karma", "kwai", "language", "lark", "lastChangePasswordTime", "lastName", "lastSigninIp", "lastSigninTime", "lastSigninWrongTime", "lastfm", "ldap", "line", "linkedin", "location", "mailru", "managedAccounts", "meetup", "mfaAccounts", "mfaEmailEnabled", "mfaItems", "mfaPhoneEnabled", "mfaPushEnabled", "mfaPushProvider", "mfaPushReceiver", "mfaRadiusEnabled", "mfaRadiusProvider", "mfaRadiusUsername", "mfaRememberDeadline", "mfaRememberDigest", "microsoftonline", "multiFactorAuths", "name", "nameKey", "naver", "needUpdatePassword", "nextcloud", "okta", "onedrive", "originalRefreshToken", "originalToken", "oura", "owner", "passwordHash", "passwordSalt", "passwordType", "patreon", "paypal", "permanentAvatar", "phone", "preHash", "preferredMfaType", "properties", "qq", "ranking", "realName", "recoveryCodes", "region", "registerSource", "registerType", "salesforce", "score", "shopify", "signinWrongTimes", "signupApplication", "slack", "soundcloud", "spotify", "steam", "strava", "stripe", "tag", "telegram", "tiktok", "title", "totpSecret", "tumblr", "twitch", "twitter", "type", "typetalk", "uber", "updatedAt", "updatedTime", "verificationCode", "vk", "webauthnCredentials", "wechat", "wecom", "weibo", "wepay", "xero", "yahoo", "yammer", "yandex", "zoom"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -251,8 +252,10 @@ class IamUser(BaseModel):
         * `None` is only added to the output dict for nullable fields that
           were set at model initialization. Other fields with value `None`
           are ignored.
+        * OpenAPI `readOnly` fields are excluded.
         """
         excluded_fields: Set[str] = set([
+            "name_key",
         ])
 
         _dict = self.model_dump(
@@ -450,6 +453,7 @@ class IamUser(BaseModel):
             "microsoftonline": obj.get("microsoftonline"),
             "multiFactorAuths": [IamMfaProps.from_dict(_item) for _item in obj["multiFactorAuths"]] if obj.get("multiFactorAuths") is not None else None,
             "name": obj.get("name"),
+            "nameKey": obj.get("nameKey"),
             "naver": obj.get("naver"),
             "needUpdatePassword": obj.get("needUpdatePassword"),
             "nextcloud": obj.get("nextcloud"),
