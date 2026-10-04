@@ -259,6 +259,11 @@ class BaseTool(_BaseToolABC):
     # Version for meta envelope
     VERSION: ClassVar[str] = "0.12.0"
 
+    # The action a call that names none runs. `help` unless the tool has one
+    # obvious act, as `llm` (query) does — the same default the TypeScript and
+    # Rust runtimes give that tool.
+    DEFAULT_ACTION: ClassVar[str] = "help"
+
     # Param aliases for cross-implementation parity (e.g., {"path": "uri"})
     PARAM_ALIASES: ClassVar[dict[str, str]] = {}
 
@@ -460,18 +465,20 @@ class BaseTool(_BaseToolABC):
         pass
 
     async def call(
-        self, ctx: MCPContext, action: str = "help", **kwargs: Any
+        self, ctx: MCPContext, action: str | None = None, **kwargs: Any
     ) -> dict[str, Any]:
         """Execute tool with action routing.
 
         Args:
             ctx: MCP context
-            action: Action to execute (default: "help")
+            action: Action to execute (default: DEFAULT_ACTION, normally "help")
             **kwargs: Action parameters (flat, matching TS wire format)
 
         Returns:
             Unified response envelope
         """
+        action = action or self.DEFAULT_ACTION
+
         # Unwrap kwargs wrapping from legacy clients: {"kwargs": {...}} → flat
         if "kwargs" in kwargs and isinstance(kwargs["kwargs"], dict) and len(kwargs) == 1:
             kwargs = kwargs["kwargs"]
@@ -524,7 +531,7 @@ class BaseTool(_BaseToolABC):
             "action": {
                 "type": "string",
                 "description": "Action to perform",
-                "default": "help",
+                "default": self.DEFAULT_ACTION,
             }
         }
         for ah in self._handlers.values():
@@ -536,14 +543,14 @@ class BaseTool(_BaseToolABC):
         parameters_schema = {
             "type": "object",
             "properties": all_properties,
-            "required": ["action"],
+            "required": ["action"] if self.DEFAULT_ACTION == "help" else [],
             "additionalProperties": True,
         }
 
         # Permissive Pydantic model that accepts any extra fields
         class _FlexArgs(ArgModelBase):
             model_config = ConfigDict(extra="allow", arbitrary_types_allowed=True)
-            action: str = "help"
+            action: str | None = None
 
             def model_dump_one_level(self) -> dict[str, Any]:
                 result = super().model_dump_one_level()
@@ -554,7 +561,7 @@ class BaseTool(_BaseToolABC):
         # Handler function — receives flat validated args
         tool_ref = self
 
-        async def _handler(ctx: MCPContext, action: str = "help", **kwargs: Any) -> Any:
+        async def _handler(ctx: MCPContext, action: str | None = None, **kwargs: Any) -> Any:
             result = await tool_ref.call(ctx, action=action, **kwargs)
             return _result_to_mcp(result)
 

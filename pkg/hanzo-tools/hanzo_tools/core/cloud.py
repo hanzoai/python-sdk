@@ -156,11 +156,13 @@ class HanzoCloud:
             )
         return self._client
 
-    async def _request(self, method: str, path: str, **kw: Any) -> Any:
+    async def _request(
+        self, method: str, path: str, headers: dict[str, str] | None = None, **kw: Any
+    ) -> Any:
         client = await self._get_client()
         try:
             resp = await client.request(
-                method, path, headers=self._headers(), **kw
+                method, path, headers={**self._headers(), **(headers or {})}, **kw
             )
         except Exception as e:  # transport/DNS/timeout — no HTTP status
             raise CloudError(f"{method} {path} failed: {e}") from e
@@ -180,9 +182,18 @@ class HanzoCloud:
         clean = {k: v for k, v in (params or {}).items() if v is not None}
         return await self._request("GET", path, params=clean)
 
-    async def post(self, path: str, json_body: dict[str, Any] | None = None) -> Any:
-        """POST json_body to path, returning parsed JSON. Raises on failure."""
-        return await self._request("POST", path, json=json_body or {})
+    async def post(
+        self,
+        path: str,
+        json_body: dict[str, Any] | None = None,
+        headers: dict[str, str] | None = None,
+    ) -> Any:
+        """POST json_body to path, returning parsed JSON. Raises on failure.
+
+        ``headers`` ride beside the auth header, for a route that reads one (Enso's
+        X-Max-Cost and X-Max-Latency-Ms on /v1/chat/completions).
+        """
+        return await self._request("POST", path, headers=headers, json=json_body or {})
 
     async def stream(
         self,
