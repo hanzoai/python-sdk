@@ -21,7 +21,6 @@ from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.billing_tier_balance import BillingTierBalance
 from hanzoai.cloud.models.billing_tier_limits import BillingTierLimits
-from hanzoai.cloud.models.billing_window import BillingWindow
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -34,8 +33,7 @@ class BillingTier(BaseModel):
     subscription: Optional[StrictStr] = Field(default=None, description="Subscription is the id of the subscription row whose plan is the served rung, \"\" when the tier is not a subscription's.")
     tier: Optional[BillingTierLimits] = None
     user: Optional[StrictStr] = None
-    windows: Optional[List[BillingWindow]] = None
-    __properties: ClassVar[List[str]] = ["balance", "plan", "subscription", "tier", "user", "windows"]
+    __properties: ClassVar[List[str]] = ["balance", "plan", "subscription", "tier", "user"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -82,13 +80,6 @@ class BillingTier(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of tier
         if self.tier:
             _dict['tier'] = self.tier.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of each item in windows (list)
-        _items = []
-        if self.windows:
-            for _item_windows in self.windows:
-                if _item_windows:
-                    _items.append(_item_windows.to_dict())
-            _dict['windows'] = _items
         return _dict
 
     @classmethod
@@ -105,8 +96,7 @@ class BillingTier(BaseModel):
             "plan": obj.get("plan"),
             "subscription": obj.get("subscription"),
             "tier": BillingTierLimits.from_dict(obj["tier"]) if obj.get("tier") is not None else None,
-            "user": obj.get("user"),
-            "windows": [BillingWindow.from_dict(_item) for _item in obj["windows"]] if obj.get("windows") is not None else None
+            "user": obj.get("user")
         })
         return _obj
 

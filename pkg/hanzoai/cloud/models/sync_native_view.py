@@ -17,21 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BillingWindow(BaseModel):
+class SyncNativeView(BaseModel):
     """
-    BillingWindow
+    SyncNativeView
     """ # noqa: E501
-    limit: Optional[StrictInt] = None
-    remaining: Optional[StrictInt] = None
-    resets: Optional[StrictStr] = None
-    span: Optional[StrictStr] = None
-    used: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["limit", "remaining", "resets", "span", "used"]
+    advanced_at: Optional[StrictStr] = Field(default=None, description="AdvancedAt is when an import or a push last moved one of its refs, RFC3339 in UTC. Absent until one has.", alias="advancedAt")
+    branch: Optional[StrictStr] = Field(default=None, description="Branch is the forge's default branch, which an import sets to the upstream's once that branch has landed.")
+    clone: Optional[StrictStr] = Field(default=None, description="Clone is the https address to clone it from.")
+    size_bytes: Optional[StrictInt] = Field(default=None, description="SizeBytes is the repository's size on the forge, in bytes.", alias="sizeBytes")
+    ssh: Optional[StrictStr] = Field(default=None, description="SSH is the ssh address to clone it from, when the forge serves one.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is one of \"synced\" (the forge holds it and no ref is in conflict), \"conflict\" (an upstream ref diverged and the forge kept its own history), \"pending\" (the forge does not hold it yet) or \"paused\" (the link's direction is off).")
+    url: Optional[StrictStr] = Field(default=None, description="URL is the repository's page on the forge.")
+    __properties: ClassVar[List[str]] = ["advancedAt", "branch", "clone", "sizeBytes", "ssh", "status", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +53,7 @@ class BillingWindow(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BillingWindow from a JSON string"""
+        """Create an instance of SyncNativeView from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +78,7 @@ class BillingWindow(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BillingWindow from a dict"""
+        """Create an instance of SyncNativeView from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +86,13 @@ class BillingWindow(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "limit": obj.get("limit"),
-            "remaining": obj.get("remaining"),
-            "resets": obj.get("resets"),
-            "span": obj.get("span"),
-            "used": obj.get("used")
+            "advancedAt": obj.get("advancedAt"),
+            "branch": obj.get("branch"),
+            "clone": obj.get("clone"),
+            "sizeBytes": obj.get("sizeBytes"),
+            "ssh": obj.get("ssh"),
+            "status": obj.get("status"),
+            "url": obj.get("url")
         })
         return _obj
 

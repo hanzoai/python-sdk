@@ -262,6 +262,7 @@ pkg/hanzoai/cloud/models/ai_judge_benchmark.py
 pkg/hanzoai/cloud/models/ai_judge_panel_state.py
 pkg/hanzoai/cloud/models/ai_limited.py
 pkg/hanzoai/cloud/models/ai_limits.py
+pkg/hanzoai/cloud/models/ai_limits_set.py
 pkg/hanzoai/cloud/models/ai_mcp_app.py
 pkg/hanzoai/cloud/models/ai_mcp_surface.py
 pkg/hanzoai/cloud/models/ai_model_access_info.py
@@ -270,6 +271,7 @@ pkg/hanzoai/cloud/models/ai_model_list.py
 pkg/hanzoai/cloud/models/ai_model_pricing_info.py
 pkg/hanzoai/cloud/models/ai_model_providers.py
 pkg/hanzoai/cloud/models/ai_panel_judge.py
+pkg/hanzoai/cloud/models/ai_paused.py
 pkg/hanzoai/cloud/models/ai_provider_usage.py
 pkg/hanzoai/cloud/models/ai_provider_usage_model_spend.py
 pkg/hanzoai/cloud/models/ai_provider_usage_series_point.py
@@ -428,7 +430,6 @@ pkg/hanzoai/cloud/models/billing_transaction.py
 pkg/hanzoai/cloud/models/billing_transactions.py
 pkg/hanzoai/cloud/models/billing_usage_receipt.py
 pkg/hanzoai/cloud/models/billing_usage_report.py
-pkg/hanzoai/cloud/models/billing_window.py
 pkg/hanzoai/cloud/models/billing_wire_instructions.py
 pkg/hanzoai/cloud/models/block.py
 pkg/hanzoai/cloud/models/blueprint_blueprint_health.py
@@ -2805,6 +2806,7 @@ pkg/hanzoai/cloud/models/store.py
 pkg/hanzoai/cloud/models/sweep.py
 pkg/hanzoai/cloud/models/sync_endpoint_req.py
 pkg/hanzoai/cloud/models/sync_endpoint_view.py
+pkg/hanzoai/cloud/models/sync_native_view.py
 pkg/hanzoai/cloud/models/sync_patch_sync_in.py
 pkg/hanzoai/cloud/models/sync_sync_list.py
 pkg/hanzoai/cloud/models/sync_sync_queued.py

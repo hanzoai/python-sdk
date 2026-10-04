@@ -147,6 +147,7 @@ from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState
 from hanzoai.cloud.models.ai_limited import AiLimited
 from hanzoai.cloud.models.ai_limits import AiLimits
+from hanzoai.cloud.models.ai_limits_set import AiLimitsSet
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
 from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo
@@ -155,6 +156,7 @@ from hanzoai.cloud.models.ai_model_list import AiModelList
 from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo
 from hanzoai.cloud.models.ai_model_providers import AiModelProviders
 from hanzoai.cloud.models.ai_panel_judge import AiPanelJudge
+from hanzoai.cloud.models.ai_paused import AiPaused
 from hanzoai.cloud.models.ai_provider_usage import AiProviderUsage
 from hanzoai.cloud.models.ai_provider_usage_model_spend import AiProviderUsageModelSpend
 from hanzoai.cloud.models.ai_provider_usage_series_point import AiProviderUsageSeriesPoint
@@ -313,7 +315,6 @@ from hanzoai.cloud.models.billing_transaction import BillingTransaction
 from hanzoai.cloud.models.billing_transactions import BillingTransactions
 from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt
 from hanzoai.cloud.models.billing_usage_report import BillingUsageReport
-from hanzoai.cloud.models.billing_window import BillingWindow
 from hanzoai.cloud.models.billing_wire_instructions import BillingWireInstructions
 from hanzoai.cloud.models.block import Block
 from hanzoai.cloud.models.blueprint_blueprint_health import BlueprintBlueprintHealth
@@ -2690,6 +2691,7 @@ from hanzoai.cloud.models.store import Store
 from hanzoai.cloud.models.sweep import Sweep
 from hanzoai.cloud.models.sync_endpoint_req import SyncEndpointReq
 from hanzoai.cloud.models.sync_endpoint_view import SyncEndpointView
+from hanzoai.cloud.models.sync_native_view import SyncNativeView
 from hanzoai.cloud.models.sync_patch_sync_in import SyncPatchSyncIn
 from hanzoai.cloud.models.sync_sync_list import SyncSyncList
 from hanzoai.cloud.models.sync_sync_queued import SyncSyncQueued

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo
 from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo
@@ -30,19 +30,25 @@ class AiModelInfo(BaseModel):
     """ # noqa: E501
     access: Optional[AiModelAccessInfo] = None
     canonical_slug: Optional[StrictStr] = None
+    var_class: Optional[StrictStr] = Field(default=None, alias="class")
     context_window: Optional[StrictInt] = None
     created: Optional[StrictInt] = None
+    description: Optional[StrictStr] = None
+    family: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
+    inputs: Optional[List[StrictStr]] = None
     max_output_tokens: Optional[StrictInt] = None
+    name: Optional[StrictStr] = None
     object: Optional[StrictStr] = None
     outputs: Optional[List[StrictStr]] = None
     owned_by: Optional[StrictStr] = None
     premium: Optional[StrictBool] = None
     pricing: Optional[AiModelPricingInfo] = None
     provider: Optional[StrictStr] = None
+    supports_reasoning: Optional[StrictBool] = None
     supports_tools: Optional[StrictBool] = None
     supports_vision: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "context_window", "created", "id", "max_output_tokens", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_tools", "supports_vision"]
+    __properties: ClassVar[List[str]] = ["access", "canonical_slug", "class", "context_window", "created", "description", "family", "id", "inputs", "max_output_tokens", "name", "object", "outputs", "owned_by", "premium", "pricing", "provider", "supports_reasoning", "supports_tools", "supports_vision"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -103,16 +109,22 @@ class AiModelInfo(BaseModel):
         _obj = cls.model_validate({
             "access": AiModelAccessInfo.from_dict(obj["access"]) if obj.get("access") is not None else None,
             "canonical_slug": obj.get("canonical_slug"),
+            "class": obj.get("class"),
             "context_window": obj.get("context_window"),
             "created": obj.get("created"),
+            "description": obj.get("description"),
+            "family": obj.get("family"),
             "id": obj.get("id"),
+            "inputs": obj.get("inputs"),
             "max_output_tokens": obj.get("max_output_tokens"),
+            "name": obj.get("name"),
             "object": obj.get("object"),
             "outputs": obj.get("outputs"),
             "owned_by": obj.get("owned_by"),
             "premium": obj.get("premium"),
             "pricing": AiModelPricingInfo.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None,
             "provider": obj.get("provider"),
+            "supports_reasoning": obj.get("supports_reasoning"),
             "supports_tools": obj.get("supports_tools"),
             "supports_vision": obj.get("supports_vision")
         })

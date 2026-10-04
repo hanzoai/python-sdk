@@ -17,26 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.billing_rollup_allotment import BillingRollupAllotment
-from hanzoai.cloud.models.billing_rollup_balance import BillingRollupBalance
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BillingRollup(BaseModel):
+class AiPaused(BaseModel):
     """
-    BillingRollup
+    AiPaused
     """ # noqa: E501
-    balance: Optional[BillingRollupBalance] = None
-    consumed_cents: Optional[StrictInt] = Field(default=None, alias="consumedCents")
-    currency: Optional[StrictStr] = None
-    included: Optional[BillingRollupAllotment] = None
-    overage_cents: Optional[StrictInt] = Field(default=None, alias="overageCents")
-    period: Optional[StrictStr] = None
-    plan: Optional[StrictStr] = None
-    user: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["balance", "consumedCents", "currency", "included", "overageCents", "period", "plan", "user"]
+    fallback: Optional[StrictStr] = Field(default=None, description="Fallback is the Hanzo model that answers a conversation in its place.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the model id, or a pattern ending in `*` naming a family of them.")
+    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when its share resets (RFC3339).")
+    __properties: ClassVar[List[str]] = ["fallback", "model", "resets_at"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -56,7 +49,7 @@ class BillingRollup(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BillingRollup from a JSON string"""
+        """Create an instance of AiPaused from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,17 +70,11 @@ class BillingRollup(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of balance
-        if self.balance:
-            _dict['balance'] = self.balance.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of included
-        if self.included:
-            _dict['included'] = self.included.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BillingRollup from a dict"""
+        """Create an instance of AiPaused from a dict"""
         if obj is None:
             return None
 
@@ -95,14 +82,9 @@ class BillingRollup(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "balance": BillingRollupBalance.from_dict(obj["balance"]) if obj.get("balance") is not None else None,
-            "consumedCents": obj.get("consumedCents"),
-            "currency": obj.get("currency"),
-            "included": BillingRollupAllotment.from_dict(obj["included"]) if obj.get("included") is not None else None,
-            "overageCents": obj.get("overageCents"),
-            "period": obj.get("period"),
-            "plan": obj.get("plan"),
-            "user": obj.get("user")
+            "fallback": obj.get("fallback"),
+            "model": obj.get("model"),
+            "resets_at": obj.get("resets_at")
         })
         return _obj
 

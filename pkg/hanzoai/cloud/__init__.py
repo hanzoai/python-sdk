@@ -284,6 +284,7 @@ __all__ = [
     "AiJudgePanelState",
     "AiLimited",
     "AiLimits",
+    "AiLimitsSet",
     "AiMCPApp",
     "AiMCPSurface",
     "AiModelAccessInfo",
@@ -292,6 +293,7 @@ __all__ = [
     "AiModelPricingInfo",
     "AiModelProviders",
     "AiPanelJudge",
+    "AiPaused",
     "AiProviderUsage",
     "AiProviderUsageModelSpend",
     "AiProviderUsageSeriesPoint",
@@ -450,7 +452,6 @@ __all__ = [
     "BillingTransactions",
     "BillingUsageReceipt",
     "BillingUsageReport",
-    "BillingWindow",
     "BillingWireInstructions",
     "Block",
     "BlueprintBlueprintHealth",
@@ -2827,6 +2828,7 @@ __all__ = [
     "Sweep",
     "SyncEndpointReq",
     "SyncEndpointView",
+    "SyncNativeView",
     "SyncPatchSyncIn",
     "SyncSyncList",
     "SyncSyncQueued",
@@ -3348,6 +3350,7 @@ from hanzoai.cloud.models.ai_judge_benchmark import AiJudgeBenchmark as AiJudgeB
 from hanzoai.cloud.models.ai_judge_panel_state import AiJudgePanelState as AiJudgePanelState
 from hanzoai.cloud.models.ai_limited import AiLimited as AiLimited
 from hanzoai.cloud.models.ai_limits import AiLimits as AiLimits
+from hanzoai.cloud.models.ai_limits_set import AiLimitsSet as AiLimitsSet
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp as AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface as AiMCPSurface
 from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo as AiModelAccessInfo
@@ -3356,6 +3359,7 @@ from hanzoai.cloud.models.ai_model_list import AiModelList as AiModelList
 from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo as AiModelPricingInfo
 from hanzoai.cloud.models.ai_model_providers import AiModelProviders as AiModelProviders
 from hanzoai.cloud.models.ai_panel_judge import AiPanelJudge as AiPanelJudge
+from hanzoai.cloud.models.ai_paused import AiPaused as AiPaused
 from hanzoai.cloud.models.ai_provider_usage import AiProviderUsage as AiProviderUsage
 from hanzoai.cloud.models.ai_provider_usage_model_spend import AiProviderUsageModelSpend as AiProviderUsageModelSpend
 from hanzoai.cloud.models.ai_provider_usage_series_point import AiProviderUsageSeriesPoint as AiProviderUsageSeriesPoint
@@ -3514,7 +3518,6 @@ from hanzoai.cloud.models.billing_transaction import BillingTransaction as Billi
 from hanzoai.cloud.models.billing_transactions import BillingTransactions as BillingTransactions
 from hanzoai.cloud.models.billing_usage_receipt import BillingUsageReceipt as BillingUsageReceipt
 from hanzoai.cloud.models.billing_usage_report import BillingUsageReport as BillingUsageReport
-from hanzoai.cloud.models.billing_window import BillingWindow as BillingWindow
 from hanzoai.cloud.models.billing_wire_instructions import BillingWireInstructions as BillingWireInstructions
 from hanzoai.cloud.models.block import Block as Block
 from hanzoai.cloud.models.blueprint_blueprint_health import BlueprintBlueprintHealth as BlueprintBlueprintHealth
@@ -5891,6 +5894,7 @@ from hanzoai.cloud.models.store import Store as Store
 from hanzoai.cloud.models.sweep import Sweep as Sweep
 from hanzoai.cloud.models.sync_endpoint_req import SyncEndpointReq as SyncEndpointReq
 from hanzoai.cloud.models.sync_endpoint_view import SyncEndpointView as SyncEndpointView
+from hanzoai.cloud.models.sync_native_view import SyncNativeView as SyncNativeView
 from hanzoai.cloud.models.sync_patch_sync_in import SyncPatchSyncIn as SyncPatchSyncIn
 from hanzoai.cloud.models.sync_sync_list import SyncSyncList as SyncSyncList
 from hanzoai.cloud.models.sync_sync_queued import SyncSyncQueued as SyncSyncQueued

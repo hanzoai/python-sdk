@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.sync_endpoint_view import SyncEndpointView
+from hanzoai.cloud.models.sync_native_view import SyncNativeView
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -32,11 +33,13 @@ class SyncSyncView(BaseModel):
     direction: Optional[StrictStr] = Field(default=None, description="Direction is which way work flows: \"both\", \"pull\" (target ← source), \"push\" (source → target), or \"off\" — which keeps the link declared and moves nothing.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the link's handle, derived from its source and target — which is what makes re-declaring the same pair an update rather than a duplicate.")
     kind: Optional[StrictStr] = Field(default=None, description="Kind is what is being synced. \"git\" today; the field exists so a storage or database link is a value here rather than a second route family.")
+    native: Optional[SyncNativeView] = Field(default=None, description="Native is the repo link's copy on the forge: where it lives and how it stands. Absent for an account link, and absent when the forge could not be read — an unread forge is not reported as a healthy one.")
+    scope: Optional[StrictStr] = Field(default=None, description="Scope is \"repo\" for a link to one repository, or \"account\" for a link to a whole GitHub account, which declares a repo link for every repository the account holds — the ones created later included.")
     source: Optional[SyncEndpointView] = Field(default=None, description="Source is the side read FROM on a pull.")
     target: Optional[SyncEndpointView] = Field(default=None, description="Target is the side written TO on a push.")
     trigger: Optional[StrictStr] = Field(default=None, description="Trigger is what starts a reconcile: \"webhook\" (the provider tells us), \"poll\" (we ask on a schedule), or \"manual\" (only an explicit call).")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is bumped by every reconcile, so it reads as the LAST-SYNCED time rather than the last edit. Absent until the first one runs.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["actor", "createdAt", "direction", "id", "kind", "source", "target", "trigger", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["actor", "createdAt", "direction", "id", "kind", "native", "scope", "source", "target", "trigger", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -77,6 +80,9 @@ class SyncSyncView(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of native
+        if self.native:
+            _dict['native'] = self.native.to_dict()
         # override the default output from pydantic by calling `to_dict()` of source
         if self.source:
             _dict['source'] = self.source.to_dict()
@@ -100,6 +106,8 @@ class SyncSyncView(BaseModel):
             "direction": obj.get("direction"),
             "id": obj.get("id"),
             "kind": obj.get("kind"),
+            "native": SyncNativeView.from_dict(obj["native"]) if obj.get("native") is not None else None,
+            "scope": obj.get("scope"),
             "source": SyncEndpointView.from_dict(obj["source"]) if obj.get("source") is not None else None,
             "target": SyncEndpointView.from_dict(obj["target"]) if obj.get("target") is not None else None,
             "trigger": obj.get("trigger"),

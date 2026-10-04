@@ -17,11 +17,12 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_action import AiAction
 from hanzoai.cloud.models.ai_class import AiClass
 from hanzoai.cloud.models.ai_limited import AiLimited
+from hanzoai.cloud.models.ai_paused import AiPaused
 from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
 from typing_extensions import Self
@@ -32,15 +33,17 @@ class AiLimits(BaseModel):
     """ # noqa: E501
     actions: Optional[List[AiAction]] = Field(default=None, description="Actions are the ways on: upgrade, add prepaid credit.")
     classes: Optional[Dict[str, AiClass]] = Field(default=None, description="Classes are premium (third-party frontier models) and ours (Hanzo's), each present when the plan includes it.")
+    credits_after_allowance: Optional[StrictBool] = Field(default=None, description="CreditsAfterAllowance is the payer's choice to keep using a model on credits once the plan's included usage of it is spent (PUT /v1/ai/limits sets it).")
     day: Optional[AiWindow] = None
     limited: Optional[AiLimited] = Field(default=None, description="Limited is present in limited mode.")
+    paused: Optional[List[AiPaused]] = Field(default=None, description="Paused are the models whose share of the plan is used for now: each is answered by its fallback in chat until its share resets.")
     period_end: Optional[StrictStr] = None
     period_start: Optional[StrictStr] = Field(default=None, description="PeriodStart and PeriodEnd bound the billing period (RFC3339).")
     plan: Optional[StrictStr] = Field(default=None, description="Plan is the plan the caller is served as (\"dev\", \"max-5x\", \"max-20x\", \"team\", \"team-annual\", \"agency\", \"advisory\", \"dedicated\", ...), \"free\" when none counts.")
     session: Optional[AiWindow] = Field(default=None, description="Session and Day are the request windows over every request the plan covers.")
     state: Optional[StrictStr] = Field(default=None, description="State is the worst class's: ok, near or limited.")
     upgrade: Optional[StrictStr] = Field(default=None, description="Upgrade is the plan that raises these limits, absent at the top.")
-    __properties: ClassVar[List[str]] = ["actions", "classes", "day", "limited", "period_end", "period_start", "plan", "session", "state", "upgrade"]
+    __properties: ClassVar[List[str]] = ["actions", "classes", "credits_after_allowance", "day", "limited", "paused", "period_end", "period_start", "plan", "session", "state", "upgrade"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +104,13 @@ class AiLimits(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of limited
         if self.limited:
             _dict['limited'] = self.limited.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in paused (list)
+        _items = []
+        if self.paused:
+            for _item_paused in self.paused:
+                if _item_paused:
+                    _items.append(_item_paused.to_dict())
+            _dict['paused'] = _items
         # override the default output from pydantic by calling `to_dict()` of session
         if self.session:
             _dict['session'] = self.session.to_dict()
@@ -123,8 +133,10 @@ class AiLimits(BaseModel):
             )
             if obj.get("classes") is not None
             else None,
+            "credits_after_allowance": obj.get("credits_after_allowance"),
             "day": AiWindow.from_dict(obj["day"]) if obj.get("day") is not None else None,
             "limited": AiLimited.from_dict(obj["limited"]) if obj.get("limited") is not None else None,
+            "paused": [AiPaused.from_dict(_item) for _item in obj["paused"]] if obj.get("paused") is not None else None,
             "period_end": obj.get("period_end"),
             "period_start": obj.get("period_start"),
             "plan": obj.get("plan"),

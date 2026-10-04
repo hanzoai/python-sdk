@@ -319,9 +319,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> SyncSyncList:
-        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step.
 
-        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -382,9 +382,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[SyncSyncList]:
-        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step.
 
-        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -445,9 +445,9 @@ class SyncApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled.
+        """Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step.
 
-        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, and the time it last reconciled. Scoped to the caller's own org — another tenant's links are structurally unreachable.
+        Returns every sync link the caller's org has, each with its two endpoints, its direction and trigger policy, the time it last reconciled, and for a repo link its native copy on the forge — the address to clone it from, its default branch and whether it is in step. Scoped to the caller's own org — another tenant's links are structurally unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1121,7 +1121,7 @@ class SyncApi:
     ) -> SyncSyncView:
         """Declares a sync between two endpoints and returns it.
 
-        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. A source naming only a GitHub account (https://github.com/<account>) links the whole account: every repository the org's GitHub installation grants on it gets a repo link of its own, with this link's direction and trigger, and so does every repository created there later. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
         :param sync_sync_req: (required)
         :type sync_sync_req: SyncSyncReq
@@ -1188,7 +1188,7 @@ class SyncApi:
     ) -> ApiResponse[SyncSyncView]:
         """Declares a sync between two endpoints and returns it.
 
-        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. A source naming only a GitHub account (https://github.com/<account>) links the whole account: every repository the org's GitHub installation grants on it gets a repo link of its own, with this link's direction and trigger, and so does every repository created there later. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
         :param sync_sync_req: (required)
         :type sync_sync_req: SyncSyncReq
@@ -1255,7 +1255,7 @@ class SyncApi:
     ) -> RESTResponseType:
         """Declares a sync between two endpoints and returns it.
 
-        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
+        Declares a sync between two endpoints and returns it. It is an UPSERT: re-declaring the same source and target updates that link rather than piling up duplicates, so a console that re-submits is safe. The org comes from the validated principal, never from the request, so a sync can only ever bind endpoints inside the caller's own org. A git source must be an https clone URL on the provider's own host with no embedded credentials; a target left empty is derived as a native repository named after the source. A source naming only a GitHub account (https://github.com/<account>) links the whole account: every repository the org's GitHub installation grants on it gets a repo link of its own, with this link's direction and trigger, and so does every repository created there later. With run=true the first reconcile is queued in the background, so a large initial import never blocks this response.
 
         :param sync_sync_req: (required)
         :type sync_sync_req: SyncSyncReq
