@@ -68,6 +68,7 @@ _PREFIX_TO_CATEGORY: dict[str, ToolCategory] = {
     "find": ToolCategory.search,
     "search": ToolCategory.search,
     "git": ToolCategory.vcs,
+    "repo": ToolCategory.vcs,
     "think": ToolCategory.reasoning,
     "critic": ToolCategory.reasoning,
     "memory": ToolCategory.memory,

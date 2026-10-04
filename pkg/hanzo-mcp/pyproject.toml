@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.19"
+version = "0.15.20"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -18,8 +18,9 @@ classifiers = [
 keywords = ["mcp", "claude", "hanzo", "code", "agent"]
 dependencies = [
     # Hanzo AI core SDK (canonical types, config, session, MCP client)
-    # 2.2.1 is the first release shipping hanzoai.protocols (permissions.py imports it)
-    "hanzoai>=2.2.1",
+    # 2.2.1 is the first release shipping hanzoai.protocols (permissions.py imports it);
+    # 8.5.624 the first carrying hanzoai.usage, which the llm tools read refusals with
+    "hanzoai>=8.5.624",
     # Core MCP dependencies
     "mcp>=1.25.0,<2",
     "fastmcp>=2.14.4",
@@ -30,7 +31,7 @@ dependencies = [
     "hanzo-async>=0.1.3",
     "uvloop>=0.22.1; sys_platform != 'win32'",
     # Hanzo tool infrastructure (all tools)
-    "hanzo-tools>=0.3.8",        # 0.3.8 carries extra request headers (Enso's bounds) and DEFAULT_ACTION
+    "hanzo-tools>=0.3.9",        # 0.3.9: a cloud refusal carries its body and headers, send() returns headers
     "hanzo-tools-fs>=0.3.4",     # 0.3.4 returns image files as native MCP ImageContent
     "hanzo-tools-shell>=0.6.5",  # 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError)
     "hanzo-tools-core>=0.3.1",   # 0.3.1 is the EMPTY shim — no longer shadows canonical hanzo-tools.core
@@ -43,9 +44,9 @@ dependencies = [
     # 0.2.1 fixes ConfigTool passing permission_manager positionally into BaseTool.__init__
     "hanzo-tools-config>=0.2.1",
     "hanzo-tools-refactor>=0.1.0",
-    "hanzo-tools-llm>=0.2.1",    # 0.2.1 is llm over api.hanzo.ai (Enso) and kai_decide
+    "hanzo-tools-llm>=0.2.2",    # 0.2.2: llm limits, searched models, served/paid-by, typed plan refusals
     "hanzo-tools-code>=0.1.0",
-    "hanzo-tools-vcs>=0.1.0",
+    "hanzo-tools-vcs>=0.1.3",    # 0.1.3 adds repo: repositories on Hanzo git (list, sync now)
     "hanzo-tools-net>=0.1.0",
     "hanzo-tools-agent>=0.3.1",
     "hanzo-tools-api>=0.3.2",    # 0.3.2 is the unified `hanzo` tool projected from cloud's OpenAPI registry
