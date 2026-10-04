@@ -100,9 +100,10 @@ PAID_PLAN_REQUIRED = {
 
 USAGE_CAP_EXCEEDED = {
     "error": {
-        "message": "This session's requests are spent. It resets shortly.",
+        "message": "You've used session requests on your plan. They reset at 2026-10-04T23:30:00Z.",
         "type": "rate_limit_error",
         "code": "usage_cap_exceeded",
+        "limit": "session",
         "resets_at": "2026-10-04T23:30:00Z",
     }
 }
@@ -171,9 +172,22 @@ def test_model_cap_names_the_model_its_fallback_and_the_switch():
     assert e.actions[0] == Action(kind="switch", label="Try Enso", model="enso")
 
 
+def test_a_spent_window_is_named_never_sized():
+    e = refusal(reply(429, USAGE_CAP_EXCEEDED))
+    assert (e.window, e.resets_at) == ("session", datetime(2026, 10, 4, 23, 30, tzinfo=timezone.utc))
+
+
+def test_a_controller_s_v1_envelope_reads_the_same():
+    e = refusal(
+        reply(429, {"status": "error", "code": "free_plan_cap", "msg": "Free plan: today's Kai requests are used."})
+    )
+    assert type(e) is FreePlanCapError
+    assert (e.message, e.usage_class, e.actions) == ("Free plan: today's Kai requests are used.", None, ())
+
+
 def test_a_field_the_refusal_did_not_carry_is_none_not_empty():
     e = refusal(reply(402, INSUFFICIENT_BALANCE))
-    assert (e.usage_class, e.model, e.fallback, e.resets_at, e.upgrade_url) == (None, None, None, None, None)
+    assert (e.usage_class, e.model, e.fallback, e.window, e.resets_at, e.upgrade_url) == (None,) * 6
     assert e.actions == ()
 
 
@@ -186,6 +200,7 @@ def test_a_field_the_refusal_did_not_carry_is_none_not_empty():
         # The retryable sibling and the free lane are not usage-limit refusals.
         (503, {"error": {"code": "balance_unavailable", "message": "try again"}}),
         (429, {"error": {"code": "pool_busy", "message": "busy"}}),
+        (400, {"status": "error", "code": "bad_request", "msg": "no"}),
         (500, "upstream exploded"),
         (402, None),
         # A success never is one, whatever it carries.

@@ -422,8 +422,8 @@ against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v
 the `X-Hanzo-*` headers, case-insensitive; an absent header is `None`. `UsageLimitError`
 (a `Fault`) with one subclass per AI-router refusal code — `PlanAllowanceUsedError`,
 `PaidPlanRequiredError`, `FreePlanCapError`, `ModelCapError`, `UsageCapExceededError`,
-`InsufficientBalanceError`, the JS and Go names. `refusal(reply)` reads only the router's
-nested `{"error": {code, ...}}` body; the money gate's flat body stays `Denied`.
+`InsufficientBalanceError`, the JS and Go names, plus `window` (the spent session or day). `refusal(reply)` reads only the router's
+nested `{"error": {code, ...}}` body (or a controller's `{status: "error", code, msg}`); the money gate's flat body stays `Denied`.
 `Client.send` and `Client.response_deserialize` raise it, so every generated operation run
 through `hanzoai.Client` does; a bare generated `ApiClient` still raises `ApiException`.
 

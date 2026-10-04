@@ -17,7 +17,7 @@ generated operation the client runs::
 
 The refusal states shares and ways on, never an amount: no field here is a
 price, a count or a cap. The body is the AI router's, ``{"error": {message,
-type, code, class, model, fallback, resets_at, upgrade_url, actions}}``; the
+type, code, class, model, fallback, limit, resets_at, upgrade_url, actions}}``; the
 money gate's flat refusal is :class:`hanzoai.Denied`, and a body with neither
 shape stays the fault it was. The class names are the ones the JavaScript and
 Go SDKs use.
@@ -121,9 +121,10 @@ class UsageLimitError(Fault):
 
     `status` is the HTTP status and `code` the refusal. `usage_class` is the
     model class it concerns (the body's ``class``); `model` and `fallback` name
-    the model refused and the one that would answer instead; `resets_at` is
-    when the refusal lifts; `actions` are the ways on, in the order the server
-    gave them. It is a :class:`hanzoai.Fault`, so it also carries `request`
+    the model refused and the one that would answer instead; `window` names the
+    request window that is spent (session or day, never its size); `resets_at`
+    is when the refusal lifts; `actions` are the ways on, in the order the
+    server gave them. It is a :class:`hanzoai.Fault`, so it also carries `request`
     and `retry_after`, and ``except Fault`` still catches it.
     """
 
@@ -140,6 +141,7 @@ class UsageLimitError(Fault):
         usage_class: Optional[str] = None,
         model: Optional[str] = None,
         fallback: Optional[str] = None,
+        window: Optional[str] = None,
         resets_at: Optional[datetime] = None,
         upgrade_url: Optional[str] = None,
         actions: Tuple[Action, ...] = (),
@@ -152,6 +154,7 @@ class UsageLimitError(Fault):
         self.usage_class = usage_class
         self.model = model
         self.fallback = fallback
+        self.window = window
         self.resets_at = resets_at
         self.upgrade_url = upgrade_url
         self.actions = actions
@@ -210,13 +213,16 @@ CODES: Dict[str, Type[UsageLimitError]] = {
 def refusal(reply: Reply) -> Optional[UsageLimitError]:
     """The :class:`UsageLimitError` `reply` carries, or `None` when it carries none.
 
-    Only a non-2xx whose body is ``{"error": {"code": ...}}`` with one of the
-    six codes is one; every other answer is left to the rule that already reads
-    it.
+    Only a non-2xx carrying one of the six codes is one, in the router's body
+    ``{"error": {"code": ...}}`` or a controller's ``/v1`` envelope
+    ``{"status": "error", "code", "msg"}``; every other answer is left to the
+    rule that already reads it.
     """
     if 200 <= reply.status <= 299 or not isinstance(reply.body, dict):
         return None
     e = reply.body.get("error")
+    if not isinstance(e, dict) and reply.body.get("status") == "error":
+        e = {"code": reply.body.get("code"), "message": reply.body.get("msg")}
     if not isinstance(e, dict):
         return None
     cls = CODES.get(_text(e, "code") or "")
@@ -231,6 +237,7 @@ def refusal(reply: Reply) -> Optional[UsageLimitError]:
         usage_class=_text(e, "class"),
         model=_text(e, "model"),
         fallback=_text(e, "fallback"),
+        window=_text(e, "limit"),
         resets_at=instant(e.get("resets_at")),
         upgrade_url=_text(e, "upgrade_url"),
         actions=tuple(Action.read(a) for a in acts if isinstance(a, dict)) if isinstance(acts, list) else (),
