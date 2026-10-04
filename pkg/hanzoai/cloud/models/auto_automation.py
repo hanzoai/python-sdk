@@ -29,6 +29,7 @@ class AutoAutomation(BaseModel):
     AutoAutomation
     """ # noqa: E501
     created: Optional[StrictStr] = Field(default=None, description="Created and Updated are RFC 3339 UTC.")
+    draft: Optional[StrictBool] = Field(default=None, description="Draft is a flow with no step yet: it has no instructions, never runs, and becomes an automation when its instructions are saved.")
     enabled: Optional[StrictBool] = Field(default=None, description="Enabled is whether its schedule is armed.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the automation's id, which is also its flow's.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are what the agent is asked to do each run.")
@@ -41,7 +42,7 @@ class AutoAutomation(BaseModel):
     project: Optional[StrictStr] = Field(default=None, description="Project is the Dev project the run works in, by its slug; null for none.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs.")
     updated: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "project", "schedule", "updated"]
+    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "project", "schedule", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -101,6 +102,7 @@ class AutoAutomation(BaseModel):
 
         _obj = cls.model_validate({
             "created": obj.get("created"),
+            "draft": obj.get("draft"),
             "enabled": obj.get("enabled"),
             "id": obj.get("id"),
             "instructions": obj.get("instructions"),

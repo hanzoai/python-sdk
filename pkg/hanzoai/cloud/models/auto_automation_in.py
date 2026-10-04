@@ -27,6 +27,7 @@ class AutoAutomationIn(BaseModel):
     """
     AutoAutomationIn
     """ # noqa: E501
+    enabled: Optional[StrictBool] = Field(default=None, description="Enabled arms its schedule. Absent is true.")
     instructions: Optional[StrictStr] = Field(default=None, description="Instructions are what the agent is asked to do each run. Required.")
     model: Optional[StrictStr] = Field(default=None, description="Model is the model id to think with. Optional; absent is the default.")
     name: Optional[StrictStr] = Field(default=None, description="Name is what it is called. Required.")
@@ -34,7 +35,7 @@ class AutoAutomationIn(BaseModel):
     permissions: Optional[StrictStr] = Field(default=None, description="Permissions is auto (works without stopping) or ask (proposes, changes nothing). Absent is ask.")
     project: Optional[StrictStr] = Field(default=None, description="Project is a Dev project's slug to work in. Optional.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs. Absent runs it only on demand.")
-    __properties: ClassVar[List[str]] = ["instructions", "model", "name", "notify", "permissions", "project", "schedule"]
+    __properties: ClassVar[List[str]] = ["enabled", "instructions", "model", "name", "notify", "permissions", "project", "schedule"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +91,7 @@ class AutoAutomationIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "enabled": obj.get("enabled"),
             "instructions": obj.get("instructions"),
             "model": obj.get("model"),
             "name": obj.get("name"),

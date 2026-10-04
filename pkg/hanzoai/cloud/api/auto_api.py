@@ -3264,7 +3264,7 @@ class AutoApi:
     ) -> AutoAutomation:
         """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on.
+        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -3335,7 +3335,7 @@ class AutoApi:
     ) -> ApiResponse[AutoAutomation]:
         """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on.
+        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -3406,7 +3406,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule.
 
-        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on.
+        Changes an automation, for the person it runs as or an admin of the org: any field it was created with, and `enabled`, which arms or disarms its schedule. A field the request omits is left alone; `project` or `model` sent as null (or \"\") clears it. Any change but `enabled` makes the caller the person it runs as from then on. A draft is finished by saving its `instructions`: it becomes an automation in place, on unless `enabled` says otherwise.
 
         :param id: ID is the automation, from the path. (required)
         :type id: str
@@ -3843,7 +3843,7 @@ class AutoApi:
     ) -> AutoAutomation:
         """Creates an automation and arms its schedule.
 
-        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, and no `permissions` is ask: it proposes what it would do and changes nothing.
+        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, no `permissions` is ask: it proposes what it would do and changes nothing, and `enabled: false` creates it off, its schedule unarmed.
 
         :param auto_automation_in: (required)
         :type auto_automation_in: AutoAutomationIn
@@ -3910,7 +3910,7 @@ class AutoApi:
     ) -> ApiResponse[AutoAutomation]:
         """Creates an automation and arms its schedule.
 
-        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, and no `permissions` is ask: it proposes what it would do and changes nothing.
+        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, no `permissions` is ask: it proposes what it would do and changes nothing, and `enabled: false` creates it off, its schedule unarmed.
 
         :param auto_automation_in: (required)
         :type auto_automation_in: AutoAutomationIn
@@ -3977,7 +3977,7 @@ class AutoApi:
     ) -> RESTResponseType:
         """Creates an automation and arms its schedule.
 
-        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, and no `permissions` is ask: it proposes what it would do and changes nothing.
+        Creates an automation and arms its schedule. It runs as the caller: their Dev run, in this org, each time it fires. `name` and `instructions` are required; no `schedule` runs it only on demand, no `permissions` is ask: it proposes what it would do and changes nothing, and `enabled: false` creates it off, its schedule unarmed.
 
         :param auto_automation_in: (required)
         :type auto_automation_in: AutoAutomationIn
