@@ -1,39 +1,28 @@
 # hanzo-tools-llm
 
-LLM interaction tools for Hanzo AI MCP.
+Models through Hanzo as MCP tools. Every call goes to `api.hanzo.ai` with the
+Hanzo credential `hanzo_tools.core.HanzoCloud` resolves (`HANZO_API_KEY`, then
+`~/.hanzo/config.json`, then `hanzo auth token`).
 
 ## Tools
 
-- `llm` - Core LLM interaction with multiple providers
-- `unified_llm` - Unified LLM interface
-- `consensus` - Multi-model consensus for higher accuracy
-- `llm_manage` - Model management and provider configuration
+- `llm` — action-routed, default action `query`:
+  - `query`: `POST /v1/chat/completions`. `model` defaults to `enso-auto`;
+    `"auto"` lets Enso pick across the models your org can serve. `max_cost`
+    (USD per 1,000 tokens) and `max_latency_ms` ride as `X-Max-Cost` and
+    `X-Max-Latency-Ms`. Returns `{id, model, content, finish_reason, usage}`.
+  - `models`: `GET /v1/models`, one row per model with family, class and the
+    catalog's per-million prices; `family` narrows it (`enso`, `kai`).
+  - `feedback`: `POST /v1/ai/feedback` with `request_id`, `signal` and, for
+    `signal: rating`, a `rating` of 1 to 3.
+- `kai_decide` — `POST /v1/decisions`: a `state` (text, object or array) and
+  named typed `questions` (`choice`, `score`, `noul`), answered by Kai with
+  calibrated probabilities.
 
-## Installation
+## Install
 
 ```bash
 pip install hanzo-tools-llm
-
-# With all LLM providers
-pip install hanzo-tools-llm[full]
 ```
 
-## Supported Providers
-
-- OpenAI (GPT-4, GPT-4o, etc.)
-- Anthropic (Claude 4, Claude 3.5)
-- Together AI
-- Ollama (local models)
-
-## Usage
-
-```python
-from hanzo_tools.llm import TOOLS, LLM_AVAILABLE, register_tools
-
-if LLM_AVAILABLE:
-    register_tools(mcp_server)
-```
-
-## Part of hanzo-tools
-
-This package is part of the modular [hanzo-tools](../hanzo-tools) ecosystem.
+`hanzo-mcp` loads both tools through the `hanzo.tools` entry point.

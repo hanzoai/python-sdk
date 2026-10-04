@@ -149,14 +149,10 @@ class TestToolPackages:
         reason="hanzo-tools-llm not installed",
     )
     def test_llm_tools(self):
-        """Test hanzo-tools-llm imports (tools depend on llm)."""
-        from hanzo_tools.llm import TOOLS, LLM_AVAILABLE
+        """Test hanzo-tools-llm carries llm and kai_decide, both over HanzoCloud."""
+        from hanzo_tools.llm import TOOLS
 
-        # LLM tools are optional, depend on llm
-        if LLM_AVAILABLE:
-            assert len(TOOLS) >= 1
-        else:
-            assert len(TOOLS) == 0
+        assert [t.name for t in TOOLS] == ["llm", "kai_decide"]
 
     @pytest.mark.skipif(
         not _module_installed("hanzo_tools.vector"),
@@ -194,7 +190,7 @@ OPTIONAL_IMPORT_MODULES = [
     ("hanzo_tools.mcp_tools", 1.0),
     ("hanzo_tools.database", 1.0),
     ("hanzo_tools.editor", 1.0),
-    ("hanzo_tools.llm", 2.0),  # LLM has llm, allow more time
+    ("hanzo_tools.llm", 1.0),
     ("hanzo_tools.vector", 2.0),  # Vector has heavy deps
 ]
 

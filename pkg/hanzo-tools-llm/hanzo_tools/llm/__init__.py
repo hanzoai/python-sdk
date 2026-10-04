@@ -1,69 +1,15 @@
-"""LLM tools for Hanzo AI.
+"""Models through Hanzo, as MCP tools.
 
 Tools:
-- llm: Unified LLM interface with model management
-- consensus: Multi-model consensus
+- llm: completions routed by Enso, the model catalog with prices, feedback
+- kai_decide: typed questions to Kai, Hanzo's decision model
 
-Install:
-    pip install hanzo-tools-llm[full]
+Every call reaches api.hanzo.ai through hanzo_tools.core.HanzoCloud.
 """
 
-import logging
+from .kai import KaiDecideTool
+from .llm_unified import UnifiedLLMTool
 
-logger = logging.getLogger(__name__)
+TOOLS = [UnifiedLLMTool, KaiDecideTool]
 
-# Lazy imports for heavy dependencies
-_tools = []
-
-try:
-    from .llm_unified import UnifiedLLMTool
-
-    # Alias for backwards compatibility
-    LLMTool = UnifiedLLMTool
-    _tools.append(UnifiedLLMTool)
-except ImportError as e:
-    logger.debug(f"UnifiedLLMTool not available: {e}")
-    UnifiedLLMTool = None
-    LLMTool = None
-
-try:
-    from .consensus_tool import ConsensusTool
-
-    _tools.append(ConsensusTool)
-except ImportError as e:
-    logger.debug(f"ConsensusTool not available: {e}")
-    ConsensusTool = None
-
-TOOLS = _tools
-LLM_AVAILABLE = len(_tools) > 0
-
-__all__ = [
-    "TOOLS",
-    "LLM_AVAILABLE",
-    "LLMTool",
-    "UnifiedLLMTool",
-    "ConsensusTool",
-    "register_tools",
-]
-
-
-def register_tools(mcp_server, enabled_tools: dict[str, bool] | None = None):
-    """Register LLM tools with MCP server."""
-    from hanzo_tools.core import ToolRegistry
-
-    enabled = enabled_tools or {}
-    registered = []
-
-    for tool_class in TOOLS:
-        if tool_class is None:
-            continue
-        tool_name = getattr(tool_class, "name", tool_class.__name__.lower())
-        if enabled.get(tool_name, True):
-            try:
-                tool = tool_class()
-                ToolRegistry.register_tool(mcp_server, tool)
-                registered.append(tool)
-            except Exception as e:
-                logger.warning(f"Failed to register {tool_name}: {e}")
-
-    return registered
+__all__ = ["TOOLS", "UnifiedLLMTool", "KaiDecideTool"]
