@@ -32,7 +32,6 @@ ESSENTIAL_SYSTEM_TOOLS: Set[str] = {
 # Heavy tools that are disabled by default (opt-in)
 # These require large dependencies like llm
 HEAVY_TOOLS: Set[str] = {
-    "llm",  # Requires llm (~100MB+ deps)
     "consensus",  # Requires llm
 }
 

@@ -178,6 +178,7 @@ def register_all_tools(
 
     # LLM tools
     resolved_enabled_tools["llm"] = is_tool_enabled("llm", True)
+    resolved_enabled_tools["kai_decide"] = is_tool_enabled("kai_decide", True)
     resolved_enabled_tools["consensus"] = is_tool_enabled("consensus", True)
 
     # Vector tools (usually disabled by default unless config provided)

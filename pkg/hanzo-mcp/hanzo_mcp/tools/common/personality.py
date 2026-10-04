@@ -116,6 +116,11 @@ ESSENTIAL_TOOLS = [
     "critic",
     # Agent spawning
     "agent",
+    # Models through Hanzo: completions Enso routes, the catalog with prices,
+    # feedback (llm); typed questions to Kai (kai_decide). Both are HTTP calls
+    # to api.hanzo.ai, with nothing heavy to install.
+    "llm",
+    "kai_decide",
     # Hanzo cloud — one tool projecting every service from the OpenAPI registry.
     # It is an axis like the rest: the single seam to the platform, and the tool
     # the per-service cloud tools are retired in favour of. A mode omitting it
@@ -131,7 +136,6 @@ ESSENTIAL_TOOLS = [
 # Heavy tools (require large dependencies like llm)
 # These are opt-in only, not included by default
 HEAVY_TOOLS = [
-    "llm",
     "consensus",
 ]
 

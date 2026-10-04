@@ -77,7 +77,8 @@ class ToolListTool(BaseTool):
             ("vector", "Semantic search (search/index/stats/clear)"),
         ],
         "ai": [
-            ("llm", "LLM interface (query/consensus/list/models/enable/disable)"),
+            ("llm", "Models through Hanzo: query (Enso routes), models (with prices), feedback"),
+            ("kai_decide", "Typed questions to Kai, Hanzo's decision model"),
             ("agent", "AI agents (run/start/call/stop/list with A2A support)"),
             ("swarm", "Parallel agent execution across multiple files"),
             (

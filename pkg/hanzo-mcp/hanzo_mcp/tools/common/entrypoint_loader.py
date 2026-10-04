@@ -52,7 +52,7 @@ PACKAGE_TOOL_PREFIXES: dict[str, list[str]] = {
     "agent": ["agent", "zen", "review"],
     "jupyter": ["jupyter"],
     "editor": ["neovim_edit", "neovim_command", "neovim_session"],
-    "llm": ["llm", "consensus"],
+    "llm": ["llm", "kai_decide"],
     "vector": ["index", "vector_index", "vector_search"],
     "config": ["config", "mode", "workspace"],
     "mcp_tools": ["mcp"],

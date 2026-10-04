@@ -86,6 +86,7 @@ _PREFIX_TO_CATEGORY: dict[str, ToolCategory] = {
     "curl": ToolCategory.net,
     "wget": ToolCategory.net,
     "llm": ToolCategory.llm,
+    "kai_decide": ToolCategory.llm,
     "consensus": ToolCategory.llm,
     "api": ToolCategory.api,
     "hanzo": ToolCategory.api,
