@@ -4,15 +4,18 @@ One state, any named typed questions, one call: the same tool, name and contract
 as the TypeScript (src/tools/kai.ts) and Rust (rust/src/tools/kai_tool.rs)
 runtimes. A question is {type, instructions, criteria}: ``choice`` picks a label,
 ``score`` an ordinal level, ``noul`` the probability a statement holds. Answers
-come back with calibrated probabilities, and Kai writes no text.
+come back with calibrated probabilities, and Kai writes no text. A plan refusal
+comes back as an error naming its code and the actions (refusal.py).
 """
 
 from typing import Any, ClassVar
 
 from mcp.server.fastmcp import Context as MCPContext
 
-from hanzo_tools.core import BaseTool, HanzoCloud, InvalidParamsError, ToolError
+from hanzo_tools.core import BaseTool, ToolError, HanzoCloud, InvalidParamsError
 from hanzo_tools.core.cloud import NO_KEY, CloudError
+
+from .refusal import refused
 
 #: The model a decision is asked of when none is named.
 DEFAULT_MODEL = "kai"
@@ -81,7 +84,11 @@ def request(state: Any, questions: Any, model: Any = None) -> dict[str, Any]:
 DECIDE_SCHEMA = {
     "type": "object",
     "properties": {
-        "state": {"type": ["string", "object", "array"], "items": {}, "description": "The case to decide about: text, a JSON object or an array"},
+        "state": {
+            "type": ["string", "object", "array"],
+            "items": {},
+            "description": "The case to decide about: text, a JSON object or an array",
+        },
         "questions": {
             "type": "object",
             "description": "Question name → {type, instructions, criteria}; 1 to 100 questions",
@@ -89,7 +96,11 @@ DECIDE_SCHEMA = {
                 "type": "object",
                 "properties": {
                     "type": {"type": "string", "enum": list(KINDS)},
-                    "instructions": {"type": ["string", "object", "array"], "items": {}, "description": "Optional, recommended. What Kai answers"},
+                    "instructions": {
+                        "type": ["string", "object", "array"],
+                        "items": {},
+                        "description": "Optional, recommended. What Kai answers",
+                    },
                     "criteria": {
                         "type": ["object", "array"],
                         "items": {},
@@ -99,7 +110,10 @@ DECIDE_SCHEMA = {
                 "required": ["type"],
             },
         },
-        "model": {"type": "string", "description": "Decision model (default kai)"},
+        "model": {
+            "type": "string",
+            "description": "Decision model: kai (default), a trained kai-<id>, or typesafe/jev-1.13",
+        },
     },
     "required": ["state", "questions"],
 }
@@ -109,7 +123,7 @@ class KaiDecideTool(BaseTool):
     """Typed questions to Kai about one case, answered with calibrated probabilities."""
 
     name: ClassVar[str] = "kai_decide"
-    VERSION: ClassVar[str] = "0.2.1"
+    VERSION: ClassVar[str] = "0.2.2"
     DEFAULT_ACTION: ClassVar[str] = "decide"
 
     def __init__(self):
@@ -126,7 +140,7 @@ class KaiDecideTool(BaseTool):
             try:
                 d = await self._cloud.post("/v1/decisions", body)
             except CloudError as e:
-                raise ToolError(code="UPSTREAM", message=str(e))
+                raise refused(e)
             if not isinstance(d, dict) or not isinstance(d.get("answers"), dict):
                 raise ToolError(code="UPSTREAM", message=f"not a decision: {str(d)[:200]}")
             return d
@@ -144,5 +158,5 @@ class KaiDecideTool(BaseTool):
             "optional; write it as a statement, not a bare yes/no question. Returns the decision {id, model, "
             "answers: {name: answer}, usage, routing, state_hash, latency_ms}. Probabilities are calibrated; "
             "confidence = (n·p_max − 1)/(n − 1) over n options. Billed on input tokens at the catalog's kai rate; "
-            "output_tokens is 0."
+            "output_tokens is 0. A refusal (402 or 429) is an error naming its code (free_plan_cap, ...) and its actions."
         )
