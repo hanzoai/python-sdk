@@ -202,6 +202,10 @@ class FakeSSEResponse:
         self.lines = lines
         self.status_code = status
         self.text = body
+        self.headers = {}
+
+    def json(self):
+        return json.loads(self.text)
 
     async def aiter_lines(self):
         for line in self.lines:

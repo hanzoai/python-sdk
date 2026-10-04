@@ -17,7 +17,7 @@ import json
 import subprocess
 from typing import Any, ClassVar
 from pathlib import Path
-from collections.abc import AsyncIterator
+from collections.abc import Mapping, AsyncIterator
 
 DEFAULT_BASE = "https://api.hanzo.ai"
 
@@ -100,11 +100,22 @@ class CloudError(Exception):
 
     ``status`` is the HTTP status when the server answered, else None (a
     transport/DNS failure). Tools inspect it to decide fall-back vs surface.
+    ``body`` is the answer's decoded JSON (None when it was not JSON or there
+    was no answer) and ``headers`` its headers, so a refusal can be read whole
+    (``hanzoai.usage.refusal``) rather than out of the trimmed message.
     """
 
-    def __init__(self, message: str, status: int | None = None):
+    def __init__(
+        self,
+        message: str,
+        status: int | None = None,
+        body: Any = None,
+        headers: Mapping[str, str] | None = None,
+    ):
         super().__init__(message)
         self.status = status
+        self.body = body
+        self.headers = headers if headers is not None else {}
 
 
 class HanzoCloud:
@@ -156,9 +167,15 @@ class HanzoCloud:
             )
         return self._client
 
-    async def _request(
+    async def send(
         self, method: str, path: str, headers: dict[str, str] | None = None, **kw: Any
-    ) -> Any:
+    ) -> tuple[Any, Mapping[str, str]]:
+        """One request: the parsed JSON body and the answer's headers.
+
+        For a route whose headers say something (the ``X-Hanzo-*`` usage
+        headers on a priced call). ``kw`` passes to httpx (``params``,
+        ``json``). Raises CloudError on a transport failure or a non-2xx.
+        """
         client = await self._get_client()
         try:
             resp = await client.request(
@@ -168,14 +185,26 @@ class HanzoCloud:
             raise CloudError(f"{method} {path} failed: {e}") from e
 
         if resp.status_code >= 400:
+            try:
+                body = resp.json()
+            except ValueError:
+                body = None
             raise CloudError(
                 f"{method} {path} → {resp.status_code}: {_short_body(resp)}",
                 status=resp.status_code,
+                body=body,
+                headers=resp.headers,
             )
         try:
-            return resp.json()
+            return resp.json(), resp.headers
         except ValueError:
-            return {"text": resp.text}
+            return {"text": resp.text}, resp.headers
+
+    async def _request(
+        self, method: str, path: str, headers: dict[str, str] | None = None, **kw: Any
+    ) -> Any:
+        body, _ = await self.send(method, path, headers=headers, **kw)
+        return body
 
     async def get(self, path: str, params: dict[str, Any] | None = None) -> Any:
         """GET path, returning parsed JSON. Raises CloudError on failure."""
@@ -227,9 +256,15 @@ class HanzoCloud:
             ) as resp:
                 if resp.status_code >= 400:
                     await resp.aread()
+                    try:
+                        body = resp.json()
+                    except ValueError:
+                        body = None
                     raise CloudError(
                         f"POST {path} → {resp.status_code}: {_short_body(resp)}",
                         status=resp.status_code,
+                        body=body,
+                        headers=resp.headers,
                     )
                 async for line in resp.aiter_lines():
                     event = _sse_event(line)
