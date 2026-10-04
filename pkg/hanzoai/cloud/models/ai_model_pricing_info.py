@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
@@ -30,7 +30,8 @@ class AiModelPricingInfo(BaseModel):
     input_per_million: Optional[Union[StrictFloat, StrictInt]] = None
     output_per_million: Optional[Union[StrictFloat, StrictInt]] = None
     prompt: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "prompt"]
+    variable: Optional[StrictBool] = None
+    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "prompt", "variable"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,7 +87,8 @@ class AiModelPricingInfo(BaseModel):
             "completion": obj.get("completion"),
             "input_per_million": obj.get("input_per_million"),
             "output_per_million": obj.get("output_per_million"),
-            "prompt": obj.get("prompt")
+            "prompt": obj.get("prompt"),
+            "variable": obj.get("variable")
         })
         return _obj
 

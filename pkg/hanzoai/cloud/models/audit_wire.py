@@ -27,7 +27,9 @@ class AuditWire(BaseModel):
     AuditWire
     """ # noqa: E501
     action: Optional[StrictStr] = Field(default=None, description="Action is the verb that was performed. It is the event's name, not the HTTP method — a request-sourced record carries both, and the pair is what makes a row readable (\"grant.create\" at POST /v1/admin/grants).")
+    after: Optional[Any] = None
     auth_method: Optional[StrictStr] = Field(default=None, description="Auth is the credential the actor presented: \"jwt\", \"api-key\", or \"none\".", alias="authMethod")
+    before: Optional[Any] = None
     email: Optional[StrictStr] = Field(default=None, description="Email is the actor's validated address, absent when the credential carried none. It comes from the verified token, never from a client header.")
     hash: Optional[StrictStr] = Field(default=None, description="Hash is this record's SHA-256 over its own canonical JSON with both hash fields cleared, folded with prevHash. Recomputing it from the row's other fields is what proves the row has not been edited.")
     home: Optional[StrictStr] = Field(default=None, description="Home is present ONLY on a cross-org action: the org the actor came FROM, while Org is the org they acted IN. A console row carrying `home` is a platform-admin impersonation and should be rendered as one.")
@@ -47,7 +49,7 @@ class AuditWire(BaseModel):
     sub: Optional[StrictStr] = Field(default=None, description="Sub is the acting user (the IAM subject). Empty for a machine principal or an anonymous request, which is how a service action is told from a person's.")
     time: Optional[StrictStr] = Field(default=None, description="Time is when the action happened, RFC3339Nano in UTC. The stored column has the same precision and sorts the same way, so a client can range and order on this string verbatim.")
     user_agent: Optional[StrictStr] = Field(default=None, description="UserAgent is the client the request announced itself as. Client-supplied, so it is evidence about what claimed to act, not proof of it.", alias="userAgent")
-    __properties: ClassVar[List[str]] = ["action", "authMethod", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
+    __properties: ClassVar[List[str]] = ["action", "after", "authMethod", "before", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +90,16 @@ class AuditWire(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # set to None if after (nullable) is None
+        # and model_fields_set contains the field
+        if self.after is None and "after" in self.model_fields_set:
+            _dict['after'] = None
+
+        # set to None if before (nullable) is None
+        # and model_fields_set contains the field
+        if self.before is None and "before" in self.model_fields_set:
+            _dict['before'] = None
+
         return _dict
 
     @classmethod
@@ -101,7 +113,9 @@ class AuditWire(BaseModel):
 
         _obj = cls.model_validate({
             "action": obj.get("action"),
+            "after": obj.get("after"),
             "authMethod": obj.get("authMethod"),
+            "before": obj.get("before"),
             "email": obj.get("email"),
             "hash": obj.get("hash"),
             "home": obj.get("home"),
