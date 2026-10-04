@@ -73,10 +73,33 @@ _HOME = {
     "Triple": "hanzoai.graph",
     "Vocabulary": "hanzoai.graph",
     "Source": "hanzoai.graph",
+    "Usage": "hanzoai.usage",
+    "read_usage": "hanzoai.usage",
+    "UsageLimitError": "hanzoai.usage",
+    "PlanAllowanceUsedError": "hanzoai.usage",
+    "PaidPlanRequiredError": "hanzoai.usage",
+    "FreePlanCapError": "hanzoai.usage",
+    "ModelCapError": "hanzoai.usage",
+    "UsageCapExceededError": "hanzoai.usage",
+    "InsufficientBalanceError": "hanzoai.usage",
 }
 
 #: The capability modules, reachable as `hanzoai.budget` and so on.
-_MODULES = ("wire", "page", "answer", "token", "grant", "client", "budget", "policy", "audit", "search", "kb", "graph")
+_MODULES = (
+    "wire",
+    "page",
+    "answer",
+    "token",
+    "grant",
+    "client",
+    "budget",
+    "policy",
+    "audit",
+    "search",
+    "kb",
+    "graph",
+    "usage",
+)
 
 __all__ = ["__version__", *_MODULES, *_HOME]
 
@@ -120,6 +143,17 @@ if TYPE_CHECKING:  # what a type checker and an IDE see, without the import cost
         Vocabulary as Vocabulary,
     )
     from hanzoai.token import Token as Token
+    from hanzoai.usage import (
+        Usage as Usage,
+        ModelCapError as ModelCapError,
+        UsageLimitError as UsageLimitError,
+        FreePlanCapError as FreePlanCapError,
+        PaidPlanRequiredError as PaidPlanRequiredError,
+        UsageCapExceededError as UsageCapExceededError,
+        PlanAllowanceUsedError as PlanAllowanceUsedError,
+        InsufficientBalanceError as InsufficientBalanceError,
+        read_usage as read_usage,
+    )
     from hanzoai.answer import (
         Ok as Ok,
         Cure as Cure,

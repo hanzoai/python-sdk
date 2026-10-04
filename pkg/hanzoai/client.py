@@ -27,8 +27,8 @@ from typing import Any, Dict, Optional
 from email.utils import parsedate_to_datetime
 from urllib.parse import urlencode
 
-from urllib3.util.retry import Retry
 from urllib3.exceptions import MaxRetryError, ResponseError
+from urllib3.util.retry import Retry
 
 from hanzoai import wire
 from hanzoai.kb import Kb
@@ -36,6 +36,7 @@ from hanzoai.audit import Audit
 from hanzoai.grant import Grant
 from hanzoai.graph import Graph
 from hanzoai.token import BASE, ISSUER, Token
+from hanzoai.usage import refusal
 from hanzoai.answer import Held, held, value
 from hanzoai.budget import Budget
 from hanzoai.policy import Policy
@@ -166,14 +167,19 @@ class Client(ApiClient):
         member nobody set — a request carries what the caller determined, and a
         JSON null is not that. A `datetime` is stamped RFC 3339. A 401 re-mints
         once and replays, so a rotated token costs a round trip rather than an
-        error the caller has to handle.
+        error the caller has to handle. A priced call the plan refused raises
+        its :class:`hanzoai.usage.UsageLimitError`.
         """
         headers = {"Accept": "application/json", "Authorization": "Bearer " + self.credential.token()}
         if body is not None:
             headers["Content-Type"] = media
         response = self.call_api(method, self.base + path + _query(query), headers, _body(body))
         response.read()
-        return _reply(response)
+        reply = _reply(response)
+        stop = refusal(reply)
+        if stop:
+            raise stop
+        return reply
 
     def read(self, method: str, path: str, **call: Any) -> Any:
         """A call no gate refuses: the decoded body, or the reason there is none."""
@@ -215,10 +221,17 @@ class Client(ApiClient):
         with `None` and a queued call reads as one that succeeded and returned
         nothing. The six capabilities answer the same hold as
         :class:`hanzoai.Held`, which is the arm this raises.
+
+        A priced call the plan refused raises its
+        :class:`hanzoai.usage.UsageLimitError` rather than the generated
+        ``ApiException``, the same class :meth:`send` raises for it.
         """
         reply = _reply(response_data)
         if held(reply):
             raise Held.read(reply.body, reply.request)
+        stop = refusal(reply)
+        if stop:
+            raise stop
         return super().response_deserialize(response_data, response_types_map)
 
 

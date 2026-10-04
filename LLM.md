@@ -416,6 +416,32 @@ runs them against `conformance/fake.py`, and `uv run python tests/live_conforman
 against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v<version>`, and
 `https://pypi.org/pypi/hanzo-kai/json` is the proof, not a green run.
 
+## Plan usage — `hanzoai.usage`
+
+`read_usage(headers)` → `Usage(usage, usage_class, paid_by, fallback, served, reason)` from
+the `X-Hanzo-*` headers, case-insensitive; an absent header is `None`. `UsageLimitError`
+(a `Fault`) with one subclass per AI-router refusal code — `PlanAllowanceUsedError`,
+`PaidPlanRequiredError`, `FreePlanCapError`, `ModelCapError`, `UsageCapExceededError`,
+`InsufficientBalanceError`, the JS and Go names. `refusal(reply)` reads only the router's
+nested `{"error": {code, ...}}` body; the money gate's flat body stays `Denied`.
+`Client.send` and `Client.response_deserialize` raise it, so every generated operation run
+through `hanzoai.Client` does; a bare generated `ApiClient` still raises `ApiException`.
+
+The rest is generated, typed, and needs nothing hand-written: `AiApi.ai_limits` /
+`ai_set_limits`, `SyncApi.get_sync` / `get_sync_by_id` / `post_sync` /
+`post_sync_by_id_run`, `AiApi.post_decisions`, `AiApi.get_models` (`ModelInfo.var_class`
+is the wire's `class`; `pricing.variable`). `/v1/models` ignores `?class=`, so filter
+client-side. Headers: the `*_with_http_info` variant's `.headers` into `read_usage`.
+`ai.DecisionsChoice.criteria` is an object in cloud's document, so the `[label, ...]` form
+the server also takes cannot be sent through the generated client.
+
+**Hand-written root modules ship with the next cloud fanout.** The root version is
+cloud's; the fanout's `v8.5.N` tag publishes whatever `pkg/hanzoai` holds at that commit.
+Never cut a root version by hand.
+
+**Commit with `LEFTHOOK=0`.** The global hook falls through to `uv run lefthook -h`, which
+re-locks `uv.lock` with the local uv and syncs a `.venv` on every checkout and commit.
+
 ## Key entry points
 - `pkg/hanzoai/` — the client (`ApiClient`, `Configuration`, `*Api`) under `cloud/`, plus
   seven hand-written modules beside it (`config`, `mcp`, `protocols`, `session`, `zap`, …).
