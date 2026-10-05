@@ -17,19 +17,18 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, StrictStr
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 
-class UsageCategorySpend(BaseModel):
+class PostChat200ResponseAllOfRoutingCandidatesInner(BaseModel):
     """
-    UsageCategorySpend
+    PostChat200ResponseAllOfRoutingCandidatesInner
     """ # noqa: E501
-    category: Optional[StrictStr] = Field(default=None, description="Category is what the lines metered, as it reads on a bill: \"Desktop sandbox\", \"Agent sessions\", or an AI model's own id. It is the same name /v1/billing/usage gives each row. A line that recorded nothing is \"Uncategorized\".")
-    cents: Optional[StrictInt] = Field(default=None, description="Cents is what the org spent in that bucket over the window, in US cents.")
-    count: Optional[StrictInt] = Field(default=None, description="Count is how many ledger lines rolled up into it.")
-    __properties: ClassVar[List[str]] = ["category", "cents", "count"]
+    depths: List[StrictStr]
+    model: StrictStr
+    __properties: ClassVar[List[str]] = ["depths", "model"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class UsageCategorySpend(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UsageCategorySpend from a JSON string"""
+        """Create an instance of PostChat200ResponseAllOfRoutingCandidatesInner from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +73,7 @@ class UsageCategorySpend(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UsageCategorySpend from a dict"""
+        """Create an instance of PostChat200ResponseAllOfRoutingCandidatesInner from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +81,8 @@ class UsageCategorySpend(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "category": obj.get("category"),
-            "cents": obj.get("cents"),
-            "count": obj.get("count")
+            "depths": obj.get("depths"),
+            "model": obj.get("model")
         })
         return _obj
 

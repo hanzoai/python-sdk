@@ -2477,8 +2477,13 @@ __all__ = [
     "PostAiVectors200Response",
     "PostAiVideos200Response",
     "PostAiWorkflows200Response",
+    "PostChat200Response",
+    "PostChat200ResponseAllOfRouting",
+    "PostChat200ResponseAllOfRoutingCandidatesInner",
+    "PostChat200ResponseAllOfRoutingInputs",
     "PostEventRequest",
     "PostModelsByModelAccess200Response",
+    "PostResponses200Response",
     "PrefPrefsView",
     "PricingCard",
     "PricingComponent",
@@ -5605,8 +5610,13 @@ from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles2
 from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response as PostAiVectors200Response
 from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response as PostAiVideos200Response
 from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response as PostAiWorkflows200Response
+from hanzoai.cloud.models.post_chat200_response import PostChat200Response as PostChat200Response
+from hanzoai.cloud.models.post_chat200_response_all_of_routing import PostChat200ResponseAllOfRouting as PostChat200ResponseAllOfRouting
+from hanzoai.cloud.models.post_chat200_response_all_of_routing_candidates_inner import PostChat200ResponseAllOfRoutingCandidatesInner as PostChat200ResponseAllOfRoutingCandidatesInner
+from hanzoai.cloud.models.post_chat200_response_all_of_routing_inputs import PostChat200ResponseAllOfRoutingInputs as PostChat200ResponseAllOfRoutingInputs
 from hanzoai.cloud.models.post_event_request import PostEventRequest as PostEventRequest
 from hanzoai.cloud.models.post_models_by_model_access200_response import PostModelsByModelAccess200Response as PostModelsByModelAccess200Response
+from hanzoai.cloud.models.post_responses200_response import PostResponses200Response as PostResponses200Response
 from hanzoai.cloud.models.pref_prefs_view import PrefPrefsView as PrefPrefsView
 from hanzoai.cloud.models.pricing_card import PricingCard as PricingCard
 from hanzoai.cloud.models.pricing_component import PricingComponent as PricingComponent

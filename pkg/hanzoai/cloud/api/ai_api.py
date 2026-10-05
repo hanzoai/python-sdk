@@ -34,7 +34,6 @@ from hanzoai.cloud.models.ai_model_list import AiModelList
 from hanzoai.cloud.models.ai_models import AiModels
 from hanzoai.cloud.models.ai_ranking import AiRanking
 from hanzoai.cloud.models.ai_response import AiResponse
-from hanzoai.cloud.models.ai_responses_resource import AiResponsesResource
 from hanzoai.cloud.models.ai_routing_edit import AiRoutingEdit
 from hanzoai.cloud.models.ai_routing_reward_request import AiRoutingRewardRequest
 from hanzoai.cloud.models.ai_token_count import AiTokenCount
@@ -119,7 +118,9 @@ from hanzoai.cloud.models.post_ai_tree_files200_response import PostAiTreeFiles2
 from hanzoai.cloud.models.post_ai_vectors200_response import PostAiVectors200Response
 from hanzoai.cloud.models.post_ai_videos200_response import PostAiVideos200Response
 from hanzoai.cloud.models.post_ai_workflows200_response import PostAiWorkflows200Response
+from hanzoai.cloud.models.post_chat200_response import PostChat200Response
 from hanzoai.cloud.models.post_models_by_model_access200_response import PostModelsByModelAccess200Response
+from hanzoai.cloud.models.post_responses200_response import PostResponses200Response
 from hanzoai.cloud.models.put_ai_router_catalog200_response import PutAiRouterCatalog200Response
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -71351,7 +71352,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OpenaiChatCompletionResponse:
+    ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -71395,7 +71396,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -71428,7 +71429,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OpenaiChatCompletionResponse]:
+    ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -71472,7 +71473,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -71549,7 +71550,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -71661,7 +71662,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OpenaiChatCompletionResponse:
+    ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -71705,7 +71706,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -71738,7 +71739,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OpenaiChatCompletionResponse]:
+    ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -71782,7 +71783,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -71859,7 +71860,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -72251,7 +72252,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> OpenaiChatCompletionResponse:
+    ) -> PostChat200Response:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -72295,7 +72296,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -72328,7 +72329,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[OpenaiChatCompletionResponse]:
+    ) -> ApiResponse[PostChat200Response]:
         """Implements the OpenAI-compatible chat completions API
 
         Implements the OpenAI-compatible chat completions API
@@ -72372,7 +72373,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -72449,7 +72450,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "OpenaiChatCompletionResponse",
+            '200': "PostChat200Response",
             '401': None,
             '403': None,
         }
@@ -74444,7 +74445,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AiResponsesResource:
+    ) -> PostResponses200Response:
         """Implements POST /v1/responses.
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
@@ -74485,7 +74486,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiResponsesResource",
+            '200': "PostResponses200Response",
             '401': None,
             '403': None,
         }
@@ -74517,7 +74518,7 @@ class AiApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AiResponsesResource]:
+    ) -> ApiResponse[PostResponses200Response]:
         """Implements POST /v1/responses.
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
@@ -74558,7 +74559,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiResponsesResource",
+            '200': "PostResponses200Response",
             '401': None,
             '403': None,
         }
@@ -74631,7 +74632,7 @@ class AiApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AiResponsesResource",
+            '200': "PostResponses200Response",
             '401': None,
             '403': None,
         }

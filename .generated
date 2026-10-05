@@ -2455,8 +2455,13 @@ pkg/hanzoai/cloud/models/post_ai_tree_files200_response.py
 pkg/hanzoai/cloud/models/post_ai_vectors200_response.py
 pkg/hanzoai/cloud/models/post_ai_videos200_response.py
 pkg/hanzoai/cloud/models/post_ai_workflows200_response.py
+pkg/hanzoai/cloud/models/post_chat200_response.py
+pkg/hanzoai/cloud/models/post_chat200_response_all_of_routing.py
+pkg/hanzoai/cloud/models/post_chat200_response_all_of_routing_candidates_inner.py
+pkg/hanzoai/cloud/models/post_chat200_response_all_of_routing_inputs.py
 pkg/hanzoai/cloud/models/post_event_request.py
 pkg/hanzoai/cloud/models/post_models_by_model_access200_response.py
+pkg/hanzoai/cloud/models/post_responses200_response.py
 pkg/hanzoai/cloud/models/pref_prefs_view.py
 pkg/hanzoai/cloud/models/pricing_card.py
 pkg/hanzoai/cloud/models/pricing_component.py

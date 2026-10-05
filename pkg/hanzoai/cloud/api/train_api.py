@@ -6061,7 +6061,7 @@ class TrainApi:
     ) -> TrainJob:
         """Publishes a job's output under a name.
 
-        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. Every org's published capabilities are what the decision service installs.
+        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. A head's tar is copied first to the serving store, the models bucket's capabilities/<org>/<sha256>, where the decision service fetches it; ai attaches the org's published capabilities to its decisions.
 
         :param id: ID names the job. (required)
         :type id: str
@@ -6132,7 +6132,7 @@ class TrainApi:
     ) -> ApiResponse[TrainJob]:
         """Publishes a job's output under a name.
 
-        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. Every org's published capabilities are what the decision service installs.
+        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. A head's tar is copied first to the serving store, the models bucket's capabilities/<org>/<sha256>, where the decision service fetches it; ai attaches the org's published capabilities to its decisions.
 
         :param id: ID names the job. (required)
         :type id: str
@@ -6203,7 +6203,7 @@ class TrainApi:
     ) -> RESTResponseType:
         """Publishes a job's output under a name.
 
-        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. Every org's published capabilities are what the decision service installs.
+        Publishes a job's output under a name. Only a succeeded job's output is publishable; a rejected one broke its regression budget and needs force, which the record keeps. The output must be stored. A capability is published with its route — the question keys it answers and, per key, the exact question (`{\"type\": \"choice\"|\"score\"|\"noul\", \"labels\": [...]}`) — the base SHA-256 its result names, and its form: head for a readout, full for every other adaptation. A route that claims a question another of the org's published capabilities claims is 409 route_conflict. A name the org already published moves to this job. A head's tar is copied first to the serving store, the models bucket's capabilities/<org>/<sha256>, where the decision service fetches it; ai attaches the org's published capabilities to its decisions.
 
         :param id: ID names the job. (required)
         :type id: str

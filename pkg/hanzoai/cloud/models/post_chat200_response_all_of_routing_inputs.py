@@ -17,19 +17,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
+from typing import Any, ClassVar, Dict, List
 from typing import Optional, Set
 from typing_extensions import Self
 
-class UsageCategorySpend(BaseModel):
+class PostChat200ResponseAllOfRoutingInputs(BaseModel):
     """
-    UsageCategorySpend
+    PostChat200ResponseAllOfRoutingInputs
     """ # noqa: E501
-    category: Optional[StrictStr] = Field(default=None, description="Category is what the lines metered, as it reads on a bill: \"Desktop sandbox\", \"Agent sessions\", or an AI model's own id. It is the same name /v1/billing/usage gives each row. A line that recorded nothing is \"Uncategorized\".")
-    cents: Optional[StrictInt] = Field(default=None, description="Cents is what the org spent in that bucket over the window, in US cents.")
-    count: Optional[StrictInt] = Field(default=None, description="Count is how many ledger lines rolled up into it.")
-    __properties: ClassVar[List[str]] = ["category", "cents", "count"]
+    depth: StrictStr = Field(description="The reasoning depth the request states; default when it states none.")
+    key: StrictStr = Field(description="The table row that depth was read at.")
+    policy: StrictStr = Field(description="Whether the caller's plan or credit pays for the paid model at that depth.")
+    __properties: ClassVar[List[str]] = ["depth", "key", "policy"]
+
+    @field_validator('policy')
+    def policy_validate_enum(cls, value):
+        """Validates the enum"""
+        if value not in set(['funded', 'unfunded', 'n/a']):
+            raise ValueError("must be one of enum values ('funded', 'unfunded', 'n/a')")
+        return value
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +56,7 @@ class UsageCategorySpend(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of UsageCategorySpend from a JSON string"""
+        """Create an instance of PostChat200ResponseAllOfRoutingInputs from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +81,7 @@ class UsageCategorySpend(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of UsageCategorySpend from a dict"""
+        """Create an instance of PostChat200ResponseAllOfRoutingInputs from a dict"""
         if obj is None:
             return None
 
@@ -82,9 +89,9 @@ class UsageCategorySpend(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "category": obj.get("category"),
-            "cents": obj.get("cents"),
-            "count": obj.get("count")
+            "depth": obj.get("depth"),
+            "key": obj.get("key"),
+            "policy": obj.get("policy")
         })
         return _obj
 
