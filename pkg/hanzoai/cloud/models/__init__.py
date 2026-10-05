@@ -130,6 +130,7 @@ from hanzoai.cloud.models.ai_decision import AiDecision
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides
 from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction
 from hanzoai.cloud.models.ai_decisions_answer import AiDecisionsAnswer
+from hanzoai.cloud.models.ai_decisions_boolean import AiDecisionsBoolean
 from hanzoai.cloud.models.ai_decisions_choice import AiDecisionsChoice
 from hanzoai.cloud.models.ai_decisions_noul import AiDecisionsNoul
 from hanzoai.cloud.models.ai_decisions_question import AiDecisionsQuestion
@@ -431,6 +432,7 @@ from hanzoai.cloud.models.captable_captable_updated import CaptableCaptableUpdat
 from hanzoai.cloud.models.capture_batch import CaptureBatch
 from hanzoai.cloud.models.capture_event import CaptureEvent
 from hanzoai.cloud.models.capture_result import CaptureResult
+from hanzoai.cloud.models.captured import Captured
 from hanzoai.cloud.models.cart import Cart
 from hanzoai.cloud.models.cart_item import CartItem
 from hanzoai.cloud.models.cart_item_set import CartItemSet
@@ -595,6 +597,9 @@ from hanzoai.cloud.models.content_storefront_result import ContentStorefrontResu
 from hanzoai.cloud.models.content_transition_in import ContentTransitionIn
 from hanzoai.cloud.models.content_transition_result import ContentTransitionResult
 from hanzoai.cloud.models.cookie_ack import CookieAck
+from hanzoai.cloud.models.correct_in import CorrectIn
+from hanzoai.cloud.models.correction import Correction
+from hanzoai.cloud.models.corrections import Corrections
 from hanzoai.cloud.models.count import Count
 from hanzoai.cloud.models.crawl_crawl_document import CrawlCrawlDocument
 from hanzoai.cloud.models.crawl_crawl_request import CrawlCrawlRequest
@@ -2866,12 +2871,20 @@ from hanzoai.cloud.models.train_artifact import TrainArtifact
 from hanzoai.cloud.models.train_artifacts_out import TrainArtifactsOut
 from hanzoai.cloud.models.train_assignment import TrainAssignment
 from hanzoai.cloud.models.train_budget import TrainBudget
+from hanzoai.cloud.models.train_capabilities_out import TrainCapabilitiesOut
+from hanzoai.cloud.models.train_capability import TrainCapability
+from hanzoai.cloud.models.train_capture import TrainCapture
+from hanzoai.cloud.models.train_capture_in import TrainCaptureIn
 from hanzoai.cloud.models.train_catalog import TrainCatalog
 from hanzoai.cloud.models.train_chose import TrainChose
 from hanzoai.cloud.models.train_claim_in import TrainClaimIn
 from hanzoai.cloud.models.train_claimed import TrainClaimed
 from hanzoai.cloud.models.train_client_list import TrainClientList
+from hanzoai.cloud.models.train_correction import TrainCorrection
+from hanzoai.cloud.models.train_correction_group import TrainCorrectionGroup
+from hanzoai.cloud.models.train_corrections_out import TrainCorrectionsOut
 from hanzoai.cloud.models.train_create_client_in import TrainCreateClientIn
+from hanzoai.cloud.models.train_create_in import TrainCreateIn
 from hanzoai.cloud.models.train_dataset import TrainDataset
 from hanzoai.cloud.models.train_deleted_out import TrainDeletedOut
 from hanzoai.cloud.models.train_download import TrainDownload
@@ -2882,6 +2895,7 @@ from hanzoai.cloud.models.train_family import TrainFamily
 from hanzoai.cloud.models.train_forward_in import TrainForwardIn
 from hanzoai.cloud.models.train_job import TrainJob
 from hanzoai.cloud.models.train_jobs_out import TrainJobsOut
+from hanzoai.cloud.models.train_live import TrainLive
 from hanzoai.cloud.models.train_metrics_out import TrainMetricsOut
 from hanzoai.cloud.models.train_object import TrainObject
 from hanzoai.cloud.models.train_objective import TrainObjective
@@ -2892,7 +2906,9 @@ from hanzoai.cloud.models.train_output import TrainOutput
 from hanzoai.cloud.models.train_part import TrainPart
 from hanzoai.cloud.models.train_projection import TrainProjection
 from hanzoai.cloud.models.train_protect import TrainProtect
+from hanzoai.cloud.models.train_publish_cap_in import TrainPublishCapIn
 from hanzoai.cloud.models.train_publish_in import TrainPublishIn
+from hanzoai.cloud.models.train_question import TrainQuestion
 from hanzoai.cloud.models.train_register_in import TrainRegisterIn
 from hanzoai.cloud.models.train_register_out import TrainRegisterOut
 from hanzoai.cloud.models.train_report_in import TrainReportIn
@@ -2907,9 +2923,12 @@ from hanzoai.cloud.models.train_spec import TrainSpec
 from hanzoai.cloud.models.train_supports import TrainSupports
 from hanzoai.cloud.models.train_task_view import TrainTaskView
 from hanzoai.cloud.models.train_term import TrainTerm
+from hanzoai.cloud.models.train_train_in import TrainTrainIn
+from hanzoai.cloud.models.train_unmade_out import TrainUnmadeOut
 from hanzoai.cloud.models.train_upload import TrainUpload
 from hanzoai.cloud.models.train_upload_in import TrainUploadIn
 from hanzoai.cloud.models.train_usage import TrainUsage
+from hanzoai.cloud.models.train_version import TrainVersion
 from hanzoai.cloud.models.translate_memory_entry import TranslateMemoryEntry
 from hanzoai.cloud.models.translate_memory_page import TranslateMemoryPage
 from hanzoai.cloud.models.translate_review_request import TranslateReviewRequest

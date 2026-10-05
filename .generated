@@ -246,6 +246,7 @@ pkg/hanzoai/cloud/models/ai_decision.py
 pkg/hanzoai/cloud/models/ai_decision_sides.py
 pkg/hanzoai/cloud/models/ai_decisions_action.py
 pkg/hanzoai/cloud/models/ai_decisions_answer.py
+pkg/hanzoai/cloud/models/ai_decisions_boolean.py
 pkg/hanzoai/cloud/models/ai_decisions_choice.py
 pkg/hanzoai/cloud/models/ai_decisions_noul.py
 pkg/hanzoai/cloud/models/ai_decisions_question.py
@@ -547,6 +548,7 @@ pkg/hanzoai/cloud/models/captable_captable_updated.py
 pkg/hanzoai/cloud/models/capture_batch.py
 pkg/hanzoai/cloud/models/capture_event.py
 pkg/hanzoai/cloud/models/capture_result.py
+pkg/hanzoai/cloud/models/captured.py
 pkg/hanzoai/cloud/models/cart.py
 pkg/hanzoai/cloud/models/cart_item.py
 pkg/hanzoai/cloud/models/cart_item_set.py
@@ -711,6 +713,9 @@ pkg/hanzoai/cloud/models/content_storefront_result.py
 pkg/hanzoai/cloud/models/content_transition_in.py
 pkg/hanzoai/cloud/models/content_transition_result.py
 pkg/hanzoai/cloud/models/cookie_ack.py
+pkg/hanzoai/cloud/models/correct_in.py
+pkg/hanzoai/cloud/models/correction.py
+pkg/hanzoai/cloud/models/corrections.py
 pkg/hanzoai/cloud/models/count.py
 pkg/hanzoai/cloud/models/crawl_crawl_document.py
 pkg/hanzoai/cloud/models/crawl_crawl_request.py
@@ -2982,12 +2987,20 @@ pkg/hanzoai/cloud/models/train_artifact.py
 pkg/hanzoai/cloud/models/train_artifacts_out.py
 pkg/hanzoai/cloud/models/train_assignment.py
 pkg/hanzoai/cloud/models/train_budget.py
+pkg/hanzoai/cloud/models/train_capabilities_out.py
+pkg/hanzoai/cloud/models/train_capability.py
+pkg/hanzoai/cloud/models/train_capture.py
+pkg/hanzoai/cloud/models/train_capture_in.py
 pkg/hanzoai/cloud/models/train_catalog.py
 pkg/hanzoai/cloud/models/train_chose.py
 pkg/hanzoai/cloud/models/train_claim_in.py
 pkg/hanzoai/cloud/models/train_claimed.py
 pkg/hanzoai/cloud/models/train_client_list.py
+pkg/hanzoai/cloud/models/train_correction.py
+pkg/hanzoai/cloud/models/train_correction_group.py
+pkg/hanzoai/cloud/models/train_corrections_out.py
 pkg/hanzoai/cloud/models/train_create_client_in.py
+pkg/hanzoai/cloud/models/train_create_in.py
 pkg/hanzoai/cloud/models/train_dataset.py
 pkg/hanzoai/cloud/models/train_deleted_out.py
 pkg/hanzoai/cloud/models/train_download.py
@@ -2998,6 +3011,7 @@ pkg/hanzoai/cloud/models/train_family.py
 pkg/hanzoai/cloud/models/train_forward_in.py
 pkg/hanzoai/cloud/models/train_job.py
 pkg/hanzoai/cloud/models/train_jobs_out.py
+pkg/hanzoai/cloud/models/train_live.py
 pkg/hanzoai/cloud/models/train_metrics_out.py
 pkg/hanzoai/cloud/models/train_object.py
 pkg/hanzoai/cloud/models/train_objective.py
@@ -3008,7 +3022,9 @@ pkg/hanzoai/cloud/models/train_output.py
 pkg/hanzoai/cloud/models/train_part.py
 pkg/hanzoai/cloud/models/train_projection.py
 pkg/hanzoai/cloud/models/train_protect.py
+pkg/hanzoai/cloud/models/train_publish_cap_in.py
 pkg/hanzoai/cloud/models/train_publish_in.py
+pkg/hanzoai/cloud/models/train_question.py
 pkg/hanzoai/cloud/models/train_register_in.py
 pkg/hanzoai/cloud/models/train_register_out.py
 pkg/hanzoai/cloud/models/train_report_in.py
@@ -3023,9 +3039,12 @@ pkg/hanzoai/cloud/models/train_spec.py
 pkg/hanzoai/cloud/models/train_supports.py
 pkg/hanzoai/cloud/models/train_task_view.py
 pkg/hanzoai/cloud/models/train_term.py
+pkg/hanzoai/cloud/models/train_train_in.py
+pkg/hanzoai/cloud/models/train_unmade_out.py
 pkg/hanzoai/cloud/models/train_upload.py
 pkg/hanzoai/cloud/models/train_upload_in.py
 pkg/hanzoai/cloud/models/train_usage.py
+pkg/hanzoai/cloud/models/train_version.py
 pkg/hanzoai/cloud/models/translate_memory_entry.py
 pkg/hanzoai/cloud/models/translate_memory_page.py
 pkg/hanzoai/cloud/models/translate_review_request.py
