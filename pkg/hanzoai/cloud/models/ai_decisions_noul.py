@@ -20,7 +20,6 @@ import json
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -29,7 +28,7 @@ class AiDecisionsNoul(BaseModel):
     AiDecisionsNoul
     """ # noqa: E501
     criteria: Optional[AiDecisionSides] = None
-    instructions: Optional[AiDecisionSidesFalse] = None
+    instructions: Optional[Any] = None
     labels: Optional[Dict[str, StrictStr]] = None
     type: StrictStr
     __properties: ClassVar[List[str]] = ["criteria", "instructions", "labels", "type"]
@@ -83,9 +82,11 @@ class AiDecisionsNoul(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of criteria
         if self.criteria:
             _dict['criteria'] = self.criteria.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of instructions
-        if self.instructions:
-            _dict['instructions'] = self.instructions.to_dict()
+        # set to None if instructions (nullable) is None
+        # and model_fields_set contains the field
+        if self.instructions is None and "instructions" in self.model_fields_set:
+            _dict['instructions'] = None
+
         return _dict
 
     @classmethod
@@ -99,7 +100,7 @@ class AiDecisionsNoul(BaseModel):
 
         _obj = cls.model_validate({
             "criteria": AiDecisionSides.from_dict(obj["criteria"]) if obj.get("criteria") is not None else None,
-            "instructions": AiDecisionSidesFalse.from_dict(obj["instructions"]) if obj.get("instructions") is not None else None,
+            "instructions": obj.get("instructions"),
             "labels": obj.get("labels"),
             "type": obj.get("type")
         })

@@ -157,7 +157,7 @@ class IamUser(BaseModel):
     microsoftonline: Optional[StrictStr] = None
     multi_factor_auths: Optional[List[IamMfaProps]] = Field(default=None, alias="multiFactorAuths")
     name: Optional[StrictStr] = None
-    name_key: Optional[StrictStr] = Field(default=None, alias="nameKey")
+    name_key: Optional[StrictStr] = Field(default=None, description="NameKey is Fold(Name), derived on every save (BeforeCreate, BeforeUpdate) and on every open for a row saved without it (store.Prepare): the indexed key a case-insensitive username lookup reads (store.GetUserByName). It is always written, empty or not, so a row that has been keyed is never mistaken for one that has not.", alias="nameKey")
     naver: Optional[StrictStr] = None
     need_update_password: Optional[StrictBool] = Field(default=None, alias="needUpdatePassword")
     nextcloud: Optional[StrictStr] = None

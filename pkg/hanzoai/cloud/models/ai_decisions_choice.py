@@ -19,8 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
-from hanzoai.cloud.models.ai_decisions_choice_criteria_value import AiDecisionsChoiceCriteriaValue
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,8 +26,8 @@ class AiDecisionsChoice(BaseModel):
     """
     AiDecisionsChoice
     """ # noqa: E501
-    criteria: Dict[str, Optional[AiDecisionsChoiceCriteriaValue]]
-    instructions: Optional[AiDecisionSidesFalse] = None
+    criteria: Optional[Any]
+    instructions: Optional[Any] = None
     type: StrictStr
     __properties: ClassVar[List[str]] = ["criteria", "instructions", "type"]
 
@@ -79,16 +77,16 @@ class AiDecisionsChoice(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each value in criteria (dict)
-        _field_dict = {}
-        if self.criteria:
-            for _key_criteria in self.criteria:
-                if self.criteria[_key_criteria]:
-                    _field_dict[_key_criteria] = self.criteria[_key_criteria].to_dict()
-            _dict['criteria'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of instructions
-        if self.instructions:
-            _dict['instructions'] = self.instructions.to_dict()
+        # set to None if criteria (nullable) is None
+        # and model_fields_set contains the field
+        if self.criteria is None and "criteria" in self.model_fields_set:
+            _dict['criteria'] = None
+
+        # set to None if instructions (nullable) is None
+        # and model_fields_set contains the field
+        if self.instructions is None and "instructions" in self.model_fields_set:
+            _dict['instructions'] = None
+
         return _dict
 
     @classmethod
@@ -101,13 +99,8 @@ class AiDecisionsChoice(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "criteria": dict(
-                (_k, AiDecisionsChoiceCriteriaValue.from_dict(_v))
-                for _k, _v in obj["criteria"].items()
-            )
-            if obj.get("criteria") is not None
-            else None,
-            "instructions": AiDecisionSidesFalse.from_dict(obj["instructions"]) if obj.get("instructions") is not None else None,
+            "criteria": obj.get("criteria"),
+            "instructions": obj.get("instructions"),
             "type": obj.get("type")
         })
         return _obj

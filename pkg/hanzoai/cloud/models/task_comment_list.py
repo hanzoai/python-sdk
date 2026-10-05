@@ -17,33 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional, Union
-from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.task_comment import TaskComment
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsAnswer(BaseModel):
+class TaskCommentList(BaseModel):
     """
-    AiDecisionsAnswer
+    TaskCommentList
     """ # noqa: E501
-    action: Optional[AiDecisionsAction] = None
-    answer_confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    choice: Optional[StrictStr] = None
-    confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    legend: Optional[Dict[str, Any]] = None
-    noul: Optional[Union[StrictFloat, StrictInt]] = None
-    probabilities: Optional[Dict[str, Union[StrictFloat, StrictInt]]] = None
-    score: Optional[Union[StrictFloat, StrictInt]] = None
-    type: StrictStr
-    __properties: ClassVar[List[str]] = ["action", "answer_confidence", "choice", "confidence", "legend", "noul", "probabilities", "score", "type"]
-
-    @field_validator('type')
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['noul', 'choice', 'score']):
-            raise ValueError("must be one of enum values ('noul', 'choice', 'score')")
-        return value
+    data: Optional[List[TaskComment]] = Field(default=None, description="Data is the conversation. Empty is an empty array, never null.")
+    home: Optional[StrictStr] = Field(default=None, description="Home is the GitHub repository (owner/name) the issue lives on when its board mirrors one; its conversation is read there, and Data is then empty.")
+    __properties: ClassVar[List[str]] = ["data", "home"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -63,7 +49,7 @@ class AiDecisionsAnswer(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a JSON string"""
+        """Create an instance of TaskCommentList from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,14 +70,18 @@ class AiDecisionsAnswer(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of action
-        if self.action:
-            _dict['action'] = self.action.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        _items = []
+        if self.data:
+            for _item_data in self.data:
+                if _item_data:
+                    _items.append(_item_data.to_dict())
+            _dict['data'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a dict"""
+        """Create an instance of TaskCommentList from a dict"""
         if obj is None:
             return None
 
@@ -99,15 +89,8 @@ class AiDecisionsAnswer(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "action": AiDecisionsAction.from_dict(obj["action"]) if obj.get("action") is not None else None,
-            "answer_confidence": obj.get("answer_confidence"),
-            "choice": obj.get("choice"),
-            "confidence": obj.get("confidence"),
-            "legend": obj.get("legend"),
-            "noul": obj.get("noul"),
-            "probabilities": obj.get("probabilities"),
-            "score": obj.get("score"),
-            "type": obj.get("type")
+            "data": [TaskComment.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "home": obj.get("home")
         })
         return _obj
 

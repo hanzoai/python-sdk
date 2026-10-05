@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.agent_metrics import AgentMetrics
 from hanzoai.cloud.models.agent_spec import AgentSpec
@@ -37,11 +37,12 @@ class AgentTargetView(BaseModel):
     metrics: Optional[AgentMetrics] = Field(default=None, description="Metrics is what the machine was DOING at its last heartbeat — loadavg, memory, accelerator utilization. Absent when it has never beaten. It is a SNAPSHOT: the series over time lives in the fleet samples, not here.")
     metrics_at: Optional[StrictStr] = Field(default=None, description="MetricsAt is when that heartbeat was recorded, RFC 3339 in UTC, and the SERVER stamps it — a client cannot backdate or forge the staleness clock. Absent means never beaten, which is exactly the case where Status is taken at its word.", alias="metricsAt")
     running: Optional[StrictInt] = Field(default=None, description="Running is how many of those are in `running` right now — the number a dispatcher weighs against Capacity. paused sessions are in Sessions and not here.")
+    serving: Optional[StrictBool] = Field(default=None, description="Serving says whether a run the caller sends here now would be taken: the machine is the caller's (or the caller is an org admin), and it is online with a runner that polled for work within the last 90 seconds — the online and runner half is what dispatch checks (TargetDispatchable). A heartbeat alone keeps a machine online, not serving, and a colleague's machine never serves the caller.")
     sessions: Optional[StrictInt] = Field(default=None, description="Sessions is how many of the org's sessions are mapped to this machine, by target id OR by matching Host. All of them, whatever their status.")
     spec: Optional[AgentSpec] = Field(default=None, description="Spec is what the machine IS — os, arch, cores, RAM, accelerators — the static half, changed only when something reports it again. Absent when nothing has ever been reported, and a scheduler reads absence as \"cannot satisfy a floor\" rather than as \"no limits\".")
     status: Optional[StrictStr] = Field(default=None, description="Status is the EFFECTIVE liveness — online | offline | draining — not the stored one. offline and draining are operator INTENT and are reported as they stand; `online` is checked against the heartbeat, and a machine that has beaten before but not in the last 90 seconds reports offline whatever its row says. A target that has NEVER beaten keeps its stored status, because a hand-registered destination has no fact to check.")
     updated_at: Optional[StrictStr] = Field(default=None, description="UpdatedAt is the last write to the row, same format — which for a beating machine is its last heartbeat, since a heartbeat IS a write.", alias="updatedAt")
-    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "sessions", "spec", "status", "updatedAt"]
+    __properties: ClassVar[List[str]] = ["capacity", "createdAt", "host", "id", "kind", "label", "metrics", "metricsAt", "running", "serving", "sessions", "spec", "status", "updatedAt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -109,6 +110,7 @@ class AgentTargetView(BaseModel):
             "metrics": AgentMetrics.from_dict(obj["metrics"]) if obj.get("metrics") is not None else None,
             "metricsAt": obj.get("metricsAt"),
             "running": obj.get("running"),
+            "serving": obj.get("serving"),
             "sessions": obj.get("sessions"),
             "spec": AgentSpec.from_dict(obj["spec"]) if obj.get("spec") is not None else None,
             "status": obj.get("status"),

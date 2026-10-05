@@ -1545,7 +1545,7 @@ provides-extras = ["dev"]
 
 [[package]]
 name = "hanzo-tools"
-version = "0.3.7"
+version = "0.3.9"
 source = { editable = "pkg/hanzo-tools" }
 dependencies = [
     { name = "aiofiles" },
@@ -2252,7 +2252,7 @@ wheels = [
 
 [[package]]
 name = "hanzoai"
-version = "8.5.621"
+version = "8.5.623"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },

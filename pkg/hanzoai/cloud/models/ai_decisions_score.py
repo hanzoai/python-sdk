@@ -20,7 +20,6 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr, field_validator
 from typing import Any, ClassVar, Dict, List, Optional
 from typing_extensions import Annotated
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -28,8 +27,8 @@ class AiDecisionsScore(BaseModel):
     """
     AiDecisionsScore
     """ # noqa: E501
-    criteria: Annotated[List[AiDecisionSidesFalse], Field(min_length=1)]
-    instructions: Optional[AiDecisionSidesFalse] = None
+    criteria: Annotated[List[Any], Field(min_length=1)]
+    instructions: Optional[Any] = None
     type: StrictStr
     __properties: ClassVar[List[str]] = ["criteria", "instructions", "type"]
 
@@ -79,16 +78,11 @@ class AiDecisionsScore(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in criteria (list)
-        _items = []
-        if self.criteria:
-            for _item_criteria in self.criteria:
-                if _item_criteria:
-                    _items.append(_item_criteria.to_dict())
-            _dict['criteria'] = _items
-        # override the default output from pydantic by calling `to_dict()` of instructions
-        if self.instructions:
-            _dict['instructions'] = self.instructions.to_dict()
+        # set to None if instructions (nullable) is None
+        # and model_fields_set contains the field
+        if self.instructions is None and "instructions" in self.model_fields_set:
+            _dict['instructions'] = None
+
         return _dict
 
     @classmethod
@@ -101,8 +95,8 @@ class AiDecisionsScore(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "criteria": [AiDecisionSidesFalse.from_dict(_item) for _item in obj["criteria"]] if obj.get("criteria") is not None else None,
-            "instructions": AiDecisionSidesFalse.from_dict(obj["instructions"]) if obj.get("instructions") is not None else None,
+            "criteria": obj.get("criteria"),
+            "instructions": obj.get("instructions"),
             "type": obj.get("type")
         })
         return _obj

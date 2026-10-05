@@ -26,9 +26,10 @@ class ProviderGithubImportOut(BaseModel):
     """
     ProviderGithubImportOut
     """ # noqa: E501
+    codebases: Optional[List[StrictStr]] = Field(default=None, description="Codebases are the names they take in the org's code workspace, in the same order: poll GET /v1/git/repos for each to appear.")
     queued: Optional[StrictInt] = Field(default=None, description="Queued is how many repositories were handed to the background importer.")
     repos: Optional[List[StrictStr]] = Field(default=None, description="Repos names those repositories, in the installation's listing order.")
-    __properties: ClassVar[List[str]] = ["queued", "repos"]
+    __properties: ClassVar[List[str]] = ["codebases", "queued", "repos"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -81,6 +82,7 @@ class ProviderGithubImportOut(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "codebases": obj.get("codebases"),
             "queued": obj.get("queued"),
             "repos": obj.get("repos")
         })

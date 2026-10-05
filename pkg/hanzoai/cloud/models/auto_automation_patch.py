@@ -34,9 +34,10 @@ class AutoAutomationPatch(BaseModel):
     name: Optional[StrictStr] = None
     notify: Optional[StrictBool] = None
     permissions: Optional[StrictStr] = None
+    post_to: Optional[List[StrictStr]] = Field(default=None, alias="postTo")
     project: Optional[StrictStr] = None
     schedule: Optional[AutoSchedule] = None
-    __properties: ClassVar[List[str]] = ["enabled", "id", "instructions", "model", "name", "notify", "permissions", "project", "schedule"]
+    __properties: ClassVar[List[str]] = ["enabled", "id", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -99,6 +100,7 @@ class AutoAutomationPatch(BaseModel):
             "name": obj.get("name"),
             "notify": obj.get("notify"),
             "permissions": obj.get("permissions"),
+            "postTo": obj.get("postTo"),
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None
         })

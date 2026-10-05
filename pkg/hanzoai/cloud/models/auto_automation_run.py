@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.auto_post_result import AutoPostResult
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,12 +28,14 @@ class AutoAutomationRun(BaseModel):
     AutoAutomationRun
     """ # noqa: E501
     at: Optional[StrictStr] = Field(default=None, description="At is when it started and Finished when it ended (null while it runs), RFC 3339 UTC.")
+    draft: Optional[StrictStr] = Field(default=None, description="Draft is the post the agent wrote, for an automation that posts; empty otherwise.")
     finished: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
-    status: Optional[StrictStr] = Field(default=None, description="Status is succeeded, failed, running, queued, skipped for a start that found the previous run still going, or refused for a run whose person is no longer a member of the org.")
+    posts: Optional[List[AutoPostResult]] = Field(default=None, description="Posts are where it went: one per account, its link or the platform's reason it did not go. Never null.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is succeeded, failed, running, queued, review for a post waiting for its person to post or discard it, skipped for a start that found the previous run still going, or refused for a run whose person is no longer a member of the org.")
     summary: Optional[StrictStr] = Field(default=None, description="Summary is one line on how it went.")
     transcript: Optional[StrictStr] = Field(default=None, description="Transcript opens the run's Dev run; null when it started none.")
-    __properties: ClassVar[List[str]] = ["at", "finished", "id", "status", "summary", "transcript"]
+    __properties: ClassVar[List[str]] = ["at", "draft", "finished", "id", "posts", "status", "summary", "transcript"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,6 +76,13 @@ class AutoAutomationRun(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in posts (list)
+        _items = []
+        if self.posts:
+            for _item_posts in self.posts:
+                if _item_posts:
+                    _items.append(_item_posts.to_dict())
+            _dict['posts'] = _items
         return _dict
 
     @classmethod
@@ -86,8 +96,10 @@ class AutoAutomationRun(BaseModel):
 
         _obj = cls.model_validate({
             "at": obj.get("at"),
+            "draft": obj.get("draft"),
             "finished": obj.get("finished"),
             "id": obj.get("id"),
+            "posts": [AutoPostResult.from_dict(_item) for _item in obj["posts"]] if obj.get("posts") is not None else None,
             "status": obj.get("status"),
             "summary": obj.get("summary"),
             "transcript": obj.get("transcript")

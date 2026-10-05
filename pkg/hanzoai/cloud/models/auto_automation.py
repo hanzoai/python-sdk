@@ -39,10 +39,11 @@ class AutoAutomation(BaseModel):
     next: Optional[StrictStr] = Field(default=None, description="Next is when it runs next, RFC 3339 UTC; null when manual or disabled.")
     notify: Optional[StrictBool] = Field(default=None, description="Notify sends a one-line summary to the automation's person when a run ends.")
     permissions: Optional[StrictStr] = Field(default=None, description="Permissions is auto (works and uses connectors without stopping) or ask (changes nothing and ends with the actions it proposes; agent.go agentTask).")
+    post_to: Optional[List[StrictStr]] = Field(default=None, description="PostTo are the connected accounts each run's answer is posted to — x, linkedin, facebook — after review when Permissions is ask (post.go). Never null.", alias="postTo")
     project: Optional[StrictStr] = Field(default=None, description="Project is the Dev project the run works in, by its slug; null for none.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs.")
     updated: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "project", "schedule", "updated"]
+    __properties: ClassVar[List[str]] = ["created", "draft", "enabled", "id", "instructions", "last", "model", "name", "next", "notify", "permissions", "postTo", "project", "schedule", "updated"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -112,6 +113,7 @@ class AutoAutomation(BaseModel):
             "next": obj.get("next"),
             "notify": obj.get("notify"),
             "permissions": obj.get("permissions"),
+            "postTo": obj.get("postTo"),
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None,
             "updated": obj.get("updated")

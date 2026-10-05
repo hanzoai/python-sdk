@@ -17,24 +17,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_price import AiPrice
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ProviderGithubRepoItem(BaseModel):
+class AiModel(BaseModel):
     """
-    ProviderGithubRepoItem
+    AiModel
     """ # noqa: E501
-    codebase: Optional[StrictStr] = Field(default=None, description="Codebase is the name it has in the org's code workspace once brought in (POST /v1/provider/github/repos/import): listed by GET /v1/git/repos when it is there.")
-    default_branch: Optional[StrictStr] = Field(default=None, description="DefaultBranch is the branch GitHub opens it on.")
-    full_name: Optional[StrictStr] = Field(default=None, description="FullName is owner/name, the address a coding run, a branch listing and a deploy take.")
-    installation_id: Optional[StrictInt] = Field(default=None, description="InstallationID is the installation of the Hanzo Platform App that reaches it — the grant a run on it is minted from.")
-    name: Optional[StrictStr] = Field(default=None, description="Name is its name within that account.")
-    owner: Optional[StrictStr] = Field(default=None, description="Owner is the GitHub account that holds it.")
-    private: Optional[StrictBool] = Field(default=None, description="Private is GitHub's visibility bit.")
-    pushed_at: Optional[StrictStr] = Field(default=None, description="PushedAt is when anything was last pushed to it, RFC 3339 UTC. Absent for a repository nothing was ever pushed to.")
-    __properties: ClassVar[List[str]] = ["codebase", "default_branch", "full_name", "installation_id", "name", "owner", "private", "pushed_at"]
+    capabilities: Optional[List[StrictStr]] = Field(default=None, description="Capabilities are tools, vision and reasoning, those the model supports.")
+    var_class: Optional[StrictStr] = Field(default=None, description="Class is premium, ours or free.", alias="class")
+    context_window: Optional[StrictInt] = Field(default=None, description="ContextWindow is the most tokens the model reads at once, absent when the catalog does not say.")
+    family: Optional[StrictStr] = Field(default=None, description="Family is the Hanzo family (enso, zen, kai, zoo), absent for a third-party model.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the model's id, the one a completion or a decision names.")
+    inputs: Optional[List[StrictStr]] = Field(default=None, description="Inputs are the modalities the model reads.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the model's display name.")
+    outputs: Optional[List[StrictStr]] = Field(default=None, description="Outputs are the modalities the model writes.")
+    pricing: Optional[AiPrice] = Field(default=None, description="Pricing is the model's list price.")
+    __properties: ClassVar[List[str]] = ["capabilities", "class", "context_window", "family", "id", "inputs", "name", "outputs", "pricing"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -54,7 +56,7 @@ class ProviderGithubRepoItem(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProviderGithubRepoItem from a JSON string"""
+        """Create an instance of AiModel from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -75,11 +77,14 @@ class ProviderGithubRepoItem(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of pricing
+        if self.pricing:
+            _dict['pricing'] = self.pricing.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProviderGithubRepoItem from a dict"""
+        """Create an instance of AiModel from a dict"""
         if obj is None:
             return None
 
@@ -87,14 +92,15 @@ class ProviderGithubRepoItem(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "codebase": obj.get("codebase"),
-            "default_branch": obj.get("default_branch"),
-            "full_name": obj.get("full_name"),
-            "installation_id": obj.get("installation_id"),
+            "capabilities": obj.get("capabilities"),
+            "class": obj.get("class"),
+            "context_window": obj.get("context_window"),
+            "family": obj.get("family"),
+            "id": obj.get("id"),
+            "inputs": obj.get("inputs"),
             "name": obj.get("name"),
-            "owner": obj.get("owner"),
-            "private": obj.get("private"),
-            "pushed_at": obj.get("pushed_at")
+            "outputs": obj.get("outputs"),
+            "pricing": AiPrice.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None
         })
         return _obj
 

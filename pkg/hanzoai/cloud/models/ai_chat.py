@@ -17,33 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional, Union
-from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.ai_receipt import AiReceipt
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsAnswer(BaseModel):
+class AiChat(BaseModel):
     """
-    AiDecisionsAnswer
+    AiChat
     """ # noqa: E501
-    action: Optional[AiDecisionsAction] = None
-    answer_confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    choice: Optional[StrictStr] = None
-    confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    legend: Optional[Dict[str, Any]] = None
-    noul: Optional[Union[StrictFloat, StrictInt]] = None
-    probabilities: Optional[Dict[str, Union[StrictFloat, StrictInt]]] = None
-    score: Optional[Union[StrictFloat, StrictInt]] = None
-    type: StrictStr
-    __properties: ClassVar[List[str]] = ["action", "answer_confidence", "choice", "confidence", "legend", "noul", "probabilities", "score", "type"]
-
-    @field_validator('type')
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['noul', 'choice', 'score']):
-            raise ValueError("must be one of enum values ('noul', 'choice', 'score')")
-        return value
+    answer: Optional[StrictStr] = Field(default=None, description="Answer is the model's reply.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the model asked: the caller's, or the default when it named none.")
+    receipt: Optional[AiReceipt] = Field(default=None, description="Receipt says which model served the reply and who paid for it.")
+    __properties: ClassVar[List[str]] = ["answer", "model", "receipt"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -63,7 +50,7 @@ class AiDecisionsAnswer(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a JSON string"""
+        """Create an instance of AiChat from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,14 +71,14 @@ class AiDecisionsAnswer(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of action
-        if self.action:
-            _dict['action'] = self.action.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of receipt
+        if self.receipt:
+            _dict['receipt'] = self.receipt.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a dict"""
+        """Create an instance of AiChat from a dict"""
         if obj is None:
             return None
 
@@ -99,15 +86,9 @@ class AiDecisionsAnswer(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "action": AiDecisionsAction.from_dict(obj["action"]) if obj.get("action") is not None else None,
-            "answer_confidence": obj.get("answer_confidence"),
-            "choice": obj.get("choice"),
-            "confidence": obj.get("confidence"),
-            "legend": obj.get("legend"),
-            "noul": obj.get("noul"),
-            "probabilities": obj.get("probabilities"),
-            "score": obj.get("score"),
-            "type": obj.get("type")
+            "answer": obj.get("answer"),
+            "model": obj.get("model"),
+            "receipt": AiReceipt.from_dict(obj["receipt"]) if obj.get("receipt") is not None else None
         })
         return _obj
 

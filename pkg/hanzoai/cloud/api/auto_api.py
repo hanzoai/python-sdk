@@ -23,6 +23,7 @@ from hanzoai.cloud.models.auto_automation import AutoAutomation
 from hanzoai.cloud.models.auto_automation_in import AutoAutomationIn
 from hanzoai.cloud.models.auto_automation_page import AutoAutomationPage
 from hanzoai.cloud.models.auto_automation_patch import AutoAutomationPatch
+from hanzoai.cloud.models.auto_automation_run import AutoAutomationRun
 from hanzoai.cloud.models.auto_automation_run_page import AutoAutomationRunPage
 from hanzoai.cloud.models.auto_catalog import AutoCatalog
 from hanzoai.cloud.models.auto_create_flow_req import AutoCreateFlowReq
@@ -33,6 +34,7 @@ from hanzoai.cloud.models.auto_flow_run import AutoFlowRun
 from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion
 from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn
 from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow
+from hanzoai.cloud.models.auto_review_in import AutoReviewIn
 from hanzoai.cloud.models.auto_run_in import AutoRunIn
 from hanzoai.cloud.models.auto_run_page import AutoRunPage
 from hanzoai.cloud.models.auto_run_resp import AutoRunResp
@@ -4346,6 +4348,311 @@ class AutoApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/auto/automations/{id}/run',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_auto_automations_by_id_runs_by_run_review(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the automation, and Run its run in review, from the path.")],
+        run: StrictStr,
+        auto_review_in: AutoReviewIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AutoAutomationRun:
+        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+
+        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+
+        :param id: ID is the automation, and Run its run in review, from the path. (required)
+        :type id: str
+        :param run: (required)
+        :type run: str
+        :param auto_review_in: (required)
+        :type auto_review_in: AutoReviewIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_automations_by_id_runs_by_run_review_serialize(
+            id=id,
+            run=run,
+            auto_review_in=auto_review_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoAutomationRun",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_auto_automations_by_id_runs_by_run_review_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the automation, and Run its run in review, from the path.")],
+        run: StrictStr,
+        auto_review_in: AutoReviewIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AutoAutomationRun]:
+        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+
+        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+
+        :param id: ID is the automation, and Run its run in review, from the path. (required)
+        :type id: str
+        :param run: (required)
+        :type run: str
+        :param auto_review_in: (required)
+        :type auto_review_in: AutoReviewIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_automations_by_id_runs_by_run_review_serialize(
+            id=id,
+            run=run,
+            auto_review_in=auto_review_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoAutomationRun",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_auto_automations_by_id_runs_by_run_review_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the automation, and Run its run in review, from the path.")],
+        run: StrictStr,
+        auto_review_in: AutoReviewIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it.
+
+        Answers a run that holds a post for review, for the person the automation runs as or an admin of the org: `post` true posts it to the automation's accounts and answers the run while it posts; false discards it. A run not in review answers 409; one held longer than a day is not posted.
+
+        :param id: ID is the automation, and Run its run in review, from the path. (required)
+        :type id: str
+        :param run: (required)
+        :type run: str
+        :param auto_review_in: (required)
+        :type auto_review_in: AutoReviewIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_auto_automations_by_id_runs_by_run_review_serialize(
+            id=id,
+            run=run,
+            auto_review_in=auto_review_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AutoAutomationRun",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_auto_automations_by_id_runs_by_run_review_serialize(
+        self,
+        id,
+        run,
+        auto_review_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        if run is not None:
+            _path_params['run'] = run
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if auto_review_in is not None:
+            _body_params = auto_review_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/auto/automations/{id}/runs/{run}/review',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

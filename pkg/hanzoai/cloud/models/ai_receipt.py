@@ -17,33 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictFloat, StrictInt, StrictStr, field_validator
-from typing import Any, ClassVar, Dict, List, Optional, Union
-from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AiDecisionsAnswer(BaseModel):
+class AiReceipt(BaseModel):
     """
-    AiDecisionsAnswer
+    AiReceipt
     """ # noqa: E501
-    action: Optional[AiDecisionsAction] = None
-    answer_confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    choice: Optional[StrictStr] = None
-    confidence: Optional[Union[StrictFloat, StrictInt]] = None
-    legend: Optional[Dict[str, Any]] = None
-    noul: Optional[Union[StrictFloat, StrictInt]] = None
-    probabilities: Optional[Dict[str, Union[StrictFloat, StrictInt]]] = None
-    score: Optional[Union[StrictFloat, StrictInt]] = None
-    type: StrictStr
-    __properties: ClassVar[List[str]] = ["action", "answer_confidence", "choice", "confidence", "legend", "noul", "probabilities", "score", "type"]
-
-    @field_validator('type')
-    def type_validate_enum(cls, value):
-        """Validates the enum"""
-        if value not in set(['noul', 'choice', 'score']):
-            raise ValueError("must be one of enum values ('noul', 'choice', 'score')")
-        return value
+    var_class: Optional[StrictStr] = Field(default=None, description="Class is the model's class as billed: premium, ours or free (X-Hanzo-Usage-Class).", alias="class")
+    fallback: Optional[StrictStr] = Field(default=None, description="Fallback is the model that answered in place of the one asked, in limited mode (X-Hanzo-Fallback).")
+    paid_by: Optional[StrictStr] = Field(default=None, description="PaidBy is plan, credits or free (X-Hanzo-Paid-By); absent when the answer named no payer, as a free model's does.")
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is the refusal code that sent the request to the fallback (X-Hanzo-Usage-Reason).")
+    routed: Optional[StrictStr] = Field(default=None, description="Routed is the model `auto` resolved to (X-Routed-Model).")
+    served: Optional[StrictStr] = Field(default=None, description="Served is the model that answered (X-Hanzo-Served).")
+    usage: Optional[StrictStr] = Field(default=None, description="Usage is where that class stands for the payer: ok, near or limited (X-Hanzo-Usage).")
+    __properties: ClassVar[List[str]] = ["class", "fallback", "paid_by", "reason", "routed", "served", "usage"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -63,7 +53,7 @@ class AiDecisionsAnswer(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a JSON string"""
+        """Create an instance of AiReceipt from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -84,14 +74,11 @@ class AiDecisionsAnswer(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of action
-        if self.action:
-            _dict['action'] = self.action.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AiDecisionsAnswer from a dict"""
+        """Create an instance of AiReceipt from a dict"""
         if obj is None:
             return None
 
@@ -99,15 +86,13 @@ class AiDecisionsAnswer(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "action": AiDecisionsAction.from_dict(obj["action"]) if obj.get("action") is not None else None,
-            "answer_confidence": obj.get("answer_confidence"),
-            "choice": obj.get("choice"),
-            "confidence": obj.get("confidence"),
-            "legend": obj.get("legend"),
-            "noul": obj.get("noul"),
-            "probabilities": obj.get("probabilities"),
-            "score": obj.get("score"),
-            "type": obj.get("type")
+            "class": obj.get("class"),
+            "fallback": obj.get("fallback"),
+            "paid_by": obj.get("paid_by"),
+            "reason": obj.get("reason"),
+            "routed": obj.get("routed"),
+            "served": obj.get("served"),
+            "usage": obj.get("usage")
         })
         return _obj
 

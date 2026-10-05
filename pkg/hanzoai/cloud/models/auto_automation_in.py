@@ -33,9 +33,10 @@ class AutoAutomationIn(BaseModel):
     name: Optional[StrictStr] = Field(default=None, description="Name is what it is called. Required.")
     notify: Optional[StrictBool] = Field(default=None, description="Notify sends a one-line summary when a run ends.")
     permissions: Optional[StrictStr] = Field(default=None, description="Permissions is auto (works without stopping) or ask (proposes, changes nothing). Absent is ask.")
+    post_to: Optional[List[StrictStr]] = Field(default=None, description="PostTo are the connected accounts each run's answer is posted to: x, linkedin, facebook. Absent posts nothing.", alias="postTo")
     project: Optional[StrictStr] = Field(default=None, description="Project is a Dev project's slug to work in. Optional.")
     schedule: Optional[AutoSchedule] = Field(default=None, description="Schedule is when it runs. Absent runs it only on demand.")
-    __properties: ClassVar[List[str]] = ["enabled", "instructions", "model", "name", "notify", "permissions", "project", "schedule"]
+    __properties: ClassVar[List[str]] = ["enabled", "instructions", "model", "name", "notify", "permissions", "postTo", "project", "schedule"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -97,6 +98,7 @@ class AutoAutomationIn(BaseModel):
             "name": obj.get("name"),
             "notify": obj.get("notify"),
             "permissions": obj.get("permissions"),
+            "postTo": obj.get("postTo"),
             "project": obj.get("project"),
             "schedule": AutoSchedule.from_dict(obj["schedule"]) if obj.get("schedule") is not None else None
         })

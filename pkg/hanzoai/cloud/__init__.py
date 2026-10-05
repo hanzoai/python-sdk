@@ -258,14 +258,16 @@ __all__ = [
     "AiAnthropicTool",
     "AiAnthropicUsage",
     "AiCacheWrites",
+    "AiChat",
+    "AiChatIn",
     "AiClass",
     "AiCostStats",
+    "AiDecideIn",
+    "AiDecision",
     "AiDecisionSides",
-    "AiDecisionSidesFalse",
     "AiDecisionsAction",
     "AiDecisionsAnswer",
     "AiDecisionsChoice",
-    "AiDecisionsChoiceCriteriaValue",
     "AiDecisionsNoul",
     "AiDecisionsQuestion",
     "AiDecisionsReason",
@@ -287,13 +289,16 @@ __all__ = [
     "AiLimitsSet",
     "AiMCPApp",
     "AiMCPSurface",
+    "AiModel",
     "AiModelAccessInfo",
     "AiModelInfo",
     "AiModelList",
     "AiModelPricingInfo",
     "AiModelProviders",
+    "AiModels",
     "AiPanelJudge",
     "AiPaused",
+    "AiPrice",
     "AiProviderUsage",
     "AiProviderUsageModelSpend",
     "AiProviderUsageSeriesPoint",
@@ -303,6 +308,7 @@ __all__ = [
     "AiRankedDoc",
     "AiRankedText",
     "AiRanking",
+    "AiReceipt",
     "AiResponse",
     "AiResponsesInputDetails",
     "AiResponsesOutputDetails",
@@ -315,6 +321,7 @@ __all__ = [
     "AiRoutingEdit",
     "AiRoutingProbe",
     "AiRoutingProposal",
+    "AiRoutingRewardRequest",
     "AiRoutingRewardResult",
     "AiRoutingView",
     "AiStatsWindow",
@@ -370,7 +377,9 @@ __all__ = [
     "AutoLastRun",
     "AutoPatchFlowIn",
     "AutoPopulatedFlow",
+    "AutoPostResult",
     "AutoPropSpec",
+    "AutoReviewIn",
     "AutoRunHandle",
     "AutoRunIn",
     "AutoRunPage",
@@ -1073,6 +1082,7 @@ __all__ = [
     "GitWorkflowRun",
     "GitWorkflowRuns",
     "GitWorkflowView",
+    "GitWorkspaceView",
     "Grants",
     "Graph",
     "GraphGraphAnswerIn",
@@ -2837,6 +2847,8 @@ __all__ = [
     "TagConfig",
     "Task",
     "TaskBoardView",
+    "TaskComment",
+    "TaskCommentList",
     "TaskIssueEdit",
     "TaskIssueHit",
     "TaskIssueHits",
@@ -3324,14 +3336,16 @@ from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse as Ai
 from hanzoai.cloud.models.ai_anthropic_tool import AiAnthropicTool as AiAnthropicTool
 from hanzoai.cloud.models.ai_anthropic_usage import AiAnthropicUsage as AiAnthropicUsage
 from hanzoai.cloud.models.ai_cache_writes import AiCacheWrites as AiCacheWrites
+from hanzoai.cloud.models.ai_chat import AiChat as AiChat
+from hanzoai.cloud.models.ai_chat_in import AiChatIn as AiChatIn
 from hanzoai.cloud.models.ai_class import AiClass as AiClass
 from hanzoai.cloud.models.ai_cost_stats import AiCostStats as AiCostStats
+from hanzoai.cloud.models.ai_decide_in import AiDecideIn as AiDecideIn
+from hanzoai.cloud.models.ai_decision import AiDecision as AiDecision
 from hanzoai.cloud.models.ai_decision_sides import AiDecisionSides as AiDecisionSides
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse as AiDecisionSidesFalse
 from hanzoai.cloud.models.ai_decisions_action import AiDecisionsAction as AiDecisionsAction
 from hanzoai.cloud.models.ai_decisions_answer import AiDecisionsAnswer as AiDecisionsAnswer
 from hanzoai.cloud.models.ai_decisions_choice import AiDecisionsChoice as AiDecisionsChoice
-from hanzoai.cloud.models.ai_decisions_choice_criteria_value import AiDecisionsChoiceCriteriaValue as AiDecisionsChoiceCriteriaValue
 from hanzoai.cloud.models.ai_decisions_noul import AiDecisionsNoul as AiDecisionsNoul
 from hanzoai.cloud.models.ai_decisions_question import AiDecisionsQuestion as AiDecisionsQuestion
 from hanzoai.cloud.models.ai_decisions_reason import AiDecisionsReason as AiDecisionsReason
@@ -3353,13 +3367,16 @@ from hanzoai.cloud.models.ai_limits import AiLimits as AiLimits
 from hanzoai.cloud.models.ai_limits_set import AiLimitsSet as AiLimitsSet
 from hanzoai.cloud.models.ai_mcp_app import AiMCPApp as AiMCPApp
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface as AiMCPSurface
+from hanzoai.cloud.models.ai_model import AiModel as AiModel
 from hanzoai.cloud.models.ai_model_access_info import AiModelAccessInfo as AiModelAccessInfo
 from hanzoai.cloud.models.ai_model_info import AiModelInfo as AiModelInfo
 from hanzoai.cloud.models.ai_model_list import AiModelList as AiModelList
 from hanzoai.cloud.models.ai_model_pricing_info import AiModelPricingInfo as AiModelPricingInfo
 from hanzoai.cloud.models.ai_model_providers import AiModelProviders as AiModelProviders
+from hanzoai.cloud.models.ai_models import AiModels as AiModels
 from hanzoai.cloud.models.ai_panel_judge import AiPanelJudge as AiPanelJudge
 from hanzoai.cloud.models.ai_paused import AiPaused as AiPaused
+from hanzoai.cloud.models.ai_price import AiPrice as AiPrice
 from hanzoai.cloud.models.ai_provider_usage import AiProviderUsage as AiProviderUsage
 from hanzoai.cloud.models.ai_provider_usage_model_spend import AiProviderUsageModelSpend as AiProviderUsageModelSpend
 from hanzoai.cloud.models.ai_provider_usage_series_point import AiProviderUsageSeriesPoint as AiProviderUsageSeriesPoint
@@ -3369,6 +3386,7 @@ from hanzoai.cloud.models.ai_rank_usage import AiRankUsage as AiRankUsage
 from hanzoai.cloud.models.ai_ranked_doc import AiRankedDoc as AiRankedDoc
 from hanzoai.cloud.models.ai_ranked_text import AiRankedText as AiRankedText
 from hanzoai.cloud.models.ai_ranking import AiRanking as AiRanking
+from hanzoai.cloud.models.ai_receipt import AiReceipt as AiReceipt
 from hanzoai.cloud.models.ai_response import AiResponse as AiResponse
 from hanzoai.cloud.models.ai_responses_input_details import AiResponsesInputDetails as AiResponsesInputDetails
 from hanzoai.cloud.models.ai_responses_output_details import AiResponsesOutputDetails as AiResponsesOutputDetails
@@ -3381,6 +3399,7 @@ from hanzoai.cloud.models.ai_router_stats import AiRouterStats as AiRouterStats
 from hanzoai.cloud.models.ai_routing_edit import AiRoutingEdit as AiRoutingEdit
 from hanzoai.cloud.models.ai_routing_probe import AiRoutingProbe as AiRoutingProbe
 from hanzoai.cloud.models.ai_routing_proposal import AiRoutingProposal as AiRoutingProposal
+from hanzoai.cloud.models.ai_routing_reward_request import AiRoutingRewardRequest as AiRoutingRewardRequest
 from hanzoai.cloud.models.ai_routing_reward_result import AiRoutingRewardResult as AiRoutingRewardResult
 from hanzoai.cloud.models.ai_routing_view import AiRoutingView as AiRoutingView
 from hanzoai.cloud.models.ai_stats_window import AiStatsWindow as AiStatsWindow
@@ -3436,7 +3455,9 @@ from hanzoai.cloud.models.auto_flow_version import AutoFlowVersion as AutoFlowVe
 from hanzoai.cloud.models.auto_last_run import AutoLastRun as AutoLastRun
 from hanzoai.cloud.models.auto_patch_flow_in import AutoPatchFlowIn as AutoPatchFlowIn
 from hanzoai.cloud.models.auto_populated_flow import AutoPopulatedFlow as AutoPopulatedFlow
+from hanzoai.cloud.models.auto_post_result import AutoPostResult as AutoPostResult
 from hanzoai.cloud.models.auto_prop_spec import AutoPropSpec as AutoPropSpec
+from hanzoai.cloud.models.auto_review_in import AutoReviewIn as AutoReviewIn
 from hanzoai.cloud.models.auto_run_handle import AutoRunHandle as AutoRunHandle
 from hanzoai.cloud.models.auto_run_in import AutoRunIn as AutoRunIn
 from hanzoai.cloud.models.auto_run_page import AutoRunPage as AutoRunPage
@@ -4139,6 +4160,7 @@ from hanzoai.cloud.models.git_workflow_list import GitWorkflowList as GitWorkflo
 from hanzoai.cloud.models.git_workflow_run import GitWorkflowRun as GitWorkflowRun
 from hanzoai.cloud.models.git_workflow_runs import GitWorkflowRuns as GitWorkflowRuns
 from hanzoai.cloud.models.git_workflow_view import GitWorkflowView as GitWorkflowView
+from hanzoai.cloud.models.git_workspace_view import GitWorkspaceView as GitWorkspaceView
 from hanzoai.cloud.models.grants import Grants as Grants
 from hanzoai.cloud.models.graph import Graph as Graph
 from hanzoai.cloud.models.graph_graph_answer_in import GraphGraphAnswerIn as GraphGraphAnswerIn
@@ -5903,6 +5925,8 @@ from hanzoai.cloud.models.sync_sync_view import SyncSyncView as SyncSyncView
 from hanzoai.cloud.models.tag_config import TagConfig as TagConfig
 from hanzoai.cloud.models.task import Task as Task
 from hanzoai.cloud.models.task_board_view import TaskBoardView as TaskBoardView
+from hanzoai.cloud.models.task_comment import TaskComment as TaskComment
+from hanzoai.cloud.models.task_comment_list import TaskCommentList as TaskCommentList
 from hanzoai.cloud.models.task_issue_edit import TaskIssueEdit as TaskIssueEdit
 from hanzoai.cloud.models.task_issue_hit import TaskIssueHit as TaskIssueHit
 from hanzoai.cloud.models.task_issue_hits import TaskIssueHits as TaskIssueHits

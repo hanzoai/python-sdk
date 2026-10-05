@@ -16,21 +16,27 @@ from pydantic import validate_call, Field, StrictFloat, StrictStr, StrictInt
 from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
-from pydantic import Field, StrictBool, StrictStr
-from typing import Any, Dict, List, Optional
+from pydantic import Field, StrictBool, StrictInt, StrictStr
+from typing import Any, Dict, List, Optional, Union
 from typing_extensions import Annotated
 from hanzoai.cloud.models.ai_anthropic_request import AiAnthropicRequest
 from hanzoai.cloud.models.ai_anthropic_response import AiAnthropicResponse
+from hanzoai.cloud.models.ai_chat import AiChat
+from hanzoai.cloud.models.ai_chat_in import AiChatIn
+from hanzoai.cloud.models.ai_decide_in import AiDecideIn
+from hanzoai.cloud.models.ai_decision import AiDecision
 from hanzoai.cloud.models.ai_decisions_request import AiDecisionsRequest
 from hanzoai.cloud.models.ai_decisions_response import AiDecisionsResponse
 from hanzoai.cloud.models.ai_limits import AiLimits
 from hanzoai.cloud.models.ai_limits_set import AiLimitsSet
 from hanzoai.cloud.models.ai_mcp_surface import AiMCPSurface
 from hanzoai.cloud.models.ai_model_list import AiModelList
+from hanzoai.cloud.models.ai_models import AiModels
 from hanzoai.cloud.models.ai_ranking import AiRanking
 from hanzoai.cloud.models.ai_response import AiResponse
 from hanzoai.cloud.models.ai_responses_resource import AiResponsesResource
 from hanzoai.cloud.models.ai_routing_edit import AiRoutingEdit
+from hanzoai.cloud.models.ai_routing_reward_request import AiRoutingRewardRequest
 from hanzoai.cloud.models.ai_token_count import AiTokenCount
 from hanzoai.cloud.models.ai_video_status import AiVideoStatus
 from hanzoai.cloud.models.doc_search_result import DocSearchResult
@@ -132,6 +138,556 @@ class AiApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
+
+
+    @validate_call
+    def ai_chat(
+        self,
+        ai_chat_in: AiChatIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiChat:
+        """Asks one model one prompt and answers the reply, which model served it and who paid.
+
+        Asks one model one prompt and answers the reply, which model served it and who paid. The call is the caller's own POST /v1/chat/completions, run as the caller, so it is gated, billed and refused exactly as that route is; a refusal names its code and what lifts it, never an amount. An empty model asks the deployment's default Hanzo model.
+
+        :param ai_chat_in: (required)
+        :type ai_chat_in: AiChatIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_chat_serialize(
+            ai_chat_in=ai_chat_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiChat",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_chat_with_http_info(
+        self,
+        ai_chat_in: AiChatIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiChat]:
+        """Asks one model one prompt and answers the reply, which model served it and who paid.
+
+        Asks one model one prompt and answers the reply, which model served it and who paid. The call is the caller's own POST /v1/chat/completions, run as the caller, so it is gated, billed and refused exactly as that route is; a refusal names its code and what lifts it, never an amount. An empty model asks the deployment's default Hanzo model.
+
+        :param ai_chat_in: (required)
+        :type ai_chat_in: AiChatIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_chat_serialize(
+            ai_chat_in=ai_chat_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiChat",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_chat_without_preload_content(
+        self,
+        ai_chat_in: AiChatIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Asks one model one prompt and answers the reply, which model served it and who paid.
+
+        Asks one model one prompt and answers the reply, which model served it and who paid. The call is the caller's own POST /v1/chat/completions, run as the caller, so it is gated, billed and refused exactly as that route is; a refusal names its code and what lifts it, never an amount. An empty model asks the deployment's default Hanzo model.
+
+        :param ai_chat_in: (required)
+        :type ai_chat_in: AiChatIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_chat_serialize(
+            ai_chat_in=ai_chat_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiChat",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_chat_serialize(
+        self,
+        ai_chat_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if ai_chat_in is not None:
+            _body_params = ai_chat_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/ai/mcp/chat',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def ai_decide(
+        self,
+        ai_decide_in: AiDecideIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiDecision:
+        """Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid.
+
+        Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid. A refusal names its code and what lifts it, never an amount.
+
+        :param ai_decide_in: (required)
+        :type ai_decide_in: AiDecideIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_decide_serialize(
+            ai_decide_in=ai_decide_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiDecision",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_decide_with_http_info(
+        self,
+        ai_decide_in: AiDecideIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiDecision]:
+        """Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid.
+
+        Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid. A refusal names its code and what lifts it, never an amount.
+
+        :param ai_decide_in: (required)
+        :type ai_decide_in: AiDecideIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_decide_serialize(
+            ai_decide_in=ai_decide_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiDecision",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_decide_without_preload_content(
+        self,
+        ai_decide_in: AiDecideIn,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid.
+
+        Runs one decision — the caller's own POST /v1/decisions, gated and billed exactly as that route is — and answers the decision, which model served it and who paid. A refusal names its code and what lifts it, never an amount.
+
+        :param ai_decide_in: (required)
+        :type ai_decide_in: AiDecideIn
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_decide_serialize(
+            ai_decide_in=ai_decide_in,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiDecision",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_decide_serialize(
+        self,
+        ai_decide_in,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if ai_decide_in is not None:
+            _body_params = ai_decide_in
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/ai/mcp/decisions',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
 
 
     @validate_call
@@ -630,6 +1186,338 @@ class AiApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/ai/mcp/tools',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def ai_models(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches the model's id, name, description or owner, ignoring case.")] = None,
+        var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
+        family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
+        capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AiModels:
+        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        :param q: Q matches the model's id, name, description or owner, ignoring case.
+        :type q: str
+        :param var_class: Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.
+        :type var_class: str
+        :param family: Family keeps one Hanzo family: enso, zen, kai or zoo.
+        :type family: str
+        :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
+        :type capability: str
+        :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_models_serialize(
+            q=q,
+            var_class=var_class,
+            family=family,
+            capability=capability,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModels",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def ai_models_with_http_info(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches the model's id, name, description or owner, ignoring case.")] = None,
+        var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
+        family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
+        capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AiModels]:
+        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        :param q: Q matches the model's id, name, description or owner, ignoring case.
+        :type q: str
+        :param var_class: Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.
+        :type var_class: str
+        :param family: Family keeps one Hanzo family: enso, zen, kai or zoo.
+        :type family: str
+        :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
+        :type capability: str
+        :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_models_serialize(
+            q=q,
+            var_class=var_class,
+            family=family,
+            capability=capability,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModels",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def ai_models_without_preload_content(
+        self,
+        q: Annotated[Optional[StrictStr], Field(description="Q matches the model's id, name, description or owner, ignoring case.")] = None,
+        var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
+        family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
+        capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+
+        :param q: Q matches the model's id, name, description or owner, ignoring case.
+        :type q: str
+        :param var_class: Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.
+        :type var_class: str
+        :param family: Family keeps one Hanzo family: enso, zen, kai or zoo.
+        :type family: str
+        :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
+        :type capability: str
+        :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
+        :type limit: int
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._ai_models_serialize(
+            q=q,
+            var_class=var_class,
+            family=family,
+            capability=capability,
+            limit=limit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AiModels",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _ai_models_serialize(
+        self,
+        q,
+        var_class,
+        family,
+        capability,
+        limit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        if q is not None:
+            
+            _query_params.append(('q', q))
+            
+        if var_class is not None:
+            
+            _query_params.append(('class', var_class))
+            
+        if family is not None:
+            
+            _query_params.append(('family', family))
+            
+        if capability is not None:
+            
+            _query_params.append(('capability', capability))
+            
+        if limit is not None:
+            
+            _query_params.append(('limit', limit))
+            
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/ai/mcp/models',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -52895,6 +53783,7 @@ class AiApi:
     @validate_call
     def post_ai_feedback(
         self,
+        ai_routing_reward_request: AiRoutingRewardRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52912,6 +53801,8 @@ class AiApi:
 
         Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
 
+        :param ai_routing_reward_request: (required)
+        :type ai_routing_reward_request: AiRoutingRewardRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -52935,6 +53826,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_feedback_serialize(
+            ai_routing_reward_request=ai_routing_reward_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -52960,6 +53852,7 @@ class AiApi:
     @validate_call
     def post_ai_feedback_with_http_info(
         self,
+        ai_routing_reward_request: AiRoutingRewardRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -52977,6 +53870,8 @@ class AiApi:
 
         Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
 
+        :param ai_routing_reward_request: (required)
+        :type ai_routing_reward_request: AiRoutingRewardRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53000,6 +53895,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_feedback_serialize(
+            ai_routing_reward_request=ai_routing_reward_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53025,6 +53921,7 @@ class AiApi:
     @validate_call
     def post_ai_feedback_without_preload_content(
         self,
+        ai_routing_reward_request: AiRoutingRewardRequest,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -53042,6 +53939,8 @@ class AiApi:
 
         Attaches a per-request outcome reward to the routing decision that served request_id — the enso training loop's quality signal. Org-scoped via the same session-OR-Bearer principal the usage read uses (RequirePrincipal): the reward lands only on the caller's OWN org's event, so a request_id from another org (or unknown) is a 404 — cross-org writes are impossible and unknown ids are indistinguishable from foreign ones. Idempotent: a repeat overwrites. The body carries NO prompt text — only {request_id, reward|rating}.
 
+        :param ai_routing_reward_request: (required)
+        :type ai_routing_reward_request: AiRoutingRewardRequest
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -53065,6 +53964,7 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_ai_feedback_serialize(
+            ai_routing_reward_request=ai_routing_reward_request,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -53085,6 +53985,7 @@ class AiApi:
 
     def _post_ai_feedback_serialize(
         self,
+        ai_routing_reward_request,
         _request_auth,
         _content_type,
         _headers,
@@ -53110,6 +54011,8 @@ class AiApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
+        if ai_routing_reward_request is not None:
+            _body_params = ai_routing_reward_request
 
 
         # set the HTTP header `Accept`
@@ -53120,6 +54023,19 @@ class AiApi:
                 ]
             )
 
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
 
         # authentication setting
         _auth_settings: List[str] = [
@@ -70421,6 +71337,8 @@ class AiApi:
     def post_chat(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70440,6 +71358,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70464,6 +71386,8 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70490,6 +71414,8 @@ class AiApi:
     def post_chat_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70509,6 +71435,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70533,6 +71463,8 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70559,6 +71491,8 @@ class AiApi:
     def post_chat_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70578,6 +71512,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70602,6 +71540,8 @@ class AiApi:
 
         _param = self._post_chat_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70623,6 +71563,8 @@ class AiApi:
     def _post_chat_serialize(
         self,
         openai_chat_completion_request,
+        x_max_cost,
+        x_max_latency_ms,
         _request_auth,
         _content_type,
         _headers,
@@ -70646,6 +71588,10 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_max_cost is not None:
+            _header_params['X-Max-Cost'] = x_max_cost
+        if x_max_latency_ms is not None:
+            _header_params['X-Max-Latency-Ms'] = x_max_latency_ms
         # process the form parameters
         # process the body parameter
         if openai_chat_completion_request is not None:
@@ -70701,6 +71647,8 @@ class AiApi:
     def post_chat_completions(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70720,6 +71668,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70744,6 +71696,8 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70770,6 +71724,8 @@ class AiApi:
     def post_chat_completions_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70789,6 +71745,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70813,6 +71773,8 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70839,6 +71801,8 @@ class AiApi:
     def post_chat_completions_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -70858,6 +71822,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -70882,6 +71850,8 @@ class AiApi:
 
         _param = self._post_chat_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -70903,6 +71873,8 @@ class AiApi:
     def _post_chat_completions_serialize(
         self,
         openai_chat_completion_request,
+        x_max_cost,
+        x_max_latency_ms,
         _request_auth,
         _content_type,
         _headers,
@@ -70926,6 +71898,10 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_max_cost is not None:
+            _header_params['X-Max-Cost'] = x_max_cost
+        if x_max_latency_ms is not None:
+            _header_params['X-Max-Latency-Ms'] = x_max_latency_ms
         # process the form parameters
         # process the body parameter
         if openai_chat_completion_request is not None:
@@ -71261,6 +72237,8 @@ class AiApi:
     def post_completions(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71280,6 +72258,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71304,6 +72286,8 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71330,6 +72314,8 @@ class AiApi:
     def post_completions_with_http_info(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71349,6 +72335,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71373,6 +72363,8 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71399,6 +72391,8 @@ class AiApi:
     def post_completions_without_preload_content(
         self,
         openai_chat_completion_request: OpenaiChatCompletionRequest,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -71418,6 +72412,10 @@ class AiApi:
 
         :param openai_chat_completion_request: (required)
         :type openai_chat_completion_request: OpenaiChatCompletionRequest
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -71442,6 +72440,8 @@ class AiApi:
 
         _param = self._post_completions_serialize(
             openai_chat_completion_request=openai_chat_completion_request,
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -71463,6 +72463,8 @@ class AiApi:
     def _post_completions_serialize(
         self,
         openai_chat_completion_request,
+        x_max_cost,
+        x_max_latency_ms,
         _request_auth,
         _content_type,
         _headers,
@@ -71486,6 +72488,10 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_max_cost is not None:
+            _header_params['X-Max-Cost'] = x_max_cost
+        if x_max_latency_ms is not None:
+            _header_params['X-Max-Latency-Ms'] = x_max_latency_ms
         # process the form parameters
         # process the body parameter
         if openai_chat_completion_request is not None:
@@ -73424,6 +74430,8 @@ class AiApi:
     @validate_call
     def post_responses(
         self,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -73441,6 +74449,10 @@ class AiApi:
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
 
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -73464,6 +74476,8 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -73489,6 +74503,8 @@ class AiApi:
     @validate_call
     def post_responses_with_http_info(
         self,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -73506,6 +74522,10 @@ class AiApi:
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
 
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -73529,6 +74549,8 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -73554,6 +74576,8 @@ class AiApi:
     @validate_call
     def post_responses_without_preload_content(
         self,
+        x_max_cost: Annotated[Optional[Union[Annotated[float, Field(strict=True, ge=0)], Annotated[int, Field(strict=True, ge=0)]]], Field(description="The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.")] = None,
+        x_max_latency_ms: Annotated[Optional[Annotated[int, Field(strict=True, ge=0)]], Field(description="The slowest model this request accepts, in milliseconds.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -73571,6 +74595,10 @@ class AiApi:
 
         Implements POST /v1/responses. The converted request is completed by the chat path, which is handed a sink saying where the answer goes: a stream is translated as it is produced, a whole body is translated entire.
 
+        :param x_max_cost: The most this request may cost, in USD per 1,000 tokens. Routing picks only models under it; an org's own ceiling fills it when it is absent, and the lower of the two holds.
+        :type x_max_cost: float
+        :param x_max_latency_ms: The slowest model this request accepts, in milliseconds.
+        :type x_max_latency_ms: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -73594,6 +74622,8 @@ class AiApi:
         """ # noqa: E501
 
         _param = self._post_responses_serialize(
+            x_max_cost=x_max_cost,
+            x_max_latency_ms=x_max_latency_ms,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -73614,6 +74644,8 @@ class AiApi:
 
     def _post_responses_serialize(
         self,
+        x_max_cost,
+        x_max_latency_ms,
         _request_auth,
         _content_type,
         _headers,
@@ -73637,6 +74669,10 @@ class AiApi:
         # process the path parameters
         # process the query parameters
         # process the header parameters
+        if x_max_cost is not None:
+            _header_params['X-Max-Cost'] = x_max_cost
+        if x_max_latency_ms is not None:
+            _header_params['X-Max-Latency-Ms'] = x_max_latency_ms
         # process the form parameters
         # process the body parameter
 

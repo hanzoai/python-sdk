@@ -19,7 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
 from hanzoai.cloud.models.ai_decisions_question import AiDecisionsQuestion
 from typing import Optional, Set
 from typing_extensions import Self
@@ -34,7 +33,7 @@ class AiDecisionsRequest(BaseModel):
     provider: Optional[Any] = None
     questions: Optional[Dict[str, AiDecisionsQuestion]] = None
     session_id: Optional[StrictStr] = None
-    state: Optional[AiDecisionSidesFalse] = None
+    state: Optional[Any] = None
     trace: Optional[Any] = None
     user: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["handle", "model", "observe", "provider", "questions", "session_id", "state", "trace", "user"]
@@ -85,13 +84,15 @@ class AiDecisionsRequest(BaseModel):
                 if self.questions[_key_questions]:
                     _field_dict[_key_questions] = self.questions[_key_questions].to_dict()
             _dict['questions'] = _field_dict
-        # override the default output from pydantic by calling `to_dict()` of state
-        if self.state:
-            _dict['state'] = self.state.to_dict()
         # set to None if provider (nullable) is None
         # and model_fields_set contains the field
         if self.provider is None and "provider" in self.model_fields_set:
             _dict['provider'] = None
+
+        # set to None if state (nullable) is None
+        # and model_fields_set contains the field
+        if self.state is None and "state" in self.model_fields_set:
+            _dict['state'] = None
 
         # set to None if trace (nullable) is None
         # and model_fields_set contains the field
@@ -121,7 +122,7 @@ class AiDecisionsRequest(BaseModel):
             if obj.get("questions") is not None
             else None,
             "session_id": obj.get("session_id"),
-            "state": AiDecisionSidesFalse.from_dict(obj["state"]) if obj.get("state") is not None else None,
+            "state": obj.get("state"),
             "trace": obj.get("trace"),
             "user": obj.get("user")
         })

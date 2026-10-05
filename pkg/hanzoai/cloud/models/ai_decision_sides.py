@@ -19,7 +19,6 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.ai_decision_sides_false import AiDecisionSidesFalse
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,8 +26,8 @@ class AiDecisionSides(BaseModel):
     """
     AiDecisionSides
     """ # noqa: E501
-    var_false: Optional[AiDecisionSidesFalse] = Field(default=None, alias="false")
-    var_true: Optional[AiDecisionSidesFalse] = Field(default=None, alias="true")
+    var_false: Optional[Any] = Field(default=None, alias="false")
+    var_true: Optional[Any] = Field(default=None, alias="true")
     __properties: ClassVar[List[str]] = ["false", "true"]
 
     model_config = ConfigDict(
@@ -70,12 +69,16 @@ class AiDecisionSides(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of var_false
-        if self.var_false:
-            _dict['false'] = self.var_false.to_dict()
-        # override the default output from pydantic by calling `to_dict()` of var_true
-        if self.var_true:
-            _dict['true'] = self.var_true.to_dict()
+        # set to None if var_false (nullable) is None
+        # and model_fields_set contains the field
+        if self.var_false is None and "var_false" in self.model_fields_set:
+            _dict['false'] = None
+
+        # set to None if var_true (nullable) is None
+        # and model_fields_set contains the field
+        if self.var_true is None and "var_true" in self.model_fields_set:
+            _dict['true'] = None
+
         return _dict
 
     @classmethod
@@ -88,8 +91,8 @@ class AiDecisionSides(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "false": AiDecisionSidesFalse.from_dict(obj["false"]) if obj.get("false") is not None else None,
-            "true": AiDecisionSidesFalse.from_dict(obj["true"]) if obj.get("true") is not None else None
+            "false": obj.get("false"),
+            "true": obj.get("true")
         })
         return _obj
 
