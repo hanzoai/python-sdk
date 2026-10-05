@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.train_event import TrainEvent
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountKeyTypeIn(BaseModel):
+class TrainEventsOut(BaseModel):
     """
-    AccountKeyTypeIn
+    TrainEventsOut
     """ # noqa: E501
-    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit narrows what the minted key may reach, as `kind:name` entries: `model:zen5`, `project:acme`, `product:commerce`, or `model:*` for a whole kind. It only ever NARROWS — a key can never reach further than the person who minted it — so an unrecognised kind costs availability, never privilege.  Omitted mints an unrestricted key, because that is what every key in the estate is today and a default that restricted would revoke all of them.  Example: {\"type\": \"secret\", \"limit\": [\"model:zen5\", \"project:acme\"]}")
-    type: Optional[StrictStr] = Field(default=None, description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")
-    __properties: ClassVar[List[str]] = ["limit", "type"]
+    data: Optional[List[TrainEvent]] = Field(default=None, description="Data is the events after the cursor, in order.")
+    next: Optional[StrictInt] = Field(default=None, description="Next is the cursor to pass as after.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the job's status as of this answer.")
+    __properties: ClassVar[List[str]] = ["data", "next", "status"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class AccountKeyTypeIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountKeyTypeIn from a JSON string"""
+        """Create an instance of TrainEventsOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +71,18 @@ class AccountKeyTypeIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        _items = []
+        if self.data:
+            for _item_data in self.data:
+                if _item_data:
+                    _items.append(_item_data.to_dict())
+            _dict['data'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountKeyTypeIn from a dict"""
+        """Create an instance of TrainEventsOut from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +90,9 @@ class AccountKeyTypeIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "limit": obj.get("limit"),
-            "type": obj.get("type")
+            "data": [TrainEvent.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
+            "next": obj.get("next"),
+            "status": obj.get("status")
         })
         return _obj
 

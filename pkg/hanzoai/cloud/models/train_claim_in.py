@@ -17,18 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
+from hanzoai.cloud.models.train_supports import TrainSupports
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainClaimIn(BaseModel):
     """
-    AccountApiKeyList
+    TrainClaimIn
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    bases: Optional[List[StrictStr]] = Field(default=None, description="Bases are the base models its trainer runs.")
+    devices: Optional[List[StrictStr]] = Field(default=None, description="Devices are its accelerators, one entry per device: cuda, rocm, metal, vulkan, cpu. A task runs on those of one kind its job allows.")
+    machine: Optional[StrictStr] = Field(default=None, description="Machine is the machine claiming, by name: one of the org's linked machines, or for a platform claim the Hanzo host.")
+    platform: Optional[StrictBool] = Field(default=None, description="Platform claims for Hanzo's executor: a task of any org's job that names no machines. A SuperAdmin's claim alone, and on the platform's audit trail.")
+    supports: Optional[TrainSupports] = Field(default=None, description="Supports is what its build runs.")
+    __properties: ClassVar[List[str]] = ["bases", "devices", "machine", "platform", "supports"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +52,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainClaimIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +73,14 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
+        # override the default output from pydantic by calling `to_dict()` of supports
+        if self.supports:
+            _dict['supports'] = self.supports.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainClaimIn from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +88,11 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "bases": obj.get("bases"),
+            "devices": obj.get("devices"),
+            "machine": obj.get("machine"),
+            "platform": obj.get("platform"),
+            "supports": TrainSupports.from_dict(obj["supports"]) if obj.get("supports") is not None else None
         })
         return _obj
 

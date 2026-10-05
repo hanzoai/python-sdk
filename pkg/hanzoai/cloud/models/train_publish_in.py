@@ -17,18 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
+from hanzoai.cloud.models.train_route import TrainRoute
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainPublishIn(BaseModel):
     """
-    AccountApiKeyList
+    TrainPublishIn
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    force: Optional[StrictBool] = Field(default=None, description="Force publishes a rejected job's output, and is recorded.")
+    id: Optional[StrictStr] = Field(default=None, description="ID names the job.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the published name; the output's name when absent. Publishing a name the org already published replaces that capability.")
+    route: Optional[TrainRoute] = Field(default=None, description="Route is which questions the capability answers: required to publish a capability, refused for any other output.")
+    __properties: ClassVar[List[str]] = ["force", "id", "name", "route"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainPublishIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +72,14 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
+        # override the default output from pydantic by calling `to_dict()` of route
+        if self.route:
+            _dict['route'] = self.route.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainPublishIn from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +87,10 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "force": obj.get("force"),
+            "id": obj.get("id"),
+            "name": obj.get("name"),
+            "route": TrainRoute.from_dict(obj["route"]) if obj.get("route") is not None else None
         })
         return _obj
 

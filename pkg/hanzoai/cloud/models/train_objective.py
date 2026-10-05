@@ -17,18 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
+from hanzoai.cloud.models.train_term import TrainTerm
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainObjective(BaseModel):
     """
-    AccountApiKeyList
+    TrainObjective
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    loss: Optional[StrictStr] = Field(default=None, description="Loss is `cross_entropy`.")
+    terms: Optional[List[TrainTerm]] = Field(default=None, description="Terms are added to each row's loss.")
+    __properties: ClassVar[List[str]] = ["loss", "terms"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainObjective from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +70,18 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in terms (list)
         _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
+        if self.terms:
+            for _item_terms in self.terms:
+                if _item_terms:
+                    _items.append(_item_terms.to_dict())
+            _dict['terms'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainObjective from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +89,8 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "loss": obj.get("loss"),
+            "terms": [TrainTerm.from_dict(_item) for _item in obj["terms"]] if obj.get("terms") is not None else None
         })
         return _obj
 

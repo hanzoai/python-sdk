@@ -17,18 +17,23 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
+from hanzoai.cloud.models.train_budget import TrainBudget
+from hanzoai.cloud.models.train_projection import TrainProjection
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainProtect(BaseModel):
     """
-    AccountApiKeyList
+    TrainProtect
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    budget: Optional[TrainBudget] = Field(default=None, description="Budget bounds the regression per protected suite.")
+    capabilities: Optional[List[StrictStr]] = Field(default=None, description="Capabilities are capability artifacts, by sha256.")
+    distillation: Optional[StrictBool] = Field(default=None, description="Distillation adds KL to the base's answers on a preservation set drawn from the suites.")
+    projection: Optional[TrainProjection] = Field(default=None, description="Projection projects every update off the protected directions — the suites' gradient subspace at the base and each named capability's subspace — by its strength; absent is no projection.")
+    suites: Optional[List[StrictStr]] = Field(default=None, description="Suites are capabilities the base already has, by suite.")
+    __properties: ClassVar[List[str]] = ["budget", "capabilities", "distillation", "projection", "suites"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +53,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainProtect from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +74,17 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
+        # override the default output from pydantic by calling `to_dict()` of budget
+        if self.budget:
+            _dict['budget'] = self.budget.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of projection
+        if self.projection:
+            _dict['projection'] = self.projection.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainProtect from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +92,11 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "budget": TrainBudget.from_dict(obj["budget"]) if obj.get("budget") is not None else None,
+            "capabilities": obj.get("capabilities"),
+            "distillation": obj.get("distillation"),
+            "projection": TrainProjection.from_dict(obj["projection"]) if obj.get("projection") is not None else None,
+            "suites": obj.get("suites")
         })
         return _obj
 

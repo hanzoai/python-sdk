@@ -41,13 +41,17 @@ class IamKey(BaseModel):
     name: Optional[StrictStr] = None
     organization: Optional[StrictStr] = None
     owner: Optional[StrictStr] = Field(default=None, description="Owner is the tenant that holds the key; Name is unique within Owner.")
+    prefix: Optional[StrictStr] = Field(default=None, description="Prefix is the head of the credential the holder presents — the sk- of a secret key, the pk- of a publishable one — recorded when the key is minted (PrefixOf). It lets a listing say which string a row is, and is far too short to use: the secret itself is never stored.")
+    revoke_time: Optional[StrictStr] = Field(default=None, alias="revokeTime")
+    revoker: Optional[StrictStr] = Field(default=None, description="Revoker is who revoked the key and RevokeTime when. Revoking sets State to KeyStateRevoked and keeps the row, so the key is still listed and its history can be read; the resolvers refuse it, and no update reopens it.")
     scope: Optional[StrictStr] = Field(default=None, description="Scope is the key's ACCESS CLASS, orthogonal to Type (which names the bound principal). Empty (the default, \"secret\") is a full key: a pk- publishable half AND a confidential sk- half, the sk- authenticating a server-side reader. KeyScopePublish is a WRITE-ONLY publishable key — a pk- half only, no secret — that resolves to just an ORG (never a principal) at the ingest endpoint and is safe to ship in client JS. A missing value on an existing row reads as the default, so every pre-Scope key is a secret key unchanged.")
     state: Optional[StrictStr] = None
     type: Optional[StrictStr] = Field(default=None, description="Type is the scope the key is bound to — \"Organization\", \"Application\", \"User\", or \"General\" — and Organization / Application / User name the concrete principal for whichever scope Type selects.")
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     updated_time: Optional[StrictStr] = Field(default=None, alias="updatedTime")
+    used_time: Optional[StrictStr] = Field(default=None, description="UsedTime is when the key was last presented and resolved. A list read fills it from the key's Sighting; the key row itself never holds it, so recording a use never rewrites the row a person may be editing.", alias="usedTime")
     user: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretDigest", "act", "application", "createdAt", "createdTime", "deleted", "displayName", "expireTime", "id", "name", "organization", "owner", "scope", "state", "type", "updatedAt", "updatedTime", "user"]
+    __properties: ClassVar[List[str]] = ["accessKey", "accessSecret", "accessSecretDigest", "act", "application", "createdAt", "createdTime", "deleted", "displayName", "expireTime", "id", "name", "organization", "owner", "prefix", "revokeTime", "revoker", "scope", "state", "type", "updatedAt", "updatedTime", "usedTime", "user"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -114,11 +118,15 @@ class IamKey(BaseModel):
             "name": obj.get("name"),
             "organization": obj.get("organization"),
             "owner": obj.get("owner"),
+            "prefix": obj.get("prefix"),
+            "revokeTime": obj.get("revokeTime"),
+            "revoker": obj.get("revoker"),
             "scope": obj.get("scope"),
             "state": obj.get("state"),
             "type": obj.get("type"),
             "updatedAt": obj.get("updatedAt"),
             "updatedTime": obj.get("updatedTime"),
+            "usedTime": obj.get("usedTime"),
             "user": obj.get("user")
         })
         return _obj

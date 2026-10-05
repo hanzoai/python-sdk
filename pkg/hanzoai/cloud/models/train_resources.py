@@ -17,18 +17,21 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainResources(BaseModel):
     """
-    AccountApiKeyList
+    TrainResources
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    budget: Optional[StrictInt] = Field(default=None, description="Budget bounds what the job's compute costs, in US cents; 0 is none beyond the payer's balance. Only a job Hanzo runs costs anything, so only it takes one.")
+    devices: Optional[List[StrictStr]] = Field(default=None, description="Devices are the accelerator kinds the job may run on — cuda, rocm, metal, vulkan, cpu; none named is any its base runs.")
+    machines: Optional[List[StrictStr]] = Field(default=None, description="Machines are the org's linked machines by name; the first leads. When it names none, Hanzo's executor runs the job and its compute is charged by the device-second.")
+    max_seconds: Optional[StrictInt] = Field(default=None, description="MaxSeconds bounds the device-seconds the job's tasks use together; 0 is none.")
+    steps: Optional[StrictInt] = Field(default=None, description="Steps bounds optimizer steps; 0 runs the plan.")
+    __properties: ClassVar[List[str]] = ["budget", "devices", "machines", "max_seconds", "steps"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainResources from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +72,11 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainResources from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +84,11 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "budget": obj.get("budget"),
+            "devices": obj.get("devices"),
+            "machines": obj.get("machines"),
+            "max_seconds": obj.get("max_seconds"),
+            "steps": obj.get("steps")
         })
         return _obj
 

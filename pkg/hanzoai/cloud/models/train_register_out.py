@@ -17,20 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.train_upload import TrainUpload
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountMintedKey(BaseModel):
+class TrainRegisterOut(BaseModel):
     """
-    AccountMintedKey
+    TrainRegisterOut
     """ # noqa: E501
-    access_key: Optional[StrictStr] = Field(default=None, description="AccessKey is the same value under its predecessor name, carried so callers written against the older field keep working. One value, two names.", alias="accessKey")
-    key: Optional[StrictStr] = Field(default=None, description="Key is the credential, returned ONCE — a secret key is unreadable afterwards.")
-    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit is what the minted key may reach, echoed back so the caller can see the narrowing took. Absent means unrestricted.")
-    type: Optional[StrictStr] = Field(default=None, description="Type is the class of key that was minted.")
-    __properties: ClassVar[List[str]] = ["accessKey", "key", "limit", "type"]
+    sha256: Optional[StrictStr] = Field(default=None, description="SHA256 names the artifact.")
+    stored: Optional[StrictBool] = Field(default=None, description="Stored says the org already holds these bytes: nothing to upload.")
+    upload: Optional[TrainUpload] = Field(default=None, description="Upload is the grant to PUT the bytes, when they are not stored.")
+    __properties: ClassVar[List[str]] = ["sha256", "stored", "upload"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -50,7 +50,7 @@ class AccountMintedKey(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountMintedKey from a JSON string"""
+        """Create an instance of TrainRegisterOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -71,11 +71,14 @@ class AccountMintedKey(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of upload
+        if self.upload:
+            _dict['upload'] = self.upload.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountMintedKey from a dict"""
+        """Create an instance of TrainRegisterOut from a dict"""
         if obj is None:
             return None
 
@@ -83,10 +86,9 @@ class AccountMintedKey(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "accessKey": obj.get("accessKey"),
-            "key": obj.get("key"),
-            "limit": obj.get("limit"),
-            "type": obj.get("type")
+            "sha256": obj.get("sha256"),
+            "stored": obj.get("stored"),
+            "upload": TrainUpload.from_dict(obj["upload"]) if obj.get("upload") is not None else None
         })
         return _obj
 

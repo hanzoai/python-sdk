@@ -17,18 +17,26 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainObject(BaseModel):
     """
-    AccountApiKeyList
+    TrainObject
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    expires: Optional[StrictInt] = Field(default=None, description="Expires is when retention deletes it unless published, unix seconds; absent while it is published, pending, or retention keeps everything.")
+    jobs: Optional[List[StrictStr]] = Field(default=None, description="Jobs are the jobs that produced or hold it; none for an upload.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is dataset for an upload, else the output kind a job produced it as.")
+    name: Optional[StrictStr] = Field(default=None, description="Name labels it.")
+    published: Optional[StrictBool] = Field(default=None, description="Published says a job of the org has it published.")
+    sha256: Optional[StrictStr] = Field(default=None, description="SHA256 names the bytes.")
+    size: Optional[StrictInt] = Field(default=None, description="Size is its byte count.")
+    state: Optional[StrictStr] = Field(default=None, description="State is pending until its bytes are read back, then stored.")
+    stored: Optional[StrictInt] = Field(default=None, description="Stored is when its bytes were read back, unix seconds.")
+    url: Optional[StrictStr] = Field(default=None, description="URL fetches the bytes for ten minutes, on a read of one stored object.")
+    __properties: ClassVar[List[str]] = ["expires", "jobs", "kind", "name", "published", "sha256", "size", "state", "stored", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +56,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainObject from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +77,11 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
-        _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainObject from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +89,16 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "expires": obj.get("expires"),
+            "jobs": obj.get("jobs"),
+            "kind": obj.get("kind"),
+            "name": obj.get("name"),
+            "published": obj.get("published"),
+            "sha256": obj.get("sha256"),
+            "size": obj.get("size"),
+            "state": obj.get("state"),
+            "stored": obj.get("stored"),
+            "url": obj.get("url")
         })
         return _obj
 

@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.train_output import TrainOutput
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountRevokedKey(BaseModel):
+class TrainSaveIn(BaseModel):
     """
-    AccountRevokedKey
+    TrainSaveIn
     """ # noqa: E501
-    ok: Optional[StrictBool] = Field(default=None, description="OK is true when the key was revoked. A failure is an error status, never a false here.")
-    type: Optional[StrictStr] = Field(default=None, description="Type is the key class that was revoked, resolved — so a caller that named nothing can see it revoked the secret key.")
-    __properties: ClassVar[List[str]] = ["ok", "type"]
+    id: Optional[StrictStr] = Field(default=None, description="ID names the client.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the adapter's name.")
+    output: Optional[TrainOutput] = Field(default=None, description="Output is lora, the one kind a client writes.")
+    __properties: ClassVar[List[str]] = ["id", "name", "output"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class AccountRevokedKey(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountRevokedKey from a JSON string"""
+        """Create an instance of TrainSaveIn from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +71,14 @@ class AccountRevokedKey(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of output
+        if self.output:
+            _dict['output'] = self.output.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountRevokedKey from a dict"""
+        """Create an instance of TrainSaveIn from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +86,9 @@ class AccountRevokedKey(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "ok": obj.get("ok"),
-            "type": obj.get("type")
+            "id": obj.get("id"),
+            "name": obj.get("name"),
+            "output": TrainOutput.from_dict(obj["output"]) if obj.get("output") is not None else None
         })
         return _obj
 

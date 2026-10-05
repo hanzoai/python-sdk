@@ -19,15 +19,15 @@ from typing_extensions import Annotated
 from pydantic import Field, StrictStr
 from typing import Optional
 from typing_extensions import Annotated
+from hanzoai.cloud.models.account_api_key import AccountApiKey
 from hanzoai.cloud.models.account_api_key_list import AccountApiKeyList
 from hanzoai.cloud.models.account_appearance import AccountAppearance
 from hanzoai.cloud.models.account_csrf_resp import AccountCsrfResp
 from hanzoai.cloud.models.account_embed_status_resp import AccountEmbedStatusResp
-from hanzoai.cloud.models.account_key_type_in import AccountKeyTypeIn
-from hanzoai.cloud.models.account_minted_key import AccountMintedKey
+from hanzoai.cloud.models.account_key_edit import AccountKeyEdit
+from hanzoai.cloud.models.account_key_in import AccountKeyIn
 from hanzoai.cloud.models.account_onboard_req import AccountOnboardReq
 from hanzoai.cloud.models.account_onboard_resp import AccountOnboardResp
-from hanzoai.cloud.models.account_revoked_key import AccountRevokedKey
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -48,9 +48,9 @@ class AccountApi:
 
 
     @validate_call
-    def delete_account_keys(
+    def delete_account_keys_by_id(
         self,
-        type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
+        id: Annotated[StrictStr, Field(description="ID is the key to act on, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -63,13 +63,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccountRevokedKey:
-        """Revokes the caller's own API key of the requested class.
+    ) -> AccountApiKey:
+        """Revokes exactly one API key, by id.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes exactly one API key, by id. Every other key keeps working. The key stays listed as revoked, with who revoked it and when, and can never be used again. IAM refuses it at once; cloud caches a resolved key for up to 60 seconds, so a request inside that window may still be served.  A member revokes their own keys; an org admin revokes any of the org's, and revoking someone else's is recorded on the audit trail.
 
-        :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
-        :type type: str
+        :param id: ID is the key to act on, from the path. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -92,8 +92,8 @@ class AccountApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_account_keys_serialize(
-            type=type,
+        _param = self._delete_account_keys_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -101,7 +101,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountRevokedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -115,9 +115,9 @@ class AccountApi:
 
 
     @validate_call
-    def delete_account_keys_with_http_info(
+    def delete_account_keys_by_id_with_http_info(
         self,
-        type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
+        id: Annotated[StrictStr, Field(description="ID is the key to act on, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -130,13 +130,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccountRevokedKey]:
-        """Revokes the caller's own API key of the requested class.
+    ) -> ApiResponse[AccountApiKey]:
+        """Revokes exactly one API key, by id.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes exactly one API key, by id. Every other key keeps working. The key stays listed as revoked, with who revoked it and when, and can never be used again. IAM refuses it at once; cloud caches a resolved key for up to 60 seconds, so a request inside that window may still be served.  A member revokes their own keys; an org admin revokes any of the org's, and revoking someone else's is recorded on the audit trail.
 
-        :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
-        :type type: str
+        :param id: ID is the key to act on, from the path. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -159,8 +159,8 @@ class AccountApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_account_keys_serialize(
-            type=type,
+        _param = self._delete_account_keys_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -168,7 +168,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountRevokedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -182,9 +182,9 @@ class AccountApi:
 
 
     @validate_call
-    def delete_account_keys_without_preload_content(
+    def delete_account_keys_by_id_without_preload_content(
         self,
-        type: Annotated[Optional[StrictStr], Field(description="Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.")] = None,
+        id: Annotated[StrictStr, Field(description="ID is the key to act on, from the path.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -198,12 +198,12 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Revokes the caller's own API key of the requested class.
+        """Revokes exactly one API key, by id.
 
-        Revokes the caller's own API key of the requested class. The class is the same field mint takes — `?type=publishable`, defaulting to secret — so revoking the key that ships in a browser bundle does not sign its holder out of their own API: the other key keeps working.  Revoking is how a key is replaced when it does not need replacing; minting the same class again rotates it in one step. IAM drops the credential immediately, but cloud caches a home key's principal for up to 60s, so a request inside that window may still be served. A member's key is never cached.  For callers written against the older shape, the class is also accepted in a JSON request body, read only when `?type=` is absent.
+        Revokes exactly one API key, by id. Every other key keeps working. The key stays listed as revoked, with who revoked it and when, and can never be used again. IAM refuses it at once; cloud caches a resolved key for up to 60 seconds, so a request inside that window may still be served.  A member revokes their own keys; an org admin revokes any of the org's, and revoking someone else's is recorded on the audit trail.
 
-        :param type: Type is the key class to act on: \"secret\" (sk-, session-equivalent, belongs on a server) or \"publishable\" (pk-, org-identifying, safe in a browser bundle). Omitted means secret, which is what every existing caller means.
-        :type type: str
+        :param id: ID is the key to act on, from the path. (required)
+        :type id: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -226,8 +226,8 @@ class AccountApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._delete_account_keys_serialize(
-            type=type,
+        _param = self._delete_account_keys_by_id_serialize(
+            id=id,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -235,7 +235,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountRevokedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -244,9 +244,9 @@ class AccountApi:
         return response_data.response
 
 
-    def _delete_account_keys_serialize(
+    def _delete_account_keys_by_id_serialize(
         self,
-        type,
+        id,
         _request_auth,
         _content_type,
         _headers,
@@ -268,11 +268,9 @@ class AccountApi:
         _body_params: Optional[bytes] = None
 
         # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
         # process the query parameters
-        if type is not None:
-            
-            _query_params.append(('type', type))
-            
         # process the header parameters
         # process the form parameters
         # process the body parameter
@@ -295,7 +293,7 @@ class AccountApi:
 
         return self.api_client.param_serialize(
             method='DELETE',
-            resource_path='/v1/account/keys',
+            resource_path='/v1/account/keys/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -1366,9 +1364,9 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AccountApiKeyList:
-        """Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
+        """Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it.
 
-        Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
+        Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it. Each is its own credential with its own name, prefix, status, expiry and limit. Revoked keys stay listed. No secret material comes back; a publishable key, which is public by construction, carries its full value.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1429,9 +1427,9 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AccountApiKeyList]:
-        """Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
+        """Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it.
 
-        Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
+        Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it. Each is its own credential with its own name, prefix, status, expiry and limit. Revoked keys stay listed. No secret material comes back; a publishable key, which is public by construction, carries its full value.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1492,9 +1490,9 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago.
+        """Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it.
 
-        Returns the caller's own API keys — every type they hold, read AUTHORITATIVELY from IAM rather than from the session claim, which lags a key minted moments ago. No secret material comes back: a secret key is represented by its prefix, and only a publishable key (public by construction) carries its full value.  A transient IAM read failure reports an empty set rather than a 5xx, so the page shows the honest empty state and never a fabricated key.
+        Returns the API keys the caller may see, newest first: their own, or every key the org holds when the caller administers it. Each is its own credential with its own name, prefix, status, expiry and limit. Revoked keys stay listed. No secret material comes back; a publishable key, which is public by construction, carries its full value.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1582,6 +1580,296 @@ class AccountApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/account/keys',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def patch_account_keys_by_id(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the key to edit, from the path.")],
+        account_key_edit: AccountKeyEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> AccountApiKey:
+        """Changes one key's name, permissions, budget, rate or expiry.
+
+        Changes one key's name, permissions, budget, rate or expiry. The secret is not reissued: the key in your deployment keeps working, under its new policy. Only the person the key belongs to may edit it, and a revoked key cannot be edited.
+
+        :param id: ID is the key to edit, from the path. (required)
+        :type id: str
+        :param account_key_edit: (required)
+        :type account_key_edit: AccountKeyEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_account_keys_by_id_serialize(
+            id=id,
+            account_key_edit=account_key_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccountApiKey",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def patch_account_keys_by_id_with_http_info(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the key to edit, from the path.")],
+        account_key_edit: AccountKeyEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[AccountApiKey]:
+        """Changes one key's name, permissions, budget, rate or expiry.
+
+        Changes one key's name, permissions, budget, rate or expiry. The secret is not reissued: the key in your deployment keeps working, under its new policy. Only the person the key belongs to may edit it, and a revoked key cannot be edited.
+
+        :param id: ID is the key to edit, from the path. (required)
+        :type id: str
+        :param account_key_edit: (required)
+        :type account_key_edit: AccountKeyEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_account_keys_by_id_serialize(
+            id=id,
+            account_key_edit=account_key_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccountApiKey",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def patch_account_keys_by_id_without_preload_content(
+        self,
+        id: Annotated[StrictStr, Field(description="ID is the key to edit, from the path.")],
+        account_key_edit: AccountKeyEdit,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Changes one key's name, permissions, budget, rate or expiry.
+
+        Changes one key's name, permissions, budget, rate or expiry. The secret is not reissued: the key in your deployment keeps working, under its new policy. Only the person the key belongs to may edit it, and a revoked key cannot be edited.
+
+        :param id: ID is the key to edit, from the path. (required)
+        :type id: str
+        :param account_key_edit: (required)
+        :type account_key_edit: AccountKeyEdit
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._patch_account_keys_by_id_serialize(
+            id=id,
+            account_key_edit=account_key_edit,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "AccountApiKey",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _patch_account_keys_by_id_serialize(
+        self,
+        id,
+        account_key_edit,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if id is not None:
+            _path_params['id'] = id
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if account_key_edit is not None:
+            _body_params = account_key_edit
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+        # set the HTTP header `Content-Type`
+        if _content_type:
+            _header_params['Content-Type'] = _content_type
+        else:
+            _default_content_type = (
+                self.api_client.select_header_content_type(
+                    [
+                        'application/json'
+                    ]
+                )
+            )
+            if _default_content_type is not None:
+                _header_params['Content-Type'] = _default_content_type
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='PATCH',
+            resource_path='/v1/account/keys/{id}',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -2111,7 +2399,7 @@ class AccountApi:
     @validate_call
     def post_account_keys(
         self,
-        account_key_type_in: AccountKeyTypeIn,
+        account_key_in: AccountKeyIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2124,13 +2412,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> AccountMintedKey:
-        """Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
+    ) -> AccountApiKey:
+        """Creates a NEW API key and returns its secret ONCE.
 
-        Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
+        Creates a NEW API key and returns its secret ONCE. It never revokes or changes any other key: every key the caller already holds keeps working. The key is filed in the org the caller acts in and names them as its creator.  An org holds at most 1,000 live keys; past that the create is refused until one is revoked.
 
-        :param account_key_type_in: (required)
-        :type account_key_type_in: AccountKeyTypeIn
+        :param account_key_in: (required)
+        :type account_key_in: AccountKeyIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2154,7 +2442,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            account_key_type_in=account_key_type_in,
+            account_key_in=account_key_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2162,7 +2450,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountMintedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2178,7 +2466,7 @@ class AccountApi:
     @validate_call
     def post_account_keys_with_http_info(
         self,
-        account_key_type_in: AccountKeyTypeIn,
+        account_key_in: AccountKeyIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2191,13 +2479,13 @@ class AccountApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[AccountMintedKey]:
-        """Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
+    ) -> ApiResponse[AccountApiKey]:
+        """Creates a NEW API key and returns its secret ONCE.
 
-        Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
+        Creates a NEW API key and returns its secret ONCE. It never revokes or changes any other key: every key the caller already holds keeps working. The key is filed in the org the caller acts in and names them as its creator.  An org holds at most 1,000 live keys; past that the create is refused until one is revoked.
 
-        :param account_key_type_in: (required)
-        :type account_key_type_in: AccountKeyTypeIn
+        :param account_key_in: (required)
+        :type account_key_in: AccountKeyIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2221,7 +2509,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            account_key_type_in=account_key_type_in,
+            account_key_in=account_key_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2229,7 +2517,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountMintedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2245,7 +2533,7 @@ class AccountApi:
     @validate_call
     def post_account_keys_without_preload_content(
         self,
-        account_key_type_in: AccountKeyTypeIn,
+        account_key_in: AccountKeyIn,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2259,12 +2547,12 @@ class AccountApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Creates — or rotates — the caller's API key of the requested type and returns it ONCE.
+        """Creates a NEW API key and returns its secret ONCE.
 
-        Creates — or rotates — the caller's API key of the requested type and returns it ONCE. A real IAM failure surfaces as 502, never a fabricated key.  Rotating is what creating means here: a user holds one key per type, so the endpoint is idempotent by (caller, type) and the superseded credential stops working. Two live secrets for one user would make \"revoke my key\" a lie.
+        Creates a NEW API key and returns its secret ONCE. It never revokes or changes any other key: every key the caller already holds keeps working. The key is filed in the org the caller acts in and names them as its creator.  An org holds at most 1,000 live keys; past that the create is refused until one is revoked.
 
-        :param account_key_type_in: (required)
-        :type account_key_type_in: AccountKeyTypeIn
+        :param account_key_in: (required)
+        :type account_key_in: AccountKeyIn
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2288,7 +2576,7 @@ class AccountApi:
         """ # noqa: E501
 
         _param = self._post_account_keys_serialize(
-            account_key_type_in=account_key_type_in,
+            account_key_in=account_key_in,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2296,7 +2584,7 @@ class AccountApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '200': "AccountMintedKey",
+            '200': "AccountApiKey",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -2307,7 +2595,7 @@ class AccountApi:
 
     def _post_account_keys_serialize(
         self,
-        account_key_type_in,
+        account_key_in,
         _request_auth,
         _content_type,
         _headers,
@@ -2333,8 +2621,8 @@ class AccountApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if account_key_type_in is not None:
-            _body_params = account_key_type_in
+        if account_key_in is not None:
+            _body_params = account_key_in
 
 
         # set the HTTP header `Accept`

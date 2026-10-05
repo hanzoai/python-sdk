@@ -17,8 +17,9 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.account_key_budget import AccountKeyBudget
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,12 +27,23 @@ class AccountApiKey(BaseModel):
     """
     AccountApiKey
     """ # noqa: E501
-    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is when the key last changed, as IAM records it.", alias="createdAt")
-    key: Optional[StrictStr] = Field(default=None, description="Key is the FULL value, and is present for a publishable key only: it is public by construction and useless to its holder if it cannot be read back.")
-    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit is what this key may reach, as `kind:name` entries — `model:zen5`, `project:acme`, `product:commerce`. Absent means the key reaches whatever its holder does, which is what every key minted before limits existed does and must keep doing.")
-    prefix: Optional[StrictStr] = Field(default=None, description="Prefix is the recognizable, non-secret head of the key — enough to tell two keys apart, never enough to use one.")
+    budget: Optional[AccountKeyBudget] = Field(default=None, description="Budget is what the key may spend on models, in cents. Absent means no cap.")
+    created: Optional[StrictStr] = Field(default=None, description="Created is when the key was minted (RFC 3339).")
+    creator: Optional[StrictStr] = Field(default=None, description="Creator is the person the key speaks for, `<org>/<user>`: who created it.")
+    expires: Optional[StrictStr] = Field(default=None, description="Expires is when the key stops working (RFC 3339). Absent means never.")
+    id: Optional[StrictStr] = Field(default=None, description="ID addresses this key in PATCH and DELETE /v1/account/keys/{id}.")
+    key: Optional[StrictStr] = Field(default=None, description="Key is the full credential. A publishable key always carries it; a secret key carries it once, in the answer to the POST that created it.")
+    limit: Optional[List[StrictStr]] = Field(default=None, description="Limit is what this key may reach, as `kind:name` entries — `model:zen5`, `project:acme`, `product:train` (read and write), `read:billing` (read only), `read:*` (a read-only key). Absent means the key reaches whatever its holder does.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the key's label, chosen by the person who made it.")
+    prefix: Optional[StrictStr] = Field(default=None, description="Prefix is the head of the credential this key's holder presents — the sk- of a secret key — enough to tell which string a row is, never enough to use. Absent on a key minted before prefixes were recorded.")
+    rate: Optional[StrictInt] = Field(default=None, description="Rate is how many requests a minute the key may make. Absent means no limit of its own.")
+    revoked: Optional[StrictStr] = None
+    revoker: Optional[StrictStr] = Field(default=None, description="Revoker is who revoked the key, `<org>/<user>`, and Revoked when.")
+    spend: Optional[AccountKeyBudget] = Field(default=None, description="Spend is what the key has spent on models, in cents rounded up. Absent when it could not be read just now.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is active, expired, revoked, or disabled (switched off in IAM).")
     type: Optional[StrictStr] = Field(default=None, description="Type is the key class: secret (sk-) or publishable (pk-).")
-    __properties: ClassVar[List[str]] = ["createdAt", "key", "limit", "prefix", "type"]
+    used: Optional[StrictStr] = Field(default=None, description="Used is when the key was last used (RFC 3339). Absent means never.")
+    __properties: ClassVar[List[str]] = ["budget", "created", "creator", "expires", "id", "key", "limit", "name", "prefix", "rate", "revoked", "revoker", "spend", "status", "type", "used"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -72,6 +84,12 @@ class AccountApiKey(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of budget
+        if self.budget:
+            _dict['budget'] = self.budget.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of spend
+        if self.spend:
+            _dict['spend'] = self.spend.to_dict()
         return _dict
 
     @classmethod
@@ -84,11 +102,22 @@ class AccountApiKey(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "createdAt": obj.get("createdAt"),
+            "budget": AccountKeyBudget.from_dict(obj["budget"]) if obj.get("budget") is not None else None,
+            "created": obj.get("created"),
+            "creator": obj.get("creator"),
+            "expires": obj.get("expires"),
+            "id": obj.get("id"),
             "key": obj.get("key"),
             "limit": obj.get("limit"),
+            "name": obj.get("name"),
             "prefix": obj.get("prefix"),
-            "type": obj.get("type")
+            "rate": obj.get("rate"),
+            "revoked": obj.get("revoked"),
+            "revoker": obj.get("revoker"),
+            "spend": AccountKeyBudget.from_dict(obj["spend"]) if obj.get("spend") is not None else None,
+            "status": obj.get("status"),
+            "type": obj.get("type"),
+            "used": obj.get("used")
         })
         return _obj
 

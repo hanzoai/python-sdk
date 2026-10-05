@@ -17,18 +17,22 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.account_api_key import AccountApiKey
+from hanzoai.cloud.models.train_part import TrainPart
 from typing import Optional, Set
 from typing_extensions import Self
 
-class AccountApiKeyList(BaseModel):
+class TrainUpload(BaseModel):
     """
-    AccountApiKeyList
+    TrainUpload
     """ # noqa: E501
-    keys: Optional[List[AccountApiKey]] = Field(default=None, description="Keys is every key the caller may see, newest first: their own, or every key of the org when the caller administers it. Revoked keys stay listed.")
-    __properties: ClassVar[List[str]] = ["keys"]
+    expires: Optional[StrictInt] = Field(default=None, description="Expires is when the grant stops being accepted, unix seconds.")
+    headers: Optional[Dict[str, StrictStr]] = Field(default=None, description="Headers must be sent verbatim with the single PUT; the signature covers them.")
+    method: Optional[StrictStr] = Field(default=None, description="Method is PUT.")
+    parts: Optional[List[TrainPart]] = Field(default=None, description="Parts are the object's consecutive byte ranges, each PUT to its own address.")
+    url: Optional[StrictStr] = Field(default=None, description="URL is the presigned address of a single PUT; empty when Parts is given.")
+    __properties: ClassVar[List[str]] = ["expires", "headers", "method", "parts", "url"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +52,7 @@ class AccountApiKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a JSON string"""
+        """Create an instance of TrainUpload from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +73,18 @@ class AccountApiKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in keys (list)
+        # override the default output from pydantic by calling `to_dict()` of each item in parts (list)
         _items = []
-        if self.keys:
-            for _item_keys in self.keys:
-                if _item_keys:
-                    _items.append(_item_keys.to_dict())
-            _dict['keys'] = _items
+        if self.parts:
+            for _item_parts in self.parts:
+                if _item_parts:
+                    _items.append(_item_parts.to_dict())
+            _dict['parts'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of AccountApiKeyList from a dict"""
+        """Create an instance of TrainUpload from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +92,11 @@ class AccountApiKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "keys": [AccountApiKey.from_dict(_item) for _item in obj["keys"]] if obj.get("keys") is not None else None
+            "expires": obj.get("expires"),
+            "headers": obj.get("headers"),
+            "method": obj.get("method"),
+            "parts": [TrainPart.from_dict(_item) for _item in obj["parts"]] if obj.get("parts") is not None else None,
+            "url": obj.get("url")
         })
         return _obj
 

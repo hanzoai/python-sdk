@@ -113,6 +113,7 @@ from hanzoai.cloud.api.team_api import TeamApi
 from hanzoai.cloud.api.tel_api import TelApi
 from hanzoai.cloud.api.template_api import TemplateApi
 from hanzoai.cloud.api.tool_api import ToolApi
+from hanzoai.cloud.api.train_api import TrainApi
 from hanzoai.cloud.api.translate_api import TranslateApi
 from hanzoai.cloud.api.treasury_api import TreasuryApi
 from hanzoai.cloud.api.trust_api import TrustApi

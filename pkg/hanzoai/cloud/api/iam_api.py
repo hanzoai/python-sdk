@@ -10469,9 +10469,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IamKeysListResponse:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
+        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
 
         :param owner:
         :type owner: str
@@ -10537,9 +10537,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IamKeysListResponse]:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
+        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
 
         :param owner:
         :type owner: str
@@ -10605,9 +10605,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half.
+        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, and its publishable half. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
 
         :param owner:
         :type owner: str
@@ -37510,9 +37510,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IamKey:
-        """Changes what a key is called or what it may reach.
+        """Changes what a key is called, what it may reach, when it expires, or revokes it.
 
-        Changes what a key is called or what it may reach. The credential itself is not reissued — the key in your deployment keeps working.
+        Changes what a key is called, what it may reach, when it expires, or revokes it. The credential itself is not reissued — the key in your deployment keeps working until it expires or is revoked.  An update writes the whole set of editable fields, so send the key as you read it with your changes made. The class in its scope (publishable or secret) is fixed at creation and an update naming the other is refused. Setting state to \"Revoked\" revokes the key: the row stays, records who revoked it and when, and is never updated again.
 
         :param owner: Owner is the tenant that holds the key; Name is unique within Owner. (required)
         :type owner: str
@@ -37586,9 +37586,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IamKey]:
-        """Changes what a key is called or what it may reach.
+        """Changes what a key is called, what it may reach, when it expires, or revokes it.
 
-        Changes what a key is called or what it may reach. The credential itself is not reissued — the key in your deployment keeps working.
+        Changes what a key is called, what it may reach, when it expires, or revokes it. The credential itself is not reissued — the key in your deployment keeps working until it expires or is revoked.  An update writes the whole set of editable fields, so send the key as you read it with your changes made. The class in its scope (publishable or secret) is fixed at creation and an update naming the other is refused. Setting state to \"Revoked\" revokes the key: the row stays, records who revoked it and when, and is never updated again.
 
         :param owner: Owner is the tenant that holds the key; Name is unique within Owner. (required)
         :type owner: str
@@ -37662,9 +37662,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Changes what a key is called or what it may reach.
+        """Changes what a key is called, what it may reach, when it expires, or revokes it.
 
-        Changes what a key is called or what it may reach. The credential itself is not reissued — the key in your deployment keeps working.
+        Changes what a key is called, what it may reach, when it expires, or revokes it. The credential itself is not reissued — the key in your deployment keeps working until it expires or is revoked.  An update writes the whole set of editable fields, so send the key as you read it with your changes made. The class in its scope (publishable or secret) is fixed at creation and an update naming the other is refused. Setting state to \"Revoked\" revokes the key: the row stays, records who revoked it and when, and is never updated again.
 
         :param owner: Owner is the tenant that holds the key; Name is unique within Owner. (required)
         :type owner: str
