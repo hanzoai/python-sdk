@@ -901,6 +901,7 @@ class EventApi:
     def get_event_insights_events(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -916,10 +917,12 @@ class EventApi:
     ) -> EventEventList:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  What a platform operator did acting as someone else is left out unless impersonated asks for it; such a row carries impersonated and impersonated_by in its properties.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 400 on an unknown impersonated value, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -944,6 +947,7 @@ class EventApi:
 
         _param = self._get_event_insights_events_serialize(
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -968,6 +972,7 @@ class EventApi:
     def get_event_insights_events_with_http_info(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -983,10 +988,12 @@ class EventApi:
     ) -> ApiResponse[EventEventList]:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  What a platform operator did acting as someone else is left out unless impersonated asks for it; such a row carries impersonated and impersonated_by in its properties.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 400 on an unknown impersonated value, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1011,6 +1018,7 @@ class EventApi:
 
         _param = self._get_event_insights_events_serialize(
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1035,6 +1043,7 @@ class EventApi:
     def get_event_insights_events_without_preload_content(
         self,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1050,10 +1059,12 @@ class EventApi:
     ) -> RESTResponseType:
         """Returns the caller org's most recent product events, newest first.
 
-        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 503 when the warehouse is unreachable.
+        Returns the caller org's most recent product events, newest first. The console's raw-event view over event.event — the same table the capture endpoints fill — one row per stored event, with the row's attributes returned as the properties object.  What a platform operator did acting as someone else is left out unless impersonated asks for it; such a row carries impersonated and impersonated_by in its properties.  The org is the validated principal's — never a parameter — and a read requires a real bearer, never the write-only publishable key. 401 without a validated bearer, 400 on an unknown impersonated value, 503 when the warehouse is unreachable.
 
         :param limit: Limit is how many rows to return, newest first. Default 50, maximum 200; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events to return against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1078,6 +1089,7 @@ class EventApi:
 
         _param = self._get_event_insights_events_serialize(
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1097,6 +1109,7 @@ class EventApi:
     def _get_event_insights_events_serialize(
         self,
         limit,
+        impersonated,
         _request_auth,
         _content_type,
         _headers,
@@ -1122,6 +1135,10 @@ class EventApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if impersonated is not None:
+            
+            _query_params.append(('impersonated', impersonated))
             
         # process the header parameters
         # process the form parameters
@@ -1414,6 +1431,7 @@ class EventApi:
         range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1429,7 +1447,7 @@ class EventApi:
     ) -> EventOverview:
         """Returns the caller org's analytics KPIs for one time window.
 
-        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The web and commerce lenses count the tenant's own traffic: what a platform operator did while acting as someone else is left out unless impersonated asks for it (include, or only). The LLM lens reads the usage ledger, which carries no such mark, and counts every call.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1437,6 +1455,8 @@ class EventApi:
         :type start: str
         :param end: End is the exclusive upper bound of a custom window, RFC3339. Requires start.
         :type end: str
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1463,6 +1483,7 @@ class EventApi:
             range=range,
             start=start,
             end=end,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1489,6 +1510,7 @@ class EventApi:
         range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1504,7 +1526,7 @@ class EventApi:
     ) -> ApiResponse[EventOverview]:
         """Returns the caller org's analytics KPIs for one time window.
 
-        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The web and commerce lenses count the tenant's own traffic: what a platform operator did while acting as someone else is left out unless impersonated asks for it (include, or only). The LLM lens reads the usage ledger, which carries no such mark, and counts every call.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1512,6 +1534,8 @@ class EventApi:
         :type start: str
         :param end: End is the exclusive upper bound of a custom window, RFC3339. Requires start.
         :type end: str
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1538,6 +1562,7 @@ class EventApi:
             range=range,
             start=start,
             end=end,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1564,6 +1589,7 @@ class EventApi:
         range: Annotated[Optional[StrictStr], Field(description="Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.")] = None,
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1579,7 +1605,7 @@ class EventApi:
     ) -> RESTResponseType:
         """Returns the caller org's analytics KPIs for one time window.
 
-        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's analytics KPIs for one time window. Three lenses over one warehouse: llm is the live per-org LLM usage ledger (requests, tokens, spend, models, providers, errors) and is always real; web (pageviews, visitors, sessions) and commerce (orders, revenue, AOV) read the product-event table and report available=false rather than fabricating zeros when it holds nothing yet.  The web and commerce lenses count the tenant's own traffic: what a platform operator did while acting as someone else is left out unless impersonated asks for it (include, or only). The LLM lens reads the usage ledger, which carries no such mark, and counts every call.  The org is the validated principal's — never a parameter — so a caller can only ever read its own tenant. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -1587,6 +1613,8 @@ class EventApi:
         :type start: str
         :param end: End is the exclusive upper bound of a custom window, RFC3339. Requires start.
         :type end: str
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -1613,6 +1641,7 @@ class EventApi:
             range=range,
             start=start,
             end=end,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -1634,6 +1663,7 @@ class EventApi:
         range,
         start,
         end,
+        impersonated,
         _request_auth,
         _content_type,
         _headers,
@@ -1667,6 +1697,10 @@ class EventApi:
         if end is not None:
             
             _query_params.append(('end', end))
+            
+        if impersonated is not None:
+            
+            _query_params.append(('impersonated', impersonated))
             
         # process the header parameters
         # process the form parameters
@@ -2518,6 +2552,7 @@ class EventApi:
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2533,7 +2568,7 @@ class EventApi:
     ) -> EventTop:
         """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet, and count the tenant's own traffic: what a platform operator did acting as someone else is left out unless impersonated asks for it (include, or only). Models reads the usage ledger, which carries no such mark. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -2543,6 +2578,8 @@ class EventApi:
         :type end: str
         :param limit: Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2570,6 +2607,7 @@ class EventApi:
             start=start,
             end=end,
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2597,6 +2635,7 @@ class EventApi:
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2612,7 +2651,7 @@ class EventApi:
     ) -> ApiResponse[EventTop]:
         """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet, and count the tenant's own traffic: what a platform operator did acting as someone else is left out unless impersonated asks for it (include, or only). Models reads the usage ledger, which carries no such mark. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -2622,6 +2661,8 @@ class EventApi:
         :type end: str
         :param limit: Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2649,6 +2690,7 @@ class EventApi:
             start=start,
             end=end,
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2676,6 +2718,7 @@ class EventApi:
         start: Annotated[Optional[StrictStr], Field(description="Start is the inclusive lower bound of a custom window, RFC3339. Requires end.")] = None,
         end: Annotated[Optional[StrictStr], Field(description="End is the exclusive upper bound of a custom window, RFC3339. Requires start.")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.")] = None,
+        impersonated: Annotated[Optional[StrictStr], Field(description="Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2691,7 +2734,7 @@ class EventApi:
     ) -> RESTResponseType:
         """Returns the caller org's ranked lenses for one window, five of them at once.
 
-        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range, 503 when the warehouse is unreachable.
+        Returns the caller org's ranked lenses for one window, five of them at once. models ranks LLM models by spend and is always real; products ranks commerce orders by revenue; topPages ranks requested paths, topReferrers the external referrer domains (\"(direct)\" for a missing or same-origin one) and topSources the utm_source campaigns (\"(none)\" when absent), each by pageviews. Every lens carries each row's share of the in-window total, so a top-N honestly shows the long tail.  The four event lenses report available=false rather than fabricating zeros when the product-event table holds nothing yet, and count the tenant's own traffic: what a platform operator did acting as someone else is left out unless impersonated asks for it (include, or only). Models reads the usage ledger, which carries no such mark. The org is the validated principal's — never a parameter. 401 without a validated bearer, 400 on an unknown range or impersonated value, 503 when the warehouse is unreachable.
 
         :param range: Range is a relative window: a count and a unit — 24h, 7d, 90d, any <N>h or <N>d — or day, week, month, all. Default 24h. Ignored when both start and end are given. An unknown value, or one past the 730-day horizon, is a 400.
         :type range: str
@@ -2701,6 +2744,8 @@ class EventApi:
         :type end: str
         :param limit: Limit bounds every ranked lens in the response. Default 10, maximum 100; a value at or below zero, or one that is not a number, takes the default.
         :type limit: int
+        :param impersonated: Impersonated is which events the product-event lenses count against the mark a platform operator leaves acting as someone else: exclude (the default, the tenant's own traffic), include, or only. Anything else is a 400.
+        :type impersonated: str
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -2728,6 +2773,7 @@ class EventApi:
             start=start,
             end=end,
             limit=limit,
+            impersonated=impersonated,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -2750,6 +2796,7 @@ class EventApi:
         start,
         end,
         limit,
+        impersonated,
         _request_auth,
         _content_type,
         _headers,
@@ -2787,6 +2834,10 @@ class EventApi:
         if limit is not None:
             
             _query_params.append(('limit', limit))
+            
+        if impersonated is not None:
+            
+            _query_params.append(('impersonated', impersonated))
             
         # process the header parameters
         # process the form parameters

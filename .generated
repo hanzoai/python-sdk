@@ -325,6 +325,7 @@ pkg/hanzoai/cloud/models/ask_source.py
 pkg/hanzoai/cloud/models/ask_web_question.py
 pkg/hanzoai/cloud/models/asset.py
 pkg/hanzoai/cloud/models/audit.py
+pkg/hanzoai/cloud/models/audit_act.py
 pkg/hanzoai/cloud/models/audit_trail_page.py
 pkg/hanzoai/cloud/models/audit_wire.py
 pkg/hanzoai/cloud/models/author_author_repo.py
@@ -647,6 +648,7 @@ pkg/hanzoai/cloud/models/compliance_acc_list.py
 pkg/hanzoai/cloud/models/compliance_acc_view.py
 pkg/hanzoai/cloud/models/compliance_accreditation_decision.py
 pkg/hanzoai/cloud/models/compliance_accreditation_req.py
+pkg/hanzoai/cloud/models/compliance_act.py
 pkg/hanzoai/cloud/models/compliance_audit_list.py
 pkg/hanzoai/cloud/models/compliance_check_list.py
 pkg/hanzoai/cloud/models/compliance_check_view.py
@@ -1029,10 +1031,11 @@ pkg/hanzoai/cloud/models/git_file_json.py
 pkg/hanzoai/cloud/models/git_files_json.py
 pkg/hanzoai/cloud/models/git_gc_out.py
 pkg/hanzoai/cloud/models/git_job_view.py
-pkg/hanzoai/cloud/models/git_key_list.py
-pkg/hanzoai/cloud/models/git_key_view.py
+pkg/hanzoai/cloud/models/git_link.py
+pkg/hanzoai/cloud/models/git_link_all.py
+pkg/hanzoai/cloud/models/git_link_req.py
+pkg/hanzoai/cloud/models/git_linked.py
 pkg/hanzoai/cloud/models/git_mirror_list.py
-pkg/hanzoai/cloud/models/git_mirror_req.py
 pkg/hanzoai/cloud/models/git_mirror_target_req.py
 pkg/hanzoai/cloud/models/git_mirror_target_view.py
 pkg/hanzoai/cloud/models/git_open_req.py
@@ -1049,7 +1052,6 @@ pkg/hanzoai/cloud/models/git_push_resp.py
 pkg/hanzoai/cloud/models/git_readme_json.py
 pkg/hanzoai/cloud/models/git_ref_json.py
 pkg/hanzoai/cloud/models/git_refs_json.py
-pkg/hanzoai/cloud/models/git_register_key_req.py
 pkg/hanzoai/cloud/models/git_repo_list.py
 pkg/hanzoai/cloud/models/git_repo_view.py
 pkg/hanzoai/cloud/models/git_run_start.py
@@ -1060,6 +1062,7 @@ pkg/hanzoai/cloud/models/git_subscription_list.py
 pkg/hanzoai/cloud/models/git_subscription_view.py
 pkg/hanzoai/cloud/models/git_tree_entry_json.py
 pkg/hanzoai/cloud/models/git_tree_json.py
+pkg/hanzoai/cloud/models/git_unmatched.py
 pkg/hanzoai/cloud/models/git_usage_repo.py
 pkg/hanzoai/cloud/models/git_usage_view.py
 pkg/hanzoai/cloud/models/git_workflow_list.py

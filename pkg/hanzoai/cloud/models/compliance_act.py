@@ -22,13 +22,14 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GitRegisterKeyReq(BaseModel):
+class ComplianceAct(BaseModel):
     """
-    GitRegisterKeyReq
+    ComplianceAct
     """ # noqa: E501
-    public_key: Optional[StrictStr] = Field(default=None, description="PublicKey is one OpenSSH authorized-key line (\"ssh-ed25519 AAAA… you@host\"). Required; a line that does not parse is refused and never stored.", alias="publicKey")
-    title: Optional[StrictStr] = Field(default=None, description="Title labels the key in the console. Max 256 chars; when omitted the comment on the key line is used.")
-    __properties: ClassVar[List[str]] = ["publicKey", "title"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the operator's IAM username.")
+    owner: Optional[StrictStr] = Field(default=None, description="Owner is the org of the operator's IAM row: \"admin\" for a SuperAdmin.")
+    sub: Optional[StrictStr] = Field(default=None, description="Sub is the operator's IAM subject.")
+    __properties: ClassVar[List[str]] = ["name", "owner", "sub"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class GitRegisterKeyReq(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GitRegisterKeyReq from a JSON string"""
+        """Create an instance of ComplianceAct from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +74,7 @@ class GitRegisterKeyReq(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GitRegisterKeyReq from a dict"""
+        """Create an instance of ComplianceAct from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +82,9 @@ class GitRegisterKeyReq(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "publicKey": obj.get("publicKey"),
-            "title": obj.get("title")
+            "name": obj.get("name"),
+            "owner": obj.get("owner"),
+            "sub": obj.get("sub")
         })
         return _obj
 

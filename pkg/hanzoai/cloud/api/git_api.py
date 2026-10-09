@@ -24,10 +24,10 @@ from hanzoai.cloud.models.git_commits_json import GitCommitsJSON
 from hanzoai.cloud.models.git_create_req import GitCreateReq
 from hanzoai.cloud.models.git_files_json import GitFilesJSON
 from hanzoai.cloud.models.git_gc_out import GitGcOut
-from hanzoai.cloud.models.git_key_list import GitKeyList
-from hanzoai.cloud.models.git_key_view import GitKeyView
+from hanzoai.cloud.models.git_link_all import GitLinkAll
+from hanzoai.cloud.models.git_link_req import GitLinkReq
+from hanzoai.cloud.models.git_linked import GitLinked
 from hanzoai.cloud.models.git_mirror_list import GitMirrorList
-from hanzoai.cloud.models.git_mirror_req import GitMirrorReq
 from hanzoai.cloud.models.git_mirror_target_req import GitMirrorTargetReq
 from hanzoai.cloud.models.git_mirror_target_view import GitMirrorTargetView
 from hanzoai.cloud.models.git_open_req import GitOpenReq
@@ -41,7 +41,6 @@ from hanzoai.cloud.models.git_push_req import GitPushReq
 from hanzoai.cloud.models.git_push_resp import GitPushResp
 from hanzoai.cloud.models.git_readme_json import GitReadmeJSON
 from hanzoai.cloud.models.git_refs_json import GitRefsJSON
-from hanzoai.cloud.models.git_register_key_req import GitRegisterKeyReq
 from hanzoai.cloud.models.git_repo_list import GitRepoList
 from hanzoai.cloud.models.git_repo_view import GitRepoView
 from hanzoai.cloud.models.git_run_start import GitRunStart
@@ -82,267 +81,6 @@ class GitApi:
         if api_client is None:
             api_client = ApiClient.get_default()
         self.api_client = api_client
-
-
-    @validate_call
-    def delete_git_keys_by_id(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> None:
-        """Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found.
-
-        Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found. Answers 204 with no body. Once removed the key no longer authenticates any SSH git access.
-
-        :param id: ID is the key's identifier (\"gitkey_…\"), from the :id path segment. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_git_keys_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def delete_git_keys_by_id_with_http_info(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[None]:
-        """Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found.
-
-        Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found. Answers 204 with no body. Once removed the key no longer authenticates any SSH git access.
-
-        :param id: ID is the key's identifier (\"gitkey_…\"), from the :id path segment. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_git_keys_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def delete_git_keys_by_id_without_preload_content(
-        self,
-        id: Annotated[StrictStr, Field(description="ID is the key's identifier (\"gitkey_…\"), from the :id path segment.")],
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found.
-
-        Removes a registered SSH key, scoped to the caller's org: an org can only delete its own, and a key id it does not own is not found. Answers 204 with no body. Once removed the key no longer authenticates any SSH git access.
-
-        :param id: ID is the key's identifier (\"gitkey_…\"), from the :id path segment. (required)
-        :type id: str
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._delete_git_keys_by_id_serialize(
-            id=id,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '204': None,
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _delete_git_keys_by_id_serialize(
-        self,
-        id,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        if id is not None:
-            _path_params['id'] = id
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='DELETE',
-            resource_path='/v1/git/keys/{id}',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
 
 
     @validate_call
@@ -2694,253 +2432,6 @@ class GitApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/git/explore',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def get_git_keys(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GitKeyList:
-        """Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`.
-
-        Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`. Keys are org-scoped on read even though the fingerprint index is global, so one org never sees another's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_keys_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitKeyList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def get_git_keys_with_http_info(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GitKeyList]:
-        """Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`.
-
-        Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`. Keys are org-scoped on read even though the fingerprint index is global, so one org never sees another's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_keys_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitKeyList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def get_git_keys_without_preload_content(
-        self,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`.
-
-        Returns the SSH public keys registered to the caller's org — the keys that authenticate `git clone git@<host>:<org>/<repo>.git`. Keys are org-scoped on read even though the fingerprint index is global, so one org never sees another's.
-
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._get_git_keys_serialize(
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "GitKeyList",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _get_git_keys_serialize(
-        self,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='GET',
-            resource_path='/v1/git/keys',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -9381,9 +8872,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_keys(
+    def post_git_link(
         self,
-        git_register_key_req: GitRegisterKeyReq,
+        git_link_all: GitLinkAll,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9396,13 +8887,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> GitKeyView:
-        """Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org.
+    ) -> GitLinked:
+        """Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it.
 
-        Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
+        Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it. A repository with no such namesake is listed and left alone, and one holding history here is listed and never touched. Nothing is fetched: a linked repository's cache fills on its first read. Org admins only.
 
-        :param git_register_key_req: (required)
-        :type git_register_key_req: GitRegisterKeyReq
+        :param git_link_all: (required)
+        :type git_link_all: GitLinkAll
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9425,8 +8916,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_keys_serialize(
-            git_register_key_req=git_register_key_req,
+        _param = self._post_git_link_serialize(
+            git_link_all=git_link_all,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9434,7 +8925,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GitKeyView",
+            '200': "GitLinked",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9448,9 +8939,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_keys_with_http_info(
+    def post_git_link_with_http_info(
         self,
-        git_register_key_req: GitRegisterKeyReq,
+        git_link_all: GitLinkAll,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9463,13 +8954,13 @@ class GitApi:
         _content_type: Optional[StrictStr] = None,
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[GitKeyView]:
-        """Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org.
+    ) -> ApiResponse[GitLinked]:
+        """Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it.
 
-        Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
+        Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it. A repository with no such namesake is listed and left alone, and one holding history here is listed and never touched. Nothing is fetched: a linked repository's cache fills on its first read. Org admins only.
 
-        :param git_register_key_req: (required)
-        :type git_register_key_req: GitRegisterKeyReq
+        :param git_link_all: (required)
+        :type git_link_all: GitLinkAll
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9492,8 +8983,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_keys_serialize(
-            git_register_key_req=git_register_key_req,
+        _param = self._post_git_link_serialize(
+            git_link_all=git_link_all,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9501,7 +8992,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GitKeyView",
+            '200': "GitLinked",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9515,9 +9006,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_keys_without_preload_content(
+    def post_git_link_without_preload_content(
         self,
-        git_register_key_req: GitRegisterKeyReq,
+        git_link_all: GitLinkAll,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -9531,12 +9022,12 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org.
+        """Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it.
 
-        Registers an SSH public key so it can authenticate `git clone git@<host>:<org>/<repo>.git` for the caller's org. The key line is parsed and canonicalized before storage, its SHA256 fingerprint becomes the auth lookup handle, and the full public key round-trips (it is public). Answers 201. Fingerprints are globally unique, so a key already registered — to this org or any other — is a 409: one key belongs to exactly one org.
+        Links every repository of the caller's org that holds no history here and names no link to github.com/<owner>/<name>, where GitHub lets the caller read it. A repository with no such namesake is listed and left alone, and one holding history here is listed and never touched. Nothing is fetched: a linked repository's cache fills on its first read. Org admins only.
 
-        :param git_register_key_req: (required)
-        :type git_register_key_req: GitRegisterKeyReq
+        :param git_link_all: (required)
+        :type git_link_all: GitLinkAll
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -9559,8 +9050,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_keys_serialize(
-            git_register_key_req=git_register_key_req,
+        _param = self._post_git_link_serialize(
+            git_link_all=git_link_all,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -9568,7 +9059,7 @@ class GitApi:
         )
 
         _response_types_map: Dict[str, Optional[str]] = {
-            '201': "GitKeyView",
+            '200': "GitLinked",
         }
         response_data = self.api_client.call_api(
             *_param,
@@ -9577,9 +9068,9 @@ class GitApi:
         return response_data.response
 
 
-    def _post_git_keys_serialize(
+    def _post_git_link_serialize(
         self,
-        git_register_key_req,
+        git_link_all,
         _request_auth,
         _content_type,
         _headers,
@@ -9605,8 +9096,8 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if git_register_key_req is not None:
-            _body_params = git_register_key_req
+        if git_link_all is not None:
+            _body_params = git_link_all
 
 
         # set the HTTP header `Accept`
@@ -9639,7 +9130,7 @@ class GitApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/git/keys',
+            resource_path='/v1/git/link',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,
@@ -10468,10 +9959,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_repos_by_name_mirror(
+    def post_git_repos_by_name_home(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        git_mirror_req: GitMirrorReq,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10485,14 +9975,12 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> GitRepoView:
-        """Imports an external git repository into the caller's repo, provisioning it on first use.
+        """Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into.
 
-        Imports an external git repository into the caller's repo, provisioning it on first use. Fetch is FORCED and covers every ref, so a first call clones the source and a repeat call re-syncs it — the endpoint is idempotent by mirror semantics. Mirrored bytes are metered exactly like a push, and a push.landed event is emitted for the default branch so the code index picks the repo up.
+        Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into. A forge repository of that name that already exists is refused, never overwritten. Org admins only.
 
-        :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
+        :param name: Name is the repository, from the :name path segment. (required)
         :type name: str
-        :param git_mirror_req: (required)
-        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10515,9 +10003,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_home_serialize(
             name=name,
-            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10539,10 +10026,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_repos_by_name_mirror_with_http_info(
+    def post_git_repos_by_name_home_with_http_info(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        git_mirror_req: GitMirrorReq,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10556,14 +10042,12 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[GitRepoView]:
-        """Imports an external git repository into the caller's repo, provisioning it on first use.
+        """Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into.
 
-        Imports an external git repository into the caller's repo, provisioning it on first use. Fetch is FORCED and covers every ref, so a first call clones the source and a repeat call re-syncs it — the endpoint is idempotent by mirror semantics. Mirrored bytes are metered exactly like a push, and a push.landed event is emitted for the default branch so the code index picks the repo up.
+        Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into. A forge repository of that name that already exists is refused, never overwritten. Org admins only.
 
-        :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
+        :param name: Name is the repository, from the :name path segment. (required)
         :type name: str
-        :param git_mirror_req: (required)
-        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10586,9 +10070,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_home_serialize(
             name=name,
-            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10610,10 +10093,9 @@ class GitApi:
 
 
     @validate_call
-    def post_git_repos_by_name_mirror_without_preload_content(
+    def post_git_repos_by_name_home_without_preload_content(
         self,
-        name: Annotated[StrictStr, Field(description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")],
-        git_mirror_req: GitMirrorReq,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment.")],
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -10627,14 +10109,12 @@ class GitApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Imports an external git repository into the caller's repo, provisioning it on first use.
+        """Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into.
 
-        Imports an external git repository into the caller's repo, provisioning it on first use. Fetch is FORCED and covers every ref, so a first call clones the source and a repeat call re-syncs it — the endpoint is idempotent by mirror semantics. Mirrored bytes are metered exactly like a push, and a push.landed event is emitted for the default branch so the code index picks the repo up.
+        Moves a repository whose history is HERE to the forge (git.hanzo.ai), the one home of a repository no other host holds, and links it there: the repository is made in the org's own namespace on the forge, every branch and tag is pushed to it, the forge's refs are read back and must equal these, and only then does the row name the forge as its link, so this copy becomes the cache it can be fetched back into. A forge repository of that name that already exists is refused, never overwritten. Org admins only.
 
-        :param name: Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use. (required)
+        :param name: Name is the repository, from the :name path segment. (required)
         :type name: str
-        :param git_mirror_req: (required)
-        :type git_mirror_req: GitMirrorReq
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
                                  timeout. It can also be a pair (tuple) of
@@ -10657,9 +10137,8 @@ class GitApi:
         :return: Returns the result object.
         """ # noqa: E501
 
-        _param = self._post_git_repos_by_name_mirror_serialize(
+        _param = self._post_git_repos_by_name_home_serialize(
             name=name,
-            git_mirror_req=git_mirror_req,
             _request_auth=_request_auth,
             _content_type=_content_type,
             _headers=_headers,
@@ -10676,10 +10155,9 @@ class GitApi:
         return response_data.response
 
 
-    def _post_git_repos_by_name_mirror_serialize(
+    def _post_git_repos_by_name_home_serialize(
         self,
         name,
-        git_mirror_req,
         _request_auth,
         _content_type,
         _headers,
@@ -10707,8 +10185,283 @@ class GitApi:
         # process the header parameters
         # process the form parameters
         # process the body parameter
-        if git_mirror_req is not None:
-            _body_params = git_mirror_req
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/git/repos/{name}/home',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_git_repos_by_name_link(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment. It is made when the org has none of that name.")],
+        git_link_req: GitLinkReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> GitRepoView:
+        """Records that a repository's history lives on another host, making the repository first when the org has none of that name.
+
+        Records that a repository's history lives on another host, making the repository first when the org has none of that name. Nothing is copied: a read is served from a cache filled from the host, as the host lets the caller read, and a push goes to the host. A repository whose history is HERE is refused (409): a link would hide what only this store holds.
+
+        :param name: Name is the repository, from the :name path segment. It is made when the org has none of that name. (required)
+        :type name: str
+        :param git_link_req: (required)
+        :type git_link_req: GitLinkReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_git_repos_by_name_link_serialize(
+            name=name,
+            git_link_req=git_link_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_git_repos_by_name_link_with_http_info(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment. It is made when the org has none of that name.")],
+        git_link_req: GitLinkReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[GitRepoView]:
+        """Records that a repository's history lives on another host, making the repository first when the org has none of that name.
+
+        Records that a repository's history lives on another host, making the repository first when the org has none of that name. Nothing is copied: a read is served from a cache filled from the host, as the host lets the caller read, and a push goes to the host. A repository whose history is HERE is refused (409): a link would hide what only this store holds.
+
+        :param name: Name is the repository, from the :name path segment. It is made when the org has none of that name. (required)
+        :type name: str
+        :param git_link_req: (required)
+        :type git_link_req: GitLinkReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_git_repos_by_name_link_serialize(
+            name=name,
+            git_link_req=git_link_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_git_repos_by_name_link_without_preload_content(
+        self,
+        name: Annotated[StrictStr, Field(description="Name is the repository, from the :name path segment. It is made when the org has none of that name.")],
+        git_link_req: GitLinkReq,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Records that a repository's history lives on another host, making the repository first when the org has none of that name.
+
+        Records that a repository's history lives on another host, making the repository first when the org has none of that name. Nothing is copied: a read is served from a cache filled from the host, as the host lets the caller read, and a push goes to the host. A repository whose history is HERE is refused (409): a link would hide what only this store holds.
+
+        :param name: Name is the repository, from the :name path segment. It is made when the org has none of that name. (required)
+        :type name: str
+        :param git_link_req: (required)
+        :type git_link_req: GitLinkReq
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_git_repos_by_name_link_serialize(
+            name=name,
+            git_link_req=git_link_req,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "GitRepoView",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_git_repos_by_name_link_serialize(
+        self,
+        name,
+        git_link_req,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if name is not None:
+            _path_params['name'] = name
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+        if git_link_req is not None:
+            _body_params = git_link_req
 
 
         # set the HTTP header `Accept`
@@ -10741,7 +10494,7 @@ class GitApi:
 
         return self.api_client.param_serialize(
             method='POST',
-            resource_path='/v1/git/repos/{name}/mirror',
+            resource_path='/v1/git/repos/{name}/link',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

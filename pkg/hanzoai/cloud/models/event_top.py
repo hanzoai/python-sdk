@@ -31,6 +31,7 @@ class EventTop(BaseModel):
     EventTop
     """ # noqa: E501
     end: Optional[StrictStr] = Field(default=None, description="End is the window's exclusive upper bound, RFC3339 UTC.")
+    impersonated: Optional[StrictStr] = Field(default=None, description="Impersonated is which events products, topPages, topReferrers and topSources counted against the mark a platform operator leaves acting as someone else: exclude (the tenant's own traffic), include, or only. Models reads the usage ledger, which carries no mark.")
     models: Optional[EventTopModels] = Field(default=None, description="Models ranks the window's LLM models by spend — real per-org data.")
     products: Optional[EventTopProducts] = Field(default=None, description="Products ranks the window's products by revenue.")
     range: Optional[StrictStr] = Field(default=None, description="Range is the window that was actually applied: 24h, 7d, 30d or custom.")
@@ -39,7 +40,7 @@ class EventTop(BaseModel):
     top_pages: Optional[EventBreakdown] = Field(default=None, description="Pages ranks the paths visitors requested, by pageviews.", alias="topPages")
     top_referrers: Optional[EventBreakdown] = Field(default=None, description="Referrers ranks the external domains visitors arrived from, by pageviews.", alias="topReferrers")
     top_sources: Optional[EventBreakdown] = Field(default=None, description="Sources ranks the utm_source campaigns visitors arrived on, by pageviews.", alias="topSources")
-    __properties: ClassVar[List[str]] = ["end", "models", "products", "range", "scope", "start", "topPages", "topReferrers", "topSources"]
+    __properties: ClassVar[List[str]] = ["end", "impersonated", "models", "products", "range", "scope", "start", "topPages", "topReferrers", "topSources"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -111,6 +112,7 @@ class EventTop(BaseModel):
 
         _obj = cls.model_validate({
             "end": obj.get("end"),
+            "impersonated": obj.get("impersonated"),
             "models": EventTopModels.from_dict(obj["models"]) if obj.get("models") is not None else None,
             "products": EventTopProducts.from_dict(obj["products"]) if obj.get("products") is not None else None,
             "range": obj.get("range"),

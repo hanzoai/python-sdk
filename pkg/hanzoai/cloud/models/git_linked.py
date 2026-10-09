@@ -19,16 +19,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.git_repo_view import GitRepoView
+from hanzoai.cloud.models.git_unmatched import GitUnmatched
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ProviderGithubBackfillIn(BaseModel):
+class GitLinked(BaseModel):
     """
-    ProviderGithubBackfillIn
+    GitLinked
     """ # noqa: E501
-    repo: Optional[StrictStr] = Field(default=None, description="Repo narrows the pass to ONE granted repository, named `owner/name` or bare `name` (case-insensitive). Empty walks every granted repository. A project page syncs its own issues with this; the org-wide pass stays the default. A name the connection does not grant is a 404, never a silent empty pass that reads as \"this repository has no issues\".")
-    state: Optional[StrictStr] = Field(default=None, description="State is the GitHub issue state to walk: \"open\" (the default), \"closed\" or \"all\". Anything else is a 400.")
-    __properties: ClassVar[List[str]] = ["repo", "state"]
+    held: Optional[List[StrictStr]] = Field(default=None, description="Held are the repositories that hold their own history here, which a link would hide.")
+    linked: Optional[List[GitRepoView]] = Field(default=None, description="Linked are the repositories it linked, each to its namesake on GitHub.")
+    unmatched: Optional[List[GitUnmatched]] = Field(default=None, description="Unmatched are the repositories it left as they were, each with what GitHub answered: no namesake readable as the caller is never replaced by a guess.")
+    __properties: ClassVar[List[str]] = ["held", "linked", "unmatched"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +51,7 @@ class ProviderGithubBackfillIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProviderGithubBackfillIn from a JSON string"""
+        """Create an instance of GitLinked from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,11 +72,25 @@ class ProviderGithubBackfillIn(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in linked (list)
+        _items = []
+        if self.linked:
+            for _item_linked in self.linked:
+                if _item_linked:
+                    _items.append(_item_linked.to_dict())
+            _dict['linked'] = _items
+        # override the default output from pydantic by calling `to_dict()` of each item in unmatched (list)
+        _items = []
+        if self.unmatched:
+            for _item_unmatched in self.unmatched:
+                if _item_unmatched:
+                    _items.append(_item_unmatched.to_dict())
+            _dict['unmatched'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProviderGithubBackfillIn from a dict"""
+        """Create an instance of GitLinked from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +98,9 @@ class ProviderGithubBackfillIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "repo": obj.get("repo"),
-            "state": obj.get("state")
+            "held": obj.get("held"),
+            "linked": [GitRepoView.from_dict(_item) for _item in obj["linked"]] if obj.get("linked") is not None else None,
+            "unmatched": [GitUnmatched.from_dict(_item) for _item in obj["unmatched"]] if obj.get("unmatched") is not None else None
         })
         return _obj
 

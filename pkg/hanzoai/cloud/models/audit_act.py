@@ -17,18 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.git_key_view import GitKeyView
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GitKeyList(BaseModel):
+class AuditAct(BaseModel):
     """
-    GitKeyList
+    AuditAct
     """ # noqa: E501
-    data: Optional[List[GitKeyView]] = Field(default=None, description="Data holds the org's keys.")
-    __properties: ClassVar[List[str]] = ["data"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the operator's IAM username.")
+    owner: Optional[StrictStr] = Field(default=None, description="Owner is the org of the operator's IAM row: \"admin\" for a SuperAdmin.")
+    sub: Optional[StrictStr] = Field(default=None, description="Sub is the operator's IAM subject.")
+    __properties: ClassVar[List[str]] = ["name", "owner", "sub"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +49,7 @@ class GitKeyList(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GitKeyList from a JSON string"""
+        """Create an instance of AuditAct from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -69,18 +70,11 @@ class GitKeyList(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
-        _items = []
-        if self.data:
-            for _item_data in self.data:
-                if _item_data:
-                    _items.append(_item_data.to_dict())
-            _dict['data'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GitKeyList from a dict"""
+        """Create an instance of AuditAct from a dict"""
         if obj is None:
             return None
 
@@ -88,7 +82,9 @@ class GitKeyList(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "data": [GitKeyView.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None
+            "name": obj.get("name"),
+            "owner": obj.get("owner"),
+            "sub": obj.get("sub")
         })
         return _obj
 

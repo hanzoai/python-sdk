@@ -22,14 +22,13 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GitMirrorReq(BaseModel):
+class GitUnmatched(BaseModel):
     """
-    GitMirrorReq
+    GitUnmatched
     """ # noqa: E501
-    name: Optional[StrictStr] = Field(default=None, description="Name is the local repo to mirror into, from the :name path segment. It is CREATED on first use.")
-    project: Optional[StrictStr] = Field(default=None, description="Project is the sub-scope to land the repo in; empty uses the caller's own, exactly as a create would.")
-    source: Optional[StrictStr] = Field(default=None, description="Source is the http(s) git URL to fetch from. The host is SSRF-guarded, and a credential is sent only if we hold one NAMED FOR that host — so a tenant-supplied URL to anywhere else fetches anonymously.")
-    __properties: ClassVar[List[str]] = ["name", "project", "source"]
+    name: Optional[StrictStr] = Field(default=None, description="Name is the repository.")
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is what GitHub answered about its namesake.")
+    __properties: ClassVar[List[str]] = ["name", "reason"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -49,7 +48,7 @@ class GitMirrorReq(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GitMirrorReq from a JSON string"""
+        """Create an instance of GitUnmatched from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,7 +73,7 @@ class GitMirrorReq(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GitMirrorReq from a dict"""
+        """Create an instance of GitUnmatched from a dict"""
         if obj is None:
             return None
 
@@ -83,8 +82,7 @@ class GitMirrorReq(BaseModel):
 
         _obj = cls.model_validate({
             "name": obj.get("name"),
-            "project": obj.get("project"),
-            "source": obj.get("source")
+            "reason": obj.get("reason")
         })
         return _obj
 

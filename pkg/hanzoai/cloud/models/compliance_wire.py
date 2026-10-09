@@ -19,6 +19,7 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.compliance_act import ComplianceAct
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -26,6 +27,7 @@ class ComplianceWire(BaseModel):
     """
     ComplianceWire
     """ # noqa: E501
+    act: Optional[ComplianceAct] = Field(default=None, description="Act is present ONLY on an action taken in a support session: the platform operator IAM signed in AS this row's sub, while org, sub and email stay the person's. A console row carrying `act` was done by the operator it names.")
     action: Optional[StrictStr] = Field(default=None, description="Action is the verb that was performed. It is the event's name, not the HTTP method — a request-sourced record carries both, and the pair is what makes a row readable (\"grant.create\" at POST /v1/admin/grants).")
     after: Optional[Any] = None
     auth_method: Optional[StrictStr] = Field(default=None, description="Auth is the credential the actor presented: \"jwt\", \"api-key\", or \"none\".", alias="authMethod")
@@ -49,7 +51,7 @@ class ComplianceWire(BaseModel):
     sub: Optional[StrictStr] = Field(default=None, description="Sub is the acting user (the IAM subject). Empty for a machine principal or an anonymous request, which is how a service action is told from a person's.")
     time: Optional[StrictStr] = Field(default=None, description="Time is when the action happened, RFC3339Nano in UTC. The stored column has the same precision and sorts the same way, so a client can range and order on this string verbatim.")
     user_agent: Optional[StrictStr] = Field(default=None, description="UserAgent is the client the request announced itself as. Client-supplied, so it is evidence about what claimed to act, not proof of it.", alias="userAgent")
-    __properties: ClassVar[List[str]] = ["action", "after", "authMethod", "before", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
+    __properties: ClassVar[List[str]] = ["act", "action", "after", "authMethod", "before", "email", "hash", "home", "isAdmin", "method", "org", "path", "prevHash", "reason", "requestId", "resource", "resourceId", "result", "seq", "sourceIp", "status", "sub", "time", "userAgent"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +92,9 @@ class ComplianceWire(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of act
+        if self.act:
+            _dict['act'] = self.act.to_dict()
         # set to None if after (nullable) is None
         # and model_fields_set contains the field
         if self.after is None and "after" in self.model_fields_set:
@@ -112,6 +117,7 @@ class ComplianceWire(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "act": ComplianceAct.from_dict(obj["act"]) if obj.get("act") is not None else None,
             "action": obj.get("action"),
             "after": obj.get("after"),
             "authMethod": obj.get("authMethod"),

@@ -22,13 +22,12 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class ProviderGithubBackfillIn(BaseModel):
+class GitLinkAll(BaseModel):
     """
-    ProviderGithubBackfillIn
+    GitLinkAll
     """ # noqa: E501
-    repo: Optional[StrictStr] = Field(default=None, description="Repo narrows the pass to ONE granted repository, named `owner/name` or bare `name` (case-insensitive). Empty walks every granted repository. A project page syncs its own issues with this; the org-wide pass stays the default. A name the connection does not grant is a 404, never a silent empty pass that reads as \"this repository has no issues\".")
-    state: Optional[StrictStr] = Field(default=None, description="State is the GitHub issue state to walk: \"open\" (the default), \"closed\" or \"all\". Anything else is a 400.")
-    __properties: ClassVar[List[str]] = ["repo", "state"]
+    owner: Optional[StrictStr] = Field(default=None, description="Owner is the GitHub account a repository named n is looked for under, as github.com/<owner>/<n>. Empty is the account the estate's table names for the org; an org it does not name must give one.")
+    __properties: ClassVar[List[str]] = ["owner"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +47,7 @@ class ProviderGithubBackfillIn(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of ProviderGithubBackfillIn from a JSON string"""
+        """Create an instance of GitLinkAll from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +72,7 @@ class ProviderGithubBackfillIn(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of ProviderGithubBackfillIn from a dict"""
+        """Create an instance of GitLinkAll from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +80,7 @@ class ProviderGithubBackfillIn(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "repo": obj.get("repo"),
-            "state": obj.get("state")
+            "owner": obj.get("owner")
         })
         return _obj
 

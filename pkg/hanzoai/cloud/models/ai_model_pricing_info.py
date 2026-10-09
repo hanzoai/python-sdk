@@ -29,9 +29,11 @@ class AiModelPricingInfo(BaseModel):
     completion: Optional[StrictStr] = None
     input_per_million: Optional[Union[StrictFloat, StrictInt]] = None
     output_per_million: Optional[Union[StrictFloat, StrictInt]] = None
+    overrides: Optional[List[Dict[str, Any]]] = None
     prompt: Optional[StrictStr] = None
+    rates: Optional[Dict[str, StrictStr]] = None
     variable: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "prompt", "variable"]
+    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "overrides", "prompt", "rates", "variable"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,7 +89,9 @@ class AiModelPricingInfo(BaseModel):
             "completion": obj.get("completion"),
             "input_per_million": obj.get("input_per_million"),
             "output_per_million": obj.get("output_per_million"),
+            "overrides": obj.get("overrides"),
             "prompt": obj.get("prompt"),
+            "rates": obj.get("rates"),
             "variable": obj.get("variable")
         })
         return _obj

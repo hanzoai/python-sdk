@@ -10469,9 +10469,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> IamKeysListResponse:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
+        """Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which keys come from your credentials, not from the request. You may name an organization you belong to: its admin sees every key it holds, and a member sees the keys they hold there. Naming any other organization is refused.
 
         :param owner:
         :type owner: str
@@ -10537,9 +10537,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[IamKeysListResponse]:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
+        """Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which keys come from your credentials, not from the request. You may name an organization you belong to: its admin sees every key it holds, and a member sees the keys they hold there. Naming any other organization is refused.
 
         :param owner:
         :type owner: str
@@ -10605,9 +10605,9 @@ class IamApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
+        """Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used.
 
-        Returns an organization's API keys, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which organization comes from your credentials, not from the request: you read your own and no one else's. The capability that admits a confidential client to this collection does not itself name a tenant, so the tenant is decided here.
+        Returns the API keys of an organization that you may see, newest first — what each is called, what it may reach, its publishable half, and when it was last used. Secret halves are never listed.  Which keys come from your credentials, not from the request. You may name an organization you belong to: its admin sees every key it holds, and a member sees the keys they hold there. Naming any other organization is refused.
 
         :param owner:
         :type owner: str

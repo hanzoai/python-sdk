@@ -29,9 +29,11 @@ class AiPrice(BaseModel):
     completion: Optional[StrictStr] = Field(default=None, description="Completion is the price of one output token, a decimal string.")
     input_per_million: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="InputPerMillion is the price of a million input tokens.")
     output_per_million: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="OutputPerMillion is the price of a million output tokens.")
+    overrides: Optional[List[Dict[str, Any]]] = Field(default=None, description="Overrides are the vendor's conditional rates as billed, each with its condition: min_prompt_tokens, or utc_start, utc_end and utc_days.")
     prompt: Optional[StrictStr] = Field(default=None, description="Prompt is the price of one input token, a decimal string.")
+    rates: Optional[Dict[str, StrictStr]] = Field(default=None, description="Rates is every rate a resold model's vendor states, in the vendor's names and units (USD per token for prompt, completion, input_cache_read, input_cache_write, internal_reasoning; per request; per search for web_search), as billed: the vendor's rate times our margin, exact.")
     variable: Optional[StrictBool] = Field(default=None, description="Variable is true for a router that bills each answer at the price of the model that gave it; the figures above are then that router's ceiling.")
-    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "prompt", "variable"]
+    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "overrides", "prompt", "rates", "variable"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -87,7 +89,9 @@ class AiPrice(BaseModel):
             "completion": obj.get("completion"),
             "input_per_million": obj.get("input_per_million"),
             "output_per_million": obj.get("output_per_million"),
+            "overrides": obj.get("overrides"),
             "prompt": obj.get("prompt"),
+            "rates": obj.get("rates"),
             "variable": obj.get("variable")
         })
         return _obj

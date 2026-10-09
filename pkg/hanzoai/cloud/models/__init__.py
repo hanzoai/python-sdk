@@ -209,6 +209,7 @@ from hanzoai.cloud.models.ask_source import AskSource
 from hanzoai.cloud.models.ask_web_question import AskWebQuestion
 from hanzoai.cloud.models.asset import Asset
 from hanzoai.cloud.models.audit import Audit
+from hanzoai.cloud.models.audit_act import AuditAct
 from hanzoai.cloud.models.audit_trail_page import AuditTrailPage
 from hanzoai.cloud.models.audit_wire import AuditWire
 from hanzoai.cloud.models.author_author_repo import AuthorAuthorRepo
@@ -531,6 +532,7 @@ from hanzoai.cloud.models.compliance_acc_list import ComplianceAccList
 from hanzoai.cloud.models.compliance_acc_view import ComplianceAccView
 from hanzoai.cloud.models.compliance_accreditation_decision import ComplianceAccreditationDecision
 from hanzoai.cloud.models.compliance_accreditation_req import ComplianceAccreditationReq
+from hanzoai.cloud.models.compliance_act import ComplianceAct
 from hanzoai.cloud.models.compliance_audit_list import ComplianceAuditList
 from hanzoai.cloud.models.compliance_check_list import ComplianceCheckList
 from hanzoai.cloud.models.compliance_check_view import ComplianceCheckView
@@ -913,10 +915,11 @@ from hanzoai.cloud.models.git_file_json import GitFileJSON
 from hanzoai.cloud.models.git_files_json import GitFilesJSON
 from hanzoai.cloud.models.git_gc_out import GitGcOut
 from hanzoai.cloud.models.git_job_view import GitJobView
-from hanzoai.cloud.models.git_key_list import GitKeyList
-from hanzoai.cloud.models.git_key_view import GitKeyView
+from hanzoai.cloud.models.git_link import GitLink
+from hanzoai.cloud.models.git_link_all import GitLinkAll
+from hanzoai.cloud.models.git_link_req import GitLinkReq
+from hanzoai.cloud.models.git_linked import GitLinked
 from hanzoai.cloud.models.git_mirror_list import GitMirrorList
-from hanzoai.cloud.models.git_mirror_req import GitMirrorReq
 from hanzoai.cloud.models.git_mirror_target_req import GitMirrorTargetReq
 from hanzoai.cloud.models.git_mirror_target_view import GitMirrorTargetView
 from hanzoai.cloud.models.git_open_req import GitOpenReq
@@ -933,7 +936,6 @@ from hanzoai.cloud.models.git_push_resp import GitPushResp
 from hanzoai.cloud.models.git_readme_json import GitReadmeJSON
 from hanzoai.cloud.models.git_ref_json import GitRefJSON
 from hanzoai.cloud.models.git_refs_json import GitRefsJSON
-from hanzoai.cloud.models.git_register_key_req import GitRegisterKeyReq
 from hanzoai.cloud.models.git_repo_list import GitRepoList
 from hanzoai.cloud.models.git_repo_view import GitRepoView
 from hanzoai.cloud.models.git_run_start import GitRunStart
@@ -944,6 +946,7 @@ from hanzoai.cloud.models.git_subscription_list import GitSubscriptionList
 from hanzoai.cloud.models.git_subscription_view import GitSubscriptionView
 from hanzoai.cloud.models.git_tree_entry_json import GitTreeEntryJSON
 from hanzoai.cloud.models.git_tree_json import GitTreeJSON
+from hanzoai.cloud.models.git_unmatched import GitUnmatched
 from hanzoai.cloud.models.git_usage_repo import GitUsageRepo
 from hanzoai.cloud.models.git_usage_view import GitUsageView
 from hanzoai.cloud.models.git_workflow_list import GitWorkflowList

@@ -32,13 +32,14 @@ class EventOverview(BaseModel):
     """ # noqa: E501
     commerce: Optional[EventCommerceOverview] = Field(default=None, description="Commerce is the orders/revenue lens over product events.")
     end: Optional[StrictStr] = Field(default=None, description="End is the window's exclusive upper bound, RFC3339 UTC.")
+    impersonated: Optional[StrictStr] = Field(default=None, description="Impersonated is which events web and commerce counted against the mark a platform operator leaves acting as someone else: exclude (the tenant's own traffic), include, or only. LLM reads the usage ledger, which carries no mark.")
     interval: Optional[StrictStr] = Field(default=None, description="Interval is the bucket width the window implies: hour or day.")
     llm: Optional[EventLLMOverview] = Field(default=None, description="LLM is the LLM usage lens — real per-org data.")
     range: Optional[StrictStr] = Field(default=None, description="Range is the window that was actually applied: 24h, 7d, 30d or custom.")
     scope: Optional[EventScope] = Field(default=None, description="Scope names the tenant these numbers belong to.")
     start: Optional[StrictStr] = Field(default=None, description="Start is the window's inclusive lower bound, RFC3339 UTC.")
     web: Optional[EventWebOverview] = Field(default=None, description="Web is the web-traffic lens over product events.")
-    __properties: ClassVar[List[str]] = ["commerce", "end", "interval", "llm", "range", "scope", "start", "web"]
+    __properties: ClassVar[List[str]] = ["commerce", "end", "impersonated", "interval", "llm", "range", "scope", "start", "web"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -105,6 +106,7 @@ class EventOverview(BaseModel):
         _obj = cls.model_validate({
             "commerce": EventCommerceOverview.from_dict(obj["commerce"]) if obj.get("commerce") is not None else None,
             "end": obj.get("end"),
+            "impersonated": obj.get("impersonated"),
             "interval": obj.get("interval"),
             "llm": EventLLMOverview.from_dict(obj["llm"]) if obj.get("llm") is not None else None,
             "range": obj.get("range"),

@@ -22,16 +22,15 @@ from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class GitKeyView(BaseModel):
+class GitLink(BaseModel):
     """
-    GitKeyView
+    GitLink
     """ # noqa: E501
-    created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is RFC 3339 UTC.", alias="createdAt")
-    fingerprint: Optional[StrictStr] = Field(default=None, description="Fingerprint is the key's SHA256 fingerprint (\"SHA256:…\"), globally unique and the handle SSH auth resolves a presented key by.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the key's identifier (\"gitkey_…\"), the handle to delete it by.")
-    public_key: Optional[StrictStr] = Field(default=None, description="PublicKey is the canonical OpenSSH authorized-key line as stored.", alias="publicKey")
-    title: Optional[StrictStr] = Field(default=None, description="Title is the key's label — the caller's, or the comment on the key line.")
-    __properties: ClassVar[List[str]] = ["createdAt", "fingerprint", "id", "publicKey", "title"]
+    clone_url: Optional[StrictStr] = Field(default=None, description="CloneURL is the address its history is fetched from and pushed to.", alias="cloneUrl")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the repository's name on its provider.")
+    owner: Optional[StrictStr] = Field(default=None, description="Owner is the account the repository belongs to on its provider.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is \"github\", \"forge\" (git.hanzo.ai, Hanzo's own), or \"git\" for any other host.")
+    __properties: ClassVar[List[str]] = ["cloneUrl", "name", "owner", "provider"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -51,7 +50,7 @@ class GitKeyView(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of GitKeyView from a JSON string"""
+        """Create an instance of GitLink from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -76,7 +75,7 @@ class GitKeyView(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of GitKeyView from a dict"""
+        """Create an instance of GitLink from a dict"""
         if obj is None:
             return None
 
@@ -84,11 +83,10 @@ class GitKeyView(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "createdAt": obj.get("createdAt"),
-            "fingerprint": obj.get("fingerprint"),
-            "id": obj.get("id"),
-            "publicKey": obj.get("publicKey"),
-            "title": obj.get("title")
+            "cloneUrl": obj.get("cloneUrl"),
+            "name": obj.get("name"),
+            "owner": obj.get("owner"),
+            "provider": obj.get("provider")
         })
         return _obj
 

@@ -29,6 +29,7 @@ class IamToken(BaseModel):
     """ # noqa: E501
     access_token: Optional[StrictStr] = Field(default=None, alias="accessToken")
     access_token_hash: Optional[StrictStr] = Field(default=None, alias="accessTokenHash")
+    actor: Optional[StrictStr] = None
     application: Optional[StrictStr] = None
     code: Optional[StrictStr] = None
     code_challenge: Optional[StrictStr] = Field(default=None, alias="codeChallenge")
@@ -45,6 +46,7 @@ class IamToken(BaseModel):
     organization: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     public_grant: Optional[StrictBool] = Field(default=None, description="PublicGrant records that this grant was established WITHOUT client authentication — a PKCE code exchange from a client that presented no secret. Whether a client is confidential is a property of the GRANT, not only of the registration: `hanzo-cli` and every @hanzo/iam SPA keep a registered secret for a BACKEND path while the surface that actually signs in is a public PKCE client that cannot hold one. authorizationCodeGrant already makes exactly that bounded relaxation; this is the same fact, recorded so refreshTokenGrant can honour it instead of demanding a secret the client never had (which 401s invalid_client and kills the session at the access token's expiry). Carried across rotation, so the second refresh behaves like the first.", alias="publicGrant")
+    reason: Optional[StrictStr] = None
     redirect_uri: Optional[StrictStr] = Field(default=None, description="RedirectUri binds the authorization code to the exact redirect URI of the authorize request (RFC 6749 §4.1.3): the token endpoint refuses a code redeemed with a different redirect_uri, closing code-injection across a client's registered URIs.", alias="redirectUri")
     refresh_consumed: Optional[StrictBool] = Field(default=None, alias="refreshConsumed")
     refresh_expire_in: Optional[StrictInt] = Field(default=None, alias="refreshExpireIn")
@@ -57,7 +59,7 @@ class IamToken(BaseModel):
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
     user: Optional[StrictStr] = None
     user_code: Optional[StrictStr] = Field(default=None, alias="userCode")
-    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "expiresIn", "id", "name", "nonce", "organization", "owner", "publicGrant", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
+    __properties: ClassVar[List[str]] = ["accessToken", "accessTokenHash", "actor", "application", "code", "codeChallenge", "codeChallengeMethod", "codeExpireIn", "codeIsUsed", "createdAt", "createdTime", "deleted", "expiresIn", "id", "name", "nonce", "organization", "owner", "publicGrant", "reason", "redirectUri", "refreshConsumed", "refreshExpireIn", "refreshFamily", "refreshToken", "refreshTokenHash", "resource", "scope", "tokenType", "updatedAt", "user", "userCode"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -112,6 +114,7 @@ class IamToken(BaseModel):
         _obj = cls.model_validate({
             "accessToken": obj.get("accessToken"),
             "accessTokenHash": obj.get("accessTokenHash"),
+            "actor": obj.get("actor"),
             "application": obj.get("application"),
             "code": obj.get("code"),
             "codeChallenge": obj.get("codeChallenge"),
@@ -128,6 +131,7 @@ class IamToken(BaseModel):
             "organization": obj.get("organization"),
             "owner": obj.get("owner"),
             "publicGrant": obj.get("publicGrant"),
+            "reason": obj.get("reason"),
             "redirectUri": obj.get("redirectUri"),
             "refreshConsumed": obj.get("refreshConsumed"),
             "refreshExpireIn": obj.get("refreshExpireIn"),

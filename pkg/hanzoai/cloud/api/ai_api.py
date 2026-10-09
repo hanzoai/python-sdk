@@ -1212,6 +1212,7 @@ class AiApi:
         var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1226,9 +1227,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> AiModels:
-        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        """Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
-        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
         :param q: Q matches the model's id, name, description or owner, ignoring case.
         :type q: str
@@ -1238,6 +1239,8 @@ class AiApi:
         :type family: str
         :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
         :type capability: str
+        :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
+        :type free: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1267,6 +1270,7 @@ class AiApi:
             var_class=var_class,
             family=family,
             capability=capability,
+            free=free,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1295,6 +1299,7 @@ class AiApi:
         var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1309,9 +1314,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[AiModels]:
-        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        """Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
-        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
         :param q: Q matches the model's id, name, description or owner, ignoring case.
         :type q: str
@@ -1321,6 +1326,8 @@ class AiApi:
         :type family: str
         :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
         :type capability: str
+        :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
+        :type free: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1350,6 +1357,7 @@ class AiApi:
             var_class=var_class,
             family=family,
             capability=capability,
+            free=free,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1378,6 +1386,7 @@ class AiApi:
         var_class: Annotated[Optional[StrictStr], Field(description="Class keeps one class: premium (third-party frontier models), ours (Hanzo's priced models) or free.")] = None,
         family: Annotated[Optional[StrictStr], Field(description="Family keeps one Hanzo family: enso, zen, kai or zoo.")] = None,
         capability: Annotated[Optional[StrictStr], Field(description="Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).")] = None,
+        free: Annotated[Optional[StrictBool], Field(description="Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).")] = None,
         limit: Annotated[Optional[StrictInt], Field(description="Limit is the most models to answer, 1 to 500; 0 answers 50.")] = None,
         _request_timeout: Union[
             None,
@@ -1392,9 +1401,9 @@ class AiApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        """Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
-        Searches the model catalog — the one GET /v1/models lists — by text, class, family or capability, and answers each match with its class, family, list price (per token and per million; variable for a router billed at the answering model's price), context window and capabilities.
+        Searches the model catalog — the one GET /v1/models lists, every OpenRouter model among it as last synced — by text, class, family, capability or free, and answers each match with its class, family, whether it is free, its list price (per token and per million; variable for a router billed at the answering model's price; a resold model's every vendor rate and conditional rate as billed), context window, output bound, expiry and capabilities.
 
         :param q: Q matches the model's id, name, description or owner, ignoring case.
         :type q: str
@@ -1404,6 +1413,8 @@ class AiApi:
         :type family: str
         :param capability: Capability keeps the models that have it: tools, vision or reasoning, or a modality they take or give (text, image, audio, file, video, decision).
         :type capability: str
+        :param free: Free keeps the models a call to which bills nothing (bounded by the free allowances instead of a balance).
+        :type free: bool
         :param limit: Limit is the most models to answer, 1 to 500; 0 answers 50.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
@@ -1433,6 +1444,7 @@ class AiApi:
             var_class=var_class,
             family=family,
             capability=capability,
+            free=free,
             limit=limit,
             _request_auth=_request_auth,
             _content_type=_content_type,
@@ -1456,6 +1468,7 @@ class AiApi:
         var_class,
         family,
         capability,
+        free,
         limit,
         _request_auth,
         _content_type,
@@ -1494,6 +1507,10 @@ class AiApi:
         if capability is not None:
             
             _query_params.append(('capability', capability))
+            
+        if free is not None:
+            
+            _query_params.append(('free', free))
             
         if limit is not None:
             
@@ -41574,6 +41591,508 @@ class AiApi:
 
 
     @validate_call
+    def get_models_vendors_by_vendor(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced.
+
+        Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced. ?free=1 keeps the models the vendor charges nothing for. Public, as the vendor's own list is: the free lane reads it in place of the vendor's.
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_models_vendors_by_vendor_with_http_info(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced.
+
+        Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced. ?free=1 keeps the models the vendor charges nothing for. Public, as the vendor's own list is: the free lane reads it in place of the vendor's.
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_models_vendors_by_vendor_without_preload_content(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced.
+
+        Lists every model a vendor lists now, each entry exactly as the vendor listed it (prices, context, output bound, modalities, parameters, created, expiration), and when the list was last synced. ?free=1 keeps the models the vendor charges nothing for. Public, as the vendor's own list is: the free lane reads it in place of the vendor's.
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_models_vendors_by_vendor_serialize(
+        self,
+        vendor,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if vendor is not None:
+            _path_params['vendor'] = vendor
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/models/vendors/{vendor}',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def get_models_vendors_by_vendor_events(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Lists the changes syncs read in a vendor's model list, newest first.
+
+        Lists the changes syncs read in a vendor's model list, newest first. Each is new, back, gone, price, free (was priced, now free) or paid (was free, now priced), with the price list before and after. ?id= keeps one model's; ?limit= bounds the rows (100, at most 1000).
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_events_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_models_vendors_by_vendor_events_with_http_info(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Lists the changes syncs read in a vendor's model list, newest first.
+
+        Lists the changes syncs read in a vendor's model list, newest first. Each is new, back, gone, price, free (was priced, now free) or paid (was free, now priced), with the price list before and after. ?id= keeps one model's; ?limit= bounds the rows (100, at most 1000).
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_events_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_models_vendors_by_vendor_events_without_preload_content(
+        self,
+        vendor: StrictStr,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Lists the changes syncs read in a vendor's model list, newest first.
+
+        Lists the changes syncs read in a vendor's model list, newest first. Each is new, back, gone, price, free (was priced, now free) or paid (was free, now priced), with the price list before and after. ?id= keeps one model's; ?limit= bounds the rows (100, at most 1000).
+
+        :param vendor: (required)
+        :type vendor: str
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_models_vendors_by_vendor_events_serialize(
+            vendor=vendor,
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_models_vendors_by_vendor_events_serialize(
+        self,
+        vendor,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        if vendor is not None:
+            _path_params['vendor'] = vendor
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/models/vendors/{vendor}/events',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_videos_by_id(
         self,
         id: StrictStr,
@@ -73394,7 +73913,7 @@ class AiApi:
     ) -> AiDecisionsResponse:
         """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"boolean\"|\"choice\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  A boolean is a yes/no probability, answered {\"type\": \"boolean\", \"probability\": p}. noul is accepted as Jev's spelling of it and answered in Jev's shape, {\"type\": \"noul\", \"noul\": p}; an older Kai adds confidence and answer_confidence to a noul's. A boolean carries no confidence. Jev is asked a boolean as a noul, and its answer comes back as exactly the boolean.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
 
         :param ai_decisions_request: (required)
         :type ai_decisions_request: AiDecisionsRequest
@@ -73470,7 +73989,7 @@ class AiApi:
     ) -> ApiResponse[AiDecisionsResponse]:
         """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"boolean\"|\"choice\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  A boolean is a yes/no probability, answered {\"type\": \"boolean\", \"probability\": p}. noul is accepted as Jev's spelling of it and answered in Jev's shape, {\"type\": \"noul\", \"noul\": p}; an older Kai adds confidence and answer_confidence to a noul's. A boolean carries no confidence. Jev is asked a boolean as a noul, and its answer comes back as exactly the boolean.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
 
         :param ai_decisions_request: (required)
         :type ai_decisions_request: AiDecisionsRequest
@@ -73546,7 +74065,7 @@ class AiApi:
     ) -> RESTResponseType:
         """Implements POST /v1/decisions (the Decisions API).
 
-        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"choice\"|\"noul\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
+        Implements POST /v1/decisions (the Decisions API).  Body: {\"model\": \"kai\", \"state\": \"...\"|{...}|[...], \"questions\": {\"<name>\": {\"type\": \"boolean\"|\"choice\"|\"score\", \"instructions\": ..., \"criteria\": ...}}}. model is kai, Kai's versioned id kai-<12 hex of the weights' sha256> — priced as kai and sent as asked — or Jev by OpenRouter's vendor ids, typesafe/jev-1.13 and ~typesafe/jev-latest, which reach Jev itself and bill at Jev's list price. No Jev id is ever answered by Kai: a bare one, such as jev-latest, is an unknown model. model is required; state and questions are required unless the request names a handle, which carries neither. instructions is optional and any JSON. A choice names at least 2 labels and a score at least 1 level, bounded by the token budget rather than a count; questions holds 1 to 100.  A boolean is a yes/no probability, answered {\"type\": \"boolean\", \"probability\": p}. noul is accepted as Jev's spelling of it and answered in Jev's shape, {\"type\": \"noul\", \"noul\": p}; an older Kai adds confidence and answer_confidence to a noul's. A boolean carries no confidence. Jev is asked a boolean as a noul, and its answer comes back as exactly the boolean.  observe holds the state under an id, and a later request naming that id as its handle decides over it again. An id is 1 to 128 characters of A-Z, a-z, 0-9, '.', '_' and '-'. A handle belongs to the org that observed it: no other org's request can name it.  Response: {\"id\",\"model\",\"provider\",\"answers\":{\"<name>\":{\"type\",...}}, \"usage\":{\"input_tokens\",\"output_tokens\"},\"routing\",\"state_hash\",\"latency_ms\"}. usage.input_tokens is the billed count — the request's text counted once, the state once and each question's instructions and options once; a decision over a handle bills the state once, when it was observed.  The body may be sent gzip, deflate, br or zstd encoded; decoded, it is bounded as sent.  Refusals are {\"error\":{\"code\",\"message\"}}: 400 malformed JSON or unknown model, 401 no valid credential, 402 insufficient balance, 403 a key kind that may not call this (pk-), 415 any other Content-Encoding, 422 an invalid question or handle id, a state beyond the checkpoint's reach (code state_too_long) or a body past 16 MiB (code request_too_long), 429 rate limited or queue full, 502 the service failed, 503 the model is known and not served, 529 overloaded. 402, 429 and 529 carry Retry-After and Retry-After-Ms, and every answer carries X-Request-Id. Billed on the answer's input tokens at the model's price.
 
         :param ai_decisions_request: (required)
         :type ai_decisions_request: AiDecisionsRequest

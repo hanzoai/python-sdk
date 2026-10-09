@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.ai_price import AiPrice
 from typing import Optional, Set
@@ -30,13 +30,16 @@ class AiModel(BaseModel):
     capabilities: Optional[List[StrictStr]] = Field(default=None, description="Capabilities are tools, vision and reasoning, those the model supports.")
     var_class: Optional[StrictStr] = Field(default=None, description="Class is premium, ours or free.", alias="class")
     context_window: Optional[StrictInt] = Field(default=None, description="ContextWindow is the most tokens the model reads at once, absent when the catalog does not say.")
+    expires: Optional[StrictStr] = Field(default=None, description="Expires is the day the model's vendor stops serving it (2006-01-02), absent when it states none.")
     family: Optional[StrictStr] = Field(default=None, description="Family is the Hanzo family (enso, zen, kai, zoo), absent for a third-party model.")
+    free: Optional[StrictBool] = Field(default=None, description="Free is whether a call bills nothing.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the model's id, the one a completion or a decision names.")
     inputs: Optional[List[StrictStr]] = Field(default=None, description="Inputs are the modalities the model reads.")
+    max_output_tokens: Optional[StrictInt] = Field(default=None, description="MaxOutputTokens is the most one answer may hold, absent when the catalog does not say.")
     name: Optional[StrictStr] = Field(default=None, description="Name is the model's display name.")
     outputs: Optional[List[StrictStr]] = Field(default=None, description="Outputs are the modalities the model writes.")
     pricing: Optional[AiPrice] = Field(default=None, description="Pricing is the model's list price.")
-    __properties: ClassVar[List[str]] = ["capabilities", "class", "context_window", "family", "id", "inputs", "name", "outputs", "pricing"]
+    __properties: ClassVar[List[str]] = ["capabilities", "class", "context_window", "expires", "family", "free", "id", "inputs", "max_output_tokens", "name", "outputs", "pricing"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -95,9 +98,12 @@ class AiModel(BaseModel):
             "capabilities": obj.get("capabilities"),
             "class": obj.get("class"),
             "context_window": obj.get("context_window"),
+            "expires": obj.get("expires"),
             "family": obj.get("family"),
+            "free": obj.get("free"),
             "id": obj.get("id"),
             "inputs": obj.get("inputs"),
+            "max_output_tokens": obj.get("max_output_tokens"),
             "name": obj.get("name"),
             "outputs": obj.get("outputs"),
             "pricing": AiPrice.from_dict(obj["pricing"]) if obj.get("pricing") is not None else None
