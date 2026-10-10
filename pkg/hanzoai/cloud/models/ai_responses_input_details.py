@@ -26,8 +26,9 @@ class AiResponsesInputDetails(BaseModel):
     """
     AiResponsesInputDetails
     """ # noqa: E501
+    cache_write_tokens: Optional[StrictInt] = None
     cached_tokens: Optional[StrictInt] = None
-    __properties: ClassVar[List[str]] = ["cached_tokens"]
+    __properties: ClassVar[List[str]] = ["cache_write_tokens", "cached_tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -80,6 +81,7 @@ class AiResponsesInputDetails(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
+            "cache_write_tokens": obj.get("cache_write_tokens"),
             "cached_tokens": obj.get("cached_tokens")
         })
         return _obj
