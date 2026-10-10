@@ -17,22 +17,19 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PricingUserEnablementItem(BaseModel):
+class WebsearchSearchEngineOptions(BaseModel):
     """
-    PricingUserEnablementItem
+    WebsearchSearchEngineOptions
     """ # noqa: E501
-    can_opt_in: Optional[StrictBool] = Field(default=None, description="CanOptIn is whether POST /v1/pricing/enablement/optin would do anything here: the item is in beta, this org is not on its list yet, and the org is entitled to betas (it holds the beta program's grant). False for a caller with no validated org, who has no org to enrol.", alias="canOptIn")
-    effective: Optional[StrictBool] = Field(default=None, description="Effective is whether the caller's org may use the item right now, which is the field to branch on: true for any ga item, for a beta this org holds, and never for an off one.")
-    id: Optional[StrictStr] = Field(default=None, description="ID is the item within that namespace — a model id, a provider name, or a feature key.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is the namespace the id lives in: \"model\", \"provider\" or \"feature\".")
-    opted_in: Optional[StrictBool] = Field(default=None, description="OptedIn is whether the caller's org is on this item's beta grant list. It can be true on an \"off\" item — the list survives the kill switch and is simply ignored while it is thrown — so it does not imply Effective.", alias="optedIn")
-    state: Optional[StrictStr] = Field(default=None, description="State is the item's GLOBAL availability — \"off\", \"beta\" or \"ga\" — which is the operator's setting and not this caller's answer. Effective is that.")
-    __properties: ClassVar[List[str]] = ["canOptIn", "effective", "id", "kind", "optedIn", "state"]
+    count: Optional[StrictInt] = Field(default=None, description="Count is how many hits the engine is asked for per search. 0 or absent on a write means the engine's default; a read reports the value in force.")
+    language: Optional[StrictStr] = Field(default=None, description="Language is the default language the engine is asked in, as a tag like `en` or `en-US`. A search that names its own language overrides it.")
+    region: Optional[StrictStr] = Field(default=None, description="Region is a two-letter country code the engine favours, like `GB`. Stored upper case.")
+    __properties: ClassVar[List[str]] = ["count", "language", "region"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +49,7 @@ class PricingUserEnablementItem(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PricingUserEnablementItem from a JSON string"""
+        """Create an instance of WebsearchSearchEngineOptions from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -77,7 +74,7 @@ class PricingUserEnablementItem(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PricingUserEnablementItem from a dict"""
+        """Create an instance of WebsearchSearchEngineOptions from a dict"""
         if obj is None:
             return None
 
@@ -85,12 +82,9 @@ class PricingUserEnablementItem(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "canOptIn": obj.get("canOptIn"),
-            "effective": obj.get("effective"),
-            "id": obj.get("id"),
-            "kind": obj.get("kind"),
-            "optedIn": obj.get("optedIn"),
-            "state": obj.get("state")
+            "count": obj.get("count"),
+            "language": obj.get("language"),
+            "region": obj.get("region")
         })
         return _obj
 

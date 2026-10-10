@@ -6506,7 +6506,7 @@ class PricingApi:
     ) -> PricingUserEnablementItem:
         """Opts the caller's OWN org into a beta item.
 
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
+        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef
@@ -6573,7 +6573,7 @@ class PricingApi:
     ) -> ApiResponse[PricingUserEnablementItem]:
         """Opts the caller's OWN org into a beta item.
 
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
+        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef
@@ -6640,7 +6640,7 @@ class PricingApi:
     ) -> RESTResponseType:
         """Opts the caller's OWN org into a beta item.
 
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. Requires a signed-in caller with an org.
+        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef
@@ -6781,7 +6781,7 @@ class PricingApi:
     ) -> PricingUserEnablementItem:
         """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
 
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
+        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef
@@ -6848,7 +6848,7 @@ class PricingApi:
     ) -> ApiResponse[PricingUserEnablementItem]:
         """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
 
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
+        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef
@@ -6915,7 +6915,7 @@ class PricingApi:
     ) -> RESTResponseType:
         """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
 
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in caller with an org.
+        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
 
         :param pricing_enablement_opt_ref: (required)
         :type pricing_enablement_opt_ref: PricingEnablementOptRef

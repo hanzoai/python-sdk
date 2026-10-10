@@ -31,6 +31,7 @@ __all__ = [
     "AutoApi",
     "BaseApi",
     "BenchmarkApi",
+    "BetaApi",
     "BillingApi",
     "BlueprintApi",
     "BooksApi",
@@ -414,6 +415,9 @@ __all__ = [
     "BenchmarkPutClaimsOut",
     "BenchmarkRunPoint",
     "BenchmarkSuite",
+    "BetaBetaApplication",
+    "BetaBetaApply",
+    "BetaBetaStatus",
     "BillingAccounts",
     "BillingAccountsTotal",
     "BillingAlert",
@@ -3150,6 +3154,13 @@ __all__ = [
     "WebhookEndpointList",
     "WebhookTestResult",
     "WebhookUpdateEndpointIn",
+    "WebsearchSearchEngine",
+    "WebsearchSearchEngineKey",
+    "WebsearchSearchEngineKeyed",
+    "WebsearchSearchEngineOption",
+    "WebsearchSearchEngineOptions",
+    "WebsearchSearchEngines",
+    "WebsearchSearchEnginesSet",
     "WebsearchWebEngine",
     "WebsearchWebResult",
     "WebsearchWebSearchQuery",
@@ -3182,6 +3193,7 @@ from hanzoai.cloud.api.authz_api import AuthzApi as AuthzApi
 from hanzoai.cloud.api.auto_api import AutoApi as AutoApi
 from hanzoai.cloud.api.base_api import BaseApi as BaseApi
 from hanzoai.cloud.api.benchmark_api import BenchmarkApi as BenchmarkApi
+from hanzoai.cloud.api.beta_api import BetaApi as BetaApi
 from hanzoai.cloud.api.billing_api import BillingApi as BillingApi
 from hanzoai.cloud.api.blueprint_api import BlueprintApi as BlueprintApi
 from hanzoai.cloud.api.books_api import BooksApi as BooksApi
@@ -3569,6 +3581,9 @@ from hanzoai.cloud.models.benchmark_put_claims_in import BenchmarkPutClaimsIn as
 from hanzoai.cloud.models.benchmark_put_claims_out import BenchmarkPutClaimsOut as BenchmarkPutClaimsOut
 from hanzoai.cloud.models.benchmark_run_point import BenchmarkRunPoint as BenchmarkRunPoint
 from hanzoai.cloud.models.benchmark_suite import BenchmarkSuite as BenchmarkSuite
+from hanzoai.cloud.models.beta_beta_application import BetaBetaApplication as BetaBetaApplication
+from hanzoai.cloud.models.beta_beta_apply import BetaBetaApply as BetaBetaApply
+from hanzoai.cloud.models.beta_beta_status import BetaBetaStatus as BetaBetaStatus
 from hanzoai.cloud.models.billing_accounts import BillingAccounts as BillingAccounts
 from hanzoai.cloud.models.billing_accounts_total import BillingAccountsTotal as BillingAccountsTotal
 from hanzoai.cloud.models.billing_alert import BillingAlert as BillingAlert
@@ -6305,6 +6320,13 @@ from hanzoai.cloud.models.webhook_endpoint import WebhookEndpoint as WebhookEndp
 from hanzoai.cloud.models.webhook_endpoint_list import WebhookEndpointList as WebhookEndpointList
 from hanzoai.cloud.models.webhook_test_result import WebhookTestResult as WebhookTestResult
 from hanzoai.cloud.models.webhook_update_endpoint_in import WebhookUpdateEndpointIn as WebhookUpdateEndpointIn
+from hanzoai.cloud.models.websearch_search_engine import WebsearchSearchEngine as WebsearchSearchEngine
+from hanzoai.cloud.models.websearch_search_engine_key import WebsearchSearchEngineKey as WebsearchSearchEngineKey
+from hanzoai.cloud.models.websearch_search_engine_keyed import WebsearchSearchEngineKeyed as WebsearchSearchEngineKeyed
+from hanzoai.cloud.models.websearch_search_engine_option import WebsearchSearchEngineOption as WebsearchSearchEngineOption
+from hanzoai.cloud.models.websearch_search_engine_options import WebsearchSearchEngineOptions as WebsearchSearchEngineOptions
+from hanzoai.cloud.models.websearch_search_engines import WebsearchSearchEngines as WebsearchSearchEngines
+from hanzoai.cloud.models.websearch_search_engines_set import WebsearchSearchEnginesSet as WebsearchSearchEnginesSet
 from hanzoai.cloud.models.websearch_web_engine import WebsearchWebEngine as WebsearchWebEngine
 from hanzoai.cloud.models.websearch_web_result import WebsearchWebResult as WebsearchWebResult
 from hanzoai.cloud.models.websearch_web_search_query import WebsearchWebSearchQuery as WebsearchWebSearchQuery

@@ -13,6 +13,7 @@ pkg/hanzoai/cloud/api/authz_api.py
 pkg/hanzoai/cloud/api/auto_api.py
 pkg/hanzoai/cloud/api/base_api.py
 pkg/hanzoai/cloud/api/benchmark_api.py
+pkg/hanzoai/cloud/api/beta_api.py
 pkg/hanzoai/cloud/api/billing_api.py
 pkg/hanzoai/cloud/api/blueprint_api.py
 pkg/hanzoai/cloud/api/books_api.py
@@ -392,6 +393,9 @@ pkg/hanzoai/cloud/models/benchmark_put_claims_in.py
 pkg/hanzoai/cloud/models/benchmark_put_claims_out.py
 pkg/hanzoai/cloud/models/benchmark_run_point.py
 pkg/hanzoai/cloud/models/benchmark_suite.py
+pkg/hanzoai/cloud/models/beta_beta_application.py
+pkg/hanzoai/cloud/models/beta_beta_apply.py
+pkg/hanzoai/cloud/models/beta_beta_status.py
 pkg/hanzoai/cloud/models/billing_accounts.py
 pkg/hanzoai/cloud/models/billing_accounts_total.py
 pkg/hanzoai/cloud/models/billing_alert.py
@@ -3128,6 +3132,13 @@ pkg/hanzoai/cloud/models/webhook_endpoint.py
 pkg/hanzoai/cloud/models/webhook_endpoint_list.py
 pkg/hanzoai/cloud/models/webhook_test_result.py
 pkg/hanzoai/cloud/models/webhook_update_endpoint_in.py
+pkg/hanzoai/cloud/models/websearch_search_engine.py
+pkg/hanzoai/cloud/models/websearch_search_engine_key.py
+pkg/hanzoai/cloud/models/websearch_search_engine_keyed.py
+pkg/hanzoai/cloud/models/websearch_search_engine_option.py
+pkg/hanzoai/cloud/models/websearch_search_engine_options.py
+pkg/hanzoai/cloud/models/websearch_search_engines.py
+pkg/hanzoai/cloud/models/websearch_search_engines_set.py
 pkg/hanzoai/cloud/models/websearch_web_engine.py
 pkg/hanzoai/cloud/models/websearch_web_result.py
 pkg/hanzoai/cloud/models/websearch_web_search_query.py

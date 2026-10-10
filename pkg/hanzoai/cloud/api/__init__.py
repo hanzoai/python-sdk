@@ -14,6 +14,7 @@ from hanzoai.cloud.api.authz_api import AuthzApi
 from hanzoai.cloud.api.auto_api import AutoApi
 from hanzoai.cloud.api.base_api import BaseApi
 from hanzoai.cloud.api.benchmark_api import BenchmarkApi
+from hanzoai.cloud.api.beta_api import BetaApi
 from hanzoai.cloud.api.billing_api import BillingApi
 from hanzoai.cloud.api.blueprint_api import BlueprintApi
 from hanzoai.cloud.api.books_api import BooksApi
