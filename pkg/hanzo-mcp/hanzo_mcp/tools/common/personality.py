@@ -105,6 +105,9 @@ ESSENTIAL_TOOLS = [
     # HIP-0300 axes
     "fs",      # Bytes + Paths (read, write, edit, list, stat, apply_patch, search_text)
     "exec",    # Execution (run, background, ps, kill, logs)
+    "zsh",     # The shell itself
+    "curl",    # HTTP without shell escaping
+    "playwright",  # Headless browser, deterministic
     "code",    # Symbols + Semantics (parse, search, transform, summarize)
     "git",     # Diffs + History
     "repo",    # Repositories on Hanzo git linked to GitHub (list, sync now)
@@ -133,6 +136,17 @@ ESSENTIAL_TOOLS = [
     "mode",
     "tool",
 ]
+
+# What a coding agent calls every few steps, and what every prompt of a "hanzo" session carries: the schemas
+# of these are all the model reads before its first call. The rest is a mode away (`mode`) or a name away
+# (`tool enable`, HANZO_MCP_ENABLED_TOOLS).
+DEFAULT_TOOLS = [
+    "fs", "exec", "zsh", "git", "curl", "code", "lsp", "browser", "playwright", "agent", "fetch",
+    "llm", "kai_decide", "repo", "hanzo", "mode", "tool",
+]
+
+# Process and package helpers the wider personalities keep.
+SHELL_TOOLS = ["ps", "npx", "uvx", "open", "jq", "wget", "cdp"]
 
 # Heavy tools (require large dependencies like llm)
 # These are opt-in only, not included by default
@@ -189,26 +203,7 @@ def _register_builtin_personalities() -> None:
             programmer="Hanzo AI Default",
             description="Balanced productivity and quality",
             philosophy="The Zen of Model Context Protocol.",
-            tools=list(
-                set(
-                    ESSENTIAL_TOOLS
-                    + [
-                        "agent",
-                        "tasks",
-                        "browser",
-                        "computer",
-                        "search",
-                        "find",
-                        "ast",
-                        "jupyter",
-                        "refactor",
-                        "lsp",
-                        "zen",
-                        "review",  # Agent sub-tools
-                    ]
-                    + BUILD_TOOLS
-                )
-            ),
+            tools=list(DEFAULT_TOOLS),
             environment={"HANZO_MODE": "zen"},
         ),
         ToolPersonality(
@@ -233,6 +228,7 @@ def _register_builtin_personalities() -> None:
                     + BUILD_TOOLS
                     + UNIX_TOOLS
                     + VECTOR_TOOLS
+                    + SHELL_TOOLS
                     + [
                         "tasks",
                         "rules",
@@ -253,7 +249,7 @@ def _register_builtin_personalities() -> None:
             description="Automate everything",
             philosophy="You build it, you run it.",
             tools=list(
-                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + ["tasks", "browser"])
+                set(ESSENTIAL_TOOLS + BUILD_TOOLS + UNIX_TOOLS + SHELL_TOOLS + ["tasks", "browser"])
             ),
             environment={"CI_CD": "enabled"},
             cli_tools=[
@@ -270,7 +266,7 @@ def _register_builtin_personalities() -> None:
             programmer="Security Researcher",
             description="Break it to secure it",
             philosophy="The only secure system is one that's powered off.",
-            tools=list(set(ESSENTIAL_TOOLS + UNIX_TOOLS + ["browser", "ast"])),
+            tools=list(set(ESSENTIAL_TOOLS + UNIX_TOOLS + SHELL_TOOLS + ["browser", "ast"])),
             environment={"SECURITY_MODE": "paranoid"},
         ),
     ]

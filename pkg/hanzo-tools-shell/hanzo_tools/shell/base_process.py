@@ -503,6 +503,7 @@ class ShellExecutor:
     """
 
     DEFAULT_TIMEOUT = AUTO_BACKGROUND_TIMEOUT
+    MAX_CAPTURE = 16 * 1024 * 1024  # foreground output kept in memory, per stream
 
     _instance: Optional["ShellExecutor"] = None
 
@@ -578,21 +579,25 @@ class ShellExecutor:
             stdout_chunks: list[bytes] = []
             stderr_chunks: list[bytes] = []
 
+            async def drain(stream, chunks):
+                """Read to EOF, keeping the first MAX_CAPTURE bytes: a command that floods its output
+                must not fill memory while it runs."""
+                held = 0
+                while stream:
+                    chunk = await stream.read(8192)
+                    if not chunk:
+                        break
+                    if held < self.MAX_CAPTURE:
+                        chunks.append(chunk[: self.MAX_CAPTURE - held])
+                    held += len(chunk)
+                if held > self.MAX_CAPTURE:
+                    chunks.append(b"\n[output truncated]\n")
+
             async def read_stdout():
-                if proc.stdout:
-                    while True:
-                        chunk = await proc.stdout.read(8192)
-                        if not chunk:
-                            break
-                        stdout_chunks.append(chunk)
+                await drain(proc.stdout, stdout_chunks)
 
             async def read_stderr():
-                if proc.stderr:
-                    while True:
-                        chunk = await proc.stderr.read(8192)
-                        if not chunk:
-                            break
-                        stderr_chunks.append(chunk)
+                await drain(proc.stderr, stderr_chunks)
 
             try:
                 # Read streams and wait for process with timeout

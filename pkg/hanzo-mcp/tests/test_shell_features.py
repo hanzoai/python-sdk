@@ -153,6 +153,18 @@ class TestAutoBackgrounding:
         assert "test output" in result
 
 
+class TestOutputCapture:
+    """A command that floods its output must not fill the server's memory while it runs."""
+
+    @pytest.mark.asyncio
+    async def test_flood_is_truncated(self, zsh_tool, mock_ctx):
+        result = await zsh_tool.call(
+            mock_ctx, command="head -c 40000000 /dev/zero | tr '\\0' x"
+        )
+        assert len(result) < 20 * 1024 * 1024
+        assert "[output truncated]" in result
+
+
 class TestProcessManagement:
     """Test process management functionality."""
 

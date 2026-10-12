@@ -8,6 +8,8 @@ from unittest.mock import AsyncMock, patch
 import pytest
 from hanzo_tools.lsp import create_lsp_tool
 
+pytestmark = pytest.mark.usefixtures("mock_slow_operations")
+
 
 @pytest.mark.asyncio
 async def test_lsp_tool_status():

@@ -271,17 +271,20 @@ def reset_environment():
     os.environ.update(original_env)
 
 
-@pytest.fixture(autouse=True, scope="session")
+@pytest.fixture
 def mock_slow_operations():
-    """Mock slow operations for faster test execution."""
-    from unittest.mock import AsyncMock, patch
+    """A subprocess that has already exited cleanly with no output, for tests that must not start a real
+    server (LSP): opt in with `usefixtures`. Patched for every test it handed each shell command a stream
+    that never reached EOF, and run_shell buffered it until the machine ran out of memory."""
+    from unittest.mock import AsyncMock, MagicMock, patch
 
-    # Mock subprocess for LSP tests
-    with patch("asyncio.create_subprocess_exec") as mock_subprocess:
-        mock_process = AsyncMock()
-        mock_process.returncode = 0
-        mock_process.communicate = AsyncMock(return_value=(b"", b""))
-        mock_subprocess.return_value = mock_process
+    process = MagicMock()
+    process.returncode = 0
+    process.stdout.read = AsyncMock(return_value=b"")
+    process.stderr.read = AsyncMock(return_value=b"")
+    process.communicate = AsyncMock(return_value=(b"", b""))
+    process.wait = AsyncMock(return_value=0)
+    with patch("asyncio.create_subprocess_exec", AsyncMock(return_value=process)):
         yield
 
 

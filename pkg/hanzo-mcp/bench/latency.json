@@ -1,0 +1,80 @@
+{
+ "A": {
+  "cold_ready_s_p50": 9.34,
+  "cold_cpu_s_p50": 10.46,
+  "tools": 30,
+  "bytes": 52601,
+  "tokens_est": 13150,
+  "n": 6,
+  "calls_p50_ms": {
+   "fs.read": 3.0,
+   "fs.search_text": 12.6,
+   "zsh.echo": 69.7,
+   "git.status": 99.5,
+   "playwright.snapshot": 33.1,
+   "playwright.click": 56.6,
+   "playwright.fill": 42.2
+  },
+  "calls_p95_ms": {
+   "fs.read": 4.0,
+   "fs.search_text": 33.8,
+   "zsh.echo": 118.0,
+   "git.status": 158.2,
+   "playwright.snapshot": 52.5,
+   "playwright.click": 85.8,
+   "playwright.fill": 87.9
+  }
+ },
+ "B": {
+  "cold_ready_s_p50": 1.52,
+  "cold_cpu_s_p50": 1.13,
+  "tools": 34,
+  "bytes": 61287,
+  "tokens_est": 15321,
+  "n": 6,
+  "calls_p50_ms": {
+   "fs.read": 3.2,
+   "fs.search_text": 21.6,
+   "zsh.echo": 36.8,
+   "git.status": 74.9,
+   "playwright.snapshot": 16.8,
+   "playwright.click": 43.0,
+   "playwright.fill": 15.2
+  },
+  "calls_p95_ms": {
+   "fs.read": 4.7,
+   "fs.search_text": 58.3,
+   "zsh.echo": 118.7,
+   "git.status": 223.3,
+   "playwright.snapshot": 20.7,
+   "playwright.click": 51.4,
+   "playwright.fill": 51.8
+  }
+ },
+ "C": {
+  "cold_ready_s_p50": 0.96,
+  "cold_cpu_s_p50": 1.06,
+  "tools": 18,
+  "bytes": 32222,
+  "tokens_est": 8055,
+  "n": 6,
+  "calls_p50_ms": {
+   "fs.read": 2.5,
+   "fs.search_text": 9.9,
+   "zsh.echo": 17.6,
+   "git.status": 33.0,
+   "playwright.snapshot": 13.8,
+   "playwright.click": 39.4,
+   "playwright.fill": 10.6
+  },
+  "calls_p95_ms": {
+   "fs.read": 4.0,
+   "fs.search_text": 12.5,
+   "zsh.echo": 29.1,
+   "git.status": 41.3,
+   "playwright.snapshot": 18.7,
+   "playwright.click": 51.6,
+   "playwright.fill": 16.2
+  }
+ }
+}

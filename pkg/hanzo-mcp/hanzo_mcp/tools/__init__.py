@@ -12,7 +12,10 @@ This module only handles discovery and registration.
 
 from __future__ import annotations
 
+import json
 import logging
+import os
+from pathlib import Path
 from typing import TYPE_CHECKING, Any
 
 if TYPE_CHECKING:
@@ -35,6 +38,21 @@ SUPERSEDED_BY_HANZO = (
     "paas",
     "team",
 )
+
+
+def _asked() -> dict[str, bool]:
+    """Tools the user turned on or off beyond the mode: `tool enable|disable` (tool_states.json), then
+    HANZO_MCP_ENABLED_TOOLS, a comma list of names or `all`."""
+    states: dict[str, bool] = {}
+    try:
+        with open(Path.home() / ".hanzo" / "mcp" / "tool_states.json") as f:
+            states = {str(k): bool(v) for k, v in json.load(f).items()}
+    except (OSError, ValueError, AttributeError):
+        pass
+    for name in os.environ.get("HANZO_MCP_ENABLED_TOOLS", "").split(","):
+        if name.strip():
+            states[name.strip()] = True
+    return states
 
 
 def _unified_hanzo_available() -> bool:
@@ -222,6 +240,20 @@ def register_all_tools(
     # Create loader and discover packages
     loader = EntryPointToolLoader(permission_manager=permission_manager)
     discovered = loader.discover_packages()
+
+    # An active mode is the whole manifest: a tool it does not list is off, whichever package ships it.
+    # What the user asked for by name stands over the mode.
+    asked = _asked()
+    from hanzo_mcp.tools.common.mode import ModeRegistry
+
+    mode = ModeRegistry.get_active() if use_mode else None
+    for name in {n for names in discovered.values() for n in names}:
+        if name in asked:
+            resolved_enabled_tools[name] = asked[name]
+        elif asked.get("all"):
+            resolved_enabled_tools[name] = True
+        elif mode and mode.tools:
+            resolved_enabled_tools[name] = bool(tool_config.get(name, False))
 
     if discovered:
         logger.info(

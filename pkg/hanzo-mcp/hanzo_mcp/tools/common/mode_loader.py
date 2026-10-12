@@ -13,20 +13,10 @@ from hanzo_mcp.tools.common.mode import (
 # These are core infrastructure tools that should never be disabled
 # NOTE: llm and consensus are NOT essential (heavy llm dependency)
 ESSENTIAL_SYSTEM_TOOLS: Set[str] = {
-    # Reasoning (lightweight)
-    "think",  # Structured thinking
-    "critic",  # Critical analysis
-    "agent",  # Lightweight agent spawning
-    # Configuration and mode management
-    "config",  # System configuration
-    "mode",  # Mode switching
-    # Tool management (unified command)
+    "mode",  # Mode switching: the way to a wider surface
     "tool",  # Unified tool management (install, enable, disable, list)
-    # Core system
     "version",  # Version info
     "stats",  # Statistics
-    # Memory (always available)
-    "memory",  # Unified memory operations
 }
 
 # Heavy tools that are disabled by default (opt-in)

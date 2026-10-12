@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "hanzo-mcp"
-version = "0.15.20"
+version = "0.15.21"
 description = "The Zen of Hanzo MCP: One server to rule them all. The ultimate MCP that orchestrates all others."
 readme = "README.md"
 requires-python = ">=3.12"
@@ -33,7 +33,7 @@ dependencies = [
     # Hanzo tool infrastructure (all tools)
     "hanzo-tools>=0.3.9",        # 0.3.9: a cloud refusal carries its body and headers, send() returns headers
     "hanzo-tools-fs>=0.3.4",     # 0.3.4 returns image files as native MCP ImageContent
-    "hanzo-tools-shell>=0.6.5",  # 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError)
+    "hanzo-tools-shell>=0.6.6",  # 0.6.6 bounds a foreground command's captured output; 0.6.5 pairs with hanzo-tools>=0.3.0 (ToolError)
     "hanzo-tools-core>=0.3.1",   # 0.3.1 is the EMPTY shim — no longer shadows canonical hanzo-tools.core
     "hanzo-tools-browser[playwright]>=0.5.12",  # 0.5.12 reaches the browser over the embedded ZAP router
     "hanzo-tools-memory>=0.2.0",
