@@ -416,6 +416,32 @@ runs them against `conformance/fake.py`, and `uv run python tests/live_conforman
 against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v<version>`, and
 `https://pypi.org/pypi/hanzo-kai/json` is the proof, not a green run.
 
+## search — ranked code spans from a local index
+
+`hanzo_search` ships in the hanzo-mcp distribution as its own top-level package, because
+`import hanzo_mcp` costs seconds and the standalone server must answer in under one. hanzo-mcp
+registers `search(query, root="", k=5)` in `_register_system_tools`; `python -m
+hanzo_search.server --root DIR` serves it alone over stdio (newline JSON-RPC, standard library
+only, ~0.2 s to the first answer, index included, on a 10K-line tree).
+
+- **Index** (`index.py`): Python chunked by `ast` (each function and method, each class header,
+  code between them in windows), other text in 40-line windows 30 apart; nothing over 1 MB,
+  binaries, hidden dirs, `node_modules`, venvs or build output. Every search stats the tree
+  first: (size, mtime, ctime, inode) moved → read; bytes changed → re-chunked; gone → dropped.
+- **Rank**: BM25 over code tokens (an identifier whole, then its dotted, snake and camel parts),
+  fused by reciprocal rank with the spans a traceback's `path:line` frames name, deepest first.
+  When the query names a test file the index holds, test files rank after the code under test.
+- **Dense** (`dense.py`), off unless `HANZO_SEARCH_MODEL` names a local model directory
+  (extra `search`: torch, transformers): Qwen3-Embedding form, CPU, fp32; chunk vectors by the
+  SHA-256 of their text in `HANZO_SEARCH_CACHE` (default `~/.cache/hanzo/search`), one SQLite
+  file per model. On dev it lifts span MRR .385 → .508 (traceback) and .327 → .472 (short),
+  but a query embedding took 2.5–7 s on dgx's CPU, so the default is BM25 and frames.
+- Dev (42 kai-day code tasks, `~/.cache/kai-day/search.dev.json`), failing-test output as the
+  query: file r@1 .714, r@5 1.0; span r@1 .19, r@5 .667. Warm search on a 72K-line tree p50
+  11 ms, p95 43 ms.
+- Tests: `tests/test_hanzo_search.py` (tokens, chunks, ranking, freshness, caps, schema size,
+  dense cache with a fake embedder, stdio round trip).
+
 ## Plan usage — `hanzoai.usage`
 
 `read_usage(headers)` → `Usage(usage, usage_class, paid_by, fallback, served, reason)` from

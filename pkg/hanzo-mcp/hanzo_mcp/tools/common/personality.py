@@ -142,7 +142,7 @@ ESSENTIAL_TOOLS = [
 # (`tool enable`, HANZO_MCP_ENABLED_TOOLS).
 DEFAULT_TOOLS = [
     "fs", "exec", "zsh", "git", "curl", "code", "lsp", "browser", "playwright", "agent", "fetch",
-    "llm", "kai_decide", "repo", "hanzo", "mode", "tool",
+    "llm", "kai_decide", "repo", "hanzo", "mode", "tool", "search",
 ]
 
 # Process and package helpers the wider personalities keep.

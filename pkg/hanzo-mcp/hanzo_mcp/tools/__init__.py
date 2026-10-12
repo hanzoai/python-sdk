@@ -273,6 +273,18 @@ def register_all_tools(
     else:
         logger.warning("No tool packages discovered via entry points")
 
+    # search ships in this distribution (hanzo_search), so the mode decides it here, as it does a package's
+    if "search" in asked:
+        search_on = asked["search"]
+    elif asked.get("all") or not (mode and mode.tools):
+        search_on = True
+    else:
+        search_on = bool(tool_config.get("search", False))
+    if search_on:
+        from hanzo_search import register as register_search
+
+        register_search(mcp_server)
+
     # Register system tools that are always available
     _register_system_tools(mcp_server, all_tools)
 

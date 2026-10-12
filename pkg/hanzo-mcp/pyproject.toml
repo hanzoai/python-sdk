@@ -81,6 +81,12 @@ dependencies = [
 # shell = ["hanzo-tools-shell>=0.1.0"]
 # etc.
 
+# Dense stage of the `search` tool (on when HANZO_SEARCH_MODEL names a local model)
+search = [
+    "torch>=2.4",
+    "transformers>=4.51",
+]
+
 # Memory tools with full backend support
 memory = [
     "hanzo-tools-memory[full]>=0.2.2",
@@ -137,7 +143,7 @@ hanzo-mcp-dev = "hanzo_mcp.dev_server:run_dev_server"
 
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["hanzo_mcp*"]
+include = ["hanzo_mcp*", "hanzo_search*"]
 
 [tool.setuptools.package-data]
 hanzo_mcp = ["py.typed"]
