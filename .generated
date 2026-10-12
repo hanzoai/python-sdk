@@ -2804,6 +2804,7 @@ pkg/hanzoai/cloud/models/session.py
 pkg/hanzoai/cloud/models/settings_settings_req.py
 pkg/hanzoai/cloud/models/settings_view.py
 pkg/hanzoai/cloud/models/share_enable_resp.py
+pkg/hanzoai/cloud/models/share_rotated.py
 pkg/hanzoai/cloud/models/share_share_view.py
 pkg/hanzoai/cloud/models/share_shares_out.py
 pkg/hanzoai/cloud/models/social_social_account.py

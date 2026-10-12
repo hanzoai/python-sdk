@@ -7232,7 +7232,7 @@ class AgentApi:
     ) -> AgentSessionDetail:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -7299,7 +7299,7 @@ class AgentApi:
     ) -> ApiResponse[AgentSessionDetail]:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -7366,7 +7366,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns one session with its direct child sessions and its 50 most recent events, oldest of those first.
 
-        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org.
+        Returns one session with its direct child sessions and its 50 most recent events, oldest of those first. The children are those the caller may see, by the rule the session itself is read by: a member's own, and every one for an admin of the org. In a held org, where self-serve signups land beside the platform's staff, a session is its person's alone.
 
         :param id: ID is the session to act on, from the path. (required)
         :type id: str
@@ -8532,7 +8532,7 @@ class AgentApi:
     ) -> AgentTargetList:
         """Returns every machine registered to the caller's org, newest first, each with its live session load.
 
-        Returns every machine registered to the caller's org, newest first, each with its live session load.
+        Returns every machine registered to the caller's org, newest first, each with its live session load. In a held org, where self-serve signups land beside the platform's staff, it is only the caller's own.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8595,7 +8595,7 @@ class AgentApi:
     ) -> ApiResponse[AgentTargetList]:
         """Returns every machine registered to the caller's org, newest first, each with its live session load.
 
-        Returns every machine registered to the caller's org, newest first, each with its live session load.
+        Returns every machine registered to the caller's org, newest first, each with its live session load. In a held org, where self-serve signups land beside the platform's staff, it is only the caller's own.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -8658,7 +8658,7 @@ class AgentApi:
     ) -> RESTResponseType:
         """Returns every machine registered to the caller's org, newest first, each with its live session load.
 
-        Returns every machine registered to the caller's org, newest first, each with its live session load.
+        Returns every machine registered to the caller's org, newest first, each with its live session load. In a held org, where self-serve signups land beside the platform's staff, it is only the caller's own.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

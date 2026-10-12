@@ -17,6 +17,7 @@ from typing import Any, Dict, List, Optional, Tuple, Union
 from typing_extensions import Annotated
 
 from hanzoai.cloud.models.share_enable_resp import ShareEnableResp
+from hanzoai.cloud.models.share_rotated import ShareRotated
 from hanzoai.cloud.models.share_shares_out import ShareSharesOut
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
@@ -53,9 +54,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ShareSharesOut:
-        """Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
+        """Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled.
 
-        Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
+        Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -116,9 +117,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ShareSharesOut]:
-        """Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
+        """Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled.
 
-        Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
+        Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -179,9 +180,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled.
+        """Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled.
 
-        Returns the tunnel shares the caller's org currently has open, across every environment that org has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
+        Returns the tunnel shares the caller's account currently has open — their org's, or in a held org their own — across every environment it has enabled. It is a READ and it degrades honestly: an unconfigured deployment, an org that has not provisioned yet, and an unreachable controller all answer an EMPTY list at 200 rather than an error, so the console never error-toasts on load.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -300,9 +301,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ShareEnableResp:
-        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+        """Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org and, in a held org, the caller's attested subject, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -363,9 +364,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[ShareEnableResp]:
-        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+        """Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org and, in a held org, the caller's attested subject, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -426,9 +427,9 @@ class ShareApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel.
+        """Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel.
 
-        Provisions the caller org's tunnel account and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN org's account. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
+        Provisions the caller's tunnel account — their org's, or in a held org, where every self-serve signup lands, their own — and returns the credential the `hanzo share` CLI needs to run a tunnel. It is idempotent: the account is keyed deterministically off the VALIDATED org and, in a held org, the caller's attested subject, so a repeat call hands back the same account rather than creating a second one, and a caller can only ever provision their OWN. 503 when the deployment has no share controller configured; 502 when that controller is unreachable.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -516,6 +517,253 @@ class ShareApi:
         return self.api_client.param_serialize(
             method='POST',
             resource_path='/v1/share/enable',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
+    def post_share_rotate(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ShareRotated:
+        """Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on.
+
+        Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on. The account is kept: enable hands its holder the new credential.  In a customer's org the account is the org's, which its members share, and an admin of the org or a SuperAdmin rotates it. In a held org each person's account is their own, and they rotate it — every account they hold, the one an API key of theirs was handed before included, so none stays live. An admin of the org or a SuperAdmin then rotates the org's own account, which no call there hands out, whether or not they hold an account of their own; when that one cannot be rotated, `pending` says so and their own are rotated still.  An account never provisioned has nothing to rotate and counts 0. 503 when the deployment has no share controller configured; 502 when that controller is unreachable, or holds the caller's account under a credential this deployment does not derive — out of a rotation's reach, so it is refused rather than reported done.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_share_rotate_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareRotated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def post_share_rotate_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[ShareRotated]:
+        """Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on.
+
+        Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on. The account is kept: enable hands its holder the new credential.  In a customer's org the account is the org's, which its members share, and an admin of the org or a SuperAdmin rotates it. In a held org each person's account is their own, and they rotate it — every account they hold, the one an API key of theirs was handed before included, so none stays live. An admin of the org or a SuperAdmin then rotates the org's own account, which no call there hands out, whether or not they hold an account of their own; when that one cannot be rotated, `pending` says so and their own are rotated still.  An account never provisioned has nothing to rotate and counts 0. 503 when the deployment has no share controller configured; 502 when that controller is unreachable, or holds the caller's account under a credential this deployment does not derive — out of a rotation's reach, so it is refused rather than reported done.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_share_rotate_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareRotated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def post_share_rotate_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on.
+
+        Replaces the credential of a tunnel account and ends every environment enabled with it, shares and all, so a credential handed out before — to a member who has left, or to anyone who read it — opens nothing from now on. The account is kept: enable hands its holder the new credential.  In a customer's org the account is the org's, which its members share, and an admin of the org or a SuperAdmin rotates it. In a held org each person's account is their own, and they rotate it — every account they hold, the one an API key of theirs was handed before included, so none stays live. An admin of the org or a SuperAdmin then rotates the org's own account, which no call there hands out, whether or not they hold an account of their own; when that one cannot be rotated, `pending` says so and their own are rotated still.  An account never provisioned has nothing to rotate and counts 0. 503 when the deployment has no share controller configured; 502 when that controller is unreachable, or holds the caller's account under a credential this deployment does not derive — out of a rotation's reach, so it is refused rather than reported done.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._post_share_rotate_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+            '200': "ShareRotated",
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _post_share_rotate_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+        # set the HTTP header `Accept`
+        if 'Accept' not in _header_params:
+            _header_params['Accept'] = self.api_client.select_header_accept(
+                [
+                    'application/json', 
+                    'application/problem+json'
+                ]
+            )
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='POST',
+            resource_path='/v1/share/rotate',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

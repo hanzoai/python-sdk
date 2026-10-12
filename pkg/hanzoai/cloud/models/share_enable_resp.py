@@ -26,7 +26,7 @@ class ShareEnableResp(BaseModel):
     """
     ShareEnableResp
     """ # noqa: E501
-    account_token: Optional[StrictStr] = Field(default=None, description="AccountToken is the org's own tunnel-account credential. Treat it as a secret: it is what the CLI enables an environment with.", alias="accountToken")
+    account_token: Optional[StrictStr] = Field(default=None, description="AccountToken is the caller's tunnel-account credential: their org's, or in a held org their own. Treat it as a secret: it is what the CLI enables an environment with.", alias="accountToken")
     controller: Optional[StrictStr] = Field(default=None, description="Controller is the public controller endpoint the CLI enables against.")
     namespace: Optional[StrictStr] = Field(default=None, description="Namespace is the public frontend a share is published into, when the deployment names one.")
     url_template: Optional[StrictStr] = Field(default=None, description="URLTemplate is the shape a share token expands to, so the CLI can print the resulting URL without asking again.", alias="urlTemplate")

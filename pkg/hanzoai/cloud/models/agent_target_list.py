@@ -27,7 +27,7 @@ class AgentTargetList(BaseModel):
     """
     AgentTargetList
     """ # noqa: E501
-    targets: Optional[List[AgentTargetView]] = Field(default=None, description="Targets is every target registered to the caller's org.")
+    targets: Optional[List[AgentTargetView]] = Field(default=None, description="Targets is every target registered to the caller's org; in a held org, the caller's own.")
     __properties: ClassVar[List[str]] = ["targets"]
 
     model_config = ConfigDict(

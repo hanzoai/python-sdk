@@ -2687,6 +2687,7 @@ from hanzoai.cloud.models.session import Session
 from hanzoai.cloud.models.settings_settings_req import SettingsSettingsReq
 from hanzoai.cloud.models.settings_view import SettingsView
 from hanzoai.cloud.models.share_enable_resp import ShareEnableResp
+from hanzoai.cloud.models.share_rotated import ShareRotated
 from hanzoai.cloud.models.share_share_view import ShareShareView
 from hanzoai.cloud.models.share_shares_out import ShareSharesOut
 from hanzoai.cloud.models.social_social_account import SocialSocialAccount

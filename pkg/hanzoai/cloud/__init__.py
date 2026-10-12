@@ -2826,6 +2826,7 @@ __all__ = [
     "SettingsSettingsReq",
     "SettingsView",
     "ShareEnableResp",
+    "ShareRotated",
     "ShareShareView",
     "ShareSharesOut",
     "SocialSocialAccount",
@@ -5992,6 +5993,7 @@ from hanzoai.cloud.models.session import Session as Session
 from hanzoai.cloud.models.settings_settings_req import SettingsSettingsReq as SettingsSettingsReq
 from hanzoai.cloud.models.settings_view import SettingsView as SettingsView
 from hanzoai.cloud.models.share_enable_resp import ShareEnableResp as ShareEnableResp
+from hanzoai.cloud.models.share_rotated import ShareRotated as ShareRotated
 from hanzoai.cloud.models.share_share_view import ShareShareView as ShareShareView
 from hanzoai.cloud.models.share_shares_out import ShareSharesOut as ShareSharesOut
 from hanzoai.cloud.models.social_social_account import SocialSocialAccount as SocialSocialAccount
