@@ -27,10 +27,9 @@ class PricingEnablementBoard(BaseModel):
     """
     PricingEnablementBoard
     """ # noqa: E501
-    betas: Optional[List[PricingUserEnablementItem]] = Field(default=None, description="Betas are the subset of Items the caller's org may still opt into.")
-    items: Optional[List[PricingUserEnablementItem]] = Field(default=None, description="Items is every managed item, each resolved for the caller's org.")
+    items: Optional[List[PricingUserEnablementItem]] = Field(default=None, description="Items is every managed item, each resolved for the caller.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the org this view was resolved for; empty for a caller with no validated principal, who sees only the generally-available items.")
-    __properties: ClassVar[List[str]] = ["betas", "items", "org"]
+    __properties: ClassVar[List[str]] = ["items", "org"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -71,13 +70,6 @@ class PricingEnablementBoard(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of each item in betas (list)
-        _items = []
-        if self.betas:
-            for _item_betas in self.betas:
-                if _item_betas:
-                    _items.append(_item_betas.to_dict())
-            _dict['betas'] = _items
         # override the default output from pydantic by calling `to_dict()` of each item in items (list)
         _items = []
         if self.items:
@@ -97,7 +89,6 @@ class PricingEnablementBoard(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "betas": [PricingUserEnablementItem.from_dict(_item) for _item in obj["betas"]] if obj.get("betas") is not None else None,
             "items": [PricingUserEnablementItem.from_dict(_item) for _item in obj["items"]] if obj.get("items") is not None else None,
             "org": obj.get("org")
         })

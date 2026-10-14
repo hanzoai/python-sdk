@@ -21,7 +21,6 @@ from typing import Any, Dict
 from typing_extensions import Annotated
 from hanzoai.cloud.models.pricing_card import PricingCard
 from hanzoai.cloud.models.pricing_enablement_board import PricingEnablementBoard
-from hanzoai.cloud.models.pricing_enablement_opt_ref import PricingEnablementOptRef
 from hanzoai.cloud.models.pricing_pricing_health import PricingPricingHealth
 from hanzoai.cloud.models.pricing_pricing_model_list import PricingPricingModelList
 from hanzoai.cloud.models.pricing_pricing_plan_list import PricingPricingPlanList
@@ -30,7 +29,6 @@ from hanzoai.cloud.models.pricing_pricing_provider_list import PricingPricingPro
 from hanzoai.cloud.models.pricing_pricing_region_list import PricingPricingRegionList
 from hanzoai.cloud.models.pricing_pricing_tier_list import PricingPricingTierList
 from hanzoai.cloud.models.pricing_pricing_tool_list import PricingPricingToolList
-from hanzoai.cloud.models.pricing_user_enablement_item import PricingUserEnablementItem
 
 from hanzoai.cloud.api_client import ApiClient, RequestSerialized
 from hanzoai.cloud.api_response import ApiResponse
@@ -2536,9 +2534,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PricingEnablementBoard:
-        """Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
+        """Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it.
 
-        Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
+        Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it. Read-only and safe for any caller: one without a validated principal sees the generally-available items, never another org's view.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2599,9 +2597,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PricingEnablementBoard]:
-        """Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
+        """Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it.
 
-        Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
+        Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it. Read-only and safe for any caller: one without a validated principal sees the generally-available items, never another org's view.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2662,9 +2660,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in.
+        """Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it.
 
-        Returns what the caller's org can actually use: every managed item with its global state, whether it is effective here, whether this org is already opted into its beta, and whether it may still opt in. Read-only and safe for any caller — one without a validated principal simply sees the generally-available items and no opt-in affordance, never another org's state.
+        Returns what the caller can actually use: every managed item with its global state and whether it is effective for this caller — a beta item is, while the platform's `beta` switch is on for it. Read-only and safe for any caller: one without a validated principal sees the generally-available items, never another org's view.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4280,9 +4278,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> PricingPricingModelList:
-        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4343,9 +4341,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> ApiResponse[PricingPricingModelList]:
-        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -4406,9 +4404,9 @@ class PricingApi:
         _headers: Optional[Dict[StrictStr, Any]] = None,
         _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
     ) -> RESTResponseType:
-        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see.
+        """Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see.
 
-        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller's org may see. A model an admin has disabled is absent; one in beta appears only for an org granted it. A SuperAdmin sees every model, each annotated with its enablement state.
+        Returns the whole model catalog — every model the gateway serves, Zen and third-party alike — filtered to what the caller may see. A model an admin has disabled is absent; one in beta appears only for a caller the platform's `beta` switch is on for. A SuperAdmin sees every model, each annotated with its enablement state.
 
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -6472,556 +6470,6 @@ class PricingApi:
         return self.api_client.param_serialize(
             method='GET',
             resource_path='/v1/pricing/tools',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_pricing_enablement_optin(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingUserEnablementItem:
-        """Opts the caller's OWN org into a beta item.
-
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optin_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_pricing_enablement_optin_with_http_info(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingUserEnablementItem]:
-        """Opts the caller's OWN org into a beta item.
-
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optin_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_pricing_enablement_optin_without_preload_content(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Opts the caller's OWN org into a beta item.
-
-        Opts the caller's OWN org into a beta item. The org is the caller's validated one, so this can never target another org, and the registry refuses anything not in beta — so it can neither re-open an item an operator turned off nor touch one that is already generally available. The org must be entitled to betas — it holds the beta program's grant, from an approved application or an operator — or the opt-in is 403; when the program cannot be asked it is 503, and worth retrying. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optin_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_pricing_enablement_optin_serialize(
-        self,
-        pricing_enablement_opt_ref,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if pricing_enablement_opt_ref is not None:
-            _body_params = pricing_enablement_opt_ref
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/pricing/enablement/optin',
-            path_params=_path_params,
-            query_params=_query_params,
-            header_params=_header_params,
-            body=_body_params,
-            post_params=_form_params,
-            files=_files,
-            auth_settings=_auth_settings,
-            collection_formats=_collection_formats,
-            _host=_host,
-            _request_auth=_request_auth
-        )
-
-
-
-
-    @validate_call
-    def post_pricing_enablement_optout(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> PricingUserEnablementItem:
-        """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
-
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optout_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        ).data
-
-
-    @validate_call
-    def post_pricing_enablement_optout_with_http_info(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> ApiResponse[PricingUserEnablementItem]:
-        """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
-
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optout_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        response_data.read()
-        return self.api_client.response_deserialize(
-            response_data=response_data,
-            response_types_map=_response_types_map,
-        )
-
-
-    @validate_call
-    def post_pricing_enablement_optout_without_preload_content(
-        self,
-        pricing_enablement_opt_ref: PricingEnablementOptRef,
-        _request_timeout: Union[
-            None,
-            Annotated[StrictFloat, Field(gt=0)],
-            Tuple[
-                Annotated[StrictFloat, Field(gt=0)],
-                Annotated[StrictFloat, Field(gt=0)]
-            ]
-        ] = None,
-        _request_auth: Optional[Dict[StrictStr, Any]] = None,
-        _content_type: Optional[StrictStr] = None,
-        _headers: Optional[Dict[StrictStr, Any]] = None,
-        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
-    ) -> RESTResponseType:
-        """Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent.
-
-        Removes the caller's OWN org from a beta item's grant list, the reverse of OptIntoBeta and idempotent. The org is the caller's validated one, so this can never revoke another org's grant. Requires a signed-in owner or admin of the org (403 for a member).
-
-        :param pricing_enablement_opt_ref: (required)
-        :type pricing_enablement_opt_ref: PricingEnablementOptRef
-        :param _request_timeout: timeout setting for this request. If one
-                                 number provided, it will be total request
-                                 timeout. It can also be a pair (tuple) of
-                                 (connection, read) timeouts.
-        :type _request_timeout: int, tuple(int, int), optional
-        :param _request_auth: set to override the auth_settings for an a single
-                              request; this effectively ignores the
-                              authentication in the spec for a single request.
-        :type _request_auth: dict, optional
-        :param _content_type: force content-type for the request.
-        :type _content_type: str, Optional
-        :param _headers: set to override the headers for a single
-                         request; this effectively ignores the headers
-                         in the spec for a single request.
-        :type _headers: dict, optional
-        :param _host_index: set to override the host_index for a single
-                            request; this effectively ignores the host_index
-                            in the spec for a single request.
-        :type _host_index: int, optional
-        :return: Returns the result object.
-        """ # noqa: E501
-
-        _param = self._post_pricing_enablement_optout_serialize(
-            pricing_enablement_opt_ref=pricing_enablement_opt_ref,
-            _request_auth=_request_auth,
-            _content_type=_content_type,
-            _headers=_headers,
-            _host_index=_host_index
-        )
-
-        _response_types_map: Dict[str, Optional[str]] = {
-            '200': "PricingUserEnablementItem",
-        }
-        response_data = self.api_client.call_api(
-            *_param,
-            _request_timeout=_request_timeout
-        )
-        return response_data.response
-
-
-    def _post_pricing_enablement_optout_serialize(
-        self,
-        pricing_enablement_opt_ref,
-        _request_auth,
-        _content_type,
-        _headers,
-        _host_index,
-    ) -> RequestSerialized:
-
-        _host = None
-
-        _collection_formats: Dict[str, str] = {
-        }
-
-        _path_params: Dict[str, str] = {}
-        _query_params: List[Tuple[str, str]] = []
-        _header_params: Dict[str, Optional[str]] = _headers or {}
-        _form_params: List[Tuple[str, str]] = []
-        _files: Dict[
-            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
-        ] = {}
-        _body_params: Optional[bytes] = None
-
-        # process the path parameters
-        # process the query parameters
-        # process the header parameters
-        # process the form parameters
-        # process the body parameter
-        if pricing_enablement_opt_ref is not None:
-            _body_params = pricing_enablement_opt_ref
-
-
-        # set the HTTP header `Accept`
-        if 'Accept' not in _header_params:
-            _header_params['Accept'] = self.api_client.select_header_accept(
-                [
-                    'application/json', 
-                    'application/problem+json'
-                ]
-            )
-
-        # set the HTTP header `Content-Type`
-        if _content_type:
-            _header_params['Content-Type'] = _content_type
-        else:
-            _default_content_type = (
-                self.api_client.select_header_content_type(
-                    [
-                        'application/json'
-                    ]
-                )
-            )
-            if _default_content_type is not None:
-                _header_params['Content-Type'] = _default_content_type
-
-        # authentication setting
-        _auth_settings: List[str] = [
-            'bearer'
-        ]
-
-        return self.api_client.param_serialize(
-            method='POST',
-            resource_path='/v1/pricing/enablement/optout',
             path_params=_path_params,
             query_params=_query_params,
             header_params=_header_params,

@@ -13,7 +13,6 @@ pkg/hanzoai/cloud/api/authz_api.py
 pkg/hanzoai/cloud/api/auto_api.py
 pkg/hanzoai/cloud/api/base_api.py
 pkg/hanzoai/cloud/api/benchmark_api.py
-pkg/hanzoai/cloud/api/beta_api.py
 pkg/hanzoai/cloud/api/billing_api.py
 pkg/hanzoai/cloud/api/blueprint_api.py
 pkg/hanzoai/cloud/api/books_api.py
@@ -393,9 +392,6 @@ pkg/hanzoai/cloud/models/benchmark_put_claims_in.py
 pkg/hanzoai/cloud/models/benchmark_put_claims_out.py
 pkg/hanzoai/cloud/models/benchmark_run_point.py
 pkg/hanzoai/cloud/models/benchmark_suite.py
-pkg/hanzoai/cloud/models/beta_beta_application.py
-pkg/hanzoai/cloud/models/beta_beta_apply.py
-pkg/hanzoai/cloud/models/beta_beta_status.py
 pkg/hanzoai/cloud/models/billing_accounts.py
 pkg/hanzoai/cloud/models/billing_accounts_total.py
 pkg/hanzoai/cloud/models/billing_alert.py
@@ -948,6 +944,7 @@ pkg/hanzoai/cloud/models/flag_defs_out.py
 pkg/hanzoai/cloud/models/flag_deleted_out.py
 pkg/hanzoai/cloud/models/flag_evaluate_in.py
 pkg/hanzoai/cloud/models/flag_health_out.py
+pkg/hanzoai/cloud/models/flag_platform_out.py
 pkg/hanzoai/cloud/models/flow_flow_create.py
 pkg/hanzoai/cloud/models/flow_flow_run.py
 pkg/hanzoai/cloud/models/flow_flow_status.py
@@ -2478,7 +2475,6 @@ pkg/hanzoai/cloud/models/pref_prefs_view.py
 pkg/hanzoai/cloud/models/pricing_card.py
 pkg/hanzoai/cloud/models/pricing_component.py
 pkg/hanzoai/cloud/models/pricing_enablement_board.py
-pkg/hanzoai/cloud/models/pricing_enablement_opt_ref.py
 pkg/hanzoai/cloud/models/pricing_pricing_health.py
 pkg/hanzoai/cloud/models/pricing_pricing_model_list.py
 pkg/hanzoai/cloud/models/pricing_pricing_plan_list.py
@@ -3082,6 +3078,7 @@ pkg/hanzoai/cloud/models/trust_written.py
 pkg/hanzoai/cloud/models/usage_accounts.py
 pkg/hanzoai/cloud/models/usage_category_spend.py
 pkg/hanzoai/cloud/models/usage_dash_resp.py
+pkg/hanzoai/cloud/models/usage_kai.py
 pkg/hanzoai/cloud/models/usage_llm.py
 pkg/hanzoai/cloud/models/usage_provider_breakdown.py
 pkg/hanzoai/cloud/models/usage_provider_row.py

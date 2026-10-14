@@ -20,6 +20,7 @@ import json
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.usage_accounts import UsageAccounts
+from hanzoai.cloud.models.usage_kai import UsageKai
 from hanzoai.cloud.models.usage_llm import UsageLLM
 from hanzoai.cloud.models.usage_sources import UsageSources
 from hanzoai.cloud.models.usage_spend import UsageSpend
@@ -34,13 +35,14 @@ class UsageUsageSummary(BaseModel):
     accounts: Optional[UsageAccounts] = Field(default=None, description="Accounts is the caller's own linked provider accounts beside the org's Hanzo-routed usage, labelled row by row and never summed together.")
     end: Optional[StrictStr] = Field(default=None, description="End is the window's exclusive end, RFC3339 UTC.")
     interval: Optional[StrictStr] = Field(default=None, description="Interval is the bucket width the spend series is gap-filled at.")
+    kai: Optional[UsageKai] = Field(default=None, description="Kai is the org's Kai decisions: count, input tokens and cost. Also counted in LLM.")
     llm: Optional[UsageLLM] = Field(default=None, description="LLM is the org's Hanzo-routed inference totals from the warehouse.")
     range: Optional[StrictStr] = Field(default=None, description="Range is the window label that was served.")
     scope: Optional[UsageUsageScope] = Field(default=None, description="Scope is the tenant and subject the roll-up was answered for.")
     sources: Optional[UsageSources] = Field(default=None, description="Sources says which upstreams actually answered, so a zero can be read as \"no data yet\" rather than as a measurement.")
     spend: Optional[UsageSpend] = Field(default=None, description="Spend is the categorized cost roll-up from the billing ledger.")
     start: Optional[StrictStr] = Field(default=None, description="Start is the window's inclusive start, RFC3339 UTC.")
-    __properties: ClassVar[List[str]] = ["accounts", "end", "interval", "llm", "range", "scope", "sources", "spend", "start"]
+    __properties: ClassVar[List[str]] = ["accounts", "end", "interval", "kai", "llm", "range", "scope", "sources", "spend", "start"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -84,6 +86,9 @@ class UsageUsageSummary(BaseModel):
         # override the default output from pydantic by calling `to_dict()` of accounts
         if self.accounts:
             _dict['accounts'] = self.accounts.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of kai
+        if self.kai:
+            _dict['kai'] = self.kai.to_dict()
         # override the default output from pydantic by calling `to_dict()` of llm
         if self.llm:
             _dict['llm'] = self.llm.to_dict()
@@ -111,6 +116,7 @@ class UsageUsageSummary(BaseModel):
             "accounts": UsageAccounts.from_dict(obj["accounts"]) if obj.get("accounts") is not None else None,
             "end": obj.get("end"),
             "interval": obj.get("interval"),
+            "kai": UsageKai.from_dict(obj["kai"]) if obj.get("kai") is not None else None,
             "llm": UsageLLM.from_dict(obj["llm"]) if obj.get("llm") is not None else None,
             "range": obj.get("range"),
             "scope": UsageUsageScope.from_dict(obj["scope"]) if obj.get("scope") is not None else None,

@@ -17,17 +17,17 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field
+from pydantic import BaseModel, ConfigDict, Field, StrictBool
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BetaBetaApply(BaseModel):
+class FlagPlatformOut(BaseModel):
     """
-    BetaBetaApply
+    FlagPlatformOut
     """ # noqa: E501
-    answers: Optional[Dict[str, Any]] = Field(default=None, description="Answers are the form's answers, by question id: text for a question, true or false for an acknowledgement. Every required question is answered and every required acknowledgement is true; a question the form does not ask is refused.")
-    __properties: ClassVar[List[str]] = ["answers"]
+    flags: Optional[Dict[str, StrictBool]] = Field(default=None, description="Flags maps each principal switch's key to whether it is on for the caller: `beta` is whether the caller sees products and catalog items that are not yet generally available.")
+    __properties: ClassVar[List[str]] = ["flags"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -47,7 +47,7 @@ class BetaBetaApply(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BetaBetaApply from a JSON string"""
+        """Create an instance of FlagPlatformOut from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -72,7 +72,7 @@ class BetaBetaApply(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BetaBetaApply from a dict"""
+        """Create an instance of FlagPlatformOut from a dict"""
         if obj is None:
             return None
 
@@ -80,7 +80,7 @@ class BetaBetaApply(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "answers": obj.get("answers")
+            "flags": obj.get("flags")
         })
         return _obj
 

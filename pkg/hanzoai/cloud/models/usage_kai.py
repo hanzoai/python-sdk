@@ -17,18 +17,20 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
 
-class PricingEnablementOptRef(BaseModel):
+class UsageKai(BaseModel):
     """
-    PricingEnablementOptRef
+    UsageKai
     """ # noqa: E501
-    id: Optional[StrictStr] = Field(default=None, description="ID is the item within that namespace.")
-    kind: Optional[StrictStr] = Field(default=None, description="Kind is the item's namespace: \"model\", \"provider\" or \"feature\".")
-    __properties: ClassVar[List[str]] = ["id", "kind"]
+    available: Optional[StrictBool] = Field(default=None, description="Available is false when the warehouse was not connected or a query blipped. The totals below are then honest zeros, NOT measured ones.")
+    cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is what they cost the org, in US cents.", alias="costCents")
+    decisions: Optional[StrictInt] = Field(default=None, description="Decisions is how many decisions Kai answered in the window.")
+    input_tokens: Optional[StrictInt] = Field(default=None, description="InputTokens is the input tokens those decisions were billed on.", alias="inputTokens")
+    __properties: ClassVar[List[str]] = ["available", "costCents", "decisions", "inputTokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -48,7 +50,7 @@ class PricingEnablementOptRef(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of PricingEnablementOptRef from a JSON string"""
+        """Create an instance of UsageKai from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,7 +75,7 @@ class PricingEnablementOptRef(BaseModel):
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of PricingEnablementOptRef from a dict"""
+        """Create an instance of UsageKai from a dict"""
         if obj is None:
             return None
 
@@ -81,8 +83,10 @@ class PricingEnablementOptRef(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "id": obj.get("id"),
-            "kind": obj.get("kind")
+            "available": obj.get("available"),
+            "costCents": obj.get("costCents"),
+            "decisions": obj.get("decisions"),
+            "inputTokens": obj.get("inputTokens")
         })
         return _obj
 

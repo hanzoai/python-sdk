@@ -276,9 +276,6 @@ from hanzoai.cloud.models.benchmark_put_claims_in import BenchmarkPutClaimsIn
 from hanzoai.cloud.models.benchmark_put_claims_out import BenchmarkPutClaimsOut
 from hanzoai.cloud.models.benchmark_run_point import BenchmarkRunPoint
 from hanzoai.cloud.models.benchmark_suite import BenchmarkSuite
-from hanzoai.cloud.models.beta_beta_application import BetaBetaApplication
-from hanzoai.cloud.models.beta_beta_apply import BetaBetaApply
-from hanzoai.cloud.models.beta_beta_status import BetaBetaStatus
 from hanzoai.cloud.models.billing_accounts import BillingAccounts
 from hanzoai.cloud.models.billing_accounts_total import BillingAccountsTotal
 from hanzoai.cloud.models.billing_alert import BillingAlert
@@ -831,6 +828,7 @@ from hanzoai.cloud.models.flag_defs_out import FlagDefsOut
 from hanzoai.cloud.models.flag_deleted_out import FlagDeletedOut
 from hanzoai.cloud.models.flag_evaluate_in import FlagEvaluateIn
 from hanzoai.cloud.models.flag_health_out import FlagHealthOut
+from hanzoai.cloud.models.flag_platform_out import FlagPlatformOut
 from hanzoai.cloud.models.flow_flow_create import FlowFlowCreate
 from hanzoai.cloud.models.flow_flow_run import FlowFlowRun
 from hanzoai.cloud.models.flow_flow_status import FlowFlowStatus
@@ -2361,7 +2359,6 @@ from hanzoai.cloud.models.pref_prefs_view import PrefPrefsView
 from hanzoai.cloud.models.pricing_card import PricingCard
 from hanzoai.cloud.models.pricing_component import PricingComponent
 from hanzoai.cloud.models.pricing_enablement_board import PricingEnablementBoard
-from hanzoai.cloud.models.pricing_enablement_opt_ref import PricingEnablementOptRef
 from hanzoai.cloud.models.pricing_pricing_health import PricingPricingHealth
 from hanzoai.cloud.models.pricing_pricing_model_list import PricingPricingModelList
 from hanzoai.cloud.models.pricing_pricing_plan_list import PricingPricingPlanList
@@ -2966,6 +2963,7 @@ from hanzoai.cloud.models.utm import UTM
 from hanzoai.cloud.models.usage_accounts import UsageAccounts
 from hanzoai.cloud.models.usage_category_spend import UsageCategorySpend
 from hanzoai.cloud.models.usage_dash_resp import UsageDashResp
+from hanzoai.cloud.models.usage_kai import UsageKai
 from hanzoai.cloud.models.usage_llm import UsageLLM
 from hanzoai.cloud.models.usage_provider_breakdown import UsageProviderBreakdown
 from hanzoai.cloud.models.usage_provider_row import UsageProviderRow

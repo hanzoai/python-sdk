@@ -2111,7 +2111,7 @@ requires-dist = [
 
 [[package]]
 name = "hanzo-tools-shell"
-version = "0.6.5"
+version = "0.6.6"
 source = { editable = "pkg/hanzo-tools-shell" }
 dependencies = [
     { name = "hanzo-async" },
@@ -2252,7 +2252,7 @@ wheels = [
 
 [[package]]
 name = "hanzoai"
-version = "8.5.718"
+version = "8.5.719"
 source = { editable = "." }
 dependencies = [
     { name = "pydantic" },

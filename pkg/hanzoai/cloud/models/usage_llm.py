@@ -17,8 +17,8 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictInt, StrictStr
-from typing import Any, ClassVar, Dict, List, Optional
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
+from typing import Any, ClassVar, Dict, List, Optional, Union
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,6 +27,10 @@ class UsageLLM(BaseModel):
     UsageLLM
     """ # noqa: E501
     available: Optional[StrictBool] = Field(default=None, description="Available is false when the warehouse was not connected or a query blipped. The totals below are then honest zeros, NOT measured ones.")
+    cache_read_tokens: Optional[StrictInt] = Field(default=None, description="CacheReadTokens is how many of the prompt tokens the provider's prompt cache served, at the cache-read price.", alias="cacheReadTokens")
+    cache_saved_cents: Optional[StrictInt] = Field(default=None, description="CacheSavedCents is what the prompt cache took off the bill, in US cents: each call's cache-read tokens at the model's input price less the same tokens at its cache-read price, from the price that call was billed at. A call recorded before this was measured counts 0, so it is a floor.", alias="cacheSavedCents")
+    cache_write_tokens: Optional[StrictInt] = Field(default=None, description="CacheWriteTokens is how many prompt tokens were written to the prompt cache.", alias="cacheWriteTokens")
+    cached_share: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CachedShare is CacheReadTokens over PromptTokens, 0 to 1 at four decimals; 0 when nothing was prompted.", alias="cachedShare")
     completion_tokens: Optional[StrictInt] = Field(default=None, description="CompletionTokens is the output half.", alias="completionTokens")
     cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is what they cost the org, in US cents. This IS a Hanzo charge.", alias="costCents")
     models: Optional[StrictInt] = Field(default=None, description="Models is how many distinct models were used.")
@@ -34,7 +38,7 @@ class UsageLLM(BaseModel):
     requests: Optional[StrictInt] = Field(default=None, description="Requests is how many completions the org made in the window.")
     source: Optional[StrictStr] = Field(default=None, description="Source names the warehouse table the totals came from.")
     tokens: Optional[StrictInt] = Field(default=None, description="Tokens is the total tokens those completions consumed.")
-    __properties: ClassVar[List[str]] = ["available", "completionTokens", "costCents", "models", "promptTokens", "requests", "source", "tokens"]
+    __properties: ClassVar[List[str]] = ["available", "cacheReadTokens", "cacheSavedCents", "cacheWriteTokens", "cachedShare", "completionTokens", "costCents", "models", "promptTokens", "requests", "source", "tokens"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -88,6 +92,10 @@ class UsageLLM(BaseModel):
 
         _obj = cls.model_validate({
             "available": obj.get("available"),
+            "cacheReadTokens": obj.get("cacheReadTokens"),
+            "cacheSavedCents": obj.get("cacheSavedCents"),
+            "cacheWriteTokens": obj.get("cacheWriteTokens"),
+            "cachedShare": obj.get("cachedShare"),
             "completionTokens": obj.get("completionTokens"),
             "costCents": obj.get("costCents"),
             "models": obj.get("models"),
