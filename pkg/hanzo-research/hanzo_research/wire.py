@@ -1,7 +1,9 @@
 """Wire types of `/v1/research`: the records hanzo-inc/cloud `apps/research` stores and returns.
 
-Field names, order and JSON are the Rust crate's (`wire.rs`, `lib.rs`), which are the
-server's (`record.go`, `research.go`). Reads are tolerant as the crate's are: an unknown
+Field names, order and JSON are the server's (`record.go`, `research.go`) and the Rust
+crate's (`wire.rs`, `lib.rs`) where the crate agrees with the server: `Comparison` carries
+`a`, `b` and `config` (the crate reads `differences`, which the server never writes) and
+`Stored` carries `ref`. Reads are tolerant as the crate's are: an unknown
 key is ignored, a missing one takes its default, and a null list reads as empty. A
 pointer the server declares (`k`, `temperature`, `questions`, a measure's `lo`) stays
 `None` when absent, never 0: absence is the record declining to say.

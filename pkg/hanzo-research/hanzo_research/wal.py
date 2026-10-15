@@ -2,7 +2,10 @@
 
 Each line is one `ResearchEvent`; its `previous_event_hash` is the digest of the line before
 (64 zeros for the first), so editing, dropping or reordering a line breaks the chain, which
-`verify` finds. A log written by the Rust crate reads here, and the reverse.
+`verify` finds. A log written by the Rust crate reads and verifies here, and the reverse,
+wherever their canonical bytes agree: every payload of strings, integers within 2**53 and
+floats from 1e-6 to 1e21 in magnitude. A number outside that range hashes differently,
+since the crate writes it with Rust's `Display` rather than RFC 8785.
 """
 
 from __future__ import annotations
@@ -32,6 +35,7 @@ class ResearchWal:
         os.makedirs(run_dir, exist_ok=True)
         name = "wal.jsonl" if worker_id in ("", "worker-0") else f"wal-{worker_id}.jsonl"
         path = os.path.join(run_dir, name)
+        _mend(path)
         sequence, last = 0, GENESIS
         for event in read(path):
             sequence, last = event.sequence, event.digest()
@@ -63,8 +67,38 @@ def read(path: str) -> list[ResearchEvent]:
     """Every event of a log, in file order; a missing file is an empty log, a blank line is skipped."""
     if not os.path.exists(path):
         return []
+    out = []
     with open(path, encoding="utf-8") as f:
-        return [ResearchEvent.load(json.loads(line)) for line in f if line.strip()]
+        for n, line in enumerate(f, 1):
+            if line.strip():
+                try:
+                    out.append(ResearchEvent.load(json.loads(line)))
+                except ValueError:
+                    raise ValueError(f"{path}: line {n} is not an event") from None
+    return out
+
+
+def _mend(path: str) -> None:
+    """Mend the last line a crash left: a torn one (not JSON) is cut, a whole one missing its
+    newline gets it, so the next append starts on its own line. A torn line anywhere else
+    is corruption, which `read` reports."""
+    if not os.path.exists(path):
+        return
+    with open(path, "rb") as f:
+        data = f.read()
+    if not data or data.endswith(b"\n"):
+        return
+    end = data.rfind(b"\n") + 1
+    try:
+        json.loads(data[end:])
+    except ValueError:
+        with open(path, "r+b") as f:
+            f.truncate(end)
+            os.fsync(f.fileno())
+        return
+    with open(path, "ab") as f:
+        f.write(b"\n")
+        os.fsync(f.fileno())
 
 
 def verify(path: str) -> str:

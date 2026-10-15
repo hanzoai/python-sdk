@@ -3,8 +3,8 @@
     hanzo-research post runs.jsonl --grant public --publishable
     hanzo-research post plan.json                 # {"benchmarks": [...], "runs": [...], ...}
     hanzo-research list runs --benchmark decision.latency
-    hanzo-research list runs --org hanzo          # an org's public runs, no credential
-    hanzo-research get decision.latency-loopback-dgx.cpu-kai --org hanzo
+    hanzo-research list runs --public hanzo       # an org's public runs, no credential
+    hanzo-research get decision.latency-loopback-dgx.cpu-kai --public hanzo
     hanzo-research grant RUN_ID ... --visibility public --publishable
     hanzo-research retract RUN_ID --why "read on the wrong split"
     hanzo-research compare RUN_A RUN_B
@@ -73,13 +73,13 @@ def main(argv: Iterable[str] | None = None) -> int:
     )
     for f in ("id", "benchmark", "system", "study", "completion", "since", "until", "kind", "run", "cites"):
         s.add_argument(f"--{f}")
-    s.add_argument("--org", dest="public", help="runs: that org's public runs, no credential")
+    s.add_argument("--public", metavar="ORG", help="runs: that org's public runs, read with no credential")
     s.add_argument("--in", dest="scope", help="narrow to one project of the org")
 
     s = sub.add_parser("get", help="one record's canonical version")
     s.add_argument("id")
     s.add_argument("--kind", choices=KINDS, default="run")
-    s.add_argument("--org", dest="public", help="read that org's public runs, no credential")
+    s.add_argument("--public", metavar="ORG", help="a run of that org's public runs, read with no credential")
 
     s = sub.add_parser("grant", help="visibility and consent for runs, or an artifact by --sha256")
     s.add_argument("ids", nargs="*")
@@ -172,6 +172,8 @@ def run(a: argparse.Namespace) -> Any:
             return r.projects()
         return r.totals(project=a.scope)
     if a.cmd == "get":
+        if a.public and a.kind != "run":
+            raise ValueError("--public reads runs only")
         if a.kind == "run":
             return r.get_run(a.id, org=a.public)
         if a.kind == "benchmark":
@@ -181,6 +183,8 @@ def run(a: argparse.Namespace) -> Any:
             raise Error(f"no canonical {a.kind} {a.id!r}", 404)
         return rows[0]
     if a.cmd == "grant":
+        if a.visibility is None and a.publishable is None and a.trainable is None:
+            raise ValueError("grant needs --visibility, --publishable or --trainable")
         if a.sha256:
             return {a.sha256: r.grant(sha256=a.sha256, visibility=a.visibility)}
         if not a.ids:

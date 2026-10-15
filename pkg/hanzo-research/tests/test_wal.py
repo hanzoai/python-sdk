@@ -62,3 +62,20 @@ def test_workers_merge_in_one_order(tmp_path):
 def test_a_payload_with_no_json_form_is_refused(tmp_path):
     with pytest.raises(ValueError):
         ResearchWal.open(str(tmp_path), "run").append("step", {"loss": float("nan")})
+
+
+def test_a_torn_last_line_is_cut_and_a_whole_one_kept(tmp_path):
+    w = ResearchWal.open(str(tmp_path), "run")
+    w.append("step", {"i": 1})
+    w.append("step", {"i": 2})
+    with open(w.path, "a") as f:
+        f.write('{"run_id":"run","seq')
+    again = ResearchWal.open(str(tmp_path), "run")
+    assert again.sequence == 2
+    again.append("step", {"i": 3})
+    assert wal.verify(again.path) == again.last_event_hash
+    text = open(again.path).read().rstrip("\n")
+    open(again.path, "w").write(text)
+    last = ResearchWal.open(str(tmp_path), "run")
+    assert last.sequence == 3 and last.append("step", {"i": 4}).sequence == 4
+    assert wal.verify(last.path) == last.last_event_hash

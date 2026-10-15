@@ -45,6 +45,7 @@ __all__ = [
 
 PACKAGES = ("hanzo-research", "numpy", "torch", "transformers", "datasets", "vllm", "jax", "hanzo-kai")
 _HEX = re.compile(r"^[0-9a-fA-F]{1,64}$")
+BS = chr(92)  # a backslash, spelled once
 _SHA = re.compile(r"^(sha256:)?([0-9a-f]{64})$")
 
 
@@ -58,6 +59,15 @@ def _run(*args: str, cwd: str | None = None) -> str:
 
 def _git(repo: str, *args: str) -> str:
     return _run("git", "-C", repo, *args)
+
+
+def _bytes(repo: str, *args: str) -> bytes | None:
+    """`git -C repo args` stdout as bytes; None when git fails or takes past 120 s, never "" for an error."""
+    try:
+        out = subprocess.run(["git", "-C", repo, *args], capture_output=True, timeout=120)
+    except (OSError, subprocess.SubprocessError):
+        return None
+    return out.stdout if out.returncode == 0 else None
 
 
 def git_state(repo: str) -> dict[str, Any]:
@@ -125,20 +135,68 @@ def digest_file(path: str) -> str:
 
 
 def digest_tree(path: str) -> str:
-    """`sha256:<hex>` of a directory: of its SHA256SUMS when it holds one, else of the
-    `sha256sum` listing of every file under it, sorted by path, written as that file would be.
+    """`sha256:<hex>` of a directory, as its SHA256SUMS addresses it.
+
+    A directory holding SHA256SUMS is checked against it, every file listed and matching
+    and none unlisted, and its digest is that file's (the address a Kai release is pinned
+    by); a mismatch is a ValueError. A directory without one is digested as the SHA256SUMS
+    `sha256sum` would write for it, files sorted by path, names escaped as sha256sum does.
+    A directory symlink inside the tree is refused: what it points at is not the tree.
     """
-    sums = os.path.join(path, "SHA256SUMS")
-    if os.path.isfile(sums):
-        return digest_file(sums)
-    lines = []
+    have = {}
     for root, dirs, files in os.walk(path):
-        dirs.sort()
-        for name in sorted(files):
+        for d in dirs:
+            if os.path.islink(os.path.join(root, d)):
+                raise ValueError(f"{os.path.join(root, d)} is a directory symlink inside {path}")
+        for name in files:
             full = os.path.join(root, name)
-            rel = os.path.relpath(full, path).replace(os.sep, "/")
-            lines.append(f"{digest_file(full)[7:]}  {rel}\n")
-    return "sha256:" + hashlib.sha256("".join(sorted(lines, key=lambda s: s[66:])).encode()).hexdigest()
+            have[os.path.relpath(full, path).replace(os.sep, "/")] = full
+    sums = have.pop("SHA256SUMS", None)
+    listing = "".join(_line(digest_file(have[rel])[7:], rel) for rel in sorted(have))
+    if sums is None:
+        return "sha256:" + hashlib.sha256(listing.encode()).hexdigest()
+    want = {}
+    for line in open(sums, encoding="utf-8").read().splitlines():
+        if line.strip():
+            hexd, name = _parse(line)
+            want[name] = hexd
+    got = {rel: digest_file(full)[7:] for rel, full in have.items()}
+    for rel in sorted(set(want) | set(got)):
+        if want.get(rel) != got.get(rel):
+            what = (
+                "is not listed in"
+                if rel not in want
+                else "is missing but listed in"
+                if rel not in got
+                else "does not match"
+            )
+            raise ValueError(f"{rel} {what} {sums}")
+    return digest_file(sums)
+
+
+def _line(hexd: str, name: str) -> str:
+    # sha256sum's escaping: a name holding a backslash or a newline is escaped and the line marked
+    if BS in name or "\n" in name:
+        return BS + hexd + "  " + name.replace(BS, BS + BS).replace("\n", BS + "n") + "\n"
+    return f"{hexd}  {name}\n"
+
+
+def _parse(line: str) -> tuple[str, str]:
+    """A SHA256SUMS line as (hex, path): `hex  name` or `hex *name`, escaped when it opens with a backslash."""
+    escaped = line.startswith(BS)
+    body = line[1:] if escaped else line
+    hexd, name = body[:64].lower(), body[66:]
+    if escaped:
+        out, k = [], 0
+        while k < len(name):
+            if name[k] == BS and k + 1 < len(name):
+                out.append("\n" if name[k + 1] == "n" else name[k + 1])
+                k += 2
+            else:
+                out.append(name[k])
+                k += 1
+        name = "".join(out)
+    return hexd, name.removeprefix("./")
 
 
 def weights(value: str) -> str:
@@ -283,18 +341,15 @@ def capture(
     `git diff HEAD`, so the uncommitted state the number came from is pinned too.
     """
     top = find_repo(repo) if repo is None or os.path.isdir(repo) else repo
-    state = git_state(top)
-    diff = ""
-    if state["git_dirty"]:
-        listing = _git(top, "diff", "HEAD", "--binary") + "\n" + _git(top, "ls-files", "--others", "--exclude-standard")
-        diff = "sha256:" + hashlib.sha256(listing.encode()).hexdigest()
+    commit = _git(top, "rev-parse", "HEAD")
+    dirty, diff = _tree(top) if commit else (False, "")
     names = list(packages) if packages is not None else list(PACKAGES)
     return Provenance(
         repo=top,
         remote=_remote(top),
-        commit=state["git_sha"],
-        branch=state["git_branch"],
-        dirty=state["git_dirty"],
+        commit=commit,
+        branch=_git(top, "rev-parse", "--abbrev-ref", "HEAD"),
+        dirty=dirty,
         diff=diff,
         model=model,
         weights=_weights(weights) if weights else "",
@@ -315,10 +370,34 @@ def capture(
 _weights = weights  # capture() takes a parameter of that name
 
 
+def _tree(repo: str) -> tuple[bool, str]:
+    """(dirty, `sha256:` of what differs from HEAD): the diff and every untracked file's
+    contents. A git call that fails or times out reads dirty with the digest `unknown`,
+    never clean."""
+    status = _bytes(repo, "status", "--porcelain")
+    if status is None:
+        return True, "unknown"
+    if not status.strip():
+        return False, ""
+    diff = _bytes(repo, "diff", "HEAD", "--binary")
+    others = _bytes(repo, "ls-files", "--others", "--exclude-standard", "-z")
+    if diff is None or others is None:
+        return True, "unknown"
+    h = hashlib.sha256(diff)
+    for name in sorted(n for n in others.split(b"\0") if n):
+        full = os.path.join(repo, os.fsdecode(name))
+        h.update(b"\0" + name + b"\0" + (bytes.fromhex(digest_file(full)[7:]) if os.path.isfile(full) else b""))
+    return True, "sha256:" + h.hexdigest()
+
+
 def _remote(repo: str) -> str:
     url = _git(repo, "remote", "get-url", "origin")
-    # never a credential: https://user:token@host/... keeps only the host and path
-    return re.sub(r"^(\w+://)[^@/]+@", r"\1", url)
+    if "://" not in url:
+        return url  # scp-like git@host:path names a user, never a secret
+    # never a credential: everything up to the last @ goes, even where an unencoded / or @
+    # in the userinfo hides where the authority ends (a remote's path holds no @)
+    scheme, rest = url.split("://", 1)
+    return f"{scheme}://{rest.rpartition('@')[2]}"
 
 
 def _cpu() -> str:

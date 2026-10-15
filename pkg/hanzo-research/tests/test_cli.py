@@ -40,7 +40,7 @@ def test_post_a_jsonl_file_and_grant(cli, server, tmp_path):
     code, out, _ = cli("post", str(f), "--grant", "public", "--publishable")
     assert code == 0 and out["runs"]["recorded"] == 3
     assert out["granted"] == {f"demo-dev-c-s{i}": 1 for i in range(3)}
-    code, out, _ = cli("list", "runs", "--org", "hanzo")
+    code, out, _ = cli("list", "runs", "--public", "hanzo")
     assert out["total"] == 3 and out["completion"]["complete"] == 3
 
 

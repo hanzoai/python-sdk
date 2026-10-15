@@ -19,7 +19,7 @@ import base64
 import hashlib
 from typing import Any, Mapping, TypeVar, Iterable
 
-from . import canonical, provenance
+from . import wire, canonical, provenance
 from .wire import (
     Ack,
     Run,
@@ -36,7 +36,7 @@ from .wire import (
     Comparison,
     dump,
 )
-from .errors import Invalid, Missing
+from .errors import Error, Invalid, Missing
 from .transport import Transport
 
 __all__ = ["Research", "Experiment", "DEFAULT_LIBS"]
@@ -131,18 +131,42 @@ class Research:
         for key, rows in batches.items():
             body = [dump(r) for r in rows]
             if body:
-                out[key] = Batch.load(self.http.post(f"/v1/research/{key}", {key: body}))
+                batch = Batch.load(self.http.post(f"/v1/research/{key}", {key: body}))
+                self._filed(batch.project, key)
+                out[key] = batch
         return out
 
+    def _filed(self, project: str, what: str) -> None:
+        # the crate's `filed`: the server files under the credential's project, whatever was asked
+        if wire.scope(project) != self.project:
+            raise Error(f"{what} were committed under project {project}, not {self.project}")
+
+    def _again(self, rec: Any, revision: str) -> Batch:
+        """File `rec` as its next version, marked `revision`, in the project it lives in."""
+        if rec.project and wire.scope(rec.project) != self.project:
+            raise Invalid(f"{rec.id} is in project {rec.project}; this client files under {self.project}")
+        rec.revision = revision
+        key = _KEYS[type(rec)]
+        batch = self._write({key: [rec]})[key]
+        if batch.recorded == 0:
+            raise Invalid(f"the server already holds this version of {rec.id}: nothing was filed")
+        if isinstance(rec, Run) and (rec.visibility not in ("", "private") or rec.trainable or rec.publishable):
+            # a new version lands private; the run's grants carry over to it
+            self.grant(rec.id, visibility=rec.visibility or None, trainable=rec.trainable, publishable=rec.publishable)
+        return batch
+
     def revise(self, record: R, notes: str | None = None) -> Batch:
-        """File a correction: a new version of the record under its id, marked corrected."""
-        record.revision = "corrected"
+        """File a correction: the record's next version, marked corrected, keeping the run's grants.
+
+        A record read from this client's project (`get_run`) or built here; one from another
+        project is refused, since the server would file the version beside it, not over it.
+        """
         if notes is not None and isinstance(record, Run):
             record.notes = notes
-        return self._write({_KEYS[type(record)]: [record]})[_KEYS[type(record)]]
+        return self._again(record, "corrected")
 
     def retract(self, record: str | R, why: str) -> Batch:
-        """Withdraw a record: a version marked retracted. A run id reads its canonical run first.
+        """Withdraw a record: its next version, marked retracted. A run id reads its canonical run first.
 
         A retracted latest version takes the id out of every listing; the earlier versions stay
         retained. `why` becomes the version's notes for a run (the only kind with notes).
@@ -150,10 +174,9 @@ class Research:
         if not why.strip():
             raise Invalid("a retraction says why")
         rec: Any = self.get_run(record) if isinstance(record, str) else record
-        rec.revision = "retracted"
         if isinstance(rec, Run):
             rec.notes = why
-        return self._write({_KEYS[type(rec)]: [rec]})[_KEYS[type(rec)]]
+        return self._again(rec, "retracted")
 
     def grant(
         self,
@@ -187,8 +210,9 @@ class Research:
         out = self.http.get("/v1/research/benchmarks", {"id": id, "project": project})
         return [Benchmark.load(x) for x in out.get("data") or []]
 
-    def get_benchmark(self, id: str) -> Benchmark:
-        return _one(self.benchmarks(id=id), "benchmark", id)
+    def get_benchmark(self, id: str, project: str | None = None) -> Benchmark:
+        """One benchmark's canonical version in a project (default this client's), or `Missing`."""
+        return _one(self.benchmarks(id=id, project=project or self.project), "benchmark", id)
 
     def runs(
         self,
@@ -223,9 +247,11 @@ class Research:
         out.data = [Run.load(x) for x in out.data]
         return out
 
-    def get_run(self, id: str, org: str | None = None) -> Run:
-        """One run's canonical version, or `Missing`."""
-        return _one(self.runs(id=id, org=org).data, "run", id)
+    def get_run(self, id: str, org: str | None = None, project: str | None = None) -> Run:
+        """One run's canonical version, or `Missing`: in a project of your org (default this
+        client's; an id is unique only within a project), or with `org`, of that org's public runs."""
+        project = project or (None if org else self.project)
+        return _one(self.runs(id=id, org=org, project=project).data, "run", id)
 
     def studies(self, id: str | None = None, project: str | None = None) -> list[Study]:
         out = self.http.get("/v1/research/studies", {"id": id, "project": project})
@@ -247,9 +273,11 @@ class Research:
         self, experiments: list[Mapping[str, Any]] | None = None, attempts: list[Mapping[str, Any]] | None = None
     ) -> Ack:
         """File experiment and attempt versions in one batch, idempotent by content."""
-        return Ack.load(
+        ack = Ack.load(
             self.http.post("/v1/research/experiments", {"experiments": experiments or [], "attempts": attempts or []})
         )
+        self._filed(ack.project, "experiments and attempts")
+        return ack
 
     def query(self, project: str | None = None, kind: str | None = None) -> list[Record]:
         """Canonical experiments of a project (default the client's), narrowed to one kind."""

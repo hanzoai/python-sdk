@@ -3,7 +3,9 @@
 A child's lineage only ever narrows: its purpose is the most restrictive of its own and its
 parents', and derivation is allowed only when every parent allows it and the purpose is not
 an evaluation one. A record's `digest()` is the SHA-256 of its RFC 8785 bytes, the same
-bytes the crate hashes, so a Rust harness and a Python one agree on every address.
+bytes the crate hashes, so a Rust harness and a Python one agree on every address whose
+numbers are integers within 2**53 or floats from 1e-6 to 1e21 in magnitude (outside that,
+the crate writes Rust's `Display`, not RFC 8785; see `canonical`).
 """
 
 from __future__ import annotations

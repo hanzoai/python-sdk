@@ -20,6 +20,7 @@ What reads where:
 
 from __future__ import annotations
 
+import math
 from typing import Any, Mapping, Iterable
 from dataclasses import field, dataclass
 
@@ -242,9 +243,13 @@ class Arena:
         body = []
         for i, r in enumerate(rows):
             d = dump(r)
-            row = {k: d.get(k, 0.0 if k == "score" else "") for k in _CLAIM}
+            row = {k: d.get(k, "") for k in _CLAIM}
             if not str(row["protocol"]).strip() or not str(row["source"]).strip():
                 raise Invalid(f"claim row {i} needs a protocol and a source")
+            score = row["score"]
+            if isinstance(score, bool) or not isinstance(score, (int, float)) or not math.isfinite(score):
+                # absent or null would be filed as 0
+                raise Invalid(f"claim row {i} needs a score, a number")
             body.append(row)
         return Filed.load(self.http.post("/v1/benchmark/claims", {"data": body, "visibility": visibility}))
 
@@ -264,7 +269,7 @@ class Arena:
         confirm: bool = False,
     ) -> Admission:
         """Queue the arena's harness on a model or your endpoint. It spends money: `confirm=True` or it is refused."""
-        if not confirm:
+        if confirm is not True:
             raise Invalid("POST /v1/benchmark/runs queues a paid execution; pass confirm=True to queue it")
         body: dict[str, Any] = {"benchmarks": benchmarks}
         for k, v in (("model", model), ("endpoint", endpoint), ("attempts", attempts)):

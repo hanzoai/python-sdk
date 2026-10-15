@@ -424,7 +424,7 @@ hanzo-inc/cloud `apps/research` serves (one write, `record(benchmarks=, studies=
 papers=)`; reads `benchmarks`, `runs`, `studies`, `papers`, `get_run`, `compare`; `grant`,
 `revise`, `retract`), `Arena` every route of `apps/benchmark`,
 `provenance.capture()` reads harness commit (and the diff's SHA-256 when dirty), model,
-weights SHA-256 (a file, a directory by its SHA256SUMS, or a value), host, CPU, GPU,
+weights SHA-256 (a file, a directory checked against its SHA256SUMS, or a value), host, CPU, GPU,
 device, dtype, Python and packages, and `Provenance.apply(run)` folds them into a `Run`.
 Standard library only, Python ≥ 3.10. Tests: `uv run --no-project --with pytest pytest
 pkg/hanzo-research` over an in-process fake of both apps (`tests/fake.py`); `-m integration`
@@ -439,10 +439,19 @@ What the server does that a client has to know (read in `research.go`, `record.g
 - **`GET /v1/research/runs?org=X` is a public read only for a caller with NO org.** A
   credentialled caller gets its own org's runs whatever `org` says, so `runs(org=...)`
   sends no credential.
-- **The acting org is `X-Org-Id`, honoured only when the token's signed `orgs` names it**
-  (or the token is a SuperAdmin's); otherwise the server silently acts in the home org.
-  The client refuses such an org before the request. The project is the token's `project`
-  claim (`X-Project-Id` is minted from it), so a client asking another project is refused.
+- **The acting org is the server's reading of the token, never `owner`.** A person's home
+  is the first of its signed `orgs` (`owner` is the org of the app it signed in through);
+  `X-Org-Id` switches only to another org that set names, any org for a SuperAdmin (home
+  `admin`); a machine token (no `orgs`, or `type: application`) acts in its `owner` and
+  never switches; an `sk-` key acts in the org it was minted in. A switch the server would
+  not honour silently files under the home org, so the client refuses it before the
+  request. The project is the token's `project` claim, `default` for a key or a token
+  naming none; a client asking another is refused, and a write the server answers under
+  another project raises.
+- **A run id is unique only within a project**, and a listing with no `project` spans the
+  org: `get_run` (and so `retract`) reads the client's project, and `revise`/`retract`
+  refuse a record from another project. A new version lands private, so `revise` carries
+  the run's grants over to it.
 - **Typed ops refuse in RFC 7807** (`{"detail", "status", "title", "type"}`); the blob
   route and the gateway answer `{"error"}`. Read `detail` first.
 - The leaderboard's claims are org `admin`'s public ones only; `claims` shows every org's

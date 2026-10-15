@@ -98,6 +98,7 @@ class Fake:
         self.requests: list[dict[str, Any]] = []
         self.unavailable = 0  # answer the next N requests 503
         self.expired: set[str] = set()  # bearer tokens answered 401
+        self.project = ""  # file every write under this project instead of the caller's
         self.seq = 0
         self.lock = threading.Lock()
 
@@ -111,14 +112,19 @@ class Fake:
         if len(parts) != 3:
             return None
         c = json.loads(base64.urlsafe_b64decode(parts[1] + "=" * (-len(parts[1]) % 4)))
-        orgs = [m["org"] for m in c.get("orgs") or []] or [c.get("owner", "")]
-        home = orgs[0]
+        # the server's rule (auth_identity.go homeOrg, Acts): a person's home is the first of
+        # its signed orgs and it may switch among them, any org for a SuperAdmin (home admin);
+        # a machine (no orgs, or type application) is its owner and never switches
+        orgs = [m["org"] for m in c.get("orgs") or []]
+        machine = c.get("type") == "application" or not orgs
+        home = c.get("owner", "") if machine else orgs[0]
+        sudo = home == "admin" and not machine
         want = headers.get("X-Org-Id") or ""
-        org = want if want and (home == "admin" or (want != "admin" and want in orgs)) else home
+        org = want if want and not machine and (sudo or (want != "admin" and want in orgs)) else home
         return {
             "org": org,
             "home": home,
-            "super": home == "admin",
+            "super": sudo,
             "user": c.get("sub", ""),
             "project": c.get("project") or "default",
         }
@@ -176,7 +182,11 @@ class Fake:
                 }
             )
             added += 1
-        return {"project": who["project"], "recorded": added, "canonical": len(self.canonical(who["org"], kind))}
+        return {
+            "project": self.project or who["project"],
+            "recorded": added,
+            "canonical": len(self.canonical(who["org"], kind)),
+        }
 
     def runs(self, who: dict[str, Any] | None, q: dict[str, str]) -> dict[str, Any]:
         if who is None:

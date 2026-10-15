@@ -98,3 +98,64 @@ def test_the_narrative_takes_only_an_object_id(repo):
     assert provenance.git_state(str(repo))["git_branch"] == "main"
     assert provenance.find_repo(str(repo / ".")) == os.path.realpath(repo)
     assert provenance.host()["hostname"]
+
+
+def test_the_dirty_digest_pins_untracked_contents(repo):
+    (repo / "eval.yaml").write_text("split: test\n")
+    a = provenance.capture(repo=str(repo), gpu=False).diff
+    (repo / "eval.yaml").write_text("split: train\n")
+    b = provenance.capture(repo=str(repo), gpu=False).diff
+    assert a.startswith("sha256:") and a != b
+    (repo / "bench.py").write_bytes(b"print(\xff\xfe)\n")  # not UTF-8
+    assert provenance.capture(repo=str(repo), gpu=False).dirty
+
+
+def test_a_git_that_fails_is_never_clean(repo, monkeypatch):
+    monkeypatch.setattr(provenance, "_bytes", lambda *a: None)
+    p = provenance.capture(repo=str(repo), gpu=False)
+    assert p.dirty and p.diff == "unknown"
+
+
+def test_a_folder_is_checked_against_its_sha256sums(tmp_path):
+    d = tmp_path / "release"
+    d.mkdir()
+    (d / "model.safetensors").write_bytes(b"weights")
+    (d / "kai.json").write_text("{}")
+    sums = "".join(
+        f"{hashlib.sha256(x).hexdigest()}  {n}\n" for n, x in (("kai.json", b"{}"), ("model.safetensors", b"weights"))
+    )
+    (d / "SHA256SUMS").write_text(sums)
+    assert provenance.weights(str(d)) == "sha256:" + hashlib.sha256(sums.encode()).hexdigest()
+    (d / "model.safetensors").write_bytes(b"other weights")
+    with pytest.raises(ValueError, match="model.safetensors does not match"):
+        provenance.weights(str(d))
+    (d / "model.safetensors").write_bytes(b"weights")
+    (d / "extra.bin").write_bytes(b"x")
+    with pytest.raises(ValueError, match="extra.bin is not listed"):
+        provenance.weights(str(d))
+
+
+def test_a_name_cannot_forge_a_listing(tmp_path):
+    one, two = tmp_path / "one", tmp_path / "two"
+    one.mkdir()
+    two.mkdir()
+    z = hashlib.sha256(b"Z").hexdigest()
+    (one / f"a\n{z}  b").write_bytes(b"X")
+    (two / "a").write_bytes(b"X")
+    (two / "b").write_bytes(b"Z")
+    assert provenance.weights(str(one)) != provenance.weights(str(two))
+    (two / "linked").symlink_to(one, target_is_directory=True)
+    with pytest.raises(ValueError, match="directory symlink"):
+        provenance.weights(str(two))
+
+
+def test_no_credential_survives_in_a_remote(monkeypatch):
+    # git's own insteadOf rewrites differ by machine, so the url is given, not configured
+    for url, want in (
+        ("https://user:secret@github.com/hanzoai/x.git", "https://github.com/hanzoai/x.git"),
+        ("https://user:tok/en@github.com/hanzoai/x.git", "https://github.com/hanzoai/x.git"),
+        ("https://user:p@ss@github.com/hanzoai/x.git", "https://github.com/hanzoai/x.git"),
+        ("git@github.com:hanzoai/x.git", "git@github.com:hanzoai/x.git"),
+    ):
+        monkeypatch.setattr(provenance, "_git", lambda repo, *args, u=url: u)
+        assert provenance._remote("repo") == want

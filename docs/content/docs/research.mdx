@@ -19,10 +19,12 @@ pip install hanzo-research        # or: uv run --with hanzo-research python meas
 ```
 
 The credential is `HANZO_API_KEY`, else what `hanzo auth token` prints (a CLI token is
-fetched again when it expires). Records land in the token's org (its `owner`) and project
-(its `project` claim, else `default`). `Research(org="lux")` acts in another org the
-token belongs to (`X-Org-Id`); an org it does not belong to is refused before any request,
-since the server would file under the home org instead.
+fetched again when it expires). Records land in the org the server reads from the token
+(a person's home org, the first of its signed `orgs`; a machine token's `owner`; an API
+key's own org) and in the token's project (its `project` claim, else `default`).
+`Research(org="lux")` acts in another org a person's token belongs to (`X-Org-Id`); a
+switch the server would not honour, where it would file under the home org instead, is
+refused before any request, as is a credential sent over plain http to another machine.
 
 ## Worked example
 
@@ -79,10 +81,12 @@ print(back.completion, back.measure("all", "p50_ms").value, back.commit)
 `completion` is the server's: `complete` only when `answered == questions` and `ended` is
 set; `partial`, `inconsistent` or `unknown` otherwise. A model run names its weights:
 `capture(model="kai-1.3", weights="/models/kai-1.3", device="cuda", dtype="bf16")` hashes a
-file, or a directory by its `SHA256SUMS` (else every file under it), and `apply` sets
-`system` to the model and `version` to `<model>@<sha256>`. A dirty harness tree is recorded
-with the SHA-256 of `git diff HEAD` and the untracked files, so the number stays pinned to
-the code that made it.
+file, or a directory: one holding `SHA256SUMS` is checked against it (every file listed and
+matching, none unlisted) and named by that file's digest, as a Kai release is pinned; any
+other is digested as its `sha256sum` listing. `apply` sets `system` to the model and
+`version` to `<model>@<sha256>`. A dirty harness tree is recorded with the SHA-256 of
+`git diff HEAD` and the contents of the untracked files, so the number stays pinned to the
+code that made it; a git that fails records `unknown`, never clean.
 
 ## The research plane: `Research`
 
@@ -91,11 +95,12 @@ the code that made it.
 | `record(benchmarks=, studies=, runs=, papers=)` | `POST /v1/research/{benchmarks,studies,runs,papers}`, one batch a non-empty kind, in that order: `{"runs": [...]}` |
 | `benchmarks(id=, project=)`, `get_benchmark(id)` | `GET /v1/research/benchmarks` |
 | `runs(id=, benchmark=, system=, study=, completion=, since=, until=, project=)` | `GET /v1/research/runs`: your org's runs, private ones included, with the completion census and the fields runs leave unstated |
+| `get_run(id, project=)` | one canonical run in a project of your org (default the client's: an id is unique only within a project) |
 | `runs(org=...)`, `get_run(id, org=...)` | the same route with `?org=` and no credential: that org's public runs |
 | `studies(...)`, `papers(..., cites=)` | `GET /v1/research/{studies,papers}` |
 | `compare(a, b)` | `GET /v1/research/compare`: the reasons the two runs may not be compared, the config they differ in, the deltas |
 | `grant(id, visibility=, publishable=, trainable=)`, `grant(sha256=, visibility=)` | `POST /v1/research/grants`: on every version of the id; a write is always private until this |
-| `revise(record)` | a new version marked `corrected` |
+| `revise(record)` | a new version marked `corrected`, the run's grants carried to it (a new version lands private) |
 | `retract(id, why)` | a new version marked `retracted`: the id leaves every listing, earlier versions stay |
 | `ingest`, `query`, `totals`, `projects`, `experiment(...)` | the experiment plane: `/v1/research/{experiments,totals,projects}` |
 | `upload_artifact`, `upload_json_artifact`, `artifacts`, `get_artifact` | `/v1/research/artifacts[/<sha256>]`: `snapshot` or `report` bytes, addressed by the server's hash |
@@ -129,8 +134,8 @@ hanzo-research post runs.jsonl --grant public --publishable   # a run per line
 hanzo-research post plan.json                                 # {"benchmarks": [...], "runs": [...]}
 hanzo-research post plan.json --dry                           # print the bodies, file nothing
 hanzo-research list runs --benchmark demo.sha256
-hanzo-research list runs --org hanzo                          # hanzo's public runs, no credential
-hanzo-research get demo.sha256-16mib-cpu-dgx --org hanzo
+hanzo-research list runs --public hanzo                       # hanzo's public runs, no credential
+hanzo-research get demo.sha256-16mib-cpu-dgx --public hanzo
 hanzo-research grant RUN_ID ... --visibility public --publishable
 hanzo-research retract RUN_ID --why "read on the wrong split"
 hanzo-research compare RUN_A RUN_B

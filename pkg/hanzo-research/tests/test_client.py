@@ -6,6 +6,7 @@ import json
 import base64
 
 import pytest
+from fake import jwt
 from conftest import ATLAS, HANZO, SUPER
 from hanzo_research import (
     Run,
@@ -302,3 +303,71 @@ def test_the_default_client(server, monkeypatch):
     assert research.benchmarks(id="b")[0].id == "b" and research.studies() == [] and research.papers() == []
     c = research.compare("r1", "r2")
     assert c.a.id == "r1" and c.b.id == "r2" and server.fake.requests[-1]["query"] == {"a": "r1", "b": "r2"}
+
+
+def test_a_batch_filed_under_another_project_is_refused(server):
+    server.fake.project = "elsewhere"
+    with pytest.raises(Error, match="runs were committed under project elsewhere, not default"):
+        client(server).record(runs=[run()])
+
+
+def test_a_lookup_stays_in_the_clients_project(server):
+    atlas, home = client(server, token=ATLAS), client(server)
+    atlas.record(runs=[run("r1")])
+    atlas.grant("r1", visibility="public")
+    with pytest.raises(Missing):
+        home.retract("r1", "wrong split")
+    assert server.fake.requests[-1]["query"] == {"id": "r1", "project": "default"}
+    theirs = atlas.get_run("r1")
+    with pytest.raises(Invalid, match="r1 is in project atlas; this client files under default"):
+        home.revise(theirs)
+    assert home.runs(org="hanzo").data[0].id == "r1"
+
+
+def test_revise_keeps_the_runs_grants_and_refuses_no_change(server):
+    r = client(server)
+    r.record(runs=[run()])
+    r.grant("demo.bench-dev-a-sys", visibility="public", publishable=True)
+    got = r.get_run("demo.bench-dev-a-sys")
+    got.measures[0].value = 0.5
+    r.revise(got, notes="rescored")
+    public = r.get_run("demo.bench-dev-a-sys", org="hanzo")
+    assert public.revision == "corrected" and public.visibility == "public" and public.publishable
+    with pytest.raises(Invalid, match="already holds this version"):
+        r.revise(r.get_run("demo.bench-dev-a-sys"))
+
+
+def test_identity_is_read_as_the_server_reads_it(server):
+    acme = jwt({"sub": "u", "owner": "hanzo", "orgs": [{"org": "acme"}, {"org": "lux"}], "exp": 4102444800})
+    r = client(server, token=acme)
+    assert r.org == "acme" and r.url("x").endswith("?org=acme&id=x")  # owner is the app's org, not the home
+    machine = jwt({"owner": "admin", "type": "application", "exp": 4102444800})
+    with pytest.raises(Denied, match="a machine token acts in its own org, admin, never hanzo"):
+        client(server, token=machine, org="hanzo").runs()
+    assert client(server, token=machine).org == "admin"
+    with pytest.raises(Denied, match="an API key acts in the org it was minted in"):
+        client(server, token="sk-opaque", org="hanzo").runs()
+    with pytest.raises(Error, match="the token's project is default, not kai"):
+        client(server, token="sk-opaque", project="kai").runs()
+    assert client(server, token="sk-opaque").project == "default"
+
+
+def test_a_credential_a_header_cannot_carry_is_never_echoed(server):
+    with pytest.raises(Denied) as e:
+        client(server, token="sk-SECRET-ONE\nSECRET-TWO").runs()
+    assert "SECRET" not in str(e.value) and server.fake.requests == []
+
+
+def test_a_401_after_the_last_wait_refreshes_once(server, monkeypatch):
+    server.fake.expired.add("old")
+    server.fake.unavailable = 3
+    fresh = iter(["old", HANZO])
+    monkeypatch.setattr(wire, "token", lambda: next(fresh))
+    assert Research(base=server.url, repo=".").runs().total == 0
+    assert len(server.fake.requests) == 5
+
+
+def test_a_bearer_token_never_crosses_a_network_in_the_clear():
+    with pytest.raises(ValueError, match="neither https nor http on this machine"):
+        Research(base="http://api.example.com", api_key=HANZO)
+    assert Research(base="http://localhost:8080", api_key=HANZO).base == "http://localhost:8080"

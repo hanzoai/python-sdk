@@ -88,3 +88,19 @@ def test_presets_echo(server):
 def test_research_hands_its_credential_to_the_arena(server):
     r = Research(base=server.url, api_key=HANZO, org="lux", repo=".")
     assert r.arena.post_claims([claim()]).org == "lux"
+
+
+def test_a_claim_names_its_score(server):
+    a = arena(server)
+    n = len(server.fake.requests)
+    for bad in ({"score": None}, {}, {"score": "91"}, {"score": True}, {"score": float("nan")}):
+        row = {"benchmark": "gpqa_diamond", "model": "m", "protocol": "p", "source": "s", **bad}
+        with pytest.raises(Invalid, match="needs a score"):
+            a.post_claims([row])
+    assert len(server.fake.requests) == n
+
+
+def test_confirm_is_true_or_nothing(server):
+    for truthy in ("0", 1, "yes"):
+        with pytest.raises(Invalid, match="paid execution"):
+            arena(server).post_run(["gpqa_diamond"], model="m", confirm=truthy)
