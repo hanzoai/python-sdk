@@ -416,6 +416,51 @@ runs them against `conformance/fake.py`, and `uv run python tests/live_conforman
 against api.hanzo.ai and prints pass or fail per rule. Release: tag `hanzo-kai-v<version>`, and
 `https://pypi.org/pypi/hanzo-kai/json` is the proof, not a green run.
 
+## hanzo-research — measurements into `/v1/research` and `/v1/benchmark`
+
+`pkg/hanzo-research` (`import hanzo_research`, command `hanzo-research`) is the Python peer
+of the Rust crate `hanzo-research` (hanzoai/ml): `Research` covers every route
+hanzo-inc/cloud `apps/research` serves (one write, `record(benchmarks=, studies=, runs=,
+papers=)`; reads `benchmarks`, `runs`, `studies`, `papers`, `get_run`, `compare`; `grant`,
+`revise`, `retract`), `Arena` every route of `apps/benchmark`,
+`provenance.capture()` reads harness commit (and the diff's SHA-256 when dirty), model,
+weights SHA-256 (a file, a directory by its SHA256SUMS, or a value), host, CPU, GPU,
+device, dtype, Python and packages, and `Provenance.apply(run)` folds them into a `Run`.
+Standard library only, Python ≥ 3.10. Tests: `uv run --no-project --with pytest pytest
+pkg/hanzo-research` over an in-process fake of both apps (`tests/fake.py`); `-m integration`
+reads api.hanzo.ai with no credential. The README's worked example is executed by the
+suite, and the docs page (`docs/content/docs/research.mdx`) must show the same code.
+
+What the server does that a client has to know (read in `research.go`, `record.go`,
+`claims.go`, and on the wire):
+- **Writes are batches**: `{"benchmarks": [...]}`, `{"runs": [...]}`, `{"studies": ...}`,
+  `{"papers": ...}`, at most 20,000; zero is 400 `nothing to record`. Every write lands
+  private; only `POST /v1/research/grants` moves visibility and consents.
+- **`GET /v1/research/runs?org=X` is a public read only for a caller with NO org.** A
+  credentialled caller gets its own org's runs whatever `org` says, so `runs(org=...)`
+  sends no credential.
+- **The acting org is `X-Org-Id`, honoured only when the token's signed `orgs` names it**
+  (or the token is a SuperAdmin's); otherwise the server silently acts in the home org.
+  The client refuses such an org before the request. The project is the token's `project`
+  claim (`X-Project-Id` is minted from it), so a client asking another project is refused.
+- **Typed ops refuse in RFC 7807** (`{"detail", "status", "title", "type"}`); the blob
+  route and the gateway answer `{"error"}`. Read `detail` first.
+- The leaderboard's claims are org `admin`'s public ones only; `claims` shows every org's
+  public ones and the caller's private ones; `history`/`compare` read the arena's attempts
+  plane, not research runs; `POST /v1/benchmark/runs` queues a paid run (`confirm=True`).
+
+The Rust crate at hanzoai/ml 7c967bf79 differs from the server in four places, none
+patched here: `post_run`/`post_benchmark` send a bare record where the server reads a
+batch (400), `post_batch` sends benchmarks inside the runs body (ignored; Python's
+`record` posts them first), `Comparison`
+reads `differences` where the server writes `config`, and its 8 MiB answer cap refuses the
+hanzo org's run listing at about 1,800 runs (1.5 MB at 330 today). Its canonical numbers
+are Rust `Display`, not RFC 8785, past 1e21 and below 1e-6 and for `-0.0`
+(`tests/vectors/rust.json` pins both).
+
+Release: version by hand in `pkg/hanzo-research/pyproject.toml` (the package reads it back
+from its metadata), tag `hanzo-research-v<version>`, pushed by a person.
+
 ## Plan usage — `hanzoai.usage`
 
 `read_usage(headers)` → `Usage(usage, usage_class, paid_by, fallback, served, reason)` from

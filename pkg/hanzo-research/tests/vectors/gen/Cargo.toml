@@ -1,0 +1,14 @@
+# The canonical-JSON, record and WAL vectors in ../rust.json and ../wal.jsonl, as the Rust
+# crate writes them. Regenerate: cargo run --release --manifest-path tests/vectors/gen/Cargo.toml -- tests/vectors
+# (it writes rust.json and wal/wal.jsonl; move the log to wal.jsonl).
+[package]
+name = "vectors"
+version = "0.0.0"
+edition = "2021"
+publish = false
+
+[dependencies]
+hanzo-research = { git = "https://github.com/hanzoai/ml", rev = "7c967bf79ccb0605355df5522746fecfd3d4abec" }
+serde_json = "1"
+
+[workspace]

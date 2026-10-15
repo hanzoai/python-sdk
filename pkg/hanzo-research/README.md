@@ -1,64 +1,156 @@
 # hanzo-research
 
-Record and query Hanzo R&D evidence in one import. The ONE way every producer
-(enso-bench benchmarks, hanzo-engine/hanzo-ml kernel-perf, any research project) files
-runs into the unified `/v1/research` plane (HIP-0512) — versioned, append-only,
-idempotent by content, private by default.
+File a measurement made in Python to Hanzo's research plane (`/v1/research`) and its
+benchmark arena (`/v1/benchmark`), with what it takes to believe or repeat it: the
+harness commit, the model and its weights' SHA-256, the host, CPU and GPU, the device and
+dtype, the Python and package versions, the date. The Python peer of the Rust crate
+`hanzo-research` (hanzoai/ml): the same wire records, the same RFC 8785 digests, the same
+lineage and WAL records. Standard library only.
 
-```python
-import hanzo_research as research
-
-# get/create the experiment; provenance is auto-captured (see below)
-exp = research.experiment("benchmark", "grok-4.5", "gpqa_diamond")
-exp.record("q1", "grok-4.5", {"answer": "A", "correct": True})   # an attempt, idempotent
-exp.snapshot(png_bytes)                                          # a board-snapshot artifact
-exp.report(markdown_text)                                       # a generated-report artifact
-exp.finish(value=94.3)                                          # seal the run
-
-rows = research.query(project="enso-bench", kind="benchmark")    # read canonical
+```bash
+pip install hanzo-research        # or: uv run --with hanzo-research python measure.py
 ```
 
-## Benchmarks, runs, studies, papers
+The credential is `HANZO_API_KEY`, else what `hanzo auth token` prints (a CLI token is
+fetched again when it expires). Records land in the token's org (its `owner`) and project
+(its `project` claim, else `default`). `Research(org="lux")` acts in another org the
+token belongs to (`X-Org-Id`); an org it does not belong to is refused before any request,
+since the server would file under the home org instead.
 
-The record hanzo.ai/benchmarks draws from. A benchmark defines what is measured; a run
-is one execution with its measures; a study is the question runs answer; a paper cites
-runs. Each write is a batch, versioned and idempotent by content.
+## Worked example
+
+Measure something, file it with its provenance, make it public, read it back.
 
 ```python
-research.record(
-    benchmarks=[{"id": "enso.route", "title": "...", "metric": "route_p50_us"}],
-    runs=[{"id": "enso.route-dgx", "benchmark": "enso.route", "system": "enso",
-           "measures": [{"category": "route", "metric": "route_p50_us", "value": 12.576}],
-           "visibility": "public", "canonical": True}],
+import hashlib
+import platform
+import time
+
+from hanzo_research import Benchmark, Research, Run, Split, capture, now
+
+r = Research()
+bench = Benchmark(
+    id="demo.sha256",
+    title="SHA-256 over 16 MiB",
+    splits=[Split("16mib", 30, "30 hashes of 16 MiB of zeros, one process, after one discarded")],
+    metric="p50_ms",
+    metrics=["p50_ms", "p95_ms", "mb_s"],
 )
-research.runs(benchmark="enso.route")              # yours
-research.runs(benchmark="mcp.injection", org="hanzo")  # another org's public runs
-research.compare("run-a", "run-b")                 # side by side, with what stops it
+p = capture(device="cpu")  # harness commit, host, CPU, GPU, Python, packages, date
+start = now()
+data = bytes(16 << 20)
+hashlib.sha256(data).digest()
+ms = []
+for _ in range(30):
+    t = time.perf_counter()
+    hashlib.sha256(data).digest()
+    ms.append(1000 * (time.perf_counter() - t))
+ms.sort()
+
+run = Run(
+    id=f"demo.sha256-16mib-cpu-{p.host}",
+    benchmark=bench.id,
+    split="16mib",
+    system="hashlib",
+    version=platform.python_version(),
+    questions=30,
+    answered=30,
+    when=start,
+    ended=now(),
+)
+run.put("all", "p50_ms", ms[14], n=30, of=30)
+run.put("all", "p95_ms", ms[28], n=30, of=30)
+run.put("all", "mb_s", 16 / (ms[14] / 1000))
+p.apply(run)  # fills commit and by, appends the provenance sentence and its digest to notes
+
+r.record(benchmarks=[bench], runs=[run])  # the definition, then the run: both private
+r.grant(run.id, visibility="public", publishable=True)
+back = r.get_run(run.id, org=r.org)  # the public read: no credential
+print(back.completion, back.measure("all", "p50_ms").value, back.commit)
 ```
 
-## Zero-config auto-instrumentation
+`completion` is the server's: `complete` only when `answered == questions` and `ended` is
+set; `partial`, `inconsistent` or `unknown` otherwise. A model run names its weights:
+`capture(model="kai-1.3", weights="/models/kai-1.3", device="cuda", dtype="bf16")` hashes a
+file, or a directory by its `SHA256SUMS` (else every file under it), and `apply` sets
+`system` to the model and `version` to `<model>@<sha256>`. A dirty harness tree is recorded
+with the SHA-256 of `git diff HEAD` and the untracked files, so the number stays pinned to
+the code that made it.
 
-The caller supplies **no** provenance. On `experiment()` the SDK reads the run's
-environment and captures three self-documenting narrative sources, plus machine context:
+## The research plane: `Research`
 
-- **the calling code's docstring** — *what this experiment is* (write a normal module
-  docstring);
-- **the commit messages since this experiment's last recorded run** — *what changed +
-  why* (commit normally);
-- an optional **`note=`** you pass.
+| call | route |
+|---|---|
+| `record(benchmarks=, studies=, runs=, papers=)` | `POST /v1/research/{benchmarks,studies,runs,papers}`, one batch a non-empty kind, in that order: `{"runs": [...]}` |
+| `benchmarks(id=, project=)`, `get_benchmark(id)` | `GET /v1/research/benchmarks` |
+| `runs(id=, benchmark=, system=, study=, completion=, since=, until=, project=)` | `GET /v1/research/runs`: your org's runs, private ones included, with the completion census and the fields runs leave unstated |
+| `runs(org=...)`, `get_run(id, org=...)` | the same route with `?org=` and no credential: that org's public runs |
+| `studies(...)`, `papers(..., cites=)` | `GET /v1/research/{studies,papers}` |
+| `compare(a, b)` | `GET /v1/research/compare`: the reasons the two runs may not be compared, the config they differ in, the deltas |
+| `grant(id, visibility=, publishable=, trainable=)`, `grant(sha256=, visibility=)` | `POST /v1/research/grants`: on every version of the id; a write is always private until this |
+| `revise(record)` | a new version marked `corrected` |
+| `retract(id, why)` | a new version marked `retracted`: the id leaves every listing, earlier versions stay |
+| `ingest`, `query`, `totals`, `projects`, `experiment(...)` | the experiment plane: `/v1/research/{experiments,totals,projects}` |
+| `upload_artifact`, `upload_json_artifact`, `artifacts`, `get_artifact` | `/v1/research/artifacts[/<sha256>]`: `snapshot` or `report` bytes, addressed by the server's hash |
+| `url(run_id, org=)` | the public read address of one run: the `source` a claim cites |
 
-Plus `git_sha` / `git_branch` / `git_dirty`, `lib_versions`, and host. The project
-self-documents as a side effect of running.
+Every write is a batch of at most 20,000 and is idempotent by content: the same record
+again records nothing. A mapping is sent as given; a `Run` is sent with every field. A
+refusal raises `Denied` (401, 403), `Missing` (404), `Invalid` (400, 409, 422), `Limited`
+(413, 429) or `Unavailable` (502 to 504, no answer), each carrying the server's own
+sentence; a 503 is asked again after 2, 4 and 8 seconds. A NaN or infinity never leaves:
+`json` refuses it before the request.
 
-## Importer-agnostic, idempotent
+## The arena: `Arena` (or `Research().arena`)
 
-`ingest(experiments=…, attempts=…)` is one idempotent POST. Any source — a SQLite
-backfill, git history, a kernel-perf campaign — maps its records to stable ids and calls
-it; re-import is a no-op. "Load all research in" is just running importers.
+| call | route |
+|---|---|
+| `catalog()` | `GET /v1/benchmark/catalog` |
+| `leaderboard(benchmark)` | `GET /v1/benchmark/leaderboard`: each model's measured score (its latest run) beside a published claim. Only claims a SuperAdmin wrote under org `admin`, and public, reach it. |
+| `claims(benchmark=, model=, provider=, source=, protocol=, org=)` | `GET /v1/benchmark/claims`: every org's public claims, labelled, and your org's private ones |
+| `post_claims(rows, visibility=)` | `POST /v1/benchmark/claims`: under your acting org; each row names its `protocol` and its `source` (for a measured score, `Research.url(run_id)`), or it is refused here |
+| `history(benchmark, model=)`, `compare(a, b, benchmark=)` | `GET /v1/benchmark/{history,compare}`: read the arena's per-item attempts plane, not the research runs |
+| `presets()`, `post_preset(preset)` | `GET/POST /v1/benchmark/presets`: validated and echoed as `enso-<name>`, not stored |
+| `post_run(benchmarks, model=, endpoint=, confirm=True)` | `POST /v1/benchmark/runs`: queues a paid execution, so it is refused without `confirm=True` |
 
-## Config
+## The command
 
-`RESEARCH_BASE` (default `https://api.hanzo.ai`), `HANZO_API_KEY` (per-org key →
-Bearer), `RESEARCH_PROJECT`. Uploads are private; public visibility, training, and
-commons rights are each a separate grant. Stdlib only (urllib) — importable in any
-zero-dep harness.
+`hanzo-research` (or `python -m hanzo_research`); every answer is JSON on stdout.
+
+```bash
+hanzo-research post runs.jsonl --grant public --publishable   # a run per line
+hanzo-research post plan.json                                 # {"benchmarks": [...], "runs": [...]}
+hanzo-research post plan.json --dry                           # print the bodies, file nothing
+hanzo-research list runs --benchmark demo.sha256
+hanzo-research list runs --org hanzo                          # hanzo's public runs, no credential
+hanzo-research get demo.sha256-16mib-cpu-dgx --org hanzo
+hanzo-research grant RUN_ID ... --visibility public --publishable
+hanzo-research retract RUN_ID --why "read on the wrong split"
+hanzo-research compare RUN_A RUN_B
+hanzo-research provenance --model kai-1.3 --weights /models/kai-1.3 --device cpu
+hanzo-research arena leaderboard --benchmark gpqa_diamond
+```
+
+It is not `hanzo research`: the `hanzo` command is the native CLI, and no Python package
+in this workspace may install one.
+
+## Records beside the API
+
+- `canonical.canonicalize(value)`, `canonical.digest(value)`: RFC 8785 bytes and their
+  SHA-256, equal to the crate's `rfc8785_canonicalize`/`rfc8785_digest` on every string,
+  integer within 2^53 and float from 1e-6 to 1e21. Past that the crate writes Rust's
+  `Display` (`1e21` as 22 digits, `-0.0` as `-0`), which is not RFC 8785; this package
+  writes the RFC's `1e+21` and `0`. `tests/vectors/rust.json` holds the crate's own output.
+- `lineage`: `DataPurpose`, `LineagePolicy` (a child never less restrictive than a parent),
+  `ContaminationError`, `verify_promotion_eligibility`, and the crate's evidence records
+  (`EnvironmentV1`, `GateSpec`, `Claim`, `TeacherInteraction`, `PairEvidence`,
+  `DeterminismReport`, `ArtifactRef`, `ResearchEvent`), each with the crate's digest.
+- `wal.ResearchWal`: an fsynced, hash-chained event log. A log the crate wrote verifies here
+  (`wal.verify`), and the reverse.
+
+## Tests
+
+```bash
+uv run --no-project --with pytest pytest pkg/hanzo-research              # no network
+uv run --no-project --with pytest pytest pkg/hanzo-research -m integration  # api.hanzo.ai, no credential
+```

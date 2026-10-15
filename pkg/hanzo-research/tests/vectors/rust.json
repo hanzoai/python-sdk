@@ -1,0 +1,228 @@
+{
+  "apart": [
+    {
+      "canonical": "1000000000000000000000",
+      "value": 1e+21
+    },
+    {
+      "canonical": "0.0000001",
+      "value": 1e-7
+    },
+    {
+      "canonical": "1500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "value": 1.5e+300
+    },
+    {
+      "canonical": "-0",
+      "value": -0.0
+    },
+    {
+      "canonical": "0.000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000005",
+      "value": 5e-324
+    },
+    {
+      "canonical": "9007199254740993",
+      "value": 9007199254740993
+    },
+    {
+      "canonical": "18446744073709551615",
+      "value": 18446744073709551615
+    }
+  ],
+  "crate": "hanzo-research",
+  "records": {
+    "environment": {
+      "digest": "e5d401891cba38723a93a37a4bcd10bc080eb624b1460f920f220e95df5327f7",
+      "value": {
+        "cargo_lock_hash": "",
+        "compiler_version": "rustc",
+        "determinism_config": "",
+        "git_branch": "main",
+        "git_dirty": true,
+        "git_sha": "abc",
+        "host": "dgx",
+        "image_digest": "",
+        "kernel_version": "7.0.0",
+        "lib_versions": {
+          "hanzo-ml": "0.11.112"
+        },
+        "os": "Linux",
+        "precision_config": "bf16"
+      }
+    },
+    "event": {
+      "digest": "15830f5752208bbde0d46ae382e6d90f603af4dd1637822440a5308e98e8e654",
+      "value": {
+        "created_at": "2026-10-15T00:00:00Z",
+        "event_id": "run-1-worker-0-1-step",
+        "payload": {
+          "loss": 1.25,
+          "step": 1
+        },
+        "payload_hash": "fb017ac5a6a9a378f10ae0b180ed416b72e1a60375b0877e38c7a504ae30482e",
+        "previous_event_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+        "run_id": "run-1",
+        "sequence": 1,
+        "worker_id": "worker-0"
+      }
+    },
+    "policy": {
+      "digest": "8245875bf205b34358d1302e5f78e13beb91e65a0ab2da1b38fec08f95ce2b9e",
+      "value": {
+        "derivation_allowed": true,
+        "purpose": "teacher_mining"
+      }
+    },
+    "run": {
+      "digest": "cd91b801cdc4d8cbdf7b0cd2932a2cea55de052974097b9bfac0238bc65a5896",
+      "value": {
+        "answered": 100,
+        "baseline": false,
+        "benchmark": "demo.bench",
+        "by": "dgx",
+        "canonical": false,
+        "commit": "0123456789abcdef0123456789abcdef01234567",
+        "completion": "",
+        "dataset_digest": "",
+        "embedder": "",
+        "ended": "2026-10-15T00:10:00Z",
+        "facts_digest": "",
+        "id": "demo.bench-dev-cfg-sys",
+        "k": 10,
+        "max_tokens": null,
+        "measures": [
+          {
+            "category": "all",
+            "hi": 0.88,
+            "lo": 0.72,
+            "metric": "accuracy",
+            "n": 100,
+            "of": 100,
+            "value": 0.81
+          }
+        ],
+        "notes": "é 😀",
+        "project": "default",
+        "prompt": "",
+        "prompt_digest": "",
+        "publishable": false,
+        "questions": 100,
+        "reader": "",
+        "revision": "original",
+        "split": "dev",
+        "store_digest": "",
+        "study": "",
+        "system": "sys",
+        "temperature": 0.0,
+        "trainable": false,
+        "version": "m@abc",
+        "visibility": "",
+        "when": "2026-10-15T00:00:00Z"
+      }
+    }
+  },
+  "source": "hanzoai/ml hanzo-research @ 7c967bf79",
+  "vectors": [
+    {
+      "canonical": "{\"a\":1,\"b\":2,\"c\":{\"x\":false,\"z\":true}}",
+      "digest": "879f06e22167e9fb8c4c911a9682ed6df15cfd47e551347b97c2f852e95c8633",
+      "name": "sorting",
+      "value": {
+        "a": 1,
+        "b": 2,
+        "c": {
+          "x": false,
+          "z": true
+        }
+      }
+    },
+    {
+      "canonical": "{\"a\":[],\"n\":null,\"o\":{},\"s\":\"\"}",
+      "digest": "a0e64a9d54eb19d4d01f5430bb54ea80575a24a5436ed3d3a64a46a90f52267f",
+      "name": "empty",
+      "value": {
+        "a": [],
+        "n": null,
+        "o": {},
+        "s": ""
+      }
+    },
+    {
+      "canonical": "{\"s\":\"q\\\" b\\\\ s/ \\b\\f\\n\\r\\t \\u0001 \\u001f  é 😀  \"}",
+      "digest": "a4f961f790939cd0504b7b542a6f99b1f82c561d5b85c36c39aacc3a8f237bfe",
+      "name": "escapes",
+      "value": {
+        "s": "q\" b\\ s/ \b\f\n\r\t \u0001 \u001f  é 😀  "
+      }
+    },
+    {
+      "canonical": "{\"a\":4,\"é\":1,\"𐀀\":5,\"😀\":2,\"｡\":3,\"￿\":6}",
+      "digest": "2fde9af60a65073b84e85627130d5597de7313a31d3832dbf1d866c987506f6d",
+      "name": "utf16",
+      "value": {
+        "a": 4,
+        "é": 1,
+        "｡": 3,
+        "￿": 6,
+        "𐀀": 5,
+        "😀": 2
+      }
+    },
+    {
+      "canonical": "[0,1,-1,42,9007199254740991,-9007199254740991]",
+      "digest": "0339c6206cc3dd2c9dd28b6fbd5d8d1bba2eac60315c3605c0cd897f24d26b6c",
+      "name": "ints",
+      "value": [
+        0,
+        1,
+        -1,
+        42,
+        9007199254740991,
+        -9007199254740991
+      ]
+    },
+    {
+      "canonical": "[0.5,0.1,-1.5,1,100,3.14159,123456.789,0.000001,100000000000000000000,0.000025,0.8734610296764017]",
+      "digest": "7657ff45b99b19920c4d7ac27cd79da2004a2be9fc7e09dc13d93f2560f2a768",
+      "name": "floats",
+      "value": [
+        0.5,
+        0.1,
+        -1.5,
+        1.0,
+        100.0,
+        3.14159,
+        123456.789,
+        1e-6,
+        1e+20,
+        0.000025,
+        0.8734610296764017
+      ]
+    },
+    {
+      "canonical": "[{\"a\":\"x\",\"b\":[1,{\"c\":2,\"d\":1}]},[[],{}]]",
+      "digest": "ec08c4a540df2ee848163a6feae581f786a57051d3c674bffbc6d97296780dcf",
+      "name": "nested",
+      "value": [
+        {
+          "a": "x",
+          "b": [
+            1,
+            {
+              "c": 2,
+              "d": 1
+            }
+          ]
+        },
+        [
+          [],
+          {}
+        ]
+      ]
+    }
+  ],
+  "wal": {
+    "last": "7a9b8a8c1076a65703699887094e933bbd684e4dfdfdbfc83c1de2617af9ba93",
+    "sequence": 3
+  }
+}
