@@ -1,7 +1,7 @@
 [project]
 name = "hanzo-research"
-version = "0.1.0"
-description = "Hanzo Research SDK — record and query R&D evidence (experiments, attempts, diary artifacts) via /v1/research. Zero-config provenance auto-capture."
+version = "0.2.0"
+description = "Hanzo Research SDK — record and query R&D evidence (benchmarks, runs, studies, papers, experiments, artifacts) via /v1/research. Zero-config provenance auto-capture."
 readme = "README.md"
 license = "MIT"
 authors = [{ name = "Hanzo AI", email = "dev@hanzo.ai" }]

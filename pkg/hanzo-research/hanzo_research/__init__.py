@@ -17,7 +17,8 @@ private by default.
 """
 from .client import Research, Experiment
 
-__all__ = ["Research", "Experiment", "experiment", "query", "totals", "configure", "client"]
+__all__ = ["Research", "Experiment", "experiment", "query", "totals", "configure", "client",
+           "record", "benchmarks", "runs", "studies", "papers", "compare"]
 
 _default = None
 
@@ -53,3 +54,29 @@ def query(project=None, kind=None, canonical=True):
 def totals(project=None):
     """Read the headline totals (canonical + retained) on the default client."""
     return client().totals(project=project)
+
+
+def record(benchmarks=(), runs=(), studies=(), papers=()):
+    """Record benchmark definitions, runs, studies and papers on the default client."""
+    return client().record(benchmarks=benchmarks, runs=runs, studies=studies, papers=papers)
+
+
+def benchmarks(**filters):
+    return client().benchmarks(**filters)
+
+
+def runs(**filters):
+    """Runs, e.g. runs(benchmark="coding.own", org="hanzo") for another org's public ones."""
+    return client().runs(**filters)
+
+
+def studies(**filters):
+    return client().studies(**filters)
+
+
+def papers(**filters):
+    return client().papers(**filters)
+
+
+def compare(a, b):
+    return client().compare(a, b)

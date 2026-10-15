@@ -18,6 +18,24 @@ exp.finish(value=94.3)                                          # seal the run
 rows = research.query(project="enso-bench", kind="benchmark")    # read canonical
 ```
 
+## Benchmarks, runs, studies, papers
+
+The record hanzo.ai/benchmarks draws from. A benchmark defines what is measured; a run
+is one execution with its measures; a study is the question runs answer; a paper cites
+runs. Each write is a batch, versioned and idempotent by content.
+
+```python
+research.record(
+    benchmarks=[{"id": "enso.route", "title": "...", "metric": "route_p50_us"}],
+    runs=[{"id": "enso.route-dgx", "benchmark": "enso.route", "system": "enso",
+           "measures": [{"category": "route", "metric": "route_p50_us", "value": 12.576}],
+           "visibility": "public", "canonical": True}],
+)
+research.runs(benchmark="enso.route")              # yours
+research.runs(benchmark="mcp.injection", org="hanzo")  # another org's public runs
+research.compare("run-a", "run-b")                 # side by side, with what stops it
+```
+
 ## Zero-config auto-instrumentation
 
 The caller supplies **no** provenance. On `experiment()` the SDK reads the run's

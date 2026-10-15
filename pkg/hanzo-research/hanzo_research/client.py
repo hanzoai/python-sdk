@@ -122,6 +122,44 @@ class Research:
         path = "/v1/research/totals" + ("?project=" + urllib.parse.quote(project) if project else "")
         return self._req("GET", path)
 
+    # ── the record: benchmarks, runs, studies, papers ───────────────────────────
+    # A benchmark defines what is measured; a run is one execution of it with its
+    # measures (each {category, metric, value, lo?, hi?, n?, of?}); a study is the
+    # question runs answer; a paper is writing that cites runs. Every write is a
+    # batch, versioned and idempotent by content: re-recording the same row is a
+    # no-op, and a changed one becomes its next revision.
+    def record(self, benchmarks=(), runs=(), studies=(), papers=()):
+        """POST each non-empty batch and return the cloud's answers by kind."""
+        out = {}
+        for kind, rows in (("benchmarks", benchmarks), ("studies", studies), ("runs", runs), ("papers", papers)):
+            if rows:
+                out[kind] = self._req("POST", "/v1/research/" + kind, {kind: list(rows)})
+        return out
+
+    def _list(self, kind, **params):
+        q = urllib.parse.urlencode({k: v for k, v in params.items() if v is not None})
+        return self._req("GET", "/v1/research/" + kind + ("?" + q if q else "")).get("data") or []
+
+    def benchmarks(self, id=None, project=None):
+        """Benchmark definitions, by id or project."""
+        return self._list("benchmarks", id=id, project=project)
+
+    def runs(self, id=None, benchmark=None, system=None, study=None, completion=None, since=None, until=None, org=None):
+        """Runs, filtered as GET /v1/research/runs filters them; `org` reads another
+        org's public runs."""
+        return self._list("runs", id=id, benchmark=benchmark, system=system, study=study,
+                          completion=completion, since=since, until=until, org=org)
+
+    def studies(self, id=None, project=None):
+        return self._list("studies", id=id, project=project)
+
+    def papers(self, id=None, study=None, cites=None):
+        return self._list("papers", id=id, study=study, cites=cites)
+
+    def compare(self, a, b):
+        """Two runs side by side, with what stops the comparison."""
+        return self._req("GET", "/v1/research/compare?" + urllib.parse.urlencode({"a": a, "b": b}))
+
     # ── internal ────────────────────────────────────────────────────────────────
     def _last_run_sha(self, exp_id):
         """The git sha of this experiment's last recorded run, for the since-narrative."""
