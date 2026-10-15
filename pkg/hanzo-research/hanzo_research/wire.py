@@ -18,6 +18,8 @@ import math
 import types
 import base64
 import typing
+import decimal
+import hashlib
 import binascii
 import datetime
 import subprocess
@@ -47,6 +49,8 @@ __all__ = [
     "Totals",
     "Summary",
     "completion",
+    "IDENTITY",
+    "key",
     "load",
     "dump",
     "token",
@@ -182,6 +186,58 @@ def completion(run: Run) -> str:
     if a < q:
         return "partial"
     return "complete" if run.ended.strip() else "unknown"
+
+
+# What decides a run's number, in the order `key` hashes it. Who ran it, when, at which commit
+# and what it found are not here: two executions of one configuration are one measurement.
+IDENTITY = (
+    "benchmark",
+    "split",
+    "system",
+    "version",
+    "k",
+    "temperature",
+    "max_tokens",
+    "embedder",
+    "reader",
+    "prompt_digest",
+    "dataset_digest",
+    "store_digest",
+    "facts_digest",
+)
+
+
+def key(run: Run | Mapping[str, Any]) -> str:
+    """A run's measurement identity, the `key` the server derives on read and `?key=` filters on.
+
+    The hex SHA-256 of the `IDENTITY` fields in order, each as text followed by one NUL byte.
+    Absent is the empty string; `k` and `max_tokens` are decimal integers; `temperature` is the
+    shortest decimal that reads back as the same float, never in exponent form (0, 0.7,
+    0.0000001). hanzo-inc/cloud `apps/research` TestKeyVector holds the vectors this package's
+    tests hold.
+    """
+    d = run.dump() if isinstance(run, Wire) else run
+    h = hashlib.sha256()
+    for f in IDENTITY:
+        h.update(_identity(f, d.get(f)).encode())
+        h.update(b"\0")
+    return h.hexdigest()
+
+
+def _identity(f: str, v: Any) -> str:
+    if v is None:
+        return ""
+    if f in ("k", "max_tokens"):
+        if isinstance(v, bool) or not isinstance(v, int):
+            raise TypeError(f"{f} must be an int, got {v!r}")
+        return str(v)
+    if f == "temperature":
+        if isinstance(v, bool) or not isinstance(v, (int, float)):
+            raise TypeError(f"temperature must be a number, got {v!r}")
+        return format(decimal.Decimal(repr(float(v))).normalize(), "f")
+    if not isinstance(v, str):
+        raise TypeError(f"{f} must be a str, got {v!r}")
+    return v
 
 
 @dataclass

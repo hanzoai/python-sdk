@@ -87,7 +87,7 @@ code that made it; a git that fails records `unknown`, never clean.
 |---|---|
 | `record(benchmarks=, studies=, runs=, papers=)` | `POST /v1/research/{benchmarks,studies,runs,papers}`, one batch a non-empty kind, in that order: `{"runs": [...]}` |
 | `benchmarks(id=, project=)`, `get_benchmark(id)` | `GET /v1/research/benchmarks` |
-| `runs(id=, benchmark=, system=, study=, completion=, since=, until=, project=)` | `GET /v1/research/runs`: your org's runs, private ones included, with the completion census and the fields runs leave unstated |
+| `runs(id=, key=, benchmark=, system=, study=, completion=, since=, until=, project=)` | `GET /v1/research/runs`: your org's runs, private ones included, with the completion census and the fields runs leave unstated |
 | `get_run(id, project=)` | one canonical run in a project of your org (default the client's: an id is unique only within a project) |
 | `runs(org=...)`, `get_run(id, org=...)` | the same route with `?org=` and no credential: that org's public runs |
 | `studies(...)`, `papers(..., cites=)` | `GET /v1/research/{studies,papers}` |
@@ -98,6 +98,7 @@ code that made it; a git that fails records `unknown`, never clean.
 | `ingest`, `query`, `totals`, `projects`, `experiment(...)` | the experiment plane: `/v1/research/{experiments,totals,projects}` |
 | `upload_artifact`, `upload_json_artifact`, `artifacts`, `get_artifact` | `/v1/research/artifacts[/<sha256>]`: `snapshot` or `report` bytes, addressed by the server's hash |
 | `url(run_id, org=)` | the public read address of one run: the `source` a claim cites |
+| `measure(identity, fn, force=False)` | `GET /v1/research/runs?key=&completion=complete`, then `fn` and `POST /v1/research/runs` only on a miss or with `force` |
 
 Every write is a batch of at most 20,000 and is idempotent by content: the same record
 again records nothing. A mapping is sent as given; a `Run` is sent with every field. A
@@ -105,6 +106,33 @@ refusal raises `Denied` (401, 403), `Missing` (404), `Invalid` (400, 409, 422), 
 (413, 429) or `Unavailable` (502 to 504, no answer), each carrying the server's own
 sentence; a 503 is asked again after 2, 4 and 8 seconds. A NaN or infinity never leaves:
 `json` refuses it before the request.
+
+## Measure once
+
+A run's `key` is the SHA-256 of what decides its number: benchmark, split, system, version,
+k, temperature, max_tokens, embedder, reader and the four digests (`IDENTITY`), and nothing
+about who ran it, when, or at which commit. The server derives it on every run and filters on
+it; `key(run)` computes the same bytes before anything is spent. `measure` asks for a complete
+run under that key and calls `fn` only on a miss:
+
+```python
+identity = Run(
+    id="locomo-all-k20-enso-flash",
+    benchmark="locomo",
+    split="all",
+    system="enso-flash",
+    version="1.2.0",
+    k=20,
+    temperature=0.0,
+    dataset_digest=digest,
+)
+run = r.measure(identity, lambda: evaluate())  # returns measures, questions, answered, ended
+r.measure(identity, evaluate, force=True)  # measure again regardless
+r.runs(key=key(identity))  # every run of that measurement
+```
+
+A partial run is not a hit. `fn` may not change an identity field: a result filed under a
+configuration it did not measure is the false hit this exists to prevent.
 
 ## The arena: `Arena` (or `Research().arena`)
 
@@ -116,7 +144,7 @@ sentence; a 503 is asked again after 2, 4 and 8 seconds. A NaN or infinity never
 | `post_claims(rows, visibility=)` | `POST /v1/benchmark/claims`: under your acting org; each row names its `protocol` and its `source` (for a measured score, `Research.url(run_id)`), or it is refused here |
 | `history(benchmark, model=)`, `compare(a, b, benchmark=)` | `GET /v1/benchmark/{history,compare}`: read the arena's per-item attempts plane, not the research runs |
 | `presets()`, `post_preset(preset)` | `GET/POST /v1/benchmark/presets`: validated and echoed as `enso-<name>`, not stored |
-| `post_run(benchmarks, model=, endpoint=, confirm=True)` | `POST /v1/benchmark/runs`: queues a paid execution, so it is refused without `confirm=True` |
+| `post_run(benchmarks, model)` | `POST /v1/benchmark/runs`: per benchmark, the model's latest run the arena holds, or that nothing was queued (the arena has no executor); spends nothing |
 
 ## The command
 

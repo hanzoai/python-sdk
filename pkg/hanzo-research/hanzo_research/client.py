@@ -17,7 +17,7 @@ from __future__ import annotations
 
 import base64
 import hashlib
-from typing import Any, Mapping, TypeVar, Iterable
+from typing import Any, Mapping, TypeVar, Callable, Iterable
 
 from . import wire, canonical, provenance
 from .wire import (
@@ -34,6 +34,7 @@ from .wire import (
     Artifact,
     Benchmark,
     Comparison,
+    key,
     dump,
 )
 from .errors import Error, Invalid, Missing
@@ -217,6 +218,7 @@ class Research:
     def runs(
         self,
         id: str | None = None,
+        key: str | None = None,
         benchmark: str | None = None,
         system: str | None = None,
         study: str | None = None,
@@ -230,10 +232,12 @@ class Research:
 
         Without `org`, the caller's own org, private runs included. With `org`, that org's
         PUBLIC runs, read with no credential: the server answers `?org=` only to a caller
-        that names no org of its own. `since`/`until` bound `when` (RFC 3339).
+        that names no org of its own. `key` narrows to one measurement identity (`key(run)`);
+        `since`/`until` bound `when` (RFC 3339).
         """
         q = {
             "id": id,
+            "key": key,
             "benchmark": benchmark,
             "system": system,
             "study": study,
@@ -252,6 +256,37 @@ class Research:
         client's; an id is unique only within a project), or with `org`, of that org's public runs."""
         project = project or (None if org else self.project)
         return _one(self.runs(id=id, org=org, project=project).data, "run", id)
+
+    def measure(
+        self,
+        identity: Run | Mapping[str, Any],
+        fn: Callable[[], Run | Mapping[str, Any]],
+        force: bool = False,
+    ) -> Run:
+        """The run that measures `identity`: the org's complete one when it holds it, else `fn`'s.
+
+        `identity` is the run before it is measured: its id, its benchmark and whichever of
+        `IDENTITY` fix the measurement. Unless `force`, the org's runs are asked for a complete
+        one under `key(identity)` and the latest to end is returned; `fn` is not called and
+        nothing is spent. Otherwise `fn()` measures: it returns the results (measures,
+        questions, answered, ended and the rest) as a mapping laid over the identity, or the
+        whole `Run`. The run is recorded and returned as the server reads it back.
+
+        A partial run is not a hit. `fn` may not change an identity field: a result filed
+        under a configuration it did not measure is the false hit this exists to prevent.
+        """
+        want = key(identity)
+        if not force:
+            # checked here too: a server that predates ?key= answers every run, and none is a hit
+            held = [r for r in self.runs(key=want, completion="complete").data if key(r) == want]
+            if held:
+                return max(held, key=lambda r: (r.ended, r.when))
+        got = fn()
+        run = Run.load(dump(got) if isinstance(got, Run) else {**dump(identity), **dump(got)})
+        if key(run) != want:
+            raise Invalid(f"measure: {run.id} changed its measurement identity while it was measured")
+        self.record(runs=[run])
+        return _one(self.runs(id=run.id, key=want, project=self.project).data, "run", run.id)
 
     def studies(self, id: str | None = None, project: str | None = None) -> list[Study]:
         out = self.http.get("/v1/research/studies", {"id": id, "project": project})

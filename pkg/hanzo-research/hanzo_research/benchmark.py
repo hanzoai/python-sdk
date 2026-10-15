@@ -13,8 +13,9 @@ What reads where:
   * `claims` shows public claims of every org, plus the caller's own org's private ones.
   * `post_claims` writes under the caller's acting org, private unless `visibility="public"`.
     Writing under org `admin` needs a SuperAdmin token (owner `admin`).
-  * `post_run` asks the arena to measure a model: a PAID execution, so it is refused here
-    unless `confirm=True`. The answer is an admission, not a result.
+  * `post_run` asks what the arena holds for a model: per benchmark, its latest measured run,
+    or that nothing is held and nothing was queued (the arena has no executor). It spends
+    nothing; `Research.measure` is how a harness spends only on what is not held.
   * `post_preset` validates a blend and echoes it as `enso-<name>`; the arena stores nothing.
 """
 
@@ -38,7 +39,8 @@ __all__ = [
     "History",
     "Claim",
     "Filed",
-    "Admission",
+    "Measurement",
+    "Measurements",
     "Preset",
     "Accepted",
 ]
@@ -149,16 +151,23 @@ class Filed(Wire):
 
 
 @dataclass
-class Admission(Wire):
-    """A queued arena run: admitted, not finished."""
+class Measurement(Wire):
+    """One benchmark's answer: the model's latest run the arena holds, or why there is none."""
 
-    status: str = ""
+    benchmark: str = ""
+    latest: Point | None = None
+    harness: str = ""
+    note: str = ""
+
+
+@dataclass
+class Measurements(Wire):
+    """What the arena holds for a model, one answer per benchmark asked about, in that order."""
+
     org: str = ""
     by: str = ""
     model: str = ""
-    endpoint: str = ""
-    benchmarks: list[str] = field(default_factory=list)
-    note: str = ""
+    data: list[Measurement] = field(default_factory=list)
 
 
 @dataclass
@@ -259,20 +268,10 @@ class Arena:
     def post_preset(self, preset: Preset | Mapping[str, Any]) -> Accepted:
         return Accepted.load(self.http.post("/v1/benchmark/presets", dump(preset)))
 
-    def post_run(
-        self,
-        benchmarks: list[str],
-        model: str | None = None,
-        endpoint: str | None = None,
-        attempts: int | None = None,
-        *,
-        confirm: bool = False,
-    ) -> Admission:
-        """Queue the arena's harness on a model or your endpoint. It spends money: `confirm=True` or it is refused."""
-        if confirm is not True:
-            raise Invalid("POST /v1/benchmark/runs queues a paid execution; pass confirm=True to queue it")
-        body: dict[str, Any] = {"benchmarks": benchmarks}
-        for k, v in (("model", model), ("endpoint", endpoint), ("attempts", attempts)):
-            if v:
-                body[k] = v
-        return Admission.load(self.http.post("/v1/benchmark/runs", body))
+    def post_run(self, benchmarks: list[str], model: str) -> Measurements:
+        """What the arena holds for `model` on each benchmark: its latest run, or that nothing was queued.
+
+        The arena has no executor, so this spends nothing and queues nothing; a benchmark it holds
+        no run for names the harness that measures it, when one does.
+        """
+        return Measurements.load(self.http.post("/v1/benchmark/runs", {"benchmarks": benchmarks, "model": model}))

@@ -1,4 +1,4 @@
-"""`Arena` against the fake: catalog, board, claims, presets, and the paid run behind confirm."""
+"""`Arena` against the fake: catalog, board, claims, presets, and a run request that spends nothing."""
 
 from __future__ import annotations
 
@@ -69,15 +69,16 @@ def test_org_admin_needs_a_superadmin_token(server):
         arena(server, org="admin").post_claims([claim()])
 
 
-def test_a_paid_run_needs_confirm(server):
-    a = arena(server)
-    n = len(server.fake.requests)
-    with pytest.raises(Invalid, match="paid execution"):
-        a.post_run(["gpqa_diamond"], model="zen5-pro")
-    assert len(server.fake.requests) == n
-    adm = a.post_run(["gpqa_diamond"], model="zen5-pro", confirm=True)
-    assert adm.status == "queued" and adm.org == "hanzo"
-    assert server.fake.requests[-1]["body"] == {"benchmarks": ["gpqa_diamond"], "model": "zen5-pro"}
+def test_a_run_request_answers_what_is_held(server):
+    server.fake.attempt_rows += [
+        {"benchmark": "gpqa_diamond", "model": "zen5-pro", "run": "r1", "correct": c} for c in (True, True, False, True)
+    ]
+    held = arena(server).post_run(["gpqa_diamond", "livecodebench"], model="zen5-pro")
+    assert held.org == "hanzo" and held.model == "zen5-pro"
+    assert server.fake.requests[-1]["body"] == {"benchmarks": ["gpqa_diamond", "livecodebench"], "model": "zen5-pro"}
+    got, none = held.data
+    assert got.latest.run == "r1" and got.latest.score == 75 and got.latest.n == 4
+    assert none.latest is None and none.harness == "hanzoai/enso-bench" and "nothing was queued" in none.note
 
 
 def test_presets_echo(server):
@@ -98,9 +99,3 @@ def test_a_claim_names_its_score(server):
         with pytest.raises(Invalid, match="needs a score"):
             a.post_claims([row])
     assert len(server.fake.requests) == n
-
-
-def test_confirm_is_true_or_nothing(server):
-    for truthy in ("0", 1, "yes"):
-        with pytest.raises(Invalid, match="paid execution"):
-            arena(server).post_run(["gpqa_diamond"], model="m", confirm=truthy)

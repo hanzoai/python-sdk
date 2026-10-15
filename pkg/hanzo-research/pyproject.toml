@@ -1,6 +1,6 @@
 [project]
 name = "hanzo-research"
-version = "0.2.1"
+version = "0.3.0"
 description = "File measurements to Hanzo's /v1/research and /v1/benchmark with their provenance: harness commit, model weights, host, device."
 readme = "README.md"
 license = "MIT"

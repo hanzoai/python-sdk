@@ -19,6 +19,8 @@ import urllib.parse
 from typing import Any
 from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 
+from hanzo_research.wire import key
+
 CATALOG = [
     {
         "id": "gpqa_diamond",
@@ -38,7 +40,7 @@ CATALOG = [
 ]
 KEYS = {"benchmarks": "benchmarks", "runs": "runs", "studies": "studies", "papers": "papers"}
 NEEDS = {"benchmarks": ("id",), "runs": ("id", "benchmark"), "studies": ("id",), "papers": ("id",)}
-DERIVED = ("project", "canonical", "completion", "visibility", "trainable", "publishable")
+DERIVED = ("project", "canonical", "completion", "key", "visibility", "trainable", "publishable")
 GAPS = (
     "embedder",
     "facts_digest",
@@ -145,6 +147,7 @@ class Fake:
             r["canonical"] = True
             if kind == "runs":
                 r["completion"] = completion(r)
+                r["key"] = key(r)
             out.append(r)
         return sorted(out, key=lambda r: (r["project"], r["id"]))
 
@@ -199,7 +202,7 @@ class Fake:
             rows = self.canonical(who["org"], "runs")
         if q.get("completion") and q["completion"] not in ("complete", "partial", "inconsistent", "unknown"):
             raise Problem(422, "completion must be complete, partial, inconsistent, or unknown")
-        for f in ("project", "id", "benchmark", "system", "study", "completion"):
+        for f in ("project", "id", "key", "benchmark", "system", "study", "completion"):
             if q.get(f):
                 rows = [r for r in rows if r.get(f) == q[f]]
         if q.get("since"):
@@ -545,12 +548,33 @@ class Fake:
         if name == "runs" and method == "POST":
             if who is None:
                 raise Problem(401, "sign in")
-            return 202, {
-                "status": "queued",
-                "org": who["org"],
-                "by": who["user"],
-                "benchmarks": (body or {}).get("benchmarks"),
-            }
+            if not (body or {}).get("model"):
+                raise Problem(400, "run needs a model id")
+            native = {c["id"]: c["native"] for c in CATALOG}
+            data = []
+            for b in body.get("benchmarks") or []:
+                if b not in native:
+                    raise Problem(422, f"unknown benchmarks: {b}")
+                held = [a for a in self.attempt_rows if a["benchmark"] == b and a["model"] == body["model"]]
+                if held:
+                    n, ok = len(held), sum(1 for a in held if a["correct"])
+                    data.append(
+                        {
+                            "benchmark": b,
+                            "latest": {"run": held[-1]["run"], "score": 100 * ok / n, "n": n},
+                            "note": "measured",
+                        }
+                    )
+                else:
+                    data.append(
+                        {
+                            "benchmark": b,
+                            "latest": None,
+                            "harness": "hanzoai/enso-bench" if native[b] else "",
+                            "note": "nothing was queued",
+                        }
+                    )
+            return 200, {"org": who["org"], "by": who["user"], "model": body["model"], "data": data}
         raise Problem(404, "Not Found")
 
 

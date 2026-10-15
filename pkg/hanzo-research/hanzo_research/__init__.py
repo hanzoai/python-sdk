@@ -20,6 +20,7 @@ RFC 8785 digests, the same lineage and WAL records.
 from . import wal, wire, lineage, benchmark, canonical, provenance
 from .wal import ResearchWal
 from .wire import (
+    IDENTITY,
     Ack,
     Gap,
     Run,
@@ -40,6 +41,7 @@ from .wire import (
     KindTotal,
     Comparison,
     Difference,
+    key,
     now,
     left,
     scope,
@@ -82,6 +84,8 @@ __all__ = [
     "Totals",
     "Summary",
     "completion",
+    "IDENTITY",
+    "key",
     "token",
     "claimed",
     "left",
@@ -115,6 +119,7 @@ __all__ = [
     "studies",
     "papers",
     "compare",
+    "measure",
 ]
 
 _default: Research | None = None
@@ -189,3 +194,8 @@ def papers(**filters) -> list[Paper]:  # type: ignore[no-untyped-def]
 def compare(a: str, b: str) -> Comparison:
     """Two runs side by side on the default client."""
     return client().compare(a, b)
+
+
+def measure(identity, fn, force: bool = False) -> Run:  # type: ignore[no-untyped-def]
+    """The org's complete run under `key(identity)`, else `fn`'s results recorded (see `Research.measure`)."""
+    return client().measure(identity, fn, force=force)
