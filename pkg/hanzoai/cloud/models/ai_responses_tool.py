@@ -31,8 +31,9 @@ class AiResponsesTool(BaseModel):
     name: Optional[StrictStr] = None
     parameters: Optional[Any] = None
     strict: Optional[StrictBool] = None
+    tools: Optional[List[AiResponsesTool]] = None
     type: Optional[StrictStr] = None
-    __properties: ClassVar[List[str]] = ["description", "format", "name", "parameters", "strict", "type"]
+    __properties: ClassVar[List[str]] = ["description", "format", "name", "parameters", "strict", "tools", "type"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -73,6 +74,13 @@ class AiResponsesTool(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in tools (list)
+        _items = []
+        if self.tools:
+            for _item_tools in self.tools:
+                if _item_tools:
+                    _items.append(_item_tools.to_dict())
+            _dict['tools'] = _items
         # set to None if format (nullable) is None
         # and model_fields_set contains the field
         if self.format is None and "format" in self.model_fields_set:
@@ -100,8 +108,11 @@ class AiResponsesTool(BaseModel):
             "name": obj.get("name"),
             "parameters": obj.get("parameters"),
             "strict": obj.get("strict"),
+            "tools": [AiResponsesTool.from_dict(_item) for _item in obj["tools"]] if obj.get("tools") is not None else None,
             "type": obj.get("type")
         })
         return _obj
 
+# TODO: Rewrite to not use raise_errors
+AiResponsesTool.model_rebuild(raise_errors=False)
 
