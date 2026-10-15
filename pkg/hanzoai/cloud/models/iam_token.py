@@ -29,7 +29,7 @@ class IamToken(BaseModel):
     """ # noqa: E501
     access_token: Optional[StrictStr] = Field(default=None, alias="accessToken")
     access_token_hash: Optional[StrictStr] = Field(default=None, alias="accessTokenHash")
-    actor: Optional[StrictStr] = None
+    actor: Optional[StrictStr] = Field(default=None, description="Actor is the SuperAdmin (\"owner/name\") who opened this grant AS its User — impersonation, /v1/iam/impersonate — and Reason is why they said they did. Both empty on every grant a person established themselves. A grant with an Actor mints a short access token that names the actor in `act` and carries `imp`, and never a refresh token (issueTokens), and /v1/iam/signin refuses its code, so it cannot become a session at the issuer.")
     application: Optional[StrictStr] = None
     code: Optional[StrictStr] = None
     code_challenge: Optional[StrictStr] = Field(default=None, alias="codeChallenge")

@@ -12467,6 +12467,242 @@ class IamApi:
 
 
     @validate_call
+    def get_iam_oauth_delegation_keys(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> None:
+        """Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with.
+
+        Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with. To anyone else it answers as the token endpoint does: who are you, or not you.  The key is not a secret; publishing it is the hazard. A verifier that fetches the public JWKS and trusts what verifies would admit a delegated token as the person. So it is not in that document, and this one is not an address a relying party is ever pointed at.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_oauth_delegation_keys_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        ).data
+
+
+    @validate_call
+    def get_iam_oauth_delegation_keys_with_http_info(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> ApiResponse[None]:
+        """Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with.
+
+        Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with. To anyone else it answers as the token endpoint does: who are you, or not you.  The key is not a secret; publishing it is the hazard. A verifier that fetches the public JWKS and trusts what verifies would admit a delegated token as the person. So it is not in that document, and this one is not an address a relying party is ever pointed at.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_oauth_delegation_keys_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        response_data.read()
+        return self.api_client.response_deserialize(
+            response_data=response_data,
+            response_types_map=_response_types_map,
+        )
+
+
+    @validate_call
+    def get_iam_oauth_delegation_keys_without_preload_content(
+        self,
+        _request_timeout: Union[
+            None,
+            Annotated[StrictFloat, Field(gt=0)],
+            Tuple[
+                Annotated[StrictFloat, Field(gt=0)],
+                Annotated[StrictFloat, Field(gt=0)]
+            ]
+        ] = None,
+        _request_auth: Optional[Dict[StrictStr, Any]] = None,
+        _content_type: Optional[StrictStr] = None,
+        _headers: Optional[Dict[StrictStr, Any]] = None,
+        _host_index: Annotated[StrictInt, Field(ge=0, le=0)] = 0,
+    ) -> RESTResponseType:
+        """Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with.
+
+        Serves the public half of every delegation key, as a JWKS, to a confidential client allowed to delegate — the one resource server that verifies what it is handed, reading with the credential it delegates with. To anyone else it answers as the token endpoint does: who are you, or not you.  The key is not a secret; publishing it is the hazard. A verifier that fetches the public JWKS and trusts what verifies would admit a delegated token as the person. So it is not in that document, and this one is not an address a relying party is ever pointed at.
+
+        :param _request_timeout: timeout setting for this request. If one
+                                 number provided, it will be total request
+                                 timeout. It can also be a pair (tuple) of
+                                 (connection, read) timeouts.
+        :type _request_timeout: int, tuple(int, int), optional
+        :param _request_auth: set to override the auth_settings for an a single
+                              request; this effectively ignores the
+                              authentication in the spec for a single request.
+        :type _request_auth: dict, optional
+        :param _content_type: force content-type for the request.
+        :type _content_type: str, Optional
+        :param _headers: set to override the headers for a single
+                         request; this effectively ignores the headers
+                         in the spec for a single request.
+        :type _headers: dict, optional
+        :param _host_index: set to override the host_index for a single
+                            request; this effectively ignores the host_index
+                            in the spec for a single request.
+        :type _host_index: int, optional
+        :return: Returns the result object.
+        """ # noqa: E501
+
+        _param = self._get_iam_oauth_delegation_keys_serialize(
+            _request_auth=_request_auth,
+            _content_type=_content_type,
+            _headers=_headers,
+            _host_index=_host_index
+        )
+
+        _response_types_map: Dict[str, Optional[str]] = {
+        }
+        response_data = self.api_client.call_api(
+            *_param,
+            _request_timeout=_request_timeout
+        )
+        return response_data.response
+
+
+    def _get_iam_oauth_delegation_keys_serialize(
+        self,
+        _request_auth,
+        _content_type,
+        _headers,
+        _host_index,
+    ) -> RequestSerialized:
+
+        _host = None
+
+        _collection_formats: Dict[str, str] = {
+        }
+
+        _path_params: Dict[str, str] = {}
+        _query_params: List[Tuple[str, str]] = []
+        _header_params: Dict[str, Optional[str]] = _headers or {}
+        _form_params: List[Tuple[str, str]] = []
+        _files: Dict[
+            str, Union[str, bytes, List[str], List[bytes], List[Tuple[str, bytes]]]
+        ] = {}
+        _body_params: Optional[bytes] = None
+
+        # process the path parameters
+        # process the query parameters
+        # process the header parameters
+        # process the form parameters
+        # process the body parameter
+
+
+
+
+        # authentication setting
+        _auth_settings: List[str] = [
+            'bearer'
+        ]
+
+        return self.api_client.param_serialize(
+            method='GET',
+            resource_path='/v1/iam/oauth/delegation/keys',
+            path_params=_path_params,
+            query_params=_query_params,
+            header_params=_header_params,
+            body=_body_params,
+            post_params=_form_params,
+            files=_files,
+            auth_settings=_auth_settings,
+            collection_formats=_collection_formats,
+            _host=_host,
+            _request_auth=_request_auth
+        )
+
+
+
+
+    @validate_call
     def get_iam_oauth_logout(
         self,
         _request_timeout: Union[
@@ -24123,7 +24359,7 @@ class IamApi:
     ) -> IamApplication:
         """Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
 
-        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
+        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is created by a SuperAdmin only.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
 
         :param iam_application: (required)
         :type iam_application: IamApplication
@@ -24191,7 +24427,7 @@ class IamApi:
     ) -> ApiResponse[IamApplication]:
         """Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
 
-        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
+        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is created by a SuperAdmin only.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
 
         :param iam_application: (required)
         :type iam_application: IamApplication
@@ -24259,7 +24495,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs.
 
-        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
+        Registers an application in your organization — one product or site your people sign in to, with its own client credentials, sign-in methods and allowed redirect URIs. A name already used in the organization is refused rather than overwritten. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is created by a SuperAdmin only.  Exported so the legacy add-application alias reuses this exact path — one create, two spellings.
 
         :param iam_application: (required)
         :type iam_application: IamApplication
@@ -36044,7 +36280,7 @@ class IamApi:
     ) -> IamApplication:
         """Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
 
-        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
+        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is written by a SuperAdmin only, before and after the change.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
 
         :param owner: (required)
         :type owner: str
@@ -36120,7 +36356,7 @@ class IamApi:
     ) -> ApiResponse[IamApplication]:
         """Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
 
-        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
+        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is written by a SuperAdmin only, before and after the change.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
 
         :param owner: (required)
         :type owner: str
@@ -36196,7 +36432,7 @@ class IamApi:
     ) -> RESTResponseType:
         """Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host.
 
-        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
+        Changes an application's display, its sign-in methods and the redirect URIs it may return to — the call that makes login work from a new host. Which organization it belongs to and what it is named are fixed when it is created and are not editable here. An application that serves other organizations — isShared, or any orgChoiceMode but \"\" and \"None\" — is written by a SuperAdmin only, before and after the change.  Exported so the legacy update-application alias reuses this exact path — one update, two spellings.
 
         :param owner: (required)
         :type owner: str
