@@ -26,15 +26,15 @@ class LegalLegalFiling(BaseModel):
     """
     LegalLegalFiling
     """ # noqa: E501
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    document_ids: Optional[List[StrictStr]] = Field(default=None, alias="documentIds")
-    id: Optional[StrictStr] = None
-    jurisdiction: Optional[StrictStr] = None
-    note: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    provider: Optional[StrictStr] = None
-    status: Optional[StrictStr] = None
-    updated_at: Optional[StrictInt] = Field(default=None, alias="updatedAt")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the filing was recorded, in unix seconds.", alias="createdAt")
+    document_ids: Optional[List[StrictStr]] = Field(default=None, description="DocumentIDs are the generated documents this filing covers. At least one, and each must already belong to Org — a filing can never reach across tenants.", alias="documentIds")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the filing's server-minted handle, \"filing_\"-prefixed. It is OURS, not the state's — a state file number arrives only from a real filing partner.")
+    jurisdiction: Optional[StrictStr] = Field(default=None, description="Jurisdiction is the state or agency the filing is for, as the caller wrote it (\"DE\"). Free text, not validated against a list. Absent when the caller sent none.")
+    note: Optional[StrictStr] = Field(default=None, description="Note is the provider's explanation of Status, in prose meant for a person. On the manual default it says the documents were generated for signature and the org files them through its registered agent. Absent when the provider offered nothing.")
+    org: Optional[StrictStr] = Field(default=None, description="Org owns the filing. Every query is scoped to it, so another tenant's filing is indistinguishable from a missing one.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is the filing partner that took the submission, or \"manual\" when no partner is wired on this deployment.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is where the filing stands: manual (no partner wired — file through your registered agent), submitted (a partner accepted it), filed (the state accepted it) or rejected.")
+    updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when it last changed, in unix seconds. Equal to CreatedAt until a provider reports movement.", alias="updatedAt")
     __properties: ClassVar[List[str]] = ["createdAt", "documentIds", "id", "jurisdiction", "note", "org", "provider", "status", "updatedAt"]
 
     model_config = ConfigDict(

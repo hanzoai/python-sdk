@@ -27,17 +27,17 @@ class LegalDocumentView(BaseModel):
     LegalDocumentView
     """ # noqa: E501
     body: Optional[StrictStr] = Field(default=None, description="Body is the rendered document. It is sealed at rest and returned only to the owning org. When the template is counsel-review it opens with the counsel notice, which the engine prepends and no caller can suppress.")
-    category: Optional[StrictStr] = None
+    category: Optional[StrictStr] = Field(default=None, description="Category is the template's category: formation, equity, ops or sales.")
     content_type: Optional[StrictStr] = Field(default=None, description="ContentType is the rendered body's media type — text/markdown.", alias="contentType")
-    created_at: Optional[StrictInt] = Field(default=None, alias="createdAt")
-    esign_provider: Optional[StrictStr] = Field(default=None, alias="esignProvider")
-    id: Optional[StrictStr] = None
-    signed_at: Optional[StrictInt] = Field(default=None, alias="signedAt")
-    status: Optional[StrictStr] = None
-    template_id: Optional[StrictStr] = Field(default=None, alias="templateId")
-    template_version: Optional[StrictInt] = Field(default=None, alias="templateVersion")
-    title: Optional[StrictStr] = None
-    updated_at: Optional[StrictInt] = Field(default=None, alias="updatedAt")
+    created_at: Optional[StrictInt] = Field(default=None, description="CreatedAt is when the document was generated, in unix seconds.", alias="createdAt")
+    esign_provider: Optional[StrictStr] = Field(default=None, description="EsignProvider names the e-signature provider handling it, absent until a signature has been requested.", alias="esignProvider")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the document's server-minted handle, \"doc_\"-prefixed.")
+    signed_at: Optional[StrictInt] = Field(default=None, description="SignedAt is when the provider reported completion, in unix seconds. Absent until then.", alias="signedAt")
+    status: Optional[StrictStr] = Field(default=None, description="Status is the lifecycle state: draft, out_for_signature, signed or voided. There is deliberately no \"legally valid\" state — that is counsel's determination, not the platform's.")
+    template_id: Optional[StrictStr] = Field(default=None, description="TemplateID is the template it was rendered from.", alias="templateId")
+    template_version: Optional[StrictInt] = Field(default=None, description="TemplateVersion is WHICH version of that template rendered it, so the document is reproducible and auditable.", alias="templateVersion")
+    title: Optional[StrictStr] = Field(default=None, description="Title is the document's title, inherited from the template.")
+    updated_at: Optional[StrictInt] = Field(default=None, description="UpdatedAt is when it last changed, in unix seconds.", alias="updatedAt")
     __properties: ClassVar[List[str]] = ["body", "category", "contentType", "createdAt", "esignProvider", "id", "signedAt", "status", "templateId", "templateVersion", "title", "updatedAt"]
 
     model_config = ConfigDict(

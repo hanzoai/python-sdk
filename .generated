@@ -374,7 +374,6 @@ pkg/hanzoai/cloud/models/auto_version_page.py
 pkg/hanzoai/cloud/models/bank_tally.py
 pkg/hanzoai/cloud/models/base_base_health.py
 pkg/hanzoai/cloud/models/base_base_view.py
-pkg/hanzoai/cloud/models/benchmark_admission.py
 pkg/hanzoai/cloud/models/benchmark_benchmark.py
 pkg/hanzoai/cloud/models/benchmark_benchmark_catalog.py
 pkg/hanzoai/cloud/models/benchmark_claim_row.py
@@ -382,11 +381,13 @@ pkg/hanzoai/cloud/models/benchmark_claims_out.py
 pkg/hanzoai/cloud/models/benchmark_history_out.py
 pkg/hanzoai/cloud/models/benchmark_leader_row.py
 pkg/hanzoai/cloud/models/benchmark_leaderboard.py
+pkg/hanzoai/cloud/models/benchmark_measurement.py
+pkg/hanzoai/cloud/models/benchmark_measurements.py
 pkg/hanzoai/cloud/models/benchmark_model_history.py
 pkg/hanzoai/cloud/models/benchmark_pairing.py
 pkg/hanzoai/cloud/models/benchmark_preset.py
-pkg/hanzoai/cloud/models/benchmark_preset_accepted.py
 pkg/hanzoai/cloud/models/benchmark_preset_list.py
+pkg/hanzoai/cloud/models/benchmark_preset_stored.py
 pkg/hanzoai/cloud/models/benchmark_published_claim.py
 pkg/hanzoai/cloud/models/benchmark_put_claims_in.py
 pkg/hanzoai/cloud/models/benchmark_put_claims_out.py

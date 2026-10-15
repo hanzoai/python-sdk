@@ -38,7 +38,7 @@ class IamWebauthnCredential(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     credential_id: Optional[StrictStr] = Field(default=None, alias="credentialId")
     deleted: Optional[StrictBool] = None
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     public_key: Optional[StrictStr] = Field(default=None, alias="publicKey")

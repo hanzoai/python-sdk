@@ -40,7 +40,7 @@ class IamCert(BaseModel):
     domain_expire_time: Optional[StrictStr] = Field(default=None, alias="domainExpireTime")
     expire_in_years: Optional[StrictInt] = Field(default=None, alias="expireInYears")
     expire_time: Optional[StrictStr] = Field(default=None, alias="expireTime")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     provider: Optional[StrictStr] = None

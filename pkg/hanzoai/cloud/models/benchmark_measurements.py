@@ -19,21 +19,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
+from hanzoai.cloud.models.benchmark_measurement import BenchmarkMeasurement
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BenchmarkAdmission(BaseModel):
+class BenchmarkMeasurements(BaseModel):
     """
-    BenchmarkAdmission
+    BenchmarkMeasurements
     """ # noqa: E501
-    benchmarks: Optional[List[StrictStr]] = Field(default=None, description="Benchmarks are the catalog ids admitted.")
-    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who asked for it.")
-    endpoint: Optional[StrictStr] = Field(default=None, description="Endpoint is the caller's own endpoint the run targets.")
-    model: Optional[StrictStr] = Field(default=None, description="Model is the catalog model the run targets.")
-    note: Optional[StrictStr] = Field(default=None, description="Note explains what admission does and does not promise.")
-    org: Optional[StrictStr] = Field(default=None, description="Org is the org the run is admitted for: the caller's verified org.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is \"queued\": the run is admitted, not finished.")
-    __properties: ClassVar[List[str]] = ["benchmarks", "by", "endpoint", "model", "note", "org", "status"]
+    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who asked.")
+    data: Optional[List[BenchmarkMeasurement]] = Field(default=None, description="Data is one answer per benchmark, in the order the request named them.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the model asked about.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the caller's verified org.")
+    __properties: ClassVar[List[str]] = ["by", "data", "model", "org"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -53,7 +51,7 @@ class BenchmarkAdmission(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BenchmarkAdmission from a JSON string"""
+        """Create an instance of BenchmarkMeasurements from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -74,11 +72,18 @@ class BenchmarkAdmission(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of each item in data (list)
+        _items = []
+        if self.data:
+            for _item_data in self.data:
+                if _item_data:
+                    _items.append(_item_data.to_dict())
+            _dict['data'] = _items
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BenchmarkAdmission from a dict"""
+        """Create an instance of BenchmarkMeasurements from a dict"""
         if obj is None:
             return None
 
@@ -86,13 +91,10 @@ class BenchmarkAdmission(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "benchmarks": obj.get("benchmarks"),
             "by": obj.get("by"),
-            "endpoint": obj.get("endpoint"),
+            "data": [BenchmarkMeasurement.from_dict(_item) for _item in obj["data"]] if obj.get("data") is not None else None,
             "model": obj.get("model"),
-            "note": obj.get("note"),
-            "org": obj.get("org"),
-            "status": obj.get("status")
+            "org": obj.get("org")
         })
         return _obj
 

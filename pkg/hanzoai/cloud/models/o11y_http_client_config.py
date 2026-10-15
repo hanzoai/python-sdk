@@ -37,10 +37,10 @@ class O11yHTTPClientConfig(BaseModel):
     enable_http2: Optional[StrictBool] = Field(default=None, description="EnableHTTP2 specifies whether the client should configure HTTP2. The omitempty flag is not set, because it would be hidden from the marshalled configuration when set to false.")
     follow_redirects: Optional[StrictBool] = Field(default=None, description="FollowRedirects specifies whether the client should follow HTTP 3xx redirects. The omitempty flag is not set, because it would be hidden from the marshalled configuration when set to false.")
     http_headers: Optional[Any] = None
-    no_proxy: Optional[StrictStr] = None
+    no_proxy: Optional[StrictStr] = Field(default=None, description="NoProxy contains addresses that should not use a proxy.")
     oauth2: Optional[O11yOAuth2] = Field(default=None, description="The OAuth2 client credentials used to fetch a token for the targets.")
-    proxy_connect_header: Optional[Dict[str, List[Any]]] = None
-    proxy_from_environment: Optional[StrictBool] = None
+    proxy_connect_header: Optional[Dict[str, List[Any]]] = Field(default=None, description="ProxyConnectHeader optionally specifies headers to send to proxies during CONNECT requests. Assume that at least _some_ of these headers are going to contain secrets and use Secret as the value type instead of string.")
+    proxy_from_environment: Optional[StrictBool] = Field(default=None, description="ProxyFromEnvironment makes use of net/http ProxyFromEnvironment function to determine proxies.")
     proxy_url: Optional[Any] = None
     tls_config: Optional[O11yTLSConfig] = Field(default=None, description="TLSConfig to use to connect to the targets.")
     __properties: ClassVar[List[str]] = ["authorization", "basic_auth", "bearer_token", "bearer_token_file", "enable_http2", "follow_redirects", "http_headers", "no_proxy", "oauth2", "proxy_connect_header", "proxy_from_environment", "proxy_url", "tls_config"]

@@ -28,24 +28,24 @@ class FunctionFunctionDetail(BaseModel):
     """
     FunctionFunctionDetail
     """ # noqa: E501
-    avg_duration_ms: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="avgDurationMs")
-    created_at: Optional[StrictStr] = Field(default=None, alias="createdAt")
-    endpoint: Optional[StrictStr] = None
-    env_count: Optional[StrictInt] = Field(default=None, alias="envCount")
-    environment: Optional[StrictStr] = None
-    errors7d: Optional[StrictInt] = None
-    image: Optional[StrictStr] = None
-    invocations7d: Optional[StrictInt] = None
-    last_deployed_at: Optional[StrictStr] = Field(default=None, alias="lastDeployedAt")
-    memory_limit: Optional[StrictStr] = Field(default=None, alias="memoryLimit")
-    name: Optional[StrictStr] = None
-    namespace: Optional[StrictStr] = None
+    avg_duration_ms: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="mean wall-clock of those runs", alias="avgDurationMs")
+    created_at: Optional[StrictStr] = Field(default=None, description="when it was first published", alias="createdAt")
+    endpoint: Optional[StrictStr] = Field(default=None, description="the path that invokes it")
+    env_count: Optional[StrictInt] = Field(default=None, description="how many secret NAMES it mounts; values are never carried", alias="envCount")
+    environment: Optional[StrictStr] = Field(default=None, description="the language it runs under")
+    errors7d: Optional[StrictInt] = Field(default=None, description="how many of those runs failed")
+    image: Optional[StrictStr] = Field(default=None, description="the prebuilt image it runs, when it runs one instead of source")
+    invocations7d: Optional[StrictInt] = Field(default=None, description="runs in the last 7 days; ABSENT, never 0, when it has not run")
+    last_deployed_at: Optional[StrictStr] = Field(default=None, description="when its code last changed", alias="lastDeployedAt")
+    memory_limit: Optional[StrictStr] = Field(default=None, description="the memory it runs with, and the multiplier on its compute charge", alias="memoryLimit")
+    name: Optional[StrictStr] = Field(default=None, description="the function's org-unique handle")
+    namespace: Optional[StrictStr] = Field(default=None, description="the display group it belongs to; the org is the isolation key")
     recent_invocations: Optional[List[FunctionInvocationView]] = Field(default=None, description="RecentInvocations is its twenty most recent runs, newest first.", alias="recentInvocations")
     secrets: Optional[List[StrictStr]] = Field(default=None, description="Secrets are the NAMES it mounts. Values are never read or returned.")
-    status: Optional[StrictStr] = None
-    success_rate: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="successRate")
-    target: Optional[StrictStr] = None
-    timeout_sec: Optional[StrictInt] = Field(default=None, alias="timeoutSec")
+    status: Optional[StrictStr] = Field(default=None, description="whether it is ready to serve")
+    success_rate: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="share of those runs that succeeded, 0..1", alias="successRate")
+    target: Optional[StrictStr] = Field(default=None, description="where it runs: empty for the sandbox, \"fleet\" for the org's GPU fleet")
+    timeout_sec: Optional[StrictInt] = Field(default=None, description="its per-invocation deadline", alias="timeoutSec")
     triggers: Optional[List[FunctionTriggerView]] = Field(default=None, description="Triggers is how this function is reached.")
     __properties: ClassVar[List[str]] = ["avgDurationMs", "createdAt", "endpoint", "envCount", "environment", "errors7d", "image", "invocations7d", "lastDeployedAt", "memoryLimit", "name", "namespace", "recentInvocations", "secrets", "status", "successRate", "target", "timeoutSec", "triggers"]
 

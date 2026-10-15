@@ -50686,10 +50686,10 @@ class O11yApi:
         self,
         id: StrictStr,
         name: Annotated[StrictStr, Field(description="Name is the label key whose values to list. Required.")],
-        start_unix_milli: Optional[StrictInt] = None,
-        end_unix_milli: Optional[StrictInt] = None,
-        search_text: Optional[StrictStr] = None,
-        limit: Optional[StrictInt] = None,
+        start_unix_milli: Annotated[Optional[StrictInt], Field(description="StartUnixMilli is the window start, unix milliseconds.")] = None,
+        end_unix_milli: Annotated[Optional[StrictInt], Field(description="EndUnixMilli is the window end, unix milliseconds.")] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="SearchText narrows the keys to those containing it.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many keys come back. Absent means 50, capped at 200.")] = None,
         existing_query: Annotated[Optional[StrictStr], Field(description="ExistingQuery is a filter expression scoping which values appear.")] = None,
         _request_timeout: Union[
             None,
@@ -50712,13 +50712,13 @@ class O11yApi:
         :type id: str
         :param name: Name is the label key whose values to list. Required. (required)
         :type name: str
-        :param start_unix_milli:
+        :param start_unix_milli: StartUnixMilli is the window start, unix milliseconds.
         :type start_unix_milli: int
-        :param end_unix_milli:
+        :param end_unix_milli: EndUnixMilli is the window end, unix milliseconds.
         :type end_unix_milli: int
-        :param search_text:
+        :param search_text: SearchText narrows the keys to those containing it.
         :type search_text: str
-        :param limit:
+        :param limit: Limit caps how many keys come back. Absent means 50, capped at 200.
         :type limit: int
         :param existing_query: ExistingQuery is a filter expression scoping which values appear.
         :type existing_query: str
@@ -50778,10 +50778,10 @@ class O11yApi:
         self,
         id: StrictStr,
         name: Annotated[StrictStr, Field(description="Name is the label key whose values to list. Required.")],
-        start_unix_milli: Optional[StrictInt] = None,
-        end_unix_milli: Optional[StrictInt] = None,
-        search_text: Optional[StrictStr] = None,
-        limit: Optional[StrictInt] = None,
+        start_unix_milli: Annotated[Optional[StrictInt], Field(description="StartUnixMilli is the window start, unix milliseconds.")] = None,
+        end_unix_milli: Annotated[Optional[StrictInt], Field(description="EndUnixMilli is the window end, unix milliseconds.")] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="SearchText narrows the keys to those containing it.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many keys come back. Absent means 50, capped at 200.")] = None,
         existing_query: Annotated[Optional[StrictStr], Field(description="ExistingQuery is a filter expression scoping which values appear.")] = None,
         _request_timeout: Union[
             None,
@@ -50804,13 +50804,13 @@ class O11yApi:
         :type id: str
         :param name: Name is the label key whose values to list. Required. (required)
         :type name: str
-        :param start_unix_milli:
+        :param start_unix_milli: StartUnixMilli is the window start, unix milliseconds.
         :type start_unix_milli: int
-        :param end_unix_milli:
+        :param end_unix_milli: EndUnixMilli is the window end, unix milliseconds.
         :type end_unix_milli: int
-        :param search_text:
+        :param search_text: SearchText narrows the keys to those containing it.
         :type search_text: str
-        :param limit:
+        :param limit: Limit caps how many keys come back. Absent means 50, capped at 200.
         :type limit: int
         :param existing_query: ExistingQuery is a filter expression scoping which values appear.
         :type existing_query: str
@@ -50870,10 +50870,10 @@ class O11yApi:
         self,
         id: StrictStr,
         name: Annotated[StrictStr, Field(description="Name is the label key whose values to list. Required.")],
-        start_unix_milli: Optional[StrictInt] = None,
-        end_unix_milli: Optional[StrictInt] = None,
-        search_text: Optional[StrictStr] = None,
-        limit: Optional[StrictInt] = None,
+        start_unix_milli: Annotated[Optional[StrictInt], Field(description="StartUnixMilli is the window start, unix milliseconds.")] = None,
+        end_unix_milli: Annotated[Optional[StrictInt], Field(description="EndUnixMilli is the window end, unix milliseconds.")] = None,
+        search_text: Annotated[Optional[StrictStr], Field(description="SearchText narrows the keys to those containing it.")] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps how many keys come back. Absent means 50, capped at 200.")] = None,
         existing_query: Annotated[Optional[StrictStr], Field(description="ExistingQuery is a filter expression scoping which values appear.")] = None,
         _request_timeout: Union[
             None,
@@ -50896,13 +50896,13 @@ class O11yApi:
         :type id: str
         :param name: Name is the label key whose values to list. Required. (required)
         :type name: str
-        :param start_unix_milli:
+        :param start_unix_milli: StartUnixMilli is the window start, unix milliseconds.
         :type start_unix_milli: int
-        :param end_unix_milli:
+        :param end_unix_milli: EndUnixMilli is the window end, unix milliseconds.
         :type end_unix_milli: int
-        :param search_text:
+        :param search_text: SearchText narrows the keys to those containing it.
         :type search_text: str
-        :param limit:
+        :param limit: Limit caps how many keys come back. Absent means 50, capped at 200.
         :type limit: int
         :param existing_query: ExistingQuery is a filter expression scoping which values appear.
         :type existing_query: str

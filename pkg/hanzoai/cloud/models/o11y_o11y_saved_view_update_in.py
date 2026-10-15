@@ -32,7 +32,7 @@ class O11yO11ySavedViewUpdateIn(BaseModel):
     composite_query: Optional[O11yV3CompositeQuery] = Field(default=None, alias="compositeQuery")
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
     created_by: Optional[StrictStr] = Field(default=None, alias="createdBy")
-    extra_data: Optional[StrictStr] = Field(default=None, alias="extraData")
+    extra_data: Optional[StrictStr] = Field(default=None, description="ExtraData is JSON encoded data used by frontend to store additional data", alias="extraData")
     id: Optional[Any] = None
     name: Optional[StrictStr] = None
     source_page: Optional[StrictStr] = Field(default=None, alias="sourcePage")

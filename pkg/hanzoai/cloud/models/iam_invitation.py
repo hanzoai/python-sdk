@@ -36,7 +36,7 @@ class IamInvitation(BaseModel):
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     email: Optional[StrictStr] = None
     generated: Optional[StrictBool] = Field(default=None, description="Generated reports that IAM minted Code itself, from crypto/rand, when the invitation was created. Only such a code is compared without limit; any code a caller wrote is compared only while the org is not being guessed at, however it looks, because a code that looks random need not be.")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_regexp: Optional[StrictBool] = Field(default=None, alias="isRegexp")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None

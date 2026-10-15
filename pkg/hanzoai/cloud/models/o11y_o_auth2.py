@@ -41,9 +41,9 @@ class O11yOAuth2(BaseModel):
     endpoint_params: Optional[Dict[str, StrictStr]] = None
     grant_type: Optional[StrictStr] = Field(default=None, description="GrantType is the OAuth2 grant type to use. It can be one of \"client_credentials\" or \"urn:ietf:params:oauth:grant-type:jwt-bearer\" (RFC 7523). Default value is \"client_credentials\"")
     iss: Optional[StrictStr] = Field(default=None, description="Iss is the OAuth client identifier used when communicating with the configured OAuth provider. Default value is client_id. Only used if GrantType is set to \"urn:ietf:params:oauth:grant-type:jwt-bearer\".")
-    no_proxy: Optional[StrictStr] = None
-    proxy_connect_header: Optional[Dict[str, List[Any]]] = None
-    proxy_from_environment: Optional[StrictBool] = None
+    no_proxy: Optional[StrictStr] = Field(default=None, description="NoProxy contains addresses that should not use a proxy.")
+    proxy_connect_header: Optional[Dict[str, List[Any]]] = Field(default=None, description="ProxyConnectHeader optionally specifies headers to send to proxies during CONNECT requests. Assume that at least _some_ of these headers are going to contain secrets and use Secret as the value type instead of string.")
+    proxy_from_environment: Optional[StrictBool] = Field(default=None, description="ProxyFromEnvironment makes use of net/http ProxyFromEnvironment function to determine proxies.")
     proxy_url: Optional[Any] = None
     scopes: Optional[List[StrictStr]] = None
     signature_algorithm: Optional[StrictStr] = Field(default=None, description="SignatureAlgorithm is the RSA algorithm used to sign JWT token. Only used if GrantType is set to \"urn:ietf:params:oauth:grant-type:jwt-bearer\". Default value is RS256 and valid values RS256, RS384, RS512")

@@ -27,9 +27,9 @@ class O11yO11yDashboardViewUpdateIn(BaseModel):
     """
     O11yO11yDashboardViewUpdateIn
     """ # noqa: E501
-    data: Optional[O11yO11yDashboardViewData] = None
+    data: Optional[O11yO11yDashboardViewData] = Field(default=None, description="Data is the listing state the view captures.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the saved view id from the path.")
-    name: Optional[StrictStr] = None
+    name: Optional[StrictStr] = Field(default=None, description="Name is the saved view's name; at most 32 characters, no surrounding space.")
     __properties: ClassVar[List[str]] = ["data", "id", "name"]
 
     model_config = ConfigDict(

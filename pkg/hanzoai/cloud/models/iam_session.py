@@ -32,7 +32,7 @@ class IamSession(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
     exclusive_signin: Optional[StrictBool] = Field(default=None, description="ExclusiveSignin is a transient control flag (v1 xorm:\"-\"): a caller sets it on a create to collapse SessionId down to the single incoming cookie instead of appending. It is never stored — a persisted session always carries it false, so orm:\"-\" keeps it off the column backends and omitempty keeps it out of the SQLite JSON blob.", alias="exclusiveSignin")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None
     session_id: Optional[List[StrictStr]] = Field(default=None, alias="sessionId")

@@ -37,7 +37,7 @@ class IamKey(BaseModel):
     deleted: Optional[StrictBool] = None
     display_name: Optional[StrictStr] = Field(default=None, description="DisplayName is the human-facing label.", alias="displayName")
     expire_time: Optional[StrictStr] = Field(default=None, description="ExpireTime is when the key stops being honored (empty = never). State is the lifecycle flag (\"Active\", \"test\", …); \"test\" mints test-env credentials instead of live ones.", alias="expireTime")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = None
     organization: Optional[StrictStr] = None
     owner: Optional[StrictStr] = Field(default=None, description="Owner is the tenant that holds the key; Name is unique within Owner.")

@@ -29,22 +29,22 @@ class PlatformDeclared(BaseModel):
     """
     PlatformDeclared
     """ # noqa: E501
-    application: Optional[StrictStr] = None
-    automated: Optional[StrictBool] = None
+    application: Optional[StrictStr] = Field(default=None, description="Application is the CD Application name the generator mints from the path — the directory joined to the file name, less any words the two share (applicationName). It is how cd.hanzo.ai names the app.")
+    automated: Optional[StrictBool] = Field(default=None, description="Automated is cd.automated: false means the Application reports drift and NOTHING moves. It is off by default for a new file on purpose.")
     cd: Optional[PlatformCDApp] = None
-    component: Optional[StrictStr] = None
-    digest: Optional[StrictStr] = None
-    env: Optional[List[PlatformDeclareEnv]] = None
-    hosts: Optional[List[StrictStr]] = None
-    name: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    part_of: Optional[StrictStr] = Field(default=None, alias="partOf")
-    path: Optional[StrictStr] = None
-    project: Optional[StrictStr] = None
+    component: Optional[StrictStr] = Field(default=None, description="Component is the app's role within its project (`component`), \"\" when unnamed.")
+    digest: Optional[StrictStr] = Field(default=None, description="image.digest — wins over tag")
+    env: Optional[List[PlatformDeclareEnv]] = Field(default=None, description="Env is the declared container environment, as the chart's list of {name,value}. It is read back so a re-declare of an identical body is a no-op rather than a refusal — idempotency is what makes a retry safe.")
+    hosts: Optional[List[StrictStr]] = Field(default=None, description="ingress.hosts, both shapes flattened")
+    name: Optional[StrictStr] = Field(default=None, description="the Helm release name — the file's basename")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the owner. It is ALSO the values directory and the destination namespace, because those are one value under one name — see the header.")
+    part_of: Optional[StrictStr] = Field(default=None, description="PartOf is the platform project this app belongs to: the values file's own `partOf` key, which the chart also stamps on every object it renders as app.kubernetes.io/part-of. It is the ONE declaration of membership — there is no project table — and \"\" means the file names none.", alias="partOf")
+    path: Optional[StrictStr] = Field(default=None, description="Path is the file, relative to the repository root.")
+    project: Optional[StrictStr] = Field(default=None, description="Project is the AppProject the sync is admitted under, derived from the directory exactly as the ApplicationSet derives it. It differs from Org for a reserved directory, which syncs under the platform fence.")
     replicas: Optional[StrictInt] = None
-    repository: Optional[StrictStr] = None
-    secrets: Optional[List[PlatformSecretRef]] = None
-    tag: Optional[StrictStr] = None
+    repository: Optional[StrictStr] = Field(default=None, description="image.repository")
+    secrets: Optional[List[PlatformSecretRef]] = Field(default=None, description="Secrets are the KMS coordinates the app reads — kmsSecrets and secrets.paths — as paths and key names. A values file never carries a secret value, so neither does this.")
+    tag: Optional[StrictStr] = Field(default=None, description="image.tag")
     __properties: ClassVar[List[str]] = ["application", "automated", "cd", "component", "digest", "env", "hosts", "name", "org", "partOf", "path", "project", "replicas", "repository", "secrets", "tag"]
 
     model_config = ConfigDict(

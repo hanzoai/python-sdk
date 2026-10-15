@@ -258,7 +258,6 @@ from hanzoai.cloud.models.auto_version_page import AutoVersionPage
 from hanzoai.cloud.models.bank_tally import BankTally
 from hanzoai.cloud.models.base_base_health import BaseBaseHealth
 from hanzoai.cloud.models.base_base_view import BaseBaseView
-from hanzoai.cloud.models.benchmark_admission import BenchmarkAdmission
 from hanzoai.cloud.models.benchmark_benchmark import BenchmarkBenchmark
 from hanzoai.cloud.models.benchmark_benchmark_catalog import BenchmarkBenchmarkCatalog
 from hanzoai.cloud.models.benchmark_claim_row import BenchmarkClaimRow
@@ -266,11 +265,13 @@ from hanzoai.cloud.models.benchmark_claims_out import BenchmarkClaimsOut
 from hanzoai.cloud.models.benchmark_history_out import BenchmarkHistoryOut
 from hanzoai.cloud.models.benchmark_leader_row import BenchmarkLeaderRow
 from hanzoai.cloud.models.benchmark_leaderboard import BenchmarkLeaderboard
+from hanzoai.cloud.models.benchmark_measurement import BenchmarkMeasurement
+from hanzoai.cloud.models.benchmark_measurements import BenchmarkMeasurements
 from hanzoai.cloud.models.benchmark_model_history import BenchmarkModelHistory
 from hanzoai.cloud.models.benchmark_pairing import BenchmarkPairing
 from hanzoai.cloud.models.benchmark_preset import BenchmarkPreset
-from hanzoai.cloud.models.benchmark_preset_accepted import BenchmarkPresetAccepted
 from hanzoai.cloud.models.benchmark_preset_list import BenchmarkPresetList
+from hanzoai.cloud.models.benchmark_preset_stored import BenchmarkPresetStored
 from hanzoai.cloud.models.benchmark_published_claim import BenchmarkPublishedClaim
 from hanzoai.cloud.models.benchmark_put_claims_in import BenchmarkPutClaimsIn
 from hanzoai.cloud.models.benchmark_put_claims_out import BenchmarkPutClaimsOut

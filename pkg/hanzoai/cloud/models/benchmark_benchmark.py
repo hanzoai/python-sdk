@@ -27,12 +27,13 @@ class BenchmarkBenchmark(BaseModel):
     BenchmarkBenchmark
     """ # noqa: E501
     axis: Optional[StrictStr] = Field(default=None, description="what capability it measures")
+    direction: Optional[StrictStr] = Field(default=None, description="Direction is \"higher\" when a higher score is better and \"lower\" when a lower one is: a false-alarm rate, a share of answers that moved. The leaderboard orders its rows by it.")
     id: Optional[StrictStr] = Field(default=None, description="the id every other op on this surface takes")
     items: Optional[StrictInt] = Field(default=None, description="how many items it holds, when the set is fixed")
     native: Optional[StrictBool] = Field(default=None, description="whether the standardized harness runs it today")
     source: Optional[StrictStr] = Field(default=None, description="where the items come from")
     title: Optional[StrictStr] = Field(default=None, description="the benchmark's published name")
-    __properties: ClassVar[List[str]] = ["axis", "id", "items", "native", "source", "title"]
+    __properties: ClassVar[List[str]] = ["axis", "direction", "id", "items", "native", "source", "title"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +87,7 @@ class BenchmarkBenchmark(BaseModel):
 
         _obj = cls.model_validate({
             "axis": obj.get("axis"),
+            "direction": obj.get("direction"),
             "id": obj.get("id"),
             "items": obj.get("items"),
             "native": obj.get("native"),

@@ -27,7 +27,7 @@ class BenchmarkPresetList(BaseModel):
     """
     BenchmarkPresetList
     """ # noqa: E501
-    data: Optional[List[BenchmarkPreset]] = Field(default=None, description="Data is the blends available to compose from.")
+    data: Optional[List[BenchmarkPreset]] = Field(default=None, description="Data is the reference blend, then the caller's org's stored blends by name.")
     __properties: ClassVar[List[str]] = ["data"]
 
     model_config = ConfigDict(

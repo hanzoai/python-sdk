@@ -27,17 +27,17 @@ class MqMakeIn(BaseModel):
     """
     MqMakeIn
     """ # noqa: E501
-    ack_policy: Optional[StrictStr] = None
-    ack_wait: Optional[StrictStr] = None
-    deliver_policy: Optional[StrictStr] = None
-    description: Optional[StrictStr] = None
-    durable_name: Optional[StrictStr] = None
-    filter_subject: Optional[StrictStr] = None
-    max_ack_pending: Optional[StrictInt] = None
-    max_deliver: Optional[StrictInt] = None
-    opt_start_seq: Optional[StrictInt] = None
-    opt_start_time: Optional[datetime] = None
-    replay_policy: Optional[StrictStr] = None
+    ack_policy: Optional[StrictStr] = Field(default=None, description="Ack is the acknowledgment policy: explicit (default), all, or none.")
+    ack_wait: Optional[StrictStr] = Field(default=None, description="AckWait is how long the broker waits for an ack before redelivering, e.g. \"30s\" (default).")
+    deliver_policy: Optional[StrictStr] = Field(default=None, description="Deliver is where delivery starts: all (default), last, new, by_start_sequence, by_start_time, or last_per_subject.")
+    description: Optional[StrictStr] = Field(default=None, description="Description says what this consumer is for.")
+    durable_name: Optional[StrictStr] = Field(default=None, description="Name is the durable consumer name (alphanumeric, hyphens, underscores).")
+    filter_subject: Optional[StrictStr] = Field(default=None, description="Filter delivers only messages on this org-relative subject (wildcards supported).")
+    max_ack_pending: Optional[StrictInt] = Field(default=None, description="MaxAckPending caps unacknowledged messages in flight (default 1000).")
+    max_deliver: Optional[StrictInt] = Field(default=None, description="MaxDeliver caps delivery attempts per message; -1 (default) is unlimited.")
+    opt_start_seq: Optional[StrictInt] = Field(default=None, description="StartSeq is the starting sequence for deliver_policy by_start_sequence.")
+    opt_start_time: Optional[datetime] = Field(default=None, description="StartTime is the starting instant for deliver_policy by_start_time.")
+    replay_policy: Optional[StrictStr] = Field(default=None, description="Replay is the replay pacing: instant (default) or original.")
     stream: Optional[StrictStr] = Field(default=None, description="Stream is the stream name, from the path.")
     __properties: ClassVar[List[str]] = ["ack_policy", "ack_wait", "deliver_policy", "description", "durable_name", "filter_subject", "max_ack_pending", "max_deliver", "opt_start_seq", "opt_start_time", "replay_policy", "stream"]
 

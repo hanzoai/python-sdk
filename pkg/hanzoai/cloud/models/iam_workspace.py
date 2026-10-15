@@ -33,7 +33,7 @@ class IamWorkspace(BaseModel):
     deleted: Optional[StrictBool] = None
     description: Optional[StrictStr] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_default: Optional[StrictBool] = Field(default=None, alias="isDefault")
     metadata: Optional[StrictStr] = None
     name: Optional[StrictStr] = None

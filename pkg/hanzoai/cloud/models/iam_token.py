@@ -40,7 +40,7 @@ class IamToken(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
     expires_in: Optional[StrictInt] = Field(default=None, alias="expiresIn")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = None
     nonce: Optional[StrictStr] = Field(default=None, description="Nonce is the OIDC authorize nonce, stored on the code and echoed into the id_token minted at the exchange (OIDC Core §3.1.3.6) so a relying party binds the id_token to its own request and detects replay.")
     organization: Optional[StrictStr] = None

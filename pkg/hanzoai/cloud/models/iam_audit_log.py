@@ -32,7 +32,7 @@ class IamAuditLog(BaseModel):
     created_at: Optional[datetime] = Field(default=None, alias="createdAt")
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_triggered: Optional[StrictBool] = Field(default=None, alias="isTriggered")
     language: Optional[StrictStr] = None
     method: Optional[StrictStr] = None

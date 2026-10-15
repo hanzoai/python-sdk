@@ -30,17 +30,17 @@ class DeployArgoNode(BaseModel):
     DeployArgoNode
     """ # noqa: E501
     created_at: Optional[StrictStr] = Field(default=None, description="CreatedAt is the object's creationTimestamp, RFC 3339 UTC to the second. Absent when the object carries none.", alias="createdAt")
-    group: Optional[StrictStr] = None
+    group: Optional[StrictStr] = Field(default=None, description="Group is the object's API group: empty for the core group (Pod, Service, ConfigMap), otherwise apps, networking.k8s.io, autoscaling or policy — and hanzo.ai for the App CR at the root.")
     health: Optional[DeployArgoHealth] = Field(default=None, description="Health is the node's own derived health. Always present on a node of this tree; a kind with no health signal of its own reports Healthy, since a ConfigMap existing IS its healthy state.")
     images: Optional[List[StrictStr]] = Field(default=None, description="Images are the container images running on this node. Always absent — the tag travels as the \"Image Tag\" chip in Info instead, which is where the SPA reads it on a node.")
     info: Optional[List[DeployArgoInfoItem]] = Field(default=None, description="Info are the chips shown on the node. At most one: the image tag — the RUNNING tag on a Deployment, ReplicaSet or Pod, and the DECLARED tag on the App CR at the root. Absent on a node that carries no image at all.")
-    kind: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    namespace: Optional[StrictStr] = None
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is the object kind. The root is the App CR; below it come Deployment, ReplicaSet, Pod, Service, Ingress, HorizontalPodAutoscaler, PodDisruptionBudget and ConfigMap. Never Secret — the walk does not visit them, so no materialized environment can reach the tree.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the object's metadata.name.")
+    namespace: Optional[StrictStr] = Field(default=None, description="Namespace is the namespace the walk ran in, the same for every node of one tree.")
     parent_refs: Optional[List[DeployArgoResourceRef]] = Field(default=None, description="ParentRefs are the node's edges UPWARD, which is how the SPA draws the DAG from this flat list. Exactly one entry where present: a depth-1 object points at the App CR, a ReplicaSet at its Deployment, a Pod at its ReplicaSet (or at the Deployment whose selector matches it, when the ReplicaSet is gone). Absent on the root.", alias="parentRefs")
     resource_version: Optional[StrictStr] = Field(default=None, description="ResourceVersion is the k8s version a watch would resume from. Always empty: the tree is rebuilt from live reads on every request, including on every frame of the SSE stream, so there is no revision to resume from.", alias="resourceVersion")
-    uid: Optional[StrictStr] = None
-    version: Optional[StrictStr] = None
+    uid: Optional[StrictStr] = Field(default=None, description="UID is the object's metadata.uid. Absent on a PARENT reference, which addresses its target by kind and name rather than by identity.")
+    version: Optional[StrictStr] = Field(default=None, description="Version is the object's API version as the live object reports it: v1 for every kind the walk reaches except the HorizontalPodAutoscaler, which is autoscaling/v2.")
     __properties: ClassVar[List[str]] = ["createdAt", "group", "health", "images", "info", "kind", "name", "namespace", "parentRefs", "resourceVersion", "uid", "version"]
 
     model_config = ConfigDict(

@@ -87,7 +87,7 @@ class IamApplication(BaseModel):
     grant_types: Optional[List[StrictStr]] = Field(default=None, alias="grantTypes")
     header_html: Optional[StrictStr] = Field(default=None, alias="headerHtml")
     homepage_url: Optional[StrictStr] = Field(default=None, alias="homepageUrl")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     ip_restriction: Optional[StrictStr] = Field(default=None, alias="ipRestriction")
     ip_whitelist: Optional[StrictStr] = Field(default=None, alias="ipWhitelist")
     is_shared: Optional[StrictBool] = Field(default=None, alias="isShared")

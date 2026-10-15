@@ -31,7 +31,7 @@ class IamTombstone(BaseModel):
     created_time: Optional[StrictStr] = Field(default=None, alias="createdTime")
     deleted: Optional[StrictBool] = None
     founder: Optional[StrictStr] = Field(default=None, description="Founder carries the deleted org's founder, so an org counted against its founder's cap stays counted after it is deleted.")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     name: Optional[StrictStr] = Field(default=None, description="the organization's name")
     owner: Optional[StrictStr] = Field(default=None, description="the admin registry, as for organizations")
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")

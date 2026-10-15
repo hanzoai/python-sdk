@@ -53,7 +53,7 @@ class IamProvider(BaseModel):
     endpoint: Optional[StrictStr] = None
     host: Optional[StrictStr] = None
     http_headers: Optional[Dict[str, StrictStr]] = Field(default=None, alias="httpHeaders")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     id_p: Optional[StrictStr] = Field(default=None, alias="idP")
     intranet_endpoint: Optional[StrictStr] = Field(default=None, alias="intranetEndpoint")
     issuer_url: Optional[StrictStr] = Field(default=None, alias="issuerUrl")

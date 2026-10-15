@@ -27,28 +27,28 @@ class LinkIngestReq(BaseModel):
     """
     LinkIngestReq
     """ # noqa: E501
-    account: Optional[StrictStr] = None
-    cached_input_tokens: Optional[StrictInt] = Field(default=None, alias="cachedInputTokens")
-    confidence: Optional[StrictStr] = None
-    cost_cents: Optional[StrictInt] = Field(default=None, alias="costCents")
-    cost_limit_cents: Optional[StrictInt] = Field(default=None, alias="costLimitCents")
-    currency: Optional[StrictStr] = None
-    input_tokens: Optional[StrictInt] = Field(default=None, alias="inputTokens")
-    kind: Optional[StrictStr] = None
-    lane: Optional[StrictStr] = None
-    machine: Optional[StrictStr] = None
-    output_tokens: Optional[StrictInt] = Field(default=None, alias="outputTokens")
-    plan: Optional[StrictStr] = None
-    provider: Optional[StrictStr] = None
-    requests: Optional[StrictInt] = None
-    resets_at: Optional[StrictStr] = Field(default=None, alias="resetsAt")
+    account: Optional[StrictStr] = Field(default=None, description="Account is the provider-side account the sample belongs to.")
+    cached_input_tokens: Optional[StrictInt] = Field(default=None, description="CachedInputTokens is the window's cached-prompt-token count.", alias="cachedInputTokens")
+    confidence: Optional[StrictStr] = Field(default=None, description="Confidence says how real the counters are, as the meter graded itself.")
+    cost_cents: Optional[StrictInt] = Field(default=None, description="CostCents is the window's spend in cents, as the provider's meter states it.", alias="costCents")
+    cost_limit_cents: Optional[StrictInt] = Field(default=None, description="CostLimitCents is the window's spend cap in cents, when the meter knows one.", alias="costLimitCents")
+    currency: Optional[StrictStr] = Field(default=None, description="Currency is the ISO currency the cost fields are stated in.")
+    input_tokens: Optional[StrictInt] = Field(default=None, description="InputTokens is the window's prompt-token count.", alias="inputTokens")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is subscription or apikey; anything else is refused.")
+    lane: Optional[StrictStr] = Field(default=None, description="Lane names the meter's own lane label for this measurement.")
+    machine: Optional[StrictStr] = Field(default=None, description="Machine is the machine the collector observed the account on. Required.")
+    output_tokens: Optional[StrictInt] = Field(default=None, description="OutputTokens is the window's completion-token count.", alias="outputTokens")
+    plan: Optional[StrictStr] = Field(default=None, description="Plan is the provider plan label the account is on.")
+    provider: Optional[StrictStr] = Field(default=None, description="Provider is the AI provider whose meter reported this sample. Required.")
+    requests: Optional[StrictInt] = Field(default=None, description="Requests is the window's request count.")
+    resets_at: Optional[StrictStr] = Field(default=None, description="ResetsAt is when the window resets, RFC 3339, bounded.", alias="resetsAt")
     samples: Optional[List[LinkReadingReq]] = Field(default=None, description="Samples is the batch form, up to 256 samples; leave it empty to send one sample inline on the same fields.")
-    synthetic: Optional[StrictBool] = None
-    total_tokens: Optional[StrictInt] = Field(default=None, alias="totalTokens")
-    used_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="usedPct")
-    window: Optional[StrictStr] = None
-    window_minutes: Optional[StrictInt] = Field(default=None, alias="windowMinutes")
-    window_start: Optional[StrictStr] = Field(default=None, alias="windowStart")
+    synthetic: Optional[StrictBool] = Field(default=None, description="Synthetic marks a sample the collector derived rather than observed.")
+    total_tokens: Optional[StrictInt] = Field(default=None, description="TotalTokens is the window's total token count.", alias="totalTokens")
+    used_pct: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="UsedPct is how much of the window's allowance is consumed, clamped 0..100.", alias="usedPct")
+    window: Optional[StrictStr] = Field(default=None, description="Window is the window class, one of 6h, day, week, month; anything else is refused rather than silently reclassified.")
+    window_minutes: Optional[StrictInt] = Field(default=None, description="WindowMinutes is the window's length as the meter reported it.", alias="windowMinutes")
+    window_start: Optional[StrictStr] = Field(default=None, description="WindowStart is when the measured window opened, RFC 3339, bounded to a sane interval around now.", alias="windowStart")
     __properties: ClassVar[List[str]] = ["account", "cachedInputTokens", "confidence", "costCents", "costLimitCents", "currency", "inputTokens", "kind", "lane", "machine", "outputTokens", "plan", "provider", "requests", "resetsAt", "samples", "synthetic", "totalTokens", "usedPct", "window", "windowMinutes", "windowStart"]
 
     model_config = ConfigDict(

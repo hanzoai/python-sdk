@@ -28,8 +28,9 @@ class BenchmarkLeaderboard(BaseModel):
     BenchmarkLeaderboard
     """ # noqa: E501
     benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the catalog id these rows are about.")
-    rows: Optional[List[BenchmarkLeaderRow]] = Field(default=None, description="Rows is one per model, ordered by measured accuracy descending.")
-    __properties: ClassVar[List[str]] = ["benchmark", "rows"]
+    direction: Optional[StrictStr] = Field(default=None, description="Direction is \"higher\" or \"lower\": which way this benchmark's score improves, and so which way Rows is ordered.")
+    rows: Optional[List[BenchmarkLeaderRow]] = Field(default=None, description="Rows is one per model, best first in Direction: measured rows by their measurement, then claim-only rows by their published score, ties by model.")
+    __properties: ClassVar[List[str]] = ["benchmark", "direction", "rows"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -90,6 +91,7 @@ class BenchmarkLeaderboard(BaseModel):
 
         _obj = cls.model_validate({
             "benchmark": obj.get("benchmark"),
+            "direction": obj.get("direction"),
             "rows": [BenchmarkLeaderRow.from_dict(_item) for _item in obj["rows"]] if obj.get("rows") is not None else None
         })
         return _obj

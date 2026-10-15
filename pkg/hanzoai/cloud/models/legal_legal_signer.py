@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,8 +26,8 @@ class LegalLegalSigner(BaseModel):
     """
     LegalLegalSigner
     """ # noqa: E501
-    email: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
+    email: Optional[StrictStr] = Field(default=None, description="Email is where the provider sends the request, and the only way the signer is reached — a signer is a COUNTERPARTY, not necessarily a member of the org, so there is no account to fall back on.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the person as they should appear on the signature request. Passed to the provider verbatim; nothing here matches it against a Hanzo user.")
     __properties: ClassVar[List[str]] = ["email", "name"]
 
     model_config = ConfigDict(

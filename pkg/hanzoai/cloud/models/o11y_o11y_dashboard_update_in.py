@@ -28,11 +28,11 @@ class O11yO11yDashboardUpdateIn(BaseModel):
     O11yO11yDashboardUpdateIn
     """ # noqa: E501
     id: Optional[StrictStr] = Field(default=None, description="ID is the dashboard id from the path.")
-    image: Optional[StrictStr] = None
-    name: Optional[StrictStr] = None
-    schema_version: Optional[StrictStr] = Field(default=None, alias="schemaVersion")
+    image: Optional[StrictStr] = Field(default=None, description="Image is an optional cover image reference.")
+    name: Optional[StrictStr] = Field(default=None, description="Name must equal the dashboard's existing name — it is immutable.")
+    schema_version: Optional[StrictStr] = Field(default=None, description="SchemaVersion is the dashboard schema version; must be the current v6.", alias="schemaVersion")
     spec: Optional[Any] = None
-    tags: Optional[List[O11yO11yDashboardPostableTag]] = None
+    tags: Optional[List[O11yO11yDashboardPostableTag]] = Field(default=None, description="Tags replace the dashboard's tags; at most ten.")
     __properties: ClassVar[List[str]] = ["id", "image", "name", "schemaVersion", "spec", "tags"]
 
     model_config = ConfigDict(

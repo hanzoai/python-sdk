@@ -26,9 +26,9 @@ class O11yO11yAgentCheckInIn(BaseModel):
     """
     O11yO11yAgentCheckInIn
     """ # noqa: E501
-    account_id: Optional[StrictStr] = None
+    account_id: Optional[StrictStr] = Field(default=None, description="following are backward compatible fields for older running agents, hence snake case JSON keys. Which get mapped to new fields in AgentCheckInRequest")
     cloud_integration_id: Optional[Any] = Field(default=None, alias="cloudIntegrationId")
-    cloud_account_id: Optional[StrictStr] = None
+    cloud_account_id: Optional[StrictStr] = Field(default=None, description="=> ProviderAccountID")
     data: Optional[Dict[str, Any]] = None
     provider_account_id: Optional[StrictStr] = Field(default=None, alias="providerAccountId")
     __properties: ClassVar[List[str]] = ["account_id", "cloudIntegrationId", "cloud_account_id", "data", "providerAccountId"]

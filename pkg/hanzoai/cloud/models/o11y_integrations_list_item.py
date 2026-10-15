@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.o11y_integration_author import O11yIntegrationAuthor
 from typing import Optional, Set
@@ -28,7 +28,7 @@ class O11yIntegrationsListItem(BaseModel):
     O11yIntegrationsListItem
     """ # noqa: E501
     author: Optional[O11yIntegrationAuthor] = None
-    description: Optional[StrictStr] = None
+    description: Optional[StrictStr] = Field(default=None, description="A short description")
     icon: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
     is_installed: Optional[StrictBool] = None

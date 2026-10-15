@@ -36,25 +36,25 @@ class TrainJob(BaseModel):
     """
     TrainJob
     """ # noqa: E501
-    adaptation: Optional[TrainAdaptation] = None
+    adaptation: Optional[TrainAdaptation] = Field(default=None, description="Adaptation is how the update is parameterized.")
     artifacts: Optional[List[TrainArtifact]] = Field(default=None, description="Artifacts are its outputs.")
-    base_model: Optional[StrictStr] = None
+    base_model: Optional[StrictStr] = Field(default=None, description="BaseModel is the base the capability is taught to: `kai`, or a model the engine loads for a client.")
     created: Optional[StrictInt] = Field(default=None, description="Created, Started and Ended are unix seconds; 0 is not yet.")
     created_by: Optional[StrictStr] = Field(default=None, description="CreatedBy is the principal that created it.")
-    dataset: Optional[TrainDataset] = None
+    dataset: Optional[TrainDataset] = Field(default=None, description="Dataset is what the job trains on.")
     ended: Optional[StrictInt] = None
     error: Optional[StrictStr] = Field(default=None, description="Error says why a job failed or stopped. A job stopped at what its payer or its own bounds could hold says budget, max_seconds, insufficient_balance, spend_cap, balance_unavailable or no_payer.")
-    evaluation: Optional[TrainEvaluation] = None
-    var_from: Optional[StrictStr] = Field(default=None, alias="from")
+    evaluation: Optional[TrainEvaluation] = Field(default=None, description="Evaluation names the target suites the result reports.")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is an artifact the job starts from, by sha256.", alias="from")
     id: Optional[StrictStr] = Field(default=None, description="ID names the job.")
-    objective: Optional[TrainObjective] = None
-    output: Optional[TrainOutput] = None
+    objective: Optional[TrainObjective] = Field(default=None, description="Objective is the loss and the terms beside it.")
+    output: Optional[TrainOutput] = Field(default=None, description="Output is what the job produces.")
     project: Optional[StrictStr] = Field(default=None, description="Project is the creator's project scope.")
-    protect: Optional[TrainProtect] = None
+    protect: Optional[TrainProtect] = Field(default=None, description="Protect names what the base already does that must hold, and the budget.")
     published: Optional[Any] = None
-    resources: Optional[TrainResources] = None
+    resources: Optional[TrainResources] = Field(default=None, description="Resources places and bounds the run.")
     result: Optional[Any] = None
-    revision: Optional[StrictStr] = None
+    revision: Optional[StrictStr] = Field(default=None, description="Revision pins the base. For kai: a finished run's name on the executor, or `hub:<repo>@<rev>`.")
     started: Optional[StrictInt] = None
     status: Optional[StrictStr] = Field(default=None, description="Status is queued, running, evaluating, succeeded, rejected, failed, cancelled or stopped.")
     tasks: Optional[List[TrainTaskView]] = Field(default=None, description="Tasks are its units of execution.")

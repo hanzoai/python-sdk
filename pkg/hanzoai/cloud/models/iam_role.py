@@ -33,7 +33,7 @@ class IamRole(BaseModel):
     description: Optional[StrictStr] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     domains: Optional[List[StrictStr]] = None
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     name: Optional[StrictStr] = None
     owner: Optional[StrictStr] = None

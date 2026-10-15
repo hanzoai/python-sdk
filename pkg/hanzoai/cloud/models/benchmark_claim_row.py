@@ -30,6 +30,7 @@ class BenchmarkClaimRow(BaseModel):
     at: Optional[datetime] = Field(default=None, description="At is when a stored row was recorded. Zero for a seed row.")
     benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the canonical test id the claim is about, from /catalog.")
     by: Optional[StrictStr] = Field(default=None, description="By is the verified user who recorded a stored row. Empty for a seed row.")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is the org a curator row was promoted from: the org that filed the claim before a SuperAdmin published it. Empty on every other row.", alias="from")
     model: Optional[StrictStr] = Field(default=None, description="Model is the system the score is claimed for.")
     org: Optional[StrictStr] = Field(default=None, description="Org is the org that made the claim. \"admin\" is the platform's own curated reading; any other org is that org's claim, not the platform's. Empty on an unattributed row.")
     origin: Optional[StrictStr] = Field(default=None, description="Origin is \"seed\" for a compiled row, \"stored\" for one a verified caller wrote through this surface, and \"unattributed\" for a stored row no verified caller vouches for, which never reaches the leaderboard.")
@@ -38,7 +39,7 @@ class BenchmarkClaimRow(BaseModel):
     score: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Score is the reported aggregate, as a percentage.")
     source: Optional[StrictStr] = Field(default=None, description="Source is the citation the row was read from.")
     visibility: Optional[StrictStr] = Field(default=None, description="Visibility is \"public\", readable by anyone, or \"private\", readable by Org's own members only. Only the curator's public claims reach the leaderboard.")
-    __properties: ClassVar[List[str]] = ["at", "benchmark", "by", "model", "org", "origin", "protocol", "provider", "score", "source", "visibility"]
+    __properties: ClassVar[List[str]] = ["at", "benchmark", "by", "from", "model", "org", "origin", "protocol", "provider", "score", "source", "visibility"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -94,6 +95,7 @@ class BenchmarkClaimRow(BaseModel):
             "at": obj.get("at"),
             "benchmark": obj.get("benchmark"),
             "by": obj.get("by"),
+            "from": obj.get("from"),
             "model": obj.get("model"),
             "org": obj.get("org"),
             "origin": obj.get("origin"),

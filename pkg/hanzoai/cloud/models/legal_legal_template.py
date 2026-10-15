@@ -27,14 +27,14 @@ class LegalLegalTemplate(BaseModel):
     """
     LegalLegalTemplate
     """ # noqa: E501
-    body: Optional[StrictStr] = None
-    category: Optional[StrictStr] = None
-    counsel_review: Optional[StrictBool] = Field(default=None, alias="counselReview")
-    fields: Optional[List[LegalField]] = None
-    id: Optional[StrictStr] = None
-    origin: Optional[StrictStr] = None
-    title: Optional[StrictStr] = None
-    version: Optional[StrictInt] = None
+    body: Optional[StrictStr] = Field(default=None, description="Body is the text/template source, markdown, referencing each declared field as {{.key}}. Rendering is pure — no clock, no I/O — so a template version and a data map always produce identical bytes. Only the single-template read carries it; the catalog listing does not.")
+    category: Optional[StrictStr] = Field(default=None, description="Category is the corporate need the template serves: formation, equity, ops or sales. Formation and equity are the securities-class categories, which is what forces CounselReview.")
+    counsel_review: Optional[StrictBool] = Field(default=None, description="CounselReview marks a template whose rendered documents open with CounselNotice. It can be raised but never lowered, and the engine also raises it for any formation or equity template whatever the flag says — so no org can render a securities-class document without the notice.", alias="counselReview")
+    fields: Optional[List[LegalField]] = Field(default=None, description="Fields declares the merge fields Body consumes, each with its human label. Every one is REQUIRED at generation: a missing or blank value is refused rather than rendered as a silent blank into a contract.")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the template's stable id and the path segment that addresses it — \"nda\", \"msa\", \"safe\". An override keeps the built-in's id, so the id names the DOCUMENT KIND rather than a particular version of it.")
+    origin: Optional[StrictStr] = Field(default=None, description="Origin is \"builtin\" for a template the platform ships or \"org\" for one this org saved. It separates the catalog every tenant sees from this tenant's own.")
+    title: Optional[StrictStr] = Field(default=None, description="Title is the display name, e.g. \"Mutual Non-Disclosure Agreement\". A generated document inherits it.")
+    version: Optional[StrictInt] = Field(default=None, description="Version is which version of this template the caller resolved to, and what a generated document records so it stays reproducible. A built-in is version 1; an org's first override is 2 and each save increments, so an override version never collides with the built-in's.")
     __properties: ClassVar[List[str]] = ["body", "category", "counselReview", "fields", "id", "origin", "title", "version"]
 
     model_config = ConfigDict(

@@ -396,7 +396,6 @@ __all__ = [
     "BankTally",
     "BaseBaseHealth",
     "BaseBaseView",
-    "BenchmarkAdmission",
     "BenchmarkBenchmark",
     "BenchmarkBenchmarkCatalog",
     "BenchmarkClaimRow",
@@ -404,11 +403,13 @@ __all__ = [
     "BenchmarkHistoryOut",
     "BenchmarkLeaderRow",
     "BenchmarkLeaderboard",
+    "BenchmarkMeasurement",
+    "BenchmarkMeasurements",
     "BenchmarkModelHistory",
     "BenchmarkPairing",
     "BenchmarkPreset",
-    "BenchmarkPresetAccepted",
     "BenchmarkPresetList",
+    "BenchmarkPresetStored",
     "BenchmarkPublishedClaim",
     "BenchmarkPutClaimsIn",
     "BenchmarkPutClaimsOut",
@@ -3560,7 +3561,6 @@ from hanzoai.cloud.models.auto_version_page import AutoVersionPage as AutoVersio
 from hanzoai.cloud.models.bank_tally import BankTally as BankTally
 from hanzoai.cloud.models.base_base_health import BaseBaseHealth as BaseBaseHealth
 from hanzoai.cloud.models.base_base_view import BaseBaseView as BaseBaseView
-from hanzoai.cloud.models.benchmark_admission import BenchmarkAdmission as BenchmarkAdmission
 from hanzoai.cloud.models.benchmark_benchmark import BenchmarkBenchmark as BenchmarkBenchmark
 from hanzoai.cloud.models.benchmark_benchmark_catalog import BenchmarkBenchmarkCatalog as BenchmarkBenchmarkCatalog
 from hanzoai.cloud.models.benchmark_claim_row import BenchmarkClaimRow as BenchmarkClaimRow
@@ -3568,11 +3568,13 @@ from hanzoai.cloud.models.benchmark_claims_out import BenchmarkClaimsOut as Benc
 from hanzoai.cloud.models.benchmark_history_out import BenchmarkHistoryOut as BenchmarkHistoryOut
 from hanzoai.cloud.models.benchmark_leader_row import BenchmarkLeaderRow as BenchmarkLeaderRow
 from hanzoai.cloud.models.benchmark_leaderboard import BenchmarkLeaderboard as BenchmarkLeaderboard
+from hanzoai.cloud.models.benchmark_measurement import BenchmarkMeasurement as BenchmarkMeasurement
+from hanzoai.cloud.models.benchmark_measurements import BenchmarkMeasurements as BenchmarkMeasurements
 from hanzoai.cloud.models.benchmark_model_history import BenchmarkModelHistory as BenchmarkModelHistory
 from hanzoai.cloud.models.benchmark_pairing import BenchmarkPairing as BenchmarkPairing
 from hanzoai.cloud.models.benchmark_preset import BenchmarkPreset as BenchmarkPreset
-from hanzoai.cloud.models.benchmark_preset_accepted import BenchmarkPresetAccepted as BenchmarkPresetAccepted
 from hanzoai.cloud.models.benchmark_preset_list import BenchmarkPresetList as BenchmarkPresetList
+from hanzoai.cloud.models.benchmark_preset_stored import BenchmarkPresetStored as BenchmarkPresetStored
 from hanzoai.cloud.models.benchmark_published_claim import BenchmarkPublishedClaim as BenchmarkPublishedClaim
 from hanzoai.cloud.models.benchmark_put_claims_in import BenchmarkPutClaimsIn as BenchmarkPutClaimsIn
 from hanzoai.cloud.models.benchmark_put_claims_out import BenchmarkPutClaimsOut as BenchmarkPutClaimsOut

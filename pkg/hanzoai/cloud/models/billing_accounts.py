@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.billing_accounts_total import BillingAccountsTotal
 from hanzoai.cloud.models.billing_routed_usage import BillingRoutedUsage
@@ -28,10 +28,10 @@ class BillingAccounts(BaseModel):
     """
     BillingAccounts
     """ # noqa: E501
-    accounts: Optional[List[BillingRoutedUsage]] = None
-    scope: Optional[StrictStr] = None
-    source: Optional[StrictStr] = None
-    total: Optional[BillingAccountsTotal] = None
+    accounts: Optional[List[BillingRoutedUsage]] = Field(default=None, description="Accounts is one row per linked account the gateway actually routed through.")
+    scope: Optional[StrictStr] = Field(default=None, description="Scope is always \"user\": the caller's own linked accounts.")
+    source: Optional[StrictStr] = Field(default=None, description="Source is always \"routed\": the gateway's own routed ledger.")
+    total: Optional[BillingAccountsTotal] = Field(default=None, description="Total is the honest sum across the rows.")
     __properties: ClassVar[List[str]] = ["accounts", "scope", "source", "total"]
 
     model_config = ConfigDict(

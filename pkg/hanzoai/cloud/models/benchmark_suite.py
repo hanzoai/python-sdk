@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,11 +26,9 @@ class BenchmarkSuite(BaseModel):
     """
     BenchmarkSuite
     """ # noqa: E501
-    attempts: Optional[StrictInt] = Field(default=None, description="Attempts is how many times to try each item; the harness's default applies when it is omitted.")
-    benchmarks: List[StrictStr] = Field(description="Benchmarks are the catalog ids to run. At least one is required, and every id must be in the catalog.")
-    endpoint: Optional[StrictStr] = Field(default=None, description="Endpoint is your own chat-completions URL, for benchmarking a model this arena does not host. Either this or model is required.")
-    model: Optional[StrictStr] = Field(default=None, description="Model is the catalog model id to run. Either this or endpoint is required.")
-    __properties: ClassVar[List[str]] = ["attempts", "benchmarks", "endpoint", "model"]
+    benchmarks: List[StrictStr] = Field(description="Benchmarks are the catalog ids to ask about. At least one is required, and every id must be in the catalog.")
+    model: Optional[StrictStr] = Field(default=None, description="Model is the model to ask about, by the id its attempts are stored under. Required.")
+    __properties: ClassVar[List[str]] = ["benchmarks", "model"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -83,9 +81,7 @@ class BenchmarkSuite(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "attempts": obj.get("attempts"),
             "benchmarks": obj.get("benchmarks"),
-            "endpoint": obj.get("endpoint"),
             "model": obj.get("model")
         })
         return _obj

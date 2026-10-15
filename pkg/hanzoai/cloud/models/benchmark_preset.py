@@ -17,6 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
+from datetime import datetime
 from pydantic import BaseModel, ConfigDict, Field, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
@@ -27,12 +28,14 @@ class BenchmarkPreset(BaseModel):
     BenchmarkPreset
     """ # noqa: E501
     arms: Optional[List[StrictStr]] = Field(default=None, description="the blend — model ids from the arena")
-    name: Optional[StrictStr] = Field(default=None, description="served as enso-<name>")
+    at: Optional[datetime] = Field(default=None, description="At is when this version was stored. Set by the server; a value sent is not read. Zero on the reference blend.")
+    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who stored it. Set by the server; a value sent is not read.")
+    name: Optional[StrictStr] = Field(default=None, description="the part after enso-: lowercase letters, digits and inner hyphens, at most 64")
     note: Optional[StrictStr] = Field(default=None, description="why this blend (audit)")
     owner: Optional[StrictStr] = Field(default=None, description="the org the blend belongs to: the writer's verified org, never a value sent")
     panel: Optional[StrictInt] = Field(default=None, description="fan-out width (>=1)")
     rank: Optional[List[StrictStr]] = Field(default=None, description="escalation order over arms")
-    __properties: ClassVar[List[str]] = ["arms", "name", "note", "owner", "panel", "rank"]
+    __properties: ClassVar[List[str]] = ["arms", "at", "by", "name", "note", "owner", "panel", "rank"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -86,6 +89,8 @@ class BenchmarkPreset(BaseModel):
 
         _obj = cls.model_validate({
             "arms": obj.get("arms"),
+            "at": obj.get("at"),
+            "by": obj.get("by"),
             "name": obj.get("name"),
             "note": obj.get("note"),
             "owner": obj.get("owner"),

@@ -32,7 +32,7 @@ class IamCreateOrganizationInput(BaseModel):
     """ # noqa: E501
     account_items: Optional[List[IamAccountItem]] = Field(default=None, alias="accountItems")
     account_menu: Optional[StrictStr] = Field(default=None, alias="accountMenu")
-    avatar: Optional[StrictStr] = None
+    avatar: Optional[StrictStr] = Field(default=None, description="How the organization appears across Hanzo — the square mark beside its name — as an image or as one emoji, never both. It is the pair a person carries (User.Avatar) under the same names, resolved the same way, so a screen draws a subject without asking which kind of subject it has. Both halves live on the row: a mark that appears everywhere cannot be kept on one device. Written through schema.MarkOf; Logo and LogoDark above are a different thing, the wordmark a login screen draws.")
     balance_credit: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="balanceCredit")
     balance_currency: Optional[StrictStr] = Field(default=None, alias="balanceCurrency")
     country_codes: Optional[List[StrictStr]] = Field(default=None, alias="countryCodes")
@@ -49,11 +49,11 @@ class IamCreateOrganizationInput(BaseModel):
     enable_soft_deletion: Optional[StrictBool] = Field(default=None, alias="enableSoftDeletion")
     enable_tour: Optional[StrictBool] = Field(default=None, alias="enableTour")
     failed_signin_frozen_time: Optional[StrictInt] = Field(default=None, alias="failedSigninFrozenTime")
-    failed_signin_limit: Optional[StrictInt] = Field(default=None, alias="failedSigninLimit")
+    failed_signin_limit: Optional[StrictInt] = Field(default=None, description="Per-organization signin throttle. Zero means \"inherit the application default\"; a non-zero value overrides it. Safe bounds are clamped by the resource service before persistence.", alias="failedSigninLimit")
     favicon: Optional[StrictStr] = None
-    founder: Optional[StrictStr] = None
+    founder: Optional[StrictStr] = Field(default=None, description="Founder is the stable storage id of the identity that provisioned this org (self-service onboarding). It is the resume token that makes provisioning converge on a backend where each write autocommits independently (no transaction rollback): after a partial failure that created the org but did not move the founder in, a retry recognises the org as the founder's own and completes it, instead of refusing it as \"already taken\". It also fences the org to ONE tenant — a different identity can never complete or join it.")
     has_privilege_consent: Optional[StrictBool] = Field(default=None, alias="hasPrivilegeConsent")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     init_score: Optional[StrictInt] = Field(default=None, alias="initScore")
     ip_restriction: Optional[StrictStr] = Field(default=None, alias="ipRestriction")
     ip_whitelist: Optional[StrictStr] = Field(default=None, alias="ipWhitelist")
@@ -73,7 +73,7 @@ class IamCreateOrganizationInput(BaseModel):
     mfa_remember_in_hours: Optional[StrictInt] = Field(default=None, alias="mfaRememberInHours")
     name: Optional[StrictStr] = None
     nav_items: Optional[List[StrictStr]] = Field(default=None, alias="navItems")
-    org_balance: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, alias="orgBalance")
+    org_balance: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Balance fields are read-only mirrors; authoritative balances live in Commerce (billing.hanzo.ai). Carried for field-complete v1 parity.", alias="orgBalance")
     owner: Optional[StrictStr] = None
     password_expire_days: Optional[StrictInt] = Field(default=None, alias="passwordExpireDays")
     password_obfuscator_key: Optional[StrictStr] = Field(default=None, alias="passwordObfuscatorKey")
@@ -81,7 +81,7 @@ class IamCreateOrganizationInput(BaseModel):
     password_options: Optional[List[StrictStr]] = Field(default=None, alias="passwordOptions")
     password_salt: Optional[StrictStr] = Field(default=None, alias="passwordSalt")
     password_type: Optional[StrictStr] = Field(default=None, alias="passwordType")
-    platform: Optional[StrictBool] = None
+    platform: Optional[StrictBool] = Field(default=None, description="Platform marks an organization the platform itself declares (init_data.json): the brand orgs and the others the seed creates, never one a customer made. The seed stamps it on every declared organization at boot, and no request sets or clears it. Only a SuperAdmin may delete an organization that carries it.")
     tags: Optional[List[StrictStr]] = None
     theme_data: Optional[IamThemeData] = Field(default=None, alias="themeData")
     updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")

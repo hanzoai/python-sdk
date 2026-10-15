@@ -19,20 +19,19 @@ import json
 
 from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
-from hanzoai.cloud.models.benchmark_preset import BenchmarkPreset
+from hanzoai.cloud.models.benchmark_run_point import BenchmarkRunPoint
 from typing import Optional, Set
 from typing_extensions import Self
 
-class BenchmarkPresetAccepted(BaseModel):
+class BenchmarkMeasurement(BaseModel):
     """
-    BenchmarkPresetAccepted
+    BenchmarkMeasurement
     """ # noqa: E501
-    by: Optional[StrictStr] = Field(default=None, description="By is the verified user who composed it.")
-    note: Optional[StrictStr] = Field(default=None, description="Note explains what acceptance does and does not promise.")
-    preset: Optional[BenchmarkPreset] = Field(default=None, description="Preset is the blend with its defaults filled in and Owner set to the caller's verified org.")
-    served_as: Optional[StrictStr] = Field(default=None, description="ServedAs is the model id the serving layer would resolve this blend under.")
-    status: Optional[StrictStr] = Field(default=None, description="Status is \"accepted\": the blend is well-formed, not that it is now served.")
-    __properties: ClassVar[List[str]] = ["by", "note", "preset", "served_as", "status"]
+    benchmark: Optional[StrictStr] = Field(default=None, description="Benchmark is the catalog id this answer is about.")
+    harness: Optional[StrictStr] = Field(default=None, description="Harness is the harness that measures this benchmark for the arena, by repository. Empty when none does, and then a measurement arrives only as a published run's items imported through POST /v1/benchmark/attempts.")
+    latest: Optional[BenchmarkRunPoint] = Field(default=None, description="Latest is the model's latest run on this benchmark — its run id, when it was recorded, its accuracy and how many items it covered — read from the attempts the store already holds. Null when the store holds none.")
+    note: Optional[StrictStr] = Field(default=None, description="Note says in a sentence what the answer means: a held measurement served rather than spent again, or nothing queued and why.")
+    __properties: ClassVar[List[str]] = ["benchmark", "harness", "latest", "note"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -52,7 +51,7 @@ class BenchmarkPresetAccepted(BaseModel):
 
     @classmethod
     def from_json(cls, json_str: str) -> Optional[Self]:
-        """Create an instance of BenchmarkPresetAccepted from a JSON string"""
+        """Create an instance of BenchmarkMeasurement from a JSON string"""
         return cls.from_dict(json.loads(json_str))
 
     def to_dict(self) -> Dict[str, Any]:
@@ -73,14 +72,14 @@ class BenchmarkPresetAccepted(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
-        # override the default output from pydantic by calling `to_dict()` of preset
-        if self.preset:
-            _dict['preset'] = self.preset.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of latest
+        if self.latest:
+            _dict['latest'] = self.latest.to_dict()
         return _dict
 
     @classmethod
     def from_dict(cls, obj: Optional[Dict[str, Any]]) -> Optional[Self]:
-        """Create an instance of BenchmarkPresetAccepted from a dict"""
+        """Create an instance of BenchmarkMeasurement from a dict"""
         if obj is None:
             return None
 
@@ -88,11 +87,10 @@ class BenchmarkPresetAccepted(BaseModel):
             return cls.model_validate(obj)
 
         _obj = cls.model_validate({
-            "by": obj.get("by"),
-            "note": obj.get("note"),
-            "preset": BenchmarkPreset.from_dict(obj["preset"]) if obj.get("preset") is not None else None,
-            "served_as": obj.get("served_as"),
-            "status": obj.get("status")
+            "benchmark": obj.get("benchmark"),
+            "harness": obj.get("harness"),
+            "latest": BenchmarkRunPoint.from_dict(obj["latest"]) if obj.get("latest") is not None else None,
+            "note": obj.get("note")
         })
         return _obj
 

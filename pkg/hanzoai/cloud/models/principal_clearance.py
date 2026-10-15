@@ -32,11 +32,11 @@ class PrincipalClearance(BaseModel):
     """
     PrincipalClearance
     """ # noqa: E501
-    allowed: Optional[StrictBool] = None
+    allowed: Optional[StrictBool] = Field(default=None, description="Allowed is true when nothing is required first and no fact blocks.")
     amount: Optional[StrictStr] = Field(default=None, description="Amount is the gross amount, U.S. dollars.")
     category: Optional[StrictStr] = Field(default=None, description="Category is what is bought: services, attorney, rents, royalties, other or merchandise.")
     decided_at: Optional[StrictInt] = Field(default=None, description="DecidedAt is when, unix seconds.", alias="decidedAt")
-    facts_required: Optional[List[PrincipalFact]] = None
+    facts_required: Optional[List[PrincipalFact]] = Field(default=None, description="Facts are what a rule turns on that the platform does not know.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the clearance, \"clr_\"-prefixed.")
     notice: Optional[StrictStr] = Field(default=None, description="Notice is what a clearance is and is not.")
     payee: Optional[StrictStr] = Field(default=None, description="Payee is the org to be paid.")
@@ -44,12 +44,12 @@ class PrincipalClearance(BaseModel):
     performed: Optional[StrictStr] = Field(default=None, description="Performed is where the service is performed, as stated.")
     platform: Optional[StrictBool] = Field(default=None, description="Platform is whether the caller operates the payee's platform, as stated.")
     rail: Optional[StrictStr] = Field(default=None, description="Rail is how it moves.")
-    reporting_obligations: Optional[List[PrincipalObligation]] = None
-    required_before_payment: Optional[List[PrincipalStep]] = None
-    rules: Optional[List[PrincipalDecided]] = None
-    settlement_methods: Optional[List[PrincipalMethod]] = None
-    status: Optional[StrictStr] = None
-    withholding: Optional[PrincipalWithholding] = None
+    reporting_obligations: Optional[List[PrincipalObligation]] = Field(default=None, description="Reporting are the returns this payment makes someone owe.")
+    required_before_payment: Optional[List[PrincipalStep]] = Field(default=None, description="Required are the steps before the payment.")
+    rules: Optional[List[PrincipalDecided]] = Field(default=None, description="Rules names the rule behind each field above.")
+    settlement_methods: Optional[List[PrincipalMethod]] = Field(default=None, description="Settlement are the ways it may settle, net of what is withheld.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is what the payer may treat the payee as: us, foreign or unknown — read off the form the payee granted the payer, and unknown without one.")
+    withholding: Optional[PrincipalWithholding] = Field(default=None, description="Withholding is what must be withheld.")
     __properties: ClassVar[List[str]] = ["allowed", "amount", "category", "decidedAt", "facts_required", "id", "notice", "payee", "payer", "performed", "platform", "rail", "reporting_obligations", "required_before_payment", "rules", "settlement_methods", "status", "withholding"]
 
     model_config = ConfigDict(

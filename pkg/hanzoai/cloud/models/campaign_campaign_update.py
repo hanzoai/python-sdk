@@ -27,13 +27,13 @@ class CampaignCampaignUpdate(BaseModel):
     """
     CampaignCampaignUpdate
     """ # noqa: E501
-    audience: Optional[StrictStr] = None
-    budget: Optional[StrictInt] = None
-    channels: Optional[List[CampaignChannelSpec]] = None
-    content: Optional[List[StrictStr]] = None
+    audience: Optional[StrictStr] = Field(default=None, description="Audience is the segment or audience selector this campaign targets.")
+    budget: Optional[StrictInt] = Field(default=None, description="Budget is the campaign's total budget in CENTS. Negative reads as 0.")
+    channels: Optional[List[CampaignChannelSpec]] = Field(default=None, description="Channels are the fan-out targets, at most one per kind (paid, organic, email) and at most 12. A channel's status and provider id are server-owned: whatever the caller sends for them is replaced with \"pending\".")
+    content: Optional[List[StrictStr]] = Field(default=None, description="Content is the ordered creative set. Content[0] is the active creative and the rest are A/B variants; at most 32, empty entries dropped.")
     id: Optional[StrictStr] = Field(default=None, description="ID is the campaign to update, from the path.")
-    name: Optional[StrictStr] = None
-    schedule_at: Optional[StrictInt] = Field(default=None, alias="scheduleAt")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the campaign's display name. Required; trimmed and capped at 2048 characters.")
+    schedule_at: Optional[StrictInt] = Field(default=None, description="ScheduleAt is when the campaign should run, in unix seconds. Negative reads as 0 (immediately).", alias="scheduleAt")
     __properties: ClassVar[List[str]] = ["audience", "budget", "channels", "content", "id", "name", "scheduleAt"]
 
     model_config = ConfigDict(

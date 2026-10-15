@@ -32,16 +32,16 @@ class PlatformProjectView(BaseModel):
     """
     PlatformProjectView
     """ # noqa: E501
-    apps: Optional[StrictInt] = None
+    apps: Optional[StrictInt] = Field(default=None, description="Apps is how many declarations name the project.")
     cd_unavailable: Optional[PlatformUnreadable] = Field(default=None, description="CD says why the reconciliation columns are missing, when they are.", alias="cdUnavailable")
     cluster_unavailable: Optional[PlatformUnreadable] = Field(default=None, description="Cluster says why the running columns are missing, when they are.", alias="clusterUnavailable")
-    drift: Optional[PlatformDriftTally] = None
-    health: Optional[PlatformHealthTally] = None
+    drift: Optional[PlatformDriftTally] = Field(default=None, description="Drift counts its apps by drift severity.")
+    health: Optional[PlatformHealthTally] = Field(default=None, description="Health counts its apps by CD's health verdict.")
     members: Optional[List[PlatformProjectApp]] = Field(default=None, description="Members are the project's apps, sorted by namespace then name.")
-    name: Optional[StrictStr] = None
-    namespaces: Optional[List[StrictStr]] = None
-    org: Optional[StrictStr] = None
-    sync: Optional[PlatformSyncTally] = None
+    name: Optional[StrictStr] = Field(default=None, description="Name is the project, as the values files spell it in `partOf`.")
+    namespaces: Optional[List[StrictStr]] = Field(default=None, description="Namespaces are the namespaces its apps deploy into, sorted.")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the organization that owns the project. Absent for the platform's own projects, whose apps live in the platform's directories.")
+    sync: Optional[PlatformSyncTally] = Field(default=None, description="Sync counts its apps by CD's sync verdict.")
     unreadable: Optional[List[PlatformUnreadableFile]] = Field(default=None, description="Unreadable are the values files in the owner's scope that do not parse, any of which may name this project. Absent when every file parsed.")
     __properties: ClassVar[List[str]] = ["apps", "cdUnavailable", "clusterUnavailable", "drift", "health", "members", "name", "namespaces", "org", "sync", "unreadable"]
 

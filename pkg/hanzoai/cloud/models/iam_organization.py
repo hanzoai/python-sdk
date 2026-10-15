@@ -53,7 +53,7 @@ class IamOrganization(BaseModel):
     favicon: Optional[StrictStr] = None
     founder: Optional[StrictStr] = Field(default=None, description="Founder is the stable storage id of the identity that provisioned this org (self-service onboarding). It is the resume token that makes provisioning converge on a backend where each write autocommits independently (no transaction rollback): after a partial failure that created the org but did not move the founder in, a retry recognises the org as the founder's own and completes it, instead of refusing it as \"already taken\". It also fences the org to ONE tenant — a different identity can never complete or join it.")
     has_privilege_consent: Optional[StrictBool] = Field(default=None, alias="hasPrivilegeConsent")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     init_score: Optional[StrictInt] = Field(default=None, alias="initScore")
     ip_restriction: Optional[StrictStr] = Field(default=None, alias="ipRestriction")
     ip_whitelist: Optional[StrictStr] = Field(default=None, alias="ipWhitelist")

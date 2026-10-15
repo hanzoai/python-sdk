@@ -30,6 +30,7 @@ class BenchmarkLeaderRow(BaseModel):
     ci_high: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CIHigh is the upper bound of that interval. Wilson rather than the normal approximation because the normal one produces bounds past 100 exactly where benchmark scores live — at 194/198 that is the top of the board, not a corner case.", alias="ciHigh")
     ci_low: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="CILow and CIHigh are the 95% Wilson interval on Measured, in percent. They are what makes the score comparable: at n=198 a 98% carries roughly ±2 points, so most differences at the top of a board are not distinguishable and a bare number implies a precision it does not have. Absent when there is no measurement.", alias="ciLow")
     claims: Optional[StrictInt] = Field(default=None, description="Claims is how many independent claims the platform holds for this model on this benchmark. More than one means several sources reported it.")
+    var_from: Optional[StrictStr] = Field(default=None, description="From is the org whose claim Published was promoted from, when a SuperAdmin published another org's claim rather than writing one under org admin: \"hanzo\" on a row Hanzo measured and the platform published.", alias="from")
     gap: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="published − measured (the arena signal)")
     mean: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Mean is the unweighted average of every claim, which answers a different question from Published: what the field says on average, rather than what the vendor says about itself. With one claim the two are equal.")
     measured: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="hanzo-measured accuracy % (nil if unrun)")
@@ -40,7 +41,7 @@ class BenchmarkLeaderRow(BaseModel):
     published: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="the platform's selected claim % (nil if none)")
     run: Optional[StrictStr] = Field(default=None, description="Run names the measurement Measured came from, and MeasuredAt is when it ran. A score with no date is not a fact about a model, it is a fact about a model on a day — and models change, so the date is what makes the number checkable rather than merely quoted.")
     spread: Optional[Union[StrictFloat, StrictInt]] = Field(default=None, description="Spread is the distance between the highest and lowest of them, nil when there is only one. It is the disagreement AMONG sources, which a single Published number cannot show — signal in the same way the published-minus-measured gap is.")
-    __properties: ClassVar[List[str]] = ["ciHigh", "ciLow", "claims", "gap", "mean", "measured", "measuredAt", "model", "n", "protocol", "published", "run", "spread"]
+    __properties: ClassVar[List[str]] = ["ciHigh", "ciLow", "claims", "from", "gap", "mean", "measured", "measuredAt", "model", "n", "protocol", "published", "run", "spread"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -96,6 +97,7 @@ class BenchmarkLeaderRow(BaseModel):
             "ciHigh": obj.get("ciHigh"),
             "ciLow": obj.get("ciLow"),
             "claims": obj.get("claims"),
+            "from": obj.get("from"),
             "gap": obj.get("gap"),
             "mean": obj.get("mean"),
             "measured": obj.get("measured"),

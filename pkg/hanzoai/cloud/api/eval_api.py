@@ -849,7 +849,7 @@ class EvalApi:
     def get_eval_datasets_by_name_items(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -869,7 +869,7 @@ class EvalApi:
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -920,7 +920,7 @@ class EvalApi:
     def get_eval_datasets_by_name_items_with_http_info(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -940,7 +940,7 @@ class EvalApi:
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -991,7 +991,7 @@ class EvalApi:
     def get_eval_datasets_by_name_items_without_preload_content(
         self,
         name: Annotated[StrictStr, Field(description="Dataset is the set to read, from the path — this collection only exists inside one.")],
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1011,7 +1011,7 @@ class EvalApi:
 
         :param name: Dataset is the set to read, from the path — this collection only exists inside one. (required)
         :type name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -1937,7 +1937,7 @@ class EvalApi:
     def get_eval_runs(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -1957,7 +1957,7 @@ class EvalApi:
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2008,7 +2008,7 @@ class EvalApi:
     def get_eval_runs_with_http_info(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2028,7 +2028,7 @@ class EvalApi:
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2079,7 +2079,7 @@ class EvalApi:
     def get_eval_runs_without_preload_content(
         self,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the runs against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2099,7 +2099,7 @@ class EvalApi:
 
         :param dataset_name: Dataset narrows to the runs against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2220,7 +2220,7 @@ class EvalApi:
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
         trace_id: Annotated[Optional[StrictStr], Field(description="TraceID narrows to the scores on one model call.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2244,7 +2244,7 @@ class EvalApi:
         :type run_name: str
         :param trace_id: TraceID narrows to the scores on one model call.
         :type trace_id: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2299,7 +2299,7 @@ class EvalApi:
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
         trace_id: Annotated[Optional[StrictStr], Field(description="TraceID narrows to the scores on one model call.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2323,7 +2323,7 @@ class EvalApi:
         :type run_name: str
         :param trace_id: TraceID narrows to the scores on one model call.
         :type trace_id: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2378,7 +2378,7 @@ class EvalApi:
         name: Annotated[Optional[StrictStr], Field(description="Name narrows to one score name.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the scores of one run.")] = None,
         trace_id: Annotated[Optional[StrictStr], Field(description="TraceID narrows to the scores on one model call.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2402,7 +2402,7 @@ class EvalApi:
         :type run_name: str
         :param trace_id: TraceID narrows to the scores on one model call.
         :type trace_id: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2535,7 +2535,7 @@ class EvalApi:
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the calls made against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2559,7 +2559,7 @@ class EvalApi:
         :type run_name: str
         :param dataset_name: Dataset narrows to the calls made against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2614,7 +2614,7 @@ class EvalApi:
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the calls made against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2638,7 +2638,7 @@ class EvalApi:
         :type run_name: str
         :param dataset_name: Dataset narrows to the calls made against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request
@@ -2693,7 +2693,7 @@ class EvalApi:
         session_id: Annotated[Optional[StrictStr], Field(description="SessionID narrows to one session, which for an evaluation is one run.")] = None,
         run_name: Annotated[Optional[StrictStr], Field(description="RunName narrows to the calls one run made.")] = None,
         dataset_name: Annotated[Optional[StrictStr], Field(description="Dataset narrows to the calls made against one dataset.")] = None,
-        limit: Optional[StrictInt] = None,
+        limit: Annotated[Optional[StrictInt], Field(description="Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.")] = None,
         _request_timeout: Union[
             None,
             Annotated[StrictFloat, Field(gt=0)],
@@ -2717,7 +2717,7 @@ class EvalApi:
         :type run_name: str
         :param dataset_name: Dataset narrows to the calls made against one dataset.
         :type dataset_name: str
-        :param limit:
+        :param limit: Limit caps the rows returned. It defaults to 100 and is capped at 500; a non-positive or unparseable value falls back to the default rather than failing, because a typo about paging is not a reason to refuse a read.
         :type limit: int
         :param _request_timeout: timeout setting for this request. If one
                                  number provided, it will be total request

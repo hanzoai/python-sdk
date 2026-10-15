@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,9 +26,9 @@ class Approval(BaseModel):
     """
     Approval
     """ # noqa: E501
-    clause: Optional[StrictStr] = None
-    reason: Optional[StrictStr] = None
-    status: Optional[StrictStr] = None
+    clause: Optional[StrictStr] = Field(default=None, description="Clause names the clause of the rule that asked for sign-off.")
+    reason: Optional[StrictStr] = Field(default=None, description="Reason is what a person reads before answering.")
+    status: Optional[StrictStr] = Field(default=None, description="Status is always held: the op stopped for sign-off and did not run.")
     __properties: ClassVar[List[str]] = ["clause", "reason", "status"]
 
     model_config = ConfigDict(

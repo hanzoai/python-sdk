@@ -29,14 +29,14 @@ class O11yO11yQueryRangePreviewIn(BaseModel):
     """
     O11yO11yQueryRangePreviewIn
     """ # noqa: E501
-    composite_query: Optional[O11yCompositeQuery] = Field(default=None, alias="compositeQuery")
-    end: Optional[StrictInt] = None
+    composite_query: Optional[O11yCompositeQuery] = Field(default=None, description="CompositeQuery is the composite query to use for the request.", alias="compositeQuery")
+    end: Optional[StrictInt] = Field(default=None, description="End is the end time of the query in epoch milliseconds.")
     format_options: Optional[O11yFormatOptions] = Field(default=None, alias="formatOptions")
-    no_cache: Optional[StrictBool] = Field(default=None, alias="noCache")
+    no_cache: Optional[StrictBool] = Field(default=None, description="NoCache is a flag to disable caching for the request.", alias="noCache")
     request_type: Optional[Any] = Field(default=None, alias="requestType")
-    schema_version: Optional[StrictStr] = Field(default=None, alias="schemaVersion")
-    start: Optional[StrictInt] = None
-    variables: Optional[Dict[str, O11yVariableItem]] = None
+    schema_version: Optional[StrictStr] = Field(default=None, description="SchemaVersion is the version of the schema to use for the request payload.", alias="schemaVersion")
+    start: Optional[StrictInt] = Field(default=None, description="Start is the start time of the query in epoch milliseconds.")
+    variables: Optional[Dict[str, O11yVariableItem]] = Field(default=None, description="Variables is the variables to use for the request.")
     verbose: Optional[StrictStr] = Field(default=None, description="Verbose selects the answer's depth. Empty or \"true\" renders the underlying Datastore SQL with EXPLAIN and granule analysis; \"false\" returns only the per-query valid/error/warnings verdict with no Datastore round trips.")
     __properties: ClassVar[List[str]] = ["compositeQuery", "end", "formatOptions", "noCache", "requestType", "schemaVersion", "start", "variables", "verbose"]
 

@@ -26,11 +26,11 @@ class Web3ChainStatus(BaseModel):
     """
     Web3ChainStatus
     """ # noqa: E501
-    chain_id: Optional[StrictInt] = Field(default=None, alias="chainId")
+    chain_id: Optional[StrictInt] = Field(default=None, description="ChainID is the EIP-155 id, so a caller can check it matches the wallet they are about to sign with.", alias="chainId")
     height: Optional[StrictInt] = Field(default=None, description="Height is the latest block, omitted when the chain did not answer rather than reported as zero — a zero height is a real value on a fresh chain.")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="ID is the URL name: the value of :chain.")
     live: Optional[StrictBool] = Field(default=None, description="Live is whether the upstream answered eth_blockNumber.")
-    name: Optional[StrictStr] = None
+    name: Optional[StrictStr] = Field(default=None, description="Name is for humans.")
     __properties: ClassVar[List[str]] = ["chainId", "height", "id", "live", "name"]
 
     model_config = ConfigDict(

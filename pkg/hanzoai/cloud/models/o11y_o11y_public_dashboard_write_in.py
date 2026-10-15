@@ -26,9 +26,9 @@ class O11yO11yPublicDashboardWriteIn(BaseModel):
     """
     O11yO11yPublicDashboardWriteIn
     """ # noqa: E501
-    default_time_range: Optional[StrictStr] = Field(default=None, alias="defaultTimeRange")
+    default_time_range: Optional[StrictStr] = Field(default=None, description="DefaultTimeRange is the fixed window as a Go duration, e.g. 1h, 30m.", alias="defaultTimeRange")
     id: Optional[StrictStr] = Field(default=None, description="ID is the dashboard id from the path.")
-    time_range_enabled: Optional[StrictBool] = Field(default=None, alias="timeRangeEnabled")
+    time_range_enabled: Optional[StrictBool] = Field(default=None, description="TimeRangeEnabled lets the public page pick its own time range; when false the share fixes DefaultTimeRange.", alias="timeRangeEnabled")
     __properties: ClassVar[List[str]] = ["defaultTimeRange", "id", "timeRangeEnabled"]
 
     model_config = ConfigDict(

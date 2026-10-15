@@ -26,15 +26,15 @@ class TrainDownload(BaseModel):
     """
     TrainDownload
     """ # noqa: E501
-    created: Optional[StrictInt] = None
+    created: Optional[StrictInt] = Field(default=None, description="Created is when it was registered, unix seconds.")
     expires: Optional[StrictInt] = Field(default=None, description="Expires is when URL stops working, unix seconds.")
-    job: Optional[StrictStr] = None
-    kind: Optional[StrictStr] = None
+    job: Optional[StrictStr] = Field(default=None, description="Job is the job that produced it; empty for an upload.")
+    kind: Optional[StrictStr] = Field(default=None, description="Kind is checkpoint, lora, capability, basis or merged, or dataset for an upload.")
     meta: Optional[Any] = None
-    name: Optional[StrictStr] = None
-    sha256: Optional[StrictStr] = None
-    size: Optional[StrictInt] = None
-    state: Optional[StrictStr] = None
+    name: Optional[StrictStr] = Field(default=None, description="Name labels it.")
+    sha256: Optional[StrictStr] = Field(default=None, description="SHA256 is the hex digest of its bytes, and its name in the object store.")
+    size: Optional[StrictInt] = Field(default=None, description="Size is its byte count.")
+    state: Optional[StrictStr] = Field(default=None, description="State is pending until its bytes are read back, then stored; deleted once the org deleted it or it outlived its retention unpublished.")
     url: Optional[StrictStr] = Field(default=None, description="URL fetches the bytes until Expires; absent until the artifact is stored.")
     __properties: ClassVar[List[str]] = ["created", "expires", "job", "kind", "meta", "name", "sha256", "size", "state", "url"]
 

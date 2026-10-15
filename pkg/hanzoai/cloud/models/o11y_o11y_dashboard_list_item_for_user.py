@@ -29,20 +29,20 @@ class O11yO11yDashboardListItemForUser(BaseModel):
     """
     O11yO11yDashboardListItemForUser
     """ # noqa: E501
-    created_at: Optional[datetime] = Field(default=None, alias="createdAt")
-    created_by: Optional[StrictStr] = Field(default=None, alias="createdBy")
-    id: Optional[StrictStr] = None
-    image: Optional[StrictStr] = None
-    locked: Optional[StrictBool] = None
-    name: Optional[StrictStr] = None
-    org_id: Optional[StrictStr] = Field(default=None, alias="orgId")
+    created_at: Optional[datetime] = Field(default=None, description="CreatedAt is when the dashboard was created.", alias="createdAt")
+    created_by: Optional[StrictStr] = Field(default=None, description="CreatedBy is who created it.", alias="createdBy")
+    id: Optional[StrictStr] = Field(default=None, description="ID is the dashboard's id.")
+    image: Optional[StrictStr] = Field(default=None, description="Image is an optional cover image reference.")
+    locked: Optional[StrictBool] = Field(default=None, description="Locked reports whether the dashboard is locked against edits.")
+    name: Optional[StrictStr] = Field(default=None, description="Name is the dashboard's unique internal name.")
+    org_id: Optional[StrictStr] = Field(default=None, description="OrgID is the org the dashboard belongs to.", alias="orgId")
     pinned: Optional[StrictBool] = Field(default=None, description="Pinned reports whether the calling user has pinned this dashboard.")
-    schema_version: Optional[StrictStr] = Field(default=None, alias="schemaVersion")
-    source: Optional[StrictStr] = None
-    spec: Optional[O11yO11yDashboardListSpec] = None
-    tags: Optional[List[O11yO11yDashboardTag]] = None
-    updated_at: Optional[datetime] = Field(default=None, alias="updatedAt")
-    updated_by: Optional[StrictStr] = Field(default=None, alias="updatedBy")
+    schema_version: Optional[StrictStr] = Field(default=None, description="SchemaVersion is the dashboard schema version.", alias="schemaVersion")
+    source: Optional[StrictStr] = Field(default=None, description="Source is where the dashboard came from: user, system or integration.")
+    spec: Optional[O11yO11yDashboardListSpec] = Field(default=None, description="Spec is the display-only slice of the dashboard spec.")
+    tags: Optional[List[O11yO11yDashboardTag]] = Field(default=None, description="Tags are the dashboard's tags.")
+    updated_at: Optional[datetime] = Field(default=None, description="UpdatedAt is when it last changed.", alias="updatedAt")
+    updated_by: Optional[StrictStr] = Field(default=None, description="UpdatedBy is who last changed it.", alias="updatedBy")
     __properties: ClassVar[List[str]] = ["createdAt", "createdBy", "id", "image", "locked", "name", "orgId", "pinned", "schemaVersion", "source", "spec", "tags", "updatedAt", "updatedBy"]
 
     model_config = ConfigDict(

@@ -38,7 +38,7 @@ class IamPermission(BaseModel):
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
     domains: Optional[List[StrictStr]] = None
     effect: Optional[StrictStr] = None
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     model: Optional[StrictStr] = Field(default=None, description="Authorization model, targets, and decision. AuthzModel carries the v1 `model` column (the named authz model); it is not the Go identifier `Model` because that name is taken by the embedded orm.Model[Permission] mixin. The HTTP contract is unchanged — json:\"model\".")
     name: Optional[StrictStr] = None

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from typing import Optional, Set
 from typing_extensions import Self
@@ -26,7 +26,7 @@ class IamAnswer(BaseModel):
     """
     IamAnswer
     """ # noqa: E501
-    code: Optional[StrictStr] = None
+    code: Optional[StrictStr] = Field(default=None, description="Code is a STABLE machine-readable reason, where the human `msg` is deliberately generic. `msg` is prose for a person and several distinct causes legitimately share one sentence; a caller that must BRANCH on the cause — or tell its own user which of them happened — cannot parse prose. Optional, so every existing envelope is byte-identical and no SDK changes.")
     data: Optional[Any] = None
     data2: Optional[Any] = None
     data3: Optional[Any] = None

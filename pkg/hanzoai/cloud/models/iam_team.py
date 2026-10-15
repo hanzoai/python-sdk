@@ -32,7 +32,7 @@ class IamTeam(BaseModel):
     deleted: Optional[StrictBool] = None
     description: Optional[StrictStr] = None
     display_name: Optional[StrictStr] = Field(default=None, alias="displayName")
-    id: Optional[StrictStr] = None
+    id: Optional[StrictStr] = Field(default=None, description="Persisted fields")
     is_enabled: Optional[StrictBool] = Field(default=None, alias="isEnabled")
     name: Optional[StrictStr] = None
     organization: Optional[StrictStr] = None

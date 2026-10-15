@@ -31,26 +31,26 @@ class PlatformProjectApp(BaseModel):
     """
     PlatformProjectApp
     """ # noqa: E501
-    application: Optional[StrictStr] = None
-    automated: Optional[StrictBool] = None
+    application: Optional[StrictStr] = Field(default=None, description="Application is the CD Application name the generator mints from the path — the directory joined to the file name, less any words the two share (applicationName). It is how cd.hanzo.ai names the app.")
+    automated: Optional[StrictBool] = Field(default=None, description="Automated is cd.automated: false means the Application reports drift and NOTHING moves. It is off by default for a new file on purpose.")
     cd: Optional[PlatformCDApp] = Field(default=None, description="CD is the Application reconciling it; null when CD has none for this file.")
-    component: Optional[StrictStr] = None
-    digest: Optional[StrictStr] = None
+    component: Optional[StrictStr] = Field(default=None, description="Component is the app's role within its project (`component`), \"\" when unnamed.")
+    digest: Optional[StrictStr] = Field(default=None, description="image.digest — wins over tag")
     drift: Optional[PlatformVerdict] = Field(default=None, description="Drift is declared versus reconciled versus running versus latest, as flags.")
-    env: Optional[List[PlatformDeclareEnv]] = None
-    hosts: Optional[List[StrictStr]] = None
+    env: Optional[List[PlatformDeclareEnv]] = Field(default=None, description="Env is the declared container environment, as the chart's list of {name,value}. It is read back so a re-declare of an identical body is a no-op rather than a refusal — idempotency is what makes a retry safe.")
+    hosts: Optional[List[StrictStr]] = Field(default=None, description="ingress.hosts, both shapes flattened")
     image: Optional[StrictStr] = Field(default=None, description="Image is the image the declaration names: repository@digest when it pins a digest, else repository:tag. Empty for a declaration that owns no workload.")
     latest: Optional[StrictStr] = Field(default=None, description="Latest is the newest semver tag the registry publishes for its repository, \"\" when that cannot be read.")
-    name: Optional[StrictStr] = None
-    org: Optional[StrictStr] = None
-    part_of: Optional[StrictStr] = Field(default=None, alias="partOf")
-    path: Optional[StrictStr] = None
-    project: Optional[StrictStr] = None
+    name: Optional[StrictStr] = Field(default=None, description="the Helm release name — the file's basename")
+    org: Optional[StrictStr] = Field(default=None, description="Org is the owner. It is ALSO the values directory and the destination namespace, because those are one value under one name — see the header.")
+    part_of: Optional[StrictStr] = Field(default=None, description="PartOf is the platform project this app belongs to: the values file's own `partOf` key, which the chart also stamps on every object it renders as app.kubernetes.io/part-of. It is the ONE declaration of membership — there is no project table — and \"\" means the file names none.", alias="partOf")
+    path: Optional[StrictStr] = Field(default=None, description="Path is the file, relative to the repository root.")
+    project: Optional[StrictStr] = Field(default=None, description="Project is the AppProject the sync is admitted under, derived from the directory exactly as the ApplicationSet derives it. It differs from Org for a reserved directory, which syncs under the platform fence.")
     replicas: Optional[StrictInt] = None
-    repository: Optional[StrictStr] = None
+    repository: Optional[StrictStr] = Field(default=None, description="image.repository")
     running: Optional[PlatformRunning] = Field(default=None, description="Running is what the cluster runs for it; null when no pod carries its selector or the cluster could not be read.")
-    secrets: Optional[List[PlatformSecretRef]] = None
-    tag: Optional[StrictStr] = None
+    secrets: Optional[List[PlatformSecretRef]] = Field(default=None, description="Secrets are the KMS coordinates the app reads — kmsSecrets and secrets.paths — as paths and key names. A values file never carries a secret value, so neither does this.")
+    tag: Optional[StrictStr] = Field(default=None, description="image.tag")
     __properties: ClassVar[List[str]] = ["application", "automated", "cd", "component", "digest", "drift", "env", "hosts", "image", "latest", "name", "org", "partOf", "path", "project", "replicas", "repository", "running", "secrets", "tag"]
 
     model_config = ConfigDict(

@@ -17,7 +17,7 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional
 from hanzoai.cloud.models.o11y_data_collected_for_integration import O11yDataCollectedForIntegration
 from hanzoai.cloud.models.o11y_installed_integration import O11yInstalledIntegration
@@ -38,11 +38,11 @@ class O11yIntegration(BaseModel):
     configuration: Optional[List[O11yIntegrationConfigStep]] = None
     connection_tests: Optional[O11yIntegrationConnectionTests] = None
     data_collected: Optional[O11yDataCollectedForIntegration] = None
-    description: Optional[StrictStr] = None
+    description: Optional[StrictStr] = Field(default=None, description="A short description")
     icon: Optional[StrictStr] = None
     id: Optional[StrictStr] = None
     installation: Optional[O11yInstalledIntegration] = None
-    overview: Optional[StrictStr] = None
+    overview: Optional[StrictStr] = Field(default=None, description="markdown")
     title: Optional[StrictStr] = None
     __properties: ClassVar[List[str]] = ["assets", "author", "categories", "configuration", "connection_tests", "data_collected", "description", "icon", "id", "installation", "overview", "title"]
 
