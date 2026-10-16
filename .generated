@@ -278,6 +278,7 @@ pkg/hanzoai/cloud/models/ai_model_providers.py
 pkg/hanzoai/cloud/models/ai_models.py
 pkg/hanzoai/cloud/models/ai_panel_judge.py
 pkg/hanzoai/cloud/models/ai_paused.py
+pkg/hanzoai/cloud/models/ai_per_million.py
 pkg/hanzoai/cloud/models/ai_price.py
 pkg/hanzoai/cloud/models/ai_provider_usage.py
 pkg/hanzoai/cloud/models/ai_provider_usage_model_spend.py
@@ -2476,6 +2477,8 @@ pkg/hanzoai/cloud/models/pref_prefs_view.py
 pkg/hanzoai/cloud/models/pricing_card.py
 pkg/hanzoai/cloud/models/pricing_component.py
 pkg/hanzoai/cloud/models/pricing_enablement_board.py
+pkg/hanzoai/cloud/models/pricing_enso_out.py
+pkg/hanzoai/cloud/models/pricing_price.py
 pkg/hanzoai/cloud/models/pricing_pricing_health.py
 pkg/hanzoai/cloud/models/pricing_pricing_model_list.py
 pkg/hanzoai/cloud/models/pricing_pricing_plan_list.py
@@ -2484,7 +2487,10 @@ pkg/hanzoai/cloud/models/pricing_pricing_provider_list.py
 pkg/hanzoai/cloud/models/pricing_pricing_region_list.py
 pkg/hanzoai/cloud/models/pricing_pricing_tier_list.py
 pkg/hanzoai/cloud/models/pricing_pricing_tool_list.py
+pkg/hanzoai/cloud/models/pricing_quote.py
 pkg/hanzoai/cloud/models/pricing_rate.py
+pkg/hanzoai/cloud/models/pricing_rate_arm.py
+pkg/hanzoai/cloud/models/pricing_rate_window.py
 pkg/hanzoai/cloud/models/pricing_speed.py
 pkg/hanzoai/cloud/models/pricing_user_enablement_item.py
 pkg/hanzoai/cloud/models/principal_agent_brief.py

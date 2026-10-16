@@ -17,8 +17,10 @@ import pprint
 import re  # noqa: F401
 import json
 
-from pydantic import BaseModel, ConfigDict, StrictBool, StrictFloat, StrictInt, StrictStr
+from pydantic import BaseModel, ConfigDict, Field, StrictBool, StrictFloat, StrictInt, StrictStr
 from typing import Any, ClassVar, Dict, List, Optional, Union
+from hanzoai.cloud.models.ai_per_million import AiPerMillion
+from hanzoai.cloud.models.ai_window import AiWindow
 from typing import Optional, Set
 from typing_extensions import Self
 
@@ -27,13 +29,17 @@ class AiModelPricingInfo(BaseModel):
     AiModelPricingInfo
     """ # noqa: E501
     completion: Optional[StrictStr] = None
+    fee: Optional[StrictStr] = None
+    var_from: Optional[AiPerMillion] = Field(default=None, alias="from")
     input_per_million: Optional[Union[StrictFloat, StrictInt]] = None
     output_per_million: Optional[Union[StrictFloat, StrictInt]] = None
     overrides: Optional[List[Dict[str, Any]]] = None
     prompt: Optional[StrictStr] = None
     rates: Optional[Dict[str, StrictStr]] = None
+    up_to: Optional[AiPerMillion] = None
     variable: Optional[StrictBool] = None
-    __properties: ClassVar[List[str]] = ["completion", "input_per_million", "output_per_million", "overrides", "prompt", "rates", "variable"]
+    window: Optional[AiWindow] = None
+    __properties: ClassVar[List[str]] = ["completion", "fee", "from", "input_per_million", "output_per_million", "overrides", "prompt", "rates", "up_to", "variable", "window"]
 
     model_config = ConfigDict(
         populate_by_name=True,
@@ -74,6 +80,15 @@ class AiModelPricingInfo(BaseModel):
             exclude=excluded_fields,
             exclude_none=True,
         )
+        # override the default output from pydantic by calling `to_dict()` of var_from
+        if self.var_from:
+            _dict['from'] = self.var_from.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of up_to
+        if self.up_to:
+            _dict['up_to'] = self.up_to.to_dict()
+        # override the default output from pydantic by calling `to_dict()` of window
+        if self.window:
+            _dict['window'] = self.window.to_dict()
         return _dict
 
     @classmethod
@@ -87,12 +102,16 @@ class AiModelPricingInfo(BaseModel):
 
         _obj = cls.model_validate({
             "completion": obj.get("completion"),
+            "fee": obj.get("fee"),
+            "from": AiPerMillion.from_dict(obj["from"]) if obj.get("from") is not None else None,
             "input_per_million": obj.get("input_per_million"),
             "output_per_million": obj.get("output_per_million"),
             "overrides": obj.get("overrides"),
             "prompt": obj.get("prompt"),
             "rates": obj.get("rates"),
-            "variable": obj.get("variable")
+            "up_to": AiPerMillion.from_dict(obj["up_to"]) if obj.get("up_to") is not None else None,
+            "variable": obj.get("variable"),
+            "window": AiWindow.from_dict(obj["window"]) if obj.get("window") is not None else None
         })
         return _obj
 
